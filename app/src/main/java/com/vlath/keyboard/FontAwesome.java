@@ -7,24 +7,24 @@ import android.support.v7.widget.AppCompatTextView;
 
 public class FontAwesome extends AppCompatTextView {
 
-    public FontAwesome(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init();
-    }
+  public FontAwesome(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+    init();
+  }
 
-    public FontAwesome(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
+  public FontAwesome(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init();
+  }
 
-    public FontAwesome(Context context) {
-        super(context);
-        init();
-    }
+  public FontAwesome(Context context) {
+    super(context);
+    init();
+  }
 
-    private void init() {
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "FontAwesome.otf");
-        setTypeface(tf);
-    }
+  private void init() {
+    Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "FontAwesome.otf");
+    setTypeface(tf);
+  }
 
 }
