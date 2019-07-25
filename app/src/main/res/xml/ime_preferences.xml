@@ -1,50 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2011 Google Inc.
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<ListPreference
-		android:defaultValue="2"
-		android:entries="@array/color"
-		android:entryValues="@array/color_values"
-		android:key="theme"
-		android:title="Theme" />
-	<ListPreference
-		android:defaultValue="1"
-		android:entries="@array/start"
-		android:entryValues="@array/start_values"
-		android:key="start"
-		android:title="Default Keyboard" />
-	<ListPreference
-		android:defaultValue="1"
-		android:entries="@array/layout"
-		android:entryValues="@array/layout_values"
-		android:key="layout"
-		android:title="Layout" />
-	<SwitchPreference
-		android:defaultValue="true"
-		android:key="caps"
-		android:title="@string/caps" />
-	<SwitchPreference
-		android:defaultValue="false"
-		android:key="vib"
-		android:title="@string/vib" />
-	<SwitchPreference
-		android:defaultValue="true"
-		android:key="bord"
-		android:title="@string/borders" />
-	<SwitchPreference
-		android:defaultValue="true"
-		android:key="pred"
-		android:title="@string/prediction" />
-	<SwitchPreference
-		android:defaultValue="false"
-		android:key="arr_qrt"
-		android:title="Arrow keys on standard layout" />
-	<SwitchPreference
-		android:defaultValue="false"
-		android:key="nbr_qrt"
-		android:title="Number keys on standard layout" />
-	<com.vlath.keyboard.SeekPreference
-		android:defaultValue="50"
-		android:key="height"
-		android:title="Key Height"
-		android:value="50" />
+
+    <ListPreference
+     android:title="Theme"
+     android:key="theme"
+     android:entryValues="@array/color_values"
+     android:defaultValue="2"
+     android:entries="@array/color"/>
+
+    <ListPreference
+        android:title="Default Keyboard"
+        android:key="start"
+        android:entryValues="@array/start_values"
+        android:defaultValue="1"
+        android:entries="@array/start"/>
+
+    <ListPreference
+        android:title="Layout"
+        android:key="layout"
+        android:entryValues="@array/layout_values"
+        android:defaultValue="1"
+        android:entries="@array/layout"/>
+
+    <SwitchPreference android:title="@string/caps"
+        android:key="caps"
+        android:defaultValue="true" />
+
+    <SwitchPreference android:title="@string/vib"
+        android:key="vib"
+        android:defaultValue="false" />
+
+    <SwitchPreference android:title="@string/borders"
+        android:key="bord"
+        android:defaultValue="false" />
+
+    <SwitchPreference android:title="@string/prediction"
+        android:key="pred"
+        android:defaultValue="false" />
+
+    <SwitchPreference android:title="Arrow keys on standard layout"
+        android:key="arr_qrt"
+        android:defaultValue="false" />
+
+    <SwitchPreference android:title="Number keys on standard layout"
+        android:key="nbr_qrt"
+        android:defaultValue="false" />
+
+    <com.vlath.keyboard.SeekPreference
+        android:defaultValue="50"
+        android:key="height"
+        android:title="Key Height" />
+
+
+
 </PreferenceScreen>

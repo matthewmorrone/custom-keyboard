@@ -46,11 +46,11 @@
 
     <Row android:rowEdgeFlags="bottom">
         <Key android:codes="-117" android:keyLabel="ABC" android:keyWidth="13.46%p"/>
-        <Key android:codes="-124" android:keyIcon="@drawable/ic_left" android:keyWidth="13.46%p"/>
+        <Key android:codes="-124" android:keyIcon="@drawable/ic_keyboard_arrow_left" android:keyWidth="13.46%p"/>
         <Key android:codes="32"   android:isRepeatable="true" android:keyLabel="SPACE"
             android:keyWidth="46.154%p"/>
         <Key android:codes="-5"  android:keyWidth="13.46%p"  android:isRepeatable="true" android:keyIcon="@drawable/ic_backspace" android:keyEdgeFlags="right"/>
-        <Key android:codes="10"   android:keyWidth="13.46%p"  android:keyIcon="@drawable/ic_return" android:keyEdgeFlags="right"/>
+        <Key android:codes="10"   android:keyWidth="13.46%p"  android:keyIcon="@drawable/ic_keyboard_return" android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>

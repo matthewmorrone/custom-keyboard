@@ -1,60 +1,87 @@
 package com.vlath.keyboard;
 
+/**
+ * Created by todo on 02.08.2017.
+ */
+
+/*
+ * Copyright (C) 2008-2009 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
+        import android.content.Context;
+        import android.content.res.Resources;
+        import android.graphics.Canvas;
+        import android.graphics.Paint;
+        import android.graphics.Rect;
+        import android.graphics.drawable.Drawable;
+        import android.view.GestureDetector;
+        import android.view.MotionEvent;
+        import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class CandidateView extends View {
 
     private static final int OUT_OF_BOUNDS = -1;
 
-    private PCKeyboard   mService;
+    private PCKeyboard mService;
     private List<String> mSuggestions;
-    private int          mSelectedIndex;
-    private int          mTouchX = OUT_OF_BOUNDS;
-    private Drawable     mSelectionHighlight;
-    private boolean      mTypedWordValid;
+    private int mSelectedIndex;
+    private int mTouchX = OUT_OF_BOUNDS;
+    private Drawable mSelectionHighlight;
+    private boolean mTypedWordValid;
 
     private Rect mBgPadding;
 
     private static final int MAX_SUGGESTIONS = 32;
-    private static final int SCROLL_PIXELS   = 20;
+    private static final int SCROLL_PIXELS = 20;
 
     private int[] mWordWidth = new int[MAX_SUGGESTIONS];
-    private int[] mWordX     = new int[MAX_SUGGESTIONS];
+    private int[] mWordX = new int[MAX_SUGGESTIONS];
 
     private static final int X_GAP = 60;
 
     private static final List<String> EMPTY_LIST = new ArrayList<String>();
 
-    private int     mColorNormal;
-    private int     mColorRecommended;
-    private int     mColorOther;
-    private int     mVerticalPadding;
-    private Paint   mPaint;
+    private int mColorNormal;
+    private int mColorRecommended;
+    private int mColorOther;
+    private int mVerticalPadding;
+    private Paint mPaint;
     private boolean mScrolled;
-    private int     mTargetScrollX;
+    private int mTargetScrollX;
 
     private int mTotalWidth;
 
     private GestureDetector mGestureDetector;
 
+
     public CandidateView(Context context) {
         super(context);
-        mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
-        mSelectionHighlight.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused, android.R.attr.state_window_focused, android.R.attr.state_pressed});
+        mSelectionHighlight = context.getResources().getDrawable(
+                android.R.drawable.list_selector_background);
+        mSelectionHighlight.setState(new int[] {
+                android.R.attr.state_enabled,
+                android.R.attr.state_focused,
+                android.R.attr.state_window_focused,
+                android.R.attr.state_pressed
+        });
 
         Resources r = context.getResources();
 
@@ -71,9 +98,11 @@ public class CandidateView extends View {
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
         mPaint.setStrokeWidth(5);
 
+
         mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                    float distanceX, float distanceY) {
                 mScrolled = true;
                 int sx = getScrollX();
                 sx += distanceX;
@@ -97,7 +126,6 @@ public class CandidateView extends View {
 
     /**
      * A connection back to the service to communicate with the text field
-     *
      * @param listener
      */
     public void setService(PCKeyboard listener) {
@@ -117,10 +145,12 @@ public class CandidateView extends View {
         // not have a divider below)
         Rect padding = new Rect();
         mSelectionHighlight.getPadding(padding);
-        final int desiredHeight = ((int)mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
+        final int desiredHeight = ((int)mPaint.getTextSize()) + mVerticalPadding
+                + padding.top + padding.bottom;
 
         // Maximum possible width and desired height
-        setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
+        setMeasuredDimension(measuredWidth,
+                resolveSize(desiredHeight, heightMeasureSpec));
     }
 
     /**
@@ -133,9 +163,7 @@ public class CandidateView extends View {
             super.onDraw(canvas);
         }
         mTotalWidth = 0;
-        if (mSuggestions == null) {
-            return;
-        }
+        if (mSuggestions == null) return;
 
         if (mBgPadding == null) {
             mBgPadding = new Rect(0, 0, 0, 0);
@@ -143,21 +171,21 @@ public class CandidateView extends View {
                 getBackground().getPadding(mBgPadding);
             }
         }
-        int           x              = 0;
-        final int     count          = mSuggestions.size();
-        final int     height         = getHeight();
-        final Rect    bgPadding      = mBgPadding;
-        final Paint   paint          = mPaint;
-        final int     touchX         = mTouchX;
-        final int     scrollX        = getScrollX();
-        final boolean scrolled       = mScrolled;
+        int x = 0;
+        final int count = mSuggestions.size();
+        final int height = getHeight();
+        final Rect bgPadding = mBgPadding;
+        final Paint paint = mPaint;
+        final int touchX = mTouchX;
+        final int scrollX = getScrollX();
+        final boolean scrolled = mScrolled;
         final boolean typedWordValid = mTypedWordValid;
-        final int     y              = (int)(((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
+        final int y = (int) (((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
 
         for (int i = 0; i < count; i++) {
-            String    suggestion = mSuggestions.get(i);
-            float     textWidth  = paint.measureText(suggestion);
-            final int wordWidth  = (int)textWidth + X_GAP * 2;
+            String suggestion = mSuggestions.get(i);
+            float textWidth = paint.measureText(suggestion);
+            final int wordWidth = (int) textWidth + X_GAP * 2;
 
             mWordX[i] = x;
             mWordWidth[i] = wordWidth;
@@ -176,13 +204,13 @@ public class CandidateView extends View {
                 if ((i == 1 && !typedWordValid) || (i == 0 && typedWordValid)) {
                     paint.setFakeBoldText(true);
                     paint.setColor(mColorRecommended);
-                }
-                else if (i != 0) {
+                } else if (i != 0) {
                     paint.setColor(mColorOther);
                 }
                 canvas.drawText(suggestion, x + X_GAP, y, paint);
                 paint.setColor(mColorOther);
-                canvas.drawLine(x + wordWidth + 0.5f, bgPadding.top, x + wordWidth + 0.5f, height + 1, paint);
+                canvas.drawLine(x + wordWidth + 0.5f, bgPadding.top,
+                        x + wordWidth + 0.5f, height + 1, paint);
                 paint.setFakeBoldText(false);
             }
             x += wordWidth;
@@ -201,8 +229,7 @@ public class CandidateView extends View {
                 sx = mTargetScrollX;
                 requestLayout();
             }
-        }
-        else {
+        } else {
             sx -= SCROLL_PIXELS;
             if (sx <= mTargetScrollX) {
                 sx = mTargetScrollX;
@@ -213,7 +240,8 @@ public class CandidateView extends View {
         invalidate();
     }
 
-    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
+    public void setSuggestions(List<String> suggestions, boolean completions,
+                               boolean typedWordValid) {
         clear();
         if (suggestions != null) {
             mSuggestions = new ArrayList<String>(suggestions);
@@ -242,8 +270,8 @@ public class CandidateView extends View {
         }
 
         int action = me.getAction();
-        int x      = (int)me.getX();
-        int y      = (int)me.getY();
+        int x = (int) me.getX();
+        int y = (int) me.getY();
         mTouchX = x;
 
         switch (action) {
@@ -278,11 +306,10 @@ public class CandidateView extends View {
     /**
      * For flick through from keyboard, call this method with the x coordinate of the flick
      * gesture.
-     *
      * @param x
      */
     public void takeSuggestionAt(float x) {
-        mTouchX = (int)x;
+        mTouchX = (int) x;
         // To detect candidate
         draw(null);
         if (mSelectedIndex >= 0) {

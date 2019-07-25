@@ -41,11 +41,11 @@
         <Key android:codes="110" android:keyLabel="n" android:popupCharacters="ñńν"/>
         <Key android:codes="115" android:keyLabel="s" android:popupCharacters="ßśŝšșσ" android:keyEdgeFlags="right"/>
         <Key android:codes="34" android:keyLabel="&quot;" android:keyWidth="7%p"/>
-        <Key android:codes="10" android:keyWidth="9%p"  android:keyIcon="@drawable/ic_return" android:keyEdgeFlags="right"/>
+        <Key android:codes="10" android:keyWidth="9%p"  android:keyIcon="@drawable/ic_keyboard_return" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
-        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="9%p" android:keyIcon="@drawable/ic_shift"/>
+        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="9%p" android:keyIcon="@drawable/ic_file_upload"/>
         <Key android:codes="59" android:keyLabel=";"/>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="β"/>
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters="ĵ"/>
@@ -63,7 +63,7 @@
     <Row>
         <Key android:codes="-113" android:keyLabel="CTRL" android:keyEdgeFlags="left" android:keyWidth="20%p" />
 
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_ellipsis" android:keyWidth="8%p"/>
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_more_horiz" android:keyWidth="8%p"/>
 
         <Key android:codes="32"   android:isRepeatable="true" android:keyLabel="SPACE"
             android:keyWidth="50%p"/>

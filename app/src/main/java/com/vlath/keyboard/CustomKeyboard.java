@@ -31,20 +31,21 @@ import java.util.List;
 
 public class CustomKeyboard extends KeyboardView {
 
-    Drawable          mTransparent       = new ColorDrawable(Color.TRANSPARENT);
-    NinePatchDrawable mSpaceBackground   = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.space);
-    NinePatchDrawable mPressedBackground = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.press);
-    Paint             mPaint             = new Paint();
+    Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
+    NinePatchDrawable mSpaceBackground = (NinePatchDrawable) getContext().getResources().getDrawable(R.drawable.space);
+    NinePatchDrawable mPressedBackground = (NinePatchDrawable) getContext().getResources().getDrawable(R.drawable.press);
+    Paint mPaint = new Paint();
 
     public CustomKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+
     public CustomKeyboard(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public LatinKeyboard getLatinKeyboard() {
+    public LatinKeyboard getLatinKeyboard(){
         return (LatinKeyboard)getKeyboard();
     }
 
@@ -66,9 +67,9 @@ public class CustomKeyboard extends KeyboardView {
 
         List<Key> keys = getKeyboard().getKeys();
 
-        for (Key key : keys) {
+        for(Key key: keys) {
 
-            if (key.label != null) {
+            if(key.label != null) {
                 if (key.codes[0] == 32) {
                     mSpaceBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                     mSpaceBackground.draw(canvas);
@@ -80,7 +81,7 @@ public class CustomKeyboard extends KeyboardView {
                             mPressedBackground.draw(canvas);
                         }
                     }
-                    if (Variables.isAlt()) {
+                    if (Variables.isAlt()){
                         if (key.codes[0] == -114) {
                             mPressedBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                             mPressedBackground.draw(canvas);
@@ -88,12 +89,12 @@ public class CustomKeyboard extends KeyboardView {
                     }
 
                 }
-                else {
-                    if (key.codes[0] == -113) {
+                else{
+                    if(key.codes[0] == -113) {
                         mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         mTransparent.draw(canvas);
                     }
-                    if (key.codes[0] == -114) {
+                    if(key.codes[0] == -114) {
                         mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         mTransparent.draw(canvas);
                     }
