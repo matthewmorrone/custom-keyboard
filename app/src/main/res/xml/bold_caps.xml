@@ -1,0 +1,70 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+	android:horizontalGap="0px"
+	android:verticalGap="0px"
+	android:keyWidth="10%p"
+	android:keyHeight="8%p"
+	>
+	<Row>
+		<Key android:codes="-8"   android:keyLabel="Select" android:isRepeatable="true" android:keyWidth="25%" />
+		<Key android:codes="-9"   android:keyLabel="Cut"    android:isRepeatable="true" android:keyWidth="25%" />
+		<Key android:codes="-10"  android:keyLabel="Copy"   android:isRepeatable="true" android:keyWidth="25%" />
+		<Key android:codes="-11"  android:keyLabel="Paste"  android:isRepeatable="true" android:keyWidth="25%" />
+	</Row>
+	<Row>
+		<Key android:codes="120812" android:keyLabel="𝟬" />
+		<Key android:codes="120813" android:keyLabel="𝟭" />
+		<Key android:codes="120814" android:keyLabel="𝟮" />
+		<Key android:codes="120815" android:keyLabel="𝟯" />
+		<Key android:codes="120816" android:keyLabel="𝟰" />
+		<Key android:codes="120817" android:keyLabel="𝟱" />
+		<Key android:codes="120818" android:keyLabel="𝟲" />
+		<Key android:codes="120819" android:keyLabel="𝟳" />
+		<Key android:codes="120820" android:keyLabel="𝟴" />
+		<Key android:codes="120821" android:keyLabel="𝟵" />
+	</Row>
+	<Row>
+		<Key android:codes="120292"	android:keyLabel="𝗤" />
+		<Key android:codes="120298"	android:keyLabel="𝗪" />
+		<Key android:codes="120280"	android:keyLabel="𝗘" />
+		<Key android:codes="120293"	android:keyLabel="𝗥" />
+		<Key android:codes="120295"	android:keyLabel="𝗧" />
+		<Key android:codes="120300"	android:keyLabel="𝗬" />
+		<Key android:codes="120296"	android:keyLabel="𝗨" />
+		<Key android:codes="120284"	android:keyLabel="𝗜" />
+		<Key android:codes="120290"	android:keyLabel="𝗢" />
+		<Key android:codes="120291"	android:keyLabel="𝗣" />
+	</Row>
+	<Row>
+		<Key android:codes="120276"	android:keyLabel="𝗔" />
+		<Key android:codes="120294"	android:keyLabel="𝗦" />
+		<Key android:codes="120279"	android:keyLabel="𝗗" />
+		<Key android:codes="120281"	android:keyLabel="𝗙" />
+		<Key android:codes="120282"	android:keyLabel="𝗚" />
+		<Key android:codes="120283"	android:keyLabel="𝗛" />
+		<Key android:codes="120285"	android:keyLabel="𝗝" />
+		<Key android:codes="120286"	android:keyLabel="𝗞" />
+		<Key android:codes="120287"	android:keyLabel="𝗟" />
+		<Key android:codes="120288"	android:keyLabel="𝗠" />
+	</Row>
+	<Row>
+		<Key android:codes="-1"   android:keyIcon="@drawable/ic_shift" />
+		<Key android:codes="120301"	android:keyLabel="𝗭" />
+		<Key android:codes="120299"	android:keyLabel="𝗫" />
+		<Key android:codes="120278"	android:keyLabel="𝗖" />
+		<Key android:codes="120297"	android:keyLabel="𝗩" />
+		<Key android:codes="120277"	android:keyLabel="𝗕" />
+		<Key android:codes="120289"	android:keyLabel="𝗡" />
+		<Key android:codes="46" android:keyLabel="." android:popupCharacters=".,'&quot;…?!:;" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
+		<Key android:codes="-7"   android:keyIcon="@drawable/ic_delete" android:isRepeatable="true" />
+	</Row>
+	<Row>
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_ellipsis" />
+		<Key android:codes="-2"   android:keyLabel="123" />
+		<Key android:codes="32"   android:keyIcon="@drawable/ic_space" android:isRepeatable="true" android:keyWidth="60%" />
+		<Key android:codes="10"   android:keyIcon="@drawable/ic_return" android:isRepeatable="true" android:keyWidth="20%" />
+		<!--<Key android:codes="-108" android:keyIcon="@drawable/ic_left" android:isRepeatable="true" />-->
+		<!--<Key android:codes="-111" android:keyIcon="@drawable/ic_right" android:isRepeatable="true" />-->
+		<!--<Key android:codes="9"    android:keyIcon="@drawable/ic_tab" android:isRepeatable="true" />-->
+	</Row>
+</Keyboard>

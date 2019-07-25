@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<ListPreference
+		android:defaultValue="2"
+		android:entries="@array/color"
+		android:entryValues="@array/color_values"
+		android:key="theme"
+		android:title="Theme" />
+	<ListPreference
+		android:defaultValue="1"
+		android:entries="@array/start"
+		android:entryValues="@array/start_values"
+		android:key="start"
+		android:title="Default Keyboard" />
+	<ListPreference
+		android:defaultValue="1"
+		android:entries="@array/layout"
+		android:entryValues="@array/layout_values"
+		android:key="layout"
+		android:title="Layout" />
+	<SwitchPreference
+		android:defaultValue="true"
+		android:key="caps"
+		android:title="@string/caps" />
+	<SwitchPreference
+		android:defaultValue="false"
+		android:key="vib"
+		android:title="@string/vib" />
+	<SwitchPreference
+		android:defaultValue="true"
+		android:key="bord"
+		android:title="@string/borders" />
+	<SwitchPreference
+		android:defaultValue="true"
+		android:key="pred"
+		android:title="@string/prediction" />
+	<SwitchPreference
+		android:defaultValue="false"
+		android:key="arr_qrt"
+		android:title="Arrow keys on standard layout" />
+	<SwitchPreference
+		android:defaultValue="false"
+		android:key="nbr_qrt"
+		android:title="Number keys on standard layout" />
+	<com.vlath.keyboard.SeekPreference
+		android:defaultValue="50"
+		android:key="height"
+		android:title="Key Height"
+		android:value="50" />
+</PreferenceScreen>

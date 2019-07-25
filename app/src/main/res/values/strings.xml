@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Custom Keyboard</string>
+    <string name="subtype_generic">%s</string>
+    <string name="welcome">Welcome</string>
+    <string name="activate">Please click the enable button below to navigate to keyboard settings.Find Custom Keyboard in the list and enable it. A warning dialog will appear, click OK(Custom Keyboard does NOT collect any data). Then, navigate back and click the select buttonbelow and choose Custom Keyboard from the list. After that you can test thekeyboard using the text field below. To open the settings, tap the button below and clickon Custom Keyboard.</string>
+    <string name="donate"></string>
+    <string name="up"></string>
+    <string name="follow"></string>
+    <string name="version" translatable="false">Version 1.0.0</string>
+    <string name="caps">Auto capitalization</string>
+    <string name="vib">Vibrate on key press</string>
+    <string name="borders">Key borders</string>
+    <string name="prediction" translatable="false" >Enable text prediction</string>
+    <string name="welcome_desc" translatable="false">Enjoy a full-fledged PC keyboard on your android device</string>
+    <string name="multiple_desc" translatable="false">Switch easily between three keyboard faces, all with adjustable height</string>
+    <string name="multiple_title" translatable="false">Multiple faces</string>
+    <string name="open_desc" translatable="false">No spying, no data collecting. All the source code can be found on GitHub</string>
+    <string name="open_title" translatable="false">Open source</string>
+    <string name="free_title" translatable="false"></string>
+    <string name="free_desc" translatable="false"></string>
+    <string name="license" translatable="false"></string>
+    <string-array name="color_values">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+        <item name="7">8</item>
+    </string-array>
+    <string-array name="color">
+        <item name="1">Black - white text</item>
+        <item name="2">White - black text</item>
+        <item name="3">Blue - white text</item>
+        <item name="4">Blue - black text</item>
+        <item name="5">Red - white text</item>
+        <item name="6">Red - black text</item>
+        <item name="7">Orange - white text</item>
+        <item name="7">Material Dark - white text</item>
+    </string-array>
+    <string-array name="start">
+        <item name="1">Standard</item>
+        <item name="2">Programming</item>
+        <item name="3">Arrow Keys</item>
+    </string-array>
+    <string-array name="start_values">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+    </string-array>
+    <string-array name="layout">
+        <item name="1">QWERTY (en-us)</item>
+        <item name="2">AZERTY (fr-fr)</item>
+        <item name="3">QWERTZ (de-de)</item>
+    </string-array>
+    <string-array name="layout_values">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+    </string-array>
+    <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+</resources>
