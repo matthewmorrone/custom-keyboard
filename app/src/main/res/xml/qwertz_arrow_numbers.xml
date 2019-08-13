@@ -42,7 +42,7 @@
         <Key android:codes="108" android:keyLabel="l" android:popupKeyboard="@xml/popup_template" android:popupCharacters="ĺłľḹl̃ļ" />
     </Row>
     <Row>
-        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="15%p" android:keyIcon="@drawable/ic_file_upload"/>
+        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="15%p" android:keyIcon="@drawable/ic_shift"/>
         <Key android:codes="122" android:keyLabel="y" android:popupKeyboard="@xml/popup_template" android:popupCharacters="źẑžżẓ"/>
         <Key android:codes="120" android:keyLabel="x" android:popupKeyboard="@xml/popup_template" android:popupCharacters="ẍẋ"/>
         <Key android:codes="99" android:keyLabel="c" android:popupKeyboard="@xml/popup_template" android:popupCharacters="ćĉčċḉƈc̈ȼç"/>

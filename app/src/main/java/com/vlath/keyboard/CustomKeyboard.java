@@ -1,9 +1,5 @@
 package com.vlath.keyboard;
 
-/**
- * Created by Vlad on 6/14/2017.
- */
-
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -32,7 +28,7 @@ import java.util.List;
 public class CustomKeyboard extends KeyboardView {
 
   Drawable          mTransparent       = new ColorDrawable(Color.TRANSPARENT);
-  NinePatchDrawable mSpaceBackground   = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.space);
+//  NinePatchDrawable mSpaceBackground   = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.space);
   NinePatchDrawable mPressedBackground = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.press);
   Paint             mPaint             = new Paint();
 
@@ -69,10 +65,10 @@ public class CustomKeyboard extends KeyboardView {
     for (Key key : keys) {
 
       if (key.label != null) {
-        if (key.codes[0] == 32) {
-          mSpaceBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-          mSpaceBackground.draw(canvas);
-        }
+//        if (key.codes[0] == 32) {
+//          mSpaceBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+//          mSpaceBackground.draw(canvas);
+//        }
         if (Variables.isAnyOn()) {
           if (Variables.isCtrl()) {
             if (key.codes[0] == -113) {
@@ -86,7 +82,6 @@ public class CustomKeyboard extends KeyboardView {
               mPressedBackground.draw(canvas);
             }
           }
-
         }
         else {
           if (key.codes[0] == -113) {

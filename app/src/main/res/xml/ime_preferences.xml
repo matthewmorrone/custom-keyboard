@@ -43,7 +43,7 @@
 
     <SwitchPreference android:title="@string/borders"
         android:key="bord"
-        android:defaultValue="false" />
+        android:defaultValue="true" />
 
     <SwitchPreference android:title="@string/prediction"
         android:key="pred"

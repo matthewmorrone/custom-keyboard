@@ -45,7 +45,7 @@
     </Row>
 
     <Row>
-        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="9%p" android:keyIcon="@drawable/ic_file_upload"/>
+        <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="9%p" android:keyIcon="@drawable/ic_shift"/>
         <Key android:codes="59" android:keyLabel=";"/>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="β"/>
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters="ĵ"/>

@@ -38,19 +38,16 @@
     <color name="dot_light_screen2">#26c6da</color>
     <color name="dot_light_screen3">#66bb6a</color>
     <color name="dot_light_screen4">#9ccc65</color>
-
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>
         <item>@color/dot_light_screen2</item>
         <item>@color/dot_light_screen3</item>
         <item>@color/dot_light_screen4</item>
     </array>
-
     <array name="array_dot_inactive">
         <item>@color/dot_dark_screen1</item>
         <item>@color/dot_dark_screen2</item>
         <item>@color/dot_dark_screen3</item>
         <item>@color/dot_dark_screen4</item>
     </array>
-
 </resources>

@@ -28,17 +28,17 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.*;
 import android.text.InputType;
+import android.text.Selection;
 import android.text.method.MetaKeyKeyListener;
-import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.view.inputmethod.InputMethodSubtype;
 import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
@@ -129,16 +129,16 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
   private SpellCheckerSession mScs;
   private List<String>        mSuggestions;
 
-  private boolean            firstCaps     = false;
-  private boolean            isSysmbols    = false;
-  private boolean            shiftSim      = false;
-  private boolean            isDpad        = false;
-  private boolean            isProgramming = false;
+  private boolean            firstCaps      = false;
+  private boolean            isSymbols      = false;
+  private boolean            isShiftSymbols = false;
+  private boolean            isDpad         = false;
+  private boolean            isProgramming  = false;
   private InputMethodManager mServ;
   private float[]            mDefaultFilter;
   long shift_pressed = 0;
 
-  private short          rowNumber = 4;
+  private short          rowNumber = 5;
   private CustomKeyboard kv;
 
   private LatinKeyboard currentKeyboard;
@@ -200,9 +200,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
   }
 
   private void setLatinKeyboard(LatinKeyboard nextKeyboard) {
-
     mInputView.setKeyboard(nextKeyboard);
-
   }
 
   /**
@@ -396,13 +394,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
    */
   @Override
   public boolean onKeyUp(int keyCode, KeyEvent event) {
-
     return super.onKeyUp(keyCode, event);
   }
 
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-
     return super.onKeyDown(keyCode, event);
   }
 
@@ -443,7 +439,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
       return false;
     }
   }
-
+  private boolean isDigit(int code) {
+    if (Character.isDigit(code)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   /**
    * Helper to send a key down / key up pair to the current editor.
    */
@@ -556,12 +559,44 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     updateShiftKeyState(getCurrentInputEditorInfo());
   }
 
+  public static String fromCharCode(int... codePoints) {
+    StringBuilder builder = new StringBuilder(codePoints.length);
+    for (int codePoint : codePoints) {
+      builder.append(Character.toChars(codePoint));
+    }
+    return builder.toString();
+  }
+
   private void handleCharacter(int primaryCode, int[] keyCodes) {
-    if (isInputViewShown()) {
+
+    if (isInputViewShown() && !isDigit(primaryCode)) {
       if (kv.isShifted()) {
         primaryCode = Character.toUpperCase(primaryCode);
+             if (Variables.isBold() && Variables.isItalic()) {
+          primaryCode += 120315;
+        }
+        else if (Variables.isBold()) {
+          primaryCode += 120211;
+        }
+        else if (Variables.isItalic()) {
+          primaryCode += 120263;
+        }
+      }
+      else {
+             if (Variables.isBold() && Variables.isItalic()) {
+          primaryCode += 120309;
+        }
+        else if (Variables.isBold()) {
+          primaryCode += 120205;
+        }
+        else if (Variables.isItalic()) {
+          primaryCode += 120257;
+        }
       }
     }
+
+    // isGreek
+
     if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char)primaryCode))) {
       mComposing.append((char)primaryCode);
       getCurrentInputConnection().setComposingText(mComposing, 1);
@@ -584,7 +619,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         code = Character.toUpperCase(code);
       }
       getCurrentInputConnection().setComposingRegion(0, 0);
-      getCurrentInputConnection().commitText(String.valueOf(code), 1);
+      getCurrentInputConnection().commitText(String.valueOf(Character.toChars(primaryCode)), 1);
       firstCaps = false;
       setCapsOn(false);
     }
@@ -627,14 +662,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     return mWordSeparators;
   }
 
-  public boolean isWordSeparator(String s) {
+  public boolean isGreek(int primaryCode) {
+    if (primaryCode >= 913 && primaryCode <= 937) {
+      return true;
+    }
+    return false;
+  }
 
+  public boolean isWordSeparator(String s) {
     if (s.contains(". ") || s.contains("? ") || s.contains("! ")) {
       return true;
     }
-
     return false;
-
   }
 
   public void pickDefaultCandidate() {
@@ -651,12 +690,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
       updateShiftKeyState(getCurrentInputEditorInfo());
     }
     else if (mComposing.length() > 0) {
-
       if (mPredictionOn && mSuggestions != null && index >= 0) {
         mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
       }
       commitTyped(getCurrentInputConnection());
-
     }
   }
 
@@ -713,16 +750,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           dumpSuggestionsInfoInternal(sb, ssi.getSuggestionsInfoAt(j), ssi.getOffsetAt(j), ssi.getLengthAt(j));
         }
       }
-
       setSuggestions(sb, true, true);
     }
     catch (Exception ignored) {
     }
-
   }
 
   private void setCapsOn(boolean on) {
-
     /** Simple function that enables us to rapidly set the keyboard shifted or not.
      * */
     if (Variables.isShift()) {
@@ -733,7 +767,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
       kv.getKeyboard().setShifted(on);
       kv.invalidateAllKeys();
     }
-
   }
 
   private void processKeyCombo(int keycode) {
@@ -755,7 +788,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
       }
     }
-
   }
 
   private int getHardKeyCode(int keycode) {
@@ -763,83 +795,33 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     PopupWindow p    = new PopupWindow();
     char        code = (char)keycode;
     switch (String.valueOf(code)) {
-      case "a":
-        return KeyEvent.KEYCODE_A;
-      case "b":
-        return KeyEvent.KEYCODE_B;
-      case "c":
-        return KeyEvent.KEYCODE_C;
-
-      case "d":
-        return KeyEvent.KEYCODE_D;
-
-      case "e":
-        return KeyEvent.KEYCODE_E;
-
-      case "f":
-        return KeyEvent.KEYCODE_F;
-
-      case "g":
-        return KeyEvent.KEYCODE_G;
-
-      case "h":
-        return KeyEvent.KEYCODE_H;
-
-      case "i":
-        return KeyEvent.KEYCODE_I;
-
-      case "j":
-        return KeyEvent.KEYCODE_J;
-
-      case "k":
-        return KeyEvent.KEYCODE_K;
-
-      case "l":
-        return KeyEvent.KEYCODE_L;
-
-      case "m":
-        return KeyEvent.KEYCODE_M;
-
-      case "n":
-        return KeyEvent.KEYCODE_N;
-
-      case "o":
-        return KeyEvent.KEYCODE_O;
-
-      case "p":
-        return KeyEvent.KEYCODE_P;
-
-      case "q":
-        return KeyEvent.KEYCODE_Q;
-
-      case "r":
-        return KeyEvent.KEYCODE_R;
-
-      case "s":
-        return KeyEvent.KEYCODE_S;
-
-      case "t":
-        return KeyEvent.KEYCODE_T;
-
-      case "u":
-        return KeyEvent.KEYCODE_U;
-
-      case "v":
-        return KeyEvent.KEYCODE_V;
-
-      case "w":
-        return KeyEvent.KEYCODE_W;
-
-      case "x":
-        return KeyEvent.KEYCODE_X;
-
-      case "y":
-        return KeyEvent.KEYCODE_Y;
-
-      case "z":
-        return KeyEvent.KEYCODE_Z;
-      default:
-        return keycode;
+      case "a": return KeyEvent.KEYCODE_A;
+      case "b": return KeyEvent.KEYCODE_B;
+      case "c": return KeyEvent.KEYCODE_C;
+      case "d": return KeyEvent.KEYCODE_D;
+      case "e": return KeyEvent.KEYCODE_E;
+      case "f": return KeyEvent.KEYCODE_F;
+      case "g": return KeyEvent.KEYCODE_G;
+      case "h": return KeyEvent.KEYCODE_H;
+      case "i": return KeyEvent.KEYCODE_I;
+      case "j": return KeyEvent.KEYCODE_J;
+      case "k": return KeyEvent.KEYCODE_K;
+      case "l": return KeyEvent.KEYCODE_L;
+      case "m": return KeyEvent.KEYCODE_M;
+      case "n": return KeyEvent.KEYCODE_N;
+      case "o": return KeyEvent.KEYCODE_O;
+      case "p": return KeyEvent.KEYCODE_P;
+      case "q": return KeyEvent.KEYCODE_Q;
+      case "r": return KeyEvent.KEYCODE_R;
+      case "s": return KeyEvent.KEYCODE_S;
+      case "t": return KeyEvent.KEYCODE_T;
+      case "u": return KeyEvent.KEYCODE_U;
+      case "v": return KeyEvent.KEYCODE_V;
+      case "w": return KeyEvent.KEYCODE_W;
+      case "x": return KeyEvent.KEYCODE_X;
+      case "y": return KeyEvent.KEYCODE_Y;
+      case "z": return KeyEvent.KEYCODE_Z;
+      default:  return keycode;
     }
   }
 
@@ -859,12 +841,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
         break;
       case EditorInfo.IME_ACTION_SEND:
-
         getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
-
         break;
       default:
-
         break;
     }
   }
@@ -916,16 +895,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           break;
         case InputType.TYPE_CLASS_TEXT:
           int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
-
           if (webInputType == InputType.TYPE_TEXT_VARIATION_URI || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
             currentKeyboard = new LatinKeyboard(this, standardKeyboardID);
           }
           else {
             currentKeyboard = new LatinKeyboard(this, standardKeyboardID);
           }
-
           break;
-
         default:
           currentKeyboard = new LatinKeyboard(this, standardKeyboardID);
           break;
@@ -946,12 +922,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         break;
       case "2":
         currentKeyboard = new LatinKeyboard(this, R.xml.arrow_keys);
-        setRowNumber(4);
+        setRowNumber(5);
         currentKeyboard.setRowNumber(getRowNumber());
         break;
       case "3":
         currentKeyboard = new LatinKeyboard(this, R.xml.programming);
-        setRowNumber(5);
+        setRowNumber(6);
         currentKeyboard.setRowNumber(getRowNumber());
         break;
     }
@@ -991,34 +967,121 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     return caps;
   }
 
+  public static String toTitleCase(String text) {
+    if (text == null || text.isEmpty()) {
+      return text;
+    }
+
+    StringBuilder converted = new StringBuilder();
+
+    boolean convertNext = true;
+    for (char ch : text.toCharArray()) {
+      if (Character.isSpaceChar(ch)) {
+        convertNext = true;
+      } else if (convertNext) {
+        ch = Character.toTitleCase(ch);
+        convertNext = false;
+      } else {
+        ch = Character.toLowerCase(ch);
+      }
+      converted.append(ch);
+    }
+
+    return converted.toString();
+  }
+
+  private int getSelectionStart() {
+    InputConnection ic = getCurrentInputConnection();
+    return ic.getTextBeforeCursor(1024, 0).length();
+  }
+  private int getSelectionLength() {
+    InputConnection ic = getCurrentInputConnection();
+    String text = ic.getSelectedText(0).toString();
+    return text == null? 0: text.length();
+  }
+  private int getSelectionEnd() {
+    return getSelectionStart() + getSelectionLength();
+  }
+
+  private int selectionCase = 0;
+
   @Override
   public void onKey(int primaryCode, int[] keyCodes) {
     InputConnection ic = getCurrentInputConnection();
+    ic.requestCursorUpdates(3);
+
+
 
     /** Here we handle the key events. */
 
     switch (primaryCode) {
+
+      case -7:
+        ic.deleteSurroundingText(0, 1);
+        break;
+      case -8:
+        ic.setSelection(0, ((String)ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
+        break;
+      case -9:
+        keyDownUp(KeyEvent.KEYCODE_CUT);
+        break;
+      case -10:
+        keyDownUp(KeyEvent.KEYCODE_COPY);
+        break;
+      case -11:
+        keyDownUp(KeyEvent.KEYCODE_PASTE);
+        break;
+      case -12:
+        Variables.toggleIsBold();
+        break;
+      case -13:
+        Variables.toggleIsItalic();
+        break;
+      case -14:
+        Variables.setBoldOff();
+        Variables.setItalicOff();
+        break;
       case Keyboard.KEYCODE_DELETE:
         handleBackspace();
         break;
       case Keyboard.KEYCODE_SHIFT:
-
         /** We need to check whether we are on symbols layout or not.
          * Then, perform the operation accordingly.
          * Also, we check for double tab on the shift, and, if detected
          * We set a global variable that tells us that the Shift is in the lock position.
          * */
+        if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
 
-        if (isSysmbols) {
-          if (!shiftSim) {
+          String text = ic.getSelectedText(0).toString();
+          int a = getSelectionStart();
+          int b = getSelectionEnd();
+
+          if (selectionCase == 0) {
+            text = text.toUpperCase();
+            selectionCase = 1;
+          }
+          else if (selectionCase == 1) {
+            text = toTitleCase(text);
+            selectionCase = 2;
+          }
+          else {
+            text = text.toLowerCase();
+            selectionCase = 0;
+          }
+
+          ic.commitText(text, b);
+          ic.setSelection(a, b);
+        }
+        else if (isSymbols) {
+          if (!isShiftSymbols) {
             currentKeyboard = new LatinKeyboard(this, R.xml.symbols2);
             kv.setKeyboard(currentKeyboard);
-            shiftSim = true;
+            isShiftSymbols = true;
           }
           else {
             currentKeyboard = new LatinKeyboard(this, R.xml.symbols);
             kv.setKeyboard(currentKeyboard);
-            shiftSim = false;
+            isShiftSymbols = false;
           }
         }
         else {
@@ -1040,13 +1103,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
               shift_pressed = System.currentTimeMillis();
             }
           }
-
         }
         break;
       case 10:
-
         /** Handle the 'done' action accordingly to the IME Options. */
-
         EditorInfo curEditor = getCurrentInputEditorInfo();
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
           case EditorInfo.IME_ACTION_DONE:
@@ -1070,27 +1130,22 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         break;
       case Keyboard.KEYCODE_MODE_CHANGE:
-
         /** Switch between standard/symbols layout. */
-
-        if (!isSysmbols) {
-          isSysmbols = !isSysmbols;
+        if (!isSymbols) {
+          isSymbols = !isSymbols;
           currentKeyboard = new LatinKeyboard(this, R.xml.symbols);
           kv.setKeyboard(currentKeyboard);
         }
         else {
-          isSysmbols = false;
+          isSymbols = false;
           currentKeyboard = new LatinKeyboard(this, standardKeyboardID);
           kv.setKeyboard(currentKeyboard);
         }
         kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
         break;
-
-      case LatinKeyboard.KEYCODE_LAYUOUT_SWITCH:
-
+      case LatinKeyboard.KEYCODE_LAYOUT_SWITCH:
         /** Language Switch is a custom value defined in the LatinKeyboard class.
          * We use it to switch between standard/arrow keys/programming layouts. */
-
         if (isDpad || isProgramming) {
           if (isProgramming) {
             currentKeyboard = new LatinKeyboard(this, standardKeyboardID);
@@ -1100,11 +1155,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             isProgramming = false;
             isDpad = false;
           }
-
           if (isDpad) {
             currentKeyboard = new LatinKeyboard(this, R.xml.programming);
             kv.invalidateAllKeys();
-            setRowNumber(5);
+            setRowNumber(6);
             currentKeyboard.setRowNumber(getRowNumber());
             kv.setKeyboard(currentKeyboard);
             isDpad = false;
@@ -1114,7 +1168,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         else {
           currentKeyboard = new LatinKeyboard(this, R.xml.arrow_keys);
           kv.invalidateAllKeys();
-          setRowNumber(4);
+          setRowNumber(5);
           currentKeyboard.setRowNumber(getRowNumber());
           kv.setKeyboard(currentKeyboard);
           isDpad = true;
@@ -1122,36 +1176,26 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
         break;
       case LatinKeyboard.KEYCODE_DPAD_L:
-
-        /** Another custom keycode. */
-
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_LEFT));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_LEFT));
-
         break;
-
       case LatinKeyboard.KEYCODE_DPAD_R:
-
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_RIGHT));
         break;
       case LatinKeyboard.KEYCODE_DPAD_U:
-
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_UP));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_UP));
         break;
-      case LatinKeyboard.KEYCODE_DPAD_DO:
-
+      case LatinKeyboard.KEYCODE_DPAD_D:
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_DOWN));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_DOWN));
         break;
       case LatinKeyboard.KEYCODE_ESCAPE:
-
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE, 0));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ESCAPE, 0));
         break;
       case LatinKeyboard.KEYCODE_CTRL:
-
         if (Variables.isCtrl()) {
           Variables.setCtrlOff();
           kv.draw(new Canvas());
@@ -1162,7 +1206,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         break;
       case LatinKeyboard.KEYCODE_ALT:
-
         if (Variables.isAlt()) {
           Variables.setAltOff();
           kv.draw(new Canvas());
@@ -1182,9 +1225,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
         isDpad = false;
         break;
-      case LatinKeyboard.KEYCODE_DELL_PROCESS:
+      case LatinKeyboard.KEYCODE_DEL_PROCESS:
         /** Procces DEL key*/
-
         if (Variables.isAnyOn()) {
           if (Variables.isCtrl() && Variables.isAlt()) {
             getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
@@ -1202,7 +1244,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         break;
       case LatinKeyboard.KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE:
-
         if (Variables.isAnyOn()) {
           if (Variables.isCtrl() && Variables.isAlt()) {
             getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
@@ -1218,7 +1259,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
           getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_TAB, 0));
         }
-
         break;
       default:
 
@@ -1245,37 +1285,33 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
   }
 
   public short getRowNumber() {
-
     return rowNumber;
-
   }
 
   public void setRowNumber(int number) {
-
     rowNumber = (short)number;
   }
 
   public short getStandardRowNumber() {
-
-    if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("arr_qrt", false) && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
-      return 5;
+    if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("arr_qrt", false)
+     && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
+      return 6;
     }
     else {
       if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("arr_qrt", false)) {
-        return 4;
-      }
-      else if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
         return 5;
       }
+      else if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
+        return 6;
+      }
       else {
-        return 4;
+        return 5;
       }
     }
 
   }
 
   public void setStandardKeyboard() {
-
     int layout = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("layout", "1"));
 
     if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("arr_qrt", false) && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
@@ -1289,7 +1325,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         default:
           standardKeyboardID = R.xml.qwerty_arrow_numbers;
       }
-      setRowNumber(5);
+      setRowNumber(6);
     }
     else {
       if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("arr_qrt", false)) {
@@ -1303,7 +1339,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           default:
             standardKeyboardID = R.xml.qwerty_arrows;
         }
-        setRowNumber(4);
+        setRowNumber(5);
       }
       else if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nbr_qrt", false)) {
         switch (layout) {
@@ -1316,7 +1352,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           default:
             standardKeyboardID = R.xml.qwerty_numbers;
         }
-        setRowNumber(5);
+        setRowNumber(6);
       }
       else {
         switch (layout) {
@@ -1329,13 +1365,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
           default:
             standardKeyboardID = R.xml.qwerty;
         }
-        setRowNumber(4);
+        setRowNumber(5);
       }
     }
   }
 
   public double getHeightKeyModifier() {
-
     return (double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) / (double)50;
   }
 }

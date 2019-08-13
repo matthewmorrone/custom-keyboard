@@ -4,7 +4,12 @@
           android:horizontalGap="0px"
           android:verticalGap="0px"
           android:keyHeight="9%p">
-
+    <Row>
+        <Key android:codes="-8"   android:keyLabel="Select" android:keyWidth="25%" />
+        <Key android:codes="-9"   android:keyLabel="Cut"    android:keyWidth="25%" />
+        <Key android:codes="-10"  android:keyLabel="Copy"   android:keyWidth="25%" />
+        <Key android:codes="-11"  android:keyLabel="Paste"  android:keyWidth="25%" />
+    </Row>
     <Row>
         <Key android:codes="131" android:keyLabel="F1" android:keyEdgeFlags="left"/>
         <Key android:codes="132" android:keyLabel="F2"/>

@@ -10,13 +10,12 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 
 public class LatinKeyboard extends Keyboard {
 
   static final int KEYCODE_OPTIONS = -100;
 
-  static final int KEYCODE_LAYUOUT_SWITCH = -101;
+  static final int KEYCODE_LAYOUT_SWITCH = -101;
 
   static final int KEYCODE_DPAD_R = -111;
 
@@ -24,7 +23,7 @@ public class LatinKeyboard extends Keyboard {
 
   static final int KEYCODE_DPAD_U = -107;
 
-  static final int KEYCODE_DPAD_DO = -109;
+  static final int KEYCODE_DPAD_D = -109;
 
   static final int KEYCODE_ESCAPE = -112;
 
@@ -34,7 +33,7 @@ public class LatinKeyboard extends Keyboard {
 
   static final int KEYCODE_STANDARD_SWITCH = -117;
 
-  static final int KEYCODE_DELL_PROCESS = -121;
+  static final int KEYCODE_DEL_PROCESS = -121;
 
   static final int KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE = -122;
 
@@ -87,7 +86,7 @@ public class LatinKeyboard extends Keyboard {
       mModeChangeKey = key;
       mSavedModeChangeKey = new LatinKey(res, parent, x, y, parser);
     }
-    else if (key.codes[0] == LatinKeyboard.KEYCODE_LAYUOUT_SWITCH) {
+    else if (key.codes[0] == LatinKeyboard.KEYCODE_LAYOUT_SWITCH) {
       mLanguageSwitchKey = key;
       mSavedLanguageSwitchKey = new LatinKey(res, parent, x, y, parser);
     }
@@ -156,9 +155,7 @@ public class LatinKeyboard extends Keyboard {
   }
 
   public void setRowNumber(short number) {
-
     rowNumber = number;
-
   }
 
   void setSpaceIcon(final Drawable icon) {
@@ -186,7 +183,6 @@ public class LatinKeyboard extends Keyboard {
 
   @Override
   public int getHeight() {
-
     return getKeyHeight() * rowNumber;
   }
 
