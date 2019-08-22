@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="9%p"
-    android:keyHeight="9%p">
-
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="9%p" android:keyHeight="9%p">
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
         <Key android:codes="50" android:keyLabel="2"/>
@@ -15,11 +10,9 @@
         <Key android:codes="55" android:keyLabel="7"/>
         <Key android:codes="56" android:keyLabel="8"/>
         <Key android:codes="57" android:keyLabel="9"/>
-        <Key android:codes="-5"  android:keyWidth="9%p"  android:isRepeatable="true" android:keyIcon="@drawable/ic_backspace"/>
+        <Key android:codes="-5" android:keyWidth="9%p"  android:isRepeatable="true" android:keyIcon="@drawable/ic_backspace"/>
     </Row>
-
     <Row>
-
         <Key android:codes="112" android:keyLabel="p" android:popupCharacters="4π"/>
         <Key android:codes="121" android:keyLabel="y" android:popupCharacters="5ýÿψ"/>
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters="6ϕ"/>
@@ -28,7 +21,6 @@
         <Key android:codes="114" android:keyLabel="r" android:popupCharacters="9řŕρ"/>
         <Key android:codes="108" android:keyLabel="l" android:popupCharacters="0ľĺłλ" android:keyEdgeFlags="right"/>
     </Row>
-
     <Row>
         <Key android:codes="97" android:keyLabel="a" android:keyEdgeFlags="left"/>
         <Key android:codes="111" android:keyLabel="o" android:popupCharacters="òóôõöøőœōo"/>
@@ -43,7 +35,6 @@
         <Key android:codes="34" android:keyLabel="&quot;" android:keyWidth="7%p"/>
         <Key android:codes="10" android:keyWidth="9%p"  android:keyIcon="@drawable/ic_keyboard_return" android:keyEdgeFlags="right"/>
     </Row>
-
     <Row>
         <Key android:codes="-1"   android:keyEdgeFlags="left" android:keyWidth="9%p" android:keyIcon="@drawable/ic_shift"/>
         <Key android:codes="59" android:keyLabel=";"/>
@@ -57,19 +48,11 @@
         <Key android:codes="118" android:keyLabel="v" android:popupCharacters=""/>
         <Key android:codes="122" android:keyLabel="z" android:popupCharacters="żžźζ"/>
         <Key android:codes="-5" android:keyEdgeFlags="right" android:isRepeatable="true"/>
-
     </Row>
-
     <Row>
         <Key android:codes="-113" android:keyLabel="CTRL" android:keyEdgeFlags="left" android:keyWidth="20%p" />
-
         <Key android:codes="-101" android:keyIcon="@drawable/ic_more_horiz" android:keyWidth="8%p"/>
-
-        <Key android:codes="32"   android:isRepeatable="true" android:keyLabel="SPACE"
-            android:keyWidth="50%p"/>
-
+        <Key android:codes="32"   android:isRepeatable="true" android:keyLabel="SPACE" android:keyWidth="50%p"/>
         <Key android:codes="-114" android:keyLabel="ALT" android:keyWidth="20%p"/>
-
     </Row>
-
 </Keyboard>
