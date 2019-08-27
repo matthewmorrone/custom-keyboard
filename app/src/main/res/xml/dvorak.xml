@@ -50,9 +50,9 @@
         <Key android:codes="-5" android:keyEdgeFlags="right" android:isRepeatable="true"/>
     </Row>
     <Row>
-        <Key android:codes="-113" android:keyLabel="CTRL" android:keyEdgeFlags="left" android:keyWidth="20%p" />
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_more_horiz" android:keyWidth="8%p"/>
-        <Key android:codes="32"   android:isRepeatable="true" android:keyLabel="SPACE" android:keyWidth="50%p"/>
-        <Key android:codes="-114" android:keyLabel="ALT" android:keyWidth="20%p"/>
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_left"      android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_right"     android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar" android:keyWidth="60%p"  android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;"/>
+        <Key android:codes="10"   android:keyLabel="↵" android:keyWidth="20%p" android:keyIcon="@drawable/ic_keyboard_return" />
     </Row>
 </Keyboard>

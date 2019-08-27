@@ -20,7 +20,7 @@
         android:entries="@array/layout"/>
     <SwitchPreference android:title="@string/caps"
         android:key="caps"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib"
         android:key="vib"
         android:defaultValue="false" />
@@ -37,7 +37,16 @@
         android:key="nbr_qrt"
         android:defaultValue="true" />
     <com.vlath.keyboard.SeekPreference
-        android:defaultValue="45"
+        android:defaultValue="50"
         android:key="height"
         android:title="Key Height" />
+    <EditTextPreference  android:dialogTitle="Word Separators" android:title="@string/word_separators" android:key="seps" android:defaultValue="@string/word_separators" />
+    <EditTextPreference android:dialogTitle="Custom Key 1" android:title="@string/k1" android:key="k1" android:defaultValue="@string/k1" />
+    <EditTextPreference android:dialogTitle="Custom Key 2" android:title="@string/k2" android:key="k2" android:defaultValue="@string/k2" />
+    <EditTextPreference android:dialogTitle="Custom Key 3" android:title="@string/k3" android:key="k3" android:defaultValue="@string/k3" />
+    <EditTextPreference android:dialogTitle="Custom Key 4" android:title="@string/k4" android:key="k4" android:defaultValue="@string/k4" />
+    <EditTextPreference android:dialogTitle="Custom Key 5" android:title="@string/k5" android:key="k5" android:defaultValue="@string/k5" />
+    <EditTextPreference android:dialogTitle="Custom Key 6" android:title="@string/k6" android:key="k6" android:defaultValue="@string/k6" />
+    <EditTextPreference android:dialogTitle="Custom Key 7" android:title="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
+    <EditTextPreference android:dialogTitle="Custom Key 8" android:title="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
 </PreferenceScreen>

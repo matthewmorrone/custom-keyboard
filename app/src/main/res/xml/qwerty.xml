@@ -3,16 +3,19 @@
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
-    android:keyHeight="9%p">
+    android:keyHeight="9%p"
+    android:keyTextSize="22sp"
+    android:labelTextSize="22sp">
     <Row android:keyWidth="12.5%">
-        <Key android:codes="-107" android:keyIcon="@drawable/ic_keyboard_arrow_up"    android:isRepeatable="true" />
-        <Key android:codes="-109" android:keyIcon="@drawable/ic_keyboard_arrow_down"  android:isRepeatable="true" />
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_keyboard_arrow_left"  android:isRepeatable="true" />
-        <Key android:codes="-111" android:keyIcon="@drawable/ic_keyboard_arrow_right" android:isRepeatable="true" />
-        <Key android:codes="-8"   android:keyIcon="@drawable/ic_select" />
+        <!-- ⇧ ⊞ ⌘ ⌥ ↹ ↵ ← → ↑ ↓ ⇞ ⟲ ↖ ↘ ⇥ -->
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_arrow_pointing_up"    android:isRepeatable="true" />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_arrow_pointing_down"  android:isRepeatable="true" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_arrow_pointing_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_arrow_pointing_right" android:isRepeatable="true" />
+        <Key android:codes="-8"   android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
-        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
-        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy_document" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste_from_clipboard" />
     </Row>
     <Row>
         <Key android:codes="49"   android:keyLabel="1" android:popupKeyboard="@xml/popup_template" android:popupCharacters="!¡~`¬" />
@@ -59,13 +62,15 @@
         <Key android:codes="98"   android:keyLabel="b" android:popupKeyboard="@xml/popup_template"  android:popupCharacters="βʙбɓ" /> <!-- ᵇᵝ -->
         <Key android:codes="110"  android:keyLabel="n" android:popupKeyboard="@xml/popup_template"  android:popupCharacters="νŋɴиɲɳ" /> <!-- ⁿᶮᶯᵑᶰₙ -->
         <Key android:codes="109"  android:keyLabel="m" android:popupKeyboard="@xml/popup_template"  android:popupCharacters="μɱʍᴍ" /> <!-- ᵐᶬₘ -->
-        <Key android:codes="46"   android:keyLabel="." android:popupKeyboard="@xml/popup_template"  android:popupCharacters=",'&quot;/\\" />
+        <Key android:codes="46"   android:keyLabel="." android:popupKeyboard="@xml/popup_template"  android:popupCharacters=",?!;:'&quot;/\\" />
         <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
     </Row>
     <Row>
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_more_horiz" android:keyWidth="20%p" />
-        <Key android:codes="32"   android:keyLabel="⌴" android:keyWidth="60%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…:;!?,."/>
-<!--        <Key android:codes="32"   android:keyLabel="⌴" android:keyWidth="60%p" android:isRepeatable="true" />-->
-        <Key android:codes="10"   android:keyLabel="⌤" android:keyWidth="20%p" android:keyIcon="@drawable/ic_keyboard_return" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_left"      android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_right"     android:keyWidth="10%p" />
+        <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard"  android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"  android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;"/>
+        <Key android:codes="9"    android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return"  android:keyWidth="20%p" />
     </Row>
 </Keyboard>

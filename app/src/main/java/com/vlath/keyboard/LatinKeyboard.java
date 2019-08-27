@@ -41,28 +41,12 @@ public class LatinKeyboard extends Keyboard {
   private        Key   mSpaceKey;
   private static short rowNumber = 4;
 
-  /**
-   * Stores the current state of the mode change key. Its width will be dynamically updated to
-   * match the region of {@link #mModeChangeKey} when {@link #mModeChangeKey} becomes invisible.
-   */
   private Key mModeChangeKey;
-  /**
-   * Stores the current state of the language switch key (a.k.a. globe key). This should be
-   * <p>
-   * returns true. When this key becomes invisible, its width will be shrunk to zero.
-   */
+
   private Key mLanguageSwitchKey;
-  /**
-   * Stores the size and other information of {@link #mModeChangeKey} when
-   * {@link #mLanguageSwitchKey} is visible. This should be immutable and will be used only as a
-   * reference size when the visibility of {@link #mLanguageSwitchKey} is changed.
-   */
+
   private Key mSavedModeChangeKey;
-  /**
-   * Stores the size and other information of {@link #mLanguageSwitchKey} when it is visible.
-   * This should be immutable and will be used only as a reference size when the visibility of
-   * {@link #mLanguageSwitchKey} is changed.
-   */
+
   private Key mSavedLanguageSwitchKey;
 
   public LatinKeyboard(Context context, int xmlLayoutResId) {
@@ -93,11 +77,6 @@ public class LatinKeyboard extends Keyboard {
     return key;
   }
 
-  /**
-   * Dynamically change the visibility of the language switch key (a.k.a. globe key).
-   *
-   * @param visible True if the language switch key should be visible.
-   */
   void setLanguageSwitchKeyVisibility(boolean visible) {
     if (visible) {
       // The language switch key should be visible. Restore the size of the mode change key
@@ -118,10 +97,6 @@ public class LatinKeyboard extends Keyboard {
     }
   }
 
-  /**
-   * This looks at the ime options given by the current editor, to set the
-   * appropriate label on the keyboard's enter key (if it has one).
-   */
   void setImeOptions(Resources res, int options) {
     if (mEnterKey == null) {
       return;
@@ -175,12 +150,6 @@ public class LatinKeyboard extends Keyboard {
     getNearestKeys(0, 0); //somehow adding this fixed a weird bug where bottom row keys could not be pressed if keyboard height is too tall.. from the Keyboard source code seems like calling this will recalculate some values used in keypress detection calculation
   }
 
-  /**
-   * This piece of code is intended to help us to resize the keyboard at runtime,
-   * thus giving us the opportunity to customize its height. It's a bit tricky though.
-   * And StackOverflow inspired me to be honest.
-   **/
-
   @Override
   public int getHeight() {
     return getKeyHeight() * rowNumber;
@@ -196,10 +165,6 @@ public class LatinKeyboard extends Keyboard {
       super(res, parent, x, y, parser);
     }
 
-    /**
-     * Overriding this method so that we can reduce the target area for the key that
-     * closes the keyboard.
-     */
     @Override
     public boolean isInside(int x, int y) {
       return super.isInside(x, codes[0] == KEYCODE_CANCEL ? y - 10 : y);

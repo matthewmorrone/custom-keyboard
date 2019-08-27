@@ -1,7 +1,5 @@
 package com.vlath.keyboard;
 
-import android.graphics.Bitmap;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -13,24 +11,40 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
-import android.inputmethodservice.KeyboardView;
-import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodSubtype;
-import android.widget.PopupWindow;
-
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class CustomKeyboard extends KeyboardView {
 
   Drawable          mTransparent       = new ColorDrawable(Color.TRANSPARENT);
-//  NinePatchDrawable mSpaceBackground   = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.space);
   NinePatchDrawable mPressedBackground = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.press);
   Paint             mPaint             = new Paint();
+
+
+  private static Context kcontext;
+
+  public void assignCustomKeys() {
+    List<Key> keys = getKeyboard().getKeys();
+
+    for (Key key : keys) {
+//      System.out.println(key.codes[0]+"\t"+key.label);
+      try {
+        if (key.codes[0] == -501) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k1", "");
+        if (key.codes[0] == -502) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k2", "");
+        if (key.codes[0] == -503) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k3", "");
+        if (key.codes[0] == -504) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k4", "");
+        if (key.codes[0] == -505) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k5", "");
+        if (key.codes[0] == -506) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k6", "");
+        if (key.codes[0] == -507) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k7", "");
+        if (key.codes[0] == -508) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k8", "");
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
 
   public CustomKeyboard(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -60,15 +74,13 @@ public class CustomKeyboard extends KeyboardView {
     mPaint.setTextSize(28);
     mPaint.setColor(Color.parseColor("#a5a7aa"));
 
+    assignCustomKeys();
+
     List<Key> keys = getKeyboard().getKeys();
 
     for (Key key : keys) {
 
       if (key.label != null) {
-//        if (key.codes[0] == 32) {
-//          mSpaceBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-//          mSpaceBackground.draw(canvas);
-//        }
         if (Variables.isAnyOn()) {
           if (Variables.isCtrl()) {
             if (key.codes[0] == -113) {
