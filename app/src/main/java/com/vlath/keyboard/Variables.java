@@ -20,16 +20,6 @@ public class Variables {
   public static boolean isBold() { return IS_BOLD; }
   public static boolean isItalic() { return IS_ITALIC; }
 
-  public static void setIsCtrl(boolean on) {
-    IS_CTRL = on;
-  }
-  public static void setIsAlt(boolean on) {
-    IS_ALT = on;
-  }
-  public static void setIsShift(boolean on) { IS_SHIFT = on; }
-  public static void setIsBold(boolean on) { IS_BOLD = on; }
-  public static void setIsItalic(boolean on) { IS_ITALIC = on; }
-
   public static void setCtrlOn() {
     IS_CTRL = true;
   }
@@ -46,9 +36,7 @@ public class Variables {
   public static void setShiftOff() {
     IS_SHIFT = false;
   }
-  public static void setBoldOn() { IS_BOLD = true; }
   public static void setBoldOff() { IS_BOLD = false; }
-  public static void setItalicOn() { IS_ITALIC = true; }
   public static void setItalicOff() { IS_ITALIC = false; }
 
   public static void toggleIsBold() { IS_BOLD = !IS_BOLD; }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="12.5%p"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    android:keyHeight="9%p"
+    android:keyTextSize="22sp"
+    android:labelTextSize="22sp">
+    <Row>
+        <!-- ⇧ ⊞ ⌘ ⌥ ↹ ↵ ← → ↑ ↓ ⇞ ⟲ ↖ ↘ ⇥ -->
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_keyboard_arrow_up"    android:isRepeatable="true" />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_keyboard_arrow_down"  android:isRepeatable="true" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_keyboard_arrow_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_keyboard_arrow_right" android:isRepeatable="true" />
+        <Key android:codes="-999" android:keyLabel="Clear" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+    </Row>
+    <Row>
+        <Key android:codes="-8"    android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-1000" android:keyLabel="UPPER" />
+        <Key android:codes="-1001" android:keyLabel="Title" />
+        <Key android:codes="-1002" android:keyLabel="lower" />
+        <Key android:codes="-1003" android:keyLabel="- → ⌴" />
+        <Key android:codes="-1004" android:keyLabel="_ → ⌴" />
+        <Key android:codes="-1005" android:keyLabel="⌴ → -" />
+        <Key android:codes="-1006" android:keyLabel="⌴ → _" />
+    </Row>
+    <Row>
+        <Key android:codes="-12" android:keyIcon="@drawable/ic_bold_text_option" android:keyWidth="25%" />
+        <Key android:codes="-13" android:keyIcon="@drawable/ic_italicize_text"  android:keyWidth="25%" />
+        <Key android:codes="-14" android:keyIcon="@drawable/ic_ban_circle_symbol" android:keyWidth="25%" />
+        <Key android:codes="-7"   android:keyLabel="⌦" android:isRepeatable="true" />
+        <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
+    </Row>
+    <Row android:keyWidth="25%p">
+        <Key android:codes="-501"   android:keyLabel="@string/k1" />
+        <Key android:codes="-502"   android:keyLabel="@string/k2" />
+        <Key android:codes="-503"   android:keyLabel="@string/k3" />
+        <Key android:codes="-504"   android:keyLabel="@string/k4" />
+    </Row>
+    <Row android:keyWidth="25%p">
+        <Key android:codes="-505"   android:keyLabel="@string/k5" />
+        <Key android:codes="-506"   android:keyLabel="@string/k6" />
+        <Key android:codes="-507"   android:keyLabel="@string/k7" />
+        <Key android:codes="-508"   android:keyLabel="@string/k8" />
+    </Row>
+    <Row>
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_left" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_right" />
+        <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;"/>
+        <Key android:codes="9"    android:keyLabel="↹" />
+        <Key android:codes="10"   android:keyLabel="↵" android:keyIcon="@drawable/ic_keyboard_return" />
+    </Row>
+</Keyboard>

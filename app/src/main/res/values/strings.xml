@@ -37,20 +37,21 @@
         <item name="7">8</item>
     </string-array>
     <string-array name="color">
-        <item name="1">Black - white text</item>
-        <item name="2">White - black text</item>
-        <item name="3">Blue - white text</item>
-        <item name="4">Blue - black text</item>
-        <item name="5">Red - white text</item>
-        <item name="6">Red - black text</item>
-        <item name="7">Orange - white text</item>
-        <item name="7">Material Dark - white text</item>
+        <item name="1">Black - White</item>
+        <item name="2">White - Black</item>
+        <item name="3">Blue - White</item>
+        <item name="4">Blue - Black</item>
+        <item name="5">Red - White</item>
+        <item name="6">Red - Black</item>
+        <item name="7">Orange - White</item>
+        <item name="8">Dark - White</item>
     </string-array>
     <string-array name="start">
         <item name="1">Standard</item>
         <item name="2">Programming</item>
         <item name="3">Arrow Keys</item>
     </string-array>
+
     <string-array name="start_values">
         <item name="1">1</item>
         <item name="2">2</item>
@@ -67,4 +68,12 @@
         <item name="3">3</item>
     </string-array>
     <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="k1"></string>
+    <string name="k2"></string>
+    <string name="k3"></string>
+    <string name="k4"></string>
+    <string name="k5"></string>
+    <string name="k6"></string>
+    <string name="k7"></string>
+    <string name="k8"></string>
 </resources>
