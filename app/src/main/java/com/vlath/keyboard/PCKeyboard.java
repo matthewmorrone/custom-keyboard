@@ -386,6 +386,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
+	public Boolean isAlphabet(int primaryCode) {
+		if (primaryCode ≥ 65 && primaryCode ≤ 91) {return true;}
+		if (primaryCode ≥ 97 && primaryCode ≤ 123) {return true;}
+		return false;
+	}
+
     private void handleBackspace() {
         final int length = mComposing.length();
         if (length > 1) {
@@ -406,7 +412,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     private void handleCharacter(int primaryCode) {
-        if (isInputViewShown() && !isDigit(primaryCode)) {
+        if (isInputViewShown() && isAlphabet(primaryCode)) {
             if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
                 if (Variables.isBold() && Variables.isItalic()) {
