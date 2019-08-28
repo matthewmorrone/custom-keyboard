@@ -4,10 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
 
-/**
- * Created by todo on 30.06.2017.
- */
-
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   ListPreference listTheme;
@@ -56,6 +52,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    System.out.println(sharedPreferences);
+    System.out.println(s);
     listTheme.setSummary(listTheme.getEntry());
     listStart.setSummary(listStart.getEntry());
     listLayout.setSummary(listLayout.getEntry());

@@ -5,6 +5,5 @@
     android:gravity="center"
     android:background="@drawable/round_corners"
     android:textStyle="bold"
-    android:textSize="30sp"
-    >
+    android:textSize="30sp">
 </TextView>

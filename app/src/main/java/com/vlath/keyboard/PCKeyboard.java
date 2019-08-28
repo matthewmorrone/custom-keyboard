@@ -135,11 +135,41 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         mSymbolKeyboard = new LatinKeyboard(this, R.xml.symbol);
         mFunctionKeyboard = new LatinKeyboard(this, R.xml.function);
         mFutharkKeyboard = new LatinKeyboard(this, R.xml.futhark);
+
+
+        List<Keyboard.Key> keys = mQwertyKeyboard.getKeys();
+
+        for (Keyboard.Key key : keys) {
+            System.out.println(key.codes[0]+"\t"+key.label);
+            if (key.codes[0] == 65 || key.codes[0] == 97) {
+                key.label = "AAA";
+            }
+        }
+
+        keys = mFunctionKeyboard.getKeys();
+
+        for (Keyboard.Key key : keys) {
+            // System.out.println(key.codes[0]+"\t"+key.label);
+            try {
+                if (key.codes[0] == -501) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k1", "");
+                if (key.codes[0] == -502) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k2", "");
+                if (key.codes[0] == -503) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k3", "");
+                if (key.codes[0] == -504) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k4", "");
+                if (key.codes[0] == -505) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k5", "");
+                if (key.codes[0] == -506) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k6", "");
+                if (key.codes[0] == -507) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k7", "");
+                if (key.codes[0] == -508) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k8", "");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            // mFunctionKeyboard.getKeys().
+        }
     }
 
     @Override
     public View onCreateInputView() {
-        mInputView = (CustomKeyboard) getLayoutInflater().inflate(R.layout.keyboard, null);
+        mInputView = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
         setLatinKeyboard(mQwertyKeyboard);
@@ -295,24 +325,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void sendKey(int keyCode) {
-        switch (keyCode) {
-            case '\n':
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER));
-                break;
-            default:
-                if (keyCode >= '0' && keyCode <= '9') {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode - '0' + KeyEvent.KEYCODE_0));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode - '0' + KeyEvent.KEYCODE_0));
-                }
-                else {
-                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
-                }
-                break;
-        }
-    }
-
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) {
@@ -421,7 +433,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
 
         // isGreek
-
+        if (isInputViewShown()) {
+            if (kv.isShifted()) {
+                primaryCode = Character.toUpperCase(primaryCode);
+            }
+        }
         if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char) primaryCode))) {
             mComposing.append((char) primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
@@ -447,6 +463,16 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             getCurrentInputConnection().commitText(String.valueOf(Character.toChars(primaryCode)), 1);
             firstCaps = false;
             setCapsOn(false);
+        }
+    }
+
+    private void checkToggleCapsLock() {
+        long now = System.currentTimeMillis();
+        if (mLastShiftTime + 800 > now) {
+            mCapsLock = !mCapsLock;
+            mLastShiftTime = 0;
+        } else {
+            mLastShiftTime = now;
         }
     }
 
@@ -527,13 +553,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     private void setCapsOn(boolean on) {
         if (Variables.isShift()) {
             kv.getKeyboard().setShifted(true);
-            // kv.invalidateAllKeys();
+            kv.invalidateAllKeys();
         }
         else {
             kv.getKeyboard().setShifted(on);
-            // kv.invalidateAllKeys();
+            kv.invalidateAllKeys();
         }
     }
+
+    private void toggleCapsOn() {
+        kv.getKeyboard().setShifted(!kv.getKeyboard().isShifted());
+    }
+
 
     private void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
@@ -834,6 +865,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 handleBackspace();
                 break;
             case -1:
+                // toggleCapsOn();
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
                     String text = ic.getSelectedText(0).toString();
                     int a = getSelectionStart();
@@ -972,7 +1004,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, 67, 0));
                 }
                 break;
-            case LatinKeyboard.KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE:
+            case -122:
                 if (Variables.isAnyOn()) {
                     if (Variables.isCtrl() && Variables.isAlt()) {
                         getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));

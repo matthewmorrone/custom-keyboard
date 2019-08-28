@@ -1,9 +1,5 @@
 package com.vlath.keyboard;
 
-/**
- * Created by Vlad on 6/14/2017.
- */
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -13,32 +9,8 @@ import android.view.inputmethod.EditorInfo;
 
 public class LatinKeyboard extends Keyboard {
 
-  static final int KEYCODE_OPTIONS = -100;
-
-  static final int KEYCODE_LAYOUT_SWITCH = -101;
-
-  static final int KEYCODE_DPAD_R = -111;
-
-  static final int KEYCODE_DPAD_L = -108;
-
-  static final int KEYCODE_DPAD_U = -107;
-
-  static final int KEYCODE_DPAD_D = -109;
-
-  static final int KEYCODE_ESCAPE = -112;
-
-  static final int KEYCODE_CTRL = -113;
-
-  static final int KEYCODE_ALT = -114;
-
-  static final int KEYCODE_STANDARD_SWITCH = -117;
-
-  static final int KEYCODE_DEL_PROCESS = -121;
-
-  static final int KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE = -122;
-
-  private        Key   mEnterKey;
-  private        Key   mSpaceKey;
+  private Key mEnterKey;
+  private Key mSpaceKey;
   private static short rowNumber = 4;
 
   private Key mModeChangeKey;
@@ -49,17 +21,31 @@ public class LatinKeyboard extends Keyboard {
 
   private Key mSavedLanguageSwitchKey;
 
+
+  private Key k1;
+  private Key k2;
+  private Key k3;
+  private Key k4;
+  private Key k5;
+  private Key k6;
+  private Key k7;
+  private Key k8;
+
   public LatinKeyboard(Context context, int xmlLayoutResId) {
     super(context, xmlLayoutResId);
-  }
-
-  public LatinKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
-    super(context, layoutTemplateResId, characters, columns, horizontalPadding);
   }
 
   @Override
   protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
     Key key = new LatinKey(res, parent, x, y, parser);
+    if (key.codes[0] == -501) k1 = key;
+    if (key.codes[0] == -502) k2 = key;
+    if (key.codes[0] == -503) k3 = key;
+    if (key.codes[0] == -504) k4 = key;
+    if (key.codes[0] == -505) k5 = key;
+    if (key.codes[0] == -506) k6 = key;
+    if (key.codes[0] == -507) k7 = key;
+    if (key.codes[0] == -508) k8 = key;
     if (key.codes[0] == 10) {
       mEnterKey = key;
     }
@@ -70,73 +56,15 @@ public class LatinKeyboard extends Keyboard {
       mModeChangeKey = key;
       mSavedModeChangeKey = new LatinKey(res, parent, x, y, parser);
     }
-    else if (key.codes[0] == LatinKeyboard.KEYCODE_LAYOUT_SWITCH) {
+    else if (key.codes[0] == -101) {
       mLanguageSwitchKey = key;
       mSavedLanguageSwitchKey = new LatinKey(res, parent, x, y, parser);
     }
     return key;
   }
 
-  void setLanguageSwitchKeyVisibility(boolean visible) {
-    if (visible) {
-      // The language switch key should be visible. Restore the size of the mode change key
-      // and language switch key using the saved layout.
-      mModeChangeKey.width = mSavedModeChangeKey.width;
-      mModeChangeKey.x = mSavedModeChangeKey.x;
-      mLanguageSwitchKey.width = mSavedLanguageSwitchKey.width;
-      mLanguageSwitchKey.icon = mSavedLanguageSwitchKey.icon;
-      mLanguageSwitchKey.iconPreview = mSavedLanguageSwitchKey.iconPreview;
-    }
-    else {
-      // The language switch key should be hidden. Change the width of the mode change key
-      // to fill the space of the language key so that the user will not see any strange gap.
-      mModeChangeKey.width = mSavedModeChangeKey.width + mSavedLanguageSwitchKey.width;
-      mLanguageSwitchKey.width = 0;
-      mLanguageSwitchKey.icon = null;
-      mLanguageSwitchKey.iconPreview = null;
-    }
-  }
-
-  void setImeOptions(Resources res, int options) {
-    if (mEnterKey == null) {
-      return;
-    }
-
-    switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
-      case EditorInfo.IME_ACTION_GO:
-        mEnterKey.iconPreview = null;
-        mEnterKey.icon = null;
-        mEnterKey.label = "ENT";
-        break;
-      case EditorInfo.IME_ACTION_NEXT:
-        mEnterKey.iconPreview = null;
-        mEnterKey.icon = null;
-        mEnterKey.label = "N";
-        break;
-      case EditorInfo.IME_ACTION_SEARCH:
-        //  mEnterKey.icon = "K";
-        mEnterKey.label = null;
-        break;
-      case EditorInfo.IME_ACTION_SEND:
-        mEnterKey.iconPreview = null;
-        mEnterKey.icon = null;
-        mEnterKey.label = "HH";
-        break;
-      default:
-        //   mEnterKey.icon = "U";
-        mEnterKey.label = null;
-        break;
-    }
-  }
-
   public void setRowNumber(short number) {
     rowNumber = number;
-  }
-
-  void setSpaceIcon(final Drawable icon) {
-    if (mSpaceKey != null) {
-      mSpaceKey.icon = icon;
-    }
   }
 
   public void changeKeyHeight(double height_modifier) {

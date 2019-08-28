@@ -2,7 +2,6 @@ package com.vlath.keyboard;
 
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -17,18 +16,18 @@ import java.util.List;
 
 public class CustomKeyboard extends KeyboardView {
 
-  Drawable          mTransparent       = new ColorDrawable(Color.TRANSPARENT);
-  NinePatchDrawable mPressedBackground = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.press);
-  Paint             mPaint             = new Paint();
+  Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
+  Paint mPaint = new Paint();
 
 
   private static Context kcontext;
 
+
   public void assignCustomKeys() {
+    kcontext = getContext();
     List<Key> keys = getKeyboard().getKeys();
 
     for (Key key : keys) {
-//      System.out.println(key.codes[0]+"\t"+key.label);
       try {
         if (key.codes[0] == -501) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k1", "");
         if (key.codes[0] == -502) key.label = PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k2", "");
@@ -60,8 +59,9 @@ public class CustomKeyboard extends KeyboardView {
 
   @Override
   protected boolean onLongPress(Key key) {
+    System.out.println(key.codes+" "+key.label);
     if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
-      getOnKeyboardActionListener().onKey(LatinKeyboard.KEYCODE_OPTIONS, null);
+      getOnKeyboardActionListener().onKey(-100, null);
       return true;
     }
     return super.onLongPress(key);
@@ -84,14 +84,12 @@ public class CustomKeyboard extends KeyboardView {
         if (Variables.isAnyOn()) {
           if (Variables.isCtrl()) {
             if (key.codes[0] == -113) {
-              mPressedBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-              mPressedBackground.draw(canvas);
+
             }
           }
           if (Variables.isAlt()) {
             if (key.codes[0] == -114) {
-              mPressedBackground.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-              mPressedBackground.draw(canvas);
+
             }
           }
         }

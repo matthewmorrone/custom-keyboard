@@ -1,12 +1,7 @@
 package com.vlath.keyboard;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-/**
- * Created by Vlad on 6/20/2017.
- */
 
 public class Preference extends AppCompatActivity {
   @Override

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="#FFF">
+    android:background="@android:color/black">
     <android.inputmethodservice.KeyboardView
          android:id="@android:id/keyboardView"
-         android:layout_width="match_parent"
+         android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:keyBackground="@drawable/key_background"
          android:keyPreviewLayout="@null"
          android:keyTextColor="#fff"
-         android:background="#a5a7aa"
+        android:background="@android:color/black"
          android:keyTextSize="22sp"/>
-    <ImageButton android:id="@android:id/closeButton"
-         android:background="@android:color/transparent"
+    <ImageButton
+         android:id="@android:id/closeButton"
+         android:background="@android:color/black"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_gravity="center"

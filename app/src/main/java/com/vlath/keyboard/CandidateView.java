@@ -10,8 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,11 +93,6 @@ public class CandidateView extends View {
     setVerticalScrollBarEnabled(false);
   }
 
-  /**
-   * A connection back to the service to communicate with the text field
-   *
-   * @param listener
-   */
   public void setService(PCKeyboard listener) {
     mService = listener;
   }
@@ -123,10 +116,6 @@ public class CandidateView extends View {
     setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
   }
 
-  /**
-   * If the canvas is null, then only touch calculations are performed to pick the target
-   * candidate.
-   */
   @Override
   protected void onDraw(Canvas canvas) {
     if (canvas != null) {
@@ -273,22 +262,6 @@ public class CandidateView extends View {
         break;
     }
     return true;
-  }
-
-  /**
-   * For flick through from keyboard, call this method with the x coordinate of the flick
-   * gesture.
-   *
-   * @param x
-   */
-  public void takeSuggestionAt(float x) {
-    mTouchX = (int)x;
-    // To detect candidate
-    draw(null);
-    if (mSelectedIndex >= 0) {
-      mService.pickSuggestionManually(mSelectedIndex);
-    }
-    invalidate();
   }
 
   private void removeHighlight() {
