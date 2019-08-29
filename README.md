@@ -8,10 +8,10 @@ Bugs
 - the contents of the custom keys aren't printed on the keys until something is pressed
 
 Changes
-~ ∅ key and label don't match up
-~ label size issue for high surrogates
-~ layouts as array, enable and reorder from settings
-~ popup should close when tapping outside of it
+- ∅ key and label don't match up
+- label size issue for high surrogates
+- layouts as array, enable and reorder from settings
+- popup should close when tapping outside of it
 
 Features
 + add setting that allows specification of longpress delay
