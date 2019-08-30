@@ -13,6 +13,8 @@ public class LatinKeyboard extends Keyboard {
   private Key mSpaceKey;
   private static short rowNumber = 4;
 
+  public String name;
+
   private Key mModeChangeKey;
 
   private Key mLanguageSwitchKey;
@@ -33,6 +35,11 @@ public class LatinKeyboard extends Keyboard {
 
   public LatinKeyboard(Context context, int xmlLayoutResId) {
     super(context, xmlLayoutResId);
+  }
+
+  public LatinKeyboard(Context context, int xmlLayoutResId, String name) {
+    super(context, xmlLayoutResId);
+    this.name = name;
   }
 
   @Override

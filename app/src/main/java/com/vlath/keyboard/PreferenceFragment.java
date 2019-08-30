@@ -7,8 +7,7 @@ import android.preference.*;
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   ListPreference listTheme;
-  ListPreference listStart;
-  ListPreference listLayout;
+
   EditTextPreference k1;
   EditTextPreference k2;
   EditTextPreference k3;
@@ -23,11 +22,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     super.onCreate(s);
     addPreferencesFromResource(R.xml.ime_preferences);
     listTheme = (ListPreference)findPreference("theme");
-    listStart = (ListPreference)findPreference("start");
-    listLayout = (ListPreference)findPreference("layout");
     listTheme.setSummary(listTheme.getEntry());
-    listStart.setSummary(listStart.getEntry());
-    listLayout.setSummary(listLayout.getEntry());
 
     k1 = (EditTextPreference)findPreference("k1");
     k2 = (EditTextPreference)findPreference("k2");
@@ -52,11 +47,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-    System.out.println(sharedPreferences);
-    System.out.println(s);
     listTheme.setSummary(listTheme.getEntry());
-    listStart.setSummary(listStart.getEntry());
-    listLayout.setSummary(listLayout.getEntry());
 
     k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
     k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));

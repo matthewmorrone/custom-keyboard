@@ -57,11 +57,13 @@ public class CustomKeyboard extends KeyboardView {
     return (LatinKeyboard)getKeyboard();
   }
 
+
   @Override
   protected boolean onLongPress(Key key) {
-    System.out.println(key.codes+" "+key.label);
+    System.out.println(key.codes+" "+key.label+" "+key.popupCharacters);
     if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
       getOnKeyboardActionListener().onKey(-100, null);
+      // getOnKeyboardActionListener().onRelease(key.codes[0], null);, ((String)key.popupCharacters)
       return true;
     }
     return super.onLongPress(key);
@@ -79,29 +81,14 @@ public class CustomKeyboard extends KeyboardView {
     List<Key> keys = getKeyboard().getKeys();
 
     for (Key key : keys) {
-
       if (key.label != null) {
-        if (Variables.isAnyOn()) {
-          if (Variables.isCtrl()) {
-            if (key.codes[0] == -113) {
-
-            }
-          }
-          if (Variables.isAlt()) {
-            if (key.codes[0] == -114) {
-
-            }
-          }
+        if (key.codes[0] == -113) {
+          mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+          mTransparent.draw(canvas);
         }
-        else {
-          if (key.codes[0] == -113) {
-            mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-            mTransparent.draw(canvas);
-          }
-          if (key.codes[0] == -114) {
-            mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-            mTransparent.draw(canvas);
-          }
+        if (key.codes[0] == -114) {
+          mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+          mTransparent.draw(canvas);
         }
       }
     }
