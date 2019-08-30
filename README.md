@@ -39,3 +39,14 @@ Features
 + display unicode information about key, or code
 + preview of first one or two popup keys
 + hide and show specific keys, especially in the top or bottom
++ change keys to reflect bold and italic
++ change shift, (select, )bold and italic keys to reflect status  
++ height and width changes on layout change
++ ensure proper layout iteration
++ press and hold custom keys to change them
++ delete or jump by word
++ hex input
++ wuoszxcv: ҩ_ᴇʀтʏ_ı_ᴩ ᴀ_ᴅꜰɢʜᴊκʟ ____ʙɴᴍ
++ ɛ? ɩ? к? o? 
++ animations
+
