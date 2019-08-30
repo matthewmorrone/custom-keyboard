@@ -11,6 +11,7 @@ Changes
 - popup should close when tapping outside of it
 
 Features
++ replace decimal numbers with hex and vice-versa
 + reorder layouts from settings
 + add setting that allows specification of longpress delay
 + add feature that toggles whether or not the first member of the popup is sent upon release
