@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
     android:keyWidth="12.5%p"
-    android:keyHeight="@string/height"
-    android:keyTextSize="22sp"
-    android:labelTextSize="22sp">
+    android:keyHeight="8%p">
     <Row>
         <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"    android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"  android:isRepeatable="true" />
@@ -16,7 +12,7 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_menu_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_menu_paste" />
     </Row>
-    <Row>
+    <Row android:keyHeight="16%p">
         <Key android:codes="-35" android:keyLabel="𝐀" />	<!-- 119808 -->
         <Key android:codes="-36" android:keyLabel="𝐴" />	<!-- 119860 -->
         <Key android:codes="-37" android:keyLabel="𝑨" />	<!-- 119912 -->
@@ -26,7 +22,7 @@
         <Key android:codes="-41" android:keyLabel="𝔸" />	<!-- 120120 -->
         <Key android:codes="-42" android:keyLabel="𝕬" />	<!-- 120172 -->
     </Row>
-    <Row>
+    <Row android:keyHeight="16%p">
         <Key android:codes="-43" android:keyLabel="𝖠" />	<!-- 120224 -->
         <!--<Key android:codes="-44" android:keyLabel="𝗔" />	--><!-- 120276 -->
         <!--<Key android:codes="-45" android:keyLabel="𝘈" />	--><!-- 120328 -->

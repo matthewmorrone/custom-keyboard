@@ -179,6 +179,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true) == true) {
             layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
         }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true) == true) {
+            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
+        }
 
         if (layouts.get(0) != null) {
             int displayWidth = getMaxWidth();
@@ -502,19 +505,110 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 else if (Variables.isItalic())                  primaryCode += 120257;
             }
 
-            if (Variables.is119808()) primaryCode += 119808;
-            if (Variables.is119860()) primaryCode += 119860;
-            if (Variables.is119912()) primaryCode += 119912;
-            if (Variables.is119964()) primaryCode += 119964;
-            if (Variables.is120016()) primaryCode += 120016;
-            if (Variables.is120068()) primaryCode += 120068;
-            if (Variables.is120120()) primaryCode += 120120;
-            if (Variables.is120172()) primaryCode += 120172;
-            if (Variables.is120224()) primaryCode += 120224;
-            if (Variables.is120276()) primaryCode += 120276;
-            if (Variables.is120328()) primaryCode += 120328;
-            if (Variables.is120380()) primaryCode += 120380;
-            if (Variables.is120432()) primaryCode += 120432;
+            if (Variables.is119808()) {
+                if (kv.isShifted()) {
+                    primaryCode += (119808-65);
+                }
+                else {
+                    primaryCode += (119808-71);
+                }
+            }
+            if (Variables.is119860()) {
+                if (kv.isShifted()) {
+                    primaryCode += (119860-65);
+                }
+                else {
+                    primaryCode += (119860-71);
+                }
+            }
+            if (Variables.is119912()) {
+                if (kv.isShifted()) {
+                    primaryCode += (119912-65);
+                }
+                else {
+                    primaryCode += (119912-71);
+                }
+            }
+            if (Variables.is119964()) {
+                if (kv.isShifted()) {
+                    primaryCode += (119964-65);
+                }
+                else {
+                    primaryCode += (119964-71);
+                }
+            }
+            if (Variables.is120016()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120016-65);
+                }
+                else {
+                    primaryCode += (120016-71);
+                }
+            }
+            if (Variables.is120068()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120068-65);
+                }
+                else {
+                    primaryCode += (120068-71);
+                }
+            }
+            if (Variables.is120120()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120120-65);
+                }
+                else {
+                    primaryCode += (120120-71);
+                }
+            }
+            if (Variables.is120172()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120172-65);
+                }
+                else {
+                    primaryCode += (120172-71);
+                }
+            }
+            if (Variables.is120224()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120224-65);
+                }
+                else {
+                    primaryCode += (120224-71);
+                }
+            }
+            if (Variables.is120276()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120276-65);
+                }
+                else {
+                    primaryCode += (120276-71);
+                }
+            }
+            if (Variables.is120328()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120328-65);
+                }
+                else {
+                    primaryCode += (120328-71);
+                }
+            }
+            if (Variables.is120380()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120380-65);
+                }
+                else {
+                    primaryCode += (120380-71);
+                }
+            }
+            if (Variables.is120432()) {
+                if (kv.isShifted()) {
+                    primaryCode += (120432-65);
+                }
+                else {
+                    primaryCode += (120432-71);
+                }
+            }
         }
 
         // isGreek
@@ -841,7 +935,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public static final int[] hexPasses = {
-         -5, -7, -107, -108, -109, -111, -102, -103, -8, -9, -10, -11, -499, 32, 9, 10
+         -5, -7, -107, -108, -109, -111, -101, -102, -103, -8, -9, -10, -11, -499, 32, 9, 10
     };
     public static final int[] hexFunctions = {
          -2001, -2002, -2003, -2004, -2005, -2006, -2007, -2008,
