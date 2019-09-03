@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
     android:keyWidth="12.5%p"
-    android:keyHeight="9%p"
-    android:keyTextSize="22sp"
-    android:labelTextSize="22sp">
+    android:keyHeight="8%p">
     <Row android:keyWidth="12.5%">
         <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"    android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"  android:isRepeatable="true" />
@@ -25,15 +21,14 @@
         <Key android:codes="-1004" android:keyLabel="_ → ⌴" />
         <Key android:codes="-1005" android:keyLabel="⌴ → -" />
         <Key android:codes="-1006" android:keyLabel="⌴ → _" />
-		</Row>
-		<Row>
-			  <Key android:codes="-22"  android:keyIcon="@drawable/ic_page_up" />
-			  <Key android:codes="-23"  android:keyIcon="@drawable/ic_page_down" />
-			  <Key android:codes="-25"  android:keyIcon="@drawable/ic_rewind_arrows" />
-			  <Key android:codes="-26"  android:keyIcon="@drawable/ic_fast_forward_arrows" />
-        <Key android:codes="-12"  android:keyWidth="8.33%p" android:keyIcon="@drawable/ic_bold_text_option" />
-        <Key android:codes="-13"  android:keyWidth="8.33%p" android:keyIcon="@drawable/ic_italicize_text" />
-        <Key android:codes="-14"  android:keyWidth="8.33%p" android:keyIcon="@drawable/ic_double_sided_eraser" />
+    </Row>
+    <Row>
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_page_up" />
+        <Key android:codes="-23"  android:keyIcon="@drawable/ic_page_down" />
+        <Key android:codes="-25"  android:keyIcon="@drawable/ic_rewind_arrows" />
+        <Key android:codes="-26"  android:keyIcon="@drawable/ic_fast_forward_arrows" />
+        <Key android:codes="-1"  android:keyLabel=" " />
+        <Key android:codes="-1"  android:keyLabel=" " />
         <Key android:codes="-7"   android:keyLabel="⌦" android:isRepeatable="true" />
         <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
     </Row>

@@ -12,16 +12,18 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
+
+import static com.vlath.keyboard.PCKeyboard.hexBuffer;
 
 public class CustomKeyboard extends KeyboardView {
 
   Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
   Paint mPaint = new Paint();
-
-
   private static Context kcontext;
-
 
   public void assignCustomKeys() {
     kcontext = getContext();
@@ -57,21 +59,22 @@ public class CustomKeyboard extends KeyboardView {
     return (LatinKeyboard)getKeyboard();
   }
 
-
   @Override
   protected boolean onLongPress(Key key) {
-    System.out.println(key.codes+" "+key.label+" "+key.popupCharacters);
+    System.out.println("Long Press: "+key.codes+" "+key.label+" "+key.popupCharacters);
     if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
       getOnKeyboardActionListener().onKey(-100, null);
-      // getOnKeyboardActionListener().onRelease(key.codes[0], null);, ((String)key.popupCharacters)
       return true;
     }
     return super.onLongPress(key);
   }
 
+
+
   @Override
   public void onDraw(Canvas canvas) {
     super.onDraw(canvas);
+    System.out.println("Redrawing Canvas: "+canvas);
     mPaint.setTextAlign(Paint.Align.CENTER);
     mPaint.setTextSize(28);
     mPaint.setColor(Color.parseColor("#a5a7aa"));
@@ -79,17 +82,30 @@ public class CustomKeyboard extends KeyboardView {
     assignCustomKeys();
 
     List<Key> keys = getKeyboard().getKeys();
-
     for (Key key : keys) {
-      if (key.label != null) {
-        if (key.codes[0] == -113) {
-          mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-          mTransparent.draw(canvas);
+      // key.label = key.label+" ";
+      // key.label = key.label.subSequence(0, key.label.length() - 1);
+      if (hexBuffer.length() > 0) {
+        // System.out.println(hexBuffer);
+        if (key.codes[0] == -2001) {
+          try {
+            key.label = "0x"+StringUtils.leftPad(hexBuffer, 4,"0");
+          }
+          catch (NumberFormatException e) {
+            key.label = "0x0000";
+          }
         }
-        if (key.codes[0] == -114) {
-          mTransparent.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-          mTransparent.draw(canvas);
+        if (key.codes[0] == -2002) {
+          try {
+            key.label = String.valueOf((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
+          }
+          catch (NumberFormatException e) {
+            key.label = "";
+          }
         }
+
+        // if (key.codes[0] == -2003) { }
+        // if (key.codes[0] == -2004) { }
       }
     }
   }

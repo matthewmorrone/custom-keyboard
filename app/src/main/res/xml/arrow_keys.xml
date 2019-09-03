@@ -2,7 +2,8 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="10%p"
     android:horizontalGap="0px"
-    android:verticalGap="0px">
+    android:verticalGap="0px"
+    android:keyHeight="@string/height">
     <Row android:keyWidth="25%">
         <Key android:codes="-8"   android:keyIcon="@drawable/ic_menu_select" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_menu_cut" />

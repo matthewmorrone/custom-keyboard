@@ -15,6 +15,10 @@
     <CheckBoxPreference android:key="futhark" android:title="Futhark Layout" android:defaultValue="true" />
     <CheckBoxPreference android:key="symbol" android:title="Function Keys" android:defaultValue="true" />
     <CheckBoxPreference android:key="function" android:title="Symbol Keys" android:defaultValue="true" />
+    <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
+    <CheckBoxPreference android:key="nav" android:title="Navigation" android:defaultValue="true" />
+    <CheckBoxPreference android:key="util" android:title="Utility" android:defaultValue="true" />
+    <CheckBoxPreference android:key="hex" android:title="Unicode Input" android:defaultValue="true" />
     <EditTextPreference android:dialogTitle="Word Separators" android:title="@string/word_separators" android:key="seps" android:defaultValue="@string/word_separators" />
     <EditTextPreference android:dialogTitle="Custom Key 1" android:title="@string/k1" android:key="k1" android:defaultValue="@string/k1" />
     <EditTextPreference android:dialogTitle="Custom Key 2" android:title="@string/k2" android:key="k2" android:defaultValue="@string/k2" />
