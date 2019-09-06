@@ -8,6 +8,8 @@
         android:drawable="@drawable/round_corners" />
     <!-- Pressed state -->
     <item
+        android:state_focused="true"
+        android:state_selected="true"
         android:state_pressed="true"
         android:drawable="@drawable/press" />
 </selector>

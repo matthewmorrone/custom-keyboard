@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="9%p"
-    android:keyHeight="@string/height">
+    android:keyHeight="8%p">
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
         <Key android:codes="50" android:keyLabel="2"/>
@@ -52,8 +52,8 @@
         <Key android:codes="-5" android:keyEdgeFlags="right" android:isRepeatable="true"/>
     </Row>
     <Row>
-        <Key android:codes="-102" android:keyIcon="@drawable/ic_left"      android:keyWidth="10%p" />
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_right"     android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_left"      android:keyWidth="10%p" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_right"     android:keyWidth="10%p" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar" android:keyWidth="60%p"  android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;"/>
         <Key android:codes="10"   android:keyLabel="↵" android:keyWidth="20%p" android:keyIcon="@drawable/ic_keyboard_return" />
     </Row>

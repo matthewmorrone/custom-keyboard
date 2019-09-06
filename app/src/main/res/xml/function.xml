@@ -13,22 +13,22 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_menu_paste" />
     </Row>
     <Row>
-        <Key android:codes="-999"  android:keyIcon="@drawable/ic_delete_sweep" /><!-- android:codes="-999" -->
-        <Key android:codes="-1000" android:keyLabel="UPPER" />
-        <Key android:codes="-1001" android:keyLabel="Title" />
-        <Key android:codes="-1002" android:keyLabel="lower" />
-        <Key android:codes="-1003" android:keyLabel="- → ⌴" />
-        <Key android:codes="-1004" android:keyLabel="_ → ⌴" />
-        <Key android:codes="-1005" android:keyLabel="⌴ → -" />
-        <Key android:codes="-1006" android:keyLabel="⌴ → _" />
+        <Key android:codes="-999"  android:keyIcon="@drawable/ic_delete_sweep" />
+        <Key android:codes="-1000" android:keyLabel="AA" />
+        <Key android:codes="-1001" android:keyLabel="Aa" />
+        <Key android:codes="-1002" android:keyLabel="aa" />
+        <Key android:codes="-1003" android:keyLabel="-→⌴" />
+        <Key android:codes="-1004" android:keyLabel="_→⌴" />
+        <Key android:codes="-1005" android:keyLabel="⌴→-" />
+        <Key android:codes="-1006" android:keyLabel="⌴→_" />
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_page_up" />
         <Key android:codes="-23"  android:keyIcon="@drawable/ic_page_down" />
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_rewind_arrows" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_fast_forward_arrows" />
-        <Key android:codes="-1"  android:keyLabel=" " />
-        <Key android:codes="-1"  android:keyLabel=" " />
+        <Key android:codes="-48"  android:keyLabel="\\n" />
+        <Key android:codes="-49"  android:keyLabel="J→" />
         <Key android:codes="-7"   android:keyLabel="⌦" android:isRepeatable="true" />
         <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
     </Row>

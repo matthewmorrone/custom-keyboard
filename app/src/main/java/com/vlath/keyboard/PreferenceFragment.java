@@ -47,6 +47,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    listTheme = (ListPreference)findPreference("theme");
     listTheme.setSummary(listTheme.getEntry());
 
     k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));

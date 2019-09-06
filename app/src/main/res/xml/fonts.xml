@@ -24,15 +24,11 @@
     </Row>
     <Row android:keyHeight="16%p">
         <Key android:codes="-43" android:keyLabel="𝖠" />	<!-- 120224 -->
-        <!--<Key android:codes="-44" android:keyLabel="𝗔" />	--><!-- 120276 -->
-        <!--<Key android:codes="-45" android:keyLabel="𝘈" />	--><!-- 120328 -->
-        <!--<Key android:codes="-46" android:keyLabel="𝘼" />	--><!-- 120380 -->
         <Key android:codes="-47" android:keyLabel="𝙰" />	<!-- 120432 -->
+        <Key android:codes="-50" android:keyLabel="Ɐ" />	<!-- 120432 -->
         <Key android:codes="-12" android:keyIcon="@drawable/ic_bold_text_option" />
         <Key android:codes="-13" android:keyIcon="@drawable/ic_italicize_text" />
-        <Key android:codes="-14" android:keyWidth="25%p" android:keyIcon="@drawable/ic_double_sided_eraser" />
-        <Key android:codes="-7"  android:isRepeatable="true" />
-        <Key android:codes="-5"  android:isRepeatable="true" />
+        <Key android:codes="-14" android:keyWidth="37.5%p" android:keyIcon="@drawable/ic_double_sided_eraser" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />

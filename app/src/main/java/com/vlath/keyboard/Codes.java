@@ -1,0 +1,559 @@
+package com.vlath.keyboard;
+
+import android.view.KeyEvent;
+
+public class Codes {
+
+	public static boolean isDigit(int code) {
+		if (Character.isDigit(code)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public static int getHardKeyCode(int keycode) {
+		char code = (char) keycode;
+		switch (String.valueOf(code)) {
+			case "a": return KeyEvent.KEYCODE_A;
+			case "b": return KeyEvent.KEYCODE_B;
+			case "c": return KeyEvent.KEYCODE_C;
+			case "d": return KeyEvent.KEYCODE_D;
+			case "e": return KeyEvent.KEYCODE_E;
+			case "f": return KeyEvent.KEYCODE_F;
+			case "g": return KeyEvent.KEYCODE_G;
+			case "h": return KeyEvent.KEYCODE_H;
+			case "i": return KeyEvent.KEYCODE_I;
+			case "j": return KeyEvent.KEYCODE_J;
+			case "k": return KeyEvent.KEYCODE_K;
+			case "l": return KeyEvent.KEYCODE_L;
+			case "m": return KeyEvent.KEYCODE_M;
+			case "n": return KeyEvent.KEYCODE_N;
+			case "o": return KeyEvent.KEYCODE_O;
+			case "p": return KeyEvent.KEYCODE_P;
+			case "q": return KeyEvent.KEYCODE_Q;
+			case "r": return KeyEvent.KEYCODE_R;
+			case "s": return KeyEvent.KEYCODE_S;
+			case "t": return KeyEvent.KEYCODE_T;
+			case "u": return KeyEvent.KEYCODE_U;
+			case "v": return KeyEvent.KEYCODE_V;
+			case "w": return KeyEvent.KEYCODE_W;
+			case "x": return KeyEvent.KEYCODE_X;
+			case "y": return KeyEvent.KEYCODE_Y;
+			case "z": return KeyEvent.KEYCODE_Z;
+			default: return keycode;
+		}
+	}
+
+	public static Boolean isAlphaNumeric(int primaryCode) {
+		return (isAlphabet(primaryCode) || isDigit(primaryCode));
+	}
+
+	public static Boolean isAlphabet(int primaryCode) {
+		if (primaryCode >= 65 && primaryCode <= 91) {return true;}
+		if (primaryCode >= 97 && primaryCode <= 123) {return true;}
+		return false;
+	}
+
+	public static int handleCharacter(CustomKeyboard kv, int primaryCode) {
+		if (isAlphaNumeric(primaryCode)) {
+			if (isDigit(primaryCode)) {
+				if (Variables.isBold()) {
+					primaryCode += 120764;
+				}
+			}
+			else if (kv.isShifted()) {
+				primaryCode = Character.toUpperCase(primaryCode);
+				if (Variables.isBold() && Variables.isItalic()) primaryCode += 120315;
+				else if (Variables.isBold()) primaryCode += 120211;
+				else if (Variables.isItalic()) primaryCode += 120263;
+			}
+			else {
+				if (Variables.isBold() && Variables.isItalic()) { primaryCode += 120309; }
+				else if (Variables.isBold()) { primaryCode += 120205; }
+				else if (Variables.isItalic()) { primaryCode += 120257; }
+			}
+
+			if (Variables.is119808()) {
+				if (kv.isShifted()) { primaryCode += (119808 - 65); }
+				else { primaryCode += (119808 - 71); }
+			}
+			if (Variables.is119860()) {
+				if (kv.isShifted()) { primaryCode += (119860 - 65); }
+				else { primaryCode += (119860 - 71); }
+			}
+			if (Variables.is119912()) {
+				if (kv.isShifted()) { primaryCode += (119912 - 65); }
+				else { primaryCode += (119912 - 71); }
+			}
+			if (Variables.is119964()) {
+				if (kv.isShifted()) { primaryCode += (119964 - 65); }
+				else { primaryCode += (119964 - 71); }
+			}
+			if (Variables.is120016()) {
+				if (kv.isShifted()) { primaryCode += (120016 - 65); }
+				else { primaryCode += (120016 - 71); }
+			}
+			if (Variables.is120068()) {
+				if (kv.isShifted()) { primaryCode += (120068 - 65); }
+				else { primaryCode += (120068 - 71); }
+			}
+			if (Variables.is120120()) {
+				if (kv.isShifted()) { primaryCode += (120120 - 65); }
+				else { primaryCode += (120120 - 71); }
+			}
+			if (Variables.is120172()) {
+				if (kv.isShifted()) { primaryCode += (120172 - 65); }
+				else { primaryCode += (120172 - 71); }
+			}
+			if (Variables.is120224()) {
+				if (kv.isShifted()) { primaryCode += (120224 - 65); }
+				else { primaryCode += (120224 - 71); }
+			}
+			if (Variables.is120276()) {
+				if (kv.isShifted()) { primaryCode += (120276 - 65); }
+				else { primaryCode += (120276 - 71); }
+			}
+			if (Variables.is120328()) {
+				if (kv.isShifted()) { primaryCode += (120328 - 65); }
+				else { primaryCode += (120328 - 71); }
+			}
+			if (Variables.is120380()) {
+				if (kv.isShifted()) { primaryCode += (120380 - 65); }
+				else { primaryCode += (120380 - 71); }
+			}
+			if (Variables.is120432()) {
+				if (kv.isShifted()) { primaryCode += (120432 - 65); }
+				else { primaryCode += (120432 - 71); }
+			}
+		}
+		return blockException(primaryCode);
+	}
+
+
+	public static int blockException(int primaryCode) {
+		if (Variables.is120432() && primaryCode == 913) {return 120488;}
+		if (Variables.is120432() && primaryCode == 914) {return 120489;}
+		if (Variables.is120432() && primaryCode == 915) {return 120490;}
+		if (Variables.is120432() && primaryCode == 916) {return 120491;}
+		if (Variables.is120432() && primaryCode == 400) {return 120492;}
+		if (Variables.is120432() && primaryCode == 918) {return 120493;}
+		if (Variables.is120432() && primaryCode == 919) {return 120494;}
+		if (Variables.is120432() && primaryCode == 920) {return 120495;}
+		if (Variables.is120432() && primaryCode == 406) {return 120496;}
+		if (Variables.is120432() && primaryCode == 922) {return 120497;}
+		if (Variables.is120432() && primaryCode == 923) {return 120498;}
+		if (Variables.is120432() && primaryCode == 924) {return 120499;}
+		if (Variables.is120432() && primaryCode == 925) {return 120500;}
+		if (Variables.is120432() && primaryCode == 926) {return 120501;}
+		if (Variables.is120432() && primaryCode == 927) {return 120502;}
+		if (Variables.is120432() && primaryCode == 928) {return 120503;}
+		if (Variables.is120432() && primaryCode == 929) {return 120504;}
+		if (Variables.is120432() && primaryCode == 1012) {return 120505;}
+		if (Variables.is120432() && primaryCode == 931) {return 120506;}
+		if (Variables.is120432() && primaryCode == 932) {return 120507;}
+		if (Variables.is120432() && primaryCode == 933) {return 120508;}
+		if (Variables.is120432() && primaryCode == 934) {return 120509;}
+		if (Variables.is120432() && primaryCode == 935) {return 120510;}
+		if (Variables.is120432() && primaryCode == 936) {return 120511;}
+		if (Variables.is120432() && primaryCode == 937) {return 120512;}
+		if (Variables.is120432() && primaryCode == 8711) {return 120513;}
+		if (Variables.is120432() && primaryCode == 945) {return 120514;}
+		if (Variables.is120432() && primaryCode == 946) {return 120515;}
+		if (Variables.is120432() && primaryCode == 947) {return 120516;}
+		if (Variables.is120432() && primaryCode == 948) {return 120517;}
+		if (Variables.is120432() && primaryCode == 603) {return 120518;}
+		if (Variables.is120432() && primaryCode == 950) {return 120519;}
+		if (Variables.is120432() && primaryCode == 951) {return 120520;}
+		if (Variables.is120432() && primaryCode == 952) {return 120521;}
+		if (Variables.is120432() && primaryCode == 617) {return 120522;}
+		if (Variables.is120432() && primaryCode == 954) {return 120523;}
+		if (Variables.is120432() && primaryCode == 955) {return 120524;}
+		if (Variables.is120432() && primaryCode == 956) {return 120525;}
+		if (Variables.is120432() && primaryCode == 957) {return 120526;}
+		if (Variables.is120432() && primaryCode == 958) {return 120527;}
+		if (Variables.is120432() && primaryCode == 959) {return 120528;}
+		if (Variables.is120432() && primaryCode == 960) {return 120529;}
+		if (Variables.is120432() && primaryCode == 961) {return 120530;}
+		if (Variables.is120432() && primaryCode == 962) {return 120531;}
+		if (Variables.is120432() && primaryCode == 963) {return 120532;}
+		if (Variables.is120432() && primaryCode == 964) {return 120533;}
+		if (Variables.is120432() && primaryCode == 965) {return 120534;}
+		if (Variables.is120432() && primaryCode == 966) {return 120535;}
+		if (Variables.is120432() && primaryCode == 967) {return 120536;}
+		if (Variables.is120432() && primaryCode == 968) {return 120537;}
+		if (Variables.is120432() && primaryCode == 969) {return 120538;}
+		if (Variables.is120432() && primaryCode == 8706) {return 120539;}
+		if (Variables.is120432() && primaryCode == 1013) {return 120540;}
+		if (Variables.is120432() && primaryCode == 977) {return 120541;}
+		if (Variables.is120432() && primaryCode == 1008) {return 120542;}
+		if (Variables.is120432() && primaryCode == 981) {return 120543;}
+		if (Variables.is120432() && primaryCode == 1009) {return 120544;}
+		if (Variables.is120432() && primaryCode == 982) {return 120545;}
+		if (Variables.is119912() && primaryCode == 913) {return 120546;}
+		if (Variables.is119912() && primaryCode == 914) {return 120547;}
+		if (Variables.is119912() && primaryCode == 915) {return 120548;}
+		if (Variables.is119912() && primaryCode == 916) {return 120549;}
+		if (Variables.is119912() && primaryCode == 400) {return 120550;}
+		if (Variables.is119912() && primaryCode == 918) {return 120551;}
+		if (Variables.is119912() && primaryCode == 919) {return 120552;}
+		if (Variables.is119912() && primaryCode == 920) {return 120553;}
+		if (Variables.is119912() && primaryCode == 406) {return 120554;}
+		if (Variables.is119912() && primaryCode == 922) {return 120555;}
+		if (Variables.is119912() && primaryCode == 923) {return 120556;}
+		if (Variables.is119912() && primaryCode == 924) {return 120557;}
+		if (Variables.is119912() && primaryCode == 925) {return 120558;}
+		if (Variables.is119912() && primaryCode == 926) {return 120559;}
+		if (Variables.is119912() && primaryCode == 927) {return 120560;}
+		if (Variables.is119912() && primaryCode == 928) {return 120561;}
+		if (Variables.is119912() && primaryCode == 929) {return 120562;}
+		if (Variables.is119912() && primaryCode == 1012) {return 120563;}
+		if (Variables.is119912() && primaryCode == 931) {return 120564;}
+		if (Variables.is119912() && primaryCode == 932) {return 120565;}
+		if (Variables.is119912() && primaryCode == 933) {return 120566;}
+		if (Variables.is119912() && primaryCode == 934) {return 120567;}
+		if (Variables.is119912() && primaryCode == 935) {return 120568;}
+		if (Variables.is119912() && primaryCode == 936) {return 120569;}
+		if (Variables.is119912() && primaryCode == 937) {return 120570;}
+		if (Variables.is119912() && primaryCode == 8711) {return 120571;}
+		if (Variables.is119912() && primaryCode == 945) {return 120572;}
+		if (Variables.is119912() && primaryCode == 946) {return 120573;}
+		if (Variables.is119912() && primaryCode == 947) {return 120574;}
+		if (Variables.is119912() && primaryCode == 948) {return 120575;}
+		if (Variables.is119912() && primaryCode == 603) {return 120576;}
+		if (Variables.is119912() && primaryCode == 950) {return 120577;}
+		if (Variables.is119912() && primaryCode == 951) {return 120578;}
+		if (Variables.is119912() && primaryCode == 952) {return 120579;}
+		if (Variables.is119912() && primaryCode == 617) {return 120580;}
+		if (Variables.is119912() && primaryCode == 954) {return 120581;}
+		if (Variables.is119912() && primaryCode == 955) {return 120582;}
+		if (Variables.is119912() && primaryCode == 956) {return 120583;}
+		if (Variables.is119912() && primaryCode == 957) {return 120584;}
+		if (Variables.is119912() && primaryCode == 958) {return 120585;}
+		if (Variables.is119912() && primaryCode == 959) {return 120586;}
+		if (Variables.is119912() && primaryCode == 960) {return 120587;}
+		if (Variables.is119912() && primaryCode == 961) {return 120588;}
+		if (Variables.is119912() && primaryCode == 962) {return 120589;}
+		if (Variables.is119912() && primaryCode == 963) {return 120590;}
+		if (Variables.is119912() && primaryCode == 964) {return 120591;}
+		if (Variables.is119912() && primaryCode == 965) {return 120592;}
+		if (Variables.is119912() && primaryCode == 966) {return 120593;}
+		if (Variables.is119912() && primaryCode == 967) {return 120594;}
+		if (Variables.is119912() && primaryCode == 968) {return 120595;}
+		if (Variables.is119912() && primaryCode == 969) {return 120596;}
+		if (Variables.is119912() && primaryCode == 8706) {return 120597;}
+		if (Variables.is119912() && primaryCode == 1013) {return 120598;}
+		if (Variables.is119912() && primaryCode == 977) {return 120599;}
+		if (Variables.is119912() && primaryCode == 1008) {return 120600;}
+		if (Variables.is119912() && primaryCode == 981) {return 120601;}
+		if (Variables.is119912() && primaryCode == 1009) {return 120602;}
+		if (Variables.is119912() && primaryCode == 982) {return 120603;}
+		if (Variables.is120276() && primaryCode == 913) {return 120604;}
+		if (Variables.is120276() && primaryCode == 914) {return 120605;}
+		if (Variables.is120276() && primaryCode == 915) {return 120606;}
+		if (Variables.is120276() && primaryCode == 916) {return 120607;}
+		if (Variables.is120276() && primaryCode == 400) {return 120608;}
+		if (Variables.is120276() && primaryCode == 918) {return 120609;}
+		if (Variables.is120276() && primaryCode == 919) {return 120610;}
+		if (Variables.is120276() && primaryCode == 920) {return 120611;}
+		if (Variables.is120276() && primaryCode == 406) {return 120612;}
+		if (Variables.is120276() && primaryCode == 922) {return 120613;}
+		if (Variables.is120276() && primaryCode == 923) {return 120614;}
+		if (Variables.is120276() && primaryCode == 924) {return 120615;}
+		if (Variables.is120276() && primaryCode == 925) {return 120616;}
+		if (Variables.is120276() && primaryCode == 926) {return 120617;}
+		if (Variables.is120276() && primaryCode == 927) {return 120618;}
+		if (Variables.is120276() && primaryCode == 928) {return 120619;}
+		if (Variables.is120276() && primaryCode == 929) {return 120620;}
+		if (Variables.is120276() && primaryCode == 1012) {return 120621;}
+		if (Variables.is120276() && primaryCode == 931) {return 120622;}
+		if (Variables.is120276() && primaryCode == 932) {return 120623;}
+		if (Variables.is120276() && primaryCode == 933) {return 120624;}
+		if (Variables.is120276() && primaryCode == 934) {return 120625;}
+		if (Variables.is120276() && primaryCode == 935) {return 120626;}
+		if (Variables.is120276() && primaryCode == 936) {return 120627;}
+		if (Variables.is120276() && primaryCode == 937) {return 120628;}
+		if (Variables.is120276() && primaryCode == 8711) {return 120629;}
+		if (Variables.is120276() && primaryCode == 945) {return 120630;}
+		if (Variables.is120276() && primaryCode == 946) {return 120631;}
+		if (Variables.is120276() && primaryCode == 947) {return 120632;}
+		if (Variables.is120276() && primaryCode == 948) {return 120633;}
+		if (Variables.is120276() && primaryCode == 603) {return 120634;}
+		if (Variables.is120276() && primaryCode == 950) {return 120635;}
+		if (Variables.is120276() && primaryCode == 951) {return 120636;}
+		if (Variables.is120276() && primaryCode == 952) {return 120637;}
+		if (Variables.is120276() && primaryCode == 617) {return 120638;}
+		if (Variables.is120276() && primaryCode == 954) {return 120639;}
+		if (Variables.is120276() && primaryCode == 955) {return 120640;}
+		if (Variables.is120276() && primaryCode == 956) {return 120641;}
+		if (Variables.is120276() && primaryCode == 957) {return 120642;}
+		if (Variables.is120276() && primaryCode == 958) {return 120643;}
+		if (Variables.is120276() && primaryCode == 959) {return 120644;}
+		if (Variables.is120276() && primaryCode == 960) {return 120645;}
+		if (Variables.is120276() && primaryCode == 961) {return 120646;}
+		if (Variables.is120276() && primaryCode == 962) {return 120647;}
+		if (Variables.is120276() && primaryCode == 963) {return 120648;}
+		if (Variables.is120276() && primaryCode == 964) {return 120649;}
+		if (Variables.is120276() && primaryCode == 965) {return 120650;}
+		if (Variables.is120276() && primaryCode == 966) {return 120651;}
+		if (Variables.is120276() && primaryCode == 967) {return 120652;}
+		if (Variables.is120276() && primaryCode == 968) {return 120653;}
+		if (Variables.is120276() && primaryCode == 969) {return 120654;}
+		if (Variables.is120276() && primaryCode == 8706) {return 120655;}
+		if (Variables.is120276() && primaryCode == 1013) {return 120656;}
+		if (Variables.is120276() && primaryCode == 977) {return 120657;}
+		if (Variables.is120276() && primaryCode == 1008) {return 120658;}
+		if (Variables.is120276() && primaryCode == 981) {return 120659;}
+		if (Variables.is120276() && primaryCode == 1009) {return 120660;}
+		if (Variables.is120276() && primaryCode == 982) {return 120661;}
+		if (Variables.is120380() && primaryCode == 913) {return 120662;}
+		if (Variables.is120380() && primaryCode == 914) {return 120663;}
+		if (Variables.is120380() && primaryCode == 915) {return 120664;}
+		if (Variables.is120380() && primaryCode == 916) {return 120665;}
+		if (Variables.is120380() && primaryCode == 400) {return 120666;}
+		if (Variables.is120380() && primaryCode == 918) {return 120667;}
+		if (Variables.is120380() && primaryCode == 919) {return 120668;}
+		if (Variables.is120380() && primaryCode == 920) {return 120669;}
+		if (Variables.is120380() && primaryCode == 406) {return 120670;}
+		if (Variables.is120380() && primaryCode == 922) {return 120671;}
+		if (Variables.is120380() && primaryCode == 923) {return 120672;}
+		if (Variables.is120380() && primaryCode == 924) {return 120673;}
+		if (Variables.is120380() && primaryCode == 925) {return 120674;}
+		if (Variables.is120380() && primaryCode == 926) {return 120675;}
+		if (Variables.is120380() && primaryCode == 927) {return 120676;}
+		if (Variables.is120380() && primaryCode == 928) {return 120677;}
+		if (Variables.is120380() && primaryCode == 929) {return 120678;}
+		if (Variables.is120380() && primaryCode == 1012) {return 120679;}
+		if (Variables.is120380() && primaryCode == 931) {return 120680;}
+		if (Variables.is120380() && primaryCode == 932) {return 120681;}
+		if (Variables.is120380() && primaryCode == 933) {return 120682;}
+		if (Variables.is120380() && primaryCode == 934) {return 120683;}
+		if (Variables.is120380() && primaryCode == 935) {return 120684;}
+		if (Variables.is120380() && primaryCode == 936) {return 120685;}
+		if (Variables.is120380() && primaryCode == 937) {return 120686;}
+		if (Variables.is120380() && primaryCode == 8711) {return 120687;}
+		if (Variables.is120380() && primaryCode == 945) {return 120688;}
+		if (Variables.is120380() && primaryCode == 946) {return 120689;}
+		if (Variables.is120380() && primaryCode == 947) {return 120690;}
+		if (Variables.is120380() && primaryCode == 948) {return 120691;}
+		if (Variables.is120380() && primaryCode == 603) {return 120692;}
+		if (Variables.is120380() && primaryCode == 950) {return 120693;}
+		if (Variables.is120380() && primaryCode == 951) {return 120694;}
+		if (Variables.is120380() && primaryCode == 952) {return 120695;}
+		if (Variables.is120380() && primaryCode == 617) {return 120696;}
+		if (Variables.is120380() && primaryCode == 954) {return 120697;}
+		if (Variables.is120380() && primaryCode == 955) {return 120698;}
+		if (Variables.is120380() && primaryCode == 956) {return 120699;}
+		if (Variables.is120380() && primaryCode == 957) {return 120700;}
+		if (Variables.is120380() && primaryCode == 958) {return 120701;}
+		if (Variables.is120380() && primaryCode == 959) {return 120702;}
+		if (Variables.is120380() && primaryCode == 960) {return 120703;}
+		if (Variables.is120380() && primaryCode == 961) {return 120704;}
+		if (Variables.is120380() && primaryCode == 962) {return 120705;}
+		if (Variables.is120380() && primaryCode == 963) {return 120706;}
+		if (Variables.is120380() && primaryCode == 964) {return 120707;}
+		if (Variables.is120380() && primaryCode == 965) {return 120708;}
+		if (Variables.is120380() && primaryCode == 966) {return 120709;}
+		if (Variables.is120380() && primaryCode == 967) {return 120710;}
+		if (Variables.is120380() && primaryCode == 968) {return 120711;}
+		if (Variables.is120380() && primaryCode == 969) {return 120712;}
+		if (Variables.is120380() && primaryCode == 8706) {return 120713;}
+		if (Variables.is120380() && primaryCode == 1013) {return 120714;}
+		if (Variables.is120380() && primaryCode == 977) {return 120715;}
+		if (Variables.is120380() && primaryCode == 1008) {return 120716;}
+		if (Variables.is120380() && primaryCode == 981) {return 120717;}
+		if (Variables.is120380() && primaryCode == 1009) {return 120718;}
+		if (Variables.is120380() && primaryCode == 982) {return 120719;}
+		if (Variables.is120120() && primaryCode == 913) {return 120720;}
+		if (Variables.is120120() && primaryCode == 914) {return 120721;}
+		if (Variables.is120120() && primaryCode == 915) {return 120722;}
+		if (Variables.is120120() && primaryCode == 916) {return 120723;}
+		if (Variables.is120120() && primaryCode == 400) {return 120724;}
+		if (Variables.is120120() && primaryCode == 918) {return 120725;}
+		if (Variables.is120120() && primaryCode == 919) {return 120726;}
+		if (Variables.is120120() && primaryCode == 920) {return 120727;}
+		if (Variables.is120120() && primaryCode == 406) {return 120728;}
+		if (Variables.is120120() && primaryCode == 922) {return 120729;}
+		if (Variables.is120120() && primaryCode == 923) {return 120730;}
+		if (Variables.is120120() && primaryCode == 924) {return 120731;}
+		if (Variables.is120120() && primaryCode == 925) {return 120732;}
+		if (Variables.is120120() && primaryCode == 926) {return 120733;}
+		if (Variables.is120120() && primaryCode == 927) {return 120734;}
+		if (Variables.is120120() && primaryCode == 928) {return 120735;}
+		if (Variables.is120120() && primaryCode == 929) {return 120736;}
+		if (Variables.is120120() && primaryCode == 1012) {return 120737;}
+		if (Variables.is120120() && primaryCode == 931) {return 120738;}
+		if (Variables.is120120() && primaryCode == 932) {return 120739;}
+		if (Variables.is120120() && primaryCode == 933) {return 120740;}
+		if (Variables.is120120() && primaryCode == 934) {return 120741;}
+		if (Variables.is120120() && primaryCode == 935) {return 120742;}
+		if (Variables.is120120() && primaryCode == 936) {return 120743;}
+		if (Variables.is120120() && primaryCode == 937) {return 120744;}
+		if (Variables.is120120() && primaryCode == 8711) {return 120745;}
+		if (Variables.is120120() && primaryCode == 945) {return 120746;}
+		if (Variables.is120120() && primaryCode == 946) {return 120747;}
+		if (Variables.is120120() && primaryCode == 947) {return 120748;}
+		if (Variables.is120120() && primaryCode == 948) {return 120749;}
+		if (Variables.is120120() && primaryCode == 603) {return 120750;}
+		if (Variables.is120120() && primaryCode == 950) {return 120751;}
+		if (Variables.is120120() && primaryCode == 951) {return 120752;}
+		if (Variables.is120120() && primaryCode == 952) {return 120753;}
+		if (Variables.is120120() && primaryCode == 617) {return 120754;}
+		if (Variables.is120120() && primaryCode == 954) {return 120755;}
+		if (Variables.is120120() && primaryCode == 955) {return 120756;}
+		if (Variables.is120120() && primaryCode == 956) {return 120757;}
+		if (Variables.is120120() && primaryCode == 957) {return 120758;}
+		if (Variables.is120120() && primaryCode == 958) {return 120759;}
+		if (Variables.is120120() && primaryCode == 959) {return 120760;}
+		if (Variables.is120120() && primaryCode == 960) {return 120761;}
+		if (Variables.is120120() && primaryCode == 961) {return 120762;}
+		if (Variables.is120120() && primaryCode == 962) {return 120763;}
+		if (Variables.is120120() && primaryCode == 963) {return 120764;}
+		if (Variables.is120120() && primaryCode == 964) {return 120765;}
+		if (Variables.is120120() && primaryCode == 965) {return 120766;}
+		if (Variables.is120120() && primaryCode == 966) {return 120767;}
+		if (Variables.is120120() && primaryCode == 967) {return 120768;}
+		if (Variables.is120120() && primaryCode == 968) {return 120769;}
+		if (Variables.is120120() && primaryCode == 969) {return 120770;}
+		if (Variables.is120120() && primaryCode == 8706) {return 120771;}
+		if (Variables.is120120() && primaryCode == 1013) {return 120772;}
+		if (Variables.is120120() && primaryCode == 977) {return 120773;}
+		if (Variables.is120120() && primaryCode == 1008) {return 120774;}
+		if (Variables.is120120() && primaryCode == 981) {return 120775;}
+		if (Variables.is120120() && primaryCode == 1009) {return 120776;}
+		if (Variables.is120120() && primaryCode == 982) {return 120777;}
+		if (Variables.is120120() && primaryCode == 988) {return 120778;}
+		if (Variables.is120120() && primaryCode == 989) {return 120779;}
+		if (Variables.is119808() && primaryCode == 48) {return 120782;}
+		if (Variables.is119808() && primaryCode == 49) {return 120783;}
+		if (Variables.is119808() && primaryCode == 50) {return 120784;}
+		if (Variables.is119808() && primaryCode == 51) {return 120785;}
+		if (Variables.is119808() && primaryCode == 52) {return 120786;}
+		if (Variables.is119808() && primaryCode == 53) {return 120787;}
+		if (Variables.is119808() && primaryCode == 54) {return 120788;}
+		if (Variables.is119808() && primaryCode == 55) {return 120789;}
+		if (Variables.is119808() && primaryCode == 56) {return 120790;}
+		if (Variables.is119808() && primaryCode == 57) {return 120791;}
+		if (Variables.is120120() && primaryCode == 48) {return 120792;}
+		if (Variables.is120120() && primaryCode == 49) {return 120793;}
+		if (Variables.is120120() && primaryCode == 50) {return 120794;}
+		if (Variables.is120120() && primaryCode == 51) {return 120795;}
+		if (Variables.is120120() && primaryCode == 52) {return 120796;}
+		if (Variables.is120120() && primaryCode == 53) {return 120797;}
+		if (Variables.is120120() && primaryCode == 54) {return 120798;}
+		if (Variables.is120120() && primaryCode == 55) {return 120799;}
+		if (Variables.is120120() && primaryCode == 56) {return 120800;}
+		if (Variables.is120120() && primaryCode == 57) {return 120801;}
+		if (Variables.is120224() && primaryCode == 48) {return 120802;}
+		if (Variables.is120224() && primaryCode == 49) {return 120803;}
+		if (Variables.is120224() && primaryCode == 50) {return 120804;}
+		if (Variables.is120224() && primaryCode == 51) {return 120805;}
+		if (Variables.is120224() && primaryCode == 52) {return 120806;}
+		if (Variables.is120224() && primaryCode == 53) {return 120807;}
+		if (Variables.is120224() && primaryCode == 54) {return 120808;}
+		if (Variables.is120224() && primaryCode == 55) {return 120809;}
+		if (Variables.is120224() && primaryCode == 56) {return 120810;}
+		if (Variables.is120224() && primaryCode == 57) {return 120811;}
+		if (Variables.is120276() && primaryCode == 48) {return 120812;}
+		if (Variables.is120276() && primaryCode == 49) {return 120813;}
+		if (Variables.is120276() && primaryCode == 50) {return 120814;}
+		if (Variables.is120276() && primaryCode == 51) {return 120815;}
+		if (Variables.is120276() && primaryCode == 52) {return 120816;}
+		if (Variables.is120276() && primaryCode == 53) {return 120817;}
+		if (Variables.is120276() && primaryCode == 54) {return 120818;}
+		if (Variables.is120276() && primaryCode == 55) {return 120819;}
+		if (Variables.is120276() && primaryCode == 56) {return 120820;}
+		if (Variables.is120276() && primaryCode == 57) {return 120821;}
+		if (Variables.is120432() && primaryCode == 48) {return 120822;}
+		if (Variables.is120432() && primaryCode == 49) {return 120823;}
+		if (Variables.is120432() && primaryCode == 50) {return 120824;}
+		if (Variables.is120432() && primaryCode == 51) {return 120825;}
+		if (Variables.is120432() && primaryCode == 52) {return 120826;}
+		if (Variables.is120432() && primaryCode == 53) {return 120827;}
+		if (Variables.is120432() && primaryCode == 54) {return 120828;}
+		if (Variables.is120432() && primaryCode == 55) {return 120829;}
+		if (Variables.is120432() && primaryCode == 56) {return 120830;}
+		if (Variables.is120432() && primaryCode == 57) {return 120831;}
+		if (Variables.isReflected() && primaryCode == 65) {return 11375;}
+		if (Variables.isReflected() && primaryCode == 66) {return 42221;}
+		if (Variables.isReflected() && primaryCode == 67) {return 390;}
+		if (Variables.isReflected() && primaryCode == 68) {return 42231;}
+		if (Variables.isReflected() && primaryCode == 69) {return 398;}
+		if (Variables.isReflected() && primaryCode == 70) {return 8498;}
+		if (Variables.isReflected() && primaryCode == 71) {return 42216;}
+		if (Variables.isReflected() && primaryCode == 72) {return 72;}
+		if (Variables.isReflected() && primaryCode == 73) {return 73;}
+		if (Variables.isReflected() && primaryCode == 74) {return 1360;}
+		if (Variables.isReflected() && primaryCode == 75) {return 42928;}
+		if (Variables.isReflected() && primaryCode == 76) {return 8514;}
+		if (Variables.isReflected() && primaryCode == 77) {return 43005;}
+		if (Variables.isReflected() && primaryCode == 78) {return 78;}
+		if (Variables.isReflected() && primaryCode == 79) {return 79;}
+		if (Variables.isReflected() && primaryCode == 80) {return 1280;}
+		if (Variables.isReflected() && primaryCode == 81) {return 210;}
+		if (Variables.isReflected() && primaryCode == 82) {return 42212;}
+		if (Variables.isReflected() && primaryCode == 83) {return 83;}
+		if (Variables.isReflected() && primaryCode == 84) {return 42929;}
+		if (Variables.isReflected() && primaryCode == 85) {return 119365;}
+		if (Variables.isReflected() && primaryCode == 86) {return 581;}
+		if (Variables.isReflected() && primaryCode == 87) {return 66224;}
+		if (Variables.isReflected() && primaryCode == 88) {return 88;}
+		if (Variables.isReflected() && primaryCode == 89) {return 8516;}
+		if (Variables.isReflected() && primaryCode == 90) {return 90;}
+		if (Variables.isReflected() && primaryCode == 97) {return 592;}
+		if (Variables.isReflected() && primaryCode == 98) {return 113;}
+		if (Variables.isReflected() && primaryCode == 99) {return 596;}
+		if (Variables.isReflected() && primaryCode == 100) {return 112;}
+		if (Variables.isReflected() && primaryCode == 101) {return 601;}
+		if (Variables.isReflected() && primaryCode == 102) {return 607;}
+		if (Variables.isReflected() && primaryCode == 103) {return 7543;}
+		if (Variables.isReflected() && primaryCode == 104) {return 613;}
+		if (Variables.isReflected() && primaryCode == 105) {return 7433;}
+		if (Variables.isReflected() && primaryCode == 106) {return 383;}
+		if (Variables.isReflected() && primaryCode == 107) {return 670;}
+		if (Variables.isReflected() && primaryCode == 108) {return 42881;}
+		if (Variables.isReflected() && primaryCode == 109) {return 623;}
+		if (Variables.isReflected() && primaryCode == 110) {return 117;}
+		if (Variables.isReflected() && primaryCode == 111) {return 111;}
+		if (Variables.isReflected() && primaryCode == 112) {return 100;}
+		if (Variables.isReflected() && primaryCode == 113) {return 98;}
+		if (Variables.isReflected() && primaryCode == 114) {return 633;}
+		if (Variables.isReflected() && primaryCode == 115) {return 115;}
+		if (Variables.isReflected() && primaryCode == 116) {return 647;}
+		if (Variables.isReflected() && primaryCode == 117) {return 110;}
+		if (Variables.isReflected() && primaryCode == 118) {return 652;}
+		if (Variables.isReflected() && primaryCode == 119) {return 653;}
+		if (Variables.isReflected() && primaryCode == 120) {return 120;}
+		if (Variables.isReflected() && primaryCode == 121) {return 654;}
+		if (Variables.isReflected() && primaryCode == 122) {return 122;}
+
+		switch (primaryCode) {
+			case 119893: return 8462;
+			case 119965: return 8492;
+			case 119968: return 8496;
+			case 119969: return 8497;
+			case 119971: return 8459;
+			case 119972: return 8464;
+			case 119975: return 8466;
+			case 119976: return 8499;
+			case 119981: return 8475;
+			case 119994: return 8495;
+			case 119996: return 8458;
+			case 120004: return 8500;
+			case 120070: return 8493;
+			case 120075: return 8460;
+			case 120076: return 8465;
+			case 120085: return 8476;
+			case 120093: return 8488;
+			case 120122: return 8450;
+			case 120127: return 8461;
+			case 120133: return 8469;
+			case 120135: return 8473;
+			case 120136: return 8474;
+			case 120137: return 8477;
+			case 120145: return 8484;
+			default: return primaryCode;
+		}
+	}
+}

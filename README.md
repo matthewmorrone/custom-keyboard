@@ -2,7 +2,8 @@ Bugs
 - sometimes when using the case-changing feature, it works, but afterwards the selection jumps to somewhere earlier in the text
 - if there are too many entries in a key's popup, it doesn't render properly
 - sometimes when cutting/copying/pasting large chunks of text, those keys will stop working until the keyboard is disabled and reenabled
-- the contents of the custom keys aren't printed on the keys until something is pressed
+- the contents of keys whose contents are modified during run-time aren't printed on the keys until something is pressed
+- ensure proper layout iteration
 
 Changes
 - the template had gesture typing, get that back
@@ -10,43 +11,81 @@ Changes
 - label size issue for high surrogates
 - popup should close when tapping outside of it
 
-Features
-+ replace decimal numbers with hex and vice-versa
-+ reorder layouts from settings
-+ add setting that allows specification of longpress delay
-+ add feature that toggles whether or not the first member of the popup is sent upon release
+Keys
++ join lines
++ duplicate lines
 + add key for voice input
 + add key to access settings page
 + add key for access to keyboard management page in settings
 + add key that toggles selection extension when moving the cursor
-+ add slots in the settings page for customizing the letters that appear on long press
++ button to access recent clipboard entries
++ delete or jump by word
++ double space period
++ personal dictionary settings link
++ move cursor and select text by dragging the space key
++ popup contents should also be keys
++ press and hold custom keys to change them
+
+Layouts
 + add an emoji keyboard
 + add a keyboard with frequently used Chinese characters
-+ add an option that adds the opposite of the current shifted state to the start of each key's popup
-+ move cursor and select text by dragging the space key
-+ swipe down to close keyboard, or swipe up and down to change row amount 
-+ button to access recent clipboard entries
-+ double space period
-+ auto insertion of apostrophes for specific contractions
-+ auto capitalization of "I" if /^i / or / i /
-+ personal dictionary settings link
-+ input of arbitrary unicode characters 
 + small caps mode, other models dropdown
-+ confiɡuration of key label, repeatable
-+ drag control for keyboard height
-+ autocorrect with google
-+ keyboard for modifiers
-+ display unicode information about key, or code
-+ preview of first one or two popup keys
-+ hide and show specific keys, especially in the top or bottom
-+ change keys to reflect bold and italic
-+ change shift, (select, )bold and italic keys to reflect status  
-+ height and width changes on layout change
-+ ensure proper layout iteration
-+ press and hold custom keys to change them
-+ delete or jump by word
 + hex input
++ preview of first one or two popup keys
 + wuoszxcv: ҩ_ᴇʀтʏ_ı_ᴩ ᴀ_ᴅꜰɢʜᴊκʟ ____ʙɴᴍ
 + ɛ? ɩ? к? o? 
++ keyboard for modifiers
++ display unicode information about key, or code
+
+Settings
++ add setting that allows specification of longpress delay
++ add toggle for whether or not the first member of the popup is sent upon release
++ add an option that adds the opposite of the current shifted state to the start of each key's popup
++ add slots in the settings page for customizing the letters that appear on long press
++ hide and show specific keys, especially in the top or bottom
+
+Features
++ press and hold either layout change button for a list of layouts, and a link to the settings page for layouts
++ separate out settings page for layouts and custom keys
++ replace screen for arbitrary
++ replace decimal numbers with hex and vice-versa
++ reorder layouts from settings
++ swipe down to close keyboard, or swipe up and down to change row amount 
++ auto insertion of apostrophes for specific contractions
++ auto capitalization of "I" if /^i / or / i /
++ drag control for keyboard height
++ autocorrect with google
++ change shift, (select, )bold and italic keys to reflect status  
++ height and width changes on layout change
 + animations
 
+
+planned settings outline
+
++ settings
+  + system settings enable keyboard
+  + choose keyboard
+  + list of layouts, add, enabled, reorder, customize
+  + add by duplication of other layouts
+  + available templates from many languages
+
++ layout settings
+  + add key
+  + move key
+  + row number
+  + height width
+  + send on release or persist
+  + swipe left right up down
+
++ row
+  + height width offset
+
++ key settings
+  + code
+  + label or icon
+  + color text background corner radius
+  + repeatable
+  + toggle, toggle states
+  + popup choices
+  + height width offset
+  + swipe left right up down

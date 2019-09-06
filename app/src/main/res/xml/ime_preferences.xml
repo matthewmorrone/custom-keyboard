@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="2" android:entries="@array/color"/>
-    <!--<ListPreference android:title="Default Keyboard" android:key="start" android:entryValues="@array/start_values" android:defaultValue="0" android:entries="@array/start"/>-->
-    <!--<ListPreference android:title="Layout" android:key="layout" android:entryValues="@array/layout_values" android:defaultValue="0" android:entries="@array/layout"/>-->
-    <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />
-    <!--<SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />-->
+    <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="true" />
+    <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />
     <SwitchPreference android:title="@string/prediction" android:key="pred" android:defaultValue="false" />
-    <SwitchPreference android:title="Arrow keys on standard layout" android:key="arr_qrt" android:defaultValue="true" />
-    <!--<SwitchPreference android:title="Number keys on standard layout" android:key="nbr_qrt" android:defaultValue="true" />-->
-    <!--<com.vlath.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />-->
-    <CheckBoxPreference android:key="ipa" android:title="IPA Layout" android:defaultValue="true" />
-    <CheckBoxPreference android:key="greek" android:title="Greek Layout" android:defaultValue="true" />
-    <CheckBoxPreference android:key="futhark" android:title="Futhark Layout" android:defaultValue="true" />
-    <CheckBoxPreference android:key="symbol" android:title="Function Keys" android:defaultValue="true" />
-    <CheckBoxPreference android:key="function" android:title="Symbol Keys" android:defaultValue="true" />
-    <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
-    <CheckBoxPreference android:key="nav" android:title="Navigation" android:defaultValue="true" />
-    <CheckBoxPreference android:key="util" android:title="Utility" android:defaultValue="true" />
-    <CheckBoxPreference android:key="hex" android:title="Unicode Input" android:defaultValue="true" />
+    <SwitchPreference 
+android:key="ipa" 
+android:title="IPA Layout" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="greek" 
+android:title="Greek Layout" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="futhark" 
+android:title="Futhark Layout" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="symbol" 
+android:title="Function Keys" 
+android:defaultValue="true" />
+    <SwitchPreference 
+android:key="function" 
+android:title="Symbol Keys" 
+android:defaultValue="true" />
+    <SwitchPreference 
+android:key="fonts" 
+android:title="Fonts" 
+android:defaultValue="true" />
+    <SwitchPreference 
+android:key="nav" 
+android:title="Navigation" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="util" 
+android:title="Utility" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="unicode" 
+android:title="Unicode Input" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="numbers" 
+android:title="Number Input" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="dvorak" 
+android:title="Dvorak" 
+android:defaultValue="false" />
+    <SwitchPreference 
+android:key="hex" 
+android:title="Hexadecimal" 
+android:defaultValue="false" />
     <EditTextPreference android:dialogTitle="Word Separators" android:title="@string/word_separators" android:key="seps" android:defaultValue="@string/word_separators" />
     <EditTextPreference android:dialogTitle="Custom Key 1" android:title="@string/k1" android:key="k1" android:defaultValue="@string/k1" />
     <EditTextPreference android:dialogTitle="Custom Key 2" android:title="@string/k2" android:key="k2" android:defaultValue="@string/k2" />

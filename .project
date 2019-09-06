@@ -1,0 +1,2 @@
+NAME=custom-keyboard
+FROM_GRADLE=TRUE

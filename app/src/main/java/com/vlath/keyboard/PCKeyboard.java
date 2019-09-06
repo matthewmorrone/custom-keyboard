@@ -28,124 +28,71 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static com.vlath.keyboard.Variables.setAllOff;
 
 public class PCKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
-    private static final float[] sNoneColorArray = {
-            1.0f, 0, 0, 0, 0, // red
-            0, 1.0f, 0, 0, 0, // green
-            0, 0, 1.0f, 0, 0, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
+    public InputMethodManager mInputMethodManager;
 
-    private static final float[] sNegativeColorArray = {
-            -1.0f, 0, 0, 0, 255, // red
-            0, -1.0f, 0, 0, 255, // green
-            0, 0, -1.0f, 0, 255, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
-    private static final float[] sBlueBlackColorArray = {
-            -0.6f, 0, 0, 0, 41, // red
-            0, -0.6f, 0, 0, 128, // green
-            0, 0, -0.6f, 0, 185, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
-    private static final float[] sBlueWhiteColorArray = {
-            1.0f, 0, 0, 0, 41, // red
-            0, 1.0f, 0, 0, 128, // green
-            0, 0, 1.0f, 0, 185, // blue
-            0, 0, 0, 1.0f, 1 // alpha
-    };
-    private static final float[] sRedWhiteColorArray = {
-            1.0f, 0, 0, 0, 192, // red
-            0, 1.0f, 0, 0, 57, // green
-            0, 0, 1.0f, 0, 43, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
-    private static final float[] sRedBlackColorArray = {
-            -0.6f, 0, 0, 0, 192, // red
-            0, -0.6f, 0, 0, 57, // green
-            0, 0, -0.6f, 0, 43, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
-    private static final float[] sOrangeBlackColorArray = {
-            1.0f, 0, 0, 0, 230, // red
-            0, 1.0f, 0, 0, 126, // green
-            0, 0, 1.0f, 0, 34, // blue
-            0, 0, 0, 1.0f, 0 // alpha
-    };
-    private static final float[] sMaterialDarkColorArray = {
-            1.0f, 0, 0, 0, 55, // red
-            0, 1.0f, 0, 0, 71, // green
-            0, 0, 1.0f, 0, 79, // blue
-            0, 0, 0, 1.0f, 1 // alpha
-    };
+    public CustomKeyboard mInputView;
+    public CandidateView mCandidateView;
+    public CompletionInfo[] mCompletions;
 
-    private InputMethodManager mInputMethodManager;
-
-    private CustomKeyboard mInputView;
-    private CandidateView mCandidateView;
-    private CompletionInfo[] mCompletions;
-
-    private StringBuilder mComposing = new StringBuilder();
-    private boolean mPredictionOn;
-    private boolean mCompletionOn;
-    private int mLastDisplayWidth;
-    private boolean mCapsLock;
-    private long mLastShiftTime;
-    private long mMetaState;
+    public StringBuilder mComposing = new StringBuilder();
+    public boolean mPredictionOn;
+    public boolean mCompletionOn;
+    public int mLastDisplayWidth;
+    public boolean mCapsLock;
+    public long mLastShiftTime;
+    public long mMetaState;
 
     ArrayList<LatinKeyboard> layouts = new ArrayList<>(5);
 
-    private LatinKeyboard currentKeyboard;
-    private int currentKeyboardID = 0;
+    public LatinKeyboard currentKeyboard;
+    public int currentKeyboardID = 0;
 
-    private String mWordSeparators;
+    public String mWordSeparators;
 
-    private SpellCheckerSession mScs;
-    private List<String> mSuggestions;
+    public SpellCheckerSession mScs;
+    public List<String> mSuggestions;
 
-    private boolean firstCaps = false;
-    private float[] mDefaultFilter;
+    public boolean firstCaps = false;
+    public float[] mDefaultFilter;
     long shift_pressed = 0;
 
-    private short rowNumber = 6;
-    private CustomKeyboard kv;
+    public short rowNumber = 6;
+    public CustomKeyboard kv;
 
-    private Toast toast;
+    public Toast toast;
 
     public double getHeightKeyModifier() {
         return (double) PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) / (double) 50;
     }
 
-    private void prevKeyboard() {
+    public void toastIt(String text) {
+        toast.cancel();
+        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void prevKeyboard() {
         currentKeyboardID--;
         if (currentKeyboardID < 0) currentKeyboardID = layouts.size()-1;
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
         // kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
-
-        toast.cancel();
-        toast = Toast.makeText(this, currentKeyboard.name, Toast.LENGTH_SHORT);
-        toast.show();
+        toastIt(currentKeyboard.name);
     }
-    private void nextKeyboard() {
+    public void nextKeyboard() {
         currentKeyboardID++;
         if (currentKeyboardID > layouts.size()-1) currentKeyboardID = 0;
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
         // kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
-
-        // toast.makeText(getApplicationContext(), currentKeyboard.name, Toast.LENGTH_SHORT).show();
-
-        toast.cancel();
-        toast = Toast.makeText(this, currentKeyboard.name, Toast.LENGTH_SHORT);
-        toast.show();
+        toastIt(currentKeyboard.name);
     }
 
     @Override
@@ -161,26 +108,38 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     @Override
     public void onInitializeInterface() {
         layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true) == true) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.hex, "Unicode"));
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true) == true) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true) == true) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.greek, "Greek"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true) == true) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true) == true) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Codes"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
         }
 
         if (layouts.get(0) != null) {
@@ -228,7 +187,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         return mInputView;
     }
 
-    private void setLatinKeyboard(LatinKeyboard nextKeyboard) {
+    public void setLatinKeyboard(LatinKeyboard nextKeyboard) {
         mInputView.setKeyboard(nextKeyboard);
     }
 
@@ -259,7 +218,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         mCompletions = null;
 
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("bord", false)) {
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("bord", true)) {
             kv = (CustomKeyboard) getLayoutInflater().inflate(R.layout.keyboard_key_back, null);
         }
         else {
@@ -328,7 +287,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 return;
             }
 
-            List<String> stringList = new ArrayList<String>();
+            List<String> stringList = new ArrayList<>();
             for (int i = 0; i < completions.length; i++) {
                 CompletionInfo ci = completions[i];
                 if (ci != null) {
@@ -339,31 +298,75 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return super.onKeyUp(keyCode, event);
-    }
+    // @Override
+    // public boolean onKeyUp(int keyCode, KeyEvent event) {
+    //     System.out.println("onKeyUp: "+keyCode+" "+event+" "+event.isTracking());
+    //     // return super.onKeyUp(keyCode, event);
+    //     return true;
+    // }
+
+    // @Override
+    // public boolean onKeyDown(int keyCode, KeyEvent event) {
+    //     System.out.println(event.getAction());
+    //     if (keyCode == KeyEvent.KEYCODE_DPAD_UP
+    //     ||  keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+    //     ||  keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+    //     ||  keyCode == KeyEvent.KEYCODE_DPAD_DOWN
+    //     ) {
+    //         event.startTracking();
+    //         return true;
+    //     }
+    //     System.out.println("onKeyDown: "+keyCode+" "+event+" "+event.isTracking());
+    //     // return super.onKeyDown(keyCode, event);
+    //     return true;
+    // }
+    //
+    // @Override
+    // public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+    //     System.out.println("onKeyLongPress: "+keyCode+" "+event+" "+event.isTracking());
+    //     return true;
+    // }
+
+    long time;
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public void onLongPress(int primaryCode) {
-        // getCurrentInputConnection().setComposingRegion(0, 0);
-        // getCurrentInputConnection().commitText(String.valueOf(Character.toChars(primaryCode)), 1);
-        // mInputView.getLatinKeyboard().getKeys().get(primaryCode);
-    }
-
     public void onPress(int primaryCode) {
+        System.out.println("onPress: "+primaryCode);
+        time = System.nanoTime();
+
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(40);
         }
     }
 
-    public void onRelease(int primaryCode) {
+    public Keyboard.Key getKey(int primaryCode) {
+        for(Keyboard.Key key : currentKeyboard.getKeys()) {
+            if (key.codes[0] == primaryCode) {
+                return key;
+            }
+        }
+        return null;
+    }
 
+    @Override
+    public void onRelease(int primaryCode) {
+        time = (System.nanoTime() - time) / 1000000;
+        System.out.println("onRelease: "+primaryCode);
+        Keyboard.Key currentKey = getKey(primaryCode);
+        if (currentKey != null) {
+            System.out.println(currentKey.codes[0]+" "+currentKey.popupCharacters+" "+currentKey.on+" "+currentKey.sticky);
+
+            if (time > 300) {
+                if (primaryCode == -107) {sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP); }
+                if (primaryCode == -108) {sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME); }
+                if (primaryCode == -109) {sendKeyUpDown(KeyEvent.KEYCODE_PAGE_DOWN); }
+                if (primaryCode == -111) {sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END); }
+                // if (Codes.isAlphabet(primaryCode)) {
+                //     sendKeyUpDown(currentKey.codes[1]);
+                // }
+            }
+        }
     }
 
     @Override
@@ -386,9 +389,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     }
 
-
-
-    private void commitTyped(InputConnection inputConnection) {
+    public void commitTyped(InputConnection inputConnection) {
         if (mComposing.length() > 0) {
             inputConnection.commitText(mComposing, mComposing.length());
             mComposing.setLength(0);
@@ -396,7 +397,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void updateShiftKeyState(EditorInfo attr) {
+    public void updateShiftKeyState(EditorInfo attr) {
         if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
             int caps = 0;
             EditorInfo ei = getCurrentInputEditorInfo();
@@ -404,15 +405,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
             }
             mInputView.setShifted(mCapsLock || caps != 0);
-        }
-    }
-
-    private boolean isDigit(int code) {
-        if (Character.isDigit(code)) {
-            return true;
-        }
-        else {
-            return false;
         }
     }
 
@@ -430,10 +422,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    private void updateCandidates() {
+    public void updateCandidates() {
         if (!mCompletionOn) {
             if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<String>();
+                ArrayList<String> list = new ArrayList<>();
                 list.add(mComposing.toString());
                 mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(mComposing.toString())}, 5);
                 setSuggestions(list, true, true);
@@ -457,13 +449,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-	public Boolean isAlphabet(int primaryCode) {
-		if (primaryCode >= 65 && primaryCode <= 91) {return true;}
-		if (primaryCode >= 97 && primaryCode <= 123) {return true;}
-		return false;
-	}
 
-    private void handleBackspace() {
+    public void handleBackspace() {
         final int length = mComposing.length();
         if (length > 1) {
             mComposing.delete(length - 1, length);
@@ -482,135 +469,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    private Boolean isAlphaNumeric(int primaryCode) {
-        return (isAlphabet(primaryCode) || isDigit(primaryCode));
-    }
-
-    private void handleCharacter(int primaryCode) {
-        if (isInputViewShown() && isAlphaNumeric(primaryCode)) {
-            if (isDigit(primaryCode)) {
-                if (Variables.isBold()) {
-                    primaryCode += 120764;
-                }
-            }
-            else if (kv.isShifted()) {
-                primaryCode = Character.toUpperCase(primaryCode);
-                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120315;
-                else if (Variables.isBold())                    primaryCode += 120211;
-                else if (Variables.isItalic())                  primaryCode += 120263;
-            }
-            else {
-                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120309;
-                else if (Variables.isBold())                    primaryCode += 120205;
-                else if (Variables.isItalic())                  primaryCode += 120257;
-            }
-
-            if (Variables.is119808()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119808-65);
-                }
-                else {
-                    primaryCode += (119808-71);
-                }
-            }
-            if (Variables.is119860()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119860-65);
-                }
-                else {
-                    primaryCode += (119860-71);
-                }
-            }
-            if (Variables.is119912()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119912-65);
-                }
-                else {
-                    primaryCode += (119912-71);
-                }
-            }
-            if (Variables.is119964()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119964-65);
-                }
-                else {
-                    primaryCode += (119964-71);
-                }
-            }
-            if (Variables.is120016()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120016-65);
-                }
-                else {
-                    primaryCode += (120016-71);
-                }
-            }
-            if (Variables.is120068()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120068-65);
-                }
-                else {
-                    primaryCode += (120068-71);
-                }
-            }
-            if (Variables.is120120()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120120-65);
-                }
-                else {
-                    primaryCode += (120120-71);
-                }
-            }
-            if (Variables.is120172()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120172-65);
-                }
-                else {
-                    primaryCode += (120172-71);
-                }
-            }
-            if (Variables.is120224()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120224-65);
-                }
-                else {
-                    primaryCode += (120224-71);
-                }
-            }
-            if (Variables.is120276()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120276-65);
-                }
-                else {
-                    primaryCode += (120276-71);
-                }
-            }
-            if (Variables.is120328()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120328-65);
-                }
-                else {
-                    primaryCode += (120328-71);
-                }
-            }
-            if (Variables.is120380()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120380-65);
-                }
-                else {
-                    primaryCode += (120380-71);
-                }
-            }
-            if (Variables.is120432()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120432-65);
-                }
-                else {
-                    primaryCode += (120432-71);
-                }
-            }
-        }
-
+    public void handleCharacter(int primaryCode) {
+        primaryCode = Codes.handleCharacter(kv, primaryCode);
         // isGreek
         if (isInputViewShown()) {
             if (kv.isShifted()) primaryCode = Character.toUpperCase(primaryCode);
@@ -643,7 +503,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void checkToggleCapsLock() {
+    public void checkToggleCapsLock() {
         long now = System.currentTimeMillis();
         if (mLastShiftTime + 800 > now) {
             mCapsLock = !mCapsLock;
@@ -659,7 +519,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         return false;
     }
-
 
     public void pickSuggestionManually(int index) {
         if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
@@ -694,7 +553,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
+    public void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
         final int len = si.getSuggestionsCount();
         for (int j = 0; j < len; ++j) {
             sb.add(si.getSuggestionAt(j));
@@ -716,7 +575,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void setCapsOn(boolean on) {
+    public void setCapsOn(boolean on) {
         if (Variables.isShift()) {
             kv.getKeyboard().setShifted(true);
             kv.invalidateAllKeys();
@@ -727,77 +586,44 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void toggleCapsOn() {
+    public void toggleCapsOn() {
         kv.getKeyboard().setShifted(!kv.getKeyboard().isShifted());
     }
 
 
-    private void processKeyCombo(int keycode) {
+    public void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
             if (Variables.isCtrl() && Variables.isAlt()) {
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
             }
             else {
                 if (Variables.isCtrl()) {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
+                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
+                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
                 }
                 if (Variables.isAlt()) {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
+                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
+                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, Codes.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
                 }
             }
-        }
-    }
-
-    private int getHardKeyCode(int keycode) {
-        char code = (char) keycode;
-        switch (String.valueOf(code)) {
-            case "a": return KeyEvent.KEYCODE_A;
-            case "b": return KeyEvent.KEYCODE_B;
-            case "c": return KeyEvent.KEYCODE_C;
-            case "d": return KeyEvent.KEYCODE_D;
-            case "e": return KeyEvent.KEYCODE_E;
-            case "f": return KeyEvent.KEYCODE_F;
-            case "g": return KeyEvent.KEYCODE_G;
-            case "h": return KeyEvent.KEYCODE_H;
-            case "i": return KeyEvent.KEYCODE_I;
-            case "j": return KeyEvent.KEYCODE_J;
-            case "k": return KeyEvent.KEYCODE_K;
-            case "l": return KeyEvent.KEYCODE_L;
-            case "m": return KeyEvent.KEYCODE_M;
-            case "n": return KeyEvent.KEYCODE_N;
-            case "o": return KeyEvent.KEYCODE_O;
-            case "p": return KeyEvent.KEYCODE_P;
-            case "q": return KeyEvent.KEYCODE_Q;
-            case "r": return KeyEvent.KEYCODE_R;
-            case "s": return KeyEvent.KEYCODE_S;
-            case "t": return KeyEvent.KEYCODE_T;
-            case "u": return KeyEvent.KEYCODE_U;
-            case "v": return KeyEvent.KEYCODE_V;
-            case "w": return KeyEvent.KEYCODE_W;
-            case "x": return KeyEvent.KEYCODE_X;
-            case "y": return KeyEvent.KEYCODE_Y;
-            case "z": return KeyEvent.KEYCODE_Z;
-            default: return keycode;
         }
     }
 
     public void setTheme() {
-        switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "2")) {
-            case "1": mDefaultFilter = sNoneColorArray; break;
-            case "2": mDefaultFilter = sNegativeColorArray; break;
-            case "3": mDefaultFilter = sBlueWhiteColorArray; break;
-            case "4": mDefaultFilter = sBlueBlackColorArray; break;
-            case "5": mDefaultFilter = sRedWhiteColorArray; break;
-            case "6": mDefaultFilter = sRedBlackColorArray; break;
-            case "7": mDefaultFilter = sOrangeBlackColorArray; break;
-            case "8": mDefaultFilter = sMaterialDarkColorArray; break;
+        switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1")) {
+            case "1": mDefaultFilter = Themes.sNoneColorArray; break;
+            case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
+            case "3": mDefaultFilter = Themes.sBlueWhiteColorArray; break;
+            case "4": mDefaultFilter = Themes.sBlueBlackColorArray; break;
+            case "5": mDefaultFilter = Themes.sRedWhiteColorArray; break;
+            case "6": mDefaultFilter = Themes.sRedBlackColorArray; break;
+            case "7": mDefaultFilter = Themes.sOrangeBlackColorArray; break;
+            case "8": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
         }
     }
 
-    private void setInputType() {
+    public void setInputType() {
         EditorInfo attribute = getCurrentInputEditorInfo();
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("start", "1").equals("1")) {
             switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
@@ -821,7 +647,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private void capsOnFirst() {
+    public void capsOnFirst() {
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", true)) {
             if (getCursorCapsMode(getCurrentInputConnection(), getCurrentInputEditorInfo()) != 0) {
                 firstCaps = true;
@@ -834,7 +660,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    private int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
+    public int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
         int caps = 0;
         EditorInfo ei = getCurrentInputEditorInfo();
         if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) {
@@ -842,19 +668,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         return caps;
     }
-
-    public String underscoresToSpaces(String text) {
-        return text.replaceAll("_", " ");
-    }
-    public String dashesToSpaces(String text) {
-        return text.replaceAll("-", " ");
-    }
-    public String spacesToUnderscores(String text) {
-        return text.replaceAll(" ", "_");
-    }
-    public String spacesToDashes(String text) {
-        return text.replaceAll(" ", "-");
-    }
+    public String replaceLinebreaks(String text) { return text.replaceAll("\n", ""); }
+    public String underscoresToSpaces(String text) { return text.replaceAll("_", " "); }
+    public String dashesToSpaces(String text) { return text.replaceAll("-", " "); }
+    public String spacesToUnderscores(String text) { return text.replaceAll(" ", "_"); }
+    public String spacesToDashes(String text) { return text.replaceAll(" ", "-"); }
     public String removeSpaces(String text) { return text.replaceAll(" ", ""); }
 
     public static String toTitleCase(String text) {
@@ -882,44 +700,43 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         return converted.toString();
     }
 
-    private void sendCustomKey(String key) {
+    public void sendCustomKey(String key) {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        CharSequence ins = "";
         int cursorLocation = getSelectionStart();
-        ins = PreferenceManager.getDefaultSharedPreferences(this).getString(key, "");
+        CharSequence ins = PreferenceManager.getDefaultSharedPreferences(this).getString(key, "");
         ic.beginBatchEdit();
         ic.commitText(ins, cursorLocation+ins.length());
         ic.endBatchEdit();
     }
 
-    private void performReplace(String newText) {
+    public void performReplace(String newText) {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
             int a = getSelectionStart();
-            int b = getSelectionEnd();
+            int b = newText.length();
             ic.commitText(newText, b);
             ic.setSelection(a, b);
         }
     }
 
-    private int getSelectionStart() {
+    public int getSelectionStart() {
         InputConnection ic = getCurrentInputConnection();
         return ic.getTextBeforeCursor(1024, 0).length();
     }
-    private int getSelectionLength() {
+    public int getSelectionLength() {
         InputConnection ic = getCurrentInputConnection();
         String text = ic.getSelectedText(0).toString();
         return text == null ? 0 : text.length();
     }
-    private int getSelectionEnd() {
+    public int getSelectionEnd() {
         return getSelectionStart() + getSelectionLength();
     }
 
-    private int selectionCase = 0;
+    public int selectionCase = 0;
 
-    private String getText(InputConnection ic) {
+    public String getText(InputConnection ic) {
         CharSequence text = ic.getSelectedText(0);
         if (text == null) {
             return "";
@@ -953,13 +770,27 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         return false;
     }
 
+    public void sendKeyUpDown(int primaryCode) {
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, primaryCode));
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   primaryCode));
+    }
+
     public static String hexBuffer = "";
+
+    public String convertNumberBase(String number, int base1, int base2) {
+        try {
+            return Integer.toString(Integer.parseInt(number, base1), base2);
+        }
+        catch (Exception e) {
+            return number;
+        }
+    }
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        int cursorPosition = -1;
+        int[] choice49 = {KeyEvent.KEYCODE_MOVE_END, KeyEvent.KEYCODE_FORWARD_DEL};
 
         if (currentKeyboard.name == "Unicode" && !contains(hexPasses, primaryCode)) {
             System.out.println(currentKeyboard.name+" "+primaryCode);
@@ -969,24 +800,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 System.out.println(hexBuffer);
                 kv.draw(new Canvas());
             }
-            // DEC	HEX	Symbol
-            //  65	41	A
-            // 101	65	e
-            if (primaryCode == -2001) {
-                handleCharacter((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
-                kv.draw(new Canvas());
-            }
+            if (primaryCode == -2001) { kv.draw(new Canvas()); }
             if (primaryCode == -2002) {
                 handleCharacter((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
                 kv.draw(new Canvas());
             }
             if (primaryCode == -2005) {
-                if (hexBuffer.length() > 0) {
-                    hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
-                }
-                else {
-                    hexBuffer = "0000";
-                }
+                if (hexBuffer.length() > 0) { hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1); }
+                else { hexBuffer = "0000"; }
                 System.out.println(hexBuffer);
                 kv.draw(new Canvas());
             }
@@ -995,17 +816,87 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 System.out.println(hexBuffer);
                 kv.draw(new Canvas());
             }
-
-            // System.out.println(hexBuffer+" "+asUnicode(hexBuffer)+" "+Integer.decode(asUnicode(hexBuffer))+" "+(char)(int)Integer.decode(asUnicode(hexBuffer))          +" "+String.valueOf((char)(int)Integer.decode(asUnicode(PCKeyboard.hexBuffer)))
-            //      +" "+Character.toString((char)(int)Integer.decode(asUnicode(PCKeyboard.hexBuffer))));
-            // handleCharacter((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
-
-             kv.draw(new Canvas());
-             return;
+            kv.draw(new Canvas());
+            return;
         }
 
-
         switch (primaryCode) {
+            case -5: handleBackspace(); break;
+            case -7: ic.deleteSurroundingText(0, 1); break;
+            case -8: ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()); break;
+            case -9: sendKeyUpDown(KeyEvent.KEYCODE_CUT); break;
+            case -10: sendKeyUpDown(KeyEvent.KEYCODE_COPY); break;
+            case -11: sendKeyUpDown(KeyEvent.KEYCODE_PASTE); break;
+            case -12: Variables.toggleIsBold(); break;
+            case -13: Variables.toggleIsItalic(); break;
+            case -15: sendKeyUpDown(KeyEvent.KEYCODE_VOLUME_DOWN); break;
+            case -16: sendKeyUpDown(KeyEvent.KEYCODE_VOLUME_UP); break;
+            case -17: sendKeyUpDown(KeyEvent.KEYCODE_CAMERA); break;
+            case -18: sendKeyUpDown(KeyEvent.KEYCODE_EXPLORER); break;
+            case -19: sendKeyUpDown(KeyEvent.KEYCODE_MENU); break;
+            case -20: sendKeyUpDown(KeyEvent.KEYCODE_NOTIFICATION); break;
+            case -21: sendKeyUpDown(KeyEvent.KEYCODE_SEARCH); break;
+            case -22: sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP); break;
+            case -23: sendKeyUpDown(KeyEvent.KEYCODE_PAGE_DOWN); break;
+            case -25: sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME); break;
+            case -26: sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END); break;
+            case -108: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -111: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -107: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP); break;
+            case -109: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN); break;
+            case -24: sendKeyUpDown(KeyEvent.KEYCODE_BUTTON_START); break;
+            case -27: sendKeyUpDown(KeyEvent.KEYCODE_SETTINGS); break;
+            case -28: sendKeyUpDown(KeyEvent.KEYCODE_APP_SWITCH); break;
+            case -29: sendKeyUpDown(KeyEvent.KEYCODE_LANGUAGE_SWITCH); break;
+            case -30: sendKeyUpDown(KeyEvent.KEYCODE_BRIGHTNESS_DOWN); break;
+            case -31: sendKeyUpDown(KeyEvent.KEYCODE_BRIGHTNESS_UP); break;
+            case -32: sendKeyUpDown(KeyEvent.KEYCODE_NAVIGATE_PREVIOUS); break;
+            case -33: sendKeyUpDown(KeyEvent.KEYCODE_NAVIGATE_NEXT); break;
+            case -34: sendKeyUpDown(KeyEvent.KEYCODE_CLEAR); break;
+            case -35: Variables.toggle119808(); break;
+            case -36: Variables.toggle119860(); break;
+            case -37: Variables.toggle119912(); break;
+            case -38: Variables.toggle119964(); break;
+            case -39: Variables.toggle120016(); break;
+            case -40: Variables.toggle120068(); break;
+            case -41: Variables.toggle120120(); break;
+            case -42: Variables.toggle120172(); break;
+            case -43: Variables.toggle120224(); break;
+            case -44: Variables.toggle120276(); break;
+            case -45: Variables.toggle120328(); break;
+            case -46: Variables.toggle120380(); break;
+            case -47: Variables.toggle120432(); break;
+            case -48: processKeyList(choice49); break;
+            case -49: performReplace(replaceLinebreaks(getText(ic))); break;
+            case -50: Variables.toggleIsReflected(); break;
+
+            case -51: performReplace(convertNumberBase(getText(ic), 2, 10)); break;
+            case -52: performReplace(convertNumberBase(getText(ic), 10, 2)); break;
+            case -53: performReplace(convertNumberBase(getText(ic), 8, 10)); break;
+            case -54: performReplace(convertNumberBase(getText(ic), 10, 8)); break;
+            case -55: performReplace(convertNumberBase(getText(ic), 16, 10)); break;
+            case -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
+
+            case -101: prevKeyboard(); break;
+            case -102: nextKeyboard(); break;
+            case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;
+            case -501: sendCustomKey("k1"); break;
+            case -502: sendCustomKey("k2"); break;
+            case -503: sendCustomKey("k3"); break;
+            case -504: sendCustomKey("k4"); break;
+            case -505: sendCustomKey("k5"); break;
+            case -506: sendCustomKey("k6"); break;
+            case -507: sendCustomKey("k7"); break;
+            case -508: sendCustomKey("k8"); break;
+            case -999: ic.deleteSurroundingText(1024, 1024); break;
+            case -1000: performReplace(getText(ic).toUpperCase()); break;
+            case -1001: performReplace(toTitleCase(getText(ic))); break;
+            case -1002: performReplace(getText(ic).toLowerCase()); break;
+            case -1003: performReplace(dashesToSpaces(getText(ic))); break;
+            case -1004: performReplace(underscoresToSpaces(getText(ic))); break;
+            case -1005: performReplace(spacesToDashes(getText(ic))); break;
+            case -1006: performReplace(spacesToUnderscores(getText(ic))); break;
+            case -1007: performReplace(removeSpaces(getText(ic))); break;
             case -1:
                 // toggleCapsOn();
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
@@ -1052,186 +943,19 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 currentKeyboard = new LatinKeyboard(this, R.xml.qwerty);
                 kv.setKeyboard(currentKeyboard);
                 break;
-            case -5:
-                handleBackspace();
-                break;
-            case -7:
-                ic.deleteSurroundingText(0, 1);
-                break;
-            case -8:
-                ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
-                break;
-            case -9:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_CUT));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_CUT));
-                break;
-            case -10:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_COPY));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_COPY));
-                break;
-            case -11:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PASTE));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_PASTE));
-                break;
-            case -12:
-                Variables.toggleIsBold();
-                break;
-            case -13:
-                Variables.toggleIsItalic();
-                break;
             case -14:
                 Variables.setBoldOff();
                 Variables.setItalicOff();
                 setAllOff();
                 break;
-            case -15:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_VOLUME_DOWN));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_VOLUME_DOWN));
-                break;
-            case -16:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_VOLUME_UP));
-                break;
-            case -17:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_CAMERA));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_CAMERA));
-                break;
-            case -18:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_EXPLORER));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_EXPLORER));
-                break;
-            case -19:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MENU));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_MENU));
-                break;
-            case -20:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_NOTIFICATION));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_NOTIFICATION));
-                break;
-            case -21:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SEARCH));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SEARCH));
-                break;
-            case -22:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PAGE_UP));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_PAGE_UP));
-                break;
-            case -23:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PAGE_DOWN));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_PAGE_DOWN));
-                break;
-            case -25:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MOVE_HOME));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_MOVE_HOME));
-                break;
-            case -26:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MOVE_END));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_MOVE_END));
-                break;
-            case -108:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_LEFT));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_DPAD_LEFT));
-                break;
-            case -111:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_DPAD_RIGHT));
-                if (Variables.isSelecting() && cursorPosition != -1) {
-                    ic.setSelection(cursorPosition, getSelectionStart());
-                }
-                break;
-            case -107:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_UP));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_DPAD_UP));
-                break;
-            case -109:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_DOWN));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_DPAD_DOWN));
-                break;
-            case -24:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_START));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_BUTTON_START));
-                break;
-            case -27:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SETTINGS));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SETTINGS));
-                break;
-            case -28:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_APP_SWITCH));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_APP_SWITCH));
-                break;
-            case -29:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_LANGUAGE_SWITCH));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_LANGUAGE_SWITCH));
-                break;
-            case -30:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BRIGHTNESS_DOWN));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_BRIGHTNESS_DOWN));
-                break;
-            case -31:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BRIGHTNESS_UP));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_BRIGHTNESS_UP));
-                break;
-            case -32:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_NAVIGATE_PREVIOUS));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_NAVIGATE_PREVIOUS));
-                break;
-            case -33:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_NAVIGATE_NEXT));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_NAVIGATE_NEXT));
-                break;
-            case -34:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_CLEAR));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_CLEAR));
-                break;
-
-            case -35: Variables.toggle119808(); break;
-            case -36: Variables.toggle119860(); break;
-            case -37: Variables.toggle119912(); break;
-            case -38: Variables.toggle119964(); break;
-            case -39: Variables.toggle120016(); break;
-            case -40: Variables.toggle120068(); break;
-            case -41: Variables.toggle120120(); break;
-            case -42: Variables.toggle120172(); break;
-            case -43: Variables.toggle120224(); break;
-            case -44: Variables.toggle120276(); break;
-            case -45: Variables.toggle120328(); break;
-            case -46: Variables.toggle120380(); break;
-            case -47: Variables.toggle120432(); break;
-
-            case -48:
-                int currentCursor = getSelectionStart();
-                int[] joinKeys = {KeyEvent.KEYCODE_MOVE_END, KeyEvent.KEYCODE_DEL};
-                processKeyList(joinKeys);
-                ic.setSelection(currentCursor, 0);
-                break;
-            case -49:
-                Variables.toggleSelecting();
-            case -101:
-                prevKeyboard();
-                break;
-            case -102:
-                nextKeyboard();
-                break;
-            case -112:
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE, 0));
-                getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_ESCAPE, 0));
-                break;
             case -113:
-                if (Variables.isCtrl()) {
-                    Variables.setCtrlOff();
-                }
-                else {
-                    Variables.setCtrlOn();
-                }
+                if (Variables.isCtrl()) { Variables.setCtrlOff(); }
+                else { Variables.setCtrlOn(); }
                 kv.draw(new Canvas());
                 break;
             case -114:
-                if (Variables.isAlt()) {
-                    Variables.setAltOff();
-                }
-                else {
-                    Variables.setAltOn();
-                }
+                if (Variables.isAlt()) { Variables.setAltOff(); }
+                else { Variables.setAltOn(); }
                 kv.draw(new Canvas());
                 break;
             case -121:
@@ -1247,8 +971,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     }
                 }
                 else {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, 67, 0));
+                    sendKeyUpDown(67);
                 }
                 break;
             case -122:
@@ -1264,100 +987,35 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     }
                 }
                 else {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP, 61, 0));
+                    sendKeyUpDown(61);
                 }
-                break;            case -499:
+                break;            
+            case -499:
                 InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-                if (imeManager != null) {
-                    imeManager.showInputMethodPicker();
-                }
-                break;
-            case -123:
-                Variables.toggleSelecting();
-                cursorPosition = getSelectionStart();
-                break;
-            case -501:
-                sendCustomKey("k1");
-                break;
-            case -502:
-                sendCustomKey("k2");
-                break;
-            case -503:
-                sendCustomKey("k3");
-                break;
-            case -504:
-                sendCustomKey("k4");
-                break;
-            case -505:
-                sendCustomKey("k5");
-                break;
-            case -506:
-                sendCustomKey("k6");
-                break;
-            case -507:
-                sendCustomKey("k7");
-                break;
-            case -508:
-                sendCustomKey("k8");
-                break;
-            case -999:
-                ic.deleteSurroundingText(1024, 1024);
-                break;
-            case -1000:
-                // android:keyLabel="UPPER" />
-                performReplace(getText(ic).toUpperCase());
-                break;
-            case -1001:
-                // android:keyLabel="Title" />
-                performReplace(toTitleCase(getText(ic)));
-                break;
-            case -1002:
-                // android:keyLabel="lower" />
-                performReplace(getText(ic).toLowerCase());
-                break;
-            case -1003:
-                // android:keyLabel="- → ⌴" />
-                performReplace(dashesToSpaces(getText(ic)));
-                break;
-            case -1004:
-                // android:keyLabel="_ → ⌴" />
-                performReplace(underscoresToSpaces(getText(ic)));
-                break;
-            case -1005:
-                // android:keyLabel="⌴ → -" />
-                performReplace(spacesToDashes(getText(ic)));
-                break;
-            case -1006:
-                // android:keyLabel="⌴ → _" />
-                performReplace(spacesToUnderscores(getText(ic)));
-                break;
-            case -1007:
-                // android:keyLabel="⌴ → " />
-                performReplace(removeSpaces(getText(ic)));
+                if (imeManager != null) { imeManager.showInputMethodPicker(); }
                 break;
             case 10:
                 EditorInfo curEditor = getCurrentInputEditorInfo();
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-                    case EditorInfo.IME_ACTION_GO:
-                        getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-                        break;
-                    case EditorInfo.IME_ACTION_SEARCH:
-                        getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-                        break;
-                    default:
-                        getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 66));
-                        getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   66));
-                        break;
+                    case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
+                    case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+                    default: sendKeyUpDown(66); break;
                 }
                 break;
             default:
-                if (Variables.isAnyOn()) {
-                    processKeyCombo(primaryCode);
-                }
+                if (Variables.isAnyOn()) { processKeyCombo(primaryCode); }
                 else {
-                    System.out.println("handleCharacter: "+primaryCode);
-                    handleCharacter(primaryCode);
+                    try {
+                        System.out.println("handleCharacter: "+primaryCode);
+                        handleCharacter(primaryCode);
+                        kv.draw(new Canvas());
+                        if (Variables.isReflected()) {
+                            sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT);
+                        }
+                    }
+                    catch (Exception e) {
+                        System.out.println("Exception Handling Character: "+primaryCode);
+                    }
                 }
         }
         try {
@@ -1368,15 +1026,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         }
-        catch (Exception e) {
-        }
+        catch (Exception e) {}
     }
 
-    public short getRowNumber() {
-        return rowNumber;
-    }
+    public short getRowNumber() { return rowNumber; }
 
-    public void setRowNumber(int number) {
-        rowNumber = (short) number;
-    }
+    public void setRowNumber(int number) { rowNumber = (short) number; }
 }

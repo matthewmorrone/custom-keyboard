@@ -1,9 +1,5 @@
 package com.vlath.keyboard;
 
-/**
- * Created by todo on 01.12.2017.
- */
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.Preference;

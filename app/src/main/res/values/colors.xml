@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="black">@android:color/black</color>
+    <color name="black">#000000</color>
     <color name="green">#4CAF50</color>
     <color name="blue">#42A5F5</color>
     <color name="red">#EF5350</color>
@@ -15,7 +15,8 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#424242</color>
     <color name="gray_dark">#212121</color>
-    <color name="text">#A5A7AA</color>
+    <color name="text">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="candidate_normal">#FF000000</color>
     <color name="candidate_recommended">#000000</color>
     <color name="candidate_other">#FF808080</color>

@@ -1,7 +1,5 @@
 package com.vlath.keyboard;
 
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -21,7 +19,6 @@ import static com.vlath.keyboard.PCKeyboard.hexBuffer;
 
 public class CustomKeyboard extends KeyboardView {
 
-  Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
   Paint mPaint = new Paint();
   private static Context kcontext;
 
@@ -46,7 +43,6 @@ public class CustomKeyboard extends KeyboardView {
     }
   }
 
-
   public CustomKeyboard(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
@@ -55,21 +51,14 @@ public class CustomKeyboard extends KeyboardView {
     super(context, attrs, defStyle);
   }
 
-  public LatinKeyboard getLatinKeyboard() {
-    return (LatinKeyboard)getKeyboard();
-  }
-
   @Override
   protected boolean onLongPress(Key key) {
-    System.out.println("Long Press: "+key.codes+" "+key.label+" "+key.popupCharacters);
     if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
       getOnKeyboardActionListener().onKey(-100, null);
       return true;
     }
     return super.onLongPress(key);
   }
-
-
 
   @Override
   public void onDraw(Canvas canvas) {
@@ -83,10 +72,7 @@ public class CustomKeyboard extends KeyboardView {
 
     List<Key> keys = getKeyboard().getKeys();
     for (Key key : keys) {
-      // key.label = key.label+" ";
-      // key.label = key.label.subSequence(0, key.label.length() - 1);
       if (hexBuffer.length() > 0) {
-        // System.out.println(hexBuffer);
         if (key.codes[0] == -2001) {
           try {
             key.label = "0x"+StringUtils.leftPad(hexBuffer, 4,"0");
@@ -100,12 +86,9 @@ public class CustomKeyboard extends KeyboardView {
             key.label = String.valueOf((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
           }
           catch (NumberFormatException e) {
-            key.label = "";
+            key.label = "";
           }
         }
-
-        // if (key.codes[0] == -2003) { }
-        // if (key.codes[0] == -2004) { }
       }
     }
   }

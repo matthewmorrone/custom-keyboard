@@ -1,27 +1,26 @@
 package com.vlath.keyboard;
 
 public class Variables {
-  private static boolean IS_CTRL  = false;
-  private static boolean IS_ALT   = false;
-  private static boolean IS_SHIFT = false;
-  private static boolean IS_BOLD = false;
-  private static boolean IS_ITALIC = false;
-
-  private static boolean IS_SELECTING = false;
-
-  private static boolean IS_119808 = false;
-  private static boolean IS_119860 = false;
-  private static boolean IS_119912 = false;
-  private static boolean IS_119964 = false;
-  private static boolean IS_120016 = false;
-  private static boolean IS_120068 = false;
-  private static boolean IS_120120 = false;
-  private static boolean IS_120172 = false;
-  private static boolean IS_120224 = false;
-  private static boolean IS_120276 = false;
-  private static boolean IS_120328 = false;
-  private static boolean IS_120380 = false;
-  private static boolean IS_120432 = false;
+  public static boolean IS_CTRL  = false;
+  public static boolean IS_ALT   = false;
+  public static boolean IS_SHIFT = false;
+  public static boolean IS_BOLD = false;
+  public static boolean IS_ITALIC = false;
+  public static boolean IS_SELECTING = false;
+  public static boolean IS_REFLECTED = false;
+  public static boolean IS_119808 = false;
+  public static boolean IS_119860 = false;
+  public static boolean IS_119912 = false;
+  public static boolean IS_119964 = false;
+  public static boolean IS_120016 = false;
+  public static boolean IS_120068 = false;
+  public static boolean IS_120120 = false;
+  public static boolean IS_120172 = false;
+  public static boolean IS_120224 = false;
+  public static boolean IS_120276 = false;
+  public static boolean IS_120328 = false;
+  public static boolean IS_120380 = false;
+  public static boolean IS_120432 = false;
 
   public static boolean is119808() {return IS_119808;}
   public static boolean is119860() {return IS_119860;}
@@ -36,12 +35,7 @@ public class Variables {
   public static boolean is120328() {return IS_120328;}
   public static boolean is120380() {return IS_120380;}
   public static boolean is120432() {return IS_120432;}
-
-
-  public static void setBoldItalicOff() {
-    IS_BOLD = false;
-    IS_ITALIC = false;
-  }
+  public static boolean isReflected() {return IS_REFLECTED;}
 
   public static void setFontsOff() {
     IS_119808 = false;
@@ -77,10 +71,8 @@ public class Variables {
     IS_120432 = false;
   }
 
-
   public static boolean isSelecting() {return IS_SELECTING;}
   public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
-
 
   public static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
   public static boolean isCtrl() {return IS_CTRL;}
@@ -99,6 +91,8 @@ public class Variables {
 
   public static void toggleIsBold() {setFontsOff(); IS_BOLD = !IS_BOLD;}
   public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
+
+  public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
 
   public static void toggle119808() {setAllOff(); IS_119808 = !IS_119808;}
   public static void toggle119860() {setAllOff(); IS_119860 = !IS_119860;}
