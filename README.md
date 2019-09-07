@@ -12,7 +12,6 @@ Changes
 - popup should close when tapping outside of it
 
 Keys
-+ join lines
 + duplicate lines
 + add key for voice input
 + add key to access settings page
@@ -27,13 +26,8 @@ Keys
 + press and hold custom keys to change them
 
 Layouts
-+ add an emoji keyboard
-+ add a keyboard with frequently used Chinese characters
-+ small caps mode, other models dropdown
-+ hex input
++ frequently used Chinese characters
 + preview of first one or two popup keys
-+ wuoszxcv: ҩ_ᴇʀтʏ_ı_ᴩ ᴀ_ᴅꜰɢʜᴊκʟ ____ʙɴᴍ
-+ ɛ? ɩ? к? o? 
 + keyboard for modifiers
 + display unicode information about key, or code
 
@@ -45,10 +39,8 @@ Settings
 + hide and show specific keys, especially in the top or bottom
 
 Features
-+ press and hold either layout change button for a list of layouts, and a link to the settings page for layouts
 + separate out settings page for layouts and custom keys
 + replace screen for arbitrary
-+ replace decimal numbers with hex and vice-versa
 + reorder layouts from settings
 + swipe down to close keyboard, or swipe up and down to change row amount 
 + auto insertion of apostrophes for specific contractions

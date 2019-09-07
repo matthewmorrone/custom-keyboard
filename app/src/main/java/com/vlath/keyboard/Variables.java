@@ -8,6 +8,7 @@ public class Variables {
   public static boolean IS_ITALIC = false;
   public static boolean IS_SELECTING = false;
   public static boolean IS_REFLECTED = false;
+  public static boolean IS_SMALLCAPS = false;
   public static boolean IS_119808 = false;
   public static boolean IS_119860 = false;
   public static boolean IS_119912 = false;
@@ -36,6 +37,7 @@ public class Variables {
   public static boolean is120380() {return IS_120380;}
   public static boolean is120432() {return IS_120432;}
   public static boolean isReflected() {return IS_REFLECTED;}
+  public static boolean isSmallcaps() {return IS_SMALLCAPS;}
 
   public static void setFontsOff() {
     IS_119808 = false;
@@ -56,6 +58,8 @@ public class Variables {
   public static void setAllOff() {
     IS_BOLD = false;
     IS_ITALIC = false;
+    IS_REFLECTED = false;
+    IS_SMALLCAPS = false;
     IS_119808 = false;
     IS_119860 = false;
     IS_119912 = false;
@@ -93,6 +97,9 @@ public class Variables {
   public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
 
   public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
+  public static void toggleIsSmallcaps() {IS_SMALLCAPS = !IS_SMALLCAPS;}
+
+
 
   public static void toggle119808() {setAllOff(); IS_119808 = !IS_119808;}
   public static void toggle119860() {setAllOff(); IS_119860 = !IS_119860;}

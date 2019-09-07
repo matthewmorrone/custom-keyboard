@@ -527,6 +527,74 @@ public class Codes {
 		if (Variables.isReflected() && primaryCode == 120) {return 120;}
 		if (Variables.isReflected() && primaryCode == 121) {return 654;}
 		if (Variables.isReflected() && primaryCode == 122) {return 122;}
+  if (Variables.isReflected() && primaryCode == 33) {return 161;}
+  if (Variables.isReflected() && primaryCode == 63) {return 191;}
+
+
+if (Variables.isReflected() && primaryCode ==123) {return 125;}
+if (Variables.isReflected() && primaryCode ==40) {return 41;}
+if (Variables.isReflected() && primaryCode ==171) {return 187;}
+if (Variables.isReflected() && primaryCode ==91) {return 93;}
+if (Variables.isReflected() && primaryCode ==60) {return 62;}
+if (Variables.isReflected() && primaryCode ==125) {return 123;}
+if (Variables.isReflected() && primaryCode ==41) {return 40;}
+if (Variables.isReflected() && primaryCode ==187) {return 171;}
+if (Variables.isReflected() && primaryCode ==93) {return 91;}
+if (Variables.isReflected() && primaryCode ==62) {return 60;}
+
+if (Variables.isSmallcaps() && primaryCode == 65) {return 65;}
+if (Variables.isSmallcaps() && primaryCode == 66) {return 66;}
+if (Variables.isSmallcaps() && primaryCode == 67) {return 67;}
+if (Variables.isSmallcaps() && primaryCode == 68) {return 68;}
+if (Variables.isSmallcaps() && primaryCode == 69) {return 69;}
+if (Variables.isSmallcaps() && primaryCode == 70) {return 70;}
+if (Variables.isSmallcaps() && primaryCode == 71) {return 71;}
+if (Variables.isSmallcaps() && primaryCode == 72) {return 72;}
+if (Variables.isSmallcaps() && primaryCode == 73) {return 73;}
+if (Variables.isSmallcaps() && primaryCode == 74) {return 74;}
+if (Variables.isSmallcaps() && primaryCode == 75) {return 75;}
+if (Variables.isSmallcaps() && primaryCode == 76) {return 76;}
+if (Variables.isSmallcaps() && primaryCode == 77) {return 77;}
+if (Variables.isSmallcaps() && primaryCode == 78) {return 78;}
+if (Variables.isSmallcaps() && primaryCode == 79) {return 79;}
+if (Variables.isSmallcaps() && primaryCode == 80) {return 80;}
+if (Variables.isSmallcaps() && primaryCode == 81) {return 1192;}
+if (Variables.isSmallcaps() && primaryCode == 82) {return 82;}
+if (Variables.isSmallcaps() && primaryCode == 83) {return 83;}
+if (Variables.isSmallcaps() && primaryCode == 84) {return 84;}
+if (Variables.isSmallcaps() && primaryCode == 85) {return 85;}
+if (Variables.isSmallcaps() && primaryCode == 86) {return 86;}
+if (Variables.isSmallcaps() && primaryCode == 87) {return 87;}
+if (Variables.isSmallcaps() && primaryCode == 88) {return 88;}
+if (Variables.isSmallcaps() && primaryCode == 89) {return 89;}
+if (Variables.isSmallcaps() && primaryCode == 90) {return 90;}
+if (Variables.isSmallcaps() && primaryCode == 97) {return 7424;}
+if (Variables.isSmallcaps() && primaryCode == 98) {return 665;}
+if (Variables.isSmallcaps() && primaryCode == 99) {return 7428;}
+if (Variables.isSmallcaps() && primaryCode == 100) {return 7429;}
+if (Variables.isSmallcaps() && primaryCode == 101) {return 7431;}
+if (Variables.isSmallcaps() && primaryCode == 102) {return 42800;}
+if (Variables.isSmallcaps() && primaryCode == 103) {return 610;}
+if (Variables.isSmallcaps() && primaryCode == 104) {return 668;}
+if (Variables.isSmallcaps() && primaryCode == 105) {return 618;}
+if (Variables.isSmallcaps() && primaryCode == 106) {return 7434;}
+if (Variables.isSmallcaps() && primaryCode == 107) {return 7435;}
+if (Variables.isSmallcaps() && primaryCode == 108) {return 671;}
+if (Variables.isSmallcaps() && primaryCode == 109) {return 7437;}
+if (Variables.isSmallcaps() && primaryCode == 110) {return 628;}
+if (Variables.isSmallcaps() && primaryCode == 111) {return 7439;}
+if (Variables.isSmallcaps() && primaryCode == 112) {return 7448;}
+if (Variables.isSmallcaps() && primaryCode == 113) {return 1193;}
+if (Variables.isSmallcaps() && primaryCode == 114) {return 640;}
+if (Variables.isSmallcaps() && primaryCode == 115) {return 42801;}
+if (Variables.isSmallcaps() && primaryCode == 116) {return 7451;}
+if (Variables.isSmallcaps() && primaryCode == 117) {return 7452;}
+if (Variables.isSmallcaps() && primaryCode == 118) {return 7456;}
+if (Variables.isSmallcaps() && primaryCode == 119) {return 7457;}
+if (Variables.isSmallcaps() && primaryCode == 120) {return 120;}
+if (Variables.isSmallcaps() && primaryCode == 121) {return 655;}
+if (Variables.isSmallcaps() && primaryCode == 122) {return 7458;}
+
 
 		switch (primaryCode) {
 			case 119893: return 8462;

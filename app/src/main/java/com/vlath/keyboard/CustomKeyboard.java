@@ -75,7 +75,7 @@ public class CustomKeyboard extends KeyboardView {
       if (hexBuffer.length() > 0) {
         if (key.codes[0] == -2001) {
           try {
-            key.label = "0x"+StringUtils.leftPad(hexBuffer, 4,"0");
+            key.label = StringUtils.leftPad(hexBuffer, 4,"0");
           }
           catch (NumberFormatException e) {
             key.label = "0x0000";
