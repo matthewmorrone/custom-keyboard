@@ -1,6 +1,4 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-	android:keyWidth="10%p"
-	android:keyHeight="8%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="8%p">
 	<!--
 	android:keyTextSize="22sp"
 	android:labelTextSize="22sp"
@@ -16,20 +14,17 @@
 		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
 		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
 		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
-  <Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
+		<Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
 		<Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />
 		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
 		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
 	</Row>
-	<Row>
-	</Row>
-	<Row>
-	</Row>
+	<Row></Row>
+	<Row></Row>
 	<Row>
 		<Key android:codes="" android:keyLabel="" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" /> <!-- ᵃₐ -->
 	</Row>
-	<Row>
- </Row>
+	<Row></Row>
 	<Row>
 		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
 		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />

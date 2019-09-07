@@ -156,12 +156,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
             mLastDisplayWidth = displayWidth;
 
-            for (Keyboard.Key key : layouts.get(0).getKeys()) {
-                // System.out.println(key.codes[0]+"\t"+key.label);
-                // if (key.codes[0] == 65 || key.codes[0] == 97) {
-                //     key.label = "AAA";
-                // }
-            }
+            // for (Keyboard.Key key : layouts.get(0).getKeys()) {
+            //     System.out.println(key.codes[0]+"\t"+key.label);
+            //     if (key.codes[0] == 65 || key.codes[0] == 97) {
+            //         key.label = "AAA";
+            //     }
+            // }
         }
 
         if (layouts.get(1) != null) {
@@ -817,7 +817,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public String convertFromUnicodeToNumber(String glyph) {
-
         try {
             toastIt(String.valueOf((int)glyph.codePointAt(0)));
             return String.valueOf((int)glyph.codePointAt(0));
@@ -837,13 +836,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public String setKeyboardLayout(int newKeyboardID) {
-if (newKeyboardID < layouts.size()){
-currentKeyboardID = newKeyboardID;
-currentKeyboard = layouts.get(currentKeyboardID);
-kv.setKeyboard(currentKeyboard);
-}
-return currentKeyboard.name;
-}
+		if (newKeyboardID < layouts.size()){
+			currentKeyboardID = newKeyboardID;
+			currentKeyboard = layouts.get(currentKeyboardID);
+			kv.setKeyboard(currentKeyboard);
+		}
+		return currentKeyboard.name;
+	}
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
@@ -865,12 +864,12 @@ return currentKeyboard.name;
                 kv.draw(new Canvas());
             }
 
-if (primaryCode == -2003) {
-performReplace(convertFromUnicodeToNumber(getText(ic)));
-}
-if (primaryCode == -2004) {
-performReplace(convertFromNumberToUnicode(getText(ic)));
-}
+			if (primaryCode == -2003) {
+				performReplace(convertFromUnicodeToNumber(getText(ic)));
+			}
+			if (primaryCode == -2004) {
+				performReplace(convertFromNumberToUnicode(getText(ic)));
+			}
 
 
             if (primaryCode == -2005) {
@@ -937,7 +936,6 @@ performReplace(convertFromNumberToUnicode(getText(ic)));
             case -48: processKeyList(choice49); break;
             case -49: performReplace(replaceLinebreaks(getText(ic))); break;
             case -50: Variables.toggleIsReflected(); break;
-
             case -51: performReplace(convertNumberBase(getText(ic), 2, 10)); break;
             case -52: performReplace(convertNumberBase(getText(ic), 10, 2)); break;
             case -53: performReplace(convertNumberBase(getText(ic), 8, 10)); break;
@@ -945,18 +943,15 @@ performReplace(convertFromNumberToUnicode(getText(ic)));
             case -55: performReplace(convertNumberBase(getText(ic), 16, 10)); break;
             case -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
             case -57: Variables.toggleIsSmallcaps(); break;
-
-
-case -58: toastIt(setKeyboardLayout(0)); break;
-case -59: toastIt(setKeyboardLayout(1)); break;
-case -60: toastIt(setKeyboardLayout(2)); break;
-case -61: toastIt(setKeyboardLayout(3)); break;
-case -62: toastIt(setKeyboardLayout(4)); break;
-case -63: toastIt(setKeyboardLayout(5)); break;
-case -64: toastIt(setKeyboardLayout(6)); break;
-case -65: toastIt(setKeyboardLayout(7)); break;
-case -66: toastIt(setKeyboardLayout(8)); break;
-
+			case -58: toastIt(setKeyboardLayout(0)); break;
+			case -59: toastIt(setKeyboardLayout(1)); break;
+			case -60: toastIt(setKeyboardLayout(2)); break;
+			case -61: toastIt(setKeyboardLayout(3)); break;
+			case -62: toastIt(setKeyboardLayout(4)); break;
+			case -63: toastIt(setKeyboardLayout(5)); break;
+			case -64: toastIt(setKeyboardLayout(6)); break;
+			case -65: toastIt(setKeyboardLayout(7)); break;
+			case -66: toastIt(setKeyboardLayout(8)); break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;

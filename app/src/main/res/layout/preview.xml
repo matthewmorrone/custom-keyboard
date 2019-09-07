@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@android:color/black"
-    android:bottomRightRadius="5dp"
-    android:bottomLeftRadius="5dp"
-    android:topLeftRadius="5dp"
-    android:topRightRadius="5dp"
-    >
-    <android.inputmethodservice.KeyboardView
-         android:id="@android:id/keyboardView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:keyBackground="@drawable/key_background"
-         android:keyPreviewLayout="@null"
-         android:keyTextColor="#fff"
-         android:background="@android:color/black"
-         android:keyTextSize="22sp"/>
-    <ImageButton
-         android:id="@android:id/closeButton"
-         android:background="@android:color/black"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         android:layout_marginStart="4dp"
-         android:layout_marginEnd="4dp"
-         android:clickable="true"
-         android:focusable="true"
-         android:drawable="@drawable/round_corners"
-         android:src="@drawable/ic_close" />
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@android:color/black" android:bottomRightRadius="5dp" android:bottomLeftRadius="5dp" android:topLeftRadius="5dp" android:topRightRadius="5dp">
+	<android.inputmethodservice.KeyboardView android:id="@android:id/keyboardView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:keyBackground="@drawable/key_background" android:keyPreviewLayout="@null" android:keyTextColor="#fff" android:background="@android:color/black" android:keyTextSize="22sp" />
+	<ImageButton android:id="@android:id/closeButton" android:background="@android:color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:drawable="@drawable/round_corners" android:src="@drawable/ic_close" />
 </GridLayout>
