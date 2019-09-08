@@ -1,4 +1,4 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="8%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p">
 	<Row android:keyWidth="12.5%">
 		<!-- ⇧ ⊞ ⌘ ⌥ ↹ ↵ ← → ↑ ↓ ⇞ ⟲ ↖ ↘ ⇥ -->
 		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />
@@ -10,7 +10,7 @@
 		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
 		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="49" android:keyLabel="1" android:popupKeyboard="@xml/popup_template" android:popupCharacters="¹₁" />
 		<Key android:codes="50" android:keyLabel="2" android:popupKeyboard="@xml/popup_template" android:popupCharacters="²₂" />
 		<Key android:codes="51" android:keyLabel="3" android:popupKeyboard="@xml/popup_template" android:popupCharacters="³₃" />
@@ -22,7 +22,7 @@
 		<Key android:codes="57" android:keyLabel="9" android:popupKeyboard="@xml/popup_template" android:popupCharacters="⁹₉" />
 		<Key android:codes="48" android:keyLabel="0" android:popupKeyboard="@xml/popup_template" android:popupCharacters="⁰₀" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="33" android:keyLabel="!" android:popupKeyboard="@xml/popup_template" android:popupCharacters="¡ʘ|ǀǂǁʭ∅" />
 		<Key android:codes="64" android:keyLabel="\@" android:popupKeyboard="@xml/popup_template" android:popupCharacters="©®" />
 		<Key android:codes="35" android:keyLabel="\#" android:popupKeyboard="@xml/popup_template" android:popupCharacters="~" />
@@ -34,7 +34,7 @@
 		<Key android:codes="40" android:keyLabel="(" android:popupKeyboard="@xml/popup_template" android:popupCharacters="{[&lt;≤⟨⟪⁽₍‹«`" />
 		<Key android:codes="41" android:keyLabel=")" android:popupKeyboard="@xml/popup_template" android:popupCharacters="}]&gt;≥⟩⟫⁾₎›»´" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="8709" android:keyLabel="∅" android:popupKeyboard="@xml/popup_template" android:popupCharacters="!¡ʘ|ǀǂǁʭ" />
 		<Key android:codes="9676" android:keyLabel="◌" android:popupKeyboard="@xml/popup_template" android:popupCharacters="◌̪̂̌̄̍̃̊•" />
 		<Key android:codes="34" android:keyLabel="&quot;" android:popupKeyboard="@xml/popup_template" android:popupCharacters="&lt;" />

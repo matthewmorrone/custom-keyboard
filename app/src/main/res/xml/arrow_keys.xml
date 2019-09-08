@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:horizontalGap="0px" android:verticalGap="0px" android:keyHeight="@string/height">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:horizontalGap="0px" android:verticalGap="0px" android:keyHeight="7px">
 	<Row android:keyWidth="25%">
 		<Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
 		<Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />

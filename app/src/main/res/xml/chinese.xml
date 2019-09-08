@@ -1,4 +1,4 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="8%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p">
 	<!--
 	android:keyTextSize="22sp"
 	android:labelTextSize="22sp"

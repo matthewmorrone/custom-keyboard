@@ -1,4 +1,4 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="8%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p">
 	<Row android:keyWidth="12.5%">
 		<!-- ⇧ ⊞ ⌘ ⌥ ↹ ↵ ← → ↑ ↓ ⇞ ⟲ ↖ ↘ ⇥ -->
 		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />
@@ -10,7 +10,7 @@
 		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
 		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="5792" android:keyLabel="ᚠ" android:popupCharacters="ᚡ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5794" android:keyLabel="ᚢ" android:popupCharacters="ᚣᚤᚥ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5798" android:keyLabel="ᚦ" android:popupCharacters="ᚧ" android:popupKeyboard="@xml/popup_template" />
@@ -22,7 +22,7 @@
 		<Key android:codes="5818" android:keyLabel="ᚺ" android:popupCharacters="ᚻᚼᚽ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5822" android:keyLabel="ᚾ" android:popupCharacters="ᚿᛀ" android:popupKeyboard="@xml/popup_template" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="5825" android:keyLabel="ᛁ" android:popupCharacters="ᛂ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5827" android:keyLabel="ᛃ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5828" android:keyLabel="ᛄ" android:popupCharacters="ᛅᛆᛇ" android:popupKeyboard="@xml/popup_template" />
@@ -34,7 +34,7 @@
 		<Key android:codes="5847" android:keyLabel="ᛗ" android:popupCharacters="ᛘᛙ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5850" android:keyLabel="ᛚ" android:popupCharacters="ᛛ" android:popupKeyboard="@xml/popup_template" />
 	</Row>
-	<Row android:keyHeight="10.667%p">
+	<Row android:keyHeight="9.333%p">
 		<Key android:codes="5853" android:keyLabel="ᛝ" android:popupCharacters="ᛜ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5855" android:keyLabel="ᛞ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5856" android:keyLabel="ᛟ" android:popupCharacters="ᛠᛡ" android:popupKeyboard="@xml/popup_template" />

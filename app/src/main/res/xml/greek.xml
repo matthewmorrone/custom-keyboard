@@ -1,4 +1,4 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="8%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p">
 	<Row android:keyWidth="12.5%">
 		<!-- ⇧ ⊞ ⌘ ⌥ ↹ ↵ ← → ↑ ↓ ⇞ ⟲ ↖ ↘ ⇥ -->
 		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />

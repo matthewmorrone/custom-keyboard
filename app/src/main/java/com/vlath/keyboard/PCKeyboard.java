@@ -72,9 +72,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
-        }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
         }
@@ -102,6 +99,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
         }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
+        }
         layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
     }
 
@@ -117,7 +120,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public void prevKeyboard() {
         currentKeyboardID--;
-        if (currentKeyboardID < 0) currentKeyboardID = layouts.size()-1;
+        if (currentKeyboardID < 0) currentKeyboardID = layouts.size()-2;
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
@@ -126,7 +129,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
     public void nextKeyboard() {
         currentKeyboardID++;
-        if (currentKeyboardID > layouts.size()-1) currentKeyboardID = 0;
+        if (currentKeyboardID > layouts.size()-2) currentKeyboardID = 0;
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
@@ -197,7 +200,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             currentKeyboard = layouts.get(currentKeyboardID);
         }
         else {
-            
             setLatinKeyboard(layouts.get(0));
             currentKeyboard = layouts.get(0);
         }
@@ -217,7 +219,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-
         return mCandidateView;
     }
 
@@ -265,9 +266,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         // kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
-
-
-
     }
 
     @Override
@@ -287,6 +285,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
 
+        // if (Variables.isSelecting()) {
+        //    toastIt(Variables.cursorStart+" "+oldSelStart+" "+oldSelEnd+" "+newSelStart+" "+newSelEnd);
+        // }
+        
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             mComposing.setLength(0);
             updateCandidates();
@@ -836,13 +838,25 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public String setKeyboardLayout(int newKeyboardID) {
-		if (newKeyboardID < layouts.size()){
-			currentKeyboardID = newKeyboardID;
-			currentKeyboard = layouts.get(currentKeyboardID);
-			kv.setKeyboard(currentKeyboard);
-		}
-		return currentKeyboard.name;
-	}
+		      if (newKeyboardID < layouts.size()) {
+            currentKeyboardID = newKeyboardID;
+            currentKeyboard = layouts.get(currentKeyboardID);
+            kv.setKeyboard(currentKeyboard);
+	       }
+	       return currentKeyboard.name;
+	   }
+
+    public void setSelection() {
+        int a = Variables.cursorStart;
+        int b = Variables.cursorEnd;
+        int min = Math.min(a, b);
+        int max = Math.max(a, b);
+        toastIt(min+" "+max);
+        if (Variables.isSelecting()) {
+            toastIt(Variables.cursorStart+" "+Variables.cursorEnd);
+        }
+        getCurrentInputConnection().setSelection(min, max);
+    }
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
@@ -858,19 +872,20 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 System.out.println(hexBuffer);
                 kv.draw(new Canvas());
             }
-            if (primaryCode == -2001) { kv.draw(new Canvas()); }
+            if (primaryCode == -2001) { 
+                kv.draw(new Canvas()); 
+            }
             if (primaryCode == -2002) {
                 handleCharacter((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
                 kv.draw(new Canvas());
             }
 
-			if (primaryCode == -2003) {
-				performReplace(convertFromUnicodeToNumber(getText(ic)));
-			}
-			if (primaryCode == -2004) {
-				performReplace(convertFromNumberToUnicode(getText(ic)));
-			}
-
+			         if (primaryCode == -2003) {
+				            performReplace(convertFromUnicodeToNumber(getText(ic)));
+		          }
+			         if (primaryCode == -2004) {
+			             performReplace(convertFromNumberToUnicode(getText(ic)));
+            }
 
             if (primaryCode == -2005) {
                 if (hexBuffer.length() > 0) { hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1); }
@@ -903,14 +918,58 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -19: sendKeyUpDown(KeyEvent.KEYCODE_MENU); break;
             case -20: sendKeyUpDown(KeyEvent.KEYCODE_NOTIFICATION); break;
             case -21: sendKeyUpDown(KeyEvent.KEYCODE_SEARCH); break;
-            case -22: sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP); break;
-            case -23: sendKeyUpDown(KeyEvent.KEYCODE_PAGE_DOWN); break;
-            case -25: sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME); break;
-            case -26: sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END); break;
-            case -108: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT); break;
-            case -111: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -107: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP); break;
-            case -109: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN); break;
+
+case -22: 
+sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP); 
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -23: 
+sendKeyUpDown(KeyEvent.KEYCODE_PAGE_DOWN);
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -25: 
+sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -26: 
+sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END);
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -108: 
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT); 
+// if (Variables.isSelecting() == true) {
+// Variables.cursorEnd--;
+// setSelection();
+// }
+break;
+case -111: 
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_RIGHT); 
+// if (Variables.isSelecting() == true) {
+// Variables.cursorEnd++;
+// setSelection();
+// }
+break;
+case -107: 
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP); 
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -109: 
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN); 
+// if (Variables.isSelecting() == true) {setSelection(Variables.cursorStart, getSelectionStart());}
+break;
+case -509:
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP_LEFT); 
+break;
+case -510:
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP_RIGHT); 
+break;
+case -511:
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN_LEFT); 
+break;
+case -512:
+sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN_RIGHT); 
+break;
+
             case -24: sendKeyUpDown(KeyEvent.KEYCODE_BUTTON_START); break;
             case -27: sendKeyUpDown(KeyEvent.KEYCODE_SETTINGS); break;
             case -28: sendKeyUpDown(KeyEvent.KEYCODE_APP_SWITCH); break;
@@ -943,15 +1002,26 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -55: performReplace(convertNumberBase(getText(ic), 16, 10)); break;
             case -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
             case -57: Variables.toggleIsSmallcaps(); break;
-			case -58: toastIt(setKeyboardLayout(0)); break;
-			case -59: toastIt(setKeyboardLayout(1)); break;
-			case -60: toastIt(setKeyboardLayout(2)); break;
-			case -61: toastIt(setKeyboardLayout(3)); break;
-			case -62: toastIt(setKeyboardLayout(4)); break;
-			case -63: toastIt(setKeyboardLayout(5)); break;
-			case -64: toastIt(setKeyboardLayout(6)); break;
-			case -65: toastIt(setKeyboardLayout(7)); break;
-			case -66: toastIt(setKeyboardLayout(8)); break;
+            case -58: toastIt(setKeyboardLayout(0)); break;
+	           case -59: toastIt(setKeyboardLayout(1)); break;
+            case -60: toastIt(setKeyboardLayout(2)); break;
+            case -61: toastIt(setKeyboardLayout(3)); break;
+            case -62: toastIt(setKeyboardLayout(4)); break;
+            case -63: toastIt(setKeyboardLayout(5)); break;
+            case -64: toastIt(setKeyboardLayout(6)); break;
+            case -65: toastIt(setKeyboardLayout(7)); break;
+            case -66: toastIt(setKeyboardLayout(8)); break;
+case -67: 
+Variables.toggleSelecting();
+if (Variables.isSelecting()) {
+Variables.cursorStart = getSelectionStart();
+Variables.cursorEnd = getSelectionStart();
+}
+else {
+Variables.cursorStart = -1;
+Variables.cursorEnd = -1;
+}
+break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;

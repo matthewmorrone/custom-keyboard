@@ -1,12 +1,18 @@
 package com.vlath.keyboard;
 
 public class Variables {
+
+  public static int cursorStart = -1;
+  public static int cursorEnd = -1;
+  public static boolean IS_SELECTING = false;
+  public static boolean isSelecting() {return IS_SELECTING;}
+  public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
+
   public static boolean IS_CTRL  = false;
   public static boolean IS_ALT   = false;
   public static boolean IS_SHIFT = false;
   public static boolean IS_BOLD = false;
   public static boolean IS_ITALIC = false;
-  public static boolean IS_SELECTING = false;
   public static boolean IS_REFLECTED = false;
   public static boolean IS_SMALLCAPS = false;
   public static boolean IS_119808 = false;
@@ -75,9 +81,7 @@ public class Variables {
     IS_120432 = false;
   }
 
-  public static boolean isSelecting() {return IS_SELECTING;}
-  public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
-
+  
   public static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
   public static boolean isCtrl() {return IS_CTRL;}
   public static boolean isAlt() {return IS_ALT;}
