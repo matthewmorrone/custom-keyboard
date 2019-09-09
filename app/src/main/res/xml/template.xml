@@ -19,12 +19,18 @@
 		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
 		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
 	</Row>
-	<Row></Row>
-	<Row></Row>
 	<Row>
-		<Key android:codes="" android:keyLabel="" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" /> <!-- ᵃₐ -->
+		<Key android:codes="" android:keyLabel="" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 	</Row>
-	<Row></Row>
+	<Row>
+
+	</Row>
+	<Row>
+
+	</Row>
+	<Row>
+
+	</Row>
 	<Row>
 		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
 		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />

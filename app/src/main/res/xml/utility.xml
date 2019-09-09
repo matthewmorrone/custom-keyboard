@@ -1,5 +1,5 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p" android:keyHeight="7%p">
-	<Row android:keyWidth="12.5%">
+	<Row>
 		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />
 		<Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down" android:isRepeatable="true" />
 		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left" android:isRepeatable="true" />
@@ -22,12 +22,12 @@
 	<Row>
 		<Key android:keyOutputText="lol" android:keyLabel="lol" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:keyOutputText="brb" android:keyLabel="brb" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="😁" android:keyLabel="😁" android:popupCharacters="😂🤣😃😄😅😆" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="😋" android:keyLabel="😋" android:popupCharacters="😛😜😝🤑🤪" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="😘" android:keyLabel="😘" android:popupCharacters="😍🥰😗😙😚☺️🤗" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🤔" android:keyLabel="🤔" android:popupCharacters="🤨😐😑😶🙄" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="😏" android:keyLabel="😏" android:popupCharacters="😎🤓🙃😇🤭" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🤯" android:keyLabel="🤯" android:popupCharacters="😬🤥🤫🧐🤐😴" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="true" android:keyLabel="true" />
+		<Key android:keyOutputText="false" android:keyLabel="false" />
+		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()" android:popupCharacters="😍🥰😗😙😚☺️🤗" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters="🤨😐😑😶🙄" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters="😎🤓🙃😇🤭" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters="😬🤥🤫🧐🤐😴" android:popupKeyboard="@xml/popup_template" />
 	</Row>
 	<Row>
 		<Key android:keyOutputText="🤤" android:keyLabel="🤤" android:popupCharacters="🥵😌😳😇😈" android:popupKeyboard="@xml/popup_template" />

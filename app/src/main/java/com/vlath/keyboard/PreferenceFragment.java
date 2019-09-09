@@ -50,13 +50,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     listTheme = (ListPreference)findPreference("theme");
     listTheme.setSummary(listTheme.getEntry());
 
-    k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
-    k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
-    k3.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k3", ""));
-    k4.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k4", ""));
-    k5.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k5", ""));
-    k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
-    k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
-    k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
+    System.out.println(sharedPreferences+" "+s);
+
+    try {
+
+      k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
+      k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
+      k3.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k3", ""));
+      k4.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k4", ""));
+      k5.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k5", ""));
+      k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
+      k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
+      k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
+    }
+    catch (NullPointerException e) {
+      System.out.println(e);
+      e.printStackTrace();
+    }
   }
 }

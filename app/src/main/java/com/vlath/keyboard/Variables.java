@@ -8,13 +8,6 @@ public class Variables {
   public static boolean isSelecting() {return IS_SELECTING;}
   public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
 
-  public static boolean IS_CTRL  = false;
-  public static boolean IS_ALT   = false;
-  public static boolean IS_SHIFT = false;
-  public static boolean IS_BOLD = false;
-  public static boolean IS_ITALIC = false;
-  public static boolean IS_REFLECTED = false;
-  public static boolean IS_SMALLCAPS = false;
   public static boolean IS_119808 = false;
   public static boolean IS_119860 = false;
   public static boolean IS_119912 = false;
@@ -28,6 +21,19 @@ public class Variables {
   public static boolean IS_120328 = false;
   public static boolean IS_120380 = false;
   public static boolean IS_120432 = false;
+  public static boolean IS_127280 = false;
+  public static boolean IS_127312 = false;
+  public static boolean IS_127344 = false;
+  public static boolean IS_127462 = false;
+  public static boolean IS_9372 = false;
+  public static boolean IS_9398 = false;
+  public static boolean IS_ALT   = false;
+  public static boolean IS_BOLD = false;
+  public static boolean IS_CTRL  = false;
+  public static boolean IS_ITALIC = false;
+  public static boolean IS_REFLECTED = false;
+  public static boolean IS_SHIFT = false;
+  public static boolean IS_SMALLCAPS = false;
 
   public static boolean is119808() {return IS_119808;}
   public static boolean is119860() {return IS_119860;}
@@ -42,6 +48,12 @@ public class Variables {
   public static boolean is120328() {return IS_120328;}
   public static boolean is120380() {return IS_120380;}
   public static boolean is120432() {return IS_120432;}
+  public static boolean is127280() {return IS_127280;}
+  public static boolean is127312() {return IS_127312;}
+  public static boolean is127344() {return IS_127344;}
+  public static boolean is127462() {return IS_127462;}
+  public static boolean is9372() {return IS_9372;}
+  public static boolean is9398() {return IS_9398;}
   public static boolean isReflected() {return IS_REFLECTED;}
   public static boolean isSmallcaps() {return IS_SMALLCAPS;}
 
@@ -59,13 +71,15 @@ public class Variables {
     IS_120328 = false;
     IS_120380 = false;
     IS_120432 = false;
+    IS_127280 = false;
+    IS_127312 = false;
+    IS_127344 = false;
+    IS_127462 = false;
+    IS_9372 = false;
+    IS_9398 = false;
   }
 
   public static void setAllOff() {
-    IS_BOLD = false;
-    IS_ITALIC = false;
-    IS_REFLECTED = false;
-    IS_SMALLCAPS = false;
     IS_119808 = false;
     IS_119860 = false;
     IS_119912 = false;
@@ -79,9 +93,18 @@ public class Variables {
     IS_120328 = false;
     IS_120380 = false;
     IS_120432 = false;
+    IS_127280 = false;
+    IS_127312 = false;
+    IS_127344 = false;
+    IS_127462 = false;
+    IS_9372 = false;
+    IS_9398 = false;
+    IS_BOLD = false;
+    IS_ITALIC = false;
+    IS_REFLECTED = false;
+    IS_SMALLCAPS = false;
   }
 
-  
   public static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
   public static boolean isCtrl() {return IS_CTRL;}
   public static boolean isAlt() {return IS_ALT;}
@@ -97,14 +120,6 @@ public class Variables {
   public static void setBoldOff() {IS_BOLD = false;}
   public static void setItalicOff() {IS_ITALIC = false;}
 
-  public static void toggleIsBold() {setFontsOff(); IS_BOLD = !IS_BOLD;}
-  public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
-
-  public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
-  public static void toggleIsSmallcaps() {IS_SMALLCAPS = !IS_SMALLCAPS;}
-
-
-
   public static void toggle119808() {setAllOff(); IS_119808 = !IS_119808;}
   public static void toggle119860() {setAllOff(); IS_119860 = !IS_119860;}
   public static void toggle119912() {setAllOff(); IS_119912 = !IS_119912;}
@@ -118,6 +133,16 @@ public class Variables {
   public static void toggle120328() {setAllOff(); IS_120328 = !IS_120328;}
   public static void toggle120380() {setAllOff(); IS_120380 = !IS_120380;}
   public static void toggle120432() {setAllOff(); IS_120432 = !IS_120432;}
+  public static void toggle127280() {setAllOff(); IS_127280 = !IS_127280;}
+  public static void toggle127312() {setAllOff(); IS_127312 = !IS_127312;}
+  public static void toggle127344() {setAllOff(); IS_127344 = !IS_127344;}
+  public static void toggle127462() {setAllOff(); IS_127462 = !IS_127462;}
+  public static void toggle9372() {setAllOff(); IS_9372 = !IS_9372;}
+  public static void toggle9398() {setAllOff(); IS_9398 = !IS_9398;}
+  public static void toggleIsBold() {setFontsOff(); IS_BOLD = !IS_BOLD;}
+  public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
+  public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
+  public static void toggleIsSmallcaps() {IS_SMALLCAPS = !IS_SMALLCAPS;}
 }
 
 

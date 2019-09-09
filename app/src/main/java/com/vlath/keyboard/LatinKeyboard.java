@@ -85,6 +85,8 @@ public class LatinKeyboard extends Keyboard {
     getNearestKeys(0, 0); //somehow adding this fixed a weird bug where bottom row keys could not be pressed if keyboard height is too tall.. from the Keyboard source code seems like calling this will recalculate some values used in keypress detection calculation
   }
 
+
+
   @Override
   public int getHeight() {
     return getKeyHeight() * rowNumber;

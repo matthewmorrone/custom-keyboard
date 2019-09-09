@@ -37,4 +37,12 @@
 		<Key android:codes="57" android:keyLabel="9" android:popupKeyboard="@xml/popup_template" android:popupCharacters="([{〈⁽₍⁹₉" />
 		<Key android:codes="48" android:keyLabel="0" android:popupKeyboard="@xml/popup_template" android:popupCharacters=")]}〉⁾₎⁰₀" />
 	</Row>
+	<Row>
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
+		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
+		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
+		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;" />
+		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" android:isRepeatable="true" />
+		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" android:isRepeatable="true" />
+	</Row>
 </Keyboard>
