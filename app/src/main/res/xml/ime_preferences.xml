@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<com.skydoves.colorpickerpreference.ColorPickerPreference-->
+    <!--    android:key="primary_color"-->
+    <!--    android:title="Primary Color"-->
+    <!--    android:preference_dialog_title="Primary Color"-->
+    <!--    android:preference_dialog_positive="✓✔"-->
+    <!--    android:preference_dialog_negative="✗✘"-->
+    <!--    android:preference_palette="@drawable/palette"-->
+    <!--    android:preference_selector="@drawable/wheel"-->
+    <!--    android:default_color="@color/colorPrimary"-->
+    <!--    />-->
     <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="true" />
     <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />

@@ -5,10 +5,10 @@
 		<Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down" android:isRepeatable="true" />
 		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left" android:isRepeatable="true" />
 		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
-		<Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
-		<Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />
-		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
-		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
+		<Key android:codes="-8"   android:keyIcon="@drawable/ic_menu_select" />
+		<Key android:codes="-9"   android:keyIcon="@drawable/ic_menu_cut" />
+		<Key android:codes="-10"  android:keyIcon="@drawable/ic_menu_copy" />
+		<Key android:codes="-11"  android:keyIcon="@drawable/ic_menu_paste" />
 	</Row>
 	<Row>
 		<Key android:codes="49" android:keyLabel="1" android:popupCharacters="ϥϣϧ" android:popupKeyboard="@xml/popup_template" />
@@ -23,7 +23,7 @@
 		<Key android:codes="48" android:keyLabel="0" android:popupCharacters="ⳟⳣ" android:popupKeyboard="@xml/popup_template" />
 	</Row>
 	<Row>
-		<Key android:codes="59" android:keyLabel=";" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="59"  android:keyLabel=";" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="962" android:keyLabel="ς" android:popupCharacters="ⲋϛϸϻϲͻͼͽ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C2: "ς" GREEK SMALL LETTER FINAL SIGMA -->
 		<Key android:codes="949" android:keyLabel="ε" android:popupCharacters="ⲉϵ϶" android:popupKeyboard="@xml/popup_template" /> <!-- U+03B5: "ε" GREEK SMALL LETTER EPSILON -->
 		<Key android:codes="961" android:keyLabel="ρ" android:popupCharacters="ⲣⳁϼⳁ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C1: "ρ" GREEK SMALL LETTER RHO -->
@@ -35,7 +35,7 @@
 		<Key android:codes="960" android:keyLabel="π" android:popupCharacters="ⲡϖ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C0: "π" GREEK SMALL LETTER PI -->
 	</Row>
 	<Row>
-		<Key android:codes="58" android:keyLabel=":" />
+		<Key android:codes="58"  android:keyLabel=":" />
 		<Key android:codes="945" android:keyLabel="α" android:popupCharacters="ⲁ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03B1: "α" GREEK SMALL LETTER ALPHA -->
 		<Key android:codes="963" android:keyLabel="σ" android:popupCharacters="ⲥς" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C3: "σ" GREEK SMALL LETTER SIGMA -->
 		<Key android:codes="948" android:keyLabel="δ" android:popupCharacters="ⲇⳝ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03B4: "δ" GREEK SMALL LETTER DELTA -->
@@ -47,7 +47,7 @@
 		<Key android:codes="955" android:keyLabel="λ" android:popupCharacters="ⲗⳑⳗ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03BB: "λ" GREEK SMALL LETTER LAMDA -->
 	</Row>
 	<Row>
-		<Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
+		<Key android:codes="-1"  android:keyIcon="@drawable/ic_shift" />
 		<Key android:codes="950" android:keyLabel="ζ" android:popupCharacters="ⲍ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03B6: "ζ" GREEK SMALL LETTER ZETA -->
 		<Key android:codes="967" android:keyLabel="χ" android:popupCharacters="ⲭ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C7: "χ" GREEK SMALL LETTER CHI -->
 		<Key android:codes="968" android:keyLabel="ψ" android:popupCharacters="ⲯ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03C8: "ψ" GREEK SMALL LETTER PSI -->
@@ -55,15 +55,15 @@
 		<Key android:codes="946" android:keyLabel="β" android:popupCharacters="ϐⲃ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03B2: "β" GREEK SMALL LETTER BETA -->
 		<Key android:codes="957" android:keyLabel="ν" android:popupCharacters="ⲛ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03BD: "ν" GREEK SMALL LETTER NU -->
 		<Key android:codes="956" android:keyLabel="μ" android:popupCharacters="ⲙ" android:popupKeyboard="@xml/popup_template" /> <!-- U+03BC: "μ" GREEK SMALL LETTER MU -->
-		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
-		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
+		<Key android:codes="-5"  android:keyLabel="⌫" android:isRepeatable="true" />
+		<Key android:codes="-7"  android:keyLabel="⌦" android:isRepeatable="true" />
 	</Row>
 	<Row>
 		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
 		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
 		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;" />
-		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
+		<Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;" />
+		<Key android:codes="9"    android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
+		<Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
 	</Row>
 </Keyboard>

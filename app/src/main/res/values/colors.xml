@@ -15,6 +15,7 @@
 	<color name="white">#FFFFFF</color>
 	<color name="gray">#424242</color>
 	<color name="gray_dark">#212121</color>
+ 	<color name="color_default">#FFFFFF</color>
 	<color name="text">#FFFFFFFF</color>
 	<color name="transparent">#00000000</color>
 	<color name="candidate_normal">#FF000000</color>

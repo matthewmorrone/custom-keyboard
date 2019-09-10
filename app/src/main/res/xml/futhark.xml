@@ -34,7 +34,7 @@
 		<Key android:codes="5847" android:keyLabel="ᛗ" android:popupCharacters="ᛘᛙ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5850" android:keyLabel="ᛚ" android:popupCharacters="ᛛ" android:popupKeyboard="@xml/popup_template" />
 	</Row>
-	<Row android:keyHeight="9.34%p">
+	<Row android:keyHeight="9.33%p">
 		<Key android:codes="5853" android:keyLabel="ᛝ" android:popupCharacters="ᛜ" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5855" android:keyLabel="ᛞ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="5856" android:keyLabel="ᛟ" android:popupCharacters="ᛠᛡ" android:popupKeyboard="@xml/popup_template" />
