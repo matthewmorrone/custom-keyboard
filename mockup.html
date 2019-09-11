@@ -3,10 +3,10 @@
     <title>Custom Keyboard Mockup</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/fontawesome.css"></link>
-    <link src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css"></link>
-    <link src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.5.0/build.css"></link>
-    <link src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/fontawesome.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.5.0/build.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <script src="https://kit.fontawesome.com/af4b8c98dd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/js/all.js"></script>
 
@@ -90,6 +90,8 @@
     /* [contenteditable]:hover:after {
         content: url( {{ place your icon or data URI here }} );
     } */
+
+
     </style>
     <script>
     function setCaretToEnd(target) {
@@ -259,88 +261,91 @@
             }
         })
     })
+
+
     </script>
 </head>
 <body>
 
-    <div class='keyboard'>
-        <div class='row'>
-            <div class='output' contenteditable=true></div>
-        </div>
-        <div class='row'>
-            <div class='key function up'     label='↑'  width='1.25' icon="ic_light_arrow_up"></div>
-            <div class='key function down'   label='↓'  width='1.25' icon="ic_light_arrow_down"></div>
-            <div class='key function left'   label='←'  width='1.25' icon="ic_light_arrow_left"></div>
-            <div class='key function right'  label='→'  width='1.25' icon="ic_light_arrow_right"></div>
-            <div class='key function select' label='^a' width='1.25' icon="ic_clipboard_select_light"></div>
-            <div class='key function cut'    label='^x' width='1.25' icon='ic_clipboard_cut_light'></div>
-            <div class='key function copy'   label='^c' width='1.25' icon="ic_clipboard_copy_light"></div>
-            <div class='key function paste'  label='^v' width='1.25' icon="ic_clipboard_paste_light"></div>
-        </div>
-        <div class='row'>
-            <div class='key' value="1" shift="!"></div>
-            <div class='key' value="2" shift="@"></div>
-            <div class='key' value="3" shift="#"></div>
-            <div class='key' value="4" shift="$"></div>
-            <div class='key' value="5" shift="%"></div>
-            <div class='key' value="6" shift="^"></div>
-            <div class='key' value="7" shift="&"></div>
-            <div class='key' value="8" shift="*"></div>
-            <div class='key' value="9" shift="("></div>
-            <div class='key' value="0" shift=")"></div>
-        </div>
-        <div class='row'>
-            <div class='key' value="q"></div>
-            <div class='key' value="w"></div>
-            <div class='key' value="e"></div>
-            <div class='key' value="r"></div>
-            <div class='key' value="t"></div>
-            <div class='key' value="y"></div>
-            <div class='key' value="u"></div>
-            <div class='key' value="i"></div>
-            <div class='key' value="o"></div>
-            <div class='key' value="p"></div>
-        </div>
-        <div class='row'>
-            <div class='key' value='a'></div>
-            <div class='key' value='s'></div>
-            <div class='key' value='d'></div>
-            <div class='key' value='f'></div>
-            <div class='key' value='g'></div>
-            <div class='key' value='h'></div>
-            <div class='key' value='j'></div>
-            <div class='key' value='k'></div>
-            <div class='key' value='l'></div>
-            <div class='key' value=';' shift=":"></div>
-        </div>
-        <div class='row'>
-            <div class='key function shift' label="⇧" icon="ic_shift"></div>
-            <div class='key' value="z"></div>
-            <div class='key' value="x"></div>
-            <div class='key' value="c"></div>
-            <div class='key' value="v"></div>
-            <div class='key' value="b"></div>
-            <div class='key' value="n"></div>
-            <div class='key' value="m"></div>
-            <div class='key function backspace' label="⌫" icon="ic_backspace"></div>
-            <div class='key function delete'    label="⌦" icon="ic_delete"></div>
-        </div>
-        <div class='row'>
-            <div class='key function prev' label="&lt;&lt;" icon="ic_double_arrow_left"></div>
-            <div class='key function next' label="&gt;&gt;" icon="ic_double_arrow_right"></div>
-            <div class='key function' icon='ic_microphone_black_shape'></div>
-            <div class='key space' width="4" value=" " label="⌴" icon='ic_space_bar'></div>
-            <div class='key function settings' icon='ic_cog_wheel_silhouette'></div>
-            <div class='key function enter' width="2" value="&lt;br&gt;" label="↲" icon="ic_subdirectory_arrow_left"></div>
-        </div>
+<div class='keyboard'>
+    <div class='row'>
+        <div class='output' contenteditable=true></div>
     </div>
-    <div class='key' icon='ic_keyboard'></div>
-    <div class='key' icon='ic_keyboard_hide'></div>
-    <div class='key' icon='ic_file'></div>
-    <div class='key' icon='ic_file_copy'></div>
-    <div class='key' icon='ic_delete_sweep'></div>
-    <div class='key' icon='ic_copy'></div>
-    
-
+    <div class='row'>
+        <div class='key function up' label='↑' width='1.25' icon="ic_light_arrow_up"></div>
+        <div class='key function down' label='↓' width='1.25' icon="ic_light_arrow_down"></div>
+        <div class='key function left' label='←' width='1.25' icon="ic_light_arrow_left"></div>
+        <div class='key function right' label='→' width='1.25' icon="ic_light_arrow_right"></div>
+        <div class='key function select' label='^a' width='1.25'
+             icon="ic_clipboard_select_light"></div>
+        <div class='key function cut' label='^x' width='1.25' icon='ic_clipboard_cut_light'></div>
+        <div class='key function copy' label='^c' width='1.25' icon="ic_clipboard_copy_light"></div>
+        <div class='key function paste' label='^v' width='1.25'
+             icon="ic_clipboard_paste_light"></div>
+    </div>
+    <div class='row'>
+        <div class='key' value="1" shift="!"></div>
+        <div class='key' value="2" shift="@"></div>
+        <div class='key' value="3" shift="#"></div>
+        <div class='key' value="4" shift="$"></div>
+        <div class='key' value="5" shift="%"></div>
+        <div class='key' value="6" shift="^"></div>
+        <div class='key' value="7" shift="&"></div>
+        <div class='key' value="8" shift="*"></div>
+        <div class='key' value="9" shift="("></div>
+        <div class='key' value="0" shift=")"></div>
+    </div>
+    <div class='row'>
+        <div class='key' value="q"></div>
+        <div class='key' value="w"></div>
+        <div class='key' value="e"></div>
+        <div class='key' value="r"></div>
+        <div class='key' value="t"></div>
+        <div class='key' value="y"></div>
+        <div class='key' value="u"></div>
+        <div class='key' value="i"></div>
+        <div class='key' value="o"></div>
+        <div class='key' value="p"></div>
+    </div>
+    <div class='row'>
+        <div class='key' value='a'></div>
+        <div class='key' value='s'></div>
+        <div class='key' value='d'></div>
+        <div class='key' value='f'></div>
+        <div class='key' value='g'></div>
+        <div class='key' value='h'></div>
+        <div class='key' value='j'></div>
+        <div class='key' value='k'></div>
+        <div class='key' value='l'></div>
+        <div class='key' value=';' shift=":"></div>
+    </div>
+    <div class='row'>
+        <div class='key function shift' label="⇧" icon="ic_shift"></div>
+        <div class='key' value="z"></div>
+        <div class='key' value="x"></div>
+        <div class='key' value="c"></div>
+        <div class='key' value="v"></div>
+        <div class='key' value="b"></div>
+        <div class='key' value="n"></div>
+        <div class='key' value="m"></div>
+        <div class='key function backspace' label="⌫" icon="ic_backspace"></div>
+        <div class='key function delete' label="⌦" icon="ic_delete"></div>
+    </div>
+    <div class='row'>
+        <div class='key function prev' label="&lt;&lt;" icon="ic_double_arrow_left"></div>
+        <div class='key function next' label="&gt;&gt;" icon="ic_double_arrow_right"></div>
+        <div class='key function' icon='ic_microphone_black_shape'></div>
+        <div class='key space' width="4" value=" " label="⌴" icon='ic_space_bar'></div>
+        <div class='key function settings' icon='ic_cog_wheel_silhouette'></div>
+        <div class='key function enter' width="2" value="&lt;br&gt;" label="↲"
+             icon="ic_subdirectory_arrow_left"></div>
+    </div>
+</div>
+<div class='key' icon='ic_keyboard'></div>
+<div class='key' icon='ic_keyboard_hide'></div>
+<div class='key' icon='ic_file'></div>
+<div class='key' icon='ic_file_copy'></div>
+<div class='key' icon='ic_delete_sweep'></div>
+<div class='key' icon='ic_copy'></div>
 </body>
 </html>

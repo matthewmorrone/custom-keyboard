@@ -52,6 +52,9 @@ Features
 + change shift, (select, )bold and italic keys to reflect status  
 + height and width changes on layout change
 + animations
++ debug mode: tons of toasts, selection indices
++ unicode input from exhaustive table
++ if cursor start and end are not equal, delete does backspace
 
 
 planned settings outline

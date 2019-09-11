@@ -18,10 +18,7 @@ public class CandidateView extends View {
 
 	private static final int OUT_OF_BOUNDS = -1;
 
-	private PCKeyboard mService;
 	private List<String> mSuggestions;
-	private int mSelectedIndex;
-	private int mTouchX = OUT_OF_BOUNDS;
 	private Drawable mSelectionHighlight;
 	private boolean mTypedWordValid;
 
@@ -35,8 +32,6 @@ public class CandidateView extends View {
 
 	private static final int X_GAP = 60;
 
-	private static final List<String> EMPTY_LIST = new ArrayList<String>();
-
 	private int mColorNormal;
 	private int mColorRecommended;
 	private int mColorOther;
@@ -46,8 +41,6 @@ public class CandidateView extends View {
 	private int mTargetScrollX;
 
 	private int mTotalWidth;
-
-	private GestureDetector mGestureDetector;
 
 	public CandidateView(Context context) {
 		super(context);
@@ -69,32 +62,10 @@ public class CandidateView extends View {
 		mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
 		mPaint.setStrokeWidth(5);
 
-		mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
-			@Override
-			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-				mScrolled = true;
-				int sx = getScrollX();
-				sx += distanceX;
-				if (sx < 0) {
-					sx = 0;
-				}
-				if (sx + getWidth() > mTotalWidth) {
-					sx -= distanceX;
-				}
-				mTargetScrollX = sx;
-				scrollTo(sx, getScrollY());
-				invalidate();
-				return true;
-			}
-		});
 		setHorizontalFadingEdgeEnabled(true);
 		setWillNotDraw(false);
 		setHorizontalScrollBarEnabled(false);
 		setVerticalScrollBarEnabled(false);
-	}
-
-	public void setService(PCKeyboard listener) {
-		mService = listener;
 	}
 
 	@Override
@@ -105,14 +76,9 @@ public class CandidateView extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int measuredWidth = resolveSize(50, widthMeasureSpec);
-
-		// Get the desired height of the icon menu view (last row of items does
-		// not have a divider below)
 		Rect padding = new Rect();
 		mSelectionHighlight.getPadding(padding);
 		final int desiredHeight = ((int) mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
-
-		// Maximum possible width and desired height
 		setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
 	}
 
@@ -137,7 +103,7 @@ public class CandidateView extends View {
 		final int height = getHeight();
 		final Rect bgPadding = mBgPadding;
 		final Paint paint = mPaint;
-		final int touchX = mTouchX;
+		final int touchX = OUT_OF_BOUNDS;
 		final int scrollX = getScrollX();
 		final boolean scrolled = mScrolled;
 		final boolean typedWordValid = mTypedWordValid;
@@ -158,7 +124,6 @@ public class CandidateView extends View {
 					mSelectionHighlight.draw(canvas);
 					canvas.translate(-x, 0);
 				}
-				mSelectedIndex = i;
 			}
 
 			if (canvas != null) {
@@ -202,70 +167,8 @@ public class CandidateView extends View {
 		invalidate();
 	}
 
-	public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-		clear();
-		if (suggestions != null) {
-			mSuggestions = new ArrayList<String>(suggestions);
-		}
-		mTypedWordValid = typedWordValid;
-		scrollTo(0, 0);
-		mTargetScrollX = 0;
-		// Compute the total width
-		draw(new Canvas());
-		invalidate();
-		requestLayout();
-	}
-
-	public void clear() {
-		mSuggestions = EMPTY_LIST;
-		mTouchX = OUT_OF_BOUNDS;
-		mSelectedIndex = -1;
-		invalidate();
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
-
-		if (mGestureDetector.onTouchEvent(me)) {
-			return true;
-		}
-
-		int action = me.getAction();
-		int x = (int) me.getX();
-		int y = (int) me.getY();
-		mTouchX = x;
-
-		switch (action) {
-			case MotionEvent.ACTION_DOWN:
-				mScrolled = false;
-				invalidate();
-				break;
-			case MotionEvent.ACTION_MOVE:
-				if (y <= 0) {
-					// Fling up!?
-					if (mSelectedIndex >= 0) {
-						mService.pickSuggestionManually(mSelectedIndex);
-						mSelectedIndex = -1;
-					}
-				}
-				invalidate();
-				break;
-			case MotionEvent.ACTION_UP:
-				if (!mScrolled) {
-					if (mSelectedIndex >= 0) {
-						mService.pickSuggestionManually(mSelectedIndex);
-					}
-				}
-				mSelectedIndex = -1;
-				removeHighlight();
-				requestLayout();
-				break;
-		}
-		return true;
-	}
-
-	private void removeHighlight() {
-		mTouchX = OUT_OF_BOUNDS;
-		invalidate();
+		return super.onTouchEvent(me);
 	}
 }

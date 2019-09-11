@@ -1,9 +1,14 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p" android:keyHeight="7%p">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p"
+          android:keyHeight="7%p">
 	<Row>
-		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />
-		<Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down" android:isRepeatable="true" />
-		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left" android:isRepeatable="true" />
-		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
+		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"
+		     android:isRepeatable="true" />
+		<Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"
+		     android:isRepeatable="true" />
+		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"
+		     android:isRepeatable="true" />
+		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right"
+		     android:isRepeatable="true" />
 		<Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
 		<Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />
 		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
@@ -20,41 +25,65 @@
 		<Key android:keyOutputText="driving" android:keyLabel="🚗" />
 	</Row>
 	<Row>
-		<Key android:keyOutputText="lol" android:keyLabel="lol" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="brb" android:keyLabel="brb" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="lol" android:keyLabel="lol" android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText="brb" android:keyLabel="brb" android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
 		<Key android:keyOutputText="true" android:keyLabel="true" />
 		<Key android:keyOutputText="false" android:keyLabel="false" />
-		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()"
+		     android:popupCharacters="" android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
 	</Row>
 	<Row>
-  <Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText="." android:keyLabel="." android:popupCharacters="@string/popup1"
+		     android:popupKeyboard="@xml/popup" />
 	</Row>
 	<Row>
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters=""
+		     android:popupKeyboard="@xml/popup" />
 		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
 		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
 	</Row>
 	<Row>
-		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
-		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"
+		     android:keyWidth="10%p" />
+		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right"
+		     android:keyWidth="10%p" />
 		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;" />
+		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"
+		     android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup" />
 		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
+		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"
+		     android:keyWidth="20%p" />
 	</Row>
 </Keyboard>
