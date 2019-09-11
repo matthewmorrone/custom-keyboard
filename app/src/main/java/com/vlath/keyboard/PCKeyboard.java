@@ -872,6 +872,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
+    public String splitWithSpaces(String str) {
+        return str.replaceAll("(.)", "$1 ");
+    }
+
+    public String joinWithSpaces(String str) {
+        return str.replaceAll(" ", "");
+    }
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
@@ -1029,6 +1036,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -71: Variables.toggle127462(); break;
             case -72: Variables.toggle9372(); break;
             case -73: Variables.toggle9398(); break;
+            case -74: performReplace(splitWithSpaces(getText(ic))); break;
+            case -75: performReplace(joinWithSpaces(getText(ic))); break;
+            
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;

@@ -36,7 +36,7 @@
 		<Key android:codes="52" android:keyLabel="4" android:popupKeyboard="@xml/popup_template" android:popupCharacters="$¢" />
 		<Key android:codes="53" android:keyLabel="5" android:popupKeyboard="@xml/popup_template" android:popupCharacters="%" />
 		<Key android:codes="54" android:keyLabel="6" android:popupKeyboard="@xml/popup_template" android:popupCharacters="^→←↑↓" />
-		<Key android:codes="55" android:keyLabel="7" android:popupKeyboard="@xml/popup_template" android:popupCharacters="&amp;ꝤꝬꝫ" />
+		<Key android:codes="55" android:keyLabel="7" android:popupKeyboard="@xml/popup_template" android:popupCharacters="&amp;+≠≈" />
 		<Key android:codes="56" android:keyLabel="8" android:popupKeyboard="@xml/popup_template" android:popupCharacters="*=∞" />
 		<Key android:codes="57" android:keyLabel="9" android:popupKeyboard="@xml/popup_template" android:popupCharacters="([{&lt;" />
 		<Key android:codes="48" android:keyLabel="0" android:popupKeyboard="@xml/popup_template" android:popupCharacters=")]}&gt;" />

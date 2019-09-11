@@ -24,28 +24,28 @@
 		<Key android:keyOutputText="brb" android:keyLabel="brb" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:keyOutputText="true" android:keyLabel="true" />
 		<Key android:keyOutputText="false" android:keyLabel="false" />
-		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()" android:popupCharacters="😍🥰😗😙😚☺️🤗" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters="🤨😐😑😶🙄" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters="😎🤓🙃😇🤭" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters="😬🤥🤫🧐🤐😴" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 	</Row>
 	<Row>
-		<Key android:keyOutputText="🤤" android:keyLabel="🤤" android:popupCharacters="🥵😌😳😇😈" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🐵" android:keyLabel="🐵" android:popupCharacters="🐒🙈🙉🙊" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🕵️‍♂️" android:keyLabel="🕵️‍♂️" android:popupCharacters="👨‍⚖👨‍🌾👨‍🍳👨‍🔧👨‍🏭👨‍🔬👨‍💻👨‍🎨👨‍✈️👨‍🚀👨‍🚒👮‍♂️🦸‍♂️" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🦸‍♂️" android:keyLabel="🦸‍♂️" android:popupCharacters="🦹‍♂️🧙‍♂️🧚‍♂️🧛‍♂️🧜‍♂️🧝‍♂️🧞‍♂️🧟‍♂️" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🤷‍♂️" android:keyLabel="🤷‍♂️" android:popupCharacters="🙋‍♂️🙅‍♂️🙇‍♂️🙆‍♂️🙎‍♂️" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="👍" android:keyLabel="👍" android:popupCharacters="👎💪👉☝️🖕✌🤞🖖🤙👌👊👋👏🙏🤝" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🧠" android:keyLabel="🧠" android:popupCharacters="👂👃👣👀👁🦴🦷👅👄" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🐙" android:keyLabel="🐙" android:popupCharacters="🐕🐅🐎🐄🐖🐑🐫🐘🐀🐓🐉🦖🐳🐋🐬🐜🐝🦗🕷" android:popupKeyboard="@xml/popup_template" />
+  <Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 	</Row>
 	<Row>
-		<Key android:keyOutputText="🧸" android:keyLabel="🧸" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="⚡" android:keyLabel="⚡" android:popupCharacters="☀️🌙⭐🌪🌀☄🔥💧⛄" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="☁️" android:keyLabel="☁️" android:popupCharacters="🌡☂️⛅⛈🌤🌥🌦🌧🌨🌩" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="⚙" android:keyLabel="⚙" android:popupCharacters="📏🔩🔗🔭🔬📎📋🗓🔎" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="➡️" android:keyLabel="➡️" android:popupCharacters="⬆️⬅️⬇️↕️↔️↩🔄♾🆒️💯" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="🏳️‍🌈" android:keyLabel="🏳️‍🌈" android:popupCharacters="🏳🇦🇶🇦🇺🚹📵🚫" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+		<Key android:keyOutputText=" " android:keyLabel=" " android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
 		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
 		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
 	</Row>

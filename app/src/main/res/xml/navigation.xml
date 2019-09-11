@@ -29,7 +29,27 @@
 		<Key android:codes="-511" android:keyIcon="@drawable/ic_light_arrow_down_left" android:isRepeatable="true" />
 		<Key android:codes="-512" android:keyIcon="@drawable/ic_light_arrow_down_right" android:isRepeatable="true" />
 	</Row>
-	<Row>
+	    <Row>
+        <Key android:codes="-75" android:keyLabel=" " />
+        <Key android:codes="-76" android:keyLabel=" " />
+        <Key android:codes="-77" android:keyLabel=" " />
+        <Key android:codes="-78" android:keyLabel=" " />
+        <Key android:codes="-79" android:keyLabel=" " />
+        <Key android:codes="-80" android:keyLabel=" " />
+        <Key android:codes="-81" android:keyLabel=" " />
+        <Key android:codes="-82" android:keyLabel=" " />
+    </Row>
+    <Row>
+        <Key android:codes="-75" android:keyLabel=" " />
+        <Key android:codes="-76" android:keyLabel=" " />
+        <Key android:codes="-77" android:keyLabel=" " />
+        <Key android:codes="-78" android:keyLabel=" " />
+        <Key android:codes="-79" android:keyLabel=" " />
+        <Key android:codes="-80" android:keyLabel=" " />
+        <Key android:codes="-81" android:keyLabel=" " />
+        <Key android:codes="-82" android:keyLabel=" " />
+    </Row>
+	<!--<Row>
 		<Key android:codes="-1" android:keyLabel=" " />
 		<Key android:codes="-1" android:keyLabel=" " />
 		<Key android:codes="-1" android:keyLabel=" " />
@@ -38,17 +58,7 @@
 		<Key android:codes="-1" android:keyLabel=" " />
 		<Key android:codes="-1" android:keyLabel=" " />
 		<Key android:codes="-1" android:keyLabel=" " />
-	</Row>
-	<Row>
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-		<Key android:codes="-1" android:keyLabel=" " />
-	</Row>
+	</Row>-->
 	<Row>
 		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
 		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />

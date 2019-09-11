@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p" android:keyHeight="7%p">
-    <Row android:keyWidth="12.5%">
+    <Row>
         <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up" android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down" android:isRepeatable="true" />
         <Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left" android:isRepeatable="true" />
@@ -17,12 +17,13 @@
         <Key android:codes="-26" android:keyIcon="@drawable/ic_fast_forward_arrows" />
         <!--<Key android:codes="-48" android:keyLabel="\\n" />-->
         <Key android:codes="-49" android:keyLabel="J→" />
-        <Key android:codes="-67" android:keyLabel="&lt;S&gt;" />
+        <!--<Key android:codes="-67" android:keyLabel="&lt;S&gt;" />-->
+        <Key android:codes="-74" android:keyLabel="(.)_" />
         <Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
         <Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
     </Row>
     <Row>
-        <Key android:codes="-999" android:keyIcon="@drawable/ic_delete_sweep" />
+        <Key android:codes="-999"  android:keyIcon="@drawable/ic_delete_sweep" />
         <Key android:codes="-1000" android:keyLabel="AA" />
         <Key android:codes="-1001" android:keyLabel="Aa" />
         <Key android:codes="-1002" android:keyLabel="aa" />
