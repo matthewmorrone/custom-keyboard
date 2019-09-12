@@ -9,13 +9,13 @@
         Then, navigate back and click the select buttonbelow and choose Custom Keyboard from the list.
         After that you can test thekeyboard using the text field below.
         To open the settings, tap the button below and click on Custom Keyboard.
-    </string>
+ </string>
 	<string name="donate"></string>
 	<string name="up"></string>
 	<string name="follow"></string>
 	<string name="version" translatable="false">Version 1.0.0</string>
 	<string name="caps">Auto capitalization</string>
-	<string name="vib">Vibrate on key press</string>
+	<string name="vib">Vibration</string>
 	<string name="borders">Key borders</string>
 	<string name="prediction" translatable="false">Enable text prediction</string>
 	<string name="welcome_desc" translatable="false">Enjoy a full-fledged PC keyboard on your android device</string>
@@ -46,27 +46,9 @@
 		<item name="7">Orange - White</item>
 		<item name="8">Dark - White</item>
 	</string-array>
-	<string-array name="start">
-		<item name="1">Standard</item>
-		<item name="2">Programming</item>
-		<item name="3">Arrow Keys</item>
-	</string-array>
-
-	<string-array name="start_values">
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-	</string-array>
-	<string-array name="layout">
-		<item name="1">QWERTY (en-us)</item>
-		<item name="2">AZERTY (fr-fr)</item>
-		<item name="3">QWERTZ (de-de)</item>
-	</string-array>
-	<string-array name="layout_values">
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-	</string-array>
+ <string name="debug">Debug</string>
+	<string name="popup1">,?!;:\'\u0022/\\</string>
+	<string name="popup2">-_…\u0009</string>
 	<string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
 	<string name="k1"></string>
 	<string name="k2"></string>
@@ -76,5 +58,8 @@
 	<string name="k6"></string>
 	<string name="k7"></string>
 	<string name="k8"></string>
-	<string name="height">8%p</string>
+	<string name="editText">Test your keyboard here</string>
+	<string name="settings">Settings</string>
+	<string name="select">Select</string>
+	<string name="enable">Enable</string>
 </resources>

@@ -26,23 +26,23 @@
 		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
 	</Row>
 	<Row>
-		<Key android:codes="49" android:keyLabel="1" android:popupKeyboard="@xml/popup_template" android:popupCharacters="!¡¬¹₁" />
-		<Key android:codes="50" android:keyLabel="2" android:popupKeyboard="@xml/popup_template" android:popupCharacters="\@²₂" />
-		<Key android:codes="51" android:keyLabel="3" android:popupKeyboard="@xml/popup_template" android:popupCharacters="#³₃" />
-		<Key android:codes="52" android:keyLabel="4" android:popupKeyboard="@xml/popup_template" android:popupCharacters="$¢⁴₄" />
-		<Key android:codes="53" android:keyLabel="5" android:popupKeyboard="@xml/popup_template" android:popupCharacters="%⁵₅" />
-		<Key android:codes="54" android:keyLabel="6" android:popupKeyboard="@xml/popup_template" android:popupCharacters="^→←↑↓⁶₆" />
-		<Key android:codes="55" android:keyLabel="7" android:popupKeyboard="@xml/popup_template" android:popupCharacters="&amp;ꝤꝬꝫ⁷₇" />
-		<Key android:codes="56" android:keyLabel="8" android:popupKeyboard="@xml/popup_template" android:popupCharacters="*⁸₈" />
-		<Key android:codes="57" android:keyLabel="9" android:popupKeyboard="@xml/popup_template" android:popupCharacters="([{〈⁽₍⁹₉" />
-		<Key android:codes="48" android:keyLabel="0" android:popupKeyboard="@xml/popup_template" android:popupCharacters=")]}〉⁾₎⁰₀" />
+		<Key android:codes="49" android:keyLabel="1" android:popupCharacters="!¡¬¹₁" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="50" android:keyLabel="2" android:popupCharacters="\@²₂" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="51" android:keyLabel="3" android:popupCharacters="#³₃" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="52" android:keyLabel="4" android:popupCharacters="$¢⁴₄" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="53" android:keyLabel="5" android:popupCharacters="%⁵₅" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="54" android:keyLabel="6" android:popupCharacters="^→←↑↓⁶₆" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="55" android:keyLabel="7" android:popupCharacters="&amp;ꝤꝬꝫ⁷₇" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="56" android:keyLabel="8" android:popupCharacters="*⁸₈" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="57" android:keyLabel="9" android:popupCharacters="([{〈⁽₍⁹₉" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="48" android:keyLabel="0" android:popupCharacters=")]}〉⁾₎⁰₀" android:popupKeyboard="@xml/popup_template" />
 	</Row>
 	<Row>
-		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
 		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
-		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_template" android:popupCharacters="-_…&#x00009;" />
-		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" android:isRepeatable="true" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" android:isRepeatable="true" />
+		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
+		<Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar"          android:keyWidth="40%p" android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="9"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:isRepeatable="true" />
+		<Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return"    android:keyWidth="20%p" android:isRepeatable="true" />
 	</Row>
 </Keyboard>

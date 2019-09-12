@@ -77,46 +77,52 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public Toast toast;
 
     public void populateLayouts() {
-        layouts.clear();
-            layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.greek, "Greek"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", false) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", false) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true) == true) {
-            layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
-        }
-        layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
-    }
+		layouts.clear();
+		layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.greek, "Greek"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("cyrillic", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.cyrillic, "Cyrillic"));
+		}
+  if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("coptic", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.coptic, "Coptic"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
+		}
+		layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
+	}
 
     public void toastIt(String text) {
         toast.cancel();
@@ -131,7 +137,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-        toastIt(currentKeyboard.name+" "+currentKeyboardID);
+if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+toastIt(currentKeyboard.name+" "+currentKeyboardID);
+}
+        
     }
     public void nextKeyboard() {
         populateLayouts();
@@ -140,7 +149,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-        toastIt(currentKeyboard.name+" "+currentKeyboardID);
+if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+toastIt(currentKeyboard.name+" "+currentKeyboardID);
+}
+        
     }
 
     @Override
@@ -159,20 +171,20 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     
         populateLayouts();
 
-
+        for (Keyboard.Key key : layouts.get(0).getKeys()) {
+                // System.out.println(key.codes[0]+"\t"+key.label);
+                if (key.codes[0] <= -400 && key.codes[0] >= -415) {
+                    if (layouts.get(-key.codes[0]-400) != null) {
+                        key.label = layouts.get(-key.codes[0]-400).name;
+                    }   
+                }
+        }
         if (layouts.get(0) != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
                 return;
             }
             mLastDisplayWidth = displayWidth;
-
-            // for (Keyboard.Key key : layouts.get(0).getKeys()) {
-            //     System.out.println(key.codes[0]+"\t"+key.label);
-            //     if (key.codes[0] == 65 || key.codes[0] == 97) {
-            //         key.label = "AAA";
-            //     }
-            // }
         }
 
         if (layouts.get(1) != null) {
@@ -194,6 +206,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 // mFunctionKeyboard.getKeys().
             }
         }
+
+        for(LatinKeyboard layout : layouts) {
+
+        }
+        
     }
 
     @Override
@@ -1021,15 +1038,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -55: performReplace(convertNumberBase(getText(ic), 16, 10)); break;
             case -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
             case -57: Variables.toggleIsSmallcaps(); break;
-            case -58: toastIt(setKeyboardLayout(0)); break;
-            case -59: toastIt(setKeyboardLayout(1)); break;
-            case -60: toastIt(setKeyboardLayout(2)); break;
-            case -61: toastIt(setKeyboardLayout(3)); break;
-            case -62: toastIt(setKeyboardLayout(4)); break;
-            case -63: toastIt(setKeyboardLayout(5)); break;
-            case -64: toastIt(setKeyboardLayout(6)); break;
-            case -65: toastIt(setKeyboardLayout(7)); break;
-            case -66: toastIt(setKeyboardLayout(8)); break;
             case -68: Variables.toggle127280(); break;
             case -69: Variables.toggle127312(); break;
             case -70: Variables.toggle127344(); break;
@@ -1042,6 +1050,40 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;
+            
+case -400: toastIt(setKeyboardLayout(0)); break;
+            case -401: toastIt(setKeyboardLayout(1)); break;
+            case -402: toastIt(setKeyboardLayout(2)); break;
+            case -403: toastIt(setKeyboardLayout(3)); break;
+            case -404: toastIt(setKeyboardLayout(4)); break;
+            case -405: toastIt(setKeyboardLayout(5)); break;
+            case -406: toastIt(setKeyboardLayout(6)); break;
+            case -407: toastIt(setKeyboardLayout(7)); break;
+            case -408: toastIt(setKeyboardLayout(8)); break;
+            case -409:
+				toastIt(setKeyboardLayout(9));
+				break;
+			case -410:
+				toastIt(setKeyboardLayout(10));
+				break;
+			case -411:
+				toastIt(setKeyboardLayout(11));
+				break;
+			case -412:
+				toastIt(setKeyboardLayout(12));
+				break;
+			case -413:
+				toastIt(setKeyboardLayout(13));
+				break;
+			case -414:
+				toastIt(setKeyboardLayout(14));
+				break;
+			case -415:
+				toastIt(setKeyboardLayout(15));
+				break;
+
+
+
             case -501: sendCustomKey("k1"); break;
             case -502: sendCustomKey("k2"); break;
             case -503: sendCustomKey("k3"); break;
