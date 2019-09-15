@@ -5,8 +5,9 @@ public class Variables {
   public static int cursorStart = -1;
   public static int cursorEnd = -1;
   public static boolean IS_SELECTING = false;
-  public static boolean isSelecting() {return IS_SELECTING;}
+  public static boolean isSelecting() {return IS_SELECTING || IS_SHIFT;}
   public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
+  public static void setSelectingOff() {IS_SELECTING = false;}
 
   public static boolean IS_119808 = false;
   public static boolean IS_119860 = false;
@@ -27,7 +28,7 @@ public class Variables {
   public static boolean IS_127462 = false;
   public static boolean IS_9372 = false;
   public static boolean IS_9398 = false;
-  public static boolean IS_ALT   = false;
+  public static boolean IS_ALT = false;
   public static boolean IS_BOLD = false;
   public static boolean IS_CTRL  = false;
   public static boolean IS_ITALIC = false;

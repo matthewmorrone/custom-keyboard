@@ -67,8 +67,8 @@
 	</Row>
 	<Row>
 <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
-<Key android:codes="11405" android:keyLabel="̀ⲍ" android:popupCharacters="̀ⳅ" android:popupKeyboard="@xml/popup" />
-<Key android:codes="11421" android:keyLabel="̅ⲝ" android:popupCharacters="ⲷ" android:popupKeyboard="@xml/popup" />
+<Key android:codes="11405" android:keyLabel="ⲍ" android:popupCharacters="̀ⳅ" android:popupKeyboard="@xml/popup" />
+<Key android:codes="11421" android:keyLabel="ⲝ" android:popupCharacters="̅ⲷ" android:popupKeyboard="@xml/popup" />
 <Key android:codes="11437" android:keyLabel="ⲭ" android:popupCharacters="" android:popupKeyboard="@xml/popup" />
 <Key android:codes="11441" android:keyLabel="ⲱ" android:popupCharacters="⳥ⲿ" android:popupKeyboard="@xml/popup" />
 <Key android:codes="11395" android:keyLabel="ⲃ" android:popupCharacters="" android:popupKeyboard="@xml/popup" />

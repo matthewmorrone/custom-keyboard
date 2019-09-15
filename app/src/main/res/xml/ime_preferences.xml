@@ -27,9 +27,10 @@
 		<CheckBoxPreference android:key="hex" android:title="Hexadecimal"
 			android:defaultValue="true" />
 		<CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
+  <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="true" />
 		<CheckBoxPreference android:key="nav" android:title="Navigation"
 			android:defaultValue="true" />
-		<CheckBoxPreference android:key="util" android:title="Utility"
+		<CheckBoxPreference android:key="utility" android:title="Utility"
 			android:defaultValue="true" />
 		<CheckBoxPreference android:key="unicode" android:title="Unicode"
 			android:defaultValue="true" />

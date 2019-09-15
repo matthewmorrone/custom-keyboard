@@ -21,7 +21,8 @@
 		<Key android:codes="-25" android:keyIcon="@drawable/ic_rewind_arrows" />
 		<Key android:codes="-26" android:keyIcon="@drawable/ic_fast_forward_arrows" />
 		<!--<Key android:codes="-48" android:keyLabel="\\n" />-->
-		<Key android:codes="-49" android:keyLabel="J→" />
+		<!--<Key android:codes="-49" android:keyLabel="J→" />-->
+		<Key android:codes="-67" android:keyIcon="@drawable/ic_clipboard_fine_select_light" />
 		<!--<Key android:codes="-67" android:keyLabel="&lt;S&gt;" />-->
 		<Key android:codes="-74" android:keyLabel="(.)_" />
 		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />

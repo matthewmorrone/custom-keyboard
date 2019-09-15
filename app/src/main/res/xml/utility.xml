@@ -25,9 +25,9 @@
 		<Key android:keyOutputText="o_0" android:keyLabel="o_0" />
 	</Row>
 	<Row>
-		<Key android:keyOutputText="lol" android:keyLabel="lol" android:popupCharacters=""
+		<Key android:keyOutputText="&lt;!--" android:keyLabel="&lt;!--" android:popupCharacters=""
 		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="brb" android:keyLabel="brb" android:popupCharacters=""
+		<Key android:keyOutputText="--&gt;" android:keyLabel="--&gt;" android:popupCharacters=""
 		     android:popupKeyboard="@xml/popup_template" />
 		<Key android:keyOutputText="true" android:keyLabel="true" />
 		<Key android:keyOutputText="false" android:keyLabel="false" />

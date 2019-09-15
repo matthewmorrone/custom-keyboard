@@ -76,17 +76,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public Toast toast;
 
+// create arrays for layouts
+
     public void populateLayouts() {
-		layouts.clear();
-		layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
+		 layouts.clear();
+	  	layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
-		}
-		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
-			layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
-		}
-		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
-			layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
 		}
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
@@ -103,14 +99,23 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
   if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("coptic", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.coptic, "Coptic"));
 		}
-		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
-			layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
-		}
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
 		}
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
+		}
+  if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("morse", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.morse, "Morse"));
+		}
+  if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
+		}
+		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
+		}
+  if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
+			layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
 		}
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
@@ -121,7 +126,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 		if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
 			layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
 		}
-		layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
+	  	layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
 	}
 
     public void toastIt(String text) {
@@ -137,7 +142,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", true)) {
 toastIt(currentKeyboard.name+" "+currentKeyboardID);
 }
         
@@ -149,7 +154,7 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
         System.out.println(currentKeyboardID);
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", true)) {
 toastIt(currentKeyboard.name+" "+currentKeyboardID);
 }
         
@@ -171,7 +176,7 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
     
         populateLayouts();
 
-        for (Keyboard.Key key : layouts.get(0).getKeys()) {
+        for (Keyboard.Key key : layouts.get(layouts.size()-1).getKeys()) {
                 // System.out.println(key.codes[0]+"\t"+key.label);
                 if (key.codes[0] <= -400 && key.codes[0] >= -415) {
                     if (layouts.get(-key.codes[0]-400) != null) {
@@ -185,6 +190,9 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
                 return;
             }
             mLastDisplayWidth = displayWidth;
+for (Keyboard.Key key : layouts.get(0).getKeys()) {
+key.popupCharacters = key.label+" "+key.popupCharacters;
+}
         }
 
         if (layouts.get(1) != null) {
@@ -228,6 +236,7 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
             setLatinKeyboard(layouts.get(0));
             currentKeyboard = layouts.get(0);
         }
+        
         return mInputView;
     }
 
@@ -292,6 +301,8 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
         // kv.getLatinKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
+
+        
     }
 
     @Override
@@ -429,12 +440,12 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
 
     @Override
     public void swipeLeft() {
-        prevKeyboard();
+        nextKeyboard();
     }
 
     @Override
     public void swipeRight() {
-        nextKeyboard();
+        prevKeyboard();
     }
 
     @Override
@@ -509,27 +520,41 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
 
 
     public void handleBackspace() {
+        InputConnection ic = getCurrentInputConnection();
         final int length = mComposing.length();
         if (length > 1) {
             mComposing.delete(length - 1, length);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
+            ic.setComposingText(mComposing, 1);
             updateCandidates();
         }
         else if (length > 0) {
             mComposing.setLength(0);
-            getCurrentInputConnection().commitText("", 0);
+            ic.commitText("", 0);
             updateCandidates();
         }
         else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 67));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   67));
+            sendKeyUpDown(67);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
+    public void handleDelete() {
+        InputConnection ic = getCurrentInputConnection();
+        try {
+            if (getSelectionLength() > 0) {
+                sendKeyUpDown(67);
+            }
+            else {
+                ic.deleteSurroundingText(0, 1); 
+            }
+        }
+        catch (Exception ignored) {}
+    }
+
+
     public void handleCharacter(int primaryCode) {
         primaryCode = Codes.handleCharacter(kv, primaryCode);
-        // isGreek
+        
         if (isInputViewShown()) {
             if (kv.isShifted()) primaryCode = Character.toUpperCase(primaryCode);
         }
@@ -550,27 +575,12 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
             setCapsOn(false);
         }
         if (!mPredictionOn) {
-            // char code = (char) primaryCode;
-            // if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-            //     code = Character.toUpperCase(code);
-            // }
             getCurrentInputConnection().setComposingRegion(0, 0);
             getCurrentInputConnection().commitText(String.valueOf(Character.toChars(primaryCode)), 1);
             firstCaps = false;
             setCapsOn(false);
         }
     }
-
-    // public void checkToggleCapsLock() {
-    //     long now = System.currentTimeMillis();
-    //     if (mLastShiftTime + 800 > now) {
-    //         mCapsLock = !mCapsLock;
-    //         mLastShiftTime = 0;
-    //     }
-    //     else {
-    //         mLastShiftTime = now;
-    //     }
-    // }
 
     public boolean isWordSeparator(String s) {
         return s.contains(". ") || s.contains("? ") || s.contains("! ");
@@ -641,11 +651,6 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
             kv.invalidateAllKeys();
         }
     }
-
-    // public void toggleCapsOn() {
-    //     kv.getKeyboard().setShifted(!kv.getKeyboard().isShifted());
-    // }
-
 
     public void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
@@ -897,6 +902,62 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
         return str.replaceAll(" ", "");
     }
 
+    public static String morseBuffer = "";
+
+    public String morseToChar(String buffer) {
+        String result = "";
+        switch (buffer) {
+            case "·":    result = "e"; break;
+            case "-":    result = "t"; break;
+            case "··":   result = "i"; break;
+            case "·-":   result = "a"; break;
+            case "-·":   result = "n"; break;
+            case "--":   result = "m"; break;
+            case "···":  result = "s"; break;
+            case "··-":  result = "u"; break;     
+            case "·-·":  result = "r"; break;
+            case "·--":  result = "w"; break;
+            case "-··":  result = "d"; break;
+            case "-·-":  result = "k"; break;
+            case "--·":  result = "g"; break;
+            case "---":  result = "o"; break;
+            case "····": result = "h"; break;
+            case "···-": result = "v"; break;
+            case "··-·": result = "f"; break;
+            case "··--": result = ""; break;
+            case "·-··": result = "l"; break;
+            case "·-·-": result = ""; break;
+            case "·--·": result = "p"; break;
+            case "·---": result = "j"; break;
+            case "-···": result = "b"; break;
+            case "-··-": result = "x"; break;
+            case "-·-·": result = "c"; break;
+            case "-·--": result = "y"; break;
+            case "--··": result = "z"; break;
+            case "--·-": result = "q"; break;
+            case "---·": result = ""; break;
+            case "----": result = ""; break;
+            default: break;
+        }
+
+        return result;
+    }
+
+    public void selectAll() {
+        InputConnection ic = getCurrentInputConnection();
+        ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
+    }
+    public void selectNone() {
+        InputConnection ic = getCurrentInputConnection();
+        
+        try {
+int end = getSelectionEnd();
+ic.setSelection(end, end); 
+Variables.setSelectingOff();
+}
+catch (Exception ignored) {}
+    }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
@@ -904,6 +965,20 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
         ic.requestCursorUpdates(3);
         // mInputMethodManager.toggleSoftInput();
         int[] choice49 = {KeyEvent.KEYCODE_MOVE_END, KeyEvent.KEYCODE_FORWARD_DEL};
+
+        if (currentKeyboard.name == "Morse") {
+            if (primaryCode == 45) { 
+                morseBuffer += (char)primaryCode;
+            }
+            if (primaryCode == 183) { 
+                morseBuffer += (char)primaryCode;
+            }
+            if (primaryCode == 32) { 
+                // handleCharacter(convertFromUnicodeToNumber(morseToChar(morseBuffer)));
+                morseBuffer = "";
+            }
+            kv.draw(new Canvas()); 
+        }
 
         if (currentKeyboard.name == "Unicode" && !contains(hexPasses, primaryCode)) {
             System.out.println(currentKeyboard.name+" "+primaryCode);
@@ -920,14 +995,12 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
                 handleCharacter((char)(int)Integer.decode("0x"+StringUtils.leftPad(hexBuffer, 4,"0")));
                 kv.draw(new Canvas());
             }
-
             if (primaryCode == -2003) {
                 performReplace(convertFromUnicodeToNumber(getText(ic)));
             }
             if (primaryCode == -2004) {
                 performReplace(convertFromNumberToUnicode(getText(ic)));
             }
-
             if (primaryCode == -2005) {
                 if (hexBuffer.length() > 0) { hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1); }
                 else { hexBuffer = "0000"; }
@@ -946,7 +1019,7 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
         switch (primaryCode) {
             case  -5: handleBackspace(); break;
             case  -7: ic.deleteSurroundingText(0, 1); break;
-            case  -8: ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()); break;
+            case  -8: selectAll(); break;
             case  -9: sendKeyUpDown(KeyEvent.KEYCODE_CUT); break;
             case -10: sendKeyUpDown(KeyEvent.KEYCODE_COPY); break;
             case -11: sendKeyUpDown(KeyEvent.KEYCODE_PASTE); break;
@@ -959,50 +1032,48 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
             case -19: sendKeyUpDown(KeyEvent.KEYCODE_MENU); break;
             case -20: sendKeyUpDown(KeyEvent.KEYCODE_NOTIFICATION); break;
             case -21: sendKeyUpDown(KeyEvent.KEYCODE_SEARCH); break;
-
             case -67:
-                Variables.toggleSelecting();
-                if (Variables.isSelecting()) {
-                    Variables.cursorStart = getSelectionStart();
-                    Variables.cursorEnd = getSelectionStart();
-                }
-                else {
-                    Variables.cursorStart = -1;
-                    Variables.cursorEnd = -1;
-                }
-                break;
+Variables.toggleSelecting();
+            break;
             case -22:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -23:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_PAGE_DOWN);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -25:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -26:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -108:
-
-                sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT);
-                if (Variables.isSelecting()) {
-                    Variables.cursorEnd--;
-                    setSelection();
-                }
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
+            sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -111:
-                sendKeyUpDown(KeyEvent.KEYCODE_DPAD_RIGHT);
-                if (Variables.isSelecting()) {
-                    Variables.cursorEnd++;
-                    setSelection();
-                }
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
+            sendKeyUpDown(KeyEvent.KEYCODE_DPAD_RIGHT);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -107:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_DPAD_UP);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
             case -109:
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN);
+if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
 
 
@@ -1046,12 +1117,12 @@ toastIt(currentKeyboard.name+" "+currentKeyboardID);
             case -73: Variables.toggle9398(); break;
             case -74: performReplace(splitWithSpaces(getText(ic))); break;
             case -75: performReplace(joinWithSpaces(getText(ic))); break;
-            
+            case -76: selectNone(); break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;
             
-case -400: toastIt(setKeyboardLayout(0)); break;
+            case -400: toastIt(setKeyboardLayout(0)); break;
             case -401: toastIt(setKeyboardLayout(1)); break;
             case -402: toastIt(setKeyboardLayout(2)); break;
             case -403: toastIt(setKeyboardLayout(3)); break;
@@ -1060,8 +1131,7 @@ case -400: toastIt(setKeyboardLayout(0)); break;
             case -406: toastIt(setKeyboardLayout(6)); break;
             case -407: toastIt(setKeyboardLayout(7)); break;
             case -408: toastIt(setKeyboardLayout(8)); break;
-            case -409:
-				toastIt(setKeyboardLayout(9));
+            case -409: 	toastIt(setKeyboardLayout(9));
 				break;
 			case -410:
 				toastIt(setKeyboardLayout(10));
