@@ -951,11 +951,11 @@ key.popupCharacters = key.label+" "+key.popupCharacters;
         InputConnection ic = getCurrentInputConnection();
         
         try {
-int end = getSelectionEnd();
-ic.setSelection(end, end); 
-Variables.setSelectingOff();
-}
-catch (Exception ignored) {}
+            int end = getSelectionEnd();
+            ic.setSelection(end, end); 
+            Variables.setSelectingOff();
+        }
+        catch (Exception ignored) {}
     }
 
     @Override
@@ -1032,9 +1032,7 @@ catch (Exception ignored) {}
             case -19: sendKeyUpDown(KeyEvent.KEYCODE_MENU); break;
             case -20: sendKeyUpDown(KeyEvent.KEYCODE_NOTIFICATION); break;
             case -21: sendKeyUpDown(KeyEvent.KEYCODE_SEARCH); break;
-            case -67:
-Variables.toggleSelecting();
-            break;
+            case -67: Variables.toggleSelecting(); break;
             case -22:
 if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));}
             sendKeyUpDown(KeyEvent.KEYCODE_PAGE_UP);
@@ -1131,26 +1129,13 @@ if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEv
             case -406: toastIt(setKeyboardLayout(6)); break;
             case -407: toastIt(setKeyboardLayout(7)); break;
             case -408: toastIt(setKeyboardLayout(8)); break;
-            case -409: 	toastIt(setKeyboardLayout(9));
-				break;
-			case -410:
-				toastIt(setKeyboardLayout(10));
-				break;
-			case -411:
-				toastIt(setKeyboardLayout(11));
-				break;
-			case -412:
-				toastIt(setKeyboardLayout(12));
-				break;
-			case -413:
-				toastIt(setKeyboardLayout(13));
-				break;
-			case -414:
-				toastIt(setKeyboardLayout(14));
-				break;
-			case -415:
-				toastIt(setKeyboardLayout(15));
-				break;
+            case -409: toastIt(setKeyboardLayout(9)); break;
+			case -410:				toastIt(setKeyboardLayout(10));				break;
+			case -411:				toastIt(setKeyboardLayout(11));				break;
+			case -412:				toastIt(setKeyboardLayout(12));				break;
+			case -413:				toastIt(setKeyboardLayout(13));				break;
+			case -414:				toastIt(setKeyboardLayout(14));				break;
+			case -415: 			toastIt(setKeyboardLayout(15));				break;
 
 
 
