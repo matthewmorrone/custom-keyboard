@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-		<Key android:codes="-25"  android:keyIcon="@drawable/ic_rewind_arrows" />
-		<Key android:codes="-26"  android:keyIcon="@drawable/ic_fast_forward_arrows" />
+		<Key android:codes="-25"  android:keyIcon="@drawable/ic_jump_left" />
+		<Key android:codes="-26"  android:keyIcon="@drawable/ic_jump_right" />
 		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left" android:isRepeatable="true" />
 		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
 		<Key android:codes="-67"  android:keyIcon="@drawable/ic_select" />

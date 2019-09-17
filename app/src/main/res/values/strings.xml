@@ -48,7 +48,7 @@
 	</string-array>
  <string name="debug">Debug</string>
 	<string name="popup1">,?!;:\'\u0022/\\</string>
-	<string name="popup2">-_…\u0009</string>
+	<string name="popup2">-_…\u0009¯</string>
 	<string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
 	<string name="k1"></string>
 	<string name="k2"></string>

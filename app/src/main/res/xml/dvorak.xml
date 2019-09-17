@@ -89,13 +89,11 @@
 		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
 	</Row>
 	<Row>
-		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" />
-		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" />
-		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="50%p"
-		     android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
-		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:isRepeatable="true" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"
-		     android:keyWidth="16.67%p" android:isRepeatable="true" />
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
+		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
+		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
+		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"		     android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
+		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" android:isRepeatable="true" />
+		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"		     android:keyWidth="10%p" android:isRepeatable="true" />
 	</Row>
 </Keyboard>

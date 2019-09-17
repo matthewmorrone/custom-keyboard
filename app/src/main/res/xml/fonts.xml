@@ -40,19 +40,14 @@
 		<Key android:codes="-57" android:keyLabel="ᴀ" />
 		<Key android:codes="-12" android:keyIcon="@drawable/ic_bold_text_option" />
 		<Key android:codes="-13" android:keyIcon="@drawable/ic_italicize_text" />
-		<Key android:codes="-14" android:keyWidth="50%p"
-		     android:keyIcon="@drawable/ic_double_sided_eraser" />
+		<Key android:codes="-14" android:keyWidth="50%p"		     android:keyIcon="@drawable/ic_double_sided_eraser" />
 	</Row>
 	<Row>
-		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"
-		     android:keyWidth="10%p" />
-		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right"
-		     android:keyWidth="10%p" />
+		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"		     android:keyWidth="10%p" />
+		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right"		     android:keyWidth="10%p" />
 		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"
-		     android:popupKeyboard="@xml/popup_template" android:popupCharacters="@string/popup2" />
+		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"		     android:popupKeyboard="@xml/popup_template" android:popupCharacters="@string/popup2" />
 		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"
-		     android:keyWidth="20%p" />
+		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"		     android:keyWidth="20%p" />
 	</Row>
 </Keyboard>
