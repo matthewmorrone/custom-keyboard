@@ -80,38 +80,56 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public Toast toast;
 
     ArrayList<LatinKeyboard> layouts = new ArrayList<>(5);
-    Map<String, Integer> layoutInfo = new HashMap<>(); 
-
+    
     public void populateLayouts() {
-		      layoutInfo.clear();
-        
-        layoutInfo.put("Qwerty", R.xml.qwerty);
-        layoutInfo.put("Qwerty+", R.xml.qwerty_plus);
-        layoutInfo.put("Homerow", R.xml.homerow);
-        layoutInfo.put("Symbol", R.xml.symbol);
-        layoutInfo.put("IPA", R.xml.ipa);
-        layoutInfo.put("Greek", R.xml.greek);
-        layoutInfo.put("Futhark", R.xml.futhark);
-        layoutInfo.put("Cyrillic", R.xml.cyrillic);
-        layoutInfo.put("Coptic", R.xml.coptic);
-        layoutInfo.put("Dvorak", R.xml.dvorak);
-        layoutInfo.put("Tails", R.xml.tails);
-        layoutInfo.put("Numbers", R.xml.numbers);
-        layoutInfo.put("Morse", R.xml.morse);
-        layoutInfo.put("Unicode", R.xml.unicode);
-        layoutInfo.put("Hexadecimal", R.xml.hex);
-        layoutInfo.put("Fonts", R.xml.fonts);
-        layoutInfo.put("Utility", R.xml.utility);
-        layoutInfo.put("Function", R.xml.function);
-        layoutInfo.put("Layouts", R.xml.layouts);
-
-        for(Map.Entry<String, Integer> entry: layoutInfo.entrySet()) {
-            layouts.add(new LatinKeyboard(this, entry.getValue(), entry.getKey()));
+        layouts.clear();
+        layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
         }
-        
-                
-
-        // if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {}
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.greek, "Greek"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("cyrillic", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.cyrillic, "Cyrillic"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("coptic", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.coptic, "Coptic"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("morse", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.morse, "Morse"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
+        }
+        layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
     }
 
     public void toastIt(String text) {
