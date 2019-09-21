@@ -23,7 +23,8 @@ android {
         variant.outputs.all {
             def flavor = variant.name
             def versionName = variant.versionName
-            outputFileName = "custom-keyboard_${flavor}_${versionName}.apk"
+            outputFileName = "custom-keyboard.apk"
+            // outputFileName = "custom-keyboard_${flavor}_${versionName}.apk"
         }
     }
 }
@@ -31,11 +32,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.github.skydoves:colorpickerpreference:1.0.2'
-    implementation 'com.google.android:flexbox:1.1.0'
     implementation 'org.apache.commons:commons-lang3:3.8.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
