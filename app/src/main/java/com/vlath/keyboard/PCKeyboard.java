@@ -33,12 +33,8 @@ import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Collection; 
-import java.util.HashMap; 
-import java.util.Map; 
-import java.util.Set; 
+import java.util.ArrayList;
 
 
 import static android.text.Selection.extendUp;
@@ -51,8 +47,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public CustomKeyboard mInputView;
     public CandidateView mCandidateView;
     public CompletionInfo[] mCompletions;
-
-
 
     public StringBuilder mComposing = new StringBuilder();
     public boolean mPredictionOn;
@@ -268,10 +262,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         mCompletions = null;
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("bord", true)) {
-            kv = (CustomKeyboard) getLayoutInflater().inflate(R.layout.keyboard_key_back, null);
+            kv = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard_key_back, null);
         }
         else {
-            kv = (CustomKeyboard) getLayoutInflater().inflate(R.layout.keyboard, null);
+            kv = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard, null);
         }
         populateLayouts();
         setInputType();
@@ -883,12 +877,35 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    public String splitWithSpaces(String str) {
-        return str.replaceAll("(.)", "$1 ");
+    public String camelToSnake(String str) {
+        return str.replaceAll("([A-Z])", "_$1").toLowerCase();
+    }
+
+    public String snakeToCamel(String str) { 
+        StringBuilder nameBuilder = new StringBuilder(str.length()); 
+        boolean capitalizeNextChar = false; 
+        for (char c:str.toCharArray()) { 
+            if (c == '_') { 
+                capitalizeNextChar = true; 
+                continue;
+            }
+            if (capitalizeNextChar) { 
+                nameBuilder.append(Character.toUpperCase(c)); 
+            }
+            else {
+                nameBuilder.append(c); 
+            }
+            capitalizeNextChar = false; 
+        }
+        return nameBuilder.toString(); 
     }
 
     public String joinWithSpaces(String str) {
-        return str.replaceAll(" ", "");
+        return str.replaceAll("[ 	]", "");
+    }
+
+    public String splitWithSpaces(String str) {
+        return str.replaceAll("(.)", "$1 ");
     }
 
     public static String morseBuffer = "";
@@ -946,6 +963,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         catch (Exception ignored) {}
     }
 
+    public void handleClose() {
+        commitTyped(getCurrentInputConnection());
+        requestHideSelf(0);
+        mInputView.closing();
+    }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
@@ -972,11 +995,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
 
         if (currentKeyboard.name == "Unicode" && !contains(hexPasses, primaryCode)) {
-            System.out.println(currentKeyboard.name+" "+primaryCode);
             if (contains(hexCaptures, primaryCode)) {
                 if (hexBuffer.length() > 3) hexBuffer = "";
                 hexBuffer += (char)primaryCode;
-                System.out.println(hexBuffer);
                 kv.draw(new Canvas());
             }
             if (primaryCode == -2001) { 
@@ -995,12 +1016,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             if (primaryCode == -2005) {
                 if (hexBuffer.length() > 0) { hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1); }
                 else { hexBuffer = "0000"; }
-                System.out.println(hexBuffer);
+                
                 kv.draw(new Canvas());
             }
             if (primaryCode == -2006) {
                 hexBuffer = "0000";
-                System.out.println(hexBuffer);
+                
                 kv.draw(new Canvas());
             }
             kv.draw(new Canvas());
@@ -1064,8 +1085,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 sendKeyUpDown(KeyEvent.KEYCODE_DPAD_DOWN);
                 if (Variables.isSelecting()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
             break;
-
-
             case -24: sendKeyUpDown(KeyEvent.KEYCODE_BUTTON_START); break;
             case -27: sendKeyUpDown(KeyEvent.KEYCODE_SETTINGS); break;
             case -28: sendKeyUpDown(KeyEvent.KEYCODE_APP_SWITCH); break;
@@ -1096,21 +1115,20 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -53: performReplace(convertNumberBase(getText(ic), 8, 10)); break;
             case -54: performReplace(convertNumberBase(getText(ic), 10, 8)); break;
             case -55: performReplace(convertNumberBase(getText(ic), 16, 10)); break;
-            case -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
-            case -57: Variables.toggleIsSmallcaps(); break;
-            case -68: Variables.toggle127280(); break;
-            case -69: Variables.toggle127312(); break;
-            case -70: Variables.toggle127344(); break;
-            case -71: Variables.toggle127462(); break;
-            case -72: Variables.toggle9372(); break;
-            case -73: Variables.toggle9398(); break;
-            case -74: performReplace(splitWithSpaces(getText(ic))); break;
-            case -75: performReplace(joinWithSpaces(getText(ic))); break;
-            case -76: selectNone(); break;
+            case  -56: performReplace(convertNumberBase(getText(ic), 10, 16)); break;
+            case  -57: Variables.toggleIsSmallcaps(); break;
+            case  -68: Variables.toggle127280(); break;
+            case  -69: Variables.toggle127312(); break;
+            case  -70: Variables.toggle127344(); break;
+            case  -71: Variables.toggle127462(); break;
+            case  -72: Variables.toggle9372(); break;
+            case  -73: Variables.toggle9398(); break;
+            case  -74: performReplace(splitWithSpaces(getText(ic))); break;
+            case  -75: performReplace(joinWithSpaces(getText(ic))); break;
+            case  -76: selectNone(); break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -112: sendKeyUpDown(KeyEvent.KEYCODE_ESCAPE); break;
-            
             case -400: toastIt(setKeyboardLayout(0)); break;
             case -401: toastIt(setKeyboardLayout(1)); break;
             case -402: toastIt(setKeyboardLayout(2)); break;
@@ -1147,7 +1165,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -1004: performReplace(underscoresToSpaces(getText(ic))); break;
             case -1005: performReplace(spacesToDashes(getText(ic))); break;
             case -1006: performReplace(spacesToUnderscores(getText(ic))); break;
-            case -1007: performReplace(removeSpaces(getText(ic))); break;
+            case -1007: performReplace(camelToSnake(getText(ic))); break;
+            case -1008: performReplace(snakeToCamel(getText(ic))); break;
+            case -1009: performReplace(removeSpaces(getText(ic))); break;
             case -1:
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
                     String text = ic.getSelectedText(0).toString();
@@ -1190,6 +1210,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
                 break;
             case -2:
+                requestHideSelf(0);
+                break;
+            case -900:
+                handleClose();
                 break;
             case -14:
                 Variables.setBoldOff();
