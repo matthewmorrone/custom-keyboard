@@ -11,7 +11,7 @@ public class LatinKeyboard extends Keyboard {
 
   private Key mEnterKey;
   private Key mSpaceKey;
-  private static short rowNumber = 4;
+  private static short rowNumber = 6;
 
   public String name;
 
@@ -22,7 +22,6 @@ public class LatinKeyboard extends Keyboard {
   private Key mSavedModeChangeKey;
 
   private Key mSavedLanguageSwitchKey;
-
 
   private Key k1;
   private Key k2;
@@ -84,8 +83,6 @@ public class LatinKeyboard extends Keyboard {
     setKeyHeight(height);
     getNearestKeys(0, 0); //somehow adding this fixed a weird bug where bottom row keys could not be pressed if keyboard height is too tall.. from the Keyboard source code seems like calling this will recalculate some values used in keypress detection calculation
   }
-
-
 
   @Override
   public int getHeight() {

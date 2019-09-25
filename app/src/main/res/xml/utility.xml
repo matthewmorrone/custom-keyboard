@@ -1,61 +1,63 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p"          android:keyHeight="7%p">
-	<Row>
-		<Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"		     android:isRepeatable="true" />
-		<Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"		     android:isRepeatable="true" />
-		<Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"		     android:isRepeatable="true" />
-		<Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right"		     android:isRepeatable="true" />
-		<Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
-		<Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />
-		<Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
-		<Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
-	</Row>
-	<Row>
-		<Key android:keyOutputText="\\n" android:keyLabel="\\n" />
-		<Key android:keyOutputText="\\t" android:keyLabel="\\t" />
-		<Key android:keyOutputText="+' '+" android:keyLabel="+' '+" />
-		<Key android:keyOutputText="+&quot; &quot;+" android:keyLabel="+&quot; &quot;+" />
-  <Key android:keyOutputText="//&#32;" android:keyLabel="//&#32;" />
-		<Key android:keyOutputText="¯\\_(ツ)_/¯" android:keyLabel="ツ" />
-		<Key android:keyOutputText="ಠ_ಠ" android:keyLabel="ಠ_ಠ" />
-		<Key android:keyOutputText="o_0" android:keyLabel="o_0" />
-	</Row>
-	<Row>
-		<Key android:keyOutputText="&lt;!--" android:keyLabel="&lt;!--" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="--&gt;" android:keyLabel="--&gt;" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="true" android:keyLabel="true" />
-		<Key android:keyOutputText="false" android:keyLabel="false" />
-		<Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()"		     android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-	</Row>
-	<Row>
-<Key android:keyOutputText="driving" android:keyLabel="🚗" />
-		<Key android:keyOutputText="--" android:keyLabel="--" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="''" android:keyLabel="''" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="&quot;&quot;" android:keyLabel="&quot;&quot;" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="System.out.println();" android:keyLabel="println" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="\\n" android:keyLabel="\\n" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="\\t" android:keyLabel="\\t" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="console.log();" android:keyLabel="log" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="." android:keyLabel="." android:popupCharacters="@string/popup1"		     android:popupKeyboard="@xml/popup_template" />
-	</Row>
-	<Row>
-		<Key android:keyOutputText="()" android:keyLabel="()" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="[]" android:keyLabel="[]" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="{}" android:keyLabel="{}" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="-_-" android:keyLabel="-_-" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="I'" android:keyLabel="I'" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:keyOutputText="'ll" android:keyLabel="'ll" android:popupCharacters=""		     android:popupKeyboard="@xml/popup_template" />
-		<Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
-		<Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
-	</Row>
-	<Row>
-		<Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"		     android:keyWidth="10%p" />
-		<Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right"		     android:keyWidth="10%p" />
-		<Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
-		<Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"		     android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
-		<Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
-		<Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return"		     android:keyWidth="20%p" />
-	</Row>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p"        android:keyHeight="7%p">
+    <Row android:keyWidth="11.111%p">
+        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_chevron_5_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_chevron_5_right" android:isRepeatable="true" />
+        <Key android:codes="-67"  android:keyIcon="@drawable/ic_select" />
+        <!--<Key android:codes="-76"  android:keyIcon="@drawable/ic_remove_button" />-->
+        <Key android:codes="-8"   android:keyIcon="@drawable/ic_menu_select" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_menu_cut" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_menu_copy" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_menu_paste" />
+    </Row>
+    <Row>
+        <Key android:keyOutputText="\\n" android:keyLabel="\\n" />
+        <Key android:keyOutputText="\\t" android:keyLabel="\\t" />
+        <Key android:keyOutputText="+' '+" android:keyLabel="+' '+" />
+        <Key android:keyOutputText="+&quot; &quot;+" android:keyLabel="+&quot; &quot;+" />
+        <Key android:keyOutputText="//&#32;" android:keyLabel="//&#32;" />
+        <Key android:keyOutputText="¯\\_(ツ)_/¯" android:keyLabel="ツ" />
+        <Key android:keyOutputText="ಠ_ಠ" android:keyLabel="ಠ_ಠ" />
+        <Key android:keyOutputText="o_0" android:keyLabel="o_0" />
+    </Row>
+    <Row>
+        <Key android:keyOutputText="&lt;!--" android:keyLabel="&lt;!--" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="--&gt;" android:keyLabel="--&gt;" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="true" android:keyLabel="true" />
+        <Key android:keyOutputText="false" android:keyLabel="false" />
+        <Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()"             android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="if () {}" android:keyLabel="if()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+    </Row>
+    <Row>
+        <Key android:keyOutputText="driving" android:keyLabel="🚗" />
+        <Key android:keyOutputText="--" android:keyLabel="--" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="''" android:keyLabel="''" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="&quot;&quot;" android:keyLabel="&quot;&quot;" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="System.out.println();" android:keyLabel="println" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="\\n" android:keyLabel="\\n" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="\\t" android:keyLabel="\\t" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="console.log();" android:keyLabel="log" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="." android:keyLabel="." android:popupCharacters="@string/popup1"             android:popupKeyboard="@xml/popup_template" />
+    </Row>
+    <Row>
+        <Key android:keyOutputText="()" android:keyLabel="()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="[]" android:keyLabel="[]" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="{}" android:keyLabel="{}" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="    " android:keyLabel="    " android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="I'" android:keyLabel="I'" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="'ll" android:keyLabel="'ll" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
+        <Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
+    </Row>
+    <Row>
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"             android:keyWidth="10%p" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right"             android:keyWidth="10%p" />
+        <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" android:keyWidth="10%p" />
+        <Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p"             android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
+        <Key android:codes="9" android:keyIcon="@drawable/ic_tab" android:keyWidth="10%p" />
+        <Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
+    </Row>
 </Keyboard>

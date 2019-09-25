@@ -27,12 +27,11 @@
 + separate out settings page for layouts and custom keys
 + replace screen for arbitrary
 + reorder layouts from settings
-+ swipe down to close keyboard, or swipe up and down to change row amount 
++ swipe up and down to change row amount 
 + auto insertion of apostrophes for specific contractions
 + auto capitalization of I if /^i / or / i /
 + drag control for keyboard height
 + autocorrect with google
-+ change shift, (select, )bold and italic keys to reflect status  
 + height and width changes on layout change
 + animations
 
