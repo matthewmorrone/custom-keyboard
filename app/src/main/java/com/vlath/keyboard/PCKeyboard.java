@@ -125,6 +125,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
         }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("emoji", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.emoji, "Emoji"));
+        }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
         }
