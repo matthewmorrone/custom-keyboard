@@ -510,6 +510,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
 
     public void handleCharacter(int primaryCode) {
+        InputConnection ic = getCurrentInputConnection();
         primaryCode = Codes.handleCharacter(kv, primaryCode);
         
         if (isInputViewShown()) {
@@ -519,7 +520,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char) primaryCode))) {
             mComposing.append((char) primaryCode);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
+            ic.setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
             updateCandidates();
         }
@@ -528,14 +529,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
                 code = Character.toUpperCase(code);
             }
-            getCurrentInputConnection().setComposingRegion(0, 0);
-            getCurrentInputConnection().commitText(String.valueOf(code), 1);
+            ic.setComposingRegion(0, 0);
+            ic.commitText(String.valueOf(code), 1);
             firstCaps = false;
             setCapsOn(false);
         }
         if (!mPredictionOn) {
-            getCurrentInputConnection().setComposingRegion(0, 0);
-            getCurrentInputConnection().commitText(String.valueOf(Character.toChars(primaryCode)), 1);
+            ic.setComposingRegion(0, 0);
+            ic.commitText(String.valueOf(Character.toChars(primaryCode)), 1);
             firstCaps = false;
             setCapsOn(false);
         }
@@ -546,6 +547,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public void pickSuggestionManually(int index) {
+    	
         if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
             CompletionInfo ci = mCompletions[index];
             getCurrentInputConnection().commitCompletion(ci);
@@ -1072,12 +1074,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -407: toastIt(setKeyboardLayout(7)); break;
             case -408: toastIt(setKeyboardLayout(8)); break;
             case -409: toastIt(setKeyboardLayout(9)); break;
-			         case -410:	toastIt(setKeyboardLayout(10));	break;
-            case -411:		toastIt(setKeyboardLayout(11));	break;
-            case -412:		toastIt(setKeyboardLayout(12));	break;
-            case -413:		toastIt(setKeyboardLayout(13));	break;
-            case -414:		toastIt(setKeyboardLayout(14));	break;
-            case -415: 	toastIt(setKeyboardLayout(15));	break;
+		    case -410: toastIt(setKeyboardLayout(10));	break;
+            case -411: toastIt(setKeyboardLayout(11));	break;
+            case -412: toastIt(setKeyboardLayout(12));	break;
+            case -413: toastIt(setKeyboardLayout(13));	break;
+            case -414: toastIt(setKeyboardLayout(14));	break;
+            case -415: toastIt(setKeyboardLayout(15));	break;
             case -501: sendCustomKey("k1"); break;
             case -502: sendCustomKey("k2"); break;
             case -503: sendCustomKey("k3"); break;

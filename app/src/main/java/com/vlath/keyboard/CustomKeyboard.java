@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 import static com.vlath.keyboard.PCKeyboard.hexBuffer;
+import static com.vlath.keyboard.PCKeyboard.morseBuffer;
 import static com.vlath.keyboard.Variables.isShift;
 import static com.vlath.keyboard.Variables.isSelecting;
 import static com.vlath.keyboard.Variables.isBold;
@@ -144,6 +145,11 @@ public class CustomKeyboard extends KeyboardView {
      dr.draw(canvas); 
     }
    }
+   /*
+   if (key.codes[0] == 32 && morseBuffer.length() > 0) {
+    key.label = morseBuffer;
+   }
+   */
    if (hexBuffer.length() > 0) {
     if (key.codes[0] == -2001) {
      try {

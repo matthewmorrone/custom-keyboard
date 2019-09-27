@@ -29,7 +29,7 @@ android:keyWidth="10%p" android:keyHeight="7%p">
     </Row>
     <Row>
         <Key android:codes="113"  android:keyLabel="q" android:popupCharacters="ɋϙϟҩȹƣ"      android:popupKeyboard="@xml/popup_template" />
-        <Key android:codes="119"  android:keyLabel="w" android:popupCharacters="ɯωƿꚇɰɷʚ"    android:popupKeyboard="@xml/popup_template" />
+        <Key android:codes="119"  android:keyLabel="w" android:popupCharacters="ɯωѡƿꚇɰɷʚ"    android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="101"  android:keyLabel="e" android:popupCharacters="ɛⲉǝҽəᴇɘɜ"      android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="114"  android:keyLabel="r" android:popupCharacters="ρꝛʀʁɾɹ®"       android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="116"  android:keyLabel="t" android:popupCharacters="τθþŧтʇʈꞇԏꚍ"      android:popupKeyboard="@xml/popup_template" />

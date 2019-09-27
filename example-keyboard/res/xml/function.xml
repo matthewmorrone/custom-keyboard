@@ -1,0 +1,22 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+	android:keyWidth="10%p"
+	android:horizontalGap="0px"
+	android:verticalGap="0px"	
+	android:keyHeight="50dp">
+	<Row>
+  	<Key android:codes="-1" android:keyLabel="⇧" />
+		<Key android:codes="-4" android:keyLabel="✓" />
+  <Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
+ </Row>
+	<Row>
+  <Key android:codes="-7" android:keyLabel="Cut" />
+  <Key android:codes="-8" android:keyLabel="Copy" />
+  <Key android:codes="-9" android:keyLabel="Paste" />
+	</Row>
+	<Row>		
+	</Row>
+	<Row>
+	</Row>
+	<Row>
+	</Row>	
+</Keyboard>

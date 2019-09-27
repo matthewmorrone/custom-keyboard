@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<input-method xmlns:android="http://schemas.android.com/apk/res/android">
+<subtype
+android:label=""
+android:imeSubtypeMode="keyboard"
+/>
+</input-method>
+
+<!-- android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable" -->
+<!-- android:label="@string/subtype_en_US" -->
+<!-- android:imeSubtypeLocale="en_US" -->
+
