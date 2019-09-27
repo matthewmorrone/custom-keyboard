@@ -17,9 +17,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
   EditTextPreference k7;
   EditTextPreference k8;
 
-  EditTextPreference p1;
-  EditTextPreference p2;
-
+  EditTextPreference popup1;
+  EditTextPreference popup2;
+  
   @Override
   public void onCreate(Bundle s) {
     super.onCreate(s);
@@ -36,8 +36,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     k7 = (EditTextPreference)findPreference("k7");
     k8 = (EditTextPreference)findPreference("k8");
 
-    p1 = (EditTextPreference)findPreference("popup1");
-    p2 = (EditTextPreference)findPreference("popup2");
+    popup1 = (EditTextPreference)findPreference("popup1");
+    popup2 = (EditTextPreference)findPreference("popup2");
 
     k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
     k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
@@ -47,9 +47,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
     k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
     k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
-
-    p1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
-    p2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
+    
+    popup1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
+    popup2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
 
     PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).registerOnSharedPreferenceChangeListener(this);
   }
@@ -69,9 +69,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
       k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
       k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
       k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
-
-      p1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
-      p2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
+    
+      popup1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
+      popup2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
     }
     catch (NullPointerException ignored) {}
   }

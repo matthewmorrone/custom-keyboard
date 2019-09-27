@@ -5,8 +5,12 @@ public class Variables {
   public static int cursorStart = -1;
   public static int cursorEnd = -1;
   public static boolean IS_SELECTING = false;
-  public static boolean isSelecting() {return IS_SELECTING;}
+  public static boolean isSelecting() {return IS_SELECTING || IS_SHIFT;}
   public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
+  public static void setSelectingOff() {IS_SELECTING = false;}
+  public static void toggleShift() {IS_SHIFT = !IS_SHIFT;}
+  public static boolean isShift() {return IS_SHIFT;}
+
 
   public static boolean IS_119808 = false;
   public static boolean IS_119860 = false;
@@ -27,7 +31,7 @@ public class Variables {
   public static boolean IS_127462 = false;
   public static boolean IS_9372 = false;
   public static boolean IS_9398 = false;
-  public static boolean IS_ALT   = false;
+  public static boolean IS_ALT = false;
   public static boolean IS_BOLD = false;
   public static boolean IS_CTRL  = false;
   public static boolean IS_ITALIC = false;
@@ -105,19 +109,18 @@ public class Variables {
     IS_SMALLCAPS = false;
   }
 
-  public static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
-  public static boolean isCtrl() {return IS_CTRL;}
-  public static boolean isAlt() {return IS_ALT;}
-  public static boolean isShift() {return IS_SHIFT;}
-  public static boolean isBold() {return IS_BOLD;}
+  public static boolean isAnyOn()  {return IS_CTRL || IS_ALT;}
+  public static boolean isCtrl()   {return IS_CTRL;}
+  public static boolean isAlt()    {return IS_ALT;}
+  public static boolean isBold()   {return IS_BOLD;}
   public static boolean isItalic() {return IS_ITALIC;}
-  public static void setCtrlOn() {IS_CTRL = true;}
-  public static void setCtrlOff() {IS_CTRL = false;}
-  public static void setAltOn() {IS_ALT = true;}
-  public static void setAltOff() {IS_ALT = false;}
-  public static void setShiftOn() {IS_SHIFT = true;}
-  public static void setShiftOff() {IS_SHIFT = false;}
-  public static void setBoldOff() {IS_BOLD = false;}
+  public static void setCtrlOn()   {IS_CTRL = true;}
+  public static void setCtrlOff()  {IS_CTRL = false;}
+  public static void setAltOn()    {IS_ALT = true;}
+  public static void setAltOff()    {IS_ALT = false;}
+  public static void setShiftOn()   {IS_SHIFT = true;}
+  public static void setShiftOff()  {IS_SHIFT = false;}
+  public static void setBoldOff()   {IS_BOLD = false;}
   public static void setItalicOff() {IS_ITALIC = false;}
 
   public static void toggle119808() {setAllOff(); IS_119808 = !IS_119808;}
@@ -137,10 +140,10 @@ public class Variables {
   public static void toggle127312() {setAllOff(); IS_127312 = !IS_127312;}
   public static void toggle127344() {setAllOff(); IS_127344 = !IS_127344;}
   public static void toggle127462() {setAllOff(); IS_127462 = !IS_127462;}
-  public static void toggle9372() {setAllOff(); IS_9372 = !IS_9372;}
-  public static void toggle9398() {setAllOff(); IS_9398 = !IS_9398;}
-  public static void toggleIsBold() {setFontsOff(); IS_BOLD = !IS_BOLD;}
-  public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
+  public static void toggle9372()   {setAllOff(); IS_9372 = !IS_9372;}
+  public static void toggle9398()   {setAllOff(); IS_9398 = !IS_9398;}
+  public static void toggleIsBold()      {setFontsOff(); IS_BOLD = !IS_BOLD;}
+  public static void toggleIsItalic()    {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
   public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
   public static void toggleIsSmallcaps() {IS_SMALLCAPS = !IS_SMALLCAPS;}
 }
