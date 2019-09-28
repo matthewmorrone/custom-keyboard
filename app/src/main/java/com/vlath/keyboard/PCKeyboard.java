@@ -1,11 +1,7 @@
 package com.vlath.keyboard;
 
-
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.textservice.TextInfo;
-import android.widget.Toast;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
@@ -13,9 +9,16 @@ import android.graphics.Paint;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.textservice.TextInfo;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedTextRequest;
@@ -25,11 +28,11 @@ import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextServicesManager;
-
-import org.apache.commons.lang3.StringUtils;
-
+import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 import static com.vlath.keyboard.Variables.setAllOff;
 
@@ -167,9 +170,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     @Override
     public void onInitializeInterface() {
-    
         populateLayouts();
-
         
         if (layouts.get(0) != null) {
             int displayWidth = getMaxWidth();
@@ -1066,7 +1067,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -407: toastIt(setKeyboardLayout(7)); break;
             case -408: toastIt(setKeyboardLayout(8)); break;
             case -409: toastIt(setKeyboardLayout(9)); break;
-		    case -410: toastIt(setKeyboardLayout(10));	break;
+		          case -410: toastIt(setKeyboardLayout(10));	break;
             case -411: toastIt(setKeyboardLayout(11));	break;
             case -412: toastIt(setKeyboardLayout(12));	break;
             case -413: toastIt(setKeyboardLayout(13));	break;
@@ -1096,12 +1097,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -1008: performReplace(snakeToCamel(getText(ic))); break;
             case -1009: performReplace(removeSpaces(getText(ic))); break;
             case -1:
-                // Variables.toggleShift();
-                // kv.getKeyboard().setShifted(Variables.isShift());
-                // mInputView.setShifted(Variables.isShift());
-                // kv.invalidateAllKeys();
-                // kv.draw(new Canvas());
-                
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
                     String text = ic.getSelectedText(0).toString();
                     int a = getSelectionStart();
@@ -1146,6 +1141,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 break;
             case -2:
                 requestHideSelf(0);
+                break;
+            case -3:
+                Intent intent = new Intent(this, Preference.class);
+                getBaseContext().startActivity(intent);
                 break;
             case -14:
                 Variables.setBoldOff();
