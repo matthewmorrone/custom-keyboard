@@ -98,26 +98,26 @@ public class CustomKeyboard extends KeyboardView {
             catch(Exception ignored) {}
 
             try {
-                if (key.codes[0] == -400) {key.label = layouts.get( 0).name;}
-                if (key.codes[0] == -401) {key.label = layouts.get( 1).name;}
-                if (key.codes[0] == -402) {key.label = layouts.get( 2).name;}
-                if (key.codes[0] == -403) {key.label = layouts.get( 3).name;}
-                if (key.codes[0] == -404) {key.label = layouts.get( 4).name;}
-                if (key.codes[0] == -405) {key.label = layouts.get( 5).name;}
-                if (key.codes[0] == -406) {key.label = layouts.get( 6).name;}
-                if (key.codes[0] == -407) {key.label = layouts.get( 7).name;}
-                if (key.codes[0] == -408) {key.label = layouts.get( 8).name;}
-                if (key.codes[0] == -409) {key.label = layouts.get( 9).name;}
-                if (key.codes[0] == -410) {key.label = layouts.get(10).name;}
-                if (key.codes[0] == -411) {key.label = layouts.get(11).name;}
-                if (key.codes[0] == -412) {key.label = layouts.get(12).name;}
-                if (key.codes[0] == -413) {key.label = layouts.get(13).name;}
-                if (key.codes[0] == -414) {key.label = layouts.get(14).name;}
-                if (key.codes[0] == -415) {key.label = layouts.get(15).name;}
-                if (key.codes[0] == -416) {key.label = layouts.get(16).name;}
-                if (key.codes[0] == -417) {key.label = layouts.get(17).name;}
-                if (key.codes[0] == -418) {key.label = layouts.get(18).name;}
-                if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+                if (key.codes[0] == -400) { key.label = layouts.get(0).name; }
+                if (key.codes[0] == -401) { key.label = layouts.get(1).name; }
+                if (key.codes[0] == -402) { key.label = layouts.get(2).name; }
+                if (key.codes[0] == -403) { key.label = layouts.get(3).name; }
+                if (key.codes[0] == -404) { key.label = layouts.get(4).name; }
+                if (key.codes[0] == -405) { key.label = layouts.get(5).name; }
+                if (key.codes[0] == -406) { key.label = layouts.get(6).name; }
+                if (key.codes[0] == -407) { key.label = layouts.get(7).name; }
+                if (key.codes[0] == -408) { key.label = layouts.get(8).name; }
+                if (key.codes[0] == -409) { key.label = layouts.get(9).name; }
+                if (key.codes[0] == -410) { key.label = layouts.get(10).name; }
+                if (key.codes[0] == -411) { key.label = layouts.get(11).name; }
+                if (key.codes[0] == -412) { key.label = layouts.get(12).name; }
+                if (key.codes[0] == -413) { key.label = layouts.get(13).name; }
+                if (key.codes[0] == -414) { key.label = layouts.get(14).name; }
+                if (key.codes[0] == -415) { key.label = layouts.get(15).name; }
+                if (key.codes[0] == -416) { key.label = layouts.get(16).name; }
+                if (key.codes[0] == -417) { key.label = layouts.get(17).name; }
+                if (key.codes[0] == -418) { key.label = layouts.get(18).name; }
+                if (key.codes[0] == -419) { key.label = layouts.get(19).name; }
             }
             catch (Exception ignored) {}
 
