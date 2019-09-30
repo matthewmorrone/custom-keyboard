@@ -1,17 +1,15 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" 
-android:keyWidth="10%p" android:keyHeight="7%p">
-<!--android:horizontalGap="5px" android:verticalGap="5px"-->
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p">
     <Row android:keyWidth="11.111%p">
-        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left" />
-        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right" />
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_chevron_5_left"  android:isRepeatable="true" />
+        <Key android:codes="-25" android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-26" android:keyIcon="@drawable/ic_double_chevron_right" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_chevron_5_left" android:isRepeatable="true" />
         <Key android:codes="-111" android:keyIcon="@drawable/ic_chevron_5_right" android:isRepeatable="true" />
-        <Key android:codes="-67"  android:keyIcon="@drawable/ic_select" />
-        <!--<Key android:codes="-76"  android:keyIcon="@drawable/ic_remove_button" />-->
-        <Key android:codes="-8"   android:keyIcon="@drawable/ic_menu_select" />
-        <Key android:codes="-9"   android:keyIcon="@drawable/ic_menu_cut" />
-        <Key android:codes="-10"  android:keyIcon="@drawable/ic_menu_copy" />
-        <Key android:codes="-11"  android:keyIcon="@drawable/ic_menu_paste" />
+        <Key android:codes="-67" android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-8" android:keyIcon="@drawable/ic_menu_select" />
+        <Key android:codes="-9" android:keyIcon="@drawable/ic_menu_cut" />
+        <Key android:codes="-10" android:keyIcon="@drawable/ic_menu_copy" />
+        <Key android:codes="-11" android:keyIcon="@drawable/ic_menu_paste" />
     </Row>
     <Row android:keyHeight="3.5%p">
         <Key android:codes="127378" android:keyLabel="🆒" />
@@ -109,12 +107,12 @@ android:keyWidth="10%p" android:keyHeight="7%p">
         <Key android:codes="129488" android:keyLabel="🧐" />
         <Key android:codes="8265" android:keyLabel="⁉" />
     </Row>
-    <Row android:keyWidth="10%p">
+    <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:isRepeatable="true" />
         <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:isRepeatable="true" />
         <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" />
-        <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar"          android:keyWidth="40%p" android:isRepeatable="true"         />
-        <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
-        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return"    android:keyWidth="20%p" android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
+        <Key android:codes="32" android:keyIcon="@drawable/ic_space_bar" android:keyWidth="40%p" android:isRepeatable="true" />
+        <Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
+        <Key android:codes="10" android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />
     </Row>
 </Keyboard>
