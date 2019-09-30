@@ -1,65 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Custom Keyboard</string>
-	<string name="subtype_generic">%s</string>
-	<string name="welcome">Welcome</string>
-	<string name="activate">
+    <string name="app_name">Custom Keyboard</string>
+    <string name="subtype_generic">%s</string>
+    <string name="welcome">Welcome</string>
+    <string name="activate">
         Please click the enable button below to navigate to keyboard settings.
         Find Custom Keyboard in the list and enable it.
         A warning dialog will appear, click OK(Custom Keyboard does NOT collect any data).
         Then, navigate back and click the select buttonbelow and choose Custom Keyboard from the list.
         After that you can test thekeyboard using the text field below.
         To open the settings, tap the button below and click on Custom Keyboard.
- </string>
-	<string name="donate"></string>
-	<string name="up"></string>
-	<string name="follow"></string>
-	<string name="version">Version 1.0.0</string>
-	<string name="caps">Auto capitalization</string>
-	<string name="vib">Vibration</string>
-	<string name="borders">Key borders</string>
-	<string name="prediction">Enable text prediction</string>
-	<string name="welcome_desc">Enjoy a full-fledged PC keyboard on your android device</string>
-	<string name="multiple_desc">Switch easily between three keyboard faces, all with adjustable height</string>
-	<string name="multiple_title">Multiple faces</string>
-	<string name="open_desc">No spying, no data collecting. All the source code can be found on GitHub</string>
-	<string name="open_title">Open source</string>
-	<string name="free_title"></string>
-	<string name="free_desc"></string>
-	<string name="license"></string>
-	<string-array name="color_values">
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="7">8</item>
-	</string-array>
-	<string-array name="color">
-		<item name="1">Black - White</item>
-		<item name="2">White - Black</item>
-		<item name="3">Blue - White</item>
-		<item name="4">Blue - Black</item>
-		<item name="5">Red - White</item>
-		<item name="6">Red - Black</item>
-		<item name="7">Orange - White</item>
-		<item name="8">Dark - White</item>
-	</string-array>
- <string name="debug">Debug</string>
-	<string name="popup1">.,?!;:-\u0022/\\</string>
-	<string name="popup2">-_…\u0009</string>
-	<string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
-	<string name="k1">git add --all</string>
-	<string name="k2">git commit -m "autocommit"</string>
-	<string name="k3">git push</string>
-	<string name="k4">matthewmorrone</string>
-	<string name="k5"></string>
-	<string name="k6">git diff</string>
-	<string name="k7">git status -s</string>
-	<string name="k8"></string>
-	<string name="editText">Test your keyboard here</string>
-	<string name="settings">Settings</string>
-	<string name="select">Select</string>
-	<string name="enable">Enable</string>
+    </string>
+    <string name="donate"></string>
+    <string name="up"></string>
+    <string name="follow"></string>
+    <string name="version">Version 1.0.0</string>
+    <string name="caps">Auto capitalization</string>
+    <string name="vib">Vibration</string>
+    <string name="borders">Key borders</string>
+    <string name="prediction">Enable text prediction</string>
+    <string name="welcome_desc">Enjoy a full-fledged PC keyboard on your android device</string>
+    <string name="multiple_desc">Switch easily between three keyboard faces, all with adjustable height</string>
+    <string name="multiple_title">Multiple faces</string>
+    <string name="open_desc">No spying, no data collecting. All the source code can be found on GitHub</string>
+    <string name="open_title">Open source</string>
+    <string name="free_title"></string>
+    <string name="free_desc"></string>
+    <string name="license"></string>
+    <string-array name="color_values">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+        <item name="7">8</item>
+    </string-array>
+    <string-array name="color">
+        <item name="1">Black - White</item>
+        <item name="2">White - Black</item>
+        <item name="3">Blue - White</item>
+        <item name="4">Blue - Black</item>
+        <item name="5">Red - White</item>
+        <item name="6">Red - Black</item>
+        <item name="7">Orange - White</item>
+        <item name="8">Dark - White</item>
+    </string-array>
+    <string name="debug">Debug</string>
+    <string name="popup1">.,?!;:-\u0022/\\</string>
+    <string name="popup2">-_…\u0009</string>
+    <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="k1">git add --all</string>
+    <string name="k2">git commit -m "autocommit"</string>
+    <string name="k3">git push</string>
+    <string name="k4">matthewmorrone</string>
+    <string name="k5"></string>
+    <string name="k6">git diff</string>
+    <string name="k7">git status -s</string>
+    <string name="k8"></string>
+    <string name="editText">Test your keyboard here</string>
+    <string name="settings">Settings</string>
+    <string name="select">Select</string>
+    <string name="enable">Enable</string>
 </resources>
