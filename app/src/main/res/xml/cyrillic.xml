@@ -51,6 +51,7 @@
         <Key android:codes="46"   android:keyLabel="." android:popupCharacters="@string/popup1" android:popupKeyboard="@xml/popup_template" />
     </Row>
     <Row>
+        <Key android:codes="-1"   android:keyIcon="@drawable/ic_shift" />
         <Key android:codes="1103" android:keyLabel="я" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="1095" android:keyLabel="ч" android:popupCharacters="ҷҹ" android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="1089" android:keyLabel="с" android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />

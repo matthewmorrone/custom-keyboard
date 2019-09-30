@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-<SwitchPreference android:title="@string/debug" android:key="debug"		android:defaultValue="true" />
+<SwitchPreference android:title="@string/debug" android:key="debug"		android:defaultValue="false" />
 <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
 <ListPreference android:title="Theme" android:key="theme"		android:entryValues="@array/color_values" android:defaultValue="1"		android:entries="@array/color" />
 <SwitchPreference android:title="@string/borders" android:key="bord"		android:defaultValue="true" />
@@ -29,7 +29,7 @@ android:title="Hints Displayed" />-->
 		<CheckBoxPreference android:key="hex" android:title="Hexadecimal"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
   <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="true" />
-  <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="true" />
+  <CheckBoxPreference android:key="canadian" android:title="Canadian" android:defaultValue="true" />
 		<CheckBoxPreference android:key="emoji" android:title="Emoji"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="math" android:title="Math"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="unicode" android:title="Unicode"			android:defaultValue="true" />

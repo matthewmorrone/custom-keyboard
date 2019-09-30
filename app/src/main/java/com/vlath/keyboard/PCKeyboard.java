@@ -70,7 +70,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public Toast toast;
 
-    ArrayList<LatinKeyboard> layouts = new ArrayList<>(5);
+    public static ArrayList<LatinKeyboard> layouts = new ArrayList<>(5);
+
+
+    public static ArrayList<LatinKeyboard> getLayouts() {
+        return layouts;
+    }
     
     public void populateLayouts() {
         layouts.clear();
@@ -93,6 +98,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("coptic", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.coptic, "Coptic"));
         }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("cree", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.cree, "Cree"));
+        }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
         }
@@ -109,7 +117,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hexadecimal"));
+            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hex"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
@@ -141,7 +149,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (currentKeyboardID < 0) currentKeyboardID = layouts.size()-2;
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", true)) {
+        kv.draw(new Canvas());
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", false)) {
             toastIt(currentKeyboard.name+" "+currentKeyboardID);
         }
     }
@@ -152,7 +161,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (currentKeyboardID > layouts.size()-2) currentKeyboardID = 0;
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", true)) {
+        kv.draw(new Canvas());
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", false)) {
             toastIt(currentKeyboard.name+" "+currentKeyboardID);
         }
     }
@@ -204,6 +214,29 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     key.label = layouts.get(-key.codes[0]-400).name;
                 }   
             }
+           try {
+           if (key.codes[0] == -400) {key.label = layouts.get(0).name;}
+           if (key.codes[0] == -401) {key.label = layouts.get(1).name;}
+           if (key.codes[0] == -402) {key.label = layouts.get(2).name;}
+           if (key.codes[0] == -403) {key.label = layouts.get(3).name;}
+           if (key.codes[0] == -404) {key.label = layouts.get(4).name;}
+           if (key.codes[0] == -405) {key.label = layouts.get(5).name;}
+           if (key.codes[0] == -406) {key.label = layouts.get(6).name;}
+           if (key.codes[0] == -407) {key.label = layouts.get(7).name;}
+           if (key.codes[0] == -408) {key.label = layouts.get(8).name;}
+           if (key.codes[0] == -409) {key.label = layouts.get(9).name;}
+           if (key.codes[0] == -410) {key.label = layouts.get(10).name;}
+           if (key.codes[0] == -411) {key.label = layouts.get(11).name;}
+           if (key.codes[0] == -412) {key.label = layouts.get(12).name;}
+           if (key.codes[0] == -413) {key.label = layouts.get(13).name;}
+           if (key.codes[0] == -414) {key.label = layouts.get(14).name;}
+           if (key.codes[0] == -415) {key.label = layouts.get(15).name;}
+           if (key.codes[0] == -416) {key.label = layouts.get(16).name;}
+           if (key.codes[0] == -417) {key.label = layouts.get(17).name;}
+           if (key.codes[0] == -418) {key.label = layouts.get(18).name;}
+           // if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+        }
+            catch (Exception ignored) {}
         }
         if (layouts.get(layouts.size()-1) != null) {
             for (Keyboard.Key key : layouts.get(layouts.size()-1).getKeys()) {
@@ -315,7 +348,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
 
-        if (Variables.isSelecting() && (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", true))) {
+        if (Variables.isSelecting() && (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", false))) {
            toastIt(Variables.cursorStart+" "+oldSelStart+" "+oldSelEnd+" "+newSelStart+" "+newSelEnd);
         }
         
@@ -789,11 +822,15 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public String setKeyboardLayout(int newKeyboardID) {
-        if (newKeyboardID < layouts.size()) {
-            currentKeyboardID = newKeyboardID;
-            currentKeyboard = layouts.get(currentKeyboardID);
-            kv.setKeyboard(currentKeyboard);
+        try {
+            if (newKeyboardID < layouts.size()) {
+                currentKeyboardID = newKeyboardID;
+                currentKeyboard = layouts.get(currentKeyboardID);
+                kv.setKeyboard(currentKeyboard);
+                kv.draw(new Canvas());
+            }
         }
+        catch (Exception ignored) {}
         return currentKeyboard.name;
     }
 
@@ -1072,7 +1109,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -412: toastIt(setKeyboardLayout(12));	break;
             case -413: toastIt(setKeyboardLayout(13));	break;
             case -414: toastIt(setKeyboardLayout(14));	break;
-            case -415: toastIt(setKeyboardLayout(15));	break;
+            case -415: toastIt(setKeyboardLayout(16));	break;
+            case -416: toastIt(setKeyboardLayout(17));	break;
+            case -417: toastIt(setKeyboardLayout(18));	break;
+            case -418: toastIt(setKeyboardLayout(19));	break;
+            case -419: toastIt(setKeyboardLayout(20));	break;
             case -501: sendCustomKey("k1"); break;
             case -502: sendCustomKey("k2"); break;
             case -503: sendCustomKey("k3"); break;

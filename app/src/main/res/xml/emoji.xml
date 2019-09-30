@@ -112,7 +112,7 @@ android:keyWidth="10%p" android:keyHeight="7%p">
     <Row android:keyWidth="10%p">
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:isRepeatable="true" />
         <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:isRepeatable="true" />
-        <Key android:codes="-2"   android:keyIcon="@drawable/ic_keyboard_close" />
+        <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space_bar"          android:keyWidth="40%p" android:isRepeatable="true"         />
         <Key android:codes="-5"   android:keyLabel="⌫" android:isRepeatable="true" />
         <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return"    android:keyWidth="20%p" android:popupCharacters="@string/popup2" android:popupKeyboard="@xml/popup_template" />

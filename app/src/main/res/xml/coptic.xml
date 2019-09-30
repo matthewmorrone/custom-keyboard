@@ -67,7 +67,9 @@
         <Key android:codes="11441" android:keyLabel="ⲱ" android:popupCharacters="⳥ⲿ" android:popupKeyboard="@xml/popup_template"  />
         <Key android:codes="11395" android:keyLabel="ⲃ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template"  />
         <Key android:codes="11419" android:keyLabel="ⲛ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template"  />
-        <Key android:codes="11417" android:keyLabel="ⲙ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template"  />"
+        <Key android:codes="11417" android:keyLabel="ⲙ" android:popupCharacters="" android:popupKeyboard="@xml/popup_template"  />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace"          android:keyWidth="10%p" android:isRepeatable="true" />
+        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"             android:keyWidth="10%p" android:isRepeatable="true" />
         <Key android:codes="-5" android:keyLabel="⌫" android:isRepeatable="true" />
         <Key android:codes="-7" android:keyLabel="⌦" android:isRepeatable="true" />
     </Row>

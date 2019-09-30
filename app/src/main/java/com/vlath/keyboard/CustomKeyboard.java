@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import static com.vlath.keyboard.PCKeyboard.layouts;
 import static com.vlath.keyboard.PCKeyboard.hexBuffer;
 import static com.vlath.keyboard.PCKeyboard.morseBuffer;
 import static com.vlath.keyboard.Variables.isShift;
@@ -111,6 +112,42 @@ public class CustomKeyboard extends KeyboardView {
     }
    }
    catch(Exception ignored) {}
+/*
+   for (int i = -400; i > -420; i--) {
+    if (key.codes[0] == i) {
+     key.label = layouts.get((i*-1)-400).name;
+    }
+   }
+*/
+try {
+   if (key.codes[0] == -400) {key.label = layouts.get(0).name;}
+   if (key.codes[0] == -401) {key.label = layouts.get(1).name;}
+   if (key.codes[0] == -402) {key.label = layouts.get(2).name;}
+   if (key.codes[0] == -403) {key.label = layouts.get(3).name;}
+   if (key.codes[0] == -404) {key.label = layouts.get(4).name;}
+   if (key.codes[0] == -405) {key.label = layouts.get(5).name;}
+   if (key.codes[0] == -406) {key.label = layouts.get(6).name;}
+   if (key.codes[0] == -407) {key.label = layouts.get(7).name;}
+   if (key.codes[0] == -408) {key.label = layouts.get(8).name;}
+   if (key.codes[0] == -409) {key.label = layouts.get(9).name;}
+   if (key.codes[0] == -410) {key.label = layouts.get(10).name;}
+   if (key.codes[0] == -411) {key.label = layouts.get(11).name;}
+   if (key.codes[0] == -412) {key.label = layouts.get(12).name;}
+   if (key.codes[0] == -413) {key.label = layouts.get(13).name;}
+   if (key.codes[0] == -414) {key.label = layouts.get(14).name;}
+   if (key.codes[0] == -415) {key.label = layouts.get(15).name;}
+   if (key.codes[0] == -416) {key.label = layouts.get(16).name;}
+   if (key.codes[0] == -417) {key.label = layouts.get(17).name;}
+   if (key.codes[0] == -418) {key.label = layouts.get(18).name;}
+   // if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+}
+catch (Exception ignored) {}
+
+
+
+
+
+/*
    if (key.codes[0] == -12) {
     if (isBold()) {
      canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -125,7 +162,6 @@ public class CustomKeyboard extends KeyboardView {
      canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
     }
    }
-
    if (key.codes[0] == -67) {
     if (isSelecting()) {
      canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -145,6 +181,7 @@ public class CustomKeyboard extends KeyboardView {
      dr.draw(canvas); 
     }
    }
+*/
    /*
    if (key.codes[0] == 32 && morseBuffer.length() > 0) {
     key.label = morseBuffer;
