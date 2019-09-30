@@ -22,10 +22,12 @@
         <Key android:keyOutputText="o_0" android:keyLabel="o_0" />
     </Row>
     <Row>
-        <Key android:keyOutputText="&lt;!--" android:keyLabel="&lt;!--" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
-        <Key android:keyOutputText="--&gt;" android:keyLabel="--&gt;" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
-        <Key android:keyOutputText="true" android:keyLabel="true" />
-        <Key android:keyOutputText="false" android:keyLabel="false" />
+        <Key android:keyOutputText="&lt;!--&#32;" android:keyLabel="&lt;!--" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="--&gt;&#32;" android:keyLabel="--&gt;" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
+        <Key android:keyOutputText="/*" android:keyLabel="/*" />
+        <Key android:keyOutputText="*/" android:keyLabel="*/" />
+        <!-- <Key android:keyOutputText="true" android:keyLabel="true" /> -->
+        <!-- <Key android:keyOutputText="false" android:keyLabel="false" /> -->
         <Key android:keyOutputText="for(i = 0; i &lt;  ; i++) {}" android:keyLabel="for()"             android:popupCharacters="" android:popupKeyboard="@xml/popup_template" />
         <Key android:keyOutputText="=JOIN()" android:keyLabel="join()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />
         <Key android:keyOutputText="=SPLIT()" android:keyLabel="split()" android:popupCharacters=""             android:popupKeyboard="@xml/popup_template" />

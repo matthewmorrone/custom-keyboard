@@ -112,13 +112,7 @@ public class CustomKeyboard extends KeyboardView {
     }
    }
    catch(Exception ignored) {}
-/*
-   for (int i = -400; i > -420; i--) {
-    if (key.codes[0] == i) {
-     key.label = layouts.get((i*-1)-400).name;
-    }
-   }
-*/
+
 try {
    if (key.codes[0] == -400) {key.label = layouts.get(0).name;}
    if (key.codes[0] == -401) {key.label = layouts.get(1).name;}
@@ -135,11 +129,13 @@ try {
    if (key.codes[0] == -412) {key.label = layouts.get(12).name;}
    if (key.codes[0] == -413) {key.label = layouts.get(13).name;}
    if (key.codes[0] == -414) {key.label = layouts.get(14).name;}
+   
    if (key.codes[0] == -415) {key.label = layouts.get(15).name;}
    if (key.codes[0] == -416) {key.label = layouts.get(16).name;}
    if (key.codes[0] == -417) {key.label = layouts.get(17).name;}
    if (key.codes[0] == -418) {key.label = layouts.get(18).name;}
-   // if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+   if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+   
 }
 catch (Exception ignored) {}
 

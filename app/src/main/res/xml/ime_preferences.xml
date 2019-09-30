@@ -23,26 +23,27 @@ android:title="Hints Displayed" />-->
 <EditTextPreference android:dialogTitle="Word Separators"		android:title="@string/word_separators" android:key="seps"		android:defaultValue="@string/word_separators" />
 <EditTextPreference android:dialogTitle="Popup One" android:title="@string/popup1"		android:key="popup1" android:defaultValue="@string/popup1" />
 <EditTextPreference android:dialogTitle="Popup Two" android:title="@string/popup2"		android:key="popup2" android:defaultValue="@string/popup2" />
-<PreferenceCategory android:key="layouts" android:title="Layouts"> 
+<PreferenceCategory android:key="layoutList" android:title="Layouts"> 
 	 <CheckBoxPreference android:key="symbol" android:title="Function"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="function" android:title="Symbols"			android:defaultValue="true" />
-		<CheckBoxPreference android:key="hex" android:title="Hexadecimal"			android:defaultValue="true" />
+		<CheckBoxPreference android:key="hex" android:title="Hex"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
   <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="true" />
-  <CheckBoxPreference android:key="canadian" android:title="Canadian" android:defaultValue="true" />
+  <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="true" />
 		<CheckBoxPreference android:key="emoji" android:title="Emoji"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="math" android:title="Math"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="unicode" android:title="Unicode"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="true" />
 		<CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
-		<CheckBoxPreference android:key="futhark" android:title="Futhark"			android:defaultValue="true" />
+		<CheckBoxPreference android:key="futhark" android:title="Funthork"			android:defaultValue="true" />
+  <CheckBoxPreference android:key="funthork" android:title="Tails"			android:defaultValue="true" />
+  <CheckBoxPreference android:key="tails" android:title="Futhark"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="cyrillic" android:title="Cyrillic"			android:defaultValue="true" />
   <CheckBoxPreference android:key="coptic" android:title="Coptic"			android:defaultValue="true" />
-		<CheckBoxPreference android:key="nav" android:title="Navigation"			android:defaultValue="false" />
 		<CheckBoxPreference android:key="numbers" android:title="Numeric"			android:defaultValue="true" />
 		<CheckBoxPreference android:key="dvorak" android:title="Dvorak"			android:defaultValue="true" />
 </PreferenceCategory>
-<PreferenceCategory android:key="custom_keys" android:title="Custom Keys"> 
+<PreferenceCategory android:key="customKeys" android:title="Custom Keys"> 
 		<EditTextPreference android:dialogTitle="Custom Key 1" android:title="@string/k1"			android:key="k1" android:defaultValue="@string/k1" />
 		<EditTextPreference android:dialogTitle="Custom Key 2" android:title="@string/k2"			android:key="k2" android:defaultValue="@string/k2" />
 		<EditTextPreference android:dialogTitle="Custom Key 3" android:title="@string/k3"			android:key="k3" android:defaultValue="@string/k3" />

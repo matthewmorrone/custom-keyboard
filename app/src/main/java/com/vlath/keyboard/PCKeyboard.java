@@ -31,6 +31,7 @@ import android.view.textservice.TextServicesManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import android.app.Activity;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
@@ -113,6 +114,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("morse", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.morse, "Morse"));
         }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("funthork", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.funthork, "Funthork"));
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("tails", true)) {
+            layouts.add(new LatinKeyboard(this, R.xml.tails, "Tails"));
+        }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
         }
@@ -127,9 +134,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("emoji", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.emoji, "Emoji"));
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("nav", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.navigation, "Navigation"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
             layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
@@ -153,6 +157,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", false)) {
             toastIt(currentKeyboard.name+" "+currentKeyboardID);
         }
+        kv.invalidateAllKeys();
     }
 
     public void nextKeyboard() {
@@ -165,6 +170,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("debug", false)) {
             toastIt(currentKeyboard.name+" "+currentKeyboardID);
         }
+        kv.invalidateAllKeys();
     }
 
     @Override
@@ -214,6 +220,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     key.label = layouts.get(-key.codes[0]-400).name;
                 }   
             }
+/*
            try {
            if (key.codes[0] == -400) {key.label = layouts.get(0).name;}
            if (key.codes[0] == -401) {key.label = layouts.get(1).name;}
@@ -234,9 +241,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
            if (key.codes[0] == -416) {key.label = layouts.get(16).name;}
            if (key.codes[0] == -417) {key.label = layouts.get(17).name;}
            if (key.codes[0] == -418) {key.label = layouts.get(18).name;}
-           // if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
+           if (key.codes[0] == -419) {key.label = layouts.get(19).name;}
         }
             catch (Exception ignored) {}
+*/
         }
         if (layouts.get(layouts.size()-1) != null) {
             for (Keyboard.Key key : layouts.get(layouts.size()-1).getKeys()) {
@@ -1178,14 +1186,16 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                         }
                     }
                     kv.draw(new Canvas());
+                    kv.invalidateAllKeys();
                 }
                 break;
             case -2:
                 requestHideSelf(0);
                 break;
             case -3:
-                Intent intent = new Intent(this, Preference.class);
-                getBaseContext().startActivity(intent);
+                // Activity.startActivityForResult(new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
+                // Intent intent = new Intent(this, Preference.class);
+                // getBaseContext().startActivity(intent);
                 break;
             case -14:
                 Variables.setBoldOff();

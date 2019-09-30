@@ -34,18 +34,18 @@
     <Row android:keyWidth="20%p">
         <Key android:codes="-1007" android:keyLabel="⌴A" android:keyWidth="10%p" />
         <Key android:codes="-1008" android:keyLabel="A⌴" android:keyWidth="10%p" />
-        <Key android:codes="-501" android:keyLabel="@string/k1" />
-        <Key android:codes="-502" android:keyLabel="@string/k2" />
-        <Key android:codes="-503" android:keyLabel="@string/k3" />
-        <Key android:codes="-504" android:keyLabel="@string/k4" />
+        <Key android:codes="-501"  android:keyLabel="@string/k1" />
+        <Key android:codes="-502"  android:keyLabel="@string/k2" />
+        <Key android:codes="-503"  android:keyLabel="@string/k3" />
+        <Key android:codes="-504"  android:keyLabel="@string/k4" />
     </Row>
     <Row android:keyWidth="20%p">
         <Key android:codes="-74"   android:keyLabel="⌤" android:keyWidth="10%p" />
         <Key android:codes="-1009" android:keyLabel="⊼" android:keyWidth="10%p" />
-        <Key android:codes="-505" android:keyLabel="@string/k5" />
-        <Key android:codes="-506" android:keyLabel="@string/k6" />
-        <Key android:codes="-507" android:keyLabel="@string/k7" />
-        <Key android:codes="-508" android:keyLabel="@string/k8" />
+        <Key android:codes="-505"  android:keyLabel="@string/k5" />
+        <Key android:codes="-506"  android:keyLabel="@string/k6" />
+        <Key android:codes="-507"  android:keyLabel="@string/k7" />
+        <Key android:codes="-508"  android:keyLabel="@string/k8" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyLabel="⎗" android:keyWidth="10%p" />
