@@ -16,8 +16,6 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activate);
-        TextView t2 = findViewById(R.id.textView2);
-        t2.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     public void settings(View v) {

@@ -1,7 +1,6 @@
 package com.vlath.keyboard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
@@ -9,13 +8,9 @@ import android.graphics.Paint;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.textservice.TextInfo;
@@ -28,10 +23,8 @@ import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextServicesManager;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import android.app.Activity;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
@@ -78,65 +71,66 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public void populateLayouts() {
         layouts.clear();
-        layouts.add(new LatinKeyboard(this, R.xml.qwerty, "English"));
+        layouts.add(new LatinKeyboard(this, R.layout.qwerty, "English"));
+
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.symbol, "Symbol"));
+            layouts.add(new LatinKeyboard(this, R.layout.symbol, "Symbol"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ipa", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.ipa, "IPA"));
+            layouts.add(new LatinKeyboard(this, R.layout.ipa, "IPA"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("greek", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.greek, "Greek"));
+            layouts.add(new LatinKeyboard(this, R.layout.greek, "Greek"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("futhark", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.futhark, "Futhark"));
+            layouts.add(new LatinKeyboard(this, R.layout.futhark, "Futhark"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("cyrillic", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.cyrillic, "Cyrillic"));
+            layouts.add(new LatinKeyboard(this, R.layout.cyrillic, "Cyrillic"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("coptic", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.coptic, "Coptic"));
+            layouts.add(new LatinKeyboard(this, R.layout.coptic, "Coptic"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("cree", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.cree, "Cree"));
+            layouts.add(new LatinKeyboard(this, R.layout.cree, "Cree"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dvorak", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.dvorak, "Dvorak"));
+            layouts.add(new LatinKeyboard(this, R.layout.dvorak, "Dvorak"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("numbers", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.numbers, "Numbers"));
+            layouts.add(new LatinKeyboard(this, R.layout.numbers, "Numbers"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("math", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.math, "Math"));
+            layouts.add(new LatinKeyboard(this, R.layout.math, "Math"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("morse", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.morse, "Morse"));
+            layouts.add(new LatinKeyboard(this, R.layout.morse, "Morse"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("funthork", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.funthork, "Funthork"));
+            layouts.add(new LatinKeyboard(this, R.layout.funthork, "Funthork"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("tails", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.tails, "Tails"));
+            layouts.add(new LatinKeyboard(this, R.layout.tails, "Tails"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("unicode", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.unicode, "Unicode"));
+            layouts.add(new LatinKeyboard(this, R.layout.unicode, "Unicode"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.hex, "Hex"));
+            layouts.add(new LatinKeyboard(this, R.layout.hex, "Hex"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.fonts, "Fonts"));
+            layouts.add(new LatinKeyboard(this, R.layout.fonts, "Fonts"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("utility", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.utility, "Utility"));
+            layouts.add(new LatinKeyboard(this, R.layout.utility, "Utility"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("emoji", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.emoji, "Emoji"));
+            layouts.add(new LatinKeyboard(this, R.layout.emoji, "Emoji"));
         }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("function", true)) {
-            layouts.add(new LatinKeyboard(this, R.xml.function, "Function"));
+            layouts.add(new LatinKeyboard(this, R.layout.function, "Function"));
         }
-        layouts.add(new LatinKeyboard(this, R.xml.layouts, "Layouts"));
+        layouts.add(new LatinKeyboard(this, R.layout.layouts, "Layouts"));
     }
 
     public void toastIt(String text) {
@@ -258,25 +252,24 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     @Override
     public View onCreateInputView() {
-        mInputView = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard, null);
+        // mInputView = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard, null);
+        populateLayouts();
+        mInputView = (CustomKeyboard)getLayoutInflater().inflate(R.layout.qwerty, null);
+
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
-        populateLayouts();
 
-        if (currentKeyboardID > 0) {
-            setLatinKeyboard(layouts.get(currentKeyboardID));
-            currentKeyboard = layouts.get(currentKeyboardID);
-        }
-        else {
-            setLatinKeyboard(layouts.get(0));
-            currentKeyboard = layouts.get(0);
-        }
+
+        // if (currentKeyboardID > 0) {
+        //     setLatinKeyboard(layouts.get(currentKeyboardID));
+        //     currentKeyboard = layouts.get(currentKeyboardID);
+        // }
+        // else {
+        //     setLatinKeyboard(layouts.get(0));
+        //     currentKeyboard = layouts.get(0);
+        // }
 
         return mInputView;
-    }
-
-    public void setLatinKeyboard(LatinKeyboard nextKeyboard) {
-        mInputView.setKeyboard(nextKeyboard);
     }
 
     @Override
@@ -307,7 +300,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         mCompletions = null;
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("bord", true)) {
-            kv = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard_key_back, null);
+            kv = (CustomKeyboard)getLayoutInflater().inflate(R.layout.key_back, null);
         }
         else {
             kv = (CustomKeyboard)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -678,7 +671,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 case InputType.TYPE_CLASS_NUMBER:
                 case InputType.TYPE_CLASS_DATETIME:
                 case InputType.TYPE_CLASS_PHONE:
-                    currentKeyboard = new LatinKeyboard(this, R.xml.numbers);
+                    currentKeyboard = new LatinKeyboard(this, R.layout.numbers);
                 break;
                 default:
                     currentKeyboard = layouts.get(0);

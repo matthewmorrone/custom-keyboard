@@ -33,7 +33,7 @@ android:layout_marginEnd="0dp"
 android:clickable="true" 
 android:focusable="true" 
 android:drawable="@drawable/round_corners" 
-android:src="@drawable/ic_cancel" 
+android:src="@drawable/ic_close"
 android:radius="8dp" 
 />
 </GridLayout>
