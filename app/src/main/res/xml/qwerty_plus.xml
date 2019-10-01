@@ -56,8 +56,8 @@
         <Key android:codes="98"  android:keyLabel="b" android:popupCharacters="βʙбɓ" android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="110" android:keyLabel="n" android:popupCharacters="νŋɴиɲɳ" android:popupKeyboard="@xml/popup_template" />
         <Key android:codes="109" android:keyLabel="m" android:popupCharacters="μɱʍᴍ" android:popupKeyboard="@xml/popup_template" />
-        <Key android:codes="-5"  android:keyLabel="⌫" android:isRepeatable="true" />
-        <Key android:codes="-7"  android:keyLabel="⌦" android:isRepeatable="true" />
+        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
+        <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />
