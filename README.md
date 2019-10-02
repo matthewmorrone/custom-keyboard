@@ -1,4 +1,3 @@
-+ sometimes when using the casechanging feature, it works, but afterwards the selection jumps to somewhere earlier in the text
 + if there are too many entries in a keys popup, it doesnt render properly
 + the contents of keys whose contents are modified during runtime aren't printed on the keys until something is pressed
 + the template had gesture typing, get that back
@@ -10,7 +9,6 @@
 + add key to access settings page
 + add key for access to keyboard management page in settings
 + button to access recent clipboard entries
-+ delete or jump by word
 + double space period
 + personal dictionary settings link
 + move cursor and select text by dragging the space key
@@ -37,6 +35,14 @@
 + debug mode: tons of toasts, selection indices
 + unicode input from exhaustive table
 + if cursor start and end are not equal, delete does backspace
++ shift backspace is delete
++ select with manual cursor movement
++ scrolling
++ layout of popup
++ close by clicking outside popup
++ add and remove keys
++ open main activity
++ open other apps
 
 === Settings ===
 + system settings enable keyboard

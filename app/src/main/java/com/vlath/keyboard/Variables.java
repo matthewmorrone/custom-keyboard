@@ -8,6 +8,7 @@ public class Variables {
     public static boolean isSelecting() {return IS_SELECTING || IS_SHIFT;}
     public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
     public static void setSelectingOff() {IS_SELECTING = false;}
+    public static void setSelectingOn() {IS_SELECTING = true;}
     public static void toggleShift() {IS_SHIFT = !IS_SHIFT;}
     public static boolean isShift() {return IS_SHIFT;}
     

@@ -5,7 +5,7 @@ android {
     }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.vlath.keyboard"
+        applicationId "com.custom.keyboard"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 112
