@@ -5,10 +5,11 @@ public class Variables {
     public static int cursorStart = -1;
     public static int cursorEnd = -1;
     public static boolean IS_SELECTING = false;
-    public static boolean isSelecting() {return IS_SELECTING || IS_SHIFT;}
+    public static boolean isSelecting() {return IS_SELECTING;}
     public static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
     public static void setSelectingOff() {IS_SELECTING = false;}
     public static void setSelectingOn() {IS_SELECTING = true;}
+    
     public static void toggleShift() {IS_SHIFT = !IS_SHIFT;}
     public static boolean isShift() {return IS_SHIFT;}
     
@@ -110,41 +111,41 @@ public class Variables {
         IS_SMALLCAPS = false;
     }
     
-    public static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
-    public static boolean isCtrl() {return IS_CTRL;}
-    public static boolean isAlt() {return IS_ALT;}
-    public static boolean isBold() {return IS_BOLD;}
-    public static boolean isItalic() {return IS_ITALIC;}
-    public static void setCtrlOn() {IS_CTRL = true;}
-    public static void setCtrlOff() {IS_CTRL = false;}
-    public static void setAltOn() {IS_ALT = true;}
-    public static void setAltOff() {IS_ALT = false;}
-    public static void setShiftOn() {IS_SHIFT = true;}
-    public static void setShiftOff() {IS_SHIFT = false;}
-    public static void setBoldOff() {IS_BOLD = false;}
+    public static boolean isAnyOn()   {return IS_CTRL || IS_ALT;}
+    public static boolean isCtrl()    {return IS_CTRL;}
+    public static boolean isAlt()     {return IS_ALT;}
+    public static boolean isBold()    {return IS_BOLD;}
+    public static boolean isItalic()  {return IS_ITALIC;}
+    public static void setCtrlOn()    {IS_CTRL = true;}
+    public static void setCtrlOff()   {IS_CTRL = false;}
+    public static void setAltOn()     {IS_ALT = true;}
+    public static void setAltOff()    {IS_ALT = false;}
+    public static void setShiftOn()   {IS_SHIFT = true;}
+    public static void setShiftOff()  {IS_SHIFT = false;}
+    public static void setBoldOff()   {IS_BOLD = false;}
     public static void setItalicOff() {IS_ITALIC = false;}
     
-    public static void toggle119808() {setAllOff(); IS_119808 = !IS_119808;}
-    public static void toggle119860() {setAllOff(); IS_119860 = !IS_119860;}
-    public static void toggle119912() {setAllOff(); IS_119912 = !IS_119912;}
-    public static void toggle119964() {setAllOff(); IS_119964 = !IS_119964;}
-    public static void toggle120016() {setAllOff(); IS_120016 = !IS_120016;}
-    public static void toggle120068() {setAllOff(); IS_120068 = !IS_120068;}
-    public static void toggle120120() {setAllOff(); IS_120120 = !IS_120120;}
-    public static void toggle120172() {setAllOff(); IS_120172 = !IS_120172;}
-    public static void toggle120224() {setAllOff(); IS_120224 = !IS_120224;}
-    public static void toggle120276() {setAllOff(); IS_120276 = !IS_120276;}
-    public static void toggle120328() {setAllOff(); IS_120328 = !IS_120328;}
-    public static void toggle120380() {setAllOff(); IS_120380 = !IS_120380;}
-    public static void toggle120432() {setAllOff(); IS_120432 = !IS_120432;}
-    public static void toggle127280() {setAllOff(); IS_127280 = !IS_127280;}
-    public static void toggle127312() {setAllOff(); IS_127312 = !IS_127312;}
-    public static void toggle127344() {setAllOff(); IS_127344 = !IS_127344;}
-    public static void toggle127462() {setAllOff(); IS_127462 = !IS_127462;}
-    public static void toggle9372() {setAllOff(); IS_9372 = !IS_9372;}
-    public static void toggle9398() {setAllOff(); IS_9398 = !IS_9398;}
-    public static void toggleIsBold() {setFontsOff(); IS_BOLD = !IS_BOLD;}
-    public static void toggleIsItalic() {setFontsOff(); IS_ITALIC = !IS_ITALIC;}
-    public static void toggleIsReflected() { IS_REFLECTED = !IS_REFLECTED;}
-    public static void toggleIsSmallcaps() { IS_SMALLCAPS = !IS_SMALLCAPS;}
+    public static void toggle119808() {IS_119808 = !IS_119808; }
+    public static void toggle119860() {IS_119860 = !IS_119860; }
+    public static void toggle119912() {IS_119912 = !IS_119912; }
+    public static void toggle119964() {IS_119964 = !IS_119964; }
+    public static void toggle120016() {IS_120016 = !IS_120016; }
+    public static void toggle120068() {IS_120068 = !IS_120068; }
+    public static void toggle120120() {IS_120120 = !IS_120120; }
+    public static void toggle120172() {IS_120172 = !IS_120172; }
+    public static void toggle120224() {IS_120224 = !IS_120224; }
+    public static void toggle120276() {IS_120276 = !IS_120276; }
+    public static void toggle120328() {IS_120328 = !IS_120328; }
+    public static void toggle120380() {IS_120380 = !IS_120380; }
+    public static void toggle120432() {IS_120432 = !IS_120432; }
+    public static void toggle127280() {IS_127280 = !IS_127280; }
+    public static void toggle127312() {IS_127312 = !IS_127312; }
+    public static void toggle127344() {IS_127344 = !IS_127344; }
+    public static void toggle127462() {IS_127462 = !IS_127462; }
+    public static void toggle9372()   {IS_9372   = !IS_9372;   }
+    public static void toggle9398()   {IS_9398   = !IS_9398;   }
+    public static void toggleIsBold()      {IS_BOLD      = !IS_BOLD;}
+    public static void toggleIsItalic()    {IS_ITALIC    = !IS_ITALIC;}
+    public static void toggleIsReflected() {IS_REFLECTED = !IS_REFLECTED;}
+    public static void toggleIsSmallcaps() {IS_SMALLCAPS = !IS_SMALLCAPS;}
 }

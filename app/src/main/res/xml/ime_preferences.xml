@@ -7,7 +7,7 @@
     <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="true" />
     <PreferenceCategory android:key="hint" android:title="Hints">
-        <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="true" />
+        <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true" />
         <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="true" />
         <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" />

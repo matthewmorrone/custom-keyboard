@@ -67,6 +67,12 @@ public class CustomKeyboard extends KeyboardView {
         return super.onLongPress(key);
     }
 
+    public void selectKey(Canvas canvas, Key key) {
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        canvas.drawColor(0x60ffffff);
+        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -80,11 +86,11 @@ public class CustomKeyboard extends KeyboardView {
                 mPaint.setTextAlign(Paint.Align.CENTER);
                 mPaint.setTextSize(28);
                 mPaint.setColor(Color.parseColor("#a0ffffff")); //a5a7aa
-                if (key.popupCharacters != null && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hints", true)) {
-                    if (key.popupCharacters.length() > 0 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint1", true)) {
+                if (key.popupCharacters != null && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hints", false)) {
+                    if (key.popupCharacters.length() > 0 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint1", false)) {
                         canvas.drawText((Variables.isShift() ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase() : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);
                     }
-                    if (key.popupCharacters.length() > 1 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint2", true)) {
+                    if (key.popupCharacters.length() > 1 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint2", false)) {
                         canvas.drawText((Variables.isShift() ? String.valueOf(key.popupCharacters.charAt(1)).toUpperCase() : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), key.x+(key.width-20), key.y+30,              mPaint);
                     }
                     if (key.popupCharacters.length() > 2 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint3", false)) {
@@ -121,32 +127,32 @@ public class CustomKeyboard extends KeyboardView {
             }
             catch (Exception ignored) {}
 
-            /*
-
-            if (key.codes[0] == -12) {
-                if (isBold()) {
-                    canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawColor(0x80ffffff);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                }
-            }
-
-            if (key.codes[0] == -13) {
-                if (isItalic()) {
-                    canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawColor(0x80ffffff);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                }
-            }
-
-            if (key.codes[0] == -67) {
-                if (isSelecting()) {
-                    canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawColor(0x80ffffff);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                }
-            }
-
+          /*if (key.codes[0] == -1)  {*/if (Variables.isShift())      {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -12) {*/if (Variables.isBold())       {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -13) {*/if (Variables.isItalic())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -67) {*/if (Variables.isSelecting())  {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -35) {*/if (Variables.is119808())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -36) {*/if (Variables.is119860())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -37) {*/if (Variables.is119912())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -38) {*/if (Variables.is119964())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -39) {*/if (Variables.is120016())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -40) {*/if (Variables.is120068())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -41) {*/if (Variables.is120120())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -42) {*/if (Variables.is120172())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -43) {*/if (Variables.is120224())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -44) {*/if (Variables.is120276())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -45) {*/if (Variables.is120328())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -46) {*/if (Variables.is120380())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -47) {*/if (Variables.is120432())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -68) {*/if (Variables.is127280())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -69) {*/if (Variables.is127312())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -70) {*/if (Variables.is127344())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -71) {*/if (Variables.is127462())     {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -72) {*/if (Variables.is9372())       {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -73) {*/if (Variables.is9398())       {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -50) {*/if (Variables.isReflected())  {selectKey(canvas, key);}/*}
+            if (key.codes[0] == -57) {*/if (Variables.isSmallcaps())  {selectKey(canvas, key);}/*}*/
+/*
             if (key.codes[0] == -1) {
                 if (isShift()) {
                     Drawable dr = (Drawable)kcontext.getResources().getDrawable(R.drawable.ic_shift_lock);
@@ -159,12 +165,11 @@ public class CustomKeyboard extends KeyboardView {
                     dr.draw(canvas);
                 }
             }
-
+*/
             if (key.codes[0] == 32 && morseBuffer.length() > 0) {
                 key.label = morseBuffer;
             }
-
-            */
+            
             if (hexBuffer.length() > 0) {
                 if (key.codes[0] == -2001) {
                     try {

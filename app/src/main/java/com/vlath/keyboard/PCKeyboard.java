@@ -1,5 +1,7 @@
 package com.vlath.keyboard;
 
+import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -70,10 +72,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     public static ArrayList<LatinKeyboard> getLayouts() {
         return layouts;
     }
-
     public void populateLayouts() {
         layouts.clear();
         layouts.add(new LatinKeyboard(this, R.layout.qwerty, "English"));
+        layouts.add(new LatinKeyboard(this, R.layout.navigation, "Navigation"));
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("symbol", true)) {
             layouts.add(new LatinKeyboard(this, R.layout.symbol, "Symbol"));
@@ -141,6 +143,24 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         toast.show();
     }
 
+    public String findKeyboard(String name) {
+        populateLayouts();
+        if (getRowNumber() == 7) {
+            setRowNumber(6);
+            currentKeyboard.setRowNumber(getRowNumber());
+        }
+        int index = 0;
+        for(LatinKeyboard layout : layouts) {
+            if (layout.name.equals(name)) {
+                currentKeyboardID = index;
+                break;
+            }
+            index++;
+        }
+        setKeyboard();
+        return name;
+    }
+
     public void setKeyboard() {
         currentKeyboard = layouts.get(currentKeyboardID);
         kv.setKeyboard(currentKeyboard);
@@ -149,6 +169,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public void prevKeyboard() {
+        if (getRowNumber() == 7) {
+            setRowNumber(6);
+            currentKeyboard.setRowNumber(getRowNumber());
+        }
         populateLayouts();
         currentKeyboardID--;
         if (currentKeyboardID < 0) {currentKeyboardID = layouts.size()-2;}
@@ -156,6 +180,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public void nextKeyboard() {
+        if (getRowNumber() == 7) {
+            setRowNumber(6);
+            currentKeyboard.setRowNumber(getRowNumber());
+        }
         populateLayouts();
         currentKeyboardID++;
         if (currentKeyboardID > layouts.size()-2) {currentKeyboardID = 0;}
@@ -176,7 +204,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     @Override
     public void onInitializeInterface() {
         populateLayouts();
-        
         if (layouts.get(0) != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
@@ -250,7 +277,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     @Override
     public View onCreateInputView() {
         populateLayouts();
-        
         mInputView = (CustomKeyboard)getLayoutInflater().inflate(R.layout.qwerty, null);
 
         mInputView.setOnKeyboardActionListener(this);
@@ -269,7 +295,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         mPaint.setColorFilter(filterInvert);
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         populateLayouts();
-        
         return mCandidateView;
     }
 
@@ -421,6 +446,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     @Override
     public void onRelease(int primaryCode) {
+        InputConnection ic = getCurrentInputConnection();
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
             if (primaryCode == -400 || primaryCode == -498 || primaryCode == -499) {
@@ -429,8 +455,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     imeManager.showInputMethodPicker();
                 }
             }
+            else if (primaryCode >= 48 && primaryCode <= 127) {
+                // ic.commitText(String.valueOf(getKey(primaryCode).popupCharacters[0]), 0);
+            }
         }
-        getCurrentInputConnection().setSelection(Variables.cursorStart, Variables.cursorEnd);
+        // ic.setSelection(Variables.cursorStart, Variables.cursorEnd);
     }
 
     @Override
@@ -445,12 +474,23 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     @Override
     public void swipeDown() {
-        requestHideSelf(0);
+        // requestHideSelf(0);
+        // setRowNumber(getRowNumber()-1);
+        setRowNumber(6);
+        currentKeyboard.setRowNumber(getRowNumber());
+        layouts.set(0, new LatinKeyboard(this, R.layout.qwerty, "English"));
+        currentKeyboardID = 0;
+        setKeyboard();
     }
 
     @Override
     public void swipeUp() {
-
+        // setRowNumber(getRowNumber()+1);
+        setRowNumber(7);
+        currentKeyboard.setRowNumber(getRowNumber());
+        layouts.set(0, new LatinKeyboard(this, R.layout.qwerty_7, "English"));
+        currentKeyboardID = 0;
+        setKeyboard();
     }
 
     public void commitTyped(InputConnection ic) {
@@ -731,8 +771,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-    
-
     public int selectionCase = 0;
 
     public String getText(InputConnection ic) {
@@ -1007,14 +1045,30 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (Variables.isSelecting()) {ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));}
     }
 
+    public String getClipboardEntry(int n) {
+        try {
+            ClipboardManager clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = clipboardManager.getPrimaryClip();
+toastIt(String.valueOf(clip.getItemCount()));
+            ClipData.Item item = clip.getItemAt(n);
+            CharSequence text = item.getText();
+            return text.toString();
+        }
+        catch (Exception e) {
+            return "";
+        }
+    }
+
     public void setCapsOn(boolean on) {
         if (Variables.isShift()) {
             kv.getKeyboard().setShifted(true);
             kv.invalidateAllKeys();
+            kv.draw(new Canvas());
         }
         else {
             kv.getKeyboard().setShifted(on);
             kv.invalidateAllKeys();
+            kv.draw(new Canvas());
         }
     }
 
@@ -1174,7 +1228,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -7: ic.deleteSurroundingText(0, 1); break;
             case -8: selectAll(); break;
             case -9: sendKeyUpDown(KeyEvent.KEYCODE_CUT); break;
-            case -10: sendKeyUpDown(KeyEvent.KEYCODE_COPY); break;
+            case -10: 
+/*
+if (getSelectionStart() == getSelectionEnd()) {
+// selectAll();
+sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
+ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
+sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END);
+ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
+}
+*/
+sendKeyUpDown(KeyEvent.KEYCODE_COPY); 
+break;
             case -11: sendKeyUpDown(KeyEvent.KEYCODE_PASTE); break;
             case -12: Variables.toggleIsBold(); break;
             case -13: Variables.toggleIsItalic(); break;
@@ -1229,7 +1294,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -67:
                 Variables.toggleSelecting(); 
                 Variables.cursorStart = getSelectionStart();
-
             break;
             case -68: Variables.toggle127280(); break;
             case -69: Variables.toggle127312(); break;
@@ -1243,6 +1307,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -77: wordBack(1); break;
             case -78: wordFore(1); break;
             case -79: performReplace(reverse(getText(ic))); break;
+            case -80: ic.commitText(getClipboardEntry(0), 0); break;
+            case -81: ic.commitText(getClipboardEntry(1), 0); break;
+            case -82: ic.commitText(getClipboardEntry(2), 0); break;
+            case -83: ic.commitText(getClipboardEntry(3), 0); break;
+            case -84: ic.commitText(getClipboardEntry(4), 0); break;
+            case -85: ic.commitText(getClipboardEntry(5), 0); break;
+            case -86: ic.commitText(getClipboardEntry(6), 0); break;
+            case -87: ic.commitText(getClipboardEntry(7), 0); break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
@@ -1300,6 +1372,15 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     sendKeyUpDown(61);
                 }
             break;
+            case -300: toastIt(findKeyboard("English")); break;
+            case -301: toastIt(findKeyboard("Function")); break;
+            case -302: toastIt(findKeyboard("Utility")); break;
+            case -303: toastIt(findKeyboard("Emoji")); break;
+            case -304: toastIt(findKeyboard("Navigation")); break;
+            case -305: toastIt(findKeyboard("Symbol")); break;
+            case -306: toastIt(findKeyboard("Fonts")); break;
+
+
             case -399: 
             case -400: toastIt(setKeyboardLayout(0)); break;
             case -401: toastIt(setKeyboardLayout(1)); break;
@@ -1380,5 +1461,5 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public short getRowNumber() {return rowNumber;}
 
-    public void setRowNumber(int number) {rowNumber = (short) number;}
+    public void setRowNumber(int number) {rowNumber = (short)number;}
 }

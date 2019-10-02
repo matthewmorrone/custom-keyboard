@@ -7,7 +7,7 @@
     <Button
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="50dp"
         android:id="@+id/enable"
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
     <Button
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/select"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -29,8 +29,8 @@
     <Button
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/settings"
         android:onClick="settings"
         android:layout_width="match_parent"
@@ -40,8 +40,8 @@
     <EditText
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
