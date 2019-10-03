@@ -14,16 +14,16 @@
         <Key android:codes="-11" android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row>
-        <Key android:codes="49" android:keyLabel="1" android:popupCharacters="!~" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="50" android:keyLabel="2" android:popupCharacters="\?@²" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="51" android:keyLabel="3" android:popupCharacters="#³з№" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="52" android:keyLabel="4" android:popupCharacters="$¢" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="53" android:keyLabel="5" android:popupCharacters="%÷·•" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="54" android:keyLabel="6" android:popupCharacters="^→←↑↓×" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="55" android:keyLabel="7" android:popupCharacters="&amp;+±≠≈" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="49" android:keyLabel="1" android:popupCharacters="!¡~¬¹½⅓¼⅛" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="50" android:keyLabel="2" android:popupCharacters="\?¿@²⅔ƨ⇄" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="51" android:keyLabel="3" android:popupCharacters="#³¾⅜з№" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="52" android:keyLabel="4" android:popupCharacters="$¢⁴ч€£₹₺₽₿" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="53" android:keyLabel="5" android:popupCharacters="%‰⅝ƽ÷·•" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="54" android:keyLabel="6" android:popupCharacters="^→←↑↓ƅ×" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="55" android:keyLabel="7" android:popupCharacters="&amp;+±≠≈⅞√✓⁊" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="56" android:keyLabel="8" android:popupCharacters="*=≈∞∅°" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="57" android:keyLabel="9" android:popupCharacters="([{&lt;❬" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="48" android:keyLabel="0" android:popupCharacters=")]}&gt;❭" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="57" android:keyLabel="9" android:popupCharacters="([{&lt;❬⟨⟪⧙⧛" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="48" android:keyLabel="0" android:popupCharacters=")]}&gt;❭⟩⟫⧘⧚" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="ɋϙϟҩȹƣ" android:popupKeyboard="@layout/popup_template" />
@@ -40,7 +40,7 @@
     <Row>
         <Key android:codes="-77" android:keyIcon="@drawable/ic_blank" android:keyWidth="5%p" android:isRepeatable="true" />
         <Key android:codes="97"  android:keyLabel="a" android:popupCharacters="αɑæąʌɐɒᴀ" android:popupKeyboard="@layout/popup_template" /><!-- android:horizontalGap="5%p" -->
-        <Key android:codes="115" android:keyLabel="s" android:popupCharacters="ꜱσſʃʆꞩßʂ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="115" android:keyLabel="s" android:popupCharacters="σſʃʆꞩßʂ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="100" android:keyLabel="d" android:popupCharacters="δðꝺɗȸд∂ᴅᴆ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters="ϝƒꞙꟻфɸꜰ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="103" android:keyLabel="g" android:popupCharacters="γᵹȝɠɡɢ" android:popupKeyboard="@layout/popup_template" />

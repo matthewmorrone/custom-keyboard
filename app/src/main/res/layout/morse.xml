@@ -14,11 +14,11 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row android:keyHeight="21%p">
-        <Key android:keyOutputText="\u00b7" android:keyLabel="\u00b7" android:keyWidth="50%p" />
-        <Key android:keyOutputText="\u002d" android:keyLabel="\u002d" android:keyWidth="50%p" />
+        <Key android:codes="45"  android:keyLabel="-" android:keyWidth="50%p" />
+        <Key android:codes="183" android:keyLabel="·" android:keyWidth="50%p" />
     </Row>
     <Row>
-        <Key android:keyOutputText="\u0020" android:keyLabel="\u0020" android:keyWidth="100%p" />
+        <Key android:codes="32" android:keyLabel=" " android:keyWidth="100%p" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left" android:keyWidth="10%p" />

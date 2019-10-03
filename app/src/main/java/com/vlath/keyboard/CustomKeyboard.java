@@ -87,13 +87,18 @@ public class CustomKeyboard extends KeyboardView {
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
             if (key.codes[0] == -1)  {
-                
+                int center = key.x+(key.width/2);
+                int middle = key.y+(key.height/2);
+                int left   = center-40;
+                int top    = middle-40;
+                int right  = center+40;
+                int bottom = middle+40;
                 if (isShift()) {
                     canvas.save();
                     canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
                     canvas.drawColor(0xff000000);
                     Drawable dr = getResources().getDrawable(R.drawable.ic_shift_lock, null);
-                    dr.setBounds(key.x+15, key.y+35, key.x+95, key.y+105);
+                    dr.setBounds(left, top, right, bottom);
                     dr.draw(canvas);
                     canvas.restore();
                 }
@@ -102,7 +107,8 @@ public class CustomKeyboard extends KeyboardView {
                     canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
                     canvas.drawColor(0xff000000);
                     Drawable dr = getResources().getDrawable(R.drawable.ic_shift, null);
-                    dr.setBounds(key.x+15, key.y+35, key.x+95, key.y+105);
+                    // dr.setBounds(key.x+15, key.y+35, key.x+95, key.y+105);
+                    dr.setBounds(left, top, right, bottom);
                     dr.draw(canvas);
                     canvas.restore();
                 }
@@ -163,26 +169,36 @@ public class CustomKeyboard extends KeyboardView {
                 canvas.restore();
             }
 
-            if (key.codes[0] == -400) { key.label = layouts.get(0).name; }
-            if (key.codes[0] == -401) { key.label = layouts.get(1).name; }
-            if (key.codes[0] == -402) { key.label = layouts.get(2).name; }
-            if (key.codes[0] == -403) { key.label = layouts.get(3).name; }
-            if (key.codes[0] == -404) { key.label = layouts.get(4).name; }
-            if (key.codes[0] == -405) { key.label = layouts.get(5).name; }
-            if (key.codes[0] == -406) { key.label = layouts.get(6).name; }
-            if (key.codes[0] == -407) { key.label = layouts.get(7).name; }
-            if (key.codes[0] == -408) { key.label = layouts.get(8).name; }
-            if (key.codes[0] == -409) { key.label = layouts.get(9).name; }
-            if (key.codes[0] == -410) { key.label = layouts.get(10).name; }
-            if (key.codes[0] == -411) { key.label = layouts.get(11).name; }
-            if (key.codes[0] == -412) { key.label = layouts.get(12).name; }
-            if (key.codes[0] == -413) { key.label = layouts.get(13).name; }
-            if (key.codes[0] == -414) { key.label = layouts.get(14).name; }
-            if (key.codes[0] == -415) { key.label = layouts.get(15).name; }
-            if (key.codes[0] == -416) { key.label = layouts.get(16).name; }
-            if (key.codes[0] == -417) { key.label = layouts.get(17).name; }
-            if (key.codes[0] == -418) { key.label = layouts.get(18).name; }
-            if (key.codes[0] == -419) { key.label = layouts.get(19).name; }
+
+        try {
+            if (key.codes[0] == -400) { key.label = layouts.get(0)  != null ? layouts.get(0).name  : ""; }
+            if (key.codes[0] == -401) { key.label = layouts.get(1)  != null ? layouts.get(1).name  : ""; }
+            if (key.codes[0] == -402) { key.label = layouts.get(2)  != null ? layouts.get(2).name  : ""; }
+            if (key.codes[0] == -403) { key.label = layouts.get(3)  != null ? layouts.get(3).name  : ""; }
+            if (key.codes[0] == -404) { key.label = layouts.get(4)  != null ? layouts.get(4).name  : ""; }
+            if (key.codes[0] == -405) { key.label = layouts.get(5)  != null ? layouts.get(5).name  : ""; }
+            if (key.codes[0] == -406) { key.label = layouts.get(6)  != null ? layouts.get(6).name  : ""; }
+            if (key.codes[0] == -407) { key.label = layouts.get(7)  != null ? layouts.get(7).name  : ""; }
+            if (key.codes[0] == -408) { key.label = layouts.get(8)  != null ? layouts.get(8).name  : ""; }
+            if (key.codes[0] == -409) { key.label = layouts.get(9)  != null ? layouts.get(9).name  : ""; }
+            if (key.codes[0] == -410) { key.label = layouts.get(10) != null ? layouts.get(10).name : ""; }
+            if (key.codes[0] == -411) { key.label = layouts.get(11) != null ? layouts.get(11).name : ""; }
+            if (key.codes[0] == -412) { key.label = layouts.get(12) != null ? layouts.get(12).name : ""; }
+            if (key.codes[0] == -413) { key.label = layouts.get(13) != null ? layouts.get(13).name : ""; }
+            if (key.codes[0] == -414) { key.label = layouts.get(14) != null ? layouts.get(14).name : ""; }
+            if (key.codes[0] == -415) { key.label = layouts.get(15) != null ? layouts.get(15).name : ""; }
+            if (key.codes[0] == -416) { key.label = layouts.get(16) != null ? layouts.get(16).name : ""; }
+            if (key.codes[0] == -417) { key.label = layouts.get(17) != null ? layouts.get(17).name : ""; }
+            if (key.codes[0] == -418) { key.label = layouts.get(18) != null ? layouts.get(18).name : ""; }
+            if (key.codes[0] == -419) { key.label = layouts.get(19) != null ? layouts.get(19).name : ""; }
+            if (key.codes[0] == -420) { key.label = layouts.get(20) != null ? layouts.get(20).name : ""; }
+            if (key.codes[0] == -421) { key.label = layouts.get(21) != null ? layouts.get(21).name : ""; }
+            if (key.codes[0] == -422) { key.label = layouts.get(22) != null ? layouts.get(22).name : ""; }
+            if (key.codes[0] == -423) { key.label = layouts.get(23) != null ? layouts.get(23).name : ""; }
+            if (key.codes[0] == -424) { key.label = layouts.get(24) != null ? layouts.get(24).name : ""; }
+        }
+        catch(Exception ignored) {}
+
 
             if (key.codes[0] == 32 && morseBuffer.length() > 0) {
                 key.label = morseBuffer;

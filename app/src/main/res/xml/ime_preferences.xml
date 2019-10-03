@@ -14,7 +14,10 @@
         <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" />
     </PreferenceCategory>
     <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="true" />
+    <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
     <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />
+    <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />
+
     <SwitchPreference android:title="@string/prediction" android:key="pred" android:defaultValue="false" />
     <EditTextPreference android:dialogTitle="Word Separators" android:title="@string/word_separators" android:key="seps" android:defaultValue="@string/word_separators" />
     <EditTextPreference android:dialogTitle="Popup One" android:title="@string/popup1" android:key="popup1" android:defaultValue="@string/popup1" />
