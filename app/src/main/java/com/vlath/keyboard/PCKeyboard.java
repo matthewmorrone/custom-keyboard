@@ -506,35 +506,91 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
         if (primaryCode == 32) {
             if (ic.getTextBeforeCursor(1, 0).equals(" ")) {
-                toastIt(String.valueOf(ic.getTextBeforeCursor(1, 0)));
                 ic.deleteSurroundingText(1, 0);
                 ic.commitText(".", 0);
-                Variables.setShiftOn();
                 setCapsOn(true);
-                kv.invalidateAllKeys();
-                kv.draw(new Canvas());
+                firstCaps = true;
             }
         }
+    if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("auto", true)) {
         if (primaryCode == 32 || primaryCode == 39) {
             if (ic.getTextBeforeCursor(2, 0).equals(" i")) {
-                toastIt(String.valueOf(ic.getTextBeforeCursor(2, 0)));
                 ic.deleteSurroundingText(2, 0);
                 ic.commitText(" I", 0);
             }
-        }
-        if (!isAlphabet(primaryCode) || primaryCode == 32) {
-            if (ic.getTextBeforeCursor(5, 0).equals(" lets")) {
-                toastIt(String.valueOf(ic.getTextBeforeCursor(5, 0)));
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" let's", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals(" well")) {
-                toastIt(String.valueOf(ic.getTextBeforeCursor(5, 0)));
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" we'll", 0);
+            if (ic.getTextBeforeCursor(MAX, 0).length() == 1 && ic.getTextBeforeCursor(1, 0).equals("i")) {
+                ic.deleteSurroundingText(1, 0);
+                ic.commitText("I", 0);
             }
         }
 
+        if (!isAlphabet(primaryCode) || primaryCode == 32) {
+            if (ic.getTextBeforeCursor(5, 0).equals(" lets")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText(" let's", 0);
+            }
+            if (ic.getTextBeforeCursor(4, 0).equals(" ill")) {
+                ic.deleteSurroundingText(4, 0);
+                ic.commitText(" I'll", 0);
+            }
+            if (ic.getTextBeforeCursor(3, 0).equals(" id")) {
+                ic.deleteSurroundingText(3, 0);
+                ic.commitText(" I'd", 0);
+            }
+            if (ic.getTextBeforeCursor(3, 0).equals(" im")) {
+                ic.deleteSurroundingText(3, 0);
+                ic.commitText(" I'm", 0);
+            }
+            if (ic.getTextBeforeCursor(4, 0).equals(" ive")) {
+                ic.deleteSurroundingText(4, 0);
+                ic.commitText(" I've", 0);
+            }
+            if (ic.getTextBeforeCursor(4, 0).equals(" hes")) {
+                ic.deleteSurroundingText(4, 0);
+                ic.commitText(" he's", 0);
+            }
+            if (ic.getTextBeforeCursor(5, 0).equals(" shes")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText(" she's", 0);
+            }
+            if (ic.getTextBeforeCursor(4, 0).equals(" hed")) {
+                ic.deleteSurroundingText(4, 0);
+                ic.commitText(" he'd", 0);
+            }
+            if (ic.getTextBeforeCursor(5, 0).equals(" shed")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText(" she'd", 0);
+            }
+            if (ic.getTextBeforeCursor(5, 0).equals(" hell")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText(" he'll", 0);
+            }
+            if (ic.getTextBeforeCursor(5, 0).equals(" shell")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText(" she'll", 0);
+            }
+            if (ic.getTextBeforeCursor(4, 0).equals("youd")) {
+                ic.deleteSurroundingText(4, 0);
+                ic.commitText("you'd", 0);
+            }
+            if (ic.getTextBeforeCursor(5, 0).equals("youll")) {
+                ic.deleteSurroundingText(5, 0);
+                ic.commitText("you'll", 0);
+            }
+            if (ic.getTextBeforeCursor(6, 0).equals("theyll")) {
+                ic.deleteSurroundingText(7, 0);
+                ic.commitText("they'll", 0);
+            }
+            if (ic.getTextBeforeCursor(6, 0).equals("theyre")) {
+                ic.deleteSurroundingText(6, 0);
+                ic.commitText("they're", 0);
+            }
+            if (ic.getTextBeforeCursor(6, 0).equals("theres")) {
+                ic.deleteSurroundingText(6, 0);
+                ic.commitText("there's", 0);
+            }
+        }
+    }
 
         if (isInputViewShown()) {
             if (kv.isShifted()) {

@@ -87,32 +87,27 @@ public class CustomKeyboard extends KeyboardView {
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
             if (key.codes[0] == -1)  {
-                if (getKeyboard().isShifted()) {
-                    selectKey(canvas, key);
-                }
+                
                 if (isShift()) {
                     canvas.save();
-
                     canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
                     canvas.drawColor(0xff000000);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-
                     Drawable dr = getResources().getDrawable(R.drawable.ic_shift_lock, null);
-                    dr.setBounds(key.x+20, key.y+30, key.x+90, key.y+100);
+                    dr.setBounds(key.x+15, key.y+35, key.x+95, key.y+105);
                     dr.draw(canvas);
-
                     canvas.restore();
                 }
                 else {
                     canvas.save();
-
                     canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
                     canvas.drawColor(0xff000000);
                     Drawable dr = getResources().getDrawable(R.drawable.ic_shift, null);
-                    dr.setBounds(key.x+20, key.y+30, key.x+90, key.y+100);
+                    dr.setBounds(key.x+15, key.y+35, key.x+95, key.y+105);
                     dr.draw(canvas);
-
                     canvas.restore();
+                }
+                if (getKeyboard().isShifted()) {
+                    selectKey(canvas, key);
                 }
             }
             if (key.codes[0] == -12) {if (Variables.isBold())        {selectKey(canvas, key);}}
@@ -189,11 +184,6 @@ public class CustomKeyboard extends KeyboardView {
             if (key.codes[0] == -418) { key.label = layouts.get(18).name; }
             if (key.codes[0] == -419) { key.label = layouts.get(19).name; }
 
-/*
-            if (key.codes[0] == -1) {
-
-            }
-*/
             if (key.codes[0] == 32 && morseBuffer.length() > 0) {
                 key.label = morseBuffer;
             }

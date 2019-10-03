@@ -1,7 +1,5 @@
 + if there are too many entries in a keys popup, it doesnt render properly
 + the contents of keys whose contents are modified during runtime aren't printed on the keys until something is pressed
-+ the template had gesture typing, get that back
-+ the template had autocorrect, get that back
 + label size issue for high surrogates
 + popup should close when tapping outside of it
 + duplicate lines
@@ -9,7 +7,6 @@
 + add key to access settings page
 + add key for access to keyboard management page in settings
 + button to access recent clipboard entries
-+ double space period
 + personal dictionary settings link
 + move cursor and select text by dragging the space key
 + popup contents should also be keys
@@ -25,9 +22,6 @@
 + separate out settings page for layouts and custom keys
 + replace screen for arbitrary
 + reorder layouts from settings
-+ swipe up and down to change row amount 
-+ auto insertion of apostrophes for specific contractions
-+ auto capitalization of I if /^i / or / i /
 + drag control for keyboard height
 + autocorrect with google
 + height and width changes on layout change
@@ -35,6 +29,7 @@
 + debug mode: tons of toasts, selection indices
 + unicode input from exhaustive table
 + if cursor start and end are not equal, delete does backspace
++ if cursor start and end are equal, select all or line on copy
 + shift backspace is delete
 + select with manual cursor movement
 + scrolling
