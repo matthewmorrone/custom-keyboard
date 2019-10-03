@@ -24,18 +24,17 @@
         <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="true" />
         <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="true" />
         <CheckBoxPreference android:key="emoji" android:title="Emoji" android:defaultValue="true" />
+        <CheckBoxPreference android:key="extra" android:title="Extra" android:defaultValue="true" />
         <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
-        <CheckBoxPreference android:key="function" android:title="Symbols" android:defaultValue="true" />
-        <CheckBoxPreference android:key="funthork" android:title="Tails" android:defaultValue="true" />
         <CheckBoxPreference android:key="futhark" android:title="Funthork" android:defaultValue="true" />
+        <CheckBoxPreference android:key="funthork" android:title="Futhark" android:defaultValue="true" />
         <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
         <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
         <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="true" />
         <CheckBoxPreference android:key="math" android:title="Math" android:defaultValue="true" />
         <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="true" />
-        <CheckBoxPreference android:key="numbers" android:title="Numeric" android:defaultValue="true" />
-        <CheckBoxPreference android:key="symbol" android:title="Function" android:defaultValue="true" />
-        <CheckBoxPreference android:key="tails" android:title="Futhark" android:defaultValue="true" />
+        <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" />
+        <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="true" />
         <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory android:key="customKeys" android:title="Custom Keys">

@@ -47,7 +47,7 @@
         android:layout_height="50dp"
         android:hint="@string/test"
         android:inputType="textPersonName"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dolor dolor, lobortis fringilla elit ut, tristique condimentum lacus."
+        android:text="@string/placeholder"
         />
     <!--android:id="@+id/element"-->
     <!--android:layout_alignParentBottom="true"-->

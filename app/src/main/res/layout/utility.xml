@@ -3,7 +3,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="12.5%p" android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-
     <Row android:keyWidth="11.111%p">
         <Key android:codes="-25" android:keyIcon="@drawable/ic_double_chevron_left" />
         <Key android:codes="-26" android:keyIcon="@drawable/ic_double_chevron_right" />
