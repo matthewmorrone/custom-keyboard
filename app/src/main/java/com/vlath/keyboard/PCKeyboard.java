@@ -122,6 +122,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("hex", true)) {
             layouts.add(new LatinKeyboard(this, R.layout.hex, "Hex"));
         }
+        // if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
+            layouts.add(new LatinKeyboard(this, R.layout.extra, "Extra"));
+        // }
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("fonts", true)) {
             layouts.add(new LatinKeyboard(this, R.layout.fonts, "Fonts"));
         }

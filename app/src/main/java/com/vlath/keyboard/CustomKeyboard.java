@@ -33,10 +33,12 @@ public class CustomKeyboard extends KeyboardView {
 
     public CustomKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mPaint.setColor(Color.parseColor("#80ffffff")); 
     }
 
     public CustomKeyboard(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mPaint.setColor(Color.parseColor("#80ffffff")); 
     }
 
     public void assignCustomKeys() {
@@ -69,7 +71,8 @@ public class CustomKeyboard extends KeyboardView {
 
     public void selectKey(Canvas canvas, Key key) {
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        canvas.drawColor(0x60ffffff);
+        // canvas.drawColor(0x60ffffff);
+        // mPaint.setColor(Color.parseColor("#a0ffffff")); 
         canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
     }
 
@@ -82,10 +85,41 @@ public class CustomKeyboard extends KeyboardView {
         kcontext = getContext();
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
+            if (key.codes[0] == -1) {
+                if (getKeyboard().isShifted()) {
+                    selectKey(canvas, key);
+                }
+            }
+
+            // if (key.codes[0] == -1)  {if (Variables.isShift())      {selectKey(canvas, key);}}
+            if (key.codes[0] == -12) {if (Variables.isBold())       {selectKey(canvas, key);}}
+            if (key.codes[0] == -13) {if (Variables.isItalic())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -67) {if (Variables.isSelecting())  {selectKey(canvas, key);}}
+            if (key.codes[0] == -35) {if (Variables.is119808())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -36) {if (Variables.is119860())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -37) {if (Variables.is119912())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -38) {if (Variables.is119964())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -39) {if (Variables.is120016())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -40) {if (Variables.is120068())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -41) {if (Variables.is120120())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -42) {if (Variables.is120172())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -43) {if (Variables.is120224())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -44) {if (Variables.is120276())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -45) {if (Variables.is120328())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -46) {if (Variables.is120380())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -47) {if (Variables.is120432())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -68) {if (Variables.is127280())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -69) {if (Variables.is127312())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -70) {if (Variables.is127344())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -71) {if (Variables.is127462())     {selectKey(canvas, key);}}
+            if (key.codes[0] == -72) {if (Variables.is9372())       {selectKey(canvas, key);}}
+            if (key.codes[0] == -73) {if (Variables.is9398())       {selectKey(canvas, key);}}
+            if (key.codes[0] == -50) {if (Variables.isReflected())  {selectKey(canvas, key);}}
+            if (key.codes[0] == -57) {if (Variables.isSmallcaps())  {selectKey(canvas, key);}}
+
             try {
                 mPaint.setTextAlign(Paint.Align.CENTER);
                 mPaint.setTextSize(28);
-                mPaint.setColor(Color.parseColor("#a0ffffff")); //a5a7aa
                 if (key.popupCharacters != null && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hints", false)) {
                     if (key.popupCharacters.length() > 0 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint1", false)) {
                         canvas.drawText((Variables.isShift() ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase() : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);
@@ -102,7 +136,7 @@ public class CustomKeyboard extends KeyboardView {
                 }
             }
             catch(Exception ignored) {}
-
+             
             try {
                 if (key.codes[0] == -400) { key.label = layouts.get(0).name; }
                 if (key.codes[0] == -401) { key.label = layouts.get(1).name; }
@@ -126,32 +160,7 @@ public class CustomKeyboard extends KeyboardView {
                 if (key.codes[0] == -419) { key.label = layouts.get(19).name; }
             }
             catch (Exception ignored) {}
-
-          /*if (key.codes[0] == -1)  {*/if (Variables.isShift())      {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -12) {*/if (Variables.isBold())       {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -13) {*/if (Variables.isItalic())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -67) {*/if (Variables.isSelecting())  {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -35) {*/if (Variables.is119808())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -36) {*/if (Variables.is119860())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -37) {*/if (Variables.is119912())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -38) {*/if (Variables.is119964())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -39) {*/if (Variables.is120016())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -40) {*/if (Variables.is120068())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -41) {*/if (Variables.is120120())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -42) {*/if (Variables.is120172())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -43) {*/if (Variables.is120224())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -44) {*/if (Variables.is120276())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -45) {*/if (Variables.is120328())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -46) {*/if (Variables.is120380())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -47) {*/if (Variables.is120432())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -68) {*/if (Variables.is127280())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -69) {*/if (Variables.is127312())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -70) {*/if (Variables.is127344())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -71) {*/if (Variables.is127462())     {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -72) {*/if (Variables.is9372())       {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -73) {*/if (Variables.is9398())       {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -50) {*/if (Variables.isReflected())  {selectKey(canvas, key);}/*}
-            if (key.codes[0] == -57) {*/if (Variables.isSmallcaps())  {selectKey(canvas, key);}/*}*/
+            
 /*
             if (key.codes[0] == -1) {
                 if (isShift()) {
