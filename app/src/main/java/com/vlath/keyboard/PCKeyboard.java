@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import static com.vlath.keyboard.Codes.isAlphabet;
@@ -514,96 +516,44 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         InputConnection ic = getCurrentInputConnection();
         primaryCode = Codes.handleCharacter(kv, primaryCode);
         // toastIt(String.valueOf(Replacements.getData().size()));
-    if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dot", false)) {
-        if (primaryCode == 32) {
-            if (ic.getTextBeforeCursor(1, 0).equals(" ")) {
-                ic.deleteSurroundingText(1, 0);
-                ic.commitText(".", 0);
-                setCapsOn(true);
-                firstCaps = true;
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("dot", false)) {
+            if (primaryCode == 32) {
+                if (String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(" ")) {
+                    ic.deleteSurroundingText(1, 0);
+                    ic.commitText(".", 0);
+                    setCapsOn(true);
+                    firstCaps = true;
+                }
             }
         }
-    }
-    if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("auto", true)) {
-        if (primaryCode == 32 || primaryCode == 39) {
-            if (ic.getTextBeforeCursor(2, 0).equals(" i")) {
-                ic.deleteSurroundingText(2, 0);
-                ic.commitText(" I", 0);
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("auto", true)) {
+/*
+            if (primaryCode == 32 || primaryCode == 39) {
+                if (String.valueOf(ic.getTextBeforeCursor(2, 0)).matches(" i")) {
+                    ic.deleteSurroundingText(2, 0);
+                    ic.commitText(" I", 0);
+                }
+                if (ic.getTextBeforeCursor(MAX, 0).length() == 1 && String.valueOf(ic.getTextBeforeCursor(1, 0)).matches("i")) {
+                    ic.deleteSurroundingText(1, 0);
+                    ic.commitText("I", 0);
+                }
             }
-            if (ic.getTextBeforeCursor(MAX, 0).length() == 1 && ic.getTextBeforeCursor(1, 0).equals("i")) {
-                ic.deleteSurroundingText(1, 0);
-                ic.commitText("I", 0);
-            }
-        }
-
-        if (!isAlphabet(primaryCode) || primaryCode == 32) {
-            if (ic.getTextBeforeCursor(5, 0).equals(" lets")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" let's", 0);
-            }
-            if (ic.getTextBeforeCursor(4, 0).equals(" ill")) {
-                ic.deleteSurroundingText(4, 0);
-                ic.commitText(" I'll", 0);
-            }
-            if (ic.getTextBeforeCursor(3, 0).equals(" id")) {
-                ic.deleteSurroundingText(3, 0);
-                ic.commitText(" I'd", 0);
-            }
-            if (ic.getTextBeforeCursor(3, 0).equals(" im")) {
-                ic.deleteSurroundingText(3, 0);
-                ic.commitText(" I'm", 0);
-            }
-            if (ic.getTextBeforeCursor(4, 0).equals(" ive")) {
-                ic.deleteSurroundingText(4, 0);
-                ic.commitText(" I've", 0);
-            }
-            if (ic.getTextBeforeCursor(4, 0).equals(" hes")) {
-                ic.deleteSurroundingText(4, 0);
-                ic.commitText(" he's", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals(" shes")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" she's", 0);
-            }
-            if (ic.getTextBeforeCursor(4, 0).equals(" hed")) {
-                ic.deleteSurroundingText(4, 0);
-                ic.commitText(" he'd", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals(" shed")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" she'd", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals(" hell")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" he'll", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals(" shell")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText(" she'll", 0);
-            }
-            if (ic.getTextBeforeCursor(4, 0).equals("youd")) {
-                ic.deleteSurroundingText(4, 0);
-                ic.commitText("you'd", 0);
-            }
-            if (ic.getTextBeforeCursor(5, 0).equals("youll")) {
-                ic.deleteSurroundingText(5, 0);
-                ic.commitText("you'll", 0);
-            }
-            if (ic.getTextBeforeCursor(6, 0).equals("theyll")) {
-                ic.deleteSurroundingText(6, 0);
-                ic.commitText("they'll", 0);
-            }
-            if (ic.getTextBeforeCursor(6, 0).equals("theyre")) {
-                ic.deleteSurroundingText(6, 0);
-                ic.commitText("they're", 0);
-            }
-            if (ic.getTextBeforeCursor(6, 0).equals("theres")) {
-                ic.deleteSurroundingText(6, 0);
-                ic.commitText("there's", 0);
+*/
+            if (!isAlphabet(primaryCode) || primaryCode == 32) {
+                for (Map.Entry<String,String> entry : Replacements.getData().entrySet()) {
+                    String escapedEntryKey 
+                         = entry.getKey()
+                                .replace("\\b", "")
+                                .replace("\\n", "")
+                                .replace("^",   "");
+                    if (String.valueOf(ic.getTextBeforeCursor(escapedEntryKey.length(), 0)).matches(entry.getKey())) {
+                        // toastIt(entry.getKey()+" "+escapedEntryKey+" "+String.valueOf(escapedEntryKey.length()));
+                        ic.deleteSurroundingText(escapedEntryKey.length(), 0);
+                        ic.commitText(entry.getValue(), 0);
+                    }
+                }
             }
         }
-    }
-
         if (isInputViewShown()) {
             if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
@@ -1028,7 +978,7 @@ return words[words.length - 1];
     public void selectAll() {
         InputConnection ic = getCurrentInputConnection();
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
-        Variables.setSelectingOn();
+        // Variables.setSelectingOn();
     }
 
     public void selectNone() {
