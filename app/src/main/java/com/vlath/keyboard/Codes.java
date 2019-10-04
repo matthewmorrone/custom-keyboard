@@ -2,18 +2,13 @@ package com.vlath.keyboard;
 
 import android.view.KeyEvent;
 
-public class Codes {
+class Codes {
 
-    public static boolean isDigit(int code) {
-        if (Character.isDigit(code)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    private static boolean isDigit(int code) {
+        return Character.isDigit(code);
     }
 
-    public static int getHardKeyCode(int keycode) {
+    static int getHardKeyCode(int keycode) {
         char code = (char) keycode;
         switch (String.valueOf(code)) {
             case "a": return KeyEvent.KEYCODE_A;
@@ -46,33 +41,30 @@ public class Codes {
         }
     }
 
-    public static Boolean isAlphaNumeric(int primaryCode) {
+    private static Boolean isAlphaNumeric(int primaryCode) {
         return (isAlphabet(primaryCode) || isDigit(primaryCode));
     }
 
-    public static Boolean isAlphabet(int primaryCode) {
+    static Boolean isAlphabet(int primaryCode) {
         if (primaryCode >= 65 && primaryCode <= 91) {
             return true;
         }
-        if (primaryCode >= 97 && primaryCode <= 123) {
-            return true;
-        }
-        return false;
+        return primaryCode >= 97 && primaryCode <= 123;
     }
 
-    public static int handleCharacter(CustomKeyboard kv, int primaryCode) {
+    static int handleCharacter(CustomKeyboard kv, int primaryCode) {
         if (isAlphaNumeric(primaryCode)) {
             if (isDigit(primaryCode)) {
-                if (Variables.isBold()) {
+                if (Variables.isBolded()) {
                     primaryCode += 120764;
                 }
             }
             else if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
-                if (Variables.isBold() && Variables.isItalic()) {
+                if (Variables.isBolded() && Variables.isItalic()) {
                     primaryCode += 120315;
                 }
-                else if (Variables.isBold()) {
+                else if (Variables.isBolded()) {
                     primaryCode += 120211;
                 }
                 else if (Variables.isItalic()) {
@@ -80,10 +72,10 @@ public class Codes {
                 }
             }
             else {
-                if (Variables.isBold() && Variables.isItalic()) {
+                if (Variables.isBolded() && Variables.isItalic()) {
                     primaryCode += 120309;
                 }
-                else if (Variables.isBold()) {
+                else if (Variables.isBolded()) {
                     primaryCode += 120205;
                 }
                 else if (Variables.isItalic()) {
@@ -200,111 +192,111 @@ public class Codes {
     }
 
 
-    public static int blockException(int primaryCode) {
-        if (Variables.is9372()      && primaryCode ==   65) {return   9372;}
-        if (Variables.is9372()      && primaryCode ==   66) {return   9373;}
-        if (Variables.is9372()      && primaryCode ==   67) {return   9374;}
-        if (Variables.is9372()      && primaryCode ==   68) {return   9375;}
-        if (Variables.is9372()      && primaryCode ==   69) {return   9376;}
-        if (Variables.is9372()      && primaryCode ==   70) {return   9377;}
-        if (Variables.is9372()      && primaryCode ==   71) {return   9378;}
-        if (Variables.is9372()      && primaryCode ==   72) {return   9379;}
-        if (Variables.is9372()      && primaryCode ==   73) {return   9380;}
-        if (Variables.is9372()      && primaryCode ==   74) {return   9381;}
-        if (Variables.is9372()      && primaryCode ==   75) {return   9382;}
-        if (Variables.is9372()      && primaryCode ==   76) {return   9383;}
-        if (Variables.is9372()      && primaryCode ==   77) {return   9384;}
-        if (Variables.is9372()      && primaryCode ==   78) {return   9385;}
-        if (Variables.is9372()      && primaryCode ==   79) {return   9386;}
-        if (Variables.is9372()      && primaryCode ==   80) {return   9387;}
-        if (Variables.is9372()      && primaryCode ==   81) {return   9388;}
-        if (Variables.is9372()      && primaryCode ==   82) {return   9389;}
-        if (Variables.is9372()      && primaryCode ==   83) {return   9390;}
-        if (Variables.is9372()      && primaryCode ==   84) {return   9391;}
-        if (Variables.is9372()      && primaryCode ==   85) {return   9392;}
-        if (Variables.is9372()      && primaryCode ==   86) {return   9393;}
-        if (Variables.is9372()      && primaryCode ==   87) {return   9394;}
-        if (Variables.is9372()      && primaryCode ==   88) {return   9395;}
-        if (Variables.is9372()      && primaryCode ==   89) {return   9396;}
-        if (Variables.is9372()      && primaryCode ==   90) {return   9397;}
-        if (Variables.is9372()      && primaryCode ==   97) {return   9372;}
-        if (Variables.is9372()      && primaryCode ==   98) {return   9373;}
-        if (Variables.is9372()      && primaryCode ==   99) {return   9374;}
-        if (Variables.is9372()      && primaryCode ==  100) {return   9375;}
-        if (Variables.is9372()      && primaryCode ==  101) {return   9376;}
-        if (Variables.is9372()      && primaryCode ==  102) {return   9377;}
-        if (Variables.is9372()      && primaryCode ==  103) {return   9378;}
-        if (Variables.is9372()      && primaryCode ==  104) {return   9379;}
-        if (Variables.is9372()      && primaryCode ==  105) {return   9380;}
-        if (Variables.is9372()      && primaryCode ==  106) {return   9381;}
-        if (Variables.is9372()      && primaryCode ==  107) {return   9382;}
-        if (Variables.is9372()      && primaryCode ==  108) {return   9383;}
-        if (Variables.is9372()      && primaryCode ==  109) {return   9384;}
-        if (Variables.is9372()      && primaryCode ==  110) {return   9385;}
-        if (Variables.is9372()      && primaryCode ==  111) {return   9386;}
-        if (Variables.is9372()      && primaryCode ==  112) {return   9387;}
-        if (Variables.is9372()      && primaryCode ==  113) {return   9388;}
-        if (Variables.is9372()      && primaryCode ==  114) {return   9389;}
-        if (Variables.is9372()      && primaryCode ==  115) {return   9390;}
-        if (Variables.is9372()      && primaryCode ==  116) {return   9391;}
-        if (Variables.is9372()      && primaryCode ==  117) {return   9392;}
-        if (Variables.is9372()      && primaryCode ==  118) {return   9393;}
-        if (Variables.is9372()      && primaryCode ==  119) {return   9394;}
-        if (Variables.is9372()      && primaryCode ==  120) {return   9395;}
-        if (Variables.is9372()      && primaryCode ==  121) {return   9396;}
-        if (Variables.is9372()      && primaryCode ==  122) {return   9397;}
-        if (Variables.is9398()      && primaryCode ==   65) {return   9398;}
-        if (Variables.is9398()      && primaryCode ==   66) {return   9399;}
-        if (Variables.is9398()      && primaryCode ==   67) {return   9400;}
-        if (Variables.is9398()      && primaryCode ==   68) {return   9401;}
-        if (Variables.is9398()      && primaryCode ==   69) {return   9402;}
-        if (Variables.is9398()      && primaryCode ==   70) {return   9403;}
-        if (Variables.is9398()      && primaryCode ==   71) {return   9404;}
-        if (Variables.is9398()      && primaryCode ==   72) {return   9405;}
-        if (Variables.is9398()      && primaryCode ==   73) {return   9406;}
-        if (Variables.is9398()      && primaryCode ==   74) {return   9407;}
-        if (Variables.is9398()      && primaryCode ==   75) {return   9408;}
-        if (Variables.is9398()      && primaryCode ==   76) {return   9409;}
-        if (Variables.is9398()      && primaryCode ==   77) {return   9410;}
-        if (Variables.is9398()      && primaryCode ==   78) {return   9411;}
-        if (Variables.is9398()      && primaryCode ==   79) {return   9412;}
-        if (Variables.is9398()      && primaryCode ==   80) {return   9413;}
-        if (Variables.is9398()      && primaryCode ==   81) {return   9414;}
-        if (Variables.is9398()      && primaryCode ==   82) {return   9415;}
-        if (Variables.is9398()      && primaryCode ==   83) {return   9416;}
-        if (Variables.is9398()      && primaryCode ==   84) {return   9417;}
-        if (Variables.is9398()      && primaryCode ==   85) {return   9418;}
-        if (Variables.is9398()      && primaryCode ==   86) {return   9419;}
-        if (Variables.is9398()      && primaryCode ==   87) {return   9420;}
-        if (Variables.is9398()      && primaryCode ==   88) {return   9421;}
-        if (Variables.is9398()      && primaryCode ==   89) {return   9422;}
-        if (Variables.is9398()      && primaryCode ==   90) {return   9423;}
-        if (Variables.is9398()      && primaryCode ==   97) {return   9424;}
-        if (Variables.is9398()      && primaryCode ==   98) {return   9425;}
-        if (Variables.is9398()      && primaryCode ==   99) {return   9426;}
-        if (Variables.is9398()      && primaryCode ==  100) {return   9427;}
-        if (Variables.is9398()      && primaryCode ==  101) {return   9428;}
-        if (Variables.is9398()      && primaryCode ==  102) {return   9429;}
-        if (Variables.is9398()      && primaryCode ==  103) {return   9430;}
-        if (Variables.is9398()      && primaryCode ==  104) {return   9431;}
-        if (Variables.is9398()      && primaryCode ==  105) {return   9432;}
-        if (Variables.is9398()      && primaryCode ==  106) {return   9433;}
-        if (Variables.is9398()      && primaryCode ==  107) {return   9434;}
-        if (Variables.is9398()      && primaryCode ==  108) {return   9435;}
-        if (Variables.is9398()      && primaryCode ==  109) {return   9436;}
-        if (Variables.is9398()      && primaryCode ==  110) {return   9437;}
-        if (Variables.is9398()      && primaryCode ==  111) {return   9438;}
-        if (Variables.is9398()      && primaryCode ==  112) {return   9439;}
-        if (Variables.is9398()      && primaryCode ==  113) {return   9440;}
-        if (Variables.is9398()      && primaryCode ==  114) {return   9441;}
-        if (Variables.is9398()      && primaryCode ==  115) {return   9442;}
-        if (Variables.is9398()      && primaryCode ==  116) {return   9443;}
-        if (Variables.is9398()      && primaryCode ==  117) {return   9444;}
-        if (Variables.is9398()      && primaryCode ==  118) {return   9445;}
-        if (Variables.is9398()      && primaryCode ==  119) {return   9446;}
-        if (Variables.is9398()      && primaryCode ==  120) {return   9447;}
-        if (Variables.is9398()      && primaryCode ==  121) {return   9448;}
-        if (Variables.is9398()      && primaryCode ==  122) {return   9449;}
+    private static int blockException(int primaryCode) {
+        if (Variables.is009372()      && primaryCode ==   65) {return   9372;}
+        if (Variables.is009372()      && primaryCode ==   66) {return   9373;}
+        if (Variables.is009372()      && primaryCode ==   67) {return   9374;}
+        if (Variables.is009372()      && primaryCode ==   68) {return   9375;}
+        if (Variables.is009372()      && primaryCode ==   69) {return   9376;}
+        if (Variables.is009372()      && primaryCode ==   70) {return   9377;}
+        if (Variables.is009372()      && primaryCode ==   71) {return   9378;}
+        if (Variables.is009372()      && primaryCode ==   72) {return   9379;}
+        if (Variables.is009372()      && primaryCode ==   73) {return   9380;}
+        if (Variables.is009372()      && primaryCode ==   74) {return   9381;}
+        if (Variables.is009372()      && primaryCode ==   75) {return   9382;}
+        if (Variables.is009372()      && primaryCode ==   76) {return   9383;}
+        if (Variables.is009372()      && primaryCode ==   77) {return   9384;}
+        if (Variables.is009372()      && primaryCode ==   78) {return   9385;}
+        if (Variables.is009372()      && primaryCode ==   79) {return   9386;}
+        if (Variables.is009372()      && primaryCode ==   80) {return   9387;}
+        if (Variables.is009372()      && primaryCode ==   81) {return   9388;}
+        if (Variables.is009372()      && primaryCode ==   82) {return   9389;}
+        if (Variables.is009372()      && primaryCode ==   83) {return   9390;}
+        if (Variables.is009372()      && primaryCode ==   84) {return   9391;}
+        if (Variables.is009372()      && primaryCode ==   85) {return   9392;}
+        if (Variables.is009372()      && primaryCode ==   86) {return   9393;}
+        if (Variables.is009372()      && primaryCode ==   87) {return   9394;}
+        if (Variables.is009372()      && primaryCode ==   88) {return   9395;}
+        if (Variables.is009372()      && primaryCode ==   89) {return   9396;}
+        if (Variables.is009372()      && primaryCode ==   90) {return   9397;}
+        if (Variables.is009372()      && primaryCode ==   97) {return   9372;}
+        if (Variables.is009372()      && primaryCode ==   98) {return   9373;}
+        if (Variables.is009372()      && primaryCode ==   99) {return   9374;}
+        if (Variables.is009372()      && primaryCode ==  100) {return   9375;}
+        if (Variables.is009372()      && primaryCode ==  101) {return   9376;}
+        if (Variables.is009372()      && primaryCode ==  102) {return   9377;}
+        if (Variables.is009372()      && primaryCode ==  103) {return   9378;}
+        if (Variables.is009372()      && primaryCode ==  104) {return   9379;}
+        if (Variables.is009372()      && primaryCode ==  105) {return   9380;}
+        if (Variables.is009372()      && primaryCode ==  106) {return   9381;}
+        if (Variables.is009372()      && primaryCode ==  107) {return   9382;}
+        if (Variables.is009372()      && primaryCode ==  108) {return   9383;}
+        if (Variables.is009372()      && primaryCode ==  109) {return   9384;}
+        if (Variables.is009372()      && primaryCode ==  110) {return   9385;}
+        if (Variables.is009372()      && primaryCode ==  111) {return   9386;}
+        if (Variables.is009372()      && primaryCode ==  112) {return   9387;}
+        if (Variables.is009372()      && primaryCode ==  113) {return   9388;}
+        if (Variables.is009372()      && primaryCode ==  114) {return   9389;}
+        if (Variables.is009372()      && primaryCode ==  115) {return   9390;}
+        if (Variables.is009372()      && primaryCode ==  116) {return   9391;}
+        if (Variables.is009372()      && primaryCode ==  117) {return   9392;}
+        if (Variables.is009372()      && primaryCode ==  118) {return   9393;}
+        if (Variables.is009372()      && primaryCode ==  119) {return   9394;}
+        if (Variables.is009372()      && primaryCode ==  120) {return   9395;}
+        if (Variables.is009372()      && primaryCode ==  121) {return   9396;}
+        if (Variables.is009372()      && primaryCode ==  122) {return   9397;}
+        if (Variables.is009398()      && primaryCode ==   65) {return   9398;}
+        if (Variables.is009398()      && primaryCode ==   66) {return   9399;}
+        if (Variables.is009398()      && primaryCode ==   67) {return   9400;}
+        if (Variables.is009398()      && primaryCode ==   68) {return   9401;}
+        if (Variables.is009398()      && primaryCode ==   69) {return   9402;}
+        if (Variables.is009398()      && primaryCode ==   70) {return   9403;}
+        if (Variables.is009398()      && primaryCode ==   71) {return   9404;}
+        if (Variables.is009398()      && primaryCode ==   72) {return   9405;}
+        if (Variables.is009398()      && primaryCode ==   73) {return   9406;}
+        if (Variables.is009398()      && primaryCode ==   74) {return   9407;}
+        if (Variables.is009398()      && primaryCode ==   75) {return   9408;}
+        if (Variables.is009398()      && primaryCode ==   76) {return   9409;}
+        if (Variables.is009398()      && primaryCode ==   77) {return   9410;}
+        if (Variables.is009398()      && primaryCode ==   78) {return   9411;}
+        if (Variables.is009398()      && primaryCode ==   79) {return   9412;}
+        if (Variables.is009398()      && primaryCode ==   80) {return   9413;}
+        if (Variables.is009398()      && primaryCode ==   81) {return   9414;}
+        if (Variables.is009398()      && primaryCode ==   82) {return   9415;}
+        if (Variables.is009398()      && primaryCode ==   83) {return   9416;}
+        if (Variables.is009398()      && primaryCode ==   84) {return   9417;}
+        if (Variables.is009398()      && primaryCode ==   85) {return   9418;}
+        if (Variables.is009398()      && primaryCode ==   86) {return   9419;}
+        if (Variables.is009398()      && primaryCode ==   87) {return   9420;}
+        if (Variables.is009398()      && primaryCode ==   88) {return   9421;}
+        if (Variables.is009398()      && primaryCode ==   89) {return   9422;}
+        if (Variables.is009398()      && primaryCode ==   90) {return   9423;}
+        if (Variables.is009398()      && primaryCode ==   97) {return   9424;}
+        if (Variables.is009398()      && primaryCode ==   98) {return   9425;}
+        if (Variables.is009398()      && primaryCode ==   99) {return   9426;}
+        if (Variables.is009398()      && primaryCode ==  100) {return   9427;}
+        if (Variables.is009398()      && primaryCode ==  101) {return   9428;}
+        if (Variables.is009398()      && primaryCode ==  102) {return   9429;}
+        if (Variables.is009398()      && primaryCode ==  103) {return   9430;}
+        if (Variables.is009398()      && primaryCode ==  104) {return   9431;}
+        if (Variables.is009398()      && primaryCode ==  105) {return   9432;}
+        if (Variables.is009398()      && primaryCode ==  106) {return   9433;}
+        if (Variables.is009398()      && primaryCode ==  107) {return   9434;}
+        if (Variables.is009398()      && primaryCode ==  108) {return   9435;}
+        if (Variables.is009398()      && primaryCode ==  109) {return   9436;}
+        if (Variables.is009398()      && primaryCode ==  110) {return   9437;}
+        if (Variables.is009398()      && primaryCode ==  111) {return   9438;}
+        if (Variables.is009398()      && primaryCode ==  112) {return   9439;}
+        if (Variables.is009398()      && primaryCode ==  113) {return   9440;}
+        if (Variables.is009398()      && primaryCode ==  114) {return   9441;}
+        if (Variables.is009398()      && primaryCode ==  115) {return   9442;}
+        if (Variables.is009398()      && primaryCode ==  116) {return   9443;}
+        if (Variables.is009398()      && primaryCode ==  117) {return   9444;}
+        if (Variables.is009398()      && primaryCode ==  118) {return   9445;}
+        if (Variables.is009398()      && primaryCode ==  119) {return   9446;}
+        if (Variables.is009398()      && primaryCode ==  120) {return   9447;}
+        if (Variables.is009398()      && primaryCode ==  121) {return   9448;}
+        if (Variables.is009398()      && primaryCode ==  122) {return   9449;}
         if (Variables.is119808()    && primaryCode ==   48) {return 120782;}
         if (Variables.is119808()    && primaryCode ==   49) {return 120783;}
         if (Variables.is119808()    && primaryCode ==   50) {return 120784;}
@@ -855,122 +847,122 @@ public class Codes {
         if (Variables.is127462()    && primaryCode ==  120) {return 127485;}
         if (Variables.is127462()    && primaryCode ==  121) {return 127486;}
         if (Variables.is127462()    && primaryCode ==  122) {return 127487;}
-        if (Variables.isReflected() && primaryCode ==   33) {return    161;}
-        if (Variables.isReflected() && primaryCode ==   40) {return     41;}
-        if (Variables.isReflected() && primaryCode ==   41) {return     40;}
-        if (Variables.isReflected() && primaryCode ==   60) {return     62;}
-        if (Variables.isReflected() && primaryCode ==   62) {return     60;}
-        if (Variables.isReflected() && primaryCode ==   63) {return    191;}
-        if (Variables.isReflected() && primaryCode ==   65) {return  11375;}
-        if (Variables.isReflected() && primaryCode ==   66) {return  42221;}
-        if (Variables.isReflected() && primaryCode ==   67) {return    390;}
-        if (Variables.isReflected() && primaryCode ==   68) {return  42231;}
-        if (Variables.isReflected() && primaryCode ==   69) {return    398;}
-        if (Variables.isReflected() && primaryCode ==   70) {return   8498;}
-        if (Variables.isReflected() && primaryCode ==   71) {return  42216;}
-        if (Variables.isReflected() && primaryCode ==   72) {return     72;}
-        if (Variables.isReflected() && primaryCode ==   73) {return     73;}
-        if (Variables.isReflected() && primaryCode ==   74) {return   1360;}
-        if (Variables.isReflected() && primaryCode ==   75) {return  42928;}
-        if (Variables.isReflected() && primaryCode ==   76) {return   8514;}
-        if (Variables.isReflected() && primaryCode ==   77) {return  43005;}
-        if (Variables.isReflected() && primaryCode ==   78) {return     78;}
-        if (Variables.isReflected() && primaryCode ==   79) {return     79;}
-        if (Variables.isReflected() && primaryCode ==   80) {return   1280;}
-        if (Variables.isReflected() && primaryCode ==   81) {return    210;}
-        if (Variables.isReflected() && primaryCode ==   82) {return  42212;}
-        if (Variables.isReflected() && primaryCode ==   83) {return     83;}
-        if (Variables.isReflected() && primaryCode ==   84) {return  42929;}
-        if (Variables.isReflected() && primaryCode ==   85) {return 119365;}
-        if (Variables.isReflected() && primaryCode ==   86) {return    581;}
-        if (Variables.isReflected() && primaryCode ==   87) {return  66224;}
-        if (Variables.isReflected() && primaryCode ==   88) {return     88;}
-        if (Variables.isReflected() && primaryCode ==   89) {return   8516;}
-        if (Variables.isReflected() && primaryCode ==   90) {return     90;}
-        if (Variables.isReflected() && primaryCode ==   91) {return     93;}
-        if (Variables.isReflected() && primaryCode ==   93) {return     91;}
-        if (Variables.isReflected() && primaryCode ==   97) {return    592;}
-        if (Variables.isReflected() && primaryCode ==   98) {return    113;}
-        if (Variables.isReflected() && primaryCode ==   99) {return    596;}
-        if (Variables.isReflected() && primaryCode ==  100) {return    112;}
-        if (Variables.isReflected() && primaryCode ==  101) {return    601;}
-        if (Variables.isReflected() && primaryCode ==  102) {return    607;}
-        if (Variables.isReflected() && primaryCode ==  103) {return   7543;}
-        if (Variables.isReflected() && primaryCode ==  104) {return    613;}
-        if (Variables.isReflected() && primaryCode ==  105) {return   7433;}
-        if (Variables.isReflected() && primaryCode ==  106) {return    383;}
-        if (Variables.isReflected() && primaryCode ==  107) {return    670;}
-        if (Variables.isReflected() && primaryCode ==  108) {return  42881;}
-        if (Variables.isReflected() && primaryCode ==  109) {return    623;}
-        if (Variables.isReflected() && primaryCode ==  110) {return    117;}
-        if (Variables.isReflected() && primaryCode ==  111) {return    111;}
-        if (Variables.isReflected() && primaryCode ==  112) {return    100;}
-        if (Variables.isReflected() && primaryCode ==  113) {return     98;}
-        if (Variables.isReflected() && primaryCode ==  114) {return    633;}
-        if (Variables.isReflected() && primaryCode ==  115) {return    115;}
-        if (Variables.isReflected() && primaryCode ==  116) {return    647;}
-        if (Variables.isReflected() && primaryCode ==  117) {return    110;}
-        if (Variables.isReflected() && primaryCode ==  118) {return    652;}
-        if (Variables.isReflected() && primaryCode ==  119) {return    653;}
-        if (Variables.isReflected() && primaryCode ==  120) {return    120;}
-        if (Variables.isReflected() && primaryCode ==  121) {return    654;}
-        if (Variables.isReflected() && primaryCode ==  122) {return    122;}
-        if (Variables.isReflected() && primaryCode ==  123) {return    125;}
-        if (Variables.isReflected() && primaryCode ==  125) {return    123;}
-        if (Variables.isReflected() && primaryCode ==  171) {return    187;}
-        if (Variables.isReflected() && primaryCode ==  187) {return    171;}
-        if (Variables.isSmallcaps() && primaryCode ==   65) {return     65;}
-        if (Variables.isSmallcaps() && primaryCode ==   66) {return     66;}
-        if (Variables.isSmallcaps() && primaryCode ==   67) {return     67;}
-        if (Variables.isSmallcaps() && primaryCode ==   68) {return     68;}
-        if (Variables.isSmallcaps() && primaryCode ==   69) {return     69;}
-        if (Variables.isSmallcaps() && primaryCode ==   70) {return     70;}
-        if (Variables.isSmallcaps() && primaryCode ==   71) {return     71;}
-        if (Variables.isSmallcaps() && primaryCode ==   72) {return     72;}
-        if (Variables.isSmallcaps() && primaryCode ==   73) {return     73;}
-        if (Variables.isSmallcaps() && primaryCode ==   74) {return     74;}
-        if (Variables.isSmallcaps() && primaryCode ==   75) {return     75;}
-        if (Variables.isSmallcaps() && primaryCode ==   76) {return     76;}
-        if (Variables.isSmallcaps() && primaryCode ==   77) {return     77;}
-        if (Variables.isSmallcaps() && primaryCode ==   78) {return     78;}
-        if (Variables.isSmallcaps() && primaryCode ==   79) {return     79;}
-        if (Variables.isSmallcaps() && primaryCode ==   80) {return     80;}
-        if (Variables.isSmallcaps() && primaryCode ==   81) {return   1192;}
-        if (Variables.isSmallcaps() && primaryCode ==   82) {return     82;}
-        if (Variables.isSmallcaps() && primaryCode ==   83) {return     83;}
-        if (Variables.isSmallcaps() && primaryCode ==   84) {return     84;}
-        if (Variables.isSmallcaps() && primaryCode ==   85) {return     85;}
-        if (Variables.isSmallcaps() && primaryCode ==   86) {return     86;}
-        if (Variables.isSmallcaps() && primaryCode ==   87) {return     87;}
-        if (Variables.isSmallcaps() && primaryCode ==   88) {return     88;}
-        if (Variables.isSmallcaps() && primaryCode ==   89) {return     89;}
-        if (Variables.isSmallcaps() && primaryCode ==   90) {return     90;}
-        if (Variables.isSmallcaps() && primaryCode ==   97) {return   7424;}
-        if (Variables.isSmallcaps() && primaryCode ==   98) {return    665;}
-        if (Variables.isSmallcaps() && primaryCode ==   99) {return   7428;}
-        if (Variables.isSmallcaps() && primaryCode ==  100) {return   7429;}
-        if (Variables.isSmallcaps() && primaryCode ==  101) {return   7431;}
-        if (Variables.isSmallcaps() && primaryCode ==  102) {return  42800;}
-        if (Variables.isSmallcaps() && primaryCode ==  103) {return    610;}
-        if (Variables.isSmallcaps() && primaryCode ==  104) {return    668;}
-        if (Variables.isSmallcaps() && primaryCode ==  105) {return    618;}
-        if (Variables.isSmallcaps() && primaryCode ==  106) {return   7434;}
-        if (Variables.isSmallcaps() && primaryCode ==  107) {return   7435;}
-        if (Variables.isSmallcaps() && primaryCode ==  108) {return    671;}
-        if (Variables.isSmallcaps() && primaryCode ==  109) {return   7437;}
-        if (Variables.isSmallcaps() && primaryCode ==  110) {return    628;}
-        if (Variables.isSmallcaps() && primaryCode ==  111) {return   7439;}
-        if (Variables.isSmallcaps() && primaryCode ==  112) {return   7448;}
-        if (Variables.isSmallcaps() && primaryCode ==  113) {return   1193;}
-        if (Variables.isSmallcaps() && primaryCode ==  114) {return    640;}
-        if (Variables.isSmallcaps() && primaryCode ==  115) {return  42801;}
-        if (Variables.isSmallcaps() && primaryCode ==  116) {return   7451;}
-        if (Variables.isSmallcaps() && primaryCode ==  117) {return   7452;}
-        if (Variables.isSmallcaps() && primaryCode ==  118) {return   7456;}
-        if (Variables.isSmallcaps() && primaryCode ==  119) {return   7457;}
-        if (Variables.isSmallcaps() && primaryCode ==  120) {return    120;}
-        if (Variables.isSmallcaps() && primaryCode ==  121) {return    655;}
-        if (Variables.isSmallcaps() && primaryCode ==  122) {return   7458;}
+        if (Variables.isRflctd() && primaryCode ==   33) {return    161;}
+        if (Variables.isRflctd() && primaryCode ==   40) {return     41;}
+        if (Variables.isRflctd() && primaryCode ==   41) {return     40;}
+        if (Variables.isRflctd() && primaryCode ==   60) {return     62;}
+        if (Variables.isRflctd() && primaryCode ==   62) {return     60;}
+        if (Variables.isRflctd() && primaryCode ==   63) {return    191;}
+        if (Variables.isRflctd() && primaryCode ==   65) {return  11375;}
+        if (Variables.isRflctd() && primaryCode ==   66) {return  42221;}
+        if (Variables.isRflctd() && primaryCode ==   67) {return    390;}
+        if (Variables.isRflctd() && primaryCode ==   68) {return  42231;}
+        if (Variables.isRflctd() && primaryCode ==   69) {return    398;}
+        if (Variables.isRflctd() && primaryCode ==   70) {return   8498;}
+        if (Variables.isRflctd() && primaryCode ==   71) {return  42216;}
+        if (Variables.isRflctd() && primaryCode ==   72) {return     72;}
+        if (Variables.isRflctd() && primaryCode ==   73) {return     73;}
+        if (Variables.isRflctd() && primaryCode ==   74) {return   1360;}
+        if (Variables.isRflctd() && primaryCode ==   75) {return  42928;}
+        if (Variables.isRflctd() && primaryCode ==   76) {return   8514;}
+        if (Variables.isRflctd() && primaryCode ==   77) {return  43005;}
+        if (Variables.isRflctd() && primaryCode ==   78) {return     78;}
+        if (Variables.isRflctd() && primaryCode ==   79) {return     79;}
+        if (Variables.isRflctd() && primaryCode ==   80) {return   1280;}
+        if (Variables.isRflctd() && primaryCode ==   81) {return    210;}
+        if (Variables.isRflctd() && primaryCode ==   82) {return  42212;}
+        if (Variables.isRflctd() && primaryCode ==   83) {return     83;}
+        if (Variables.isRflctd() && primaryCode ==   84) {return  42929;}
+        if (Variables.isRflctd() && primaryCode ==   85) {return 119365;}
+        if (Variables.isRflctd() && primaryCode ==   86) {return    581;}
+        if (Variables.isRflctd() && primaryCode ==   87) {return  66224;}
+        if (Variables.isRflctd() && primaryCode ==   88) {return     88;}
+        if (Variables.isRflctd() && primaryCode ==   89) {return   8516;}
+        if (Variables.isRflctd() && primaryCode ==   90) {return     90;}
+        if (Variables.isRflctd() && primaryCode ==   91) {return     93;}
+        if (Variables.isRflctd() && primaryCode ==   93) {return     91;}
+        if (Variables.isRflctd() && primaryCode ==   97) {return    592;}
+        if (Variables.isRflctd() && primaryCode ==   98) {return    113;}
+        if (Variables.isRflctd() && primaryCode ==   99) {return    596;}
+        if (Variables.isRflctd() && primaryCode ==  100) {return    112;}
+        if (Variables.isRflctd() && primaryCode ==  101) {return    601;}
+        if (Variables.isRflctd() && primaryCode ==  102) {return    607;}
+        if (Variables.isRflctd() && primaryCode ==  103) {return   7543;}
+        if (Variables.isRflctd() && primaryCode ==  104) {return    613;}
+        if (Variables.isRflctd() && primaryCode ==  105) {return   7433;}
+        if (Variables.isRflctd() && primaryCode ==  106) {return    383;}
+        if (Variables.isRflctd() && primaryCode ==  107) {return    670;}
+        if (Variables.isRflctd() && primaryCode ==  108) {return  42881;}
+        if (Variables.isRflctd() && primaryCode ==  109) {return    623;}
+        if (Variables.isRflctd() && primaryCode ==  110) {return    117;}
+        if (Variables.isRflctd() && primaryCode ==  111) {return    111;}
+        if (Variables.isRflctd() && primaryCode ==  112) {return    100;}
+        if (Variables.isRflctd() && primaryCode ==  113) {return     98;}
+        if (Variables.isRflctd() && primaryCode ==  114) {return    633;}
+        if (Variables.isRflctd() && primaryCode ==  115) {return    115;}
+        if (Variables.isRflctd() && primaryCode ==  116) {return    647;}
+        if (Variables.isRflctd() && primaryCode ==  117) {return    110;}
+        if (Variables.isRflctd() && primaryCode ==  118) {return    652;}
+        if (Variables.isRflctd() && primaryCode ==  119) {return    653;}
+        if (Variables.isRflctd() && primaryCode ==  120) {return    120;}
+        if (Variables.isRflctd() && primaryCode ==  121) {return    654;}
+        if (Variables.isRflctd() && primaryCode ==  122) {return    122;}
+        if (Variables.isRflctd() && primaryCode ==  123) {return    125;}
+        if (Variables.isRflctd() && primaryCode ==  125) {return    123;}
+        if (Variables.isRflctd() && primaryCode ==  171) {return    187;}
+        if (Variables.isRflctd() && primaryCode ==  187) {return    171;}
+        if (Variables.isSmlcap() && primaryCode ==   65) {return     65;}
+        if (Variables.isSmlcap() && primaryCode ==   66) {return     66;}
+        if (Variables.isSmlcap() && primaryCode ==   67) {return     67;}
+        if (Variables.isSmlcap() && primaryCode ==   68) {return     68;}
+        if (Variables.isSmlcap() && primaryCode ==   69) {return     69;}
+        if (Variables.isSmlcap() && primaryCode ==   70) {return     70;}
+        if (Variables.isSmlcap() && primaryCode ==   71) {return     71;}
+        if (Variables.isSmlcap() && primaryCode ==   72) {return     72;}
+        if (Variables.isSmlcap() && primaryCode ==   73) {return     73;}
+        if (Variables.isSmlcap() && primaryCode ==   74) {return     74;}
+        if (Variables.isSmlcap() && primaryCode ==   75) {return     75;}
+        if (Variables.isSmlcap() && primaryCode ==   76) {return     76;}
+        if (Variables.isSmlcap() && primaryCode ==   77) {return     77;}
+        if (Variables.isSmlcap() && primaryCode ==   78) {return     78;}
+        if (Variables.isSmlcap() && primaryCode ==   79) {return     79;}
+        if (Variables.isSmlcap() && primaryCode ==   80) {return     80;}
+        if (Variables.isSmlcap() && primaryCode ==   81) {return   1192;}
+        if (Variables.isSmlcap() && primaryCode ==   82) {return     82;}
+        if (Variables.isSmlcap() && primaryCode ==   83) {return     83;}
+        if (Variables.isSmlcap() && primaryCode ==   84) {return     84;}
+        if (Variables.isSmlcap() && primaryCode ==   85) {return     85;}
+        if (Variables.isSmlcap() && primaryCode ==   86) {return     86;}
+        if (Variables.isSmlcap() && primaryCode ==   87) {return     87;}
+        if (Variables.isSmlcap() && primaryCode ==   88) {return     88;}
+        if (Variables.isSmlcap() && primaryCode ==   89) {return     89;}
+        if (Variables.isSmlcap() && primaryCode ==   90) {return     90;}
+        if (Variables.isSmlcap() && primaryCode ==   97) {return   7424;}
+        if (Variables.isSmlcap() && primaryCode ==   98) {return    665;}
+        if (Variables.isSmlcap() && primaryCode ==   99) {return   7428;}
+        if (Variables.isSmlcap() && primaryCode ==  100) {return   7429;}
+        if (Variables.isSmlcap() && primaryCode ==  101) {return   7431;}
+        if (Variables.isSmlcap() && primaryCode ==  102) {return  42800;}
+        if (Variables.isSmlcap() && primaryCode ==  103) {return    610;}
+        if (Variables.isSmlcap() && primaryCode ==  104) {return    668;}
+        if (Variables.isSmlcap() && primaryCode ==  105) {return    618;}
+        if (Variables.isSmlcap() && primaryCode ==  106) {return   7434;}
+        if (Variables.isSmlcap() && primaryCode ==  107) {return   7435;}
+        if (Variables.isSmlcap() && primaryCode ==  108) {return    671;}
+        if (Variables.isSmlcap() && primaryCode ==  109) {return   7437;}
+        if (Variables.isSmlcap() && primaryCode ==  110) {return    628;}
+        if (Variables.isSmlcap() && primaryCode ==  111) {return   7439;}
+        if (Variables.isSmlcap() && primaryCode ==  112) {return   7448;}
+        if (Variables.isSmlcap() && primaryCode ==  113) {return   1193;}
+        if (Variables.isSmlcap() && primaryCode ==  114) {return    640;}
+        if (Variables.isSmlcap() && primaryCode ==  115) {return  42801;}
+        if (Variables.isSmlcap() && primaryCode ==  116) {return   7451;}
+        if (Variables.isSmlcap() && primaryCode ==  117) {return   7452;}
+        if (Variables.isSmlcap() && primaryCode ==  118) {return   7456;}
+        if (Variables.isSmlcap() && primaryCode ==  119) {return   7457;}
+        if (Variables.isSmlcap() && primaryCode ==  120) {return    120;}
+        if (Variables.isSmlcap() && primaryCode ==  121) {return    655;}
+        if (Variables.isSmlcap() && primaryCode ==  122) {return   7458;}
 
         switch (primaryCode) {
             case 119893: return 8462;

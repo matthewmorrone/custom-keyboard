@@ -56,7 +56,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        // addPreferencesFromResource(R.xml.ime_preferences);
         listTheme = (ListPreference)findPreference("theme");
         listTheme.setSummary(listTheme.getEntry());
         

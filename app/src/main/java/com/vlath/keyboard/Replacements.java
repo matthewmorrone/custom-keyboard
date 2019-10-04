@@ -1,15 +1,21 @@
 package com.vlath.keyboard;
 
-import java.util.Map;
 import java.util.HashMap;
 
 public class Replacements {
     
-    static HashMap<String, String> data = new HashMap<String, String>(); 
+    private static HashMap<String, String> data = new HashMap<>();
     
     public Replacements() {}
 
-    public static HashMap<String, String> getData() {
+    // private static void changeKey(String oldKey, String newKey) {
+    //     String value = data.remove(oldKey);
+    //     data.put(newKey, value);
+    // }
+
+    // private static void prepData() {}
+
+    private static void makeData() {
 
         data.put("\\bi", "I");
         data.put("\\byoy", "you");
@@ -32,7 +38,7 @@ public class Replacements {
         data.put("\\bhed", "he'd");
         data.put("\\bhes", "he's");
         data.put("\\bhows", "how's");
-        data.put("\\bim", "I'm");   
+        data.put("\\bim", "I'm");
         data.put("\\bive", "I've");
         data.put("\\bshes", "she's");
         data.put("\\btis", "'tis");
@@ -118,7 +124,64 @@ public class Replacements {
         data.put("\\byoull", "you'll");
         data.put("\\byoure", "you're");
         data.put("\\byouve", "you've");
-//        data.put("\\b", "");
+
+        data.put("\\b...", "…");
+        data.put("\\b@gcom", "@gmail.com");
+        data.put("\\bafaik", "as far as I know");
+        data.put("\\bbc", "because");
+        data.put("\\bbday", "birthday");
+        data.put("\\bbrb", "be right back");
+        data.put("\\bbrt", "be right there");
+        data.put("\\bcmu", "CMU");
+        data.put("\\bdef", "definitely");
+        data.put("\\beta", "ETA");
+        data.put("\\beu", "EU");
+        data.put("\\bfb", "facebook");
+        data.put("\\bffs", "FFS");
+        data.put("\\bfiance", "fiancé");
+        data.put("\\bfiancee", "fiancée");
+        data.put("\\bgn", "good night");
+        data.put("\\bidk", "I don't know");
+        data.put("\\biirc", "if I recall correctly");
+        data.put("\\bikr", "I know, right?");
+        data.put("\\bipa", "IPA");
+        data.put("\\bjfc", "JFC");
+        data.put("\\bjk", "JK");
+        data.put("\\bk", "K");
+        data.put("\\blmao", "LMAO");
+        data.put("\\blmfao", "LMFAO");
+        data.put("\\blol", "LOL");
+        data.put("\\bnrn", "not right now");
+        data.put("\\bok", "OK");
+        data.put("\\bomg", "OMG");
+        data.put("\\bos", "OS");
+        data.put("\\bpitt", "Pitt");
+        data.put("\\bpokemon", "Pokémon");
+        data.put("\\bprc", "PRC");
+        data.put("\\bprob", "probably");
+        data.put("\\bresume", "résumé");
+        data.put("\\bresumee", "resume");
+        data.put("\\brn", "right now");
+        data.put("\\brofl", "ROFL");
+        data.put("\\bse", "southeast");
+        data.put("\\bsry", "sorry");
+        data.put("\\btho", "though");
+        data.put("\\bthru", "through");
+        data.put("\\btil", "until");
+        data.put("\\btill", "til");
+        data.put("\\btilll", "till");
+        data.put("\\bttyl", "talk to you later");
+        data.put("\\bu", "you");
+        data.put("\\buk", "UK");
+        data.put("\\busa", "USA");
+        data.put("\\bw/", "with");
+        data.put("\\bw/o", "without");
+        data.put("\\bwtf", "WTF");
+        // data.put("\\b", "");
+    }
+
+    static HashMap<String, String> getData() {
+        makeData();
         return data;
     }
 }

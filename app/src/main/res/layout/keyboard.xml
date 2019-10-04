@@ -15,5 +15,8 @@ android:paddingTop="0dp"
 android:popupLayout="@layout/preview"
 android:shadowColor="@android:color/transparent" 
 android:shadowRadius="0.0"
+android:ellipsize="end"
+android:maxLines="1"
+android:keyTextSize="32dp"
 >
 </com.vlath.keyboard.CustomKeyboard>

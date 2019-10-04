@@ -3,25 +3,13 @@ package com.vlath.keyboard;
 class Variables {
     
     static int cursorStart = -1;
-    private static boolean IS_SHIFT = false;
-    private static boolean IS_SELECTING = false;
-    static boolean isSelecting() {return IS_SELECTING;}
-    static void toggleSelecting() {IS_SELECTING = !IS_SELECTING;}
-    static void setSelectingOff() {IS_SELECTING = false;}
-    static void setSelectingOn() {IS_SELECTING = true;}
-    static boolean isShift() {return IS_SHIFT;}
 
-    private static boolean IS_CTRL = false;
-    private static boolean IS_ALT = false;
-
-    static boolean isAnyOn() {return IS_CTRL || IS_ALT;}
-    static boolean isCtrl()  {return IS_CTRL;}
-    static boolean isAlt()   {return IS_ALT;}
-
-
-    private static boolean IS_BOLD = false;
+    private static boolean IS__SHIFT = false;
+    private static boolean IS_SELECT = false;
+    private static boolean IS___CTRL = false;
+    private static boolean IS____ALT = false;
+    private static boolean IS_BOLDED = false;
     private static boolean IS_ITALIC = false;
-
     private static boolean IS_119808 = false;
     private static boolean IS_119860 = false;
     private static boolean IS_119912 = false;
@@ -39,37 +27,46 @@ class Variables {
     private static boolean IS_127312 = false;
     private static boolean IS_127344 = false;
     private static boolean IS_127462 = false;
-    private static boolean IS_9372 = false;
-    private static boolean IS_9398 = false;
-    private static boolean IS_REFLECTED = false;
-    private static boolean IS_SMALLCAPS = false;
+    private static boolean IS_009372 = false;
+    private static boolean IS_009398 = false;
+    private static boolean IS_RFLCTD = false;
+    private static boolean IS_SMLCPS = false;
 
-    static boolean isBold()      {return IS_BOLD;}
-    static boolean isItalic()    {return IS_ITALIC;}
-    static boolean is119808()    {return IS_119808;}
-    static boolean is119860()    {return IS_119860;}
-    static boolean is119912()    {return IS_119912;}
-    static boolean is119964()    {return IS_119964;}
-    static boolean is120016()    {return IS_120016;}
-    static boolean is120068()    {return IS_120068;}
-    static boolean is120120()    {return IS_120120;}
-    static boolean is120172()    {return IS_120172;}
-    static boolean is120224()    {return IS_120224;}
-    static boolean is120276()    {return IS_120276;}
-    static boolean is120328()    {return IS_120328;}
-    static boolean is120380()    {return IS_120380;}
-    static boolean is120432()    {return IS_120432;}
-    static boolean is127280()    {return IS_127280;}
-    static boolean is127312()    {return IS_127312;}
-    static boolean is127344()    {return IS_127344;}
-    static boolean is127462()    {return IS_127462;}
-    static boolean is9372()      {return IS_9372;}
-    static boolean is9398()      {return IS_9398;}
-    static boolean isReflected() {return IS_REFLECTED;}
-    static boolean isSmallcaps() {return IS_SMALLCAPS;}
+    static boolean isBolded() { return IS_BOLDED; }
+    static boolean isItalic() { return IS_ITALIC; }
+    static boolean is119808() { return IS_119808; }
+    static boolean is119860() { return IS_119860; }
+    static boolean is119912() { return IS_119912; }
+    static boolean is119964() { return IS_119964; }
+    static boolean is120016() { return IS_120016; }
+    static boolean is120068() { return IS_120068; }
+    static boolean is120120() { return IS_120120; }
+    static boolean is120172() { return IS_120172; }
+    static boolean is120224() { return IS_120224; }
+    static boolean is120276() { return IS_120276; }
+    static boolean is120328() { return IS_120328; }
+    static boolean is120380() { return IS_120380; }
+    static boolean is120432() { return IS_120432; }
+    static boolean is127280() { return IS_127280; }
+    static boolean is127312() { return IS_127312; }
+    static boolean is127344() { return IS_127344; }
+    static boolean is127462() { return IS_127462; }
+    static boolean is009372() { return IS_009372; }
+    static boolean is009398() { return IS_009398; }
+    static boolean isRflctd() { return IS_RFLCTD; }
+    static boolean isSmlcap() { return IS_SMLCPS; }
 
-    static void setAllOff() {
-        IS_BOLD = false;
+    static void set__CtrlOnn() { IS___CTRL =  true; }
+    static void set___AltOnn() { IS____ALT =  true; }
+    static void set_ShiftOnn() { IS__SHIFT =  true; }
+    // static void setSelectOnn() { IS_SELECT  = true; }
+    static void set__CtrlOff() { IS___CTRL = false; }
+    static void set___AltOff() { IS____ALT = false; }
+    static void set_ShiftOff() { IS__SHIFT = false; }
+    static void setSelectOff() { IS_SELECT = false; }
+
+    static void setAllEmOff() {
+        IS_BOLDED = false;
         IS_ITALIC = false;
         IS_119808 = false;
         IS_119860 = false;
@@ -88,10 +85,10 @@ class Variables {
         IS_127312 = false;
         IS_127344 = false;
         IS_127462 = false;
-        IS_9372 = false;
-        IS_9398 = false;
-        IS_REFLECTED = false;
-        IS_SMALLCAPS = false;
+        IS_009372 = false;
+        IS_009398 = false;
+        IS_RFLCTD = false;
+        IS_SMLCPS = false;
     }
 
     private static void setFontsOff() {
@@ -112,43 +109,39 @@ class Variables {
         IS_127312 = false;
         IS_127344 = false;
         IS_127462 = false;
-        IS_9372 = false;
-        IS_9398 = false;
-        IS_REFLECTED = false;
-        IS_SMALLCAPS = false;
+        IS_009372 = false;
+        IS_009398 = false;
+        IS_RFLCTD = false;
+        IS_SMLCPS = false;
     }
 
+    static boolean is_Shift() { return IS__SHIFT; }
+    static boolean isSelect() { return IS_SELECT; }
+    static boolean is__Ctrl() { return IS___CTRL; }
+    static boolean is___Alt() { return IS____ALT; }
 
-    static void setCtrlOn()         {IS_CTRL   = true;}
-    static void setCtrlOff()        {IS_CTRL   = false;}
-    static void setAltOn()          {IS_ALT    = true;}
-    static void setAltOff()         {IS_ALT    = false;}
-    static void setShiftOn()        {IS_SHIFT  = true;}
-    static void setShiftOff()       {IS_SHIFT  = false;}
-
-    static void toggleIsBold()      { if (IS_BOLD)      { setFontsOff(); } else { setFontsOff(); IS_BOLD = true; } }
-    static void toggleIsItalic()    { if (IS_ITALIC)    { setFontsOff(); } else { setFontsOff(); IS_ITALIC = true; } }
-
-    static void toggle119808()      { if (IS_119860)    { setAllOff(); } else { setAllOff(); IS_119808 = true; } }
-    static void toggle119860()      { if (IS_119860)    { setAllOff(); } else { setAllOff(); IS_119860 = true; } }
-    static void toggle119912()      { if (IS_119912)    { setAllOff(); } else { setAllOff(); IS_119912 = true; } }
-    static void toggle119964()      { if (IS_119964)    { setAllOff(); } else { setAllOff(); IS_119964 = true; } }
-    static void toggle120016()      { if (IS_120016)    { setAllOff(); } else { setAllOff(); IS_120016 = true; } }
-    static void toggle120068()      { if (IS_120068)    { setAllOff(); } else { setAllOff(); IS_120068 = true; } }
-    static void toggle120120()      { if (IS_120120)    { setAllOff(); } else { setAllOff(); IS_120120 = true; } }
-    static void toggle120172()      { if (IS_120172)    { setAllOff(); } else { setAllOff(); IS_120172 = true; } }
-    static void toggle120224()      { if (IS_120224)    { setAllOff(); } else { setAllOff(); IS_120224 = true; } }
-    static void toggle120276()      { if (IS_120276)    { setAllOff(); } else { setAllOff(); IS_120276 = true; } }
-    static void toggle120328()      { if (IS_120328)    { setAllOff(); } else { setAllOff(); IS_120328 = true; } }
-    static void toggle120380()      { if (IS_120380)    { setAllOff(); } else { setAllOff(); IS_120380 = true; } }
-    static void toggle120432()      { if (IS_120432)    { setAllOff(); } else { setAllOff(); IS_120432 = true; } }
-    static void toggle127280()      { if (IS_127280)    { setAllOff(); } else { setAllOff(); IS_127280 = true; } }
-    static void toggle127312()      { if (IS_127312)    { setAllOff(); } else { setAllOff(); IS_127312 = true; } }
-    static void toggle127344()      { if (IS_127344)    { setAllOff(); } else { setAllOff(); IS_127344 = true; } }
-    static void toggle127462()      { if (IS_127462)    { setAllOff(); } else { setAllOff(); IS_127462 = true; } }
-    static void toggle9372()        { if (IS_9372)      { setAllOff(); } else { setAllOff(); IS_9372 = true; } }
-    static void toggle9398()        { if (IS_9398)      { setAllOff(); } else { setAllOff(); IS_9398 = true; } }
-    static void toggleIsReflected() { if (IS_REFLECTED) { setAllOff(); } else { setAllOff(); IS_REFLECTED = true; } }
-    static void toggleIsSmallcaps() { if (IS_SMALLCAPS) { setAllOff(); } else { setAllOff(); IS_SMALLCAPS = true; } }
-
+    static void toggleSelect() { IS_SELECT = !IS_SELECT; }
+    static void toggleBolded() { if (IS_BOLDED) { setFontsOff(); }  else { setFontsOff(); IS_BOLDED = true; } }
+    static void toggleItalic() { if (IS_ITALIC) { setFontsOff(); }  else { setFontsOff(); IS_ITALIC = true; } }
+    static void toggle119808() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
+    static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }
+    static void toggle119912() { if (IS_119912) { setAllEmOff(); }  else { setAllEmOff(); IS_119912 = true; } }
+    static void toggle119964() { if (IS_119964) { setAllEmOff(); }  else { setAllEmOff(); IS_119964 = true; } }
+    static void toggle120016() { if (IS_120016) { setAllEmOff(); }  else { setAllEmOff(); IS_120016 = true; } }
+    static void toggle120068() { if (IS_120068) { setAllEmOff(); }  else { setAllEmOff(); IS_120068 = true; } }
+    static void toggle120120() { if (IS_120120) { setAllEmOff(); }  else { setAllEmOff(); IS_120120 = true; } }
+    static void toggle120172() { if (IS_120172) { setAllEmOff(); }  else { setAllEmOff(); IS_120172 = true; } }
+    static void toggle120224() { if (IS_120224) { setAllEmOff(); }  else { setAllEmOff(); IS_120224 = true; } }
+    static void toggle120276() { if (IS_120276) { setAllEmOff(); }  else { setAllEmOff(); IS_120276 = true; } }
+    static void toggle120328() { if (IS_120328) { setAllEmOff(); }  else { setAllEmOff(); IS_120328 = true; } }
+    static void toggle120380() { if (IS_120380) { setAllEmOff(); }  else { setAllEmOff(); IS_120380 = true; } }
+    static void toggle120432() { if (IS_120432) { setAllEmOff(); }  else { setAllEmOff(); IS_120432 = true; } }
+    static void toggle127280() { if (IS_127280) { setAllEmOff(); }  else { setAllEmOff(); IS_127280 = true; } }
+    static void toggle127312() { if (IS_127312) { setAllEmOff(); }  else { setAllEmOff(); IS_127312 = true; } }
+    static void toggle127344() { if (IS_127344) { setAllEmOff(); }  else { setAllEmOff(); IS_127344 = true; } }
+    static void toggle127462() { if (IS_127462) { setAllEmOff(); }  else { setAllEmOff(); IS_127462 = true; } }
+    static void toggle009372() { if (IS_009372) { setAllEmOff(); }  else { setAllEmOff(); IS_009372 = true; } }
+    static void toggle009398() { if (IS_009398) { setAllEmOff(); }  else { setAllEmOff(); IS_009398 = true; } }
+    static void toggleRflctd() { if (IS_RFLCTD) { setAllEmOff(); }  else { setAllEmOff(); IS_RFLCTD = true; } }
+    static void toggleSmlcps() { if (IS_SMLCPS) { setAllEmOff(); }  else { setAllEmOff(); IS_SMLCPS = true; } }
 }

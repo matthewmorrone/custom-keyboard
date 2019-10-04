@@ -9,18 +9,17 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class SeekPreference extends Preference implements OnSeekBarChangeListener {
-    private SeekBar mSeekBar;
     private int mProgress;
 
-    public SeekPreference(Context context) {
-        this(context, null, 0);
-    }
+    // public SeekPreference(Context context) {
+    //     this(context, null, 0);
+    // }
 
-    public SeekPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+    // public SeekPreference(Context context, AttributeSet attrs) {
+    //     this(context, attrs, 0);
+    // }
 
-    public SeekPreference(Context context, AttributeSet attrs, int defStyle) {
+    private SeekPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setLayoutResource(R.layout.seek_dialog);
     }
@@ -28,7 +27,7 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        mSeekBar = (SeekBar)view.findViewById(R.id.seekbar);
+        SeekBar mSeekBar = view.findViewById(R.id.seekbar);
         mSeekBar.setProgress(mProgress);
         mSeekBar.setOnSeekBarChangeListener(this);
     }
@@ -56,7 +55,7 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
         setValue(restoreValue ? getPersistedInt(mProgress) : (Integer)defaultValue);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         if (shouldPersist()) {
             persistInt(value);
         }
