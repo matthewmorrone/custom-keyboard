@@ -15,6 +15,7 @@ android:paddingTop="0dp"
 android:popupLayout="@layout/preview" 
 android:shadowColor="@android:color/transparent" 
 android:shadowRadius="0.0"
+android:keyTextSize="@dimen/text_size"
 android:ellipsize="end"
 android:maxLines="1"
 >

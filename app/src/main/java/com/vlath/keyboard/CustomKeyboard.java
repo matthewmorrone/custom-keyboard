@@ -71,9 +71,9 @@ public class CustomKeyboard extends KeyboardView {
             if (key.codes[0] == -1)  {
                 int center = key.x+(key.width/2);
                 int middle = key.y+(key.height/2);
-                int left   = center-40;
-                int top    = middle-40;
-                int right  = center+40;
+                int left   = center-50;
+                int top    = middle-50;
+                int right  = center+50;
                 int bottom = middle+40;
                 if (is_Shift()) {
                     canvas.save();
@@ -175,8 +175,22 @@ public class CustomKeyboard extends KeyboardView {
                 if (key.codes[0] == -420) { key.label = layouts.get(20) != null ? layouts.get(20).name : ""; }
                 if (key.codes[0] == -421) { key.label = layouts.get(21) != null ? layouts.get(21).name : ""; }
                 if (key.codes[0] == -422) { key.label = layouts.get(22) != null ? layouts.get(22).name : ""; }
-                if (key.codes[0] == -423) { key.label = layouts.get(23) != null ? layouts.get(23).name : ""; }
-                if (key.codes[0] == -424) { key.label = layouts.get(24) != null ? layouts.get(24).name : ""; }
+if (key.codes[0] == -423) {
+    try {
+        key.label = layouts.get(23) != null ? layouts.get(23).name : ""; 
+    }
+    catch (Exception e) {
+        key.label = "";
+    }
+}
+if (key.codes[0] == -424) { 
+    try {
+        key.label = layouts.get(24) != null ? layouts.get(24).name : ""; 
+    }
+    catch (Exception e) {
+        key.label = "";
+    }
+}
 
                 if (key.codes[0] == -501) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k1", ""), 10); }
                 if (key.codes[0] == -502) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k2", ""), 10); }

@@ -16,6 +16,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k6;
     EditTextPreference k7;
     EditTextPreference k8;
+
+    EditTextPreference textSize;
     
     EditTextPreference popup1;
     EditTextPreference popup2;
@@ -38,7 +40,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         
         popup1 = (EditTextPreference)findPreference("popup1");
         popup2 = (EditTextPreference)findPreference("popup2");
-        
+
         k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
         k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
         k3.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k3", ""));

@@ -62,8 +62,6 @@
         <Key android:codes="11417" android:keyLabel="ⲙ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:isRepeatable="true" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete" android:keyWidth="10%p" android:isRepeatable="true" />
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
-        <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />

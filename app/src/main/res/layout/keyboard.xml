@@ -17,6 +17,6 @@ android:shadowColor="@android:color/transparent"
 android:shadowRadius="0.0"
 android:ellipsize="end"
 android:maxLines="1"
-android:keyTextSize="32dp"
+android:keyTextSize="@dimen/text_size"
 >
 </com.vlath.keyboard.CustomKeyboard>

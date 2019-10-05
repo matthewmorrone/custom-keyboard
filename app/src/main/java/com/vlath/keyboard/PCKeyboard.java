@@ -112,6 +112,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                         }
                     }
                     catch (Exception e) {
+                        key.label = "";
                         System.out.println(key.codes[0]);
                         e.printStackTrace();
                     }
@@ -226,10 +227,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -415) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -424) {
+try {
                     if (layouts.get(-key.codes[0] - 400) != null) {
                         key.label = layouts.get(-key.codes[0] - 400).name;
                     }
+                    else {
+key.label = "";
+}
+}
+catch (Exception e) {
+key.label = "";
+}
                 }
             }
         }
@@ -307,6 +316,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
         populateLayouts();
         setKeyboard();
+
+        // kv.setTextSize(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt("text_size", 32));
+
+        if (getRowNumber() == 7) {
+            layouts.set(0, new LatinKeyboard(this, R.layout.qwerty_7, "English"));
+            currentKeyboardID = 0;
+            setKeyboard();
+        }
     }
 
     @Override
@@ -541,12 +558,15 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     if (String.valueOf(ic.getTextBeforeCursor(escapedEntryKey.length(), 0)).matches(entry.getKey())) {
                         // toastIt(entry.getKey()+" "+escapedEntryKey+" "+String.valueOf(escapedEntryKey.length()));
                         ic.deleteSurroundingText(escapedEntryKey.length(), 0);
-                        if (kv.getKeyboard().isShifted()) {
-                            ic.commitText(toTitleCase(entry.getValue()), 0);
-                        }
-                        else {
-                            ic.commitText(entry.getValue(), 0);
-                        }
+                        ic.commitText(entry.getValue(), 0);
+                        // if (kv.getKeyboard().isShifted()) {}
+                        // else {}
+                        break;
+                    }
+                    else if (toTitleCase(String.valueOf(ic.getTextBeforeCursor(escapedEntryKey.length(), 0))).matches(toTitleCase(entry.getKey()))) {
+                        ic.deleteSurroundingText(escapedEntryKey.length(), 0);
+                        ic.commitText(toTitleCase(entry.getValue()), 0);
+                        break;
                     }
                 }
             }
@@ -739,7 +759,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         ic.requestCursorUpdates(3);
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
             int a = getSelectionStart();
-            int b = newText.length();
+            int b = getSelectionStart()+newText.length();
             ic.commitText(newText, b);
             ic.setSelection(a, b);
         }
@@ -829,6 +849,10 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public String camelToSnake(String str) {
         return str.replaceAll(getString(R.string.camelToSnake), "_$1").toLowerCase();
+    }
+
+    public String doubleCharacters(String str) {
+        return str.replaceAll("(.)", "$1$1");
     }
 
     public String snakeToCamel(String str) {
@@ -1380,6 +1404,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -1007: performReplace(camelToSnake(getText(ic)));          break;
             case -1008: performReplace(snakeToCamel(getText(ic)));          break;
             case -1009: performReplace(removeSpaces(getText(ic)));          break;
+            case -1010: performReplace(doubleCharacters(getText(ic)));          break;
             default:
                 if (Variables.is__Ctrl() || Variables.is___Alt()) {
                     processKeyCombo(primaryCode);
