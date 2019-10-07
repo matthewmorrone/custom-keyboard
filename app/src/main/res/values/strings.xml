@@ -29,22 +29,22 @@
         <item name="5">5</item>
         <item name="6">6</item>
         <item name="7">7</item>
-        <item name="7">8</item>
+        <item name="8">8</item>
     </string-array>
     <string-array name="color">
-        <item name="1">Black - White</item>
-        <item name="2">White - Black</item>
-        <item name="3">Blue - White</item>
-        <item name="4">Blue - Black</item>
-        <item name="5">Red - White</item>
-        <item name="6">Red - Black</item>
-        <item name="7">Orange - White</item>
-        <item name="8">Dark - White</item>
+        <item name="1">Black</item>
+        <item name="2">White</item>
+        <item name="3">Blue</item>
+        <item name="4">Cyan</item>
+        <item name="5">Red</item>
+        <item name="6">Magenta</item>
+        <item name="7">Yellow</item>
+        <item name="8">Green</item>
     </string-array>
     <string name="debug">Debug</string>
-    <string name="popup1">;:\'\u0022/?\\</string>
-    <string name="popup2">.,-_…\u0007</string><!-- \u0009 -->
-    <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="popup1">;:\'\u0022\\/?</string>
+    <string name="popup2">.,-_…\u0009</string><!-- \u0020 -->
+    <string name="word_separators" translatable="false">\u0009.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="k1">git clone https://github.com/matthewmorrone/</string>
     <string name="k2">git pull</string>
     <string name="k3">git add --all</string>

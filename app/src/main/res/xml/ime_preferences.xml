@@ -5,6 +5,8 @@
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
     <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
+    <ListPreference android:title="Foreground" android:key="fg" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
+    <ListPreference android:title="Background" android:key="bg" android:entryValues="@array/color_values" android:defaultValue="2" android:entries="@array/color" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="false" />
     <PreferenceCategory android:key="hint" android:title="Hints">
         <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
@@ -34,10 +36,12 @@ android:numeric="integer"
         <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="true" />
         <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="true" />
         <CheckBoxPreference android:key="emoji" android:title="Emoji" android:defaultValue="true" />
+        <CheckBoxPreference android:key="etruscan" android:title="Etruscan" android:defaultValue="true" />
         <CheckBoxPreference android:key="extra" android:title="Extra" android:defaultValue="true" />
         <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
         <CheckBoxPreference android:key="futhark" android:title="Funthork" android:defaultValue="true" />
         <CheckBoxPreference android:key="funthork" android:title="Futhark" android:defaultValue="true" />
+        <CheckBoxPreference android:key="gothic" android:title="Gothic" android:defaultValue="true" />
         <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
         <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
         <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="true" />
