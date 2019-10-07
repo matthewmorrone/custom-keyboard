@@ -4,9 +4,12 @@ import android.view.KeyEvent;
 
 class Codes {
 
-    private static boolean isDigit(int code) {
-        return Character.isDigit(code);
-    }
+    static final int[] hexPasses = {
+         -5, -7, -107, -108, -109, -111, -101, -102, -103, -8, -9, -10, -11, -499, 32, 9, 10
+    };
+    static final int[] hexCaptures = {
+         48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70
+    };
 
     static int getHardKeyCode(int keycode) {
         char code = (char) keycode;
@@ -41,30 +44,19 @@ class Codes {
         }
     }
 
-    private static Boolean isAlphaNumeric(int primaryCode) {
-        return (isAlphabet(primaryCode) || isDigit(primaryCode));
-    }
-
-    static Boolean isAlphabet(int primaryCode) {
-        if (primaryCode >= 65 && primaryCode <= 91) {
-            return true;
-        }
-        return primaryCode >= 97 && primaryCode <= 123;
-    }
-
     static int handleCharacter(CustomKeyboard kv, int primaryCode) {
-        if (isAlphaNumeric(primaryCode)) {
-            if (isDigit(primaryCode)) {
-                if (Variables.isBolded()) {
+        if (Util.isAlphaNumeric(primaryCode)) {
+            if (Util.isDigit(primaryCode)) {
+                if (Variables.isBold()) {
                     primaryCode += 120764;
                 }
             }
             else if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
-                if (Variables.isBolded() && Variables.isItalic()) {
+                if (Variables.isBold() && Variables.isItalic()) {
                     primaryCode += 120315;
                 }
-                else if (Variables.isBolded()) {
+                else if (Variables.isBold()) {
                     primaryCode += 120211;
                 }
                 else if (Variables.isItalic()) {
@@ -72,10 +64,10 @@ class Codes {
                 }
             }
             else {
-                if (Variables.isBolded() && Variables.isItalic()) {
+                if (Variables.isBold() && Variables.isItalic()) {
                     primaryCode += 120309;
                 }
-                else if (Variables.isBolded()) {
+                else if (Variables.isBold()) {
                     primaryCode += 120205;
                 }
                 else if (Variables.isItalic()) {

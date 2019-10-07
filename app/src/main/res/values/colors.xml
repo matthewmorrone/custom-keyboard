@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <color name="primary">#3F51B5</color>
-     <color name="primary_dark">#303F9F</color>
-     <color name="accent">#FF4081</color>
-
-    <color name="transparent">#00000000</color>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="red">#EF5350</color>
-    <color name="green">#4CAF50</color>
-    <color name="blue">#42A5F5</color>
-    <color name="cyan">#26C6DA</color>
-    <color name="yellow">#D93925</color>
-    <color name="magenta">#BD5A0A</color>
 
     <color name="teal">#26A69A</color>
     <color name="amber">#FFC107</color>

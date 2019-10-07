@@ -58,9 +58,6 @@
     <string name="select">Select</string>
     <string name="enable">Enable</string>
     <string name="test">Test your keyboard here</string>
-    <string name="placeholder">Lorem ipsum dolor sit amet</string>
-    <string name="joinWithSpaces">[     ]</string>
-    <string name="splitWithSpaces">(.)</string>
-    <string name="camelToSnake">([A-Z])</string>
-    <!--, consectetur adipiscing elit. Curabitur dolor dolor, lobortis fringilla elit ut, tristique condimentum lacus. -->
+    <string name="placeholder"><!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dolor dolor, lobortis fringilla elit ut, tristique condimentum lacus. --></string>
+    <string name="speech">Speech</string>
 </resources>

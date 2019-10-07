@@ -4,11 +4,11 @@ class Variables {
     
     static int cursorStart = -1;
 
-    private static boolean IS__SHIFT = false;
+    private static boolean IS_SHIFT = false;
     private static boolean IS_SELECT = false;
-    private static boolean IS___CTRL = false;
-    private static boolean IS____ALT = false;
-    private static boolean IS_BOLDED = false;
+    private static boolean IS_CTRL = false;
+    private static boolean IS_ALT = false;
+    private static boolean IS_BOLD = false;
     private static boolean IS_ITALIC = false;
     private static boolean IS_119808 = false;
     private static boolean IS_119860 = false;
@@ -29,10 +29,10 @@ class Variables {
     private static boolean IS_127462 = false;
     private static boolean IS_009372 = false;
     private static boolean IS_009398 = false;
-    private static boolean IS_RFLCTD = false;
-    private static boolean IS_SMLCPS = false;
+    private static boolean IS_REFLECTED = false;
+    private static boolean IS_SMALLCAPS = false;
 
-    static boolean isBolded() { return IS_BOLDED; }
+    static boolean isBold() { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
     static boolean is119808() { return IS_119808; }
     static boolean is119860() { return IS_119860; }
@@ -53,20 +53,20 @@ class Variables {
     static boolean is127462() { return IS_127462; }
     static boolean is009372() { return IS_009372; }
     static boolean is009398() { return IS_009398; }
-    static boolean isRflctd() { return IS_RFLCTD; }
-    static boolean isSmlcap() { return IS_SMLCPS; }
+    static boolean isRflctd() { return IS_REFLECTED; }
+    static boolean isSmlcap() { return IS_SMALLCAPS; }
 
-    static void set__CtrlOnn() { IS___CTRL =  true; }
-    static void set___AltOnn() { IS____ALT =  true; }
-    static void set_ShiftOnn() { IS__SHIFT =  true; }
-    // static void setSelectOnn() { IS_SELECT  = true; }
-    static void set__CtrlOff() { IS___CTRL = false; }
-    static void set___AltOff() { IS____ALT = false; }
-    static void set_ShiftOff() { IS__SHIFT = false; }
+    static void setCtrlOn() { IS_CTRL =  true; }
+    static void setAltOn() { IS_ALT =  true; }
+    static void setShiftOn() { IS_SHIFT =  true; }
+    // static void setSelectOn() { IS_SELECT  = true; }
+    static void setCtrlOff() { IS_CTRL = false; }
+    static void setAltOff() { IS_ALT = false; }
+    static void setShiftOff() { IS_SHIFT = false; }
     static void setSelectOff() { IS_SELECT = false; }
 
     static void setAllEmOff() {
-        IS_BOLDED = false;
+        IS_BOLD = false;
         IS_ITALIC = false;
         IS_119808 = false;
         IS_119860 = false;
@@ -87,8 +87,8 @@ class Variables {
         IS_127462 = false;
         IS_009372 = false;
         IS_009398 = false;
-        IS_RFLCTD = false;
-        IS_SMLCPS = false;
+        IS_REFLECTED = false;
+        IS_SMALLCAPS = false;
     }
 
     private static void setFontsOff() {
@@ -111,17 +111,17 @@ class Variables {
         IS_127462 = false;
         IS_009372 = false;
         IS_009398 = false;
-        IS_RFLCTD = false;
-        IS_SMLCPS = false;
+        IS_REFLECTED = false;
+        IS_SMALLCAPS = false;
     }
 
-    static boolean is_Shift() { return IS__SHIFT; }
+    static boolean isShift()  { return IS_SHIFT; }
     static boolean isSelect() { return IS_SELECT; }
-    static boolean is__Ctrl() { return IS___CTRL; }
-    static boolean is___Alt() { return IS____ALT; }
+    static boolean isCtrl()   { return IS_CTRL; }
+    static boolean isAlt()    { return IS_ALT; }
 
     static void toggleSelect() { IS_SELECT = !IS_SELECT; }
-    static void toggleBolded() { if (IS_BOLDED) { setFontsOff(); }  else { setFontsOff(); IS_BOLDED = true; } }
+    static void toggleBolded() { if (IS_BOLD)   { setFontsOff(); }  else { setFontsOff(); IS_BOLD = true; } }
     static void toggleItalic() { if (IS_ITALIC) { setFontsOff(); }  else { setFontsOff(); IS_ITALIC = true; } }
     static void toggle119808() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
     static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }
@@ -142,6 +142,6 @@ class Variables {
     static void toggle127462() { if (IS_127462) { setAllEmOff(); }  else { setAllEmOff(); IS_127462 = true; } }
     static void toggle009372() { if (IS_009372) { setAllEmOff(); }  else { setAllEmOff(); IS_009372 = true; } }
     static void toggle009398() { if (IS_009398) { setAllEmOff(); }  else { setAllEmOff(); IS_009398 = true; } }
-    static void toggleRflctd() { if (IS_RFLCTD) { setAllEmOff(); }  else { setAllEmOff(); IS_RFLCTD = true; } }
-    static void toggleSmlcps() { if (IS_SMLCPS) { setAllEmOff(); }  else { setAllEmOff(); IS_SMLCPS = true; } }
+    static void toggleReflected() { if (IS_REFLECTED) { setAllEmOff(); }  else { setAllEmOff(); IS_REFLECTED = true; } }
+    static void toggleSmallcaps() { if (IS_SMALLCAPS) { setAllEmOff(); }  else { setAllEmOff(); IS_SMALLCAPS = true; } }
 }

@@ -1,5 +1,6 @@
 package com.vlath.keyboard;
 
+import android.content.SharedPreferences;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -19,10 +20,14 @@ import java.util.List;
 import static com.vlath.keyboard.PCKeyboard.layouts;
 import static com.vlath.keyboard.PCKeyboard.hexBuffer;
 import static com.vlath.keyboard.PCKeyboard.morseBuffer;
-import static com.vlath.keyboard.Variables.is_Shift;
+import static com.vlath.keyboard.Variables.isShift;
 
 public class CustomKeyboard extends KeyboardView {
 
+
+
+
+    Canvas canvas;
     Paint mPaint = new Paint();
 
     public CustomKeyboard(Context context, AttributeSet attrs) {
@@ -48,121 +53,129 @@ public class CustomKeyboard extends KeyboardView {
         return super.onLongPress(key);
     }
 
-    public void selectKey(Canvas canvas, Key key) {
+    public void layoutKey(Key key, int code) {
+        if (key.codes[0] == code) {
+            try {
+                key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : "";
+            }
+            catch (Exception e) {
+                key.label = "";
+            }
+        }
+    }
+
+    public void selectKey(Key key) {
         canvas.save();
+
+        mPaint.setColor(Color.parseColor("#ff000000"));
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        mPaint.setColor(Color.parseColor("#80ffffff"));
         canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+
+        mPaint.setColor(Color.parseColor("#80ffffff"));
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+
+        canvas.restore();
+    }
+
+    public void drawable(Key key, int drawable, int size) {
+        int center = key.x+(key.width/2);
+        int middle = key.y+(key.height/2);
+        int left   = center-size;
+        int top    = middle-size;
+        int right  = center+size;
+        int bottom = middle+size;
+
+        canvas.save();
+
+        Drawable dr = getResources().getDrawable(drawable, null);
+        dr.setBounds(left, top, right, bottom);
+        dr.draw(canvas);
+
         canvas.restore();
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        this.canvas = canvas;
+
+
         Context kcontext = getContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
+        System.out.println(sharedPreferences.getAll());
+
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
-            int center = key.x+(key.width/2);
-            int middle = key.y+(key.height/2);
-            int left   = center-50;
-            int top    = middle-50;
-            int right  = center+50;
-            int bottom = middle+50;
-            if (getKeyboard().isShifted() && key.codes[0] >= 48 && key.codes[0] <= 57)  {
-                canvas.save();
-                // mPaint.setColor(Color.parseColor("#ff000000"));
-                // canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // mPaint.setTextAlign(Paint.Align.CENTER);
-                // mPaint.setTextSize(64);
-                // mPaint.setColor(Color.parseColor("#ffffffff"));
-                // canvas.drawText(String.valueOf(key.popupCharacters.charAt(0)), center, middle+10, mPaint);
-                canvas.restore();
-            }
-            else if (key.codes[0] >= 48 && key.codes[0] <= 57) {
-                canvas.save();
-                // mPaint.setColor(Color.parseColor("#ff000000"));
-                // canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // mPaint.setTextAlign(Paint.Align.CENTER);
-                // mPaint.setTextSize(64);
-                // mPaint.setColor(Color.parseColor("#ffffffff"));
-                // canvas.drawText(String.valueOf((char)key.codes[0]),            center, middle+10, mPaint);
-                canvas.restore();
-            }
-            if (key.codes[0] == -1 && is_Shift()) {// getKeyboard().isShifted()) {
-                canvas.save();
-                // selectKey(canvas, key);
-                // mPaint.setColor(Color.parseColor("#ff000000"));
-                // canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // mPaint.setColor(Color.parseColor("#80ffffff"));
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // Drawable dr = getResources().getDrawable(R.drawable.ic_shift_lock, null);
-                // dr.setBounds(left, top, right, bottom);
-                // dr.draw(canvas);
-                canvas.restore();
-            }
-            if (key.codes[0] == -1 && getKeyboard().isShifted()) {
-                canvas.save();
-                // selectKey(canvas, key);
-                // mPaint.setColor(Color.parseColor("#ff000000"));
-                // canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // mPaint.setColor(Color.parseColor("#80ffffff"));
-                // canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-                // Drawable dr = getResources().getDrawable(R.drawable.ic_shift_lock, null);
-                // dr.setBounds(left, top, right, bottom);
-                // dr.draw(canvas);
-                canvas.restore();
-            }
-            if (key.codes[0] == -12) {if (Variables.isBolded()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -13) {if (Variables.isItalic()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -67) {if (Variables.isSelect()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -35) {if (Variables.is119808()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -36) {if (Variables.is119860()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -37) {if (Variables.is119912()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -38) {if (Variables.is119964()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -39) {if (Variables.is120016()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -40) {if (Variables.is120068()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -41) {if (Variables.is120120()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -42) {if (Variables.is120172()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -43) {if (Variables.is120224()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -44) {if (Variables.is120276()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -45) {if (Variables.is120328()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -46) {if (Variables.is120380()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -47) {if (Variables.is120432()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -50) {if (Variables.isRflctd()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -57) {if (Variables.isSmlcap()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -68) {if (Variables.is127280()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -69) {if (Variables.is127312()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -70) {if (Variables.is127344()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -71) {if (Variables.is127462()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -72) {if (Variables.is009372()) {selectKey(canvas, key);}}
-            if (key.codes[0] == -73) {if (Variables.is009398()) {selectKey(canvas, key);}}
+            // if (key.codes[0] >= 48 && key.codes[0] <= 57) {
+            //     canvas.save();
+            //     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+            //     canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+            //     mPaint.setTextAlign(Paint.Align.CENTER);
+            //     mPaint.setTextSize(64);
+            //     mPaint.setColor(Color.parseColor("#ffffffff"));
+            //     canvas.drawText(String.valueOf(key.popupCharacters.charAt(0)), center, middle+10, mPaint);
+            //     canvas.drawText(String.valueOf((char)key.codes[0]),            center, middle+10, mPaint);
+            //     canvas.restore();
+            // }
 
-            
+            if (key.codes[0] == -1) {
+                if (isShift()) {
+                    selectKey(key);
+                    drawable(key, R.drawable.ic_shift_lock, 30);
+                }
+                else if (getKeyboard().isShifted()) {
+                    selectKey(key);
+                    drawable(key, R.drawable.ic_shift, 30);
+                }
+            }
+
+            if (key.codes[0] == -12) {if (Variables.isBold())   {selectKey(key);}}
+            if (key.codes[0] == -13) {if (Variables.isItalic()) {selectKey(key);}}
+            if (key.codes[0] == -67) {if (Variables.isSelect()) {selectKey(key);}}
+            if (key.codes[0] == -35) {if (Variables.is119808()) {selectKey(key);}}
+            if (key.codes[0] == -36) {if (Variables.is119860()) {selectKey(key);}}
+            if (key.codes[0] == -37) {if (Variables.is119912()) {selectKey(key);}}
+            if (key.codes[0] == -38) {if (Variables.is119964()) {selectKey(key);}}
+            if (key.codes[0] == -39) {if (Variables.is120016()) {selectKey(key);}}
+            if (key.codes[0] == -40) {if (Variables.is120068()) {selectKey(key);}}
+            if (key.codes[0] == -41) {if (Variables.is120120()) {selectKey(key);}}
+            if (key.codes[0] == -42) {if (Variables.is120172()) {selectKey(key);}}
+            if (key.codes[0] == -43) {if (Variables.is120224()) {selectKey(key);}}
+            if (key.codes[0] == -44) {if (Variables.is120276()) {selectKey(key);}}
+            if (key.codes[0] == -45) {if (Variables.is120328()) {selectKey(key);}}
+            if (key.codes[0] == -46) {if (Variables.is120380()) {selectKey(key);}}
+            if (key.codes[0] == -47) {if (Variables.is120432()) {selectKey(key);}}
+            if (key.codes[0] == -50) {if (Variables.isRflctd()) {selectKey(key);}}
+            if (key.codes[0] == -57) {if (Variables.isSmlcap()) {selectKey(key);}}
+            if (key.codes[0] == -68) {if (Variables.is127280()) {selectKey(key);}}
+            if (key.codes[0] == -69) {if (Variables.is127312()) {selectKey(key);}}
+            if (key.codes[0] == -70) {if (Variables.is127344()) {selectKey(key);}}
+            if (key.codes[0] == -71) {if (Variables.is127462()) {selectKey(key);}}
+            if (key.codes[0] == -72) {if (Variables.is009372()) {selectKey(key);}}
+            if (key.codes[0] == -73) {if (Variables.is009398()) {selectKey(key);}}
+
             mPaint.setTextAlign(Paint.Align.CENTER);
             mPaint.setTextSize(28);
             mPaint.setColor(Color.parseColor("#80ffffff"));
-            if (key.popupCharacters != null && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hints", false)) {
+            if (key.popupCharacters != null && sharedPreferences.getBoolean("hints", false)) {
                 canvas.save();
-                if (key.popupCharacters.length() > 0 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint1", false)) {
+                if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                          : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);
                 }
-                if (key.popupCharacters.length() > 1 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint2", false)) {
+                if (key.popupCharacters.length() > 1 && sharedPreferences.getBoolean("hint2", false)) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(1)).toUpperCase()
                          : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), key.x+(key.width-20), key.y+30,              mPaint);
                 }
-                if (key.popupCharacters.length() > 2 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint3", false)) {
+                if (key.popupCharacters.length() > 2 && sharedPreferences.getBoolean("hint3", false)) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(2)).toUpperCase()
                          : String.valueOf(key.popupCharacters.charAt(2)).toLowerCase()), key.x+20,             key.y+(key.height-15), mPaint);
                 }
-                if (key.popupCharacters.length() > 3 && PreferenceManager.getDefaultSharedPreferences(kcontext).getBoolean("hint4", false)) {
+                if (key.popupCharacters.length() > 3 && sharedPreferences.getBoolean("hint4", false)) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(3)).toUpperCase()
                          : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+(key.height-15), mPaint);
@@ -170,55 +183,19 @@ public class CustomKeyboard extends KeyboardView {
                 canvas.restore();
             }
 
-            try {
-                if (key.codes[0] == -400) { key.label = layouts.get( 0) != null ? layouts.get( 0).name : ""; }
-                if (key.codes[0] == -401) { key.label = layouts.get( 1) != null ? layouts.get( 1).name : ""; }
-                if (key.codes[0] == -402) { key.label = layouts.get( 2) != null ? layouts.get( 2).name : ""; }
-                if (key.codes[0] == -403) { key.label = layouts.get( 3) != null ? layouts.get( 3).name : ""; }
-                if (key.codes[0] == -404) { key.label = layouts.get( 4) != null ? layouts.get( 4).name : ""; }
-                if (key.codes[0] == -405) { key.label = layouts.get( 5) != null ? layouts.get( 5).name : ""; }
-                if (key.codes[0] == -406) { key.label = layouts.get( 6) != null ? layouts.get( 6).name : ""; }
-                if (key.codes[0] == -407) { key.label = layouts.get( 7) != null ? layouts.get( 7).name : ""; }
-                if (key.codes[0] == -408) { key.label = layouts.get( 8) != null ? layouts.get( 8).name : ""; }
-                if (key.codes[0] == -409) { key.label = layouts.get( 9) != null ? layouts.get( 9).name : ""; }
-                if (key.codes[0] == -410) { key.label = layouts.get(10) != null ? layouts.get(10).name : ""; }
-                if (key.codes[0] == -411) { key.label = layouts.get(11) != null ? layouts.get(11).name : ""; }
-                if (key.codes[0] == -412) { key.label = layouts.get(12) != null ? layouts.get(12).name : ""; }
-                if (key.codes[0] == -413) { key.label = layouts.get(13) != null ? layouts.get(13).name : ""; }
-                if (key.codes[0] == -414) { key.label = layouts.get(14) != null ? layouts.get(14).name : ""; }
-                if (key.codes[0] == -415) { key.label = layouts.get(15) != null ? layouts.get(15).name : ""; }
-                if (key.codes[0] == -416) { key.label = layouts.get(16) != null ? layouts.get(16).name : ""; }
-                if (key.codes[0] == -417) { key.label = layouts.get(17) != null ? layouts.get(17).name : ""; }
-                if (key.codes[0] == -418) { key.label = layouts.get(18) != null ? layouts.get(18).name : ""; }
-                if (key.codes[0] == -419) { key.label = layouts.get(19) != null ? layouts.get(19).name : ""; }
-                if (key.codes[0] == -420) { key.label = layouts.get(20) != null ? layouts.get(20).name : ""; }
-                if (key.codes[0] == -421) { key.label = layouts.get(21) != null ? layouts.get(21).name : ""; }
-                if (key.codes[0] == -422) { key.label = layouts.get(22) != null ? layouts.get(22).name : ""; }
-                if (key.codes[0] == -423) {
-                    try {
-                        key.label = layouts.get(23) != null ? layouts.get(23).name : ""; 
-                    }
-                    catch (Exception e) {
-                        key.label = "";
-                    }
-                }
-                if (key.codes[0] == -424) { 
-                    try {
-                        key.label = layouts.get(24) != null ? layouts.get(24).name : ""; 
-                    }
-                    catch (Exception e) {
-                        key.label = "";
-                    }
-                }
+            for(int i = -400; i >= -432; i--) {
+                layoutKey(key, i);
+            }
 
-                if (key.codes[0] == -501) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k1", ""), 10); }
-                if (key.codes[0] == -502) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k2", ""), 10); }
-                if (key.codes[0] == -503) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k3", ""), 10); }
-                if (key.codes[0] == -504) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k4", ""), 10); }
-                if (key.codes[0] == -505) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k5", ""), 10); }
-                if (key.codes[0] == -506) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k6", ""), 10); }
-                if (key.codes[0] == -507) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k7", ""), 10); }
-                if (key.codes[0] == -508) { key.label = truncate(PreferenceManager.getDefaultSharedPreferences(kcontext).getString("k8", ""), 10); }
+            try {
+                if (key.codes[0] == -501) { key.label = truncate(sharedPreferences.getString("k1", ""), 10); }
+                if (key.codes[0] == -502) { key.label = truncate(sharedPreferences.getString("k2", ""), 10); }
+                if (key.codes[0] == -503) { key.label = truncate(sharedPreferences.getString("k3", ""), 10); }
+                if (key.codes[0] == -504) { key.label = truncate(sharedPreferences.getString("k4", ""), 10); }
+                if (key.codes[0] == -505) { key.label = truncate(sharedPreferences.getString("k5", ""), 10); }
+                if (key.codes[0] == -506) { key.label = truncate(sharedPreferences.getString("k6", ""), 10); }
+                if (key.codes[0] == -507) { key.label = truncate(sharedPreferences.getString("k7", ""), 10); }
+                if (key.codes[0] == -508) { key.label = truncate(sharedPreferences.getString("k8", ""), 10); }
             }
             catch(Exception ignored) {}
 
@@ -227,22 +204,8 @@ public class CustomKeyboard extends KeyboardView {
             }
             
             if (hexBuffer.length() > 0) {
-                if (key.codes[0] == -2001) {
-                    try {
-                        key.label = StringUtils.leftPad(hexBuffer, 4, "0");
-                    }
-                    catch (NumberFormatException e) {
-                        key.label = "0x0000";
-                    }
-                }
-                if (key.codes[0] == -2002) {
-                    try {
-                        key.label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
-                    }
-                    catch (NumberFormatException e) {
-                        key.label = "";
-                    }
-                }
+                if (key.codes[0] == -2001) { try { key.label = StringUtils.leftPad(hexBuffer, 4, "0"); } catch (NumberFormatException e) { key.label = "0x0000"; } }
+                if (key.codes[0] == -2002) { try { key.label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))); } catch (NumberFormatException e) { key.label = ""; } }
             }
         }
     }

@@ -43,7 +43,7 @@
         <Key android:codes="41"   android:keyLabel=")" android:popupCharacters="⁾₎⎞⎟⎠❩❫⟯⸩﴿" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="91"   android:keyLabel="[" android:popupCharacters="{⌈⌊⎡⎢⎣" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="93"   android:keyLabel="]" android:popupCharacters="}⌉⌋⎤⎥⎦" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="960"  android:keyLabel="π" android:popupCharacters="τ∏ⁿₙ⌗⋕" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="960"  android:keyLabel="π" android:popupCharacters="τµ∏ⁿₙ⌗⋕" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="176"  android:keyLabel="°" android:popupCharacters="℉℃⊿⦟∠⦜⟀∡∢∥∦⨞" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="8706" android:keyLabel="∂" android:popupCharacters="Δ∇δ∂θ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="8721" android:keyLabel="∑" android:popupCharacters="Σ⅀⎲⎳⨊⨋" android:popupKeyboard="@layout/popup_template" />
