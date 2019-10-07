@@ -53,8 +53,8 @@ class Variables {
     static boolean is127462() { return IS_127462; }
     static boolean is009372() { return IS_009372; }
     static boolean is009398() { return IS_009398; }
-    static boolean isRflctd() { return IS_REFLECTED; }
-    static boolean isSmlcap() { return IS_SMALLCAPS; }
+    static boolean isReflected() { return IS_REFLECTED; }
+    static boolean isSmallcaps() { return IS_SMALLCAPS; }
 
     static void setCtrlOn() { IS_CTRL =  true; }
     static void setAltOn() { IS_ALT =  true; }
@@ -121,8 +121,8 @@ class Variables {
     static boolean isAlt()    { return IS_ALT; }
 
     static void toggleSelect() { IS_SELECT = !IS_SELECT; }
-    static void toggleBolded() { if (IS_BOLD)   { setFontsOff(); }  else { setFontsOff(); IS_BOLD = true; } }
-    static void toggleItalic() { if (IS_ITALIC) { setFontsOff(); }  else { setFontsOff(); IS_ITALIC = true; } }
+    static void toggleBolded() { setFontsOff(); IS_BOLD = !IS_BOLD; }
+    static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
     static void toggle119808() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
     static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }
     static void toggle119912() { if (IS_119912) { setAllEmOff(); }  else { setAllEmOff(); IS_119912 = true; } }

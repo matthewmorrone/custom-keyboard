@@ -24,9 +24,6 @@ import static com.vlath.keyboard.Variables.isShift;
 
 public class CustomKeyboard extends KeyboardView {
 
-
-
-
     Canvas canvas;
     Paint mPaint = new Paint();
 
@@ -56,7 +53,7 @@ public class CustomKeyboard extends KeyboardView {
     public void layoutKey(Key key, int code) {
         if (key.codes[0] == code) {
             try {
-                key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : "";
+                key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).label : "";
             }
             catch (Exception e) {
                 key.label = "";
@@ -66,10 +63,6 @@ public class CustomKeyboard extends KeyboardView {
 
     public void selectKey(Key key) {
         canvas.save();
-
-        mPaint.setColor(Color.parseColor("#ff000000"));
-        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
 
         mPaint.setColor(Color.parseColor("#80ffffff"));
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -100,33 +93,25 @@ public class CustomKeyboard extends KeyboardView {
         super.onDraw(canvas);
         this.canvas = canvas;
 
-
         Context kcontext = getContext();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
         System.out.println(sharedPreferences.getAll());
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
-            // if (key.codes[0] >= 48 && key.codes[0] <= 57) {
-            //     canvas.save();
-            //     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-            //     canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
-            //     mPaint.setTextAlign(Paint.Align.CENTER);
-            //     mPaint.setTextSize(64);
-            //     mPaint.setColor(Color.parseColor("#ffffffff"));
-            //     canvas.drawText(String.valueOf(key.popupCharacters.charAt(0)), center, middle+10, mPaint);
-            //     canvas.drawText(String.valueOf((char)key.codes[0]),            center, middle+10, mPaint);
-            //     canvas.restore();
-            // }
-
             if (key.codes[0] == -1) {
-                if (isShift()) {
+                if (isShift()) {    
+                    canvas.save();
+                    mPaint.setColor(Color.parseColor("#ff000000"));
+                    canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+                    canvas.restore();
                     selectKey(key);
-                    drawable(key, R.drawable.ic_shift_lock, 30);
+                    drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
                     selectKey(key);
-                    drawable(key, R.drawable.ic_shift, 30);
+                    drawable(key, R.drawable.ic_shift, 35);
                 }
             }
 
@@ -146,8 +131,8 @@ public class CustomKeyboard extends KeyboardView {
             if (key.codes[0] == -45) {if (Variables.is120328()) {selectKey(key);}}
             if (key.codes[0] == -46) {if (Variables.is120380()) {selectKey(key);}}
             if (key.codes[0] == -47) {if (Variables.is120432()) {selectKey(key);}}
-            if (key.codes[0] == -50) {if (Variables.isRflctd()) {selectKey(key);}}
-            if (key.codes[0] == -57) {if (Variables.isSmlcap()) {selectKey(key);}}
+            if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key);}}
+            if (key.codes[0] == -57) {if (Variables.isSmallcaps()) {selectKey(key);}}
             if (key.codes[0] == -68) {if (Variables.is127280()) {selectKey(key);}}
             if (key.codes[0] == -69) {if (Variables.is127312()) {selectKey(key);}}
             if (key.codes[0] == -70) {if (Variables.is127344()) {selectKey(key);}}

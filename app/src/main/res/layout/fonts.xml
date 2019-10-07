@@ -16,8 +16,8 @@
         <Key android:codes="-11" android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row android:keyHeight="9.34%p">
-        <Key android:codes="-35" android:keyLabel="𝝀" />
-        <Key android:codes="-36" android:keyLabel="𝝴" />
+        <Key android:codes="-35" android:keyLabel="𝐀" />
+        <Key android:codes="-36" android:keyLabel="𝐴" />
         <Key android:codes="-37" android:keyLabel="𝑨" />
         <Key android:codes="-38" android:keyLabel="𝒜" />
         <Key android:codes="-39" android:keyLabel="𝓝" />

@@ -9,7 +9,8 @@ public class LatinKeyboard extends Keyboard {
     // private Key mSpaceKey;
     private static short rowNumber = 6;
     
-    public String name;
+    public String name;    
+    public String label;
     
     // private Key mModeChangeKey;
 
@@ -35,6 +36,12 @@ public class LatinKeyboard extends Keyboard {
     LatinKeyboard(Context context, int xmlLayoutResId, String name) {
         super(context, xmlLayoutResId);
         this.name = name;
+    }    
+    
+    LatinKeyboard(Context context, int xmlLayoutResId, String name, String label) {
+        super(context, xmlLayoutResId);
+        this.name = name;    
+        this.label = label;
     }
     
     void setRowNumber(short number) {

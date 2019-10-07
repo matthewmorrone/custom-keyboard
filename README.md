@@ -1,7 +1,8 @@
 + autocorrect
 + autocomplete
 + swiping
-+ prediction
++ prediction    
++ fonts page bug
 
 + add key for voice input
 + add key to access settings page
@@ -11,7 +12,6 @@
 + press and hold custom keys to change them
 + separate out settings page for layouts and custom keys
 
-+ if cursor start and end are not equal, delete does backspace
 + if cursor start and end are equal, select all or line on copy
 + shift backspace is delete
 + select with manual cursor movement

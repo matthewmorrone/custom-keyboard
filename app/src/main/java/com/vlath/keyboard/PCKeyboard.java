@@ -92,39 +92,39 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         layouts.clear();
-        layouts.add(new LatinKeyboard(this, R.layout.qwerty, "English"));
-        if (sharedPreferences.getBoolean("symbol", true))   { layouts.add(new LatinKeyboard(this, R.layout.symbol,   "Symbol")); }
-        if (sharedPreferences.getBoolean("ipa", true))      { layouts.add(new LatinKeyboard(this, R.layout.ipa,      "IPA")); }
-        if (sharedPreferences.getBoolean("greek", true))    { layouts.add(new LatinKeyboard(this, R.layout.greek,    "Greek")); }
-        if (sharedPreferences.getBoolean("cyrillic", true)) { layouts.add(new LatinKeyboard(this, R.layout.cyrillic, "Cyrillic")); }
-        if (sharedPreferences.getBoolean("coptic", true))   { layouts.add(new LatinKeyboard(this, R.layout.coptic,   "Coptic")); }
-        if (sharedPreferences.getBoolean("gothic", true))   { layouts.add(new LatinKeyboard(this, R.layout.gothic,   "Gothic")); }
-        if (sharedPreferences.getBoolean("etruscan", true)) { layouts.add(new LatinKeyboard(this, R.layout.etruscan, "Etruscan")); }
-        if (sharedPreferences.getBoolean("futhark", true))  { layouts.add(new LatinKeyboard(this, R.layout.futhark,  "Futhark")); }
-        if (sharedPreferences.getBoolean("cree", true))     { layouts.add(new LatinKeyboard(this, R.layout.cree,     "Cree")); }
-        if (sharedPreferences.getBoolean("dvorak", true))   { layouts.add(new LatinKeyboard(this, R.layout.dvorak,   "Dvorak")); }
-        if (sharedPreferences.getBoolean("numeric", true))  { layouts.add(new LatinKeyboard(this, R.layout.numeric,  "Numeric")); }
-        if (sharedPreferences.getBoolean("math", true))     { layouts.add(new LatinKeyboard(this, R.layout.math,     "Math")); }
-        if (sharedPreferences.getBoolean("morse", true))    { layouts.add(new LatinKeyboard(this, R.layout.morse,    "Morse")); }
-        if (sharedPreferences.getBoolean("funthork", true)) { layouts.add(new LatinKeyboard(this, R.layout.funthork, "Funthork")); }
-        if (sharedPreferences.getBoolean("tails", true))    { layouts.add(new LatinKeyboard(this, R.layout.tails,    "Tails")); }
-        if (sharedPreferences.getBoolean("unicode", true))  { layouts.add(new LatinKeyboard(this, R.layout.unicode,  "Unicode")); }
-        if (sharedPreferences.getBoolean("hex", true))      { layouts.add(new LatinKeyboard(this, R.layout.hex,      "Hex")); }
-        if (sharedPreferences.getBoolean("strike", true))    { layouts.add(new LatinKeyboard(this, R.layout.strike,   "Strike")); }
-        if (sharedPreferences.getBoolean("extra", true))    { layouts.add(new LatinKeyboard(this, R.layout.extra,    "Extra")); }
-        if (sharedPreferences.getBoolean("fonts", true))    { layouts.add(new LatinKeyboard(this, R.layout.fonts,    "Fonts")); }
-        if (sharedPreferences.getBoolean("emoji", true))    { layouts.add(new LatinKeyboard(this, R.layout.emoji,    "Emoji")); }
-        if (sharedPreferences.getBoolean("utility", true))  { layouts.add(new LatinKeyboard(this, R.layout.utility,  "Utility")); }
-        if (sharedPreferences.getBoolean("function", true)) { layouts.add(new LatinKeyboard(this, R.layout.function, "Function")); }
-        layouts.add(new LatinKeyboard(this, R.layout.navigation, "Navigation"));
-        layouts.add(new LatinKeyboard(this, R.layout.layouts,    "Layouts"));
+        layouts.add(new LatinKeyboard(this, R.layout.qwerty, "English", "abc"));
+        if (sharedPreferences.getBoolean("symbol", true))   { layouts.add(new LatinKeyboard(this, R.layout.symbol,   "Symbol", "!@#")); }
+        if (sharedPreferences.getBoolean("accents", true))  { layouts.add(new LatinKeyboard(this, R.layout.accents,  "Accents", "◌̀◌́◌̂")); }
+        if (sharedPreferences.getBoolean("greek", true))    { layouts.add(new LatinKeyboard(this, R.layout.greek,    "Greek", "ςερ")); }
+        if (sharedPreferences.getBoolean("cyrillic", true)) { layouts.add(new LatinKeyboard(this, R.layout.cyrillic, "Cyrillic", "йцу")); }
+        if (sharedPreferences.getBoolean("coptic", true))   { layouts.add(new LatinKeyboard(this, R.layout.coptic,   "Coptic", "ⲑϣⲉ")); }
+        if (sharedPreferences.getBoolean("gothic", true))   { layouts.add(new LatinKeyboard(this, R.layout.gothic,   "Gothic", "𐌵𐍈𐌴")); }
+        if (sharedPreferences.getBoolean("etruscan", true)) { layouts.add(new LatinKeyboard(this, R.layout.etruscan, "Etruscan", "𐌀𐌁𐌂")); }
+        if (sharedPreferences.getBoolean("futhark", true))  { layouts.add(new LatinKeyboard(this, R.layout.futhark,  "Futhark", "ᚠᚢᚦ")); }
+        // if (sharedPreferences.getBoolean("cree", true))     { layouts.add(new LatinKeyboard(this, R.layout.cree,     "Cree")); }
+        if (sharedPreferences.getBoolean("dvorak", true))   { layouts.add(new LatinKeyboard(this, R.layout.dvorak,   "Dvorak", "pyf")); }
+        if (sharedPreferences.getBoolean("numeric", true))  { layouts.add(new LatinKeyboard(this, R.layout.numeric,  "Numeric", "123")); }
+        if (sharedPreferences.getBoolean("math", true))     { layouts.add(new LatinKeyboard(this, R.layout.math,     "Math", "+−×")); }
+        if (sharedPreferences.getBoolean("morse", true))    { layouts.add(new LatinKeyboard(this, R.layout.morse,    "Morse", "-·")); }
+        // if (sharedPreferences.getBoolean("funthork", true)) { layouts.add(new LatinKeyboard(this, R.layout.funthork, "Funthork")); }
+        // if (sharedPreferences.getBoolean("tails", true))    { layouts.add(new LatinKeyboard(this, R.layout.tails,    "Tails")); }
+        if (sharedPreferences.getBoolean("unicode", true))  { layouts.add(new LatinKeyboard(this, R.layout.unicode,  "Unicode", "\\u")); }
+        if (sharedPreferences.getBoolean("hex", true))      { layouts.add(new LatinKeyboard(this, R.layout.hex,      "Hex", "\\x")); }
+        // if (sharedPreferences.getBoolean("strike", true))   { layouts.add(new LatinKeyboard(this, R.layout.strike,   "Strike")); }
+        // if (sharedPreferences.getBoolean("extra", true))    { layouts.add(new LatinKeyboard(this, R.layout.extra,    "Extra")); }
+        if (sharedPreferences.getBoolean("fonts", true))    { layouts.add(new LatinKeyboard(this, R.layout.fonts,    "Fonts", "🄰𝔸𝐀")); }
+        if (sharedPreferences.getBoolean("emoji", true))    { layouts.add(new LatinKeyboard(this, R.layout.emoji,    "Emoji", "😃😉😆")); }
+        if (sharedPreferences.getBoolean("function", true)) { layouts.add(new LatinKeyboard(this, R.layout.function, "Function", "ƒ(x)")); }
+        if (sharedPreferences.getBoolean("utility", true))  { layouts.add(new LatinKeyboard(this, R.layout.utility,  "Utility", "/**/")); }
+        layouts.add(new LatinKeyboard(this, R.layout.navigation, "Navigation", "→←↑↓"));
+        layouts.add(new LatinKeyboard(this, R.layout.layouts,    "Layouts", "◰◱◲◳"));
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -425) {
                     try {
                         if (layouts.get(-key.codes[0] - 400) != null) {
-                            key.label = layouts.get(-key.codes[0] - 400).name;
+                            key.label = layouts.get(-key.codes[0] - 400).label;
                         }
                     }
                     catch (Exception e) {
@@ -292,8 +292,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         setTheme();
-		setForeground();
-		setBackground();
+        setForeground();
+        setBackground();
 
         mComposing.setLength(0);
         // updateCandidates();
@@ -595,47 +595,47 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         }
     }
 
-	public void setForeground() {
-		Context context = getBaseContext();
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String foreground = sharedPreferences.getString("fg", "1");
-		try {
-			if (foreground != null) {
-				switch (foreground) {
-					case "1": mForeground = Color.BLACK;   break;
-					case "2": mForeground = Color.WHITE;   break;
-					case "3": mForeground = Color.BLUE;    break;
-					case "4": mForeground = Color.CYAN;    break;
-					case "5": mForeground = Color.RED;     break;
-					case "6": mForeground = Color.MAGENTA; break;
-					case "7": mForeground = Color.YELLOW;  break;
-					case "8": mForeground = Color.GREEN;   break;
-				}
-			}
-		}
-		catch (Exception ignored) {}
-	}
+    public void setForeground() {
+        Context context = getBaseContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String foreground = sharedPreferences.getString("fg", "1");
+        try {
+            if (foreground != null) {
+                switch (foreground) {
+                    case "1": mForeground = Color.BLACK;   break;
+                    case "2": mForeground = Color.WHITE;   break;
+                    case "3": mForeground = Color.BLUE;    break;
+                    case "4": mForeground = Color.CYAN;    break;
+                    case "5": mForeground = Color.RED;     break;
+                    case "6": mForeground = Color.MAGENTA; break;
+                    case "7": mForeground = Color.YELLOW;  break;
+                    case "8": mForeground = Color.GREEN;   break;
+                }
+            }
+        }
+        catch (Exception ignored) {}
+    }
 
-	public void setBackground() {
-		Context context = getBaseContext();
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String background = sharedPreferences.getString("bg", "1");
-		try {
-			if (background != null) {
-				switch (background) {
-					case "1": mBackground = Color.BLACK;   break;
-					case "2": mBackground = Color.WHITE;   break;
-					case "3": mBackground = Color.BLUE;    break;
-					case "4": mBackground = Color.CYAN;    break;
-					case "5": mBackground = Color.RED;     break;
-					case "6": mBackground = Color.MAGENTA; break;
-					case "7": mBackground = Color.YELLOW;  break;
-					case "8": mBackground = Color.GREEN;   break;
-				}
-			}
-		}
-		catch (Exception ignored) {}
-	}
+    public void setBackground() {
+        Context context = getBaseContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String background = sharedPreferences.getString("bg", "1");
+        try {
+            if (background != null) {
+                switch (background) {
+                    case "1": mBackground = Color.BLACK;   break;
+                    case "2": mBackground = Color.WHITE;   break;
+                    case "3": mBackground = Color.BLUE;    break;
+                    case "4": mBackground = Color.CYAN;    break;
+                    case "5": mBackground = Color.RED;     break;
+                    case "6": mBackground = Color.MAGENTA; break;
+                    case "7": mBackground = Color.YELLOW;  break;
+                    case "8": mBackground = Color.GREEN;   break;
+                }
+            }
+        }
+        catch (Exception ignored) {}
+    }
 
     public void setTheme() {
         Context context = getBaseContext();
@@ -839,6 +839,27 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             return -1;
         }
         return extracted.selectionEnd-extracted.selectionStart;
+    }    
+    
+    public void selectionInfo() {    
+        ic = getCurrentInputConnection();
+        ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
+        if (extracted == null) {
+            return;
+        }    
+        String result = "";    
+        result += extracted.selectionStart + " ";
+        result += extracted.selectionEnd + " ";
+        result += extracted.startOffset + " ";    
+        result += getSelectionLength() + " ";    
+        result += isSelecting() + " ";
+        result += ic.getSelectedText(0).length() + " ";
+        result += ic.getTextBeforeCursor(MAX, 0).length() + " ";
+        result += ic.getTextAfterCursor(MAX, 0).length() + " ";    
+        result += getCursorPosition() + " ";    
+        // result +=  + " ";    
+        // result +=  + " ";    
+        // result +=  + " ";
     }
 
     public int getStartOffset() {
@@ -853,7 +874,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     }
 
     public Boolean isSelecting() {
-        toastIt(getSelectionStart()+" "+getSelectionEnd()+" "+getStartOffset()+" "+getSelectionLength());
+        // toastIt(getSelectionStart()+" "+getSelectionEnd()+" "+getStartOffset()+" "+getSelectionLength());
         return getSelectionStart() != getSelectionEnd();
     }
 
@@ -1035,11 +1056,16 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             firstCaps = false;
             setCapsOn(false);
         }
-        if (!mPredictionOn) {
+        if (!mPredictionOn) {    
+            
             ic.setComposingRegion(0, 0);
             ic.commitText(String.valueOf(Character.toChars(primaryCode)), 1);
             firstCaps = false;
-            setCapsOn(false);
+            setCapsOn(false);    
+    
+            if (isSelecting()) {    
+                ic.setSelection(Variables.cursorStart, getSelectionEnd());
+            }
         }
     }
 
@@ -1100,8 +1126,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case 10:
                 EditorInfo curEditor = getCurrentInputEditorInfo();
                 if (kv.getKeyboard().isShifted()) {
-					ic.commitText("\n", 1);
-				}
+                    ic.commitText("\n", 1);    
+                }
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
                     case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
                     case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
@@ -1375,7 +1401,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                         System.out.println("handleCharacter: "+primaryCode);
                         handleCharacter(primaryCode);
                         kv.draw(new Canvas());
-                        if (Variables.isRflctd()) {
+                        if (Variables.isReflected()) {
                             sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT);
                         }
                     }

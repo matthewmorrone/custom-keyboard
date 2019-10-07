@@ -29,7 +29,7 @@
         <Key android:codes="44" android:keyLabel="," android:popupCharacters="@string/popup1" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="1081" android:keyLabel="ı" android:popupCharacters="іїј" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="1081" android:keyLabel="й" android:popupCharacters="ıіїј" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1094" android:keyLabel="ц" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1091" android:keyLabel="у" android:popupCharacters="џүұӯ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1082" android:keyLabel="к" android:popupCharacters="ќқӄҝҟҡԟ" android:popupKeyboard="@layout/popup_template" />
