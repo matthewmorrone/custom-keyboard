@@ -1132,7 +1132,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
                     case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
                     default: sendKeyUpDown(66); break;
-                }
+                }    
+                break;
             case 7: ic.commitText("    ", 0); break;
             case -1:
                 if (ic.getSelectedText(0) != null
@@ -1270,7 +1271,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -84: ic.commitText(getClipboardEntry(4), 0); break;
             case -85: ic.commitText(getClipboardEntry(5), 0); break;
             case -86: ic.commitText(getClipboardEntry(6), 0); break;
-            case -87: ic.commitText(getClipboardEntry(7), 0); break;
+            case -87: ic.commitText(getClipboardEntry(7), 0); break;    
+            // case -88: sendKeyUpDown(KeyEvent.KEYCODE_UNDO); break;
+            // case -89: sendKeyUpDown(KeyEvent.KEYCODE_REDO); break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
