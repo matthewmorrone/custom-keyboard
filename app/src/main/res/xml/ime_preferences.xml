@@ -4,9 +4,9 @@
     android:layout_height="wrap_content">
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
-    <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
-    <ListPreference android:title="Foreground" android:key="fg" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" />
-    <ListPreference android:title="Background" android:key="bg" android:entryValues="@array/color_values" android:defaultValue="2" android:entries="@array/color" />
+    <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/theme_values" android:defaultValue="1" android:entries="@array/theme" />
+    <!-- <ListPreference android:title="Foreground" android:key="fg" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" /> -->
+    <!-- <ListPreference android:title="Background" android:key="bg" android:entryValues="@array/theme_values" android:defaultValue="1" android:entries="@array/color" /> -->
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="false" />
     <PreferenceCategory android:key="hint" android:title="Hints">
         <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
@@ -17,6 +17,7 @@
     </PreferenceCategory>
     <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
+    <SwitchPreference android:title="Indent with Spaces" android:key="indent" android:defaultValue="true" />
     <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
     <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />
     <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />

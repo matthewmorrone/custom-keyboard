@@ -3,6 +3,7 @@
 + swiping
 + prediction    
 + fonts page bug
++ choice for insertion of text to the left of cursor
 
 + add key for voice input
 + add key to access settings page

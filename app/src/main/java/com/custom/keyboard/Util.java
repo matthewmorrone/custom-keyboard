@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import org.apache.commons.lang3.StringUtils;
 

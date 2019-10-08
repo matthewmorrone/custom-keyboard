@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,9 +25,17 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     @Override
     public void onCreate(Bundle s) {
         super.onCreate(s);
-        addPreferencesFromResource(R.xml.ime_preferences);
-        listTheme = (ListPreference)findPreference("theme");
-        listTheme.setSummary(listTheme.getEntry());
+
+        try {
+            addPreferencesFromResource(R.xml.ime_preferences);
+        }
+        catch (Exception ignored) {}
+
+        try {
+            listTheme = (ListPreference)findPreference("theme");
+            listTheme.setSummary(listTheme.getEntry());
+        }
+        catch (Exception ignored) {}
         
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -58,11 +66,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        addPreferencesFromResource(R.xml.ime_preferences);
-        listTheme = (ListPreference)findPreference("theme");
-        listTheme.setSummary(listTheme.getEntry());
         
         try {
+            addPreferencesFromResource(R.xml.ime_preferences);
+        }
+        catch (Exception ignored) {}
+        try {
+            listTheme = (ListPreference)findPreference("theme");
+            listTheme.setSummary(listTheme.getEntry());
+
             k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
             k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
             k3.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k3", ""));
@@ -75,6 +87,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             popup1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
             popup2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
         }
-        catch (NullPointerException ignored) {}
+        catch (Exception ignored) {}
     }
 }

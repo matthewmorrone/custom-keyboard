@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

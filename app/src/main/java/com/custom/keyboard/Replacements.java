@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import java.util.HashMap;
 

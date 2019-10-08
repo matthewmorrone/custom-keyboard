@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import android.content.SharedPreferences;
 import android.inputmethodservice.KeyboardView;
@@ -17,10 +17,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-import static com.vlath.keyboard.PCKeyboard.layouts;
-import static com.vlath.keyboard.PCKeyboard.hexBuffer;
-import static com.vlath.keyboard.PCKeyboard.morseBuffer;
-import static com.vlath.keyboard.Variables.isShift;
+import static com.custom.keyboard.PCKeyboard.layouts;
+import static com.custom.keyboard.PCKeyboard.hexBuffer;
+import static com.custom.keyboard.PCKeyboard.morseBuffer;
+import static com.custom.keyboard.Variables.isShift;
 
 
 
@@ -74,8 +74,8 @@ public class CustomKeyboard extends KeyboardView {
         canvas.save();
 
         mPaint.setColor(Color.parseColor("#80ffffff"));
-        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+        canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
+        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
 
         canvas.restore();
     }
@@ -108,19 +108,20 @@ public class CustomKeyboard extends KeyboardView {
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
+            
             if (key.codes[0] == -1) {
                 if (isShift()) {    
                     canvas.save();
                     mPaint.setColor(Color.parseColor("#ff000000"));
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 5, 5, mPaint);
+                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
                     canvas.restore();
-                    selectKey(key);
-                    drawable(key, R.drawable.ic_shift_lock, 35);
+                    // selectKey(key);
+                    drawable(key, R.drawable.shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
-                    selectKey(key);
-                    drawable(key, R.drawable.ic_shift, 35);
+                    // selectKey(key);
+                    drawable(key, R.drawable.shift, 35);
                 }
             }
 

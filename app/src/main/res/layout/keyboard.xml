@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.vlath.keyboard.CustomKeyboard 
+<com.custom.keyboard.CustomKeyboard 
 xmlns:android="http://schemas.android.com/apk/res/android" 
 android:background="@color/black"
 android:id="@+id/keyboard"
@@ -13,10 +13,10 @@ android:layout_marginTop="0dp"
 android:layout_width="match_parent"
 android:paddingTop="0dp"
 android:popupLayout="@layout/preview"
-android:shadowColor="@android:color/transparent" 
+android:shadowColor="#40000000" 
 android:shadowRadius="0.0"
 android:ellipsize="end"
 android:maxLines="1"
 android:keyTextSize="@dimen/text_size"
->
-</com.vlath.keyboard.CustomKeyboard>
+android:fitsSystemWindows="true">
+</com.custom.keyboard.CustomKeyboard>

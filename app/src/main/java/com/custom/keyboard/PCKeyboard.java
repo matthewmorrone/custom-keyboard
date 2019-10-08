@@ -1,4 +1,4 @@
-package com.vlath.keyboard;
+package com.custom.keyboard;
 
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
@@ -38,7 +38,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static com.vlath.keyboard.Variables.setAllEmOff;
+import static com.custom.keyboard.Variables.setAllEmOff;
 
 public class PCKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
@@ -67,6 +67,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     public boolean firstCaps = false;
     public float[] mDefaultFilter;
+    // private int mForeground = 0;
+    // private int mBackground = 0;
     long shift_pressed = 0;
 
     public short rowNumber = 6;
@@ -82,8 +84,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     SharedPreferences sharedPreferences;
 
     public static ArrayList<LatinKeyboard> layouts = new ArrayList<>(5);
-    private int mForeground;
-    private int mBackground;
+
     // public static ArrayList<LatinKeyboard> getLayouts() { return layouts; }
 
     // File file = new File(getBaseContext().getFilesDir(), "");
@@ -131,7 +132,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (sharedPreferences.getBoolean("function", true)) { layouts.add(new LatinKeyboard(this, R.layout.function, "Function", "ƒ(x)")); }
         if (sharedPreferences.getBoolean("utility", true))  { layouts.add(new LatinKeyboard(this, R.layout.utility,  "Utility", "/**/")); }
         layouts.add(new LatinKeyboard(this, R.layout.navigation, "Navigation", "→←↑↓"));
-        layouts.add(new LatinKeyboard(this, R.layout.layouts,    "Layouts", "◰◱◲◳"));
+        layouts.add(new LatinKeyboard(this, R.layout.layout,    "Layouts", "◰◱◲◳"));
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -306,8 +307,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
         setTheme();
-        setForeground();
-        setBackground();
+        // setForeground();
+        // setBackground();
         Paint mPaint = new Paint();
 
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
@@ -325,8 +326,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         setTheme();
-        setForeground();
-        setBackground();
+        // setForeground();
+        // setBackground();
 
         mComposing.setLength(0);
         // updateCandidates();
@@ -345,8 +346,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         
         setInputType();
         Paint mPaint = new Paint();
-        mPaint.setTextAlign(Paint.Align.RIGHT);
-        mPaint.setUnderlineText(true);
+
+/*
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        try {
+            if (mForeground == 0) {
+                setForeground();
+            }
+            mPaint.setColor(mForeground);
+        }
+        catch (Exception ignored) {}
+*/
+
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
 
@@ -356,6 +367,16 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         currentKeyboard.setRowNumber(getRowNumber());
         kv.setKeyboard(currentKeyboard);
+
+/*
+        try {
+            if (mBackground == 0) {
+                setBackground();
+            }
+            kv.setBackgroundColor(mBackground);
+        }
+        catch (Exception ignored) {}
+*/
 
         capsOnFirst();
         kv.setOnKeyboardActionListener(this);
@@ -435,14 +456,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         return false;
     }
 
-    // public Keyboard.Key getKey(int primaryCode) {
-    //     for(Keyboard.Key key : currentKeyboard.getKeys()) {
-    //         if (key.codes[0] == primaryCode) {
-    //             return key;
-    //         }
-    //     }
-    //     return null;
-    // }
+    public Keyboard.Key getKey(int primaryCode) {
+        for(Keyboard.Key key : currentKeyboard.getKeys()) {
+            if (key.codes[0] == primaryCode) {
+                return key;
+            }
+        }
+        return null;
+    }
 
     long time;
 
@@ -606,7 +627,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             setSuggestions(sb, true, true);
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
 
     public void processKeyCombo(int keycode) {
@@ -628,7 +650,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         }
     }
-
+/*
     public void setForeground() {
         Context context = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -648,9 +670,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
-
     public void setBackground() {
         Context context = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -670,29 +692,45 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
-
+*/
     public void setTheme() {
         Context context = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String theme = sharedPreferences.getString("theme", "1");
         try {
+            String theme = sharedPreferences.getString("theme", "1");
             if (theme != null) {
                 switch (theme) {
-                    case "1": mDefaultFilter = Themes.sNoneColorArray;         break;
-                    case "2": mDefaultFilter = Themes.sNegativeColorArray;     break;
-                    case "3": mDefaultFilter = Themes.sBlueWhiteColorArray;    break;
-                    case "4": mDefaultFilter = Themes.sBlueBlackColorArray;    break;
-                    case "5": mDefaultFilter = Themes.sRedWhiteColorArray;     break;
-                    case "6": mDefaultFilter = Themes.sRedBlackColorArray;     break;
-                    case "7": mDefaultFilter = Themes.sOrangeBlackColorArray;  break;
-                    case "8": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
+                    case  "1": mDefaultFilter = Themes.sPositiveColorArray;         break;
+                    case  "2": mDefaultFilter = Themes.sNegativeColorArray;         break;
+                    case  "3": mDefaultFilter = Themes.sBlueWhiteColorArray;        break;
+                    case  "4": mDefaultFilter = Themes.sBlueBlackColorArray;        break;
+                    case  "5": mDefaultFilter = Themes.sGreenWhiteColorArray;       break;
+                    case  "6": mDefaultFilter = Themes.sGreenBlackColorArray;       break;
+                    case  "7": mDefaultFilter = Themes.sRedWhiteColorArray;         break;
+                    case  "8": mDefaultFilter = Themes.sRedBlackColorArray;         break;
+                    case  "9": mDefaultFilter = Themes.sCyanWhiteColorArray;        break;
+                    case "10": mDefaultFilter = Themes.sCyanBlackColorArray;        break;
+                    case "11": mDefaultFilter = Themes.sMagentaWhiteColorArray;     break;
+                    case "12": mDefaultFilter = Themes.sMagentaBlackColorArray;     break;
+                    case "13": mDefaultFilter = Themes.sYellowWhiteColorArray;      break;
+                    case "14": mDefaultFilter = Themes.sYellowBlackColorArray;      break;
+                    case "15": mDefaultFilter = Themes.sPurpleWhiteColorArray;      break;
+                    case "16": mDefaultFilter = Themes.sPurpleBlackColorArray;      break;
+                    case "17": mDefaultFilter = Themes.sPinkWhiteColorArray;        break;
+                    case "18": mDefaultFilter = Themes.sPinkBlackColorArray;        break;
+                    case "19": mDefaultFilter = Themes.sOrangeWhiteColorArray;      break;
+                    case "20": mDefaultFilter = Themes.sOrangeBlackColorArray;      break;
+                    case "21": mDefaultFilter = Themes.sMaterialLiteColorArray;     break;
+                    case "22": mDefaultFilter = Themes.sMaterialDarkColorArray;     break;
                 }
             }
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
 
     public void setInputType() {
@@ -769,7 +807,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
         return currentKeyboard.name;
     }
 
@@ -801,7 +840,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         } 
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
 
     public void wordFore(int n) {
@@ -824,7 +864,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         } 
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
 
     public void selectAll() {
@@ -1182,7 +1223,14 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     default: sendKeyUpDown(66); break;
                 }    
                 break;
-            case 7: ic.commitText("    ", 0); break;
+            case 7: 
+                if (sharedPreferences.getBoolean("indent", true)) {
+                    ic.commitText("    ", 0); 
+                }
+                else {
+                    ic.commitText("	", 0); 
+                }
+            break;
             case -1:
                 if (ic.getSelectedText(0) != null
                  && ic.getSelectedText(0).length() > 0
@@ -1246,7 +1294,12 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     handleDelete();
                 }
             break;
-            case -8: selectAll(); break;
+            case -8:
+                selectAll(); 
+                // getKey(-8).width = 0;
+                // kv.invalidateAllKeys();
+                // kv.draw(new Canvas());
+            break;
             case -9: sendKeyUpDown(KeyEvent.KEYCODE_CUT); break;
             case -10: sendKeyUpDown(KeyEvent.KEYCODE_COPY); break;
             case -11: sendKeyUpDown(KeyEvent.KEYCODE_PASTE); break;
@@ -1461,7 +1514,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     }
                     catch (Exception e) {
                         outputToFile(logFile, e.toString());}
-                }
+                    }
         }
         try {
             if (sharedPreferences.getBoolean("caps", true)) {
@@ -1472,7 +1525,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
         }
         catch (Exception e) {
-            outputToFile(logFile, e.toString());}
+            outputToFile(logFile, e.toString());
+        }
     }
 
     public short getRowNumber() {return rowNumber;}
