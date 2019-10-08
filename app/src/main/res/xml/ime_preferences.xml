@@ -15,6 +15,7 @@
         <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" />
         <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" />
     </PreferenceCategory>
+    <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
     <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
     <SwitchPreference android:title="@string/caps" android:key="caps" android:defaultValue="false" />

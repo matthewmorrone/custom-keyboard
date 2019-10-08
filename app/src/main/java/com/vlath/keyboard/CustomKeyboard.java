@@ -22,9 +22,13 @@ import static com.vlath.keyboard.PCKeyboard.hexBuffer;
 import static com.vlath.keyboard.PCKeyboard.morseBuffer;
 import static com.vlath.keyboard.Variables.isShift;
 
+
+
 public class CustomKeyboard extends KeyboardView {
 
     Canvas canvas;
+    Context kcontext;
+    SharedPreferences sharedPreferences;
     Paint mPaint = new Paint();
 
     public CustomKeyboard(Context context, AttributeSet attrs) {
@@ -53,7 +57,12 @@ public class CustomKeyboard extends KeyboardView {
     public void layoutKey(Key key, int code) {
         if (key.codes[0] == code) {
             try {
-                key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).label : "";
+                if (sharedPreferences.getBoolean("names", true)) {
+                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).label : "";
+                }
+                else {
+                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : "";
+                }
             }
             catch (Exception e) {
                 key.label = "";
@@ -93,8 +102,8 @@ public class CustomKeyboard extends KeyboardView {
         super.onDraw(canvas);
         this.canvas = canvas;
 
-        Context kcontext = getContext();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
+        kcontext = getContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
         System.out.println(sharedPreferences.getAll());
 
         List<Key> keys = getKeyboard().getKeys();

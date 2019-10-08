@@ -23,8 +23,8 @@
         <Key android:codes="-86"  android:keyIcon="@drawable/ic_blank"                 android:isRepeatable="true" />
         <Key android:codes="-87"  android:keyIcon="@drawable/ic_blank"                 android:isRepeatable="true" />
  -->    
-        <Key android:codes="-88"  android:keyIcon="@drawable/ic_undo"                 android:isRepeatable="true" />    
-        <Key android:codes="-89"  android:keyIcon="@drawable/ic_redo"                 android:isRepeatable="true" />
+        <!--<Key android:codes="-88"  android:keyIcon=" @drawable/ic_undo"                 android:isRepeatable="true" />    -->
+        <!--<Key android:codes="-89"  android:keyIcon="@drawable/ic_redo"                 android:isRepeatable="true" />-->
     </Row>
     <Row android:keyHeight="8.67%p"  android:keyWidth="16%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left"   android:horizontalGap="26%p" />

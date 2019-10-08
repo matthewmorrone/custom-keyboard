@@ -123,7 +123,8 @@ class Variables {
     static void toggleSelect() { IS_SELECT = !IS_SELECT; }
     static void toggleBolded() { setFontsOff(); IS_BOLD = !IS_BOLD; }
     static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
-    static void toggle119808() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
+
+    static void toggle119808() { if (IS_119808) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
     static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }
     static void toggle119912() { if (IS_119912) { setAllEmOff(); }  else { setAllEmOff(); IS_119912 = true; } }
     static void toggle119964() { if (IS_119964) { setAllEmOff(); }  else { setAllEmOff(); IS_119964 = true; } }

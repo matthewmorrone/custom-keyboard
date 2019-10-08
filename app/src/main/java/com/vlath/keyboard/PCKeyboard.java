@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,7 +14,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +30,7 @@ import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static android.app.Activity.RESULT_OK;
 import static com.vlath.keyboard.Variables.setAllEmOff;
 
 public class PCKeyboard extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
@@ -88,6 +86,22 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
     private int mBackground;
     // public static ArrayList<LatinKeyboard> getLayouts() { return layouts; }
 
+    // File file = new File(getBaseContext().getFilesDir(), "");
+
+    String logFile = "custom-keyboard-log.txt";
+    FileOutputStream outputStream;
+
+    public void outputToFile(String filename, String fileContents) {
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(fileContents.getBytes());
+            outputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void populateLayouts() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -124,13 +138,18 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 if (key.codes[0] <= -400 && key.codes[0] >= -425) {
                     try {
                         if (layouts.get(-key.codes[0] - 400) != null) {
-                            key.label = layouts.get(-key.codes[0] - 400).label;
+                            if (sharedPreferences.getBoolean("names", true)) {
+                                key.label = layouts.get(-key.codes[0] - 400).name;
+                            }
+                            else {
+                                key.label = layouts.get(-key.codes[0] - 400).label;
+                            }
                         }
                     }
                     catch (Exception e) {
                         key.label = "";
-                        System.out.println(key.codes[0]);
                         e.printStackTrace();
+                        outputToFile(logFile, e.toString());
                     }
                 }
             }
@@ -238,17 +257,31 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                     if (key.codes[0] == -507) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k7", "");
                     if (key.codes[0] == -508) key.label = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("k8", "");
                 }
-                catch (Exception ignored) {}
+                catch (Exception e) {
+                    outputToFile(logFile, e.toString());
+                }
             }
         }
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -424) {
                     try {
-                        if (layouts.get(-key.codes[0] - 400) != null) { key.label = layouts.get(-key.codes[0] - 400).name; }
-                        else { key.label = ""; }
+                        if (layouts.get(-key.codes[0] - 400) != null) {
+                            if (sharedPreferences.getBoolean("names", true)) {
+                                key.label = layouts.get(-key.codes[0] - 400).name;
+                            }
+                            else {
+                                key.label = layouts.get(-key.codes[0] - 400).label;
+                            }
+                        }
+                        else {
+                            key.label = "";
+                        }
                     }
-                    catch (Exception e) { key.label = ""; }
+                    catch (Exception e) {
+                        key.label = "";
+                        outputToFile(logFile, e.toString());
+                    }
                 }
             }
         }
@@ -572,7 +605,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             }
             setSuggestions(sb, true, true);
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void processKeyCombo(int keycode) {
@@ -613,7 +647,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void setBackground() {
@@ -634,7 +669,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void setTheme() {
@@ -655,7 +691,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void setInputType() {
@@ -731,7 +768,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 kv.draw(new Canvas());
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
         return currentKeyboard.name;
     }
 
@@ -762,7 +800,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         } 
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void wordFore(int n) {
@@ -784,7 +823,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         } 
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public void selectAll() {
@@ -799,7 +839,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             ic.setSelection(end, end);
             Variables.setSelectOff();
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public int getCursorPosition() {
@@ -1076,11 +1117,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
+        // toastIt(String.valueOf(primaryCode));
         ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         int[] join = {KeyEvent.KEYCODE_MOVE_END, KeyEvent.KEYCODE_FORWARD_DEL};
-
 
         try {
             if (currentKeyboard.name.equals("Morse")) {
@@ -1093,7 +1134,9 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 kv.draw(new Canvas());
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());
+        }
 
         if (currentKeyboard.name.equals("Unicode") && !Util.contains(Codes.hexPasses, primaryCode)) {
             if (Util.contains(Codes.hexCaptures, primaryCode)) {
@@ -1416,7 +1459,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                             sendKeyUpDown(KeyEvent.KEYCODE_DPAD_LEFT);
                         }
                     }
-                    catch (Exception ignored) {}
+                    catch (Exception e) {
+                        outputToFile(logFile, e.toString());}
                 }
         }
         try {
@@ -1427,7 +1471,8 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                 }
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            outputToFile(logFile, e.toString());}
     }
 
     public short getRowNumber() {return rowNumber;}

@@ -16,31 +16,32 @@
         <Key android:codes="-11" android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row android:keyHeight="9.34%p">
-        <Key android:codes="-35" android:keyLabel="𝐀" />
-        <Key android:codes="-36" android:keyLabel="𝐴" />
-        <Key android:codes="-37" android:keyLabel="𝑨" />
-        <Key android:codes="-38" android:keyLabel="𝒜" />
-        <Key android:codes="-39" android:keyLabel="𝓝" />
-        <Key android:codes="-40" android:keyLabel="𝔄" />
-        <Key android:codes="-41" android:keyLabel="𝔸" />
-        <Key android:codes="-42" android:keyLabel="𝕬" />
+        <Key android:codes="-35" android:keyLabel="𝐀𝐚" />
+        <Key android:codes="-36" android:keyLabel="𝐴𝑎" />
+        <Key android:codes="-37" android:keyLabel="𝑨𝒂" />
+        <Key android:codes="-38" android:keyLabel="𝒜𝒶" />
+        <Key android:codes="-39" android:keyLabel="𝓐𝓪" />
+        <Key android:codes="-40" android:keyLabel="𝔄𝔞" />
+        <Key android:codes="-42" android:keyLabel="𝕬𝖆" />
+        <Key android:codes="-41" android:keyLabel="𝔸𝕒" />
     </Row>
     <Row android:keyHeight="9.34%p">
-        <Key android:codes="-43" android:keyLabel="𝖠" />
-        <Key android:codes="-47" android:keyLabel="𝙰" />
-        <Key android:codes="-68" android:keyLabel="⒜" />
-        <Key android:codes="-69" android:keyLabel="Ⓐ" />
-        <Key android:codes="-70" android:keyLabel="🅝" />
+        <Key android:codes="-43" android:keyLabel="𝖠𝖺" />
+        <Key android:codes="-47" android:keyLabel="𝙰𝚊" />
+        <Key android:codes="-68" android:keyLabel="🄰" />
+        <Key android:codes="-69" android:keyLabel="🅐" />
+        <Key android:codes="-70" android:keyLabel="🅰" />
         <Key android:codes="-71" android:keyLabel="🇦" />
-        <Key android:codes="-72" android:keyLabel="🅰" />
-        <Key android:codes="-73" android:keyLabel="🄰" />
+        <Key android:codes="-72" android:keyLabel="⒜" />
+        <Key android:codes="-73" android:keyLabel="Ⓐⓐ" />
     </Row>
     <Row android:keyHeight="9.33%p">
-        <Key android:codes="-50" android:keyLabel="Ɐ" />
-        <Key android:codes="-57" android:keyLabel="ᴀ" />
-        <Key android:codes="-12" android:keyIcon="@drawable/ic_bold" />
-        <Key android:codes="-13" android:keyIcon="@drawable/ic_italic" />
-        <Key android:codes="-14" android:keyWidth="50%p" android:keyIcon="@drawable/ic_eraser" />
+        <Key android:codes="-50" android:keyLabel="Ɐɐ" />
+        <Key android:codes="-57" android:keyLabel="Aᴀ" />
+        <Key android:codes="-12" android:keyLabel="𝗔𝗮" />
+        <Key android:codes="-13" android:keyLabel="𝘼𝙖" />
+        <Key android:codes="-14" android:keyWidth="25%p" android:keyIcon="@drawable/ic_eraser" />
+        <Key android:codes="-300"  android:keyLabel="abc" android:keyWidth="25%p" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
