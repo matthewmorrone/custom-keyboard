@@ -31,6 +31,7 @@
 + height and width changes on layout change
 + animations
 + unicode input from exhaustive table
++ show clipboard contents after having pasted
 
 + scrolling
 + add and remove keys

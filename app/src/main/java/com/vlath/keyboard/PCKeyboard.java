@@ -839,27 +839,6 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             return -1;
         }
         return extracted.selectionEnd-extracted.selectionStart;
-    }    
-    
-    public void selectionInfo() {    
-        ic = getCurrentInputConnection();
-        ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
-        if (extracted == null) {
-            return;
-        }    
-        String result = "";    
-        result += extracted.selectionStart + " ";
-        result += extracted.selectionEnd + " ";
-        result += extracted.startOffset + " ";    
-        result += getSelectionLength() + " ";    
-        result += isSelecting() + " ";
-        result += ic.getSelectedText(0).length() + " ";
-        result += ic.getTextBeforeCursor(MAX, 0).length() + " ";
-        result += ic.getTextAfterCursor(MAX, 0).length() + " ";    
-        result += getCursorPosition() + " ";    
-        // result +=  + " ";    
-        // result +=  + " ";    
-        // result +=  + " ";
     }
 
     public int getStartOffset() {
@@ -877,6 +856,32 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         // toastIt(getSelectionStart()+" "+getSelectionEnd()+" "+getStartOffset()+" "+getSelectionLength());
         return getSelectionStart() != getSelectionEnd();
     }
+    
+    public void selectionInfo() {    
+        ic = getCurrentInputConnection();
+        ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
+        if (extracted == null) {
+            return;
+        }    
+        String result = "";    
+        result += getStartOffset() + " ";
+        result += getSelectionEnd() + " ";
+        result += getStartOffset() + " ";
+        result += getSelectionLength() + " ";    
+        result += isSelecting() + " ";
+        result += ic.getSelectedText(0).length() + " ";
+        result += ic.getTextBeforeCursor(MAX, 0).length() + " ";
+        result += ic.getTextAfterCursor(MAX, 0).length() + " ";    
+        result += getCursorPosition() + " ";    
+        // result +=  + " ";    
+        // result +=  + " ";    
+        // result +=  + " ";
+        toastIt(result);
+    }
+
+
+
+
 
     public void navigate(int primaryCode) {
         ic = getCurrentInputConnection();
@@ -1272,8 +1277,11 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
             case -85: ic.commitText(getClipboardEntry(5), 0); break;
             case -86: ic.commitText(getClipboardEntry(6), 0); break;
             case -87: ic.commitText(getClipboardEntry(7), 0); break;    
-            // case -88: sendKeyUpDown(KeyEvent.KEYCODE_UNDO); break;
-            // case -89: sendKeyUpDown(KeyEvent.KEYCODE_REDO); break;
+            case -88: sendKeyUpDown(KeyEvent.KEYCODE_DPAD_CENTER); break;
+            case -89: sendKeyUpDown(KeyEvent.ACTION_UP); break;
+            case -90: sendKeyUpDown(KeyEvent.ACTION_DOWN); break;
+
+
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
