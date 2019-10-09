@@ -5,16 +5,9 @@
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
     <ListPreference android:title="Theme" android:key="theme" android:entryValues="@array/theme_values" android:defaultValue="1" android:entries="@array/theme" />
-    <!-- <ListPreference android:title="Foreground" android:key="fg" android:entryValues="@array/color_values" android:defaultValue="1" android:entries="@array/color" /> -->
-    <!-- <ListPreference android:title="Background" android:key="bg" android:entryValues="@array/theme_values" android:defaultValue="1" android:entries="@array/color" /> -->
+    <ListPreference android:title="Foreground" android:key="fg" android:entryValues="@array/fg_values" android:defaultValue="1" android:entries="@array/fg" />
+    <ListPreference android:title="Background" android:key="bg" android:entryValues="@array/bg_values" android:defaultValue="1" android:entries="@array/bg" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="false" />
-    <PreferenceCategory android:key="hint" android:title="Hints">
-        <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
-        <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true" />
-        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="true" />
-        <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" />
-        <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" />
-    </PreferenceCategory>
     <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
     <SwitchPreference android:title="Indent with Spaces" android:key="indent" android:defaultValue="true" />
@@ -26,6 +19,13 @@
     <EditTextPreference android:dialogTitle="Word Separators" android:title="@string/word_separators" android:key="seps" android:defaultValue="@string/word_separators" />
     <EditTextPreference android:dialogTitle="Popup One" android:title="@string/popup1" android:key="popup1" android:defaultValue="@string/popup1" />
     <EditTextPreference android:dialogTitle="Popup Two" android:title="@string/popup2" android:key="popup2" android:defaultValue="@string/popup2" />
+    <PreferenceCategory android:key="hint" android:title="Hints">
+        <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
+        <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true" />
+        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="true" />
+        <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" />
+        <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" />
+    </PreferenceCategory>
     <PreferenceCategory android:key="layoutList" android:title="Layouts">
         <CheckBoxPreference android:key="coptic"    android:title="Coptic"      android:defaultValue="true" />
         <CheckBoxPreference android:key="cree"      android:title="Cree"        android:defaultValue="true" />

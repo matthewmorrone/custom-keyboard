@@ -58,7 +58,7 @@ public class CustomKeyboard extends KeyboardView {
         if (key.codes[0] == code) {
             try {
                 if (sharedPreferences.getBoolean("names", true)) {
-                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).label : "";
+                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : ""; // label : "";
                 }
                 else {
                     key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : "";
@@ -73,7 +73,7 @@ public class CustomKeyboard extends KeyboardView {
     public void selectKey(Key key) {
         canvas.save();
 
-        mPaint.setColor(Color.parseColor("#80ffffff"));
+        mPaint.setColor(Color.parseColor("#80000000"));
         canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
         canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
 
@@ -116,12 +116,12 @@ public class CustomKeyboard extends KeyboardView {
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                     canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
                     canvas.restore();
-                    // selectKey(key);
-                    drawable(key, R.drawable.shift_lock, 35);
+                    selectKey(key);
+                    drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
-                    // selectKey(key);
-                    drawable(key, R.drawable.shift, 35);
+                    selectKey(key);
+                    drawable(key, R.drawable.ic_shift, 35);
                 }
             }
 

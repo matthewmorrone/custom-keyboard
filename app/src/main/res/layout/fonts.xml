@@ -24,8 +24,8 @@
         <Key android:codes="-38" android:keyLabel="𝒜𝒶" />
         <Key android:codes="-39" android:keyLabel="𝓐𝓪" />
         <Key android:codes="-40" android:keyLabel="𝔄𝔞" />
-        <Key android:codes="-14" android:keyWidth="25%p" android:keyHeight="14%p" android:keyIcon="@drawable/ic_eraser" />
-        <Key android:codes="-300"  android:keyLabel="abc" android:keyWidth="25%p" android:keyHeight="14%p" />
+        <Key android:codes="-14"  android:keyHeight="18.68%p" android:keyIcon="@drawable/ic_eraser" />
+        <Key android:codes="-300" android:keyHeight="18.68%p" android:keyLabel="abc" />
     </Row>
     <Row android:keyHeight="9.34%p">
         <Key android:codes="-42" android:keyLabel="𝕬𝖆" />

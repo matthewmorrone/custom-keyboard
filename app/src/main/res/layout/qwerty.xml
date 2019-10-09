@@ -55,7 +55,7 @@
         <Key android:codes="-78" android:keyIcon="@drawable/ic_blank" android:keyWidth="5%p" android:isRepeatable="true" />
     </Row>
     <Row>
-        <Key android:codes="-1"  android:keyIcon="@drawable/shift"     android:keyWidth="12.5%p" />
+        <Key android:codes="-1"  android:keyIcon="@drawable/ic_shift"     android:keyWidth="12.5%p" />
         <Key android:codes="122" android:keyLabel="z" android:popupCharacters="ʒȝƶƨζʐʑʓ"   android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="120" android:keyLabel="x" android:popupCharacters="χжξⲷ"       android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="99"  android:keyLabel="c" android:popupCharacters="ϛçɕʗ©"      android:popupKeyboard="@layout/popup_template" />

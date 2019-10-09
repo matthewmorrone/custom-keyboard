@@ -121,12 +121,13 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
         if (sharedPreferences.getBoolean("numeric", true))  { layouts.add(new LatinKeyboard(this, R.layout.numeric,  "Numeric", "123")); }
         if (sharedPreferences.getBoolean("math", true))     { layouts.add(new LatinKeyboard(this, R.layout.math,     "Math", "+−×")); }
         if (sharedPreferences.getBoolean("morse", true))    { layouts.add(new LatinKeyboard(this, R.layout.morse,    "Morse", "-·")); }
-        // if (sharedPreferences.getBoolean("funthork", true)) { layouts.add(new LatinKeyboard(this, R.layout.funthork, "Funthork")); }
-        // if (sharedPreferences.getBoolean("tails", true))    { layouts.add(new LatinKeyboard(this, R.layout.tails,    "Tails")); }
+        if (sharedPreferences.getBoolean("funthork", true)) { layouts.add(new LatinKeyboard(this, R.layout.funthork, "Funthork")); }
+        if (sharedPreferences.getBoolean("tails", true))    { layouts.add(new LatinKeyboard(this, R.layout.tails,    "Tails")); }
         if (sharedPreferences.getBoolean("unicode", true))  { layouts.add(new LatinKeyboard(this, R.layout.unicode,  "Unicode", "\\u")); }
         if (sharedPreferences.getBoolean("hex", true))      { layouts.add(new LatinKeyboard(this, R.layout.hex,      "Hex", "\\x")); }
-        // if (sharedPreferences.getBoolean("strike", true))   { layouts.add(new LatinKeyboard(this, R.layout.strike,   "Strike")); }
-        // if (sharedPreferences.getBoolean("extra", true))    { layouts.add(new LatinKeyboard(this, R.layout.extra,    "Extra")); }
+        if (sharedPreferences.getBoolean("strike", true))   { layouts.add(new LatinKeyboard(this, R.layout.strike,   "Strike")); }
+        if (sharedPreferences.getBoolean("extra", true))    { layouts.add(new LatinKeyboard(this, R.layout.extra,    "Extra")); }
+        if (sharedPreferences.getBoolean("braille", true))    { layouts.add(new LatinKeyboard(this, R.layout.braille,    "Braille", "")); }
         if (sharedPreferences.getBoolean("fonts", true))    { layouts.add(new LatinKeyboard(this, R.layout.fonts,    "Fonts", "🄰𝔸𝐀")); }
         if (sharedPreferences.getBoolean("emoji", true))    { layouts.add(new LatinKeyboard(this, R.layout.emoji,    "Emoji", "😃😉😆")); }
         if (sharedPreferences.getBoolean("function", true)) { layouts.add(new LatinKeyboard(this, R.layout.function, "Function", "ƒ(x)")); }
@@ -143,7 +144,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                                 key.label = layouts.get(-key.codes[0] - 400).name;
                             }
                             else {
-                                key.label = layouts.get(-key.codes[0] - 400).label;
+                                key.label = layouts.get(-key.codes[0] - 400).name; // label;
                             }
                         }
                     }
@@ -272,7 +273,7 @@ public class PCKeyboard extends InputMethodService implements KeyboardView.OnKey
                                 key.label = layouts.get(-key.codes[0] - 400).name;
                             }
                             else {
-                                key.label = layouts.get(-key.codes[0] - 400).label;
+                                key.label = layouts.get(-key.codes[0] - 400).name; // label;
                             }
                         }
                         else {
