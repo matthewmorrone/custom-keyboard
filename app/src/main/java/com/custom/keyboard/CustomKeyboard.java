@@ -54,22 +54,6 @@ public class CustomKeyboard extends KeyboardView {
         return super.onLongPress(key);
     }
 
-    public void layoutKey(Key key, int code) {
-        if (key.codes[0] == code) {
-            try {
-                if (sharedPreferences.getBoolean("names", true)) {
-                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : ""; // label : "";
-                }
-                else {
-                    key.label = layouts.get(-code-400) != null ? layouts.get(-code-400).name : "";
-                }
-            }
-            catch (Exception e) {
-                key.label = "";
-            }
-        }
-    }
-
     public void selectKey(Key key) {
         canvas.save();
 
@@ -104,7 +88,7 @@ public class CustomKeyboard extends KeyboardView {
 
         kcontext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
-        System.out.println(sharedPreferences.getAll());
+        // System.out.println(sharedPreferences.getAll());
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
@@ -176,10 +160,6 @@ public class CustomKeyboard extends KeyboardView {
                          : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+(key.height-15), mPaint);
                 }
                 canvas.restore();
-            }
-
-            for(int i = -400; i >= -432; i--) {
-                layoutKey(key, i);
             }
 
             try {

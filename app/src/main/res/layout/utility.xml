@@ -54,8 +54,8 @@
         <Key android:keyOutputText="[]" android:keyLabel="[]" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="{}" android:keyLabel="{}" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="    " android:keyLabel="    " android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyOutputText="I'" android:keyLabel="I'" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyOutputText="'ll" android:keyLabel="'ll" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="&lt;&gt;" android:keyLabel="&lt;&gt;" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="catch()" android:keyLabel="catch(Exception ignored) {}" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" />
     </Row>

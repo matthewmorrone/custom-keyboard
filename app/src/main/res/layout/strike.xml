@@ -31,7 +31,7 @@
     </Row>
     <Row>
         <Key android:codes="42839" android:keyLabel="ꝗ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="119" android:keyLabel="w" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="119" android:keyLabel="₩" android:popupCharacters="w" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="583" android:keyLabel="ɇ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42919" android:keyLabel="ꞧ" android:popupCharacters="ɍ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="11366" android:keyLabel="ⱦ" android:popupCharacters="ŧ" android:popupKeyboard="@layout/popup_template" />

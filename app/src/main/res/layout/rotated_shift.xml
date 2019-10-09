@@ -31,7 +31,7 @@
     </Row>
     <Row>
         <Key android:codes="210" android:keyLabel="Ò" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="66224" android:keyLabel="𐊰" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="66224" android:keyLabel="M" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="398" android:keyLabel="Ǝ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42212" android:keyLabel="ꓤ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42929" android:keyLabel="Ʇ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
@@ -54,7 +54,7 @@
         <Key android:codes="46" android:keyLabel="." android:popupCharacters="@string/popup1" android:popupKeyboard="@layout/popup" />
     </Row>
     <Row>
-        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
+        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift_lock" />
         <Key android:codes="90" android:keyLabel="Z" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="88" android:keyLabel="X" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="390" android:keyLabel="Ɔ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

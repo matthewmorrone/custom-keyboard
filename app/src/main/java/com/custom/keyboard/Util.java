@@ -1,5 +1,8 @@
 package com.custom.keyboard;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.apache.commons.lang3.StringUtils;
 
 class Util {
@@ -33,7 +36,15 @@ class Util {
 		return converted.toString();
 	}
 
-
+	static boolean isNumeric(String strNum) {
+		try {
+			double d = Double.parseDouble(strNum);
+		}
+		catch (NumberFormatException | NullPointerException nfe) {
+			return false;
+		}
+		return true;
+	}
 
 
 	static boolean contains(int[] arr, int item) {
@@ -131,10 +142,12 @@ class Util {
 		return reverse.toString();
 	}
 
-	static boolean isWordSeparator(String s) {
-		return s.contains(". ") || s.contains("? ") || s.contains("! ");
+	static boolean isWordSeparator(int primaryCode) {
+		return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(String.valueOf((char)primaryCode));
 	}
-
+	static boolean isWordSeparator(String str) {
+		return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(str);
+	}
 
 	static String morseToChar(String buffer) {
 		String result = "";
