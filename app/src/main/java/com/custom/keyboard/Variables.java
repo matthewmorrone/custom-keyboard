@@ -120,7 +120,18 @@ class Variables {
     static boolean isCtrl()   { return IS_CTRL; }
     static boolean isAlt()    { return IS_ALT; }
 
-    static void toggleSelect() { IS_SELECT = !IS_SELECT; }
+    static void toggleSelect() {
+        IS_SELECT = !IS_SELECT;
+    }
+    static void toggleSelect(int selectionStart) {
+        IS_SELECT = !IS_SELECT;
+        if (IS_SELECT) {
+            cursorStart = selectionStart;
+        }
+        else {
+            cursorStart = -1;
+        }
+    }
     static void toggleBolded() { setFontsOff(); IS_BOLD = !IS_BOLD; }
     static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
 

@@ -19,7 +19,7 @@
     <Row>
         <Key android:keyLabel="⊤" android:keyOutputText="true"  android:popupCharacters="1⊤⊢⊨⊦⊧⊩" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyLabel="⊥" android:keyOutputText="false" android:popupCharacters="0⊥⊭⊣⊬⊮" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyLabel="null" android:keyOutputText="null" />
+        <Key android:keyLabel="∅" android:keyOutputText="null" />
         <Key android:keyLabel="void" android:keyOutputText="void" />
         <Key android:keyLabel="NaN" android:keyOutputText="NaN" />
         <Key android:keyLabel="int" android:keyOutputText="int" />

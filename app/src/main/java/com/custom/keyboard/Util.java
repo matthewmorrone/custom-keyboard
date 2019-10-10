@@ -1,15 +1,31 @@
 package com.custom.keyboard;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.content.Context;
-import java.io.FileOutputStream;
+import java.util.Random;
 import java.util.regex.*;
-
-
 import org.apache.commons.lang3.StringUtils;
 
 class Util {
+
+    // static int generateRandomIntExclusive(int max) {
+    //     return new Random().nextInt(max);
+    // }
+
+    private static int countLines(String str) {
+        String[] lines = str.split("\r\n|\r|\n");
+        return  lines.length;
+    }
+
+    private static int generateRandomInt(int min, int max) {
+        return new Random().nextInt(max - min + 1) + min;
+    }
+
+    static String rollADie() {
+        return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6)-1));
+    }
+
+    static String flipACoin() {
+        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
+    }
 
     static String replaceLinebreaks(String text)    {return text.replaceAll("\n", "");}
     static String underscoresToSpaces(String text)  {return text.replaceAll("_", " ");}
@@ -19,21 +35,47 @@ class Util {
     static String removeSpaces(String text)         {return text.replaceAll(" ",  "");}
 
     static String toggleJavaComment(String text) {
-        Pattern p = Pattern.compile("^\\/\\*\n(.+)\n\\*\\/$");
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 1) {
+            regex = "^\\/\\*\\s*(.+)\\s*\\*\\/$";
+        }
+        else {
+            regex = "^\\/\\*\n(.+)\n\\*\\/$";
+        }
+        Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         if (m.find()) {
-            return text.replaceAll("^\\/\\*\n(.+)\n\\*\\/$", "$1");
+            return text.replaceAll(regex, "$1");
         }
-        return "/*\n"+text+"\n*/";
+        if (lineCount < 1) {
+            return "/* "+text+" */";
+        }
+        else {
+            return "/*\n"+text+"\n*/";
+        }
     }
 
     static String toggleHtmlComment(String text) {
-        Pattern p = Pattern.compile("^<\\!--\n(.+)\n-->$");
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 1) {
+            regex = "^<\\!--\\s*(.+)\\s*-->$";
+        }
+        else {
+            regex = "^<\\!--\n(.+)\n-->$";
+        }
+        Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         if (m.find()) {
-            return text.replaceAll("^<\\!--\n(.+)\n-->$", "$1");
+            return text.replaceAll(regex, "$1");
         }
-        return "<!--\n"+text+"\n-->";
+        if (lineCount < 1) {
+            return "<!-- "+text+" -->";
+        }
+        else {
+            return "<!--\n"+text+"\n-->";
+        }
     }
 
     static String toTitleCase(String text) {

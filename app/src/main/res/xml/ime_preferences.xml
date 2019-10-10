@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+    <ListPreference android:title="Theme" android:key="theme"     android:entryValues="@array/theme_values"     android:defaultValue="1" android:entries="@array/theme" />
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
     <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="false" />
@@ -19,9 +20,6 @@
     <EditTextPreference android:dialogTitle="Popup 1"         android:title="Popup One"       android:summary="@string/popup1"            android:key="popup1"    android:defaultValue="@string/popup1" />
     <EditTextPreference android:dialogTitle="Popup 2"         android:title="Popup Two"       android:summary="@string/popup2"            android:key="popup2"    android:defaultValue="@string/popup2" />
     <EditTextPreference android:dialogTitle="Popup 3"         android:title="Popup Two"       android:summary="@string/popup3"            android:key="popup3"    android:defaultValue="@string/popup3" />
-    <ListPreference android:title="Theme"      android:key="theme"  android:entryValues="@array/theme_values"  android:defaultValue="1" android:entries="@array/theme" />
-    <ListPreference android:title="Foreground" android:key="fg"     android:entryValues="@array/fg_values"     android:defaultValue="2" android:entries="@array/fg" />
-    <ListPreference android:title="Background" android:key="bg"     android:entryValues="@array/bg_values"     android:defaultValue="1" android:entries="@array/bg" />
     <PreferenceCategory android:key="hint" android:title="Hints">
         <SwitchPreference android:title="Hints" android:key="hints" android:defaultValue="false" />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true" />

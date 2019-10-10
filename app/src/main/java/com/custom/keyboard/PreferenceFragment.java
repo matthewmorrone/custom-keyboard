@@ -7,8 +7,6 @@ import android.preference.*;
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     ListPreference listTheme;
-    ListPreference listForeg;
-    ListPreference listBackg;
 
     EditTextPreference text_size;
     EditTextPreference seps;
@@ -33,18 +31,17 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             addPreferencesFromResource(R.xml.ime_preferences);
         }
         catch (Exception ignored) {}
-
         try {
             listTheme = (ListPreference)findPreference("theme");
             listTheme.setSummary(listTheme.getEntry());
-
-            listForeg = (ListPreference)findPreference("fg");
-            listForeg.setSummary(listForeg.getEntry());
-
-            listBackg = (ListPreference)findPreference("bg");
-            listBackg.setSummary(listBackg.getEntry());
         }
         catch (Exception ignored) {}
+
+        text_size = (EditTextPreference)findPreference("text_size");
+        seps = (EditTextPreference)findPreference("seps");
+        popup1 = (EditTextPreference)findPreference("popup1");
+        popup2 = (EditTextPreference)findPreference("popup2");
+        popup3 = (EditTextPreference)findPreference("popup3");
         
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -55,12 +52,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
-        text_size = (EditTextPreference)findPreference("text_size");
-        seps = (EditTextPreference)findPreference("seps");
-        popup1 = (EditTextPreference)findPreference("popup1");
-        popup2 = (EditTextPreference)findPreference("popup2");
-        popup3 = (EditTextPreference)findPreference("popup3");
-
+        try {
+            text_size.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("text_size", ""));
+            seps.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("seps", ""));
+            popup1.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
+            popup2.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
+            popup3.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup3", ""));
+        }
+        catch (Exception ignored) {}
         try {
             k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
             k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
@@ -70,12 +69,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
             k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
             k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
-            
-            text_size.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("text_size", ""));
-            seps.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("seps", ""));
-            popup1.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
-            popup2.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
-            popup3.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup3", ""));
         }
         catch (Exception ignored) {}
         
@@ -84,24 +77,23 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        
         try {
             addPreferencesFromResource(R.xml.ime_preferences);
         }
         catch (Exception ignored) {}
-
         try {
             listTheme = (ListPreference)findPreference("theme");
             listTheme.setSummary(listTheme.getEntry());
-
-            listForeg = (ListPreference)findPreference("fg");
-            listForeg.setSummary(listForeg.getEntry());
-
-            listBackg = (ListPreference)findPreference("bg");
-            listBackg.setSummary(listBackg.getEntry());
         }
         catch (Exception ignored) {}
-
+        try {
+            text_size.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("text_size", ""));
+            seps.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("seps", ""));
+            popup1.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
+            popup2.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
+            popup3.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup3", ""));
+        }
+        catch (Exception ignored) {}
         try {
             k1.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k1", ""));
             k2.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k2", ""));
@@ -111,12 +103,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k6.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k6", ""));
             k7.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k7", ""));
             k8.setTitle(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("k8", ""));
-            
-            text_size.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("text_size", ""));
-            seps.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("seps", ""));
-            popup1.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup1", ""));
-            popup2.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup2", ""));
-            popup3.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("popup3", ""));
         }
         catch (Exception ignored) {}
     }
