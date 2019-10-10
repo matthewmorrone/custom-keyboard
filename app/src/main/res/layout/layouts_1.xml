@@ -1,0 +1,35 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Row android:keyHeight="7%p" android:keyWidth="9.09%p">
+        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right" />
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_chevron_up"    android:isRepeatable="true" />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_chevron_down"  android:isRepeatable="true" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_chevron_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_chevron_right" android:isRepeatable="true" />
+        <Key android:codes="-67"  android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-8"   android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+    </Row>
+    <Row android:keyHeight="28%p" android:keyWidth="20%p">
+        <Key android:codes="-400"  android:keyLabel="Layout 1" />
+        <Key android:codes="-401"  android:keyLabel="Layout 2" />
+        <Key android:codes="-402"  android:keyLabel="Layout 3" />
+        <Key android:codes="-403"  android:keyLabel="Layout 4" />
+        <Key android:codes="-404"  android:keyLabel="Layout 5" />
+    </Row>
+    <Row android:keyHeight="0%p"></Row>
+    <Row android:keyHeight="0%p"></Row>
+    <Row android:keyHeight="0%p"></Row>
+    <Row android:keyHeight="7%p" android:keyWidth="10%p">
+        <Key android:codes="-498"  android:keyIcon="@drawable/ic_keyboard"      />
+        <Key android:codes="-2"    android:keyIcon="@drawable/ic_keyboard_hide" />
+        <Key android:codes="-300"  android:keyLabel="abc"                       />
+        <Key android:codes="32"    android:keyIcon="@drawable/ic_space"         android:keyWidth="40%p" android:popupCharacters="@string/popup1" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="9"     android:keyIcon="@drawable/ic_tab"           android:isRepeatable="true" />
+        <Key android:codes="10"    android:keyIcon="@drawable/ic_enter"         android:keyWidth="20%p" android:isRepeatable="true" />
+    </Row>
+</Keyboard>

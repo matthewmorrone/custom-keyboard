@@ -41,10 +41,6 @@ public class CustomKeyboard extends KeyboardView {
         mPaint.setColor(Color.parseColor("#80ffffff")); 
     }
 
-    public static String truncate(String value, int length) {
-        return value.length() > length ? value.substring(0, length) : value;
-    }
-
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
@@ -57,9 +53,9 @@ public class CustomKeyboard extends KeyboardView {
     public void selectKey(Key key) {
         canvas.save();
 
-        mPaint.setColor(Color.parseColor("#80000000"));
-        canvas.clipRect(key.x+10, key.y+10, key.x+key.width-10, key.y+key.height-10);
-        canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
+        mPaint.setColor(Color.parseColor("#80ffffff"));
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
 
         canvas.restore();
     }
@@ -98,14 +94,14 @@ public class CustomKeyboard extends KeyboardView {
                     canvas.save();
                     mPaint.setColor(Color.parseColor("#ff000000"));
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, 10, 10, mPaint);
+                    canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                     canvas.restore();
                     selectKey(key);
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
-                    selectKey(key);
-                    drawable(key, R.drawable.ic_shift, 35);
+                    // selectKey(key);
+                    drawable(key, R.drawable.ic_shift_lock, 35);
                 }
             }
 
@@ -161,18 +157,6 @@ public class CustomKeyboard extends KeyboardView {
                 }
                 canvas.restore();
             }
-
-            try {
-                if (key.codes[0] == -501) { key.label = truncate(sharedPreferences.getString("k1", ""), 10); }
-                if (key.codes[0] == -502) { key.label = truncate(sharedPreferences.getString("k2", ""), 10); }
-                if (key.codes[0] == -503) { key.label = truncate(sharedPreferences.getString("k3", ""), 10); }
-                if (key.codes[0] == -504) { key.label = truncate(sharedPreferences.getString("k4", ""), 10); }
-                if (key.codes[0] == -505) { key.label = truncate(sharedPreferences.getString("k5", ""), 10); }
-                if (key.codes[0] == -506) { key.label = truncate(sharedPreferences.getString("k6", ""), 10); }
-                if (key.codes[0] == -507) { key.label = truncate(sharedPreferences.getString("k7", ""), 10); }
-                if (key.codes[0] == -508) { key.label = truncate(sharedPreferences.getString("k8", ""), 10); }
-            }
-            catch(Exception ignored) {}
 
             if (key.codes[0] == 32 && morseBuffer.length() > 0) {
                 key.label = morseBuffer;

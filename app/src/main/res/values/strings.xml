@@ -106,13 +106,14 @@
         <item name="22">22</item>
     </string-array>
     <string name="debug">Debug</string>
-    <string name="popup1">;:\'\u0022\\/?</string>
-    <string name="popup2">.,-_…\u0009</string><!-- \u0020 -->
+    <string name="popup1">-_…</string><!-- \u0020 -->
+    <string name="popup2">\'\u0022\\/?</string>
+    <string name="popup3">.,;:</string>
     <string name="word_separators" translatable="false">\u0009.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="k1">git clone https://github.com/matthewmorrone/</string>
     <string name="k2">git pull</string>
     <string name="k3">git add --all</string>
-    <string name="k4">git commit -m "autocommit"</string>
+    <string name="k4">git commit -m \u0022autocommit\u0022</string>
     <string name="k5">git push</string>
     <string name="k6">git diff</string>
     <string name="k7">git status -s</string>
