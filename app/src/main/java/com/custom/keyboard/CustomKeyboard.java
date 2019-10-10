@@ -53,7 +53,10 @@ public class CustomKeyboard extends KeyboardView {
     public void selectKey(Key key) {
         canvas.save();
 
-        mPaint.setColor(Color.parseColor("#80ffffff"));
+
+        int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
+        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+        mPaint.setColor(Color.parseColor(color));
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
         canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
 
@@ -92,7 +95,7 @@ public class CustomKeyboard extends KeyboardView {
             if (key.codes[0] == -1) {
                 if (isShift()) {    
                     canvas.save();
-                    mPaint.setColor(Color.parseColor("#ff000000"));
+                    mPaint.setColor(Color.parseColor("#40000000"));
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                     canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                     canvas.restore();

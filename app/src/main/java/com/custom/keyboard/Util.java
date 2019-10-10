@@ -15,16 +15,54 @@ class Util {
         return  lines.length;
     }
 
-    private static int generateRandomInt(int min, int max) {
+    static String toColor(int r, int g, int b) {
+        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
+        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
+        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
+        return "#"+rs+gs+bs;
+    }
+
+    static String toColor(int a, int r, int g, int b) {
+        String as = StringUtils.leftPad(Integer.toHexString(a), 2, "0").toUpperCase();
+        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
+        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
+        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
+        return "#"+as+rs+gs+bs;
+    }
+
+    static int[] fromColor(String color) {
+        color = color.toUpperCase();
+        String as = "", rs = "", gs = "", bs = "";
+        int ai = 0, ri = 0, gi = 0, bi = 0;
+        if (color.length() == 6) {
+            as = "FF";
+            rs = color.substring(0, 2);
+            gs = color.substring(2, 4);
+            bs = color.substring(4, 6);
+        }
+        else if (color.length() == 8) {
+            as = color.substring(0, 2);
+            rs = color.substring(2, 4);
+            bs = color.substring(4, 6);
+            gs = color.substring(6, 8);
+        }
+        else {return null;}
+        ai = Integer.decode("0x"+ai);
+        ri = Integer.decode("0x"+ri);
+        gi = Integer.decode("0x"+gi);
+        bi = Integer.decode("0x"+bi);
+        return new int[] {ai, ri, gi, bi};
+    }
+                
+    static int generateRandomInt(int min, int max) {
         return new Random().nextInt(max - min + 1) + min;
     }
 
-    static String rollADie() {
-        return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6)-1));
+    static String padRight(String s, int n) {
+        return String.format("%-0" + n + "s", s);
     }
-
-    static String flipACoin() {
-        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
+    static String padLeft(String s, int n) {
+        return String.format("%0" + n + "s", s);
     }
 
     static String replaceLinebreaks(String text)    {return text.replaceAll("\n", "");}
@@ -269,5 +307,13 @@ class Util {
         }
 
         return result;
+    }
+
+    static String rollADie() {
+        return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6)-1));
+    }
+
+    static String flipACoin() {
+        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
     }
 }

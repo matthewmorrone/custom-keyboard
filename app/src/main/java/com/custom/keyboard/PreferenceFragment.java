@@ -8,6 +8,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     
     ListPreference listTheme;
 
+    EditTextPreference bg;
+    EditTextPreference fg;
+
     EditTextPreference text_size;
     EditTextPreference seps;
     EditTextPreference popup1;
@@ -37,11 +40,19 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         catch (Exception ignored) {}
 
+        bg = (EditTextPreference)findPreference("bg");
+        fg = (EditTextPreference)findPreference("fg");
+
         text_size = (EditTextPreference)findPreference("text_size");
         seps = (EditTextPreference)findPreference("seps");
         popup1 = (EditTextPreference)findPreference("popup1");
         popup2 = (EditTextPreference)findPreference("popup2");
         popup3 = (EditTextPreference)findPreference("popup3");
+
+        popup1.setSingleLineTitle(true);
+        popup2.setSingleLineTitle(true);
+        popup3.setSingleLineTitle(true);
+        // popup3.setOrder(0);
         
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -52,6 +63,17 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
+        try {
+            bg.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("bg", ""));
+            fg.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("fg", ""));
+/*
+            bg.setSelectable(false);
+            fg.setSelectable(false);
+            bg.setEnabled(false);
+            fg.setEnabled(false);
+*/
+        }
+        catch (Exception ignored) {}
         try {
             text_size.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("text_size", ""));
             seps.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("seps", ""));
@@ -79,6 +101,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         try {
             addPreferencesFromResource(R.xml.ime_preferences);
+        }
+        catch (Exception ignored) {}
+        try {
+            bg.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("bg", ""));
+            fg.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).getString("fg", ""));
         }
         catch (Exception ignored) {}
         try {

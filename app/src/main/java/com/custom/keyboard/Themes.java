@@ -1,12 +1,16 @@
 package com.custom.keyboard;
 
 class Themes {
+    // String sPositiveColorBg = "#000000"
+    // String sPositiveColorFg = "#ffffff"
     static final float[] sPositiveColorArray = {
         1.0f,      0,      0,       0,      0, // red
            0,   1.0f,      0,       0,      0, // green
            0,      0,   1.0f,       0,      0, // blue
            0,      0,      0,    1.0f,      0  // alpha
     };
+    // String sNegativeColorBg = "#ffffff"
+    // String sNegativeColorFg = "#000000"
     static final float[] sNegativeColorArray = {
        -1.0f,      0,      0,       0,    255, // red
            0,  -1.0f,      0,       0,    255, // green

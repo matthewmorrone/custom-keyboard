@@ -20,7 +20,7 @@
         <Key android:codes="-23"  android:keyIcon="@drawable/ic_double_chevron_down" />
         <Key android:codes="-107" android:keyIcon="@drawable/ic_chevron_up"    android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_chevron_down"  android:isRepeatable="true" />
-        <Key android:codes="-49"  android:keyIcon="@drawable/ic_join" />
+        <Key android:codes="-48"  android:keyIcon="@drawable/ic_join" />
         <Key android:codes="-76"  android:keyIcon="@drawable/ic_close" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
