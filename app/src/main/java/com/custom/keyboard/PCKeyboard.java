@@ -1206,6 +1206,7 @@ if (!isSelecting()) {
     sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
     Variables.setSelectOn(getSelectionStart());
     navigate(KeyEvent.KEYCODE_MOVE_END);
+    Variables.setSelectOff();
 }
 sendKeyUpDown(KeyEvent.KEYCODE_CUT); 
 break;
@@ -1214,6 +1215,7 @@ if (!isSelecting()) {
     sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
     Variables.setSelectOn(getSelectionStart());
     navigate(KeyEvent.KEYCODE_MOVE_END);
+    Variables.setSelectOff();
 }
 sendKeyUpDown(KeyEvent.KEYCODE_COPY); 
 break;
@@ -1295,6 +1297,26 @@ break;
             case -92: performReplace(Util.toggleHtmlComment(getText(ic))); break;
             case -93: ic.commitText(Util.flipACoin(), 0); break;
             case -94: ic.commitText(Util.rollADie(), 0); break;
+            case -95:
+                if (!isSelecting()) {
+                    sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
+                    Variables.setSelectOn(getSelectionStart());
+                    navigate(KeyEvent.KEYCODE_MOVE_END);
+                    Variables.setSelectOff();
+                }
+            break;
+            case -96: 
+                ic.commitText("\n"+getLastLine(), 0); 
+            break;
+            case -97:
+                if (!isSelecting()) {
+                    sendKeyUpDown(KeyEvent.KEYCODE_MOVE_HOME);
+                    Variables.setSelectOn(getSelectionStart());
+                    navigate(KeyEvent.KEYCODE_MOVE_END);
+                    Variables.setSelectOff();
+                    sendKeyUpDown(KeyEvent.KEYCODE_DEL);
+                }
+            break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
             case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
