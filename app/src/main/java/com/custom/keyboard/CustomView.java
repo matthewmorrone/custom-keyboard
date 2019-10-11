@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-public class CandidateView extends View {
+public class CustomView extends View {
     private static final int OUT_OF_BOUNDS = -1;
     
-    private PCKeyboard mService;
+    private CustomInputMethodService mService;
     private List<String> mSuggestions;
     private int mSelectedIndex;
     private int mTouchX = OUT_OF_BOUNDS;
@@ -35,7 +35,7 @@ public class CandidateView extends View {
     
     private static final int X_GAP = 60;
     
-    private static final List<String> EMPTY_LIST = new ArrayList<String>();
+    private static final List<String> EMPTY_LIST = new ArrayList<>();
     
     private int mColorNormal;
     private int mColorRecommended;
@@ -49,7 +49,7 @@ public class CandidateView extends View {
     
     private GestureDetector mGestureDetector;
     
-    public CandidateView(Context context) {
+    public CustomView(Context context) {
         super(context);
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
         mSelectionHighlight.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused, android.R.attr.state_window_focused, android.R.attr.state_pressed});
@@ -93,7 +93,7 @@ public class CandidateView extends View {
         setVerticalScrollBarEnabled(false);
     }
     
-    public void setService(PCKeyboard listener) {
+    public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
     
@@ -205,7 +205,7 @@ public class CandidateView extends View {
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
         clear();
         if (suggestions != null) {
-            mSuggestions = new ArrayList<String>(suggestions);
+            mSuggestions = new ArrayList<>(suggestions);
         }
         mTypedWordValid = typedWordValid;
         scrollTo(0, 0);

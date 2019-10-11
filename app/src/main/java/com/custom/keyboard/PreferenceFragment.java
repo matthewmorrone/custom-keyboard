@@ -48,11 +48,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         popup1 = (EditTextPreference)findPreference("popup1");
         popup2 = (EditTextPreference)findPreference("popup2");
         popup3 = (EditTextPreference)findPreference("popup3");
-
-        popup1.setSingleLineTitle(true);
-        popup2.setSingleLineTitle(true);
-        popup3.setSingleLineTitle(true);
-        // popup3.setOrder(0);
         
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");

@@ -1,3 +1,33 @@
++ morse keyboard with separate keys
++ www and com keys
++ press and hold del/backspace for up to space
++ current date/time macro
++ name macro/setting
++ phone macro/setting
++ address macro/setting
++ email macro/setting
++ move lines up and down
++ mirror
++ move themes to array or map
++ move layouts to map
++ reverse and sort lines
++ selection moves while typing
++ numbers on navpad
++ full braille set
++ null color array
++ home toggles between start and first nonspace
++ math ⇄ numeric
++ hash out links
++ fix keyboard height change
++ varied layouts for layout list
++ color input
++ entities
++ key props like shift chars cursor movement
++ use different fonts
++ adjust key size
++ change enter icon depending on input type
++ wordFore only works for next word
+
 + autocorrect
 + autocomplete
 + swiping
@@ -49,6 +79,21 @@
 + hide and show specific keys, especially in the top or bottom
 + settings screen for autoreplace configuration
 + debug mode: tons of toasts, selection indices
+
++ script for autoreinstall
++ password buttons
++ entity autoreplace
++ string escaping
++ calculation parsing
++ delete autoinsertions by pressing once
++ autocomplete slowing keyboard input
++ bug with unshifting from shifted layout
++ autocomplete capitalizes correctly
++ left and right swipe on spacebar
++ open activity from keyboard
++ append clipboard contents to file on cut or copy
++ lineNext and lineLast probably don't work
++ language detection
 
 === Settings ===
 + system settings enable keyboard

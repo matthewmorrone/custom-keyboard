@@ -44,7 +44,7 @@ class Codes {
         }
     }
 
-    static int handleCharacter(CustomKeyboard kv, int primaryCode) {
+    static int handleCharacter(CustomKeyboardView kv, int primaryCode) {
         if (Util.isAlphaNumeric(primaryCode)) {
             if (Util.isDigit(primaryCode)) {
                 if (Variables.isBold()) {

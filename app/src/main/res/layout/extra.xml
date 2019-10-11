@@ -17,7 +17,7 @@
     </Row>
     <Row android:keyWidth="8.333%p">
         <Key android:codes="9675" android:keyLabel="○" android:popupCharacters="●◉◎◐◑◒◓◯❍" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="9633" android:keyLabel="□" android:popupCharacters="■▢▣▤▥▦▧▨▩❏❐❑❒" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="9633" android:keyLabel="□" android:popupCharacters="■▢▣▤▥▦▧▨▩❏❐❑❒⧠" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="9671" android:keyLabel="◇" android:popupCharacters="◆◈" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="9661" android:keyLabel="▽" android:popupCharacters="▼◀▶" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="9651" android:keyLabel="△" android:popupCharacters="▲◀▶" android:popupKeyboard="@layout/popup_template" />
@@ -33,7 +33,6 @@
         <!-- ♔♕♖♗♘♙♚♛♜♝♞♟ -->
         <!-- ☼☽☾☿♀♁♂♃♄♅♆♇☊☋☌☍ -->
         <!-- ⚲⚳⚴⚵⚶⚷⚸⚹⚺⚻⚼ -->
-        <!--  -->
     </Row>
     <Row android:keyWidth="8.333%p">
         <Key android:codes="63637" android:keyLabel="" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

@@ -35,7 +35,7 @@
         <Key android:codes="-1005" android:keyLabel="⌴ -" />
         <Key android:codes="-1006" android:keyLabel="⌴ _" />
         <Key android:codes="-79"   android:keyIcon="@drawable/ic_reverse" />
-        <Key android:codes="-1010" android:keyIcon="@drawable/ic_double" />
+        <Key android:codes="-96" android:keyIcon="@drawable/ic_double" />
     </Row>
     <Row android:keyWidth="20%p">
         <Key android:codes="-1007" android:keyLabel="⌴A" android:keyWidth="10%p" />

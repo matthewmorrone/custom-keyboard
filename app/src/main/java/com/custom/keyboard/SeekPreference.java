@@ -11,13 +11,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class SeekPreference extends Preference implements OnSeekBarChangeListener {
     private int mProgress;
 
-    // public SeekPreference(Context context) {
-    //     this(context, null, 0);
-    // }
+    public SeekPreference(Context context) {
 
-    // public SeekPreference(Context context, AttributeSet attrs) {
-    //     this(context, attrs, 0);
-    // }
+        this(context, null, 0);
+    }
+
+    public SeekPreference(Context context, AttributeSet attrs) {
+
+        this(context, attrs, 0);
+    }
 
     private SeekPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -52,6 +54,7 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+
         setValue(restoreValue ? getPersistedInt(mProgress) : (Integer)defaultValue);
     }
 
@@ -67,6 +70,7 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
+
         return a.getInt(index, 0);
     }
 }

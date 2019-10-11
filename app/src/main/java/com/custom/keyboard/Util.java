@@ -6,16 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 
 class Util {
 
-    // static int generateRandomIntExclusive(int max) {
-    //     return new Random().nextInt(max);
-    // }
-
     static String getIndentation(String line) {
         String regex = "^(\\s+).+$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
-        
-       
         if (m.find()) {
             return line.replaceAll(regex, "$1");
         }
@@ -44,8 +38,8 @@ class Util {
 
     static int[] fromColor(String color) {
         color = color.toUpperCase();
-        String as = "", rs = "", gs = "", bs = "";
-        int ai = 0, ri = 0, gi = 0, bi = 0;
+        String as, rs, gs, bs;
+        int ai, ri, gi, bi;
         if (color.length() == 6) {
             as = "FF";
             rs = color.substring(0, 2);
@@ -59,10 +53,10 @@ class Util {
             gs = color.substring(6, 8);
         }
         else {return null;}
-        ai = Integer.decode("0x"+ai);
-        ri = Integer.decode("0x"+ri);
-        gi = Integer.decode("0x"+gi);
-        bi = Integer.decode("0x"+bi);
+        ai = Integer.decode("0x"+as);
+        ri = Integer.decode("0x"+rs);
+        gi = Integer.decode("0x"+gs);
+        bi = Integer.decode("0x"+bs);
         return new int[] {ai, ri, gi, bi};
     }
                 
@@ -149,16 +143,7 @@ class Util {
         }
         return converted.toString();
     }
-/*
-    public void outputToFile(String filename, String fileContents) {
-        try {
-            FileOutputStream outputStream = FileOutputStream.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(fileContents.getBytes());
-            outputStream.close();
-        }
-        catch (Exception e) { e.printStackTrace();}
-    }
-*/
+
     static boolean isNumeric(String strNum) {
         try {
             double d = Double.parseDouble(strNum);
@@ -218,7 +203,7 @@ class Util {
 
     static String convertFromNumberToUnicode(String number) {
         try {
-            return String.valueOf((char)(int)Integer.decode("0x"+ StringUtils.leftPad(number, 4,"0")));
+            return String.valueOf((char)(int)Integer.decode("0x"+ StringUtils.leftPad(number, 4, "0")));
         }
         catch (Exception e) {
             return number;
@@ -253,7 +238,7 @@ class Util {
     }
 
     static String joinWithSpaces(String str) {
-        return str.replaceAll("[     ]", "");
+        return str.replaceAll(" ", "");
     }
 
     static String splitWithSpaces(String str) {
