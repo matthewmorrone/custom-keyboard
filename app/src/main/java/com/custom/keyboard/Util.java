@@ -10,6 +10,18 @@ class Util {
     //     return new Random().nextInt(max);
     // }
 
+    static String getIndentation(String line) {
+        String regex = "(\\s+).+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(line);
+        
+       
+        if (m.find()) {
+            return line.replaceAll(regex, "$1");
+        }
+        return "";
+    }
+
     private static int countLines(String str) {
         String[] lines = str.split("\r\n|\r|\n");
         return  lines.length;

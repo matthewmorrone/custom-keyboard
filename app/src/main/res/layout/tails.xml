@@ -41,7 +41,7 @@
         <Key android:codes="421" android:keyLabel="ƥ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="261" android:keyLabel="ą" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="261" android:keyLabel="ą" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
         <Key android:codes="643" android:keyLabel="ʃ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="598" android:keyLabel="ɖ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="402" android:keyLabel="ƒ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
@@ -50,7 +50,6 @@
         <Key android:codes="669" android:keyLabel="ʝ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="409" android:keyLabel="ƙ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="621" android:keyLabel="ɭ" android:popupCharacters=""            android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="46" android:keyLabel="." android:popupCharacters="@string/popup2"      android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
@@ -70,6 +69,6 @@
         <Key android:codes="-499" android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="@string/popup1" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup2" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup3" android:popupKeyboard="@layout/popup_template" />
     </Row>
 </Keyboard>

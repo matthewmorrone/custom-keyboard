@@ -59,11 +59,18 @@ class Variables {
     static void setCtrlOn() { IS_CTRL =  true; }
     static void setAltOn() { IS_ALT =  true; }
     static void setShiftOn() { IS_SHIFT =  true; }
-    // static void setSelectOn() { IS_SELECT  = true; }
+    static void setSelectOn() { IS_SELECT  = true; }
+    static void setSelectOn(int selectionStart) { 
+        IS_SELECT  = true; 
+        cursorStart = selectionStart;
+    }
     static void setCtrlOff() { IS_CTRL = false; }
     static void setAltOff() { IS_ALT = false; }
     static void setShiftOff() { IS_SHIFT = false; }
-    static void setSelectOff() { IS_SELECT = false; }
+    static void setSelectOff() { 
+        IS_SELECT = false;
+        cursorStart = -1;
+    }
 
     static void setAllEmOff() {
         IS_BOLD = false;
