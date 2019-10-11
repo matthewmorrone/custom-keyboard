@@ -11,7 +11,7 @@ class Util {
     // }
 
     static String getIndentation(String line) {
-        String regex = "(\\s+).+$";
+        String regex = "^(\\s+).+$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
         

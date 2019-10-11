@@ -12,7 +12,7 @@
         <Key android:codes="-107" android:keyIcon="@drawable/ic_chevron_up"    android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_chevron_down"  android:isRepeatable="true" />
         <Key android:codes="-67"  android:keyIcon="@drawable/ic_select" />
-        <Key android:codes="-8"   android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-95"  android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
