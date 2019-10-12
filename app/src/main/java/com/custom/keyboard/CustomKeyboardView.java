@@ -12,6 +12,9 @@ import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,6 +41,10 @@ public class CustomKeyboardView extends KeyboardView {
     public CustomKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mPaint.setColor(Color.parseColor("#80ffffff")); 
+    }
+    
+    public CustomKeyboard getCustomKeyboard(){
+        return (CustomKeyboard)getKeyboard();
     }
 
     @Override
@@ -83,6 +90,10 @@ public class CustomKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.canvas = canvas;
+        
+        // ImageView imageView = (ImageView)findViewById(R.id.image); 
+        // imageView.setImageResource(R.drawable.keyboard_background_9);
+        
 
         kcontext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);

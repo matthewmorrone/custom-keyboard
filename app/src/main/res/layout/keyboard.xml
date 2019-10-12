@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.custom.keyboard.CustomKeyboardView
 xmlns:android="http://schemas.android.com/apk/res/android" 
-android:background="@color/black"
 android:id="@+id/keyboard"
 android:keyBackground="@drawable/key_background"
+android:background="@drawable/keyboard_background_5"
 android:keyPreviewLayout="@null"
 android:keyPreviewOffset="0dp"
 android:keyTextColor="@color/text" 
@@ -20,3 +20,7 @@ android:maxLines="1"
 android:keyTextSize="@dimen/text_size"
 android:fitsSystemWindows="true">
 </com.custom.keyboard.CustomKeyboardView>
+<!--
+android:background="@color/black"
+-->
+
