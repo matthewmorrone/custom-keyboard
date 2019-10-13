@@ -29,7 +29,7 @@
         <Key android:codes="48" android:keyLabel="0" android:popupCharacters="@string/popupCharacters0" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="672"   android:keyLabel="ʠ" android:popupCharacters="ꝙգ"            android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="587"   android:keyLabel="ɋ" android:popupCharacters="ʠꝙգ"            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42849" android:keyLabel="ꝡ" android:popupCharacters="ⱳɰϣщꚗ"          android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1213"  android:keyLabel="ҽ" android:popupCharacters="ᶒȩⱸꬴҿᶒᶓᶔᶕⱔ"           android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="637"   android:keyLabel="ɽ" android:popupCharacters="ɼꝵꝶԅᶉꞅ"            android:popupKeyboard="@layout/popup_template" />
@@ -41,7 +41,7 @@
         <Key android:codes="421"   android:keyLabel="ƥ" android:popupCharacters="ꝓꝕթᶈⱂ"            android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>                                         
-        <Key android:codes="587"   android:keyLabel="ɋ" android:popupCharacters="ąꭤᶏᶐ"            android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
+        <Key android:codes="7567"  android:keyLabel="ᶏ" android:popupCharacters="ąꭤᶏᶐ"            android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
         <Key android:codes="643"   android:keyLabel="ʃ" android:popupCharacters="ȿşʂꭍſʆᶘᶋᶊᶘᶋ"            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="598"   android:keyLabel="ɖ" android:popupCharacters="ɗȡƌԃꝱᶑⳝẟⴋⱊ"            android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="402"   android:keyLabel="ƒ" android:popupCharacters="ϝҕғբꞙ"            android:popupKeyboard="@layout/popup_template" />

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Key android:keyOutputText=".com" android:keyLabel="" />
+    <Key android:keyOutputText=".org" android:keyLabel="" />
+    <Key android:keyOutputText=".gov" android:keyLabel="." />
+    <Key android:keyOutputText=".io" android:keyLabel="." />
+</LinearLayout>

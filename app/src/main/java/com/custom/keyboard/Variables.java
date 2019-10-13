@@ -30,7 +30,7 @@ class Variables {
     private static boolean IS_009372 = false;
     private static boolean IS_009398 = false;
     private static boolean IS_REFLECTED = false;
-    private static boolean IS_SMALLCAPS = false;
+    private static boolean IS_CAPS = false;
 
     static boolean isBold() { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
@@ -54,7 +54,7 @@ class Variables {
     static boolean is009372() { return IS_009372; }
     static boolean is009398() { return IS_009398; }
     static boolean isReflected() { return IS_REFLECTED; }
-    static boolean isSmallcaps() { return IS_SMALLCAPS; }
+    static boolean isCaps() { return IS_CAPS; }
 
     static void setCtrlOn() { IS_CTRL =  true; }
     static void setAltOn() { IS_ALT =  true; }
@@ -95,7 +95,7 @@ class Variables {
         IS_009372 = false;
         IS_009398 = false;
         IS_REFLECTED = false;
-        IS_SMALLCAPS = false;
+        IS_CAPS = false;
     }
 
     private static void setFontsOff() {
@@ -119,7 +119,7 @@ class Variables {
         IS_009372 = false;
         IS_009398 = false;
         IS_REFLECTED = false;
-        IS_SMALLCAPS = false;
+        IS_CAPS = false;
     }
 
     static boolean isShift()  { return IS_SHIFT; }
@@ -162,5 +162,5 @@ class Variables {
     static void toggle009372() { if (IS_009372) { setAllEmOff(); }  else { setAllEmOff(); IS_009372 = true; } }
     static void toggle009398() { if (IS_009398) { setAllEmOff(); }  else { setAllEmOff(); IS_009398 = true; } }
     static void toggleReflected() { if (IS_REFLECTED) { setAllEmOff(); }  else { setAllEmOff(); IS_REFLECTED = true; } }
-    static void toggleSmallcaps() { if (IS_SMALLCAPS) { setAllEmOff(); }  else { setAllEmOff(); IS_SMALLCAPS = true; } }
+    static void toggleCaps() { if (IS_CAPS) { setAllEmOff(); }  else { setAllEmOff(); IS_CAPS = true; } }
 }

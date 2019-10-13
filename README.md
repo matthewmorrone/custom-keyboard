@@ -1,6 +1,9 @@
++ move themes to array or map
 + morse keyboard with separate keys
-+ www and com keys
-+ press and hold del/backspace for up to space
++ keyboard for unsearchable text
++ move layouts to map
++ full braille set
++ .com popup with other choices
 + current date/time macro
 + name macro/setting
 + phone macro/setting
@@ -8,12 +11,11 @@
 + email macro/setting
 + move lines up and down
 + mirror
-+ move themes to array or map
-+ move layouts to map
++ setting for date/time format
++ press and hold del/backspace for up to space
 + reverse and sort lines
 + selection moves while typing
 + numbers on navpad
-+ full braille set
 + null color array
 + home toggles between start and first nonspace
 + math ⇄ numeric
@@ -27,14 +29,29 @@
 + adjust key size
 + change enter icon depending on input type
 + wordFore only works for next word
-
++ api demos
++ basic layout ordering
++ delete all space up to line end
++ add hold check for onpress
++ include line break in cut maybe
++ indentation sometimes off by 1
++ change label on shift
++ make layout for fonts
++ function to determine cursor position on line
++ move/swap keys up and down
++ text area for temporary holding stuff
++ 2d layout navigation
++ enforce layout toggle dependecies     
++ cherokee
++ keyboard identical to English but no latin chars
++ popup for find replace
++ clear selection when turning off selection
 + autocorrect
 + autocomplete
 + swiping
-+ prediction    
++ prediction        
 + fonts page bug
 + choice for insertion of text to the left of cursor
-
 + add key for voice input
 + add key to access settings page
 + add key for access to keyboard management page in settings
@@ -42,14 +59,12 @@
 + personal dictionary settings link
 + press and hold custom keys to change them
 + separate out settings page for layouts and custom keys
-
 + if cursor start and end are equal, select all or line on copy
 + shift backspace is delete
 + select with manual cursor movement
 + duplicate lines
 + move cursor and select text by dragging the space key
 + forward delete functions as backward delete if cursor at end
-
 + layout of popup
 + close by clicking outside popup
 + popup contents should also be keys
@@ -63,12 +78,10 @@
 + animations
 + unicode input from exhaustive table
 + show clipboard contents after having pasted
-
 + scrolling
 + add and remove keys
 + open main activity
 + open other apps
-
 + font color, background, border from settings
 + reorder layouts from settings
 + drag control for keyboard height
@@ -79,7 +92,6 @@
 + hide and show specific keys, especially in the top or bottom
 + settings screen for autoreplace configuration
 + debug mode: tons of toasts, selection indices
-
 + script for autoreinstall
 + password buttons
 + entity autoreplace
@@ -95,27 +107,35 @@
 + lineNext and lineLast probably don't work
 + language detection
 
+
+
 === Settings ===
 + system settings enable keyboard
 + choose keyboard
++ generate keyboard from text string and vice versa
+    + delimiter
+    + shift
+    + label
+    + rows
+    + offset
 + list of layouts, add, enabled, reorder, customize
 + add by duplication of other layouts
 + available templates from many languages
 + layout
-  + add key
-  + move key
-  + row number
-  + height width
-  + send on release or persist
-  + swipe left right up down
+    + add key
+    + move key
+    + row number
+    + height width
+    + send on release or persist
+    + swipe left right up down
 + row
-  + height width offset
+    + height width offset
 + key
-  + code
-  + label or icon
-  + color text background corner
-  + repeatable
-  + toggle, states
-  + popup choices
-  + height width offset
-  + swipe left right up down
+    + code
+    + label or icon
+    + color text background corner
+    + repeatable
+    + toggle, states
+    + popup choices
+    + height width offset
+    + swipe left right up down

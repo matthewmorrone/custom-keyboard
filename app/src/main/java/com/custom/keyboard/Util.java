@@ -1,10 +1,27 @@
 package com.custom.keyboard;
 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.regex.*;
 import org.apache.commons.lang3.StringUtils;
 
+import android.annotation.SuppressLint;
+
+@SuppressLint("SimpleDateFormat")
 class Util {
+
+    static String getDateString(String dateFormat) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        return sdf.format(cal.getTime());
+    }
+
+    static String getTimeString(String timeFormat) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat);
+        return sdf.format(cal.getTime());
+    }
 
     static String getIndentation(String line) {
         String regex = "^(\\s+).+$";
@@ -13,7 +30,6 @@ class Util {
         if (m.find()) {
             line = line.replaceAll(regex, "$1");
             if (line.length() % 4 != 0) {
-                // (4 - (line.length() % 4))
                 line += " ";
             }
             return line;
@@ -22,8 +38,7 @@ class Util {
     }
 
     private static int countLines(String str) {
-        String[] lines = str.split("\r\n|\r|\n");
-        return  lines.length;
+        return str.split("\r\n|\r|\n").length;
     }
 
     static String toColor(int r, int g, int b) {
@@ -311,6 +326,9 @@ class Util {
         return result;
     }
 
+
+
+
     static String rollADie() {
         return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6)-1));
     }
@@ -318,4 +336,6 @@ class Util {
     static String flipACoin() {
         return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
     }
+
+
 }

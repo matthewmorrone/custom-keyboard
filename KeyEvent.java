@@ -1977,7 +1977,7 @@ public class KeyEvent extends InputEvent implements Parcelable {
         return mFlags;
     }
 
-    // Mask of all modifier key meta states.  Specifically excludes locked keys like caps lock.
+    // Mask of all modifier key meta states.  Specifically excludes locked keys like small_caps lock.
     private static final int META_MODIFIER_MASK =
             META_SHIFT_ON | META_SHIFT_LEFT_ON | META_SHIFT_RIGHT_ON
             | META_ALT_ON | META_ALT_LEFT_ON | META_ALT_RIGHT_ON

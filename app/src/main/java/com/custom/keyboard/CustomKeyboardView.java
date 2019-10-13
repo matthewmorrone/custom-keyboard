@@ -12,9 +12,6 @@ import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
-
-
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -141,7 +138,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -46) {if (Variables.is120380()) {selectKey(key);}}
             if (key.codes[0] == -47) {if (Variables.is120432()) {selectKey(key);}}
             if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key);}}
-            if (key.codes[0] == -57) {if (Variables.isSmallcaps()) {selectKey(key);}}
+            if (key.codes[0] == -57) {if (Variables.isCaps()) {selectKey(key);}}
             if (key.codes[0] == -68) {if (Variables.is127280()) {selectKey(key);}}
             if (key.codes[0] == -69) {if (Variables.is127312()) {selectKey(key);}}
             if (key.codes[0] == -70) {if (Variables.is127344()) {selectKey(key);}}

@@ -21,6 +21,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference popup1;
     EditTextPreference popup2;
     EditTextPreference popup3;
+
+    EditTextPreference name;
+    EditTextPreference email;
+    EditTextPreference phone;
+    EditTextPreference address;
     
     EditTextPreference k1;
     EditTextPreference k2;
@@ -46,12 +51,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             listTheme = (ListPreference)findPreference("theme");
             listTheme.setSummary(listTheme.getEntry());
-            
-            // ArrayList<CustomKeyboard> layouts = CustomInputMethodService.getLayouts().toString();
-            
-            // for (CustomKeyboard layout : layouts) {
-            // 
-            // }
         }
         catch (Exception ignored) {}
 
@@ -73,15 +72,18 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
+        name = (EditTextPreference)findPreference("name");
+        name.setSummary(sharedPreferences.getString("name", ""));
+        email = (EditTextPreference)findPreference("email");
+        email.setSummary(sharedPreferences.getString("email", ""));
+        phone = (EditTextPreference)findPreference("phone");
+        phone.setSummary(sharedPreferences.getString("phone", ""));
+        address = (EditTextPreference)findPreference("address");
+        address.setSummary(sharedPreferences.getString("address", ""));
+
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
             fg.setSummary(sharedPreferences.getString("fg", ""));
-/*
-            bg.setSelectable(false);
-            fg.setSelectable(false);
-            bg.setEnabled(false);
-            fg.setEnabled(false);
-*/
         }
         catch (Exception ignored) {}
         try {
@@ -93,14 +95,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         catch (Exception ignored) {}
         try {
-            k1.setTitle(sharedPreferences.getString("k1", ""));
-            k2.setTitle(sharedPreferences.getString("k2", ""));
-            k3.setTitle(sharedPreferences.getString("k3", ""));
-            k4.setTitle(sharedPreferences.getString("k4", ""));
-            k5.setTitle(sharedPreferences.getString("k5", ""));
-            k6.setTitle(sharedPreferences.getString("k6", ""));
-            k7.setTitle(sharedPreferences.getString("k7", ""));
-            k8.setTitle(sharedPreferences.getString("k8", ""));
+            k1.setSummary(sharedPreferences.getString("k1", ""));
+            k2.setSummary(sharedPreferences.getString("k2", ""));
+            k3.setSummary(sharedPreferences.getString("k3", ""));
+            k4.setSummary(sharedPreferences.getString("k4", ""));
+            k5.setSummary(sharedPreferences.getString("k5", ""));
+            k6.setSummary(sharedPreferences.getString("k6", ""));
+            k7.setSummary(sharedPreferences.getString("k7", ""));
+            k8.setSummary(sharedPreferences.getString("k8", ""));
         }
         catch (Exception ignored) {}
         
@@ -129,17 +131,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             popup1.setSummary(sharedPreferences.getString("popup1", ""));
             popup2.setSummary(sharedPreferences.getString("popup2", ""));
             popup3.setSummary(sharedPreferences.getString("popup3", ""));
+
+            name.setSummary(sharedPreferences.getString("name", ""));
+            email.setSummary(sharedPreferences.getString("email", ""));
+            phone.setSummary(sharedPreferences.getString("phone", ""));
+            address.setSummary(sharedPreferences.getString("address", ""));
         }
         catch (Exception ignored) {}
         try {
-            k1.setTitle(sharedPreferences.getString("k1", ""));
-            k2.setTitle(sharedPreferences.getString("k2", ""));
-            k3.setTitle(sharedPreferences.getString("k3", ""));
-            k4.setTitle(sharedPreferences.getString("k4", ""));
-            k5.setTitle(sharedPreferences.getString("k5", ""));
-            k6.setTitle(sharedPreferences.getString("k6", ""));
-            k7.setTitle(sharedPreferences.getString("k7", ""));
-            k8.setTitle(sharedPreferences.getString("k8", ""));
+            k1.setSummary(sharedPreferences.getString("k1", ""));
+            k2.setSummary(sharedPreferences.getString("k2", ""));
+            k3.setSummary(sharedPreferences.getString("k3", ""));
+            k4.setSummary(sharedPreferences.getString("k4", ""));
+            k5.setSummary(sharedPreferences.getString("k5", ""));
+            k6.setSummary(sharedPreferences.getString("k6", ""));
+            k7.setSummary(sharedPreferences.getString("k7", ""));
+            k8.setSummary(sharedPreferences.getString("k8", ""));
         }
         catch (Exception ignored) {}
     }

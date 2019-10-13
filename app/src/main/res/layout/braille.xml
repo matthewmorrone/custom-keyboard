@@ -51,10 +51,10 @@
         <Key android:codes="10266" android:keyLabel="⠚" android:popupCharacters="j" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10245" android:keyLabel="⠅" android:popupCharacters="k" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10247" android:keyLabel="⠇" android:popupCharacters="l" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="46" android:keyLabel="." android:popupCharacters="@string/popup2" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="0" />
     </Row>
     <Row>
-        <Key android:codes="-1" />
+        <Key android:codes="0" />
         <Key android:codes="10293" android:keyLabel="⠵" android:popupCharacters="z" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10285" android:keyLabel="⠭" android:popupCharacters="x" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10249" android:keyLabel="⠉" android:popupCharacters="c" android:popupKeyboard="@layout/popup_template" />
