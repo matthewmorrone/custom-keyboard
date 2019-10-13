@@ -3,7 +3,7 @@
 xmlns:android="http://schemas.android.com/apk/res/android" 
 android:id="@+id/keyboard"
 android:keyBackground="@drawable/key_background"
-android:background="@drawable/keyboard_background_5"
+android:background="@drawable/keyboard_background_1"
 android:keyPreviewLayout="@null"
 android:keyPreviewOffset="0dp"
 android:keyTextColor="@color/text" 
@@ -12,15 +12,17 @@ android:layout_height="wrap_content"
 android:layout_marginTop="0dp"
 android:layout_width="match_parent"
 android:paddingTop="0dp"
+android:keyTextSize="@dimen/text_size"
+android:labelTextSize="@dimen/label_size"
 android:popupLayout="@layout/preview"
-android:shadowColor="#40000000" 
+android:shadowColor="#80000000" 
 android:shadowRadius="0.0"
 android:ellipsize="end"
 android:maxLines="1"
-android:keyTextSize="@dimen/text_size"
 android:fitsSystemWindows="true">
 </com.custom.keyboard.CustomKeyboardView>
 <!--
+android:keyTextSize="@dimen/text_size"
 android:background="@color/black"
 -->
 

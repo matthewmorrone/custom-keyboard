@@ -110,10 +110,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("nav", true))       {layouts.add(new CustomKeyboard(this, R.layout.navigation, "Navigation", "→←↑↓"));}
 
         int layoutLayout = R.layout.layouts;
-
+        Editor editor = sharedPreferences.edit(); 
+        StringBuilder layoutOrder = new StringBuilder();
+        StringBuilder str;
+        
         layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts", "◰◱◲◳"));
         for(CustomKeyboard layout : layouts) {
-            StringBuilder str = new StringBuilder();
+            layoutOrder.append(layout.name+",");
+            str = new StringBuilder();
             for(Keyboard.Key key : layout.getKeys()) {
                 if (key.label == null) continue;
                 if (key.label == "") continue;
@@ -128,6 +132,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 layout.label = label.length() == 3 ? label : layout.name;
             }
         }
+        editor.putString("layout_order", layoutOrder.toString()); 
+        editor.apply();
+        
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -430) {
@@ -218,7 +225,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else {
                     if (kv.isShifted()) {currentKeyboardLabel = currentKeyboardLabel.toUpperCase();}
                     else {currentKeyboardLabel = currentKeyboardLabel.toLowerCase();}
-                    getKey(32).label = currentKeyboard.name+"	•	"+currentKeyboardLabel; // ·
+                    getKey(32).label = currentKeyboard.name+"		•		"+currentKeyboardLabel; // ·
                 }
                 kv.setKeyboard(currentKeyboard);
                 kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
@@ -448,20 +455,22 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     @Override
     public void swipeDown() {
-        setRowNumber(6);
-        currentKeyboard.setRowNumber(getRowNumber());
-        layouts.set(0, new CustomKeyboard(this, R.layout.qwerty, "English"));
-        currentKeyboardID = 0;
-        setKeyboard();
+        hide();
+        // setRowNumber(6);
+        // currentKeyboard.setRowNumber(getRowNumber());
+        // layouts.set(0, new CustomKeyboard(this, R.layout.qwerty, "English"));
+        // currentKeyboardID = 0;
+        // setKeyboard();
     }
 
     @Override
     public void swipeUp() {
-        setRowNumber(7);
-        currentKeyboard.setRowNumber(getRowNumber());
-        layouts.set(0, new CustomKeyboard(this, R.layout.qwerty_7, "English"));
-        currentKeyboardID = 0;
-        setKeyboard();
+        setKeyboardLayout(layouts.size()-1);
+        // setRowNumber(7);
+        // currentKeyboard.setRowNumber(getRowNumber());
+        // layouts.set(0, new CustomKeyboard(this, R.layout.qwerty_7, "English"));
+        // currentKeyboardID = 0;
+        // setKeyboard();
     }
 
     public void hide() {
@@ -885,7 +894,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         Context context = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         try {
-            // Boolean rainbow = sharedPreferences.getBoolean("rainbow", false);
             String theme = sharedPreferences.getString("theme", "1");
             if (theme != null) {
                 if (theme.equals("0")) {
@@ -1110,6 +1118,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated", "Ò\uD800\uDEB0Ǝ");
                         kv.setKeyboard(currentKeyboard);
                     }
+                    setKeyboard();
                     kv.invalidateAllKeys();
                     kv.draw(new Canvas());
                 }
@@ -1126,6 +1135,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         currentKeyboard = new CustomKeyboard(this, R.layout.small_caps_shift, "Smallcaps", "ҨWE");
                         kv.setKeyboard(currentKeyboard);
                     }
+                    setKeyboard();
                     kv.invalidateAllKeys();
                     kv.draw(new Canvas());
                 }
@@ -1144,6 +1154,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     }
                     ic.commitText(text, b);
                     ic.setSelection(a, b);
+                    setKeyboard();
                     kv.draw(new Canvas());
                 }
                 else {
@@ -1165,6 +1176,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                             shift_pressed = System.currentTimeMillis();
                         }
                     }
+                    setKeyboard();
                     kv.invalidateAllKeys();
                     kv.draw(new Canvas());
                 }

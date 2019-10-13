@@ -84,7 +84,7 @@
     <string name="k6">git diff</string>
     <string name="k7">git status -s</string>
     <string name="k8">matthewmorrone</string>
-    <string name="editText">Test your keyboard here</string>
+    <string name="edit_text">Test your keyboard here</string>
     <string name="settings">Settings</string>
     <string name="select">Select</string>
     <string name="enable">Enable</string>

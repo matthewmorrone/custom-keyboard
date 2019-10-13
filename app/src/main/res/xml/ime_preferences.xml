@@ -24,6 +24,14 @@
     <EditTextPreference android:title="Popup 1"           android:dialogTitle="Popup 1"         android:summary="@string/popup1"            android:key="popup1"    android:defaultValue="@string/popup1" android:dialogMessage="Doesn't work yet." />
     <EditTextPreference android:title="Popup 2"           android:dialogTitle="Popup 2"         android:summary="@string/popup2"            android:key="popup2"    android:defaultValue="@string/popup2" android:dialogMessage="Doesn't work yet." />
     <EditTextPreference android:title="Popup 3"           android:dialogTitle="Popup 3"         android:summary="@string/popup3"            android:key="popup3"    android:defaultValue="@string/popup3" android:dialogMessage="Doesn't work yet." />
+    <EditTextPreference 
+        android:dialogTitle="Layout Order" 
+        android:title="Layout Order" 
+        android:persistent="true"
+        android:key="layout_order" 
+        android:lines="3"
+        android:defaultValue="" 
+        />
     <PreferenceCategory android:key="hint" android:title="Hints">
         <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="false" />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true"  android:dependency="hints" />
@@ -31,7 +39,7 @@
         <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" android:dependency="hints" />
         <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" android:dependency="hints" />
     </PreferenceCategory>
-    <PreferenceCategory android:key="layoutList" android:title="Layouts">
+    <PreferenceCategory android:key="layout_list" android:title="Layouts">
         <CheckBoxPreference android:key="font_layout_switch"   android:title="Fonts"       android:defaultValue="true" />
         <CheckBoxPreference android:key="code_layout_switch"   android:title="Symbols"     android:defaultValue="true" />
         <CheckBoxPreference android:key="lang_layout_switch"   android:title="Languages"   android:defaultValue="true" />
@@ -76,7 +84,7 @@
             <CheckBoxPreference android:key="nav"       android:title="Navigation"  android:defaultValue="true" android:dependency="main_layout_switch" />
         <!-- </PreferenceCategory> -->
     </PreferenceCategory>
-    <PreferenceCategory android:key="customKeys" android:title="Custom Keys">
+    <PreferenceCategory android:key="custom_keys" android:title="Custom Keys">
         <EditTextPreference android:dialogTitle="Custom Key 1" android:title="@string/k1" android:key="k1" android:defaultValue="@string/k1" />
         <EditTextPreference android:dialogTitle="Custom Key 2" android:title="@string/k2" android:key="k2" android:defaultValue="@string/k2" />
         <EditTextPreference android:dialogTitle="Custom Key 3" android:title="@string/k3" android:key="k3" android:defaultValue="@string/k3" />
@@ -86,15 +94,10 @@
         <EditTextPreference android:dialogTitle="Custom Key 7" android:title="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
         <EditTextPreference android:dialogTitle="Custom Key 8" android:title="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
     </PreferenceCategory>
-    <EditTextPreference 
-    android:dialogTitle="Layout Order" 
-    android:title="Layout Order" 
-    android:persistent="true"
+<!--
     android:dialogIcon="@drawable/ic_sort"
     android:icon="@drawable/ic_sort"
-    android:key="layoutOrder" 
-    android:defaultValue=" " />
-
+-->
     <!-- <com.vlath.keyboard.SeekBar
         android:defaultValue="50"
         android:key="height"

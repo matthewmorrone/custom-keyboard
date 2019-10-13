@@ -11,7 +11,12 @@ class Util {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
         if (m.find()) {
-            return line.replaceAll(regex, "$1");
+            line = line.replaceAll(regex, "$1");
+            if (line.length() % 4 != 0) {
+                // (4 - (line.length() % 4))
+                line += " ";
+            }
+            return line;
         }
         return "";
     }

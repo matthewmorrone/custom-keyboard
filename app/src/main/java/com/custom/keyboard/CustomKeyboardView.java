@@ -43,9 +43,15 @@ public class CustomKeyboardView extends KeyboardView {
         mPaint.setColor(Color.parseColor("#80ffffff")); 
     }
     
-    public CustomKeyboard getCustomKeyboard(){
+    public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
+    
+/*
+    public void setBackground() {
+        this.setBackground();
+    }
+*/
 
     @Override
     protected boolean onLongPress(Key key) {
