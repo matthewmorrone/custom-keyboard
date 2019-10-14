@@ -2,7 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <ListPreference   android:title="@string/theme"    android:key="theme"   android:defaultValue="1" android:entryValues="@array/theme_values"     android:entries="@array/theme" />
+    <ListPreference android:title="@string/theme"   android:key="theme"   android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
+    <ListPreference android:title="Standard Keyboard" android:key="standard" android:defaultValue="1" android:entryValues="@array/standard_values" android:entries="@array/standard" />
     <SwitchPreference android:title="@string/rainbow"  android:key="rainbow" android:defaultValue="false" />
     <EditTextPreference android:title="@string/foreground" android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:key="fg" android:defaultValue="#FFFFFF" android:dialogMessage="Doesn't work yet." />
     <EditTextPreference android:title="@string/background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
@@ -29,7 +30,7 @@
         android:title="Layout Order" 
         android:persistent="true"
         android:key="layout_order" 
-        android:lines="3"
+        android:lines="5"
         android:defaultValue="" 
         />
     <PreferenceCategory android:key="hint" android:title="Hints">
@@ -78,6 +79,7 @@
         <!-- </PreferenceCategory> -->
         <!-- <PreferenceCategory android:key="main_layouts" android:title="Main"> -->
             <CheckBoxPreference android:key="utility"   android:title="Utility"     android:defaultValue="true" android:dependency="main_layout_switch" />
+            <CheckBoxPreference android:key="mirror"    android:title="Mirror"      android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="numeric"   android:title="Numeric"     android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="function"  android:title="Function"    android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="unicode"   android:title="Unicode"     android:defaultValue="true" android:dependency="main_layout_switch" />

@@ -79,7 +79,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void populate() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         layouts.clear();
-        layouts.add(new CustomKeyboard(this, R.layout.qwerty, "English", "qwerty"));
+        if (sharedPreferences.getString("standard", "1") == "2") {
+            layouts.add(new CustomKeyboard(this, R.layout.qwerty_symbols, "English", "qwerty"));
+        }
+        else {
+            layouts.add(new CustomKeyboard(this, R.layout.qwerty, "English", "qwerty"));
+        }
+
         if (sharedPreferences.getBoolean("greek", true))     {layouts.add(new CustomKeyboard(this, R.layout.greek,      "Greek", "ςερτυθ"));}
         if (sharedPreferences.getBoolean("cyrillic", true))  {layouts.add(new CustomKeyboard(this, R.layout.cyrillic,   "Cyrillic", "йцукен"));}
         if (sharedPreferences.getBoolean("coptic", true))    {layouts.add(new CustomKeyboard(this, R.layout.coptic,     "Coptic", "ⲑϣⲉⲣⲧⲯ"));}
@@ -105,6 +111,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("coding", true))    {layouts.add(new CustomKeyboard(this, R.layout.coding,     "Coding", ""));}
         if (sharedPreferences.getBoolean("fonts", true))     {layouts.add(new CustomKeyboard(this, R.layout.fonts,      "Fonts", "🄰𝔸𝐀"));}
         if (sharedPreferences.getBoolean("emoji", true))     {layouts.add(new CustomKeyboard(this, R.layout.emoji,      "Emoji", "😃😉😆"));}
+        if (sharedPreferences.getBoolean("mirror", true))     {layouts.add(new CustomKeyboard(this, R.layout.mirror_2,      "Mirror", "poiuyt"));}
         if (sharedPreferences.getBoolean("utility", true))   {layouts.add(new CustomKeyboard(this, R.layout.utility,    "Utility", "/**/"));}
         if (sharedPreferences.getBoolean("symbol", true))    {layouts.add(new CustomKeyboard(this, R.layout.symbol,     "Symbol", "!@#$%^"));}
         if (sharedPreferences.getBoolean("function", true))  {layouts.add(new CustomKeyboard(this, R.layout.function,   "Function", "ƒ(x)"));}

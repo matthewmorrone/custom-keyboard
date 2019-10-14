@@ -7,7 +7,7 @@ class Themes {
         1.0f,      0,      0,       0,      0, // red
            0,   1.0f,      0,       0,      0, // green
            0,      0,   1.0f,       0,      0, // blue
-           0,      0,      0,    1.0f,      0  // alpha
+           0,      0,      0,    1.0f,      1  // alpha
     };
     // String sNegativeColorBg = "#ffffff"
     // String sNegativeColorFg = "#000000"
