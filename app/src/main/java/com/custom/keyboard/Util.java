@@ -91,13 +91,6 @@ class Util {
         return String.format("%0" + n + "s", s);
     }
 
-    static String replaceLinebreaks(String text)    {return text.replaceAll("\n", "");}
-    static String underscoresToSpaces(String text)  {return text.replaceAll("_", " ");}
-    static String dashesToSpaces(String text)       {return text.replaceAll("-", " ");}
-    static String spacesToUnderscores(String text)  {return text.replaceAll(" ", "_");}
-    static String spacesToDashes(String text)       {return text.replaceAll(" ", "-");}
-    static String removeSpaces(String text)         {return text.replaceAll(" ",  "");}
-
     static String toggleJavaComment(String text) {
         int lineCount = countLines(text);
         String regex;
@@ -230,12 +223,12 @@ class Util {
         }
     }
 
-    static String camelToSnake(String str) {
-        return str.replaceAll("([A-Z])", "_$1").toLowerCase();
-    }
-
     static String doubleCharacters(String str) {
         return str.replaceAll("(.)", "$1$1");
+    }
+
+    static String camelToSnake(String str) {
+        return str.replaceAll("([A-Z])", "_$1").toLowerCase();
     }
 
     static String snakeToCamel(String str) {
@@ -257,12 +250,31 @@ class Util {
         return nameBuilder.toString();
     }
 
-    static String joinWithSpaces(String str) {
-        return str.replaceAll(" ", "");
-    }
+    static String underscoresToSpaces(String text)  {return text.replaceAll("_", " ");}
+    static String spacesToUnderscores(String text)  {return text.replaceAll(" ", "_");}
 
-    static String splitWithSpaces(String str) {
-        return str.replaceAll("(.)", "$1 ");
+    static String dashesToSpaces(String text)       {return text.replaceAll("-", " ");}
+    static String spacesToDashes(String text)       {return text.replaceAll(" ", "-");}
+
+    static String spacesToLinebreaks(String str)    {return str.replaceAll(" ", "\n");}
+    static String linebreaksToSpaces(String str)    {return str.replaceAll("\n", " ");}
+
+    static String spacesToTabs(String str)          {return str.replaceAll(" ", "\t");}
+    static String tabsToSpaces(String str)          {return str.replaceAll("\t", " ");}
+
+    static String splitWithLinebreaks(String str)   {return str.replaceAll("(.)", "$1\n");}
+    static String removeLinebreaks(String str)      {return str.replaceAll("\n", "");}
+
+    static String splitWithSpaces(String str)       {return str.replaceAll("(.)", "$1 ");}
+    static String removeSpaces(String str)          {return str.replaceAll(" ",  "");}
+
+    static String trimEndingWhitespace(String str) {
+        return str.replaceAll("[ \t]+\n", "\n")
+                  .replaceAll("[ \t]+$",  "");
+    }
+    static String trimTrailingWhitespace(String str) {
+        return str.replaceAll("([^ \t\r\n])[ \t]+\n",  "\n")
+                  .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
     }
 
     static String reverse(String str) {
@@ -285,6 +297,46 @@ class Util {
     }
     static boolean isWordSeparator(String str) {
         return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(str);
+    }
+
+    static String buildDigram(String monograms) {
+        switch (monograms) {
+            case "⚊⚊":   return "⚌";
+            case "⚋⚊":   return "⚍";
+            case "⚊⚋":   return "⚎";
+            case "⚋⚋":   return "⚏";
+            default:       return "";
+        }
+    }
+    
+    static String buildTrigram(String monograms) {
+        switch (monograms) {
+            case "⚊⚌":   return "☰";
+            case "⚌⚊":   return "☰";
+            case "⚊⚊⚊": return "☰";
+            case "⚍⚊":   return "☱";
+            case "⚋⚌":   return "☱";
+            case "⚋⚊⚊": return "☱";
+            case "⚊⚍":   return "☲";
+            case "⚎⚊":   return "☲";
+            case "⚊⚋⚊": return "☲";
+            case "⚏⚊":   return "☳";
+            case "⚋⚍":   return "☳";
+            case "⚋⚋⚊": return "☳";
+            case "⚌⚋":   return "☴";
+            case "⚊⚎":   return "☴";
+            case "⚊⚊⚋": return "☴";
+            case "⚍⚋":   return "☵";
+            case "⚋⚎":   return "☵";
+            case "⚋⚊⚋": return "☵";
+            case "⚎⚋":   return "☶";
+            case "⚊⚏":   return "☶";
+            case "⚊⚋⚋": return "☶";
+            case "⚏⚋":   return "☷";
+            case "⚋⚏":   return "☷";
+            case "⚋⚋⚋": return "☷";
+            default:       return "";
+        }
     }
 
     static String morseToChar(String buffer) {
@@ -335,6 +387,10 @@ class Util {
 
     static String flipACoin() {
         return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
+    }
+
+    static String castALot() {
+        return String.valueOf("⚊⚋".charAt(generateRandomInt(0, 1)));
     }
 
 

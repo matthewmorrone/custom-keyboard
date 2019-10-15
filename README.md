@@ -1,4 +1,5 @@
 + move themes to array or map
++ add shift to hex
 + move layouts to map
 + morse keyboard with separate keys
 + com popup with other choices

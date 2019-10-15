@@ -99,19 +99,20 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("insular", true))   {layouts.add(new CustomKeyboard(this, R.layout.insular,    "Insular", "ꝺꝼᵹꞃꞅꞇ"));}
         if (sharedPreferences.getBoolean("tails", true))     {layouts.add(new CustomKeyboard(this, R.layout.tails,      "Tails", "ʠꝡҽɽʈƴ"));}
         if (sharedPreferences.getBoolean("ipa", true))       {layouts.add(new CustomKeyboard(this, R.layout.ipa,        "IPA", "ʔʕǀǁǂʘ"));}
-        if (sharedPreferences.getBoolean("unicode", true))   {layouts.add(new CustomKeyboard(this, R.layout.unicode,    "Unicode", "\\uXX"));}
-        if (sharedPreferences.getBoolean("hex", true))       {layouts.add(new CustomKeyboard(this, R.layout.hex,        "Hex", "\\x89AB"));}
         if (sharedPreferences.getBoolean("rotated", true))   {layouts.add(new CustomKeyboard(this, R.layout.rotated,    "Rotated", "bʍəɹʇʎ"));}
         if (sharedPreferences.getBoolean("lisu", true))      {layouts.add(new CustomKeyboard(this, R.layout.lisu,       "Lisu", "ⵚꓟꓱꓤꓕ⅄"));}
         if (sharedPreferences.getBoolean("small_caps", true)){layouts.add(new CustomKeyboard(this, R.layout.small_caps, "Caps", "ҩᴡᴇʀᴛʏ"));}
         if (sharedPreferences.getBoolean("numbers", true))   {layouts.add(new CustomKeyboard(this, R.layout.numbers,    "Numbers", ""));}
         if (sharedPreferences.getBoolean("extra", true))     {layouts.add(new CustomKeyboard(this, R.layout.extra,      "Extra", "○□△☆"));}
         if (sharedPreferences.getBoolean("braille", true))   {layouts.add(new CustomKeyboard(this, R.layout.braille,    "Braille", "⠟⠺⠑⠗⠞⠽"));}
-        if (sharedPreferences.getBoolean("stealth", true))   {layouts.add(new CustomKeyboard(this, R.layout.stealth,    "Stealth", ""));}
+        if (sharedPreferences.getBoolean("stealth", true))   {layouts.add(new CustomKeyboard(this, R.layout.stealth_2,    "Stealth", ""));}
         if (sharedPreferences.getBoolean("coding", true))    {layouts.add(new CustomKeyboard(this, R.layout.coding,     "Coding", ""));}
         if (sharedPreferences.getBoolean("fonts", true))     {layouts.add(new CustomKeyboard(this, R.layout.fonts,      "Fonts", "🄰𝔸𝐀"));}
         if (sharedPreferences.getBoolean("emoji", true))     {layouts.add(new CustomKeyboard(this, R.layout.emoji,      "Emoji", "😃😉😆"));}
         if (sharedPreferences.getBoolean("mirror", true))     {layouts.add(new CustomKeyboard(this, R.layout.mirror_2,      "Mirror", "poiuyt"));}
+        if (sharedPreferences.getBoolean("macros", true))     {layouts.add(new CustomKeyboard(this, R.layout.macros,      "Macros", ""));}
+        if (sharedPreferences.getBoolean("unicode", true))   {layouts.add(new CustomKeyboard(this, R.layout.unicode,    "Unicode", "\\uxxxx"));}
+        if (sharedPreferences.getBoolean("hex", true))       {layouts.add(new CustomKeyboard(this, R.layout.hex,        "Hex", "\\x89AB"));}
         if (sharedPreferences.getBoolean("utility", true))   {layouts.add(new CustomKeyboard(this, R.layout.utility,    "Utility", "/**/"));}
         if (sharedPreferences.getBoolean("symbol", true))    {layouts.add(new CustomKeyboard(this, R.layout.symbol,     "Symbol", "!@#$%^"));}
         if (sharedPreferences.getBoolean("function", true))  {layouts.add(new CustomKeyboard(this, R.layout.function,   "Function", "ƒ(x)"));}
@@ -1106,10 +1107,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (kv.getKeyboard().isShifted()) {ic.commitText("\n", 1);}
                 if (sharedPreferences.getBoolean("spaces", true)) {
                     String indent = Util.getIndentation(getLastLine());
-                    if (indent.length() > 0) {
-                        ic.commitText("\n"+indent, 0);
-                        break;
-                    }
+                    // if (indent.length() > 0) {                        ic.commitText("\n"+indent, 0);                        break;                    }
                 }
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
                     case EditorInfo.IME_ACTION_GO: ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
@@ -1163,6 +1161,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                             kv.setKeyboard(currentKeyboard);
                         }
                     }
+                    else if (currentKeyboard.name.equals("Stealth")) {
+                        if (kv.isShifted()) {
+                            currentKeyboard = new CustomKeyboard(this, R.layout.stealth_2, "Stealth", "ԛԝе");
+                            kv.setKeyboard(currentKeyboard);
+                        }
+                        else {
+                            currentKeyboard = new CustomKeyboard(this, R.layout.stealth_2_shift, "Stealth", "");
+                            kv.setKeyboard(currentKeyboard);
+                        }
+                    }
                     if (shift_pressed + 300 > System.currentTimeMillis()) {
                         Variables.setShiftOn();
                         setCapsOn(true);
@@ -1181,7 +1189,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                             shift_pressed = System.currentTimeMillis();
                         }
                     }
-                    if (!currentKeyboard.name.equals("Caps") && !currentKeyboard.name.equals("Rotated")) {
+                    if ( !currentKeyboard.name.equals("Caps") 
+                    && !currentKeyboard.name.equals("Rotated")
+                    && !currentKeyboard.name.equals("Stealth")
+                    ) {
                         setKeyboard();
                     }
                     kv.invalidateAllKeys();
@@ -1243,16 +1254,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -45: Variables.toggle120328(); break;
             case -46: Variables.toggle120380(); break;
             case -47: Variables.toggle120432(); break;
-            case -48:
-                if (!isSelecting()) {
-                    sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END);
-                    sendKeyUpDown(KeyEvent.KEYCODE_FORWARD_DEL);
-                }
-                else {
-                    performReplace(Util.replaceLinebreaks(getText(ic)));
-                }
-            break;
-            case -49: performReplace(Util.replaceLinebreaks(getText(ic))); break;
             case -50: Variables.toggleReflected(); break;
             case -51: performReplace(Util.convertNumberBase(getText(ic), 2, 10)); break;
             case -52: performReplace(Util.convertNumberBase(getText(ic), 10, 2)); break;
@@ -1261,6 +1262,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -55: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
             case -56: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
             case -57: Variables.toggleCaps(); break;
+            case -58: performReplace(Util.camelToSnake(getText(ic))); break;
+            case -59: performReplace(Util.snakeToCamel(getText(ic))); break;
+            case -60: performReplace(Util.doubleCharacters(getText(ic))); break;
             case -67: Variables.toggleSelect(getSelectionStart()); break;
             case -68: Variables.toggle127280(); break;
             case -69: Variables.toggle127312(); break;
@@ -1268,8 +1272,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -71: Variables.toggle127462(); break;
             case -72: Variables.toggle009372(); break;
             case -73: Variables.toggle009398(); break;
-            case -74: performReplace(Util.splitWithSpaces(getText(ic))); break;
-            case -75: performReplace(Util.joinWithSpaces(getText(ic))); break;
             case -76: selectNone(); break;
             case -77: wordLast(1); break;
             case -78: wordNext(1); break;
@@ -1305,6 +1307,27 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             break;
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
+            case -103:
+                ic.commitText(Util.castALot(), 0); 
+                if (!Util.buildDigram(
+                    ic.getTextBeforeCursor(2, 0).toString()
+                ).equals("")) {
+                	ic.deleteSurroundingText(2, 0);
+                    ic.commitText((CharSequence)Util.buildDigram(
+                        ic.getTextBeforeCursor(2, 0).toString()
+                    ), 0);
+                }
+                /*
+                else 
+                if (!Util.buildTrigram(
+                    ic.getTextBeforeCursor(2, 0).toString()
+                ).equals("")) {
+                    ic.commitText((CharSequence)Util.buildTrigram(
+                        ic.getTextBeforeCursor(2, 0).toString()
+                    ), 0);
+                }
+                */
+            break;
             case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
             case -108: navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -109: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
@@ -1407,14 +1430,30 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -1000: performReplace(getText(ic).toUpperCase()); break;
             case -1001: performReplace(Util.toTitleCase(getText(ic))); break;
             case -1002: performReplace(getText(ic).toLowerCase()); break;
-            case -1003: performReplace(Util.dashesToSpaces(getText(ic))); break;
-            case -1004: performReplace(Util.underscoresToSpaces(getText(ic))); break;
-            case -1005: performReplace(Util.spacesToDashes(getText(ic))); break;
-            case -1006: performReplace(Util.spacesToUnderscores(getText(ic))); break;
-            case -1007: performReplace(Util.camelToSnake(getText(ic))); break;
-            case -1008: performReplace(Util.snakeToCamel(getText(ic))); break;
-            case -1009: performReplace(Util.removeSpaces(getText(ic))); break;
-            case -1010: performReplace(Util.doubleCharacters(getText(ic))); break;
+case -1003: performReplace(Util.underscoresToSpaces(getText(ic))); break; 
+case -1004: performReplace(Util.spacesToUnderscores(getText(ic))); break; 
+case -1005: performReplace(Util.dashesToSpaces(getText(ic))); break;
+case -1006: performReplace(Util.spacesToDashes(getText(ic))); break; 
+case -1007: performReplace(Util.spacesToLinebreaks(getText(ic))); break; 
+case -1008: performReplace(Util.linebreaksToSpaces(getText(ic))); break; 
+case -1009: performReplace(Util.spacesToTabs(getText(ic))); break; 
+case -1010: performReplace(Util.tabsToSpaces(getText(ic))); break; 
+case -1011: performReplace(Util.splitWithLinebreaks(getText(ic))); break; 
+case -1012: 
+if (!isSelecting()) {
+sendKeyUpDown(KeyEvent.KEYCODE_MOVE_END); 
+sendKeyUpDown(KeyEvent.KEYCODE_FORWARD_DEL); } 
+else { 
+performReplace(Util.removeLinebreaks(getText(ic))); 
+} 
+break; 
+case -1013: performReplace(Util.splitWithSpaces(getText(ic))); break; 
+case -1014: performReplace(Util.removeSpaces(getText(ic))); break; 
+case -1015: performReplace(Util.trimEndingWhitespace(getText(ic))); break; 
+case -1016: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
+            
+            
+            
             default:
                 if (Variables.isCtrl() || Variables.isAlt()) { processKeyCombo(primaryCode); }
                 else {

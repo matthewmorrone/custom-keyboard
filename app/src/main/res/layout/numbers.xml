@@ -19,16 +19,16 @@
     </Row>
     <Row>
         <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
-        <Key android:codes="8560" android:keyLabel="ⅰ" android:popupCharacters="ⅽⅿ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8561" android:keyLabel="ⅱ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8562" android:keyLabel="ⅲ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8563" android:keyLabel="ⅳ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8564" android:keyLabel="ⅴ" android:popupCharacters="ⅼⅾ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8565" android:keyLabel="ⅵ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8566" android:keyLabel="ⅶ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8567" android:keyLabel="ⅷ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8568" android:keyLabel="ⅸ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="8569" android:keyLabel="ⅹ" android:popupCharacters="ⅺⅻ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅰ" android:popupCharacters="ⅭⅯ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅱ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅲ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅳ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅴ" android:popupCharacters="ⅬⅮ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅵ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅶ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="" android:keyLabel="Ⅷ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="Ⅸ" android:keyLabel="Ⅸ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="Ⅹ" android:keyLabel="Ⅹ" android:popupCharacters="ⅪⅫ" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="12295" android:keyLabel="〇" android:popupCharacters="零十" android:popupKeyboard="@layout/popup_template" />

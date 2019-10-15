@@ -80,6 +80,7 @@
         <!-- <PreferenceCategory android:key="main_layouts" android:title="Main"> -->
             <CheckBoxPreference android:key="utility"   android:title="Utility"     android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="mirror"    android:title="Mirror"      android:defaultValue="true" android:dependency="main_layout_switch" />
+            <CheckBoxPreference android:key="macros"    android:title="Macros"      android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="numeric"   android:title="Numeric"     android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="function"  android:title="Function"    android:defaultValue="true" android:dependency="main_layout_switch" />
             <CheckBoxPreference android:key="unicode"   android:title="Unicode"     android:defaultValue="true" android:dependency="main_layout_switch" />
