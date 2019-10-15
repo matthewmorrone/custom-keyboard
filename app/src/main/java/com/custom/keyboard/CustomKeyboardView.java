@@ -13,14 +13,13 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.graphics.drawable.Drawable;
 
-import org.apache.commons.lang3.StringUtils;
+// import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-import static com.custom.keyboard.CustomInputMethodService.hexBuffer;
-import static com.custom.keyboard.CustomInputMethodService.morseBuffer;
+// import static com.custom.keyboard.CustomInputMethodService.hexBuffer;
+// import static com.custom.keyboard.CustomInputMethodService.morseBuffer;
 import static com.custom.keyboard.Variables.isShift;
-
 
 
 public class CustomKeyboardView extends KeyboardView {

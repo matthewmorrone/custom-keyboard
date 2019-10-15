@@ -4,6 +4,13 @@ getKey(32).popupResId
 // preference has getIntent for opening custom key editors
 // preference also has getOrder for possible use in recycler view for layout order
 
+
+popupWindow.setOutsideTouchable(true); 
+popupWindow.setTouchable(true); 
+popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+
+
 public void Scratch() {
      if (layouts.size() <=  5) {layoutLayout = R.layout.layouts_1;}
      else if (layouts.size() <= 10) {layoutLayout = R.layout.layouts_2;}

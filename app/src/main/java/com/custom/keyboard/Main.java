@@ -53,8 +53,8 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
-            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            String spokenText = results.get(0);
+            // List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            // String spokenText = results.get(0);
             // Do something with spokenText
         }
         super.onActivityResult(requestCode, resultCode, data);

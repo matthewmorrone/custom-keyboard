@@ -1,5 +1,7 @@
 + move themes to array or map
 + move layouts to map
++ morse capitalization
++ full braille
 + com popup with other choices
 + manually reimplement cut/copy/paste
 + move lines up and down

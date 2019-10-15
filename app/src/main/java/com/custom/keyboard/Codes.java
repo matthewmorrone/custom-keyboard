@@ -184,7 +184,7 @@ class Codes {
         return blockException(primaryCode);
     }
 
-    private static void noop() {}
+    // private static void noop() {}
 
     private static int blockException(int primaryCode) {
         if (Variables.is009372()    && primaryCode ==   65) {return 127248;} // 🄐

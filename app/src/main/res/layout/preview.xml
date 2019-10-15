@@ -3,25 +3,30 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#80000000"
+    android:background="#80ffffff"
     android:radius="8dp"
     android:bottomRightRadius="8dp" 
     android:bottomLeftRadius="8dp" 
     android:topLeftRadius="8dp" 
     android:topRightRadius="8dp"
-    android:rowCount="2"
+    android:numColumns="2"
     android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp">
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+    <!-- android:rowCount="2" -->
     <android.inputmethodservice.KeyboardView
         android:id="@android:id/keyboardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:keyBackground="@drawable/key_background"
         android:keyPreviewLayout="@null"
-        android:keyTextColor="#ffffffff"
-        android:background="#10000000"
+        android:keyTextColor="#ff000000"
+        android:background="#00ffffff"
         android:keyTextSize="24sp"
         android:radius="8dp"
         android:bottomRightRadius="8dp" 
@@ -31,10 +36,12 @@
     />
     <ImageButton
         android:id="@android:id/closeButton"
-        android:background="#10000000"
+        android:background="#00ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:clickable="true"
@@ -46,5 +53,7 @@
         android:bottomLeftRadius="8dp" 
         android:topLeftRadius="8dp" 
         android:topRightRadius="8dp"
-    />
+        android:tint="#ff000000"
+        android:tintMode="multiply"
+        />
 </GridLayout>

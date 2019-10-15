@@ -2,13 +2,15 @@ package com.custom.keyboard;
 
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
+// import java.util.*;
 
-public class CustomKeyboard extends Keyboard {
+public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
     
     private static short rowNumber = 6;
     
     public String name;    
     public String label;
+    public int order = Integer.MAX_VALUE;
     
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
@@ -23,6 +25,21 @@ public class CustomKeyboard extends Keyboard {
         super(context, xmlLayoutResId);
         this.name = name;    
         this.label = label;
+    }
+
+    CustomKeyboard(Context context, int xmlLayoutResId, String name, String label, int order) {
+        super(context, xmlLayoutResId);
+        this.name = name;    
+        this.label = label;
+        this.order = order;
+    }
+
+    // @Override
+    public int compareTo(CustomKeyboard kb) {
+        if (this.order != kb.order) {
+            return this.order - kb.order;
+        }
+        return this.name.compareTo(kb.name);
     }
     
     void setRowNumber(short number) {
