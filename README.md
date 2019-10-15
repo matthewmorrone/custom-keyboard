@@ -1,7 +1,5 @@
 + move themes to array or map
-+ add shift to hex
 + move layouts to map
-+ morse keyboard with separate keys
 + com popup with other choices
 + manually reimplement cut/copy/paste
 + move lines up and down
@@ -23,6 +21,8 @@
 + change enter icon depending on input type
 + wordFore only works for next word
 + api demos
++ convert between fonts
++ duplicate selection
 + basic layout ordering
 + delete all space up to line end
 + add hold check for onpress

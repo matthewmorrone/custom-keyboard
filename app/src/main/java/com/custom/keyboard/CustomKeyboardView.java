@@ -62,7 +62,6 @@ public class CustomKeyboardView extends KeyboardView {
     public void selectKey(Key key) {
         canvas.save();
 
-
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
         String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
         mPaint.setColor(Color.parseColor(color));
@@ -93,10 +92,6 @@ public class CustomKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.canvas = canvas;
-        
-        // ImageView imageView = (ImageView)findViewById(R.id.image); 
-        // imageView.setImageResource(R.drawable.keyboard_background_9);
-        
 
         kcontext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
@@ -116,35 +111,34 @@ public class CustomKeyboardView extends KeyboardView {
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
-                    // selectKey(key);
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
             }
 
-            if (key.codes[0] == -12) {if (Variables.isBold())   {selectKey(key);}}
-            if (key.codes[0] == -13) {if (Variables.isItalic()) {selectKey(key);}}
-            if (key.codes[0] == -67) {if (Variables.isSelect()) {selectKey(key);}}
-            if (key.codes[0] == -35) {if (Variables.is119808()) {selectKey(key);}}
-            if (key.codes[0] == -36) {if (Variables.is119860()) {selectKey(key);}}
-            if (key.codes[0] == -37) {if (Variables.is119912()) {selectKey(key);}}
-            if (key.codes[0] == -38) {if (Variables.is119964()) {selectKey(key);}}
-            if (key.codes[0] == -39) {if (Variables.is120016()) {selectKey(key);}}
-            if (key.codes[0] == -40) {if (Variables.is120068()) {selectKey(key);}}
-            if (key.codes[0] == -41) {if (Variables.is120120()) {selectKey(key);}}
-            if (key.codes[0] == -42) {if (Variables.is120172()) {selectKey(key);}}
-            if (key.codes[0] == -43) {if (Variables.is120224()) {selectKey(key);}}
-            if (key.codes[0] == -44) {if (Variables.is120276()) {selectKey(key);}}
-            if (key.codes[0] == -45) {if (Variables.is120328()) {selectKey(key);}}
-            if (key.codes[0] == -46) {if (Variables.is120380()) {selectKey(key);}}
-            if (key.codes[0] == -47) {if (Variables.is120432()) {selectKey(key);}}
+            if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key);}}
+            if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key);}}
+            if (key.codes[0] == -67) {if (Variables.isSelect())    {selectKey(key);}}
+            if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key);}}
+            if (key.codes[0] == -36) {if (Variables.is119860())    {selectKey(key);}}
+            if (key.codes[0] == -37) {if (Variables.is119912())    {selectKey(key);}}
+            if (key.codes[0] == -38) {if (Variables.is119964())    {selectKey(key);}}
+            if (key.codes[0] == -39) {if (Variables.is120016())    {selectKey(key);}}
+            if (key.codes[0] == -40) {if (Variables.is120068())    {selectKey(key);}}
+            if (key.codes[0] == -41) {if (Variables.is120120())    {selectKey(key);}}
+            if (key.codes[0] == -42) {if (Variables.is120172())    {selectKey(key);}}
+            if (key.codes[0] == -43) {if (Variables.is120224())    {selectKey(key);}}
+            if (key.codes[0] == -44) {if (Variables.is120276())    {selectKey(key);}}
+            if (key.codes[0] == -45) {if (Variables.is120328())    {selectKey(key);}}
+            if (key.codes[0] == -46) {if (Variables.is120380())    {selectKey(key);}}
+            if (key.codes[0] == -47) {if (Variables.is120432())    {selectKey(key);}}
             if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key);}}
-            if (key.codes[0] == -57) {if (Variables.isCaps()) {selectKey(key);}}
-            if (key.codes[0] == -68) {if (Variables.is127280()) {selectKey(key);}}
-            if (key.codes[0] == -69) {if (Variables.is127312()) {selectKey(key);}}
-            if (key.codes[0] == -70) {if (Variables.is127344()) {selectKey(key);}}
-            if (key.codes[0] == -71) {if (Variables.is127462()) {selectKey(key);}}
-            if (key.codes[0] == -72) {if (Variables.is009372()) {selectKey(key);}}
-            if (key.codes[0] == -73) {if (Variables.is009398()) {selectKey(key);}}
+            if (key.codes[0] == -57) {if (Variables.isCaps())      {selectKey(key);}}
+            if (key.codes[0] == -68) {if (Variables.is127280())    {selectKey(key);}}
+            if (key.codes[0] == -69) {if (Variables.is127312())    {selectKey(key);}}
+            if (key.codes[0] == -70) {if (Variables.is127344())    {selectKey(key);}}
+            if (key.codes[0] == -71) {if (Variables.is127462())    {selectKey(key);}}
+            if (key.codes[0] == -72) {if (Variables.is009372())    {selectKey(key);}}
+            if (key.codes[0] == -73) {if (Variables.is009398())    {selectKey(key);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
             mPaint.setTextSize(28);
@@ -172,15 +166,6 @@ public class CustomKeyboardView extends KeyboardView {
                          : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+(key.height-15), mPaint);
                 }
                 canvas.restore();
-            }
-
-            if (key.codes[0] == 32 && morseBuffer.length() > 0) {
-                key.label = morseBuffer;
-            }
-            
-            if (hexBuffer.length() > 0) {
-                if (key.codes[0] == -2001) { try { key.label = StringUtils.leftPad(hexBuffer, 4, "0"); } catch (NumberFormatException e) { key.label = "0x0000"; } }
-                if (key.codes[0] == -2002) { try { key.label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))); } catch (NumberFormatException e) { key.label = ""; } }
             }
         }
     }

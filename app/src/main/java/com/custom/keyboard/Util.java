@@ -311,74 +311,286 @@ class Util {
     
     static String buildTrigram(String monograms) {
         switch (monograms) {
-            case "⚊⚌":   return "☰";
-            case "⚌⚊":   return "☰";
+            case "⚊⚌":
+            case "⚌⚊":
             case "⚊⚊⚊": return "☰";
-            case "⚍⚊":   return "☱";
-            case "⚋⚌":   return "☱";
+            case "⚍⚊":
+            case "⚋⚌":
             case "⚋⚊⚊": return "☱";
-            case "⚊⚍":   return "☲";
-            case "⚎⚊":   return "☲";
+            case "⚊⚍":
+            case "⚎⚊":
             case "⚊⚋⚊": return "☲";
-            case "⚏⚊":   return "☳";
-            case "⚋⚍":   return "☳";
+            case "⚏⚊":
+            case "⚋⚍":
             case "⚋⚋⚊": return "☳";
-            case "⚌⚋":   return "☴";
-            case "⚊⚎":   return "☴";
+            case "⚌⚋":
+            case "⚊⚎":
             case "⚊⚊⚋": return "☴";
-            case "⚍⚋":   return "☵";
-            case "⚋⚎":   return "☵";
+            case "⚍⚋":
+            case "⚋⚎":
             case "⚋⚊⚋": return "☵";
-            case "⚎⚋":   return "☶";
-            case "⚊⚏":   return "☶";
+            case "⚎⚋":
+            case "⚊⚏":
             case "⚊⚋⚋": return "☶";
-            case "⚏⚋":   return "☷";
-            case "⚋⚏":   return "☷";
+            case "⚏⚋":
+            case "⚋⚏":
             case "⚋⚋⚋": return "☷";
-            default:       return "";
+            default:      return "";
+        }
+    }
+
+    static String buildHexagram(String trigrams) {
+        switch(trigrams) {
+            case "☰☰": return "䷀";
+            case "☷☰": return "䷁";
+            case "☳☰": return "䷂";
+            case "☵☰": return "䷃";
+            case "☶☰": return "䷄";
+            case "☴☰": return "䷅";
+            case "☲☰": return "䷆";
+            case "☱☰": return "䷇";
+            case "☰☷": return "䷈";
+            case "☷☷": return "䷉";
+            case "☳☷": return "䷊";
+            case "☵☷": return "䷋";
+            case "☶☷": return "䷌";
+            case "☴☷": return "䷍";
+            case "☲☷": return "䷎";
+            case "☱☷": return "䷏";
+            case "☰☳": return "䷐";
+            case "☷☳": return "䷑";
+            case "☳☳": return "䷒";
+            case "☵☳": return "䷓";
+            case "☶☳": return "䷔";
+            case "☴☳": return "䷕";
+            case "☲☳": return "䷖";
+            case "☱☳": return "䷗";
+            case "☰☵": return "䷘";
+            case "☷☵": return "䷙";
+            case "☳☵": return "䷚";
+            case "☵☵": return "䷛";
+            case "☶☵": return "䷜";
+            case "☴☵": return "䷝";
+            case "☲☵": return "䷞";
+            case "☱☵": return "䷟";
+            case "☰☶": return "䷠";
+            case "☷☶": return "䷡";
+            case "☳☶": return "䷢";
+            case "☵☶": return "䷣";
+            case "☶☶": return "䷤";
+            case "☴☶": return "䷥";
+            case "☲☶": return "䷦";
+            case "☱☶": return "䷧";
+            case "☰☴": return "䷨";
+            case "☷☴": return "䷩";
+            case "☳☴": return "䷪";
+            case "☵☴": return "䷫";
+            case "☶☴": return "䷬";
+            case "☴☴": return "䷭";
+            case "☲☴": return "䷮";
+            case "☱☴": return "䷯";
+            case "☰☲": return "䷰";
+            case "☷☲": return "䷱";
+            case "☳☲": return "䷲";
+            case "☵☲": return "䷳";
+            case "☶☲": return "䷴";
+            case "☴☲": return "䷵";
+            case "☲☲": return "䷶";
+            case "☱☲": return "䷷";
+            case "☰☱": return "䷸";
+            case "☷☱": return "䷹";
+            case "☳☱": return "䷺";
+            case "☵☱": return "䷻";
+            case "☶☱": return "䷼";
+            case "☴☱": return "䷽";
+            case "☲☱": return "䷾";
+            case "☱☱": return "䷿";
+            default:    return "";
         }
     }
 
     static String morseToChar(String buffer) {
-        String result = "";
         switch (buffer) {
-            case "·":    result = "e"; break;
-            case "-":    result = "t"; break;
-            case "··":   result = "i"; break;
-            case "·-":   result = "a"; break;
-            case "-·":   result = "n"; break;
-            case "--":   result = "m"; break;
-            case "···":  result = "s"; break;
-            case "··-":  result = "u"; break;
-            case "·-·":  result = "r"; break;
-            case "·--":  result = "w"; break;
-            case "-··":  result = "d"; break;
-            case "-·-":  result = "k"; break;
-            case "--·":  result = "g"; break;
-            case "---":  result = "o"; break;
-            case "····": result = "h"; break;
-            case "···-": result = "v"; break;
-            case "··-·": result = "f"; break;
-            case "··--": result = ","; break;
-            case "·-··": result = "l"; break;
-            case "·-·-": result = "."; break;
-            case "·--·": result = "p"; break;
-            case "·---": result = "j"; break;
-            case "-···": result = "b"; break;
-            case "-··-": result = "x"; break;
-            case "-·-·": result = "c"; break;
-            case "-·--": result = "y"; break;
-            case "--··": result = "z"; break;
-            case "--·-": result = "q"; break;
-            case "---·": result = "?"; break;
-            case "----": result = "!"; break;
-            default: break;
+            case "·-": return "a";
+            case "-···": return "b";
+            case "-·-·": return "c";
+            case "-··": return "d";
+            case "·": return "e";
+            case "··-·": return "f";
+            case "--·": return "g";
+            case "····": return "h";
+            case "··": return "i";
+            case "·---": return "j";
+            case "-·-": return "k";
+            case "·-··": return "l";
+            case "--": return "m";
+            case "-·": return "n";
+            case "---": return "o";
+            case "·--·": return "p";
+            case "--·-": return "q";
+            case "·-·": return "r";
+            case "···": return "s";
+            case "-": return "t";
+            case "··-": return "u";
+            case "···-": return "v";
+            case "·--": return "w";
+            case "-··-": return "x";
+            case "-·--": return "y";
+            case "--··": return "z";
+            case "-----": return "0";
+            case "·----": return "1";
+            case "··---": return "2";
+            case "···--": return "3";
+            case "····-": return "4";
+            case "·····": return "5";
+            case "-····": return "6";
+            case "--···": return "7";
+            case "---··": return "8";
+            case "----·": return "9";
+            case "·-·-·-": return ".";
+            case "--··--": return ",";
+            case "··--··": return "?";
+            case "·----·": return "'";
+            case "-·-·--": return "!";
+            case "-··-·": return "/";
+            case "-·--·": return "(";
+            case "-·--·-": return ")";
+            case "·-···": return "&";
+            case "---···": return ":";
+            case "-·-·-·": return ";";
+            case "-···-": return "=";
+            case "·-·-·": return "+";
+            case "-····-": return "-";
+            case "··--·-": return "_";
+            case "·-··-·": return "\"";
+            case "···-··-": return "$";
+            case "·--·-·": return "@";
+            case "·--·-": return "à";
+            // case "·-·-": return "ä";
+            // case "·--·-": return "å";
+            // case "·-·-": return "ą";
+            case "·-·-": return "æ";
+            // case "-·-··": return "ć";
+            // case "-·-··": return "ĉ";
+            case "-·-··": return "ç";
+            // case "----": return "ch";
+            // case "··-··": return "đ";
+            case "··--·": return "ð";
+            case "··-··": return "é";
+            // case "·-··-": return "è";
+            // case "··-··": return "ę";
+            case "--·-·": return "ĝ";
+            // case "----": return "ĥ";
+            case "·---·": return "ĵ";
+            case "·-··-": return "ł";
+            // case "--·--": return "ń";
+            case "--·--": return "ñ";
+            // case "---·": return "ó";
+            // case "---·": return "ö";
+            case "---·": return "ø";
+            case "···-···": return "ś";
+            case "···-·": return "ŝ";
+            case "----": return "š";
+            case "·--··": return "þ";
+            case "··--": return "ü";
+            // case "··--": return "ŭ";
+            case "--··-·": return "ź";
+            case "--··-": return "ż";
+            default: return "";
         }
-
-        return result;
     }
 
 
+    static String charToMorse(String buffer) {
+        switch (buffer) {
+            case " ": return " ";
+            case "e": return "·";
+            case "t": return "-";
+            case "i": return "··";
+            case "a": return "·-";
+            case "n": return "-·";
+            case "m": return "--";
+            case "s": return "···";
+            case "u": return "··-";
+            case "r": return "·-·";
+            case "w": return "·--";
+            case "d": return "-··";
+            case "k": return "-·-";
+            case "g": return "--·";
+            case "o": return "---";
+            case "h": return "····";
+            case "v": return "···-";
+            case "f": return "··-·";
+            case "l": return "·-··";
+            case "p": return "·--·";
+            case "j": return "·---";
+            case "b": return "-···";
+            case "x": return "-··-";
+            case "c": return "-·-·";
+            case "y": return "-·--";
+            case "z": return "--··";
+            case "q": return "--·-";
+            case "0": return "-----";
+            case "1": return "·----";
+            case "2": return "··---";
+            case "3": return "···--";
+            case "4": return "····-";
+            case "5": return "·····";
+            case "6": return "-····";
+            case "7": return "--···";
+            case "8": return "---··";
+            case "9": return "----·";
+            case "ä": return "·-·-";
+            case "ą": return "·-·-";
+            case "æ": return "·-·-";
+            case "ch": return "----";
+            case "ĥ": return "----";
+            case "ó": return "---·";
+            case "ö": return "---·";
+            case "ø": return "---·";
+            case "š": return "----";
+            case "ü": return "··--";
+            case "ŭ": return "··--";
+            case "/": return "-··-·";
+            case "(": return "-·--·";
+            case "&": return "·-···";
+            case "=": return "-···-";
+            case "+": return "·-·-·";
+            case "à": return "·--·-";
+            case "å": return "·--·-";
+            case "ć": return "-·-··";
+            case "ĉ": return "-·-··";
+            case "ç": return "-·-··";
+            case "đ": return "··-··";
+            case "ð": return "··--·";
+            case "é": return "··-··";
+            case "è": return "·-··-";
+            case "ę": return "··-··";
+            case "ĝ": return "--·-·";
+            case "ĵ": return "·---·";
+            case "ł": return "·-··-";
+            case "ń": return "--·--";
+            case "ñ": return "--·--";
+            case "ŝ": return "···-·";
+            case "þ": return "·--··";
+            case "ż": return "--··-";
+            case ".": return "·-·-·-";
+            case ",": return "--··--";
+            case "?": return "··--··";
+            case "'": return "·----·";
+            case "!": return "-·-·--";
+            case ")": return "-·--·-";
+            case ":": return "---···";
+            case ";": return "-·-·-·";
+            case "-": return "-····-";
+            case "\"": return "·-··-·";
+            case "@": return "·--·-·";
+            case "ź": return "--··-·";
+            case "$": return "···-··-";
+            case "ś": return "···-···";
+            default:  return "";
+        }
+    }
 
 
     static String rollADie() {

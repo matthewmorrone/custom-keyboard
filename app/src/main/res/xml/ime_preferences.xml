@@ -47,8 +47,9 @@
         <CheckBoxPreference android:key="main_layout_switch"   android:title="Main"        android:defaultValue="true" />
         <!-- <PreferenceCategory android:key="font_layouts" android:title="Fonts"> -->
             <CheckBoxPreference android:key="fonts"     android:title="Fonts"       android:defaultValue="true" android:dependency="font_layout_switch" />
-            <!-- <CheckBoxPreference android:key="morse"     android:title="Morse"       android:defaultValue="true" android:dependency="_layout_switch" /> -->
             <CheckBoxPreference android:key="braille"   android:title="Braille"     android:defaultValue="true" android:dependency="font_layout_switch" />
+            <CheckBoxPreference android:key="enmorse"   android:title="Enmorse"     android:defaultValue="true" android:dependency="font_layout_switch" />
+            <CheckBoxPreference android:key="demorse"   android:title="Demorse"     android:defaultValue="true" android:dependency="font_layout_switch" />
             <CheckBoxPreference android:key="rotated"   android:title="Rotated"     android:defaultValue="true" android:dependency="font_layout_switch" />
             <CheckBoxPreference android:key="tails"     android:title="Tails"       android:defaultValue="true" android:dependency="font_layout_switch" />
             <CheckBoxPreference android:key="caps"      android:title="Caps"        android:defaultValue="true" android:dependency="font_layout_switch" />

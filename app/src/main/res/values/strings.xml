@@ -85,9 +85,6 @@
     </string-array>
     
     <string name="debug">Debug</string>
-    <string name="popup1">-_…</string><!-- \u0020 -->
-    <string name="popup2">\u0009\'\u0022\\/</string>
-    <string name="popup3">.,?!;:</string>
     <string name="word_separators" translatable="false">\u0009.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="edit_text">Test your keyboard here</string>
     <string name="settings">Settings</string>
@@ -126,6 +123,9 @@
     <string name="k7">git status -s</string>
     <string name="k8"></string>
 
+    <string name="popup1">-_…</string><!-- \u0020 -->
+    <string name="popup2">\u0009\'\u0022\\/</string>
+    <string name="popup3">.,?!;:</string>
     <string name="popupCharacters1">!`~"</string>
     <string name="popupCharacters2">\@²"</string>
     <string name="popupCharacters3">#³"</string>

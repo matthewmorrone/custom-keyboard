@@ -25,31 +25,6 @@ public void Scratch() {
      kv.draw(new Canvas());
      }
 
-     try {
-     if (currentKeyboard.name.equals("Morse")) {
-     if (!Util.morseToChar(getLastWord()).equals("")) {
-     if (primaryCode == 32) {
-     toastIt(getLastWord()+" "+Util.morseToChar(getLastWord()));
-     ic.commitText(Util.morseToChar(getLastWord()), 0);
-     }
-     }
-     kv.draw(new Canvas());
-     return;
-     }
-
-     }
-     catch (Exception ignored) {}
-     }
-
-public String getLastWord() {
-     ic = getCurrentInputConnection();
-     String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-     if (words.length < 2) {
-     return ic.getTextBeforeCursor(MAX, 0).toString();
-     }
-     return words[words.length - 1];
-     }
-
 public String getNextWord() {
      ic = getCurrentInputConnection();
      String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");

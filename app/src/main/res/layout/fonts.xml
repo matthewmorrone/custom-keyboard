@@ -38,7 +38,7 @@
     <Row android:keyHeight="9.33%p">
         <Key android:codes="-70" android:keyLabel="🅰" />
         <Key android:codes="-71" android:keyLabel="🇦" />
-        <Key android:codes="-72" android:keyLabel="⒜" />
+        <Key android:codes="-72" android:keyLabel="🄐⒜" />
         <Key android:codes="-73" android:keyLabel="Ⓐⓐ" />
         <Key android:codes="-50" android:keyLabel="Ɐɐ" />
         <Key android:codes="-57" android:keyLabel="Aᴀ" />
