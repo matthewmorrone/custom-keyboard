@@ -52,19 +52,9 @@
         <Key android:codes="-1015" android:keyLabel="⌴$" />
         <Key android:codes="-1016" android:keyLabel="\w⌴$" />
     </Row>
-<!-- 
-    <Row android:keyWidth="12.5%p">
-        <Key android:codes="-501" android:keyOutputText="@string/k1" android:keyLabel="@string/k1" />
-        <Key android:codes="-502" android:keyOutputText="@string/k2" android:keyLabel="@string/k2" />
-        <Key android:codes="-503" android:keyOutputText="@string/k3" android:keyLabel="@string/k3" />
-        <Key android:codes="-504" android:keyOutputText="@string/k4" android:keyLabel="@string/k4" />
-        <Key android:codes="-505" android:keyOutputText="@string/k5" android:keyLabel="@string/k5" />
-        <Key android:codes="-506" android:keyOutputText="@string/k6" android:keyLabel="@string/k6" />
-        <Key android:codes="-507" android:keyOutputText="@string/k7" android:keyLabel="@string/k7" />
-        <Key android:codes="-508" android:keyOutputText="@string/k8" android:keyLabel="@string/k8" />
-    </Row>
- -->
-    <Row>
+    <Row android:keyWidth="10%p">
+        <Key android:codes="-48" android:keyIcon="@drawable/ic_indent" />
+        <Key android:codes="-49" android:keyIcon="@drawable/ic_unindent" />
         <Key android:codes="-97" android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-98" android:keyIcon="@drawable/ic_time" />
         <Key android:codes="0"   android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />

@@ -725,10 +725,10 @@ public class KeyEvent extends InputEvent implements Parcelable {
      * Toggles audio description off / on. */
     public static final int KEYCODE_TV_AUDIO_DESCRIPTION = 252;
     /** Key code constant: Audio description mixing volume up key.
-     * Louden audio description volume as compared with normal audio volume. */
+     * Louden audio description volume as compared with _normal audio volume. */
     public static final int KEYCODE_TV_AUDIO_DESCRIPTION_MIX_UP = 253;
     /** Key code constant: Audio description mixing volume down key.
-     * Lessen audio description volume as compared with normal audio volume. */
+     * Lessen audio description volume as compared with _normal audio volume. */
     public static final int KEYCODE_TV_AUDIO_DESCRIPTION_MIX_DOWN = 254;
     /** Key code constant: Zoom mode key.
      * Changes Zoom mode (Normal, Full, Zoom, Wide-zoom, etc.) */
@@ -1133,7 +1133,7 @@ public class KeyEvent extends InputEvent implements Parcelable {
     /**
      * This mask is used for compatibility, to identify enter keys that are
      * coming from an IME whose enter key has been auto-labelled "next" or
-     * "done".  This allows TextView to dispatch these as normal enter keys
+     * "done".  This allows TextView to dispatch these as _normal enter keys
      * for old applications, but still do the appropriate action when
      * receiving them.
      */
@@ -2674,7 +2674,7 @@ public class KeyEvent extends InputEvent implements Parcelable {
     /**
      * Deliver this key event to a {@link Callback} interface.  If this is
      * an ACTION_MULTIPLE event and it is not handled, then an attempt will
-     * be made to deliver a single normal event.
+     * be made to deliver a single _normal event.
      *
      * @param receiver The Callback that will be given the event.
      * @param state State information retained across events.

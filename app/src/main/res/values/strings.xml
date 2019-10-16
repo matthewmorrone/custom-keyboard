@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress CheckTagEmptyBody -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Custom Keyboard</string>
     <string name="subtype_generic">%s</string>
     <string name="welcome">Welcome</string>
@@ -91,7 +91,10 @@
     <string name="select">Select</string>
     <string name="enable">Enable</string>
     <string name="test">Test your keyboard here</string>
-    <string name="placeholder"><!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dolor dolor, lobortis fringilla elit ut, tristique condimentum lacus. --></string>
+    <string name="placeholder">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Curabitur dolor dolor, lobortis fringilla elit ut, tristique condimentum lacus.
+    </string>
     <string name="speech">Speech</string>
     <string name="cursor_left">Insert to right of cursor</string>
     <string name="names">Show Layout Names</string>
@@ -162,4 +165,5 @@
     <string name="popupCharactersB">βбϐƀƃɓ␢ʙ</string>
     <string name="popupCharactersN">νŋиɲɳɴᛝ</string>
     <string name="popupCharactersM">μɱʍᴍ</string>
+    <string name="close">close</string>
 </resources>

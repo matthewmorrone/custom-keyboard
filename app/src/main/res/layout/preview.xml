@@ -55,5 +55,5 @@
         android:topRightRadius="8dp"
         android:tint="#ff000000"
         android:tintMode="multiply"
-        />
+        android:contentDescription="@string/close" />
 </GridLayout>

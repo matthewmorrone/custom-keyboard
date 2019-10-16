@@ -3,7 +3,7 @@
 xmlns:android="http://schemas.android.com/apk/res/android" 
 android:id="@+id/keyboard"
 android:keyBackground="@drawable/key_background"
-android:background="@drawable/keyboard_background_1"
+android:background="@color/black"
 android:keyPreviewLayout="@null"
 android:keyPreviewOffset="0dp"
 android:keyTextColor="@color/text" 
@@ -23,6 +23,6 @@ android:fitsSystemWindows="true">
 </com.custom.keyboard.CustomKeyboardView>
 <!--
 android:keyTextSize="@dimen/text_size"
-android:background="@color/black"
+android:background="@drawable/keyboard_background_1"
 -->
 

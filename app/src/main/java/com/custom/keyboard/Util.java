@@ -37,6 +37,17 @@ class Util {
         return "";
     }
 
+
+    static String increaseIndentation(String text) {
+        if (countLines(text) <= 1) { return "    "+text; }
+        return text.replaceAll("\n", "\n    ");
+    }
+
+    static String decreaseIndentation(String text) {
+        if (countLines(text) <= 1) { return text.replaceAll("^ {4}", ""); }
+        return text.replaceAll("\n {4}", "\n");
+    }
+
     private static int countLines(String str) {
         return str.split("\r\n|\r|\n").length;
     }

@@ -56,10 +56,11 @@
         android:layout_marginTop="5dp"
         android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:hint="@string/test"
         android:inputType="textMultiLine"
         android:text="@string/placeholder"
+        android:lines="3"
         />
         <!--android:id="@+id/element"-->
         <!--android:layout_alignParentBottom="true"-->

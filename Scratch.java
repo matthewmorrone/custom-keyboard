@@ -1,3 +1,34 @@
+I/System.out: How many layouts? 13
+I/System.out: How many rows? 2
+
+504 / 7 = 72
+504 / 6 = 84
+504 / 5 = 100.8
+504 / 4 = 126
+504 / 3 = 168
+504 / 2 = 252
+
+Each row will have 252 px
+
+7 rows of 6:
+height: 72
+rows: 126 198 270 342 414 486 558
+
+you have all the space between 126 and 630, 504 pixels, 7 rows
+
+
+
+
+
+
+6 rows of 6:
+height: 84
+rows: 126
+
+
+
+
+
 r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 popup3.setOrder(0);
 getKey(32).popupResId

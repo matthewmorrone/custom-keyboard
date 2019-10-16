@@ -1,3 +1,12 @@
+
+
++ make popup keys repeatable
++ choice of FIFO or FILO for clipboard history
++ FILO undo/redo
++ increase and decrease indent
++ drawing keyboard
++ single line comments
++ nonliteral tab
 + move themes to array or map
 + move layouts to map
 + morse capitalization
