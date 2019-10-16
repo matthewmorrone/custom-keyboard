@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.regex.*;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 import android.annotation.SuppressLint;
@@ -38,17 +39,67 @@ class Util {
     }
 
 
+    static String sortLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        for (String line : lines) {
+            result.add(line);
+        }
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+    }
+
+    static String reverseLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        for (String line : lines) {
+            result.add(line);
+        }
+        Collections.reverse(result);
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+    }
+
+
     static String increaseIndentation(String text) {
-        if (countLines(text) <= 1) { return "    "+text; }
-        return text.replaceAll("\n", "\n    ");
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        
+        for (String line : lines) {
+            result.add(line.replaceAll("^", "    "));
+        }
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+
+        // if (countLines(text) <= 1) { return "    "+text; }
+        // return text.replaceAll("\n", "\n    ");
     }
 
     static String decreaseIndentation(String text) {
-        if (countLines(text) <= 1) { return text.replaceAll("^ {4}", ""); }
-        return text.replaceAll("\n {4}", "\n");
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        
+        for (String line : lines) {
+            result.add(line.replaceAll("^    ", ""));
+        }
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+        // if (countLines(text) <= 1) { return text.replaceAll("^ {4}", ""); }
+        // return text.replaceAll("\n {4}", "\n");
+    }
+    
+    // todo: make sure to compensate for high surrogates
+    static int countChars(String str) {
+        return str.length();
     }
 
-    private static int countLines(String str) {
+    // todo: split by all word separators
+    static int countWords(String str) {
+        return str.split("\\s+").length;
+    }
+
+    static String[] getLines(String str) {
+        return str.split("\r\n|\r|\n");
+    }
+
+    static int countLines(String str) {
         return str.split("\r\n|\r|\n").length;
     }
 
@@ -98,9 +149,81 @@ class Util {
     static String padRight(String s, int n) {
         return String.format("%-0" + n + "s", s);
     }
+
     static String padLeft(String s, int n) {
         return String.format("%0" + n + "s", s);
     }
+
+    static String addLineComment(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        String regex = "(^|\\n)(\\s*)(.+?)(\\n|$)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        for (String line : lines) {
+            m = p.matcher(line);
+            if (m.find()) {
+                result.add(line.replaceAll(regex, "$1$2// $3$4"));
+            }
+            else {
+                result.add(line);
+            }
+        }
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+    }
+
+    static String removeLineComment(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        String regex = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        for (String line : lines) {
+            m = p.matcher(line);
+            if (m.find()) {
+                result.add(line.replaceAll(regex, "$1$$$3$4"));
+            }
+            else {
+                result.add(line);
+            }
+        }
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+    }
+
+    static String toggleLineComment(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<String>();
+        String regexWith = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
+        String regexSans = "(^|\\n)(\\s*)(.+?)(\\n|$)";
+        Pattern p = Pattern.compile(regexWith);
+        Matcher m = p.matcher(lines[0]);
+        if (m.find()) {
+            p = Pattern.compile(regexWith);
+            for (String line : lines) {
+                m = p.matcher(line);
+                if (m.find()) {
+                    result.add(line.replaceAll(regexWith, "$1$$$3$4"));
+                }
+                else {
+                    result.add(line);
+                }
+            }
+        }
+        else {
+            p = Pattern.compile(regexSans);
+            for (String line : lines) {
+                m = p.matcher(line);
+                if (m.find()) {
+                    result.add(line.replaceAll(regexSans, "$1$2// $3$4"));
+                }
+                else {
+                    result.add(line);
+                }
+            }
+        }
+        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+    }
+
 
     static String toggleJavaComment(String text) {
         int lineCount = countLines(text);

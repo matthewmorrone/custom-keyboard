@@ -37,8 +37,9 @@
         <Key android:keyLabel="+&quot; &quot;+" android:keyOutputText="+&quot; &quot;+" />
     </Row>
     <Row>
-        <Key android:keyLabel="\?:" android:keyOutputText="(  ==  ?  : &quot;&quot;)" />
+        <!-- <Key android:keyLabel="\?:" android:keyOutputText="(  ==  ?  : &quot;&quot;)" /> -->
         <Key android:keyLabel="//&#32;" android:keyOutputText="//&#32;" />
+        <Key android:keyLabel="//&#32;" android:codes="-1017" />
         <Key android:keyLabel="/*" android:keyOutputText="/*" />
         <Key android:keyLabel="*/" android:keyOutputText="*/" />
         <Key android:keyLabel="/**/" android:codes="-91" />

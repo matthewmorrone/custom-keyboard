@@ -55,7 +55,8 @@
         <Key android:keyOutputText="o_0" android:keyLabel="o_0" />
     </Row>
     <Row>
-        <Key android:codes="-103"  android:keyIcon="@drawable/ic_yin_yang"  android:popupCharacters="⚊⚋⚌⚍⚎⚏" android:popupKeyboard="@layout/popup_template" android:horizontalGap="50%p"/>
+        <Key android:codes="-"  android:keyIcon="@drawable/ic_random"  android:popupCharacters="" android:popupKeyboard="@layout/popup_template" android:horizontalGap="40%p"/>
+        <Key android:codes="-103"  android:keyIcon="@drawable/ic_trigrams"  android:popupCharacters="⚊⚋⚌⚍⚎⚏" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-93"   android:keyIcon="@drawable/ic_coin_flip" android:popupCharacters="ⒽⓉ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-94"   android:keyIcon="@drawable/ic_dice_roll" android:popupCharacters="⚀⚁⚂⚃⚄⚅" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5"    android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />

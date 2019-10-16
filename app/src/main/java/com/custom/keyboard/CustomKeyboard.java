@@ -32,6 +32,9 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         this.name = name;    
         this.label = label;
         this.order = order;
+        if (this.order < 0) {
+            this.order = Integer.MAX_VALUE - this.order;
+        }
     }
 
     // @Override

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
-// import java.util.ArrayList;
+import java.util.*;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -36,7 +36,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k7;
     EditTextPreference k8;
     
-    // EditTextPreference[] edits = 
+    // CheckboxPreference[] layouts;
     
     @Override
     public void onCreate(Bundle s) {
@@ -105,10 +105,26 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k8.setSummary(sharedPreferences.getString("k8", ""));
         }
         catch (Exception ignored) {}
+
+Map<String,?> keys = sharedPreferences.getAll(); 
+for(Map.Entry<String,?> entry : keys.entrySet()) {
+    // entry.getKey()
+    // entry.getValue()
+}
+
+
+
         
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
-    
+
+// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
+// prefs.edit().clear(); 
+// PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+
+
+
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         try {

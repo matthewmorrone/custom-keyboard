@@ -1,5 +1,36 @@
+mysteries:
+
++ popups
++ runtime modification/generation of layouts
++ modification of xml attributes at runtime
++ settings for numbers, colors, popupchars
++ draggable for layout management
++ include tags FFS
++ arbitrary popup keys
++ scrollable areas
++ use of layouts on keyboard
++ swiping between layouts
 
 
+
+
++ shuffle lines
++ Count characters, words, lines
++ Column from table
++ Generate numbers
++ Identify Hash
++ Prefix/Suffix lines, add line numbers
++ Format Numbers
++ fix indentation
++ layout page row size adjustment
++ key appearance without borders
++ press and hold space for layout page
++ instead of getting rid of last clipboard entry, send that one indefinitely
++ disable context menu in edittexts
++ voice
++ emoji
++ space between keys
++ page containing clipboard history
 + make popup keys repeatable
 + choice of FIFO or FILO for clipboard history
 + FILO undo/redo
