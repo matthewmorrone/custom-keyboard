@@ -1,25 +1,24 @@
 package com.custom.keyboard;
 
-import android.content.SharedPreferences;
-import android.inputmethodservice.KeyboardView;
-
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
+import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.graphics.drawable.Drawable;
-
-// import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import static com.custom.keyboard.Variables.isShift;
+
+// import org.apache.commons.lang3.StringUtils;
 // import static com.custom.keyboard.CustomInputMethodService.hexBuffer;
 // import static com.custom.keyboard.CustomInputMethodService.morseBuffer;
-import static com.custom.keyboard.Variables.isShift;
 
 
 public class CustomKeyboardView extends KeyboardView {
@@ -58,15 +57,31 @@ public class CustomKeyboardView extends KeyboardView {
         return super.onLongPress(key);
     }
 
-    public void selectKey(Key key) {
-        canvas.save();
 
+    public void selectKey(Key key, int corner) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
         String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+
+        canvas.save();
+        mPaint.setColor(Color.parseColor(color));
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        if (corner > 0) {
+            canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
+        }
+        else {
+            canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
+        }
+        canvas.restore();
+    }
+
+    public void selectKey(Key key) {
+        int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
+        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+
+        canvas.save();
         mPaint.setColor(Color.parseColor(color));
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
         canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-
         canvas.restore();
     }
 
@@ -96,9 +111,77 @@ public class CustomKeyboardView extends KeyboardView {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
         // System.out.println(sharedPreferences.getAll());
 
+        boolean borders = sharedPreferences.getBoolean("borders", false);
+        boolean padding = sharedPreferences.getBoolean("padding", false);
+        boolean corners = sharedPreferences.getBoolean("corners", false);
+        boolean keyback = sharedPreferences.getBoolean("keyback", false);
+        int border = 2;  // borders || padding ? 2 : 0;
+        int corner = 16; // corners ? 16 : 0;
+
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
-            
+
+            // !keyback corners !padding borders
+            if (borders) {
+                canvas.save();
+                canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+                canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
+                mPaint.setColor(Color.parseColor("#ffffffff"));
+                canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
+                canvas.restore();
+            }
+
+            // !keyback !corners padding borders
+            if (padding) {
+                canvas.save();
+                canvas.clipRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2));
+                canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
+                mPaint.setColor(Color.parseColor("#ffffffff"));
+                canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
+                canvas.restore();
+            }
+
+            // !keyback corners padding borders
+            if (corners) {
+                canvas.save();
+                canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+                canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
+                mPaint.setColor(Color.parseColor("#ffffffff"));
+                canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
+                mPaint.setColor(Color.parseColor("#ff000000"));
+                canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
+                canvas.restore();
+            }
+
+            // keyback corners padding !borders
+            if (keyback) {
+                canvas.save();
+                canvas.clipRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
+                mPaint.setColor(Color.parseColor("#80ffffff"));
+                canvas.drawRoundRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border, corner, corner, mPaint);
+                canvas.restore();
+            }
+
+            /*
+            border = 2;
+            canvas.save();
+            mPaint.setColor(Color.parseColor("#ff000000"));
+            mPaint.setColor(Color.parseColor("#80ffffff"));
+            mPaint.setColor(Color.parseColor("#ffffffff"));
+            canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+            canvas.clipOutRect(key.x, key.y, key.x+key.width, key.y+key.height);
+            canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
+            canvas.drawRect(key.x,            key.y,            key.x+key.width,            key.y+key.height,            mPaint);
+            canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
+            canvas.drawRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), mPaint);
+            canvas.drawRect(key.x+(border*8), key.y+(border*8), key.x+key.width-(border*8), key.y+key.height-(border*8), mPaint);
+            canvas.drawRoundRect(key.x,            key.y,            key.x+key.width,            key.y+key.height,            corner, corner, mPaint);
+            canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
+            canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
+            canvas.drawRoundRect(key.x+(border*8), key.y+(border*8), key.x+key.width-(border*8), key.y+key.height-(border*8), corner, corner, mPaint);
+            canvas.restore();
+            */
+
             if (key.codes[0] == -1) {
                 if (isShift()) {    
                     canvas.save();
@@ -106,7 +189,7 @@ public class CustomKeyboardView extends KeyboardView {
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                     canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                     canvas.restore();
-                    selectKey(key);
+                    selectKey(key, corner);
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
@@ -114,30 +197,30 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
-            if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key);}}
-            if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key);}}
-            if (key.codes[0] == -67) {if (Variables.isSelect())    {selectKey(key);}}
-            if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key);}}
-            if (key.codes[0] == -36) {if (Variables.is119860())    {selectKey(key);}}
-            if (key.codes[0] == -37) {if (Variables.is119912())    {selectKey(key);}}
-            if (key.codes[0] == -38) {if (Variables.is119964())    {selectKey(key);}}
-            if (key.codes[0] == -39) {if (Variables.is120016())    {selectKey(key);}}
-            if (key.codes[0] == -40) {if (Variables.is120068())    {selectKey(key);}}
-            if (key.codes[0] == -41) {if (Variables.is120120())    {selectKey(key);}}
-            if (key.codes[0] == -42) {if (Variables.is120172())    {selectKey(key);}}
-            if (key.codes[0] == -43) {if (Variables.is120224())    {selectKey(key);}}
-            if (key.codes[0] == -44) {if (Variables.is120276())    {selectKey(key);}}
-            if (key.codes[0] == -45) {if (Variables.is120328())    {selectKey(key);}}
-            if (key.codes[0] == -46) {if (Variables.is120380())    {selectKey(key);}}
-            if (key.codes[0] == -47) {if (Variables.is120432())    {selectKey(key);}}
-            if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key);}}
-            if (key.codes[0] == -57) {if (Variables.isCaps())      {selectKey(key);}}
-            if (key.codes[0] == -68) {if (Variables.is127280())    {selectKey(key);}}
-            if (key.codes[0] == -69) {if (Variables.is127312())    {selectKey(key);}}
-            if (key.codes[0] == -70) {if (Variables.is127344())    {selectKey(key);}}
-            if (key.codes[0] == -71) {if (Variables.is127462())    {selectKey(key);}}
-            if (key.codes[0] == -72) {if (Variables.is009372())    {selectKey(key);}}
-            if (key.codes[0] == -73) {if (Variables.is009398())    {selectKey(key);}}
+            if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key, corner);}}
+            if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key, corner);}}
+            if (key.codes[0] == -76) {if (Variables.isSelect())    {selectKey(key, corner);}}
+            if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key, corner);}}
+            if (key.codes[0] == -36) {if (Variables.is119860())    {selectKey(key, corner);}}
+            if (key.codes[0] == -37) {if (Variables.is119912())    {selectKey(key, corner);}}
+            if (key.codes[0] == -38) {if (Variables.is119964())    {selectKey(key, corner);}}
+            if (key.codes[0] == -39) {if (Variables.is120016())    {selectKey(key, corner);}}
+            if (key.codes[0] == -40) {if (Variables.is120068())    {selectKey(key, corner);}}
+            if (key.codes[0] == -41) {if (Variables.is120120())    {selectKey(key, corner);}}
+            if (key.codes[0] == -42) {if (Variables.is120172())    {selectKey(key, corner);}}
+            if (key.codes[0] == -43) {if (Variables.is120224())    {selectKey(key, corner);}}
+            if (key.codes[0] == -44) {if (Variables.is120276())    {selectKey(key, corner);}}
+            if (key.codes[0] == -45) {if (Variables.is120328())    {selectKey(key, corner);}}
+            if (key.codes[0] == -46) {if (Variables.is120380())    {selectKey(key, corner);}}
+            if (key.codes[0] == -47) {if (Variables.is120432())    {selectKey(key, corner);}}
+            if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key, corner);}}
+            if (key.codes[0] == -57) {if (Variables.isCaps())      {selectKey(key, corner);}}
+            if (key.codes[0] == -68) {if (Variables.is127280())    {selectKey(key, corner);}}
+            if (key.codes[0] == -69) {if (Variables.is127312())    {selectKey(key, corner);}}
+            if (key.codes[0] == -70) {if (Variables.is127344())    {selectKey(key, corner);}}
+            if (key.codes[0] == -71) {if (Variables.is127462())    {selectKey(key, corner);}}
+            if (key.codes[0] == -72) {if (Variables.is009372())    {selectKey(key, corner);}}
+            if (key.codes[0] == -66) {if (Variables.is009398())    {selectKey(key, corner);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
             mPaint.setTextSize(28);

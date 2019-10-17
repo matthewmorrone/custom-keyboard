@@ -12,7 +12,7 @@ mysteries:
 + swiping between layouts
 
 
-
++ combine utility, navigation, function, macros, fonts, coding, clipboard, arrows
 
 + shuffle lines
 + Count characters, words, lines
@@ -30,6 +30,10 @@ mysteries:
 + voice
 + emoji
 + space between keys
++ getCharacterFrequencies
++ getWordFrequencies
++ toColor & fromColor
++ bug with drawing borders on press
 + page containing clipboard history
 + make popup keys repeatable
 + choice of FIFO or FILO for clipboard history
@@ -39,6 +43,7 @@ mysteries:
 + single line comments
 + nonliteral tab
 + move themes to array or map
++ you can use canvas to add a black layover to darken background
 + move layouts to map
 + morse capitalization
 + full braille
@@ -53,6 +58,7 @@ mysteries:
 + null color array
 + home toggles between start and first nonspace
 + math ⇄ numeric
++ fonts ⇄ qwerty
 + hash out links
 + fix keyboard height change
 + varied layouts for layout list

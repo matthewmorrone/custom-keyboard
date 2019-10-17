@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import java.util.List;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 public class Main extends AppCompatActivity {
 
@@ -17,6 +18,8 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activate);
+
+        EmojiManager.install(new GoogleEmojiProvider());
     }
 
     public void settings(View v) {

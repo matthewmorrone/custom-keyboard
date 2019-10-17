@@ -1,26 +1,210 @@
 package com.custom.keyboard;
 
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
-import java.util.Random;
-import java.util.regex.*;
-import java.util.*;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.Normalizer;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@SuppressLint("SimpleDateFormat")
 class Util {
+
+    static void noop() {}
+
+    private static int fibonacci(int n) {
+        if (n <= 1) return n;
+        else return fibonacci(n-1) + fibonacci(n-2);
+    }
+
+    static int factorial(int number) {
+        int result = 1;
+        for (int factor = 2; factor <= number; factor++) {
+            result *= factor;
+        }
+        return result;
+    }
+
+    static Integer[] performLottery(int numNumbers, int numbersToPick) {
+        List<Integer> numbers = new ArrayList<>();
+        for(int i = 0; i < numNumbers; i++) numbers.add(i + 1);
+        Collections.shuffle(numbers);
+        return numbers.subList(0, numbersToPick).toArray(new Integer[numbersToPick]);
+    }
+
+    static HashMap<Character,Integer> getCharacterFrequencies(String s) {
+        HashMap<Character,Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            Integer val = map.get(c);
+            if (val != null) map.put(c, val + 1);
+            else map.put(c, 1);
+        }
+        return map;
+    }
+
+    static Map<String, Integer> getWordFrequencies(String[] words) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String w : words) {
+            Integer n = map.get(w);
+            n = (n == null) ? 1 : ++n;
+            map.put(w, n);
+        }
+        return map;
+    }
+
+    static boolean isPrime(int number) {
+        if (number < 3) return true;
+        if (number % 2 == 0) return false;
+        for (int i = 3; i * i <= number; i += 2) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static boolean isPalindrome(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                sb.append(c);
+            }
+        }
+        String forward = sb.toString().toLowerCase();
+        String backward = sb.reverse().toString().toLowerCase();
+        return forward.equals(backward);
+    }
+
+    static Date stringToDate(String date, String format) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
+        return simpleDateFormat.parse(date);
+    }
+
+    static String methodName() {
+        return Thread.currentThread().getStackTrace()[1].getMethodName();
+    }
+
+    static String encodeUrl(String decodedString) {
+        return Base64.getUrlEncoder().encodeToString(decodedString.getBytes());
+    }
+
+    static String decodeUrl(String encodedString) {
+        return new String(Base64.getUrlDecoder().decode(encodedString));
+    }
+
+    static String encodeBase64(String decodedString) {
+        return Base64.getEncoder().encodeToString(decodedString.getBytes());
+    }
+
+    static String decodeBase64(String encodedString) {
+        return new String(Base64.getDecoder().decode(encodedString));
+    }
+
+    static String encodeMime(String decodedString) {
+        return Base64.getMimeEncoder().encodeToString(decodedString.getBytes());
+    }
+
+    static String decodeMime(String encodedString) {
+        return new String(Base64.getMimeDecoder().decode(encodedString));
+    }
+
+    static String escapeHtml(String s) {
+        // return Html.escapeHtml(html).trim();
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            }
+            else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
+    static String unescapeHtml(String encodedHtml) {
+        return StringEscapeUtils.unescapeHtml4(encodedHtml).trim();
+    }
+
+    static String formatJson(String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        return jsonObject.toString(4);
+    }
+
+    static String rot13(String input) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if       (c >= 'a' && c <= 'm') c += 13;
+            else if  (c >= 'A' && c <= 'M') c += 13;
+            else if  (c >= 'n' && c <= 'z') c -= 13;
+            else if  (c >= 'N' && c <= 'Z') c -= 13;
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    // List directories
+    static File[] listDirectories(String path) {
+        return new File(path).listFiles(File::isDirectory);
+    }
+
+    // List files in directory
+    static File[] listFilesInDirectory(final File folder) {
+        return folder.listFiles(File::isFile);
+    }
+
+    // List files in directory recursively
+    private static List<File> listAllFiles(String path) {
+        List<File> all = new ArrayList<>();
+        File[] list = new File(path).listFiles();
+        if (list != null) {  // In case of access error, list is null
+            for (File f : list) {
+                if (f.isDirectory()) {
+                    all.addAll(listAllFiles(f.getAbsolutePath()));
+                } else {
+                    all.add(f.getAbsoluteFile());
+                }
+            }
+        }
+        return all;
+    }
+
+    // Read lines from file to string list
+    static List<String> readLines(String filename) throws IOException {
+        return Files.readAllLines(new File(filename).toPath());
+    }
 
     static String getDateString(String dateFormat) {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
         return sdf.format(cal.getTime());
     }
 
     static String getTimeString(String timeFormat) {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
         return sdf.format(cal.getTime());
     }
 
@@ -38,69 +222,50 @@ class Util {
         return "";
     }
 
+    private static String[] getLines(String text) {
+        return text.split("\r\n|\r|\n");
+    }
 
     static String sortLines(String text) {
         String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        for (String line : lines) {
-            result.add(line);
-        }
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
         Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-
-    static String reverseLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        for (String line : lines) {
-            result.add(line);
-        }
-        Collections.reverse(result);
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
-    }
-
 
     static String increaseIndentation(String text) {
         String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        
+        ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
             result.add(line.replaceAll("^", "    "));
         }
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
-
-        // if (countLines(text) <= 1) { return "    "+text; }
-        // return text.replaceAll("\n", "\n    ");
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
     static String decreaseIndentation(String text) {
         String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        
+        ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^    ", ""));
+            result.add(line.replaceAll("^ {4}", ""));
         }
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
-        // if (countLines(text) <= 1) { return text.replaceAll("^ {4}", ""); }
-        // return text.replaceAll("\n {4}", "\n");
-    }
-    
-    // todo: make sure to compensate for high surrogates
-    static int countChars(String str) {
-        return str.length();
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
-    // todo: split by all word separators
-    static int countWords(String str) {
-        return str.split("\\s+").length;
+    static int countChars(String text) {
+        return Normalizer.normalize(text, Normalizer.Form.NFD).length();
     }
 
-    static String[] getLines(String str) {
-        return str.split("\r\n|\r|\n");
+    static String[] getWords(String text) {
+        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]");
     }
 
-    static int countLines(String str) {
-        return str.split("\r\n|\r|\n").length;
+    static int countWords(String text) {
+        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]").length;
+    }
+
+    static int countLines(String text) {
+        return text.split("\r\n|\r|\n").length;
     }
 
     static String toColor(int r, int g, int b) {
@@ -143,7 +308,7 @@ class Util {
     }
                 
     static int generateRandomInt(int min, int max) {
-        return new Random().nextInt(max - min + 1) + min;
+        return new Random().nextInt((max - min) + 1) + min;
     }
 
     static String padRight(String s, int n) {
@@ -154,85 +319,44 @@ class Util {
         return String.format("%0" + n + "s", s);
     }
 
-    static String addLineComment(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        String regex = "(^|\\n)(\\s*)(.+?)(\\n|$)";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        for (String line : lines) {
-            m = p.matcher(line);
-            if (m.find()) {
-                result.add(line.replaceAll(regex, "$1$2// $3$4"));
-            }
-            else {
-                result.add(line);
-            }
-        }
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
-    }
-
-    static String removeLineComment(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
-        String regex = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        for (String line : lines) {
-            m = p.matcher(line);
-            if (m.find()) {
-                result.add(line.replaceAll(regex, "$1$$$3$4"));
-            }
-            else {
-                result.add(line);
-            }
-        }
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
-    }
-
     static String toggleLineComment(String text) {
         String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         String regexWith = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
         String regexSans = "(^|\\n)(\\s*)(.+?)(\\n|$)";
         Pattern p = Pattern.compile(regexWith);
         Matcher m = p.matcher(lines[0]);
-        if (m.find()) {
-            p = Pattern.compile(regexWith);
-            for (String line : lines) {
-                m = p.matcher(line);
-                if (m.find()) {
-                    result.add(line.replaceAll(regexWith, "$1$$$3$4"));
-                }
-                else {
-                    result.add(line);
-                }
+        boolean found = m.find();
+        p = Pattern.compile(found ? regexWith : regexSans);
+        for (String line : lines) {
+            m = p.matcher(line);
+            if (m.find()) {
+                result.add(line.replaceAll(found ? regexWith : regexSans, found ? "$1$2$3$4" : "$1$2// $3$4"));
+            }
+            else {
+                result.add(line);
             }
         }
-        else {
-            p = Pattern.compile(regexSans);
-            for (String line : lines) {
-                m = p.matcher(line);
-                if (m.find()) {
-                    result.add(line.replaceAll(regexSans, "$1$2// $3$4"));
-                }
-                else {
-                    result.add(line);
-                }
-            }
-        }
-        return StringUtils.join(result.toArray(new String[result.size()]), "\n");
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
+    static long nowAsLong() {
+        return Instant.now().getEpochSecond();
+    }
+
+    static int nowAsInt() {
+        // new Date().getTime() / 1000;
+        return (int)(System.currentTimeMillis() / 1000L);
+    }
 
     static String toggleJavaComment(String text) {
         int lineCount = countLines(text);
         String regex;
         if (lineCount < 1) {
-            regex = "^\\/\\*\\s*(.+)\\s*\\*\\/$";
+            regex = "^/\\*\\s*(.+)\\s*\\*/$";
         }
         else {
-            regex = "^\\/\\*\n(.+)\n\\*\\/$";
+            regex = "^/\\*\n(.+)\n\\*/$";
         }
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
@@ -251,10 +375,10 @@ class Util {
         int lineCount = countLines(text);
         String regex;
         if (lineCount < 1) {
-            regex = "^<\\!--\\s*(.+)\\s*-->$";
+            regex = "^<!--\\s*(.+)\\s*-->$";
         }
         else {
-            regex = "^<\\!--\n(.+)\n-->$";
+            regex = "^<!--\n(.+)\n-->$";
         }
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
@@ -329,7 +453,6 @@ class Util {
         return primaryCode >= 97 && primaryCode <= 123;
     }
 
-
     static String convertNumberBase(String number, int base1, int base2) {
         try {
             return Integer.toString(Integer.parseInt(number, base1), base2).toUpperCase();
@@ -357,18 +480,18 @@ class Util {
         }
     }
 
-    static String doubleCharacters(String str) {
-        return str.replaceAll("(.)", "$1$1");
+    static String doubleCharacters(String text) {
+        return text.replaceAll("(.)", "$1$1");
     }
 
-    static String camelToSnake(String str) {
-        return str.replaceAll("([A-Z])", "_$1").toLowerCase();
+    static String camelToSnake(String text) {
+        return text.replaceAll("([A-Z])", "_$1").toLowerCase();
     }
 
-    static String snakeToCamel(String str) {
-        StringBuilder nameBuilder = new StringBuilder(str.length());
+    static String snakeToCamel(String text) {
+        StringBuilder nameBuilder = new StringBuilder(text.length());
         boolean capitalizeNextChar = false;
-        for (char c:str.toCharArray()) {
+        for (char c:text.toCharArray()) {
             if (c == '_') {
                 capitalizeNextChar = true;
                 continue;
@@ -384,39 +507,49 @@ class Util {
         return nameBuilder.toString();
     }
 
-    static String underscoresToSpaces(String text)  {return text.replaceAll("_", " ");}
-    static String spacesToUnderscores(String text)  {return text.replaceAll(" ", "_");}
+    static String underscoresToSpaces(String text) {return text.replaceAll("_", " ");}
+    static String spacesToUnderscores(String text) {return text.replaceAll(" ", "_");}
 
-    static String dashesToSpaces(String text)       {return text.replaceAll("-", " ");}
-    static String spacesToDashes(String text)       {return text.replaceAll(" ", "-");}
+    static String dashesToSpaces(String text)      {return text.replaceAll("-", " ");}
+    static String spacesToDashes(String text)      {return text.replaceAll(" ", "-");}
 
-    static String spacesToLinebreaks(String str)    {return str.replaceAll(" ", "\n");}
-    static String linebreaksToSpaces(String str)    {return str.replaceAll("\n", " ");}
+    static String spacesToLinebreaks(String text)  {return text.replaceAll(" ", "\n");}
+    static String linebreaksToSpaces(String text)  {return text.replaceAll("\n", " ");}
 
-    static String spacesToTabs(String str)          {return str.replaceAll(" ", "\t");}
-    static String tabsToSpaces(String str)          {return str.replaceAll("\t", " ");}
+    static String spacesToTabs(String text)        {return text.replaceAll(" ", "\t");}
+    static String tabsToSpaces(String text)        {return text.replaceAll("\t", " ");}
 
-    static String splitWithLinebreaks(String str)   {return str.replaceAll("(.)", "$1\n");}
-    static String removeLinebreaks(String str)      {return str.replaceAll("\n", "");}
+    static String splitWithLinebreaks(String text) {return text.replaceAll("(.)", "$1\n");}
+    static String removeLinebreaks(String text)    {return text.replaceAll("\n", "");}
 
-    static String splitWithSpaces(String str)       {return str.replaceAll("(.)", "$1 ");}
-    static String removeSpaces(String str)          {return str.replaceAll(" ",  "");}
+    static String splitWithSpaces(String text)     {return text.replaceAll("(.)", "$1 ");}
+    static String removeSpaces(String text)        {return text.replaceAll(" ",  "");}
 
-    static String trimEndingWhitespace(String str) {
-        return str.replaceAll("[ \t]+\n", "\n")
-                  .replaceAll("[ \t]+$",  "");
+    static String trimEndingWhitespace(String text) {
+        return text.replaceAll("[ \t]+\n", "\n")
+                   .replaceAll("[ \t]+$",  "");
     }
-    static String trimTrailingWhitespace(String str) {
-        return str.replaceAll("([^ \t\r\n])[ \t]+\n",  "\n")
-                  .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
+    static String trimTrailingWhitespace(String text) {
+        return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
+                   .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
     }
 
-    static String reverse(String str) {
-        StringBuilder reverse = new StringBuilder();
-        for(int i = str.length() - 1; i >= 0; i--)     {
-            reverse.append(str.charAt(i));
-        }
-        return reverse.toString();
+    static String reverse(String s) {
+        return new StringBuilder(s).reverse().toString();
+    }
+
+    static List<String> reverse(String[] a) {
+        List<String> result = Arrays.asList(a);
+        Collections.reverse(result);
+        return result;
+    }
+
+    static String reverseLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.reverse(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
     static boolean contains(String haystack, int primaryCode) {
@@ -429,8 +562,15 @@ class Util {
     static boolean isWordSeparator(int primaryCode) {
         return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(String.valueOf((char)primaryCode));
     }
-    static boolean isWordSeparator(String str) {
-        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(str);
+    static boolean isWordSeparator(String text) {
+        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(text);
+    }
+
+    static boolean isWordSeparator(int primaryCode, String delimiters) {
+        return delimiters.contains(String.valueOf((char)primaryCode));
+    }
+    static boolean isWordSeparator(String text, String delimiters) {
+        return delimiters.contains(text);
     }
 
     static String buildDigram(String monograms) {
@@ -476,160 +616,160 @@ class Util {
     static String buildHexagram(String trigrams) {
         switch(trigrams) {
             case "☰☰": return "䷀";
-            case "☷☰": return "䷁";
-            case "☳☰": return "䷂";
-            case "☵☰": return "䷃";
-            case "☶☰": return "䷄";
-            case "☴☰": return "䷅";
-            case "☲☰": return "䷆";
-            case "☱☰": return "䷇";
-            case "☰☷": return "䷈";
-            case "☷☷": return "䷉";
-            case "☳☷": return "䷊";
-            case "☵☷": return "䷋";
-            case "☶☷": return "䷌";
-            case "☴☷": return "䷍";
-            case "☲☷": return "䷎";
-            case "☱☷": return "䷏";
-            case "☰☳": return "䷐";
-            case "☷☳": return "䷑";
-            case "☳☳": return "䷒";
-            case "☵☳": return "䷓";
-            case "☶☳": return "䷔";
-            case "☴☳": return "䷕";
-            case "☲☳": return "䷖";
-            case "☱☳": return "䷗";
-            case "☰☵": return "䷘";
-            case "☷☵": return "䷙";
-            case "☳☵": return "䷚";
-            case "☵☵": return "䷛";
-            case "☶☵": return "䷜";
-            case "☴☵": return "䷝";
-            case "☲☵": return "䷞";
-            case "☱☵": return "䷟";
-            case "☰☶": return "䷠";
-            case "☷☶": return "䷡";
-            case "☳☶": return "䷢";
-            case "☵☶": return "䷣";
-            case "☶☶": return "䷤";
-            case "☴☶": return "䷥";
-            case "☲☶": return "䷦";
-            case "☱☶": return "䷧";
-            case "☰☴": return "䷨";
-            case "☷☴": return "䷩";
-            case "☳☴": return "䷪";
-            case "☵☴": return "䷫";
-            case "☶☴": return "䷬";
-            case "☴☴": return "䷭";
-            case "☲☴": return "䷮";
-            case "☱☴": return "䷯";
-            case "☰☲": return "䷰";
-            case "☷☲": return "䷱";
-            case "☳☲": return "䷲";
-            case "☵☲": return "䷳";
-            case "☶☲": return "䷴";
-            case "☴☲": return "䷵";
-            case "☲☲": return "䷶";
-            case "☱☲": return "䷷";
             case "☰☱": return "䷸";
-            case "☷☱": return "䷹";
-            case "☳☱": return "䷺";
-            case "☵☱": return "䷻";
-            case "☶☱": return "䷼";
-            case "☴☱": return "䷽";
-            case "☲☱": return "䷾";
+            case "☰☲": return "䷰";
+            case "☰☳": return "䷐";
+            case "☰☴": return "䷨";
+            case "☰☵": return "䷘";
+            case "☰☶": return "䷠";
+            case "☰☷": return "䷈";
+            case "☱☰": return "䷇";
             case "☱☱": return "䷿";
+            case "☱☲": return "䷷";
+            case "☱☳": return "䷗";
+            case "☱☴": return "䷯";
+            case "☱☵": return "䷟";
+            case "☱☶": return "䷧";
+            case "☱☷": return "䷏";
+            case "☲☰": return "䷆";
+            case "☲☱": return "䷾";
+            case "☲☲": return "䷶";
+            case "☲☳": return "䷖";
+            case "☲☴": return "䷮";
+            case "☲☵": return "䷞";
+            case "☲☶": return "䷦";
+            case "☲☷": return "䷎";
+            case "☳☰": return "䷂";
+            case "☳☱": return "䷺";
+            case "☳☲": return "䷲";
+            case "☳☳": return "䷒";
+            case "☳☴": return "䷪";
+            case "☳☵": return "䷚";
+            case "☳☶": return "䷢";
+            case "☳☷": return "䷊";
+            case "☴☰": return "䷅";
+            case "☴☱": return "䷽";
+            case "☴☲": return "䷵";
+            case "☴☳": return "䷕";
+            case "☴☴": return "䷭";
+            case "☴☵": return "䷝";
+            case "☴☶": return "䷥";
+            case "☴☷": return "䷍";
+            case "☵☰": return "䷃";
+            case "☵☱": return "䷻";
+            case "☵☲": return "䷳";
+            case "☵☳": return "䷓";
+            case "☵☴": return "䷫";
+            case "☵☵": return "䷛";
+            case "☵☶": return "䷣";
+            case "☵☷": return "䷋";
+            case "☶☰": return "䷄";
+            case "☶☱": return "䷼";
+            case "☶☲": return "䷴";
+            case "☶☳": return "䷔";
+            case "☶☴": return "䷬";
+            case "☶☵": return "䷜";
+            case "☶☶": return "䷤";
+            case "☶☷": return "䷌";
+            case "☷☰": return "䷁";
+            case "☷☱": return "䷹";
+            case "☷☲": return "䷱";
+            case "☷☳": return "䷑";
+            case "☷☴": return "䷩";
+            case "☷☵": return "䷙";
+            case "☷☶": return "䷡";
+            case "☷☷": return "䷉";
             default:    return "";
         }
     }
 
     static String morseToChar(String buffer) {
         switch (buffer) {
-            case "·-": return "a";
-            case "-···": return "b";
-            case "-·-·": return "c";
-            case "-··": return "d";
+            case "-": return "t";
             case "·": return "e";
-            case "··-·": return "f";
-            case "--·": return "g";
-            case "····": return "h";
-            case "··": return "i";
-            case "·---": return "j";
-            case "-·-": return "k";
-            case "·-··": return "l";
             case "--": return "m";
             case "-·": return "n";
+            case "·-": return "a";
+            case "··": return "i";
             case "---": return "o";
-            case "·--·": return "p";
-            case "--·-": return "q";
-            case "·-·": return "r";
-            case "···": return "s";
-            case "-": return "t";
-            case "··-": return "u";
-            case "···-": return "v";
+            case "--·": return "g";
+            case "-·-": return "k";
+            case "-··": return "d";
             case "·--": return "w";
-            case "-··-": return "x";
-            case "-·--": return "y";
+            case "·-·": return "r";
+            case "··-": return "u";
+            case "···": return "s";
+            case "--·-": return "q";
             case "--··": return "z";
+            case "-·--": return "y";
+            case "-·-·": return "c";
+            case "-··-": return "x";
+            case "-···": return "b";
+            case "·---": return "j";
+            case "·--·": return "p";
+            case "·-··": return "l";
+            case "··-·": return "f";
+            case "···-": return "v";
+            case "····": return "h";
             case "-----": return "0";
+            case "----·": return "9";
+            case "---··": return "8";
+            case "--···": return "7";
+            case "-····": return "6";
             case "·----": return "1";
             case "··---": return "2";
             case "···--": return "3";
             case "····-": return "4";
             case "·····": return "5";
-            case "-····": return "6";
-            case "--···": return "7";
-            case "---··": return "8";
-            case "----·": return "9";
-            case "·-·-·-": return ".";
-            case "--··--": return ",";
-            case "··--··": return "?";
-            case "·----·": return "'";
-            case "-·-·--": return "!";
-            case "-··-·": return "/";
-            case "-·--·": return "(";
-            case "-·--·-": return ")";
-            case "·-···": return "&";
-            case "---···": return ":";
-            case "-·-·-·": return ";";
-            case "-···-": return "=";
-            case "·-·-·": return "+";
-            case "-····-": return "-";
-            case "··--·-": return "_";
-            case "·-··-·": return "\"";
-            case "···-··-": return "$";
-            case "·--·-·": return "@";
-            case "·--·-": return "à";
-            // case "·-·-": return "ä";
-            // case "·--·-": return "å";
-            // case "·-·-": return "ą";
-            case "·-·-": return "æ";
-            // case "-·-··": return "ć";
-            // case "-·-··": return "ĉ";
-            case "-·-··": return "ç";
             // case "----": return "ch";
-            // case "··-··": return "đ";
-            case "··--·": return "ð";
-            case "··-··": return "é";
-            // case "·-··-": return "è";
-            // case "··-··": return "ę";
-            case "--·-·": return "ĝ";
             // case "----": return "ĥ";
-            case "·---·": return "ĵ";
-            case "·-··-": return "ł";
-            // case "--·--": return "ń";
-            case "--·--": return "ñ";
+            case "----": return "š";
+            case "---·": return "ø";
             // case "---·": return "ó";
             // case "---·": return "ö";
-            case "---·": return "ø";
-            case "···-···": return "ś";
-            case "···-·": return "ŝ";
-            case "----": return "š";
-            case "·--··": return "þ";
+            // case "·-·-": return "ä";
+            // case "·-·-": return "ą";
+            case "·-·-": return "æ";
             case "··--": return "ü";
-            // case "··--": return "ŭ";
-            case "--··-·": return "ź";
+                // case "··--": return "ŭ";
+            case "--·--": return "ñ";
+            // case "--·--": return "ń";
+            case "--·-·": return "ĝ";
             case "--··-": return "ż";
+            case "-·--·": return "(";
+            case "-·-··": return "ç";
+            // case "-·-··": return "ć";
+            // case "-·-··": return "ĉ";
+            case "-··-·": return "/";
+            case "-···-": return "=";
+            case "·---·": return "ĵ";
+            case "·--·-": return "à";
+            // case "·--·-": return "å";
+            case "·--··": return "þ";
+            case "·-·-·": return "+";
+            // case "·-··-": return "è";
+            case "·-··-": return "ł";
+            case "·-···": return "&";
+            case "··--·": return "ð";
+            // case "··-··": return "đ";
+            case "··-··": return "é";
+            // case "··-··": return "ę";
+            case "···-·": return "ŝ";
+            case "---···": return ":";
+            case "--··--": return ",";
+            case "--··-·": return "ź";
+            case "-·--·-": return ")";
+            case "-·-·--": return "!";
+            case "-·-·-·": return ";";
+            case "-····-": return "-";
+            case "·----·": return "'";
+            case "·--·-·": return "@";
+            case "·-·-·-": return ".";
+            case "·-··-·": return "\"";
+            case "··--·-": return "_";
+            case "··--··": return "?";
+            case "···-··-": return "$";
+            case "···-···": return "ś";
             default: return "";
         }
     }
@@ -640,30 +780,30 @@ class Util {
             case " ": return " ";
             case "e": return "·";
             case "t": return "-";
-            case "i": return "··";
             case "a": return "·-";
-            case "n": return "-·";
+            case "i": return "··";
             case "m": return "--";
+            case "n": return "-·";
+            case "d": return "-··";
+            case "g": return "--·";
+            case "k": return "-·-";
+            case "o": return "---";
+            case "r": return "·-·";
             case "s": return "···";
             case "u": return "··-";
-            case "r": return "·-·";
             case "w": return "·--";
-            case "d": return "-··";
-            case "k": return "-·-";
-            case "g": return "--·";
-            case "o": return "---";
-            case "h": return "····";
-            case "v": return "···-";
+            case "b": return "-···";
+            case "c": return "-·-·";
             case "f": return "··-·";
+            case "h": return "····";
+            case "j": return "·---";
             case "l": return "·-··";
             case "p": return "·--·";
-            case "j": return "·---";
-            case "b": return "-···";
+            case "q": return "--·-";
+            case "v": return "···-";
             case "x": return "-··-";
-            case "c": return "-·-·";
             case "y": return "-·--";
             case "z": return "--··";
-            case "q": return "--·-";
             case "0": return "-----";
             case "1": return "·----";
             case "2": return "··---";
@@ -677,28 +817,27 @@ class Util {
             case "ä": return "·-·-";
             case "ą": return "·-·-";
             case "æ": return "·-·-";
-            case "ch": return "----";
             case "ĥ": return "----";
             case "ó": return "---·";
             case "ö": return "---·";
             case "ø": return "---·";
             case "š": return "----";
-            case "ü": return "··--";
             case "ŭ": return "··--";
-            case "/": return "-··-·";
+            case "ü": return "··--";
             case "(": return "-·--·";
+            case "/": return "-··-·";
             case "&": return "·-···";
-            case "=": return "-···-";
             case "+": return "·-·-·";
+            case "=": return "-···-";
             case "à": return "·--·-";
             case "å": return "·--·-";
             case "ć": return "-·-··";
             case "ĉ": return "-·-··";
             case "ç": return "-·-··";
-            case "đ": return "··-··";
             case "ð": return "··--·";
-            case "é": return "··-··";
+            case "đ": return "··-··";
             case "è": return "·-··-";
+            case "é": return "··-··";
             case "ę": return "··-··";
             case "ĝ": return "--·-·";
             case "ĵ": return "·---·";
@@ -706,19 +845,19 @@ class Util {
             case "ń": return "--·--";
             case "ñ": return "--·--";
             case "ŝ": return "···-·";
-            case "þ": return "·--··";
             case "ż": return "--··-";
-            case ".": return "·-·-·-";
-            case ",": return "--··--";
-            case "?": return "··--··";
-            case "'": return "·----·";
-            case "!": return "-·-·--";
-            case ")": return "-·--·-";
-            case ":": return "---···";
-            case ";": return "-·-·-·";
+            case "þ": return "·--··";
             case "-": return "-····-";
-            case "\"": return "·-··-·";
+            case ",": return "--··--";
+            case ";": return "-·-·-·";
+            case ":": return "---···";
+            case "!": return "-·-·--";
+            case "?": return "··--··";
+            case ".": return "·-·-·-";
+            case "'": return "·----·";
+            case ")": return "-·--·-";
             case "@": return "·--·-·";
+            case "\"": return "·-··-·";
             case "ź": return "--··-·";
             case "$": return "···-··-";
             case "ś": return "···-···";
@@ -726,17 +865,27 @@ class Util {
         }
     }
 
+    static String pickALetter() {
+        String letters = "abcdefghijklmnopqrstuvwxyz";
+        return String.valueOf(letters.charAt(generateRandomInt(1, 26)-1));
+    }
+
+    static String pickALetter(boolean shift) {
+        String letters = "abcdefghijklmnopqrstuvwxyz";
+        if (shift) letters = letters.toUpperCase();
+        return String.valueOf(letters.charAt(generateRandomInt(1, 26)-1));
+    }
 
     static String rollADie() {
         return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6)-1));
     }
 
     static String flipACoin() {
-        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(0, 1)));
+        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(1, 2)-1));
     }
 
     static String castALot() {
-        return String.valueOf("⚊⚋".charAt(generateRandomInt(0, 1)));
+        return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2)-1));
     }
 
 

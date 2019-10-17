@@ -8,7 +8,10 @@
     <EditTextPreference android:title="@string/background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
-    <SwitchPreference android:title="@string/borders" android:key="bord" android:defaultValue="false" />
+    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="false" />
+    <SwitchPreference android:title="Padding" android:key="padding" android:defaultValue="false" />
+    <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
+    <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
     <SwitchPreference android:title="@string/cursor_left" android:key="cursor_left" android:defaultValue="false" />
     <SwitchPreference android:title="@string/names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="@string/pairs" android:key="pairs" android:defaultValue="false" />
