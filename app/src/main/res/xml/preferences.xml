@@ -13,14 +13,15 @@
     <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
     <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
     <SwitchPreference android:title="Insert Right" android:key="cursor_left" android:defaultValue="false" />
+    <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="false" />
     <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Insert Pairs" android:key="pairs" android:defaultValue="true" />
-    <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="true" />
-    <SwitchPreference android:title="Shortcuts" android:key="auto" android:defaultValue="true" />
+    <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
+    <SwitchPreference android:title="Shortcuts" android:key="shortcuts" android:defaultValue="false" />
     <!-- todo: create choice of trigger sigil -->
     <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
     <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="true" />
-    <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="true" />
+    <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
     <SwitchPreference android:title="Autocapitalization" android:key="caps" android:defaultValue="false" />
     <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />
     <SwitchPreference android:title="Prediction" android:key="pred" android:defaultValue="false" />

@@ -11,6 +11,7 @@ mysteries:
 + use of layouts on keyboard
 + swiping between layouts
 
++ app crashes on backspace past start
 + shortcuts with sigil
 + bug when autoshift
 + combine utility, navigation, function, macros, fonts, coding, clipboard, arrows
@@ -22,8 +23,6 @@ mysteries:
 + Identify Hash
 + Prefix/Suffix lines, add line numbers
 + Format Numbers
-+ fix indentation
-+ layout page row size adjustment
 + key appearance without borders
 + press and hold space for layout page
 + instead of getting rid of last clipboard entry, send that one indefinitely

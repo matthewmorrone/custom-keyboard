@@ -185,8 +185,6 @@ public class Edit {
         shortcuts.put(""+sigil+"u", " you");
         shortcuts.put(""+sigil+"w", "with");
         shortcuts.put(""+sigil+"wo", "without");
-
-        shortcuts.put("...", "…");
         shortcuts.put("@gcom", "@gmail.com");
     }
 
