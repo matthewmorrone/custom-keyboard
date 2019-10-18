@@ -15,13 +15,13 @@
     </Row>
     <Row android:keyWidth="11.111%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left"                                />
-        <Key android:codes="-509" android:keyIcon="@drawable/ic_light_arrow_up_left"    android:isRepeatable="true" />
-        <Key android:codes="-510" android:keyIcon="@drawable/ic_light_arrow_up_right"   android:isRepeatable="true" />
+        <Key android:codes="-117" android:keyIcon="@drawable/ic_light_arrow_up_left"    android:isRepeatable="true" />
+        <Key android:codes="-118" android:keyIcon="@drawable/ic_light_arrow_up_right"   android:isRepeatable="true" />
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_double_chevron_up" />
         <Key android:codes="-76"  android:keyIcon="@drawable/ic_nav" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right"                               />
-        <Key android:codes="-511" android:keyIcon="@drawable/ic_light_arrow_down_left"  android:isRepeatable="true" />
-        <Key android:codes="-512" android:keyIcon="@drawable/ic_light_arrow_down_right" android:isRepeatable="true" />
+        <Key android:codes="-119" android:keyIcon="@drawable/ic_light_arrow_down_left"  android:isRepeatable="true" />
+        <Key android:codes="-120" android:keyIcon="@drawable/ic_light_arrow_down_right" android:isRepeatable="true" />
         <Key android:codes="-23"  android:keyIcon="@drawable/ic_double_chevron_down" />
     </Row>
     <Row android:keyWidth="20%p">

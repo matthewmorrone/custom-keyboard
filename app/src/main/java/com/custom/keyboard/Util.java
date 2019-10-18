@@ -165,6 +165,8 @@ class Util {
         return sb.toString();
     }
 
+    /*
+
     // List directories
     static File[] listDirectories(String path) {
         return new File(path).listFiles(File::isDirectory);
@@ -195,6 +197,8 @@ class Util {
     static List<String> readLines(String filename) throws IOException {
         return Files.readAllLines(new File(filename).toPath());
     }
+
+    */
 
     static String getDateString(String dateFormat) {
         Calendar cal = Calendar.getInstance();
@@ -887,6 +891,35 @@ class Util {
     static String castALot() {
         return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2)-1));
     }
+    
+    /*
+    static String removeDuplicates(String input){
+        String result = "";
+        for (int i = 0; i < input.length(); i++) {
+            if(!result.contains(String.valueOf(input.charAt(i)))) {
+                result += String.valueOf(input.charAt(i));
+            }
+        }
+        return result;
+    }
+    */
 
+
+    static String removeDuplicates(String text) { 
+        char str[] = text.toCharArray();
+        int n = str.length;
+        int index = 0, i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < i; j++) {
+                if (str[i] == str[j]) {
+                    break;
+                }
+            }
+            if (j == i) {
+                str[index++] = str[i];
+            }
+        }
+        return String.valueOf(Arrays.copyOf(str, index));
+    }
 
 }

@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#80ffffff"
+    android:background="#ffffffff"
     android:radius="8dp"
     android:bottomRightRadius="8dp" 
     android:bottomLeftRadius="8dp" 
@@ -28,14 +28,10 @@
         android:background="#00ffffff"
         android:keyTextSize="24sp"
         android:radius="8dp"
-        android:bottomRightRadius="8dp" 
-        android:bottomLeftRadius="8dp" 
-        android:topLeftRadius="8dp" 
-        android:topRightRadius="8dp"
     />
     <ImageButton
         android:id="@android:id/closeButton"
-        android:background="#00ffffff"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -45,14 +41,21 @@
         android:layout_marginEnd="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:drawable="@drawable/round_corners"
         android:src="@drawable/ic_close"
-        android:radius="8dp"
+        android:drawable="@drawable/round_corners"
+        android:contentDescription="@string/close" />
+</GridLayout>
+<!--
+        android:drawable="@drawable/round_corners"
+        android:drawable="@drawable/round_corners"
+        android:drawable="@drawable/round_corners"
         android:bottomRightRadius="8dp" 
         android:bottomLeftRadius="8dp" 
         android:topLeftRadius="8dp" 
         android:topRightRadius="8dp"
-        android:tint="#ff000000"
-        android:tintMode="multiply"
-        android:contentDescription="@string/close" />
-</GridLayout>
+        android:bottomRightRadius="8dp" 
+        android:bottomLeftRadius="8dp" 
+        android:topLeftRadius="8dp" 
+        android:topRightRadius="8dp"
+        android:radius="8dp" 
+-->

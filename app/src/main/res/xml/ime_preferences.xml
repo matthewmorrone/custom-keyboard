@@ -7,8 +7,8 @@
     <EditTextPreference android:title="@string/foreground" android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:key="fg" android:defaultValue="#FFFFFF" android:dialogMessage="Doesn't work yet." />
     <EditTextPreference android:title="@string/background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
     <SwitchPreference android:title="@string/debug" android:key="debug" android:defaultValue="false" />
-    <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="false" />
-    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="false" />
+    <SwitchPreference android:title="@string/vib" android:key="vib" android:defaultValue="true" />
+    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="true" />
     <SwitchPreference android:title="Padding" android:key="padding" android:defaultValue="false" />
     <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
     <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
@@ -36,23 +36,24 @@
         android:defaultValue="" 
         />
     <PreferenceCategory android:key="hint" android:title="Hints">
-        <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="false" />
+        <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="true" />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true"  android:dependency="hints" />
-        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="true"  android:dependency="hints" />
+        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="false"  android:dependency="hints" />
         <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" android:dependency="hints" />
         <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" android:dependency="hints" />
     </PreferenceCategory>
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="arrows" android:title="Arrows" android:defaultValue="false" />
-        <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="true" />
+        <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="false" />
         <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="true" />
         <CheckBoxPreference android:key="coptic" android:title="Coptic" android:defaultValue="true" />
         <CheckBoxPreference android:key="coptic_2" android:title="Coptic 2" android:defaultValue="false" />
         <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="false" />
-        <CheckBoxPreference android:key="cree_2" android:title="Cree 2" android:defaultValue="true" />
+        <CheckBoxPreference android:key="cree_2" android:title="Cree 2" android:defaultValue="false" />
         <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="true" />
         <CheckBoxPreference android:key="demorse" android:title="Demorse" android:defaultValue="true" />
+        <CheckBoxPreference android:key="deseret" android:title="Deseret" android:defaultValue="false" />
         <CheckBoxPreference android:key="drawing" android:title="Drawing" android:defaultValue="true" />
         <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="true" />
         <CheckBoxPreference android:key="emoji" android:title="Emoji" android:defaultValue="true" />
@@ -74,15 +75,15 @@
         <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
         <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />
-        <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty+" android:defaultValue="true" />
-        <CheckBoxPreference android:key="qwerty_symbols" android:title="Qwerty&amp;" android:defaultValue="true" />
+        <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty+" android:defaultValue="false" />
+        <CheckBoxPreference android:key="qwerty_symbols" android:title="Qwerty&amp;" android:defaultValue="false" />
         <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="true" />
         <CheckBoxPreference android:key="small_caps" android:title="Caps" android:defaultValue="true" />
         <CheckBoxPreference android:key="stealth" android:title="Stealth" android:defaultValue="true" />
         <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="false" />
         <CheckBoxPreference android:key="symbol" android:title="Symbol" android:defaultValue="true" />
         <CheckBoxPreference android:key="symbol_2" android:title="Symbol 2" android:defaultValue="false" />
-        <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="true" />
+        <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="false" />
         <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
         <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
     </PreferenceCategory>

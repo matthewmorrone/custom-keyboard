@@ -19,10 +19,10 @@
     <Row android:keyWidth="10%p">
         <Key android:codes="-22"   android:keyIcon="@drawable/ic_double_chevron_up" />
         <Key android:codes="-23"   android:keyIcon="@drawable/ic_double_chevron_down" />
-        <Key android:codes="-94"   android:keyIcon="@drawable/ic_duplicate" />
+        <Key android:codes="-99"   android:keyIcon="@drawable/ic_clear" />
         <Key android:codes="-79"   android:keyIcon="@drawable/ic_reverse" />
         <Key android:codes="-75"   android:keyIcon="@drawable/ic_close" />
-        <Key android:codes="-99"   android:keyIcon="@drawable/ic_clear" />
+        <Key android:codes="-94"   android:keyIcon="@drawable/ic_duplicate" />
         <Key android:codes="0"     android:keyOutputText="https://" android:keyLabel="https" />
         <Key android:codes="0"     android:keyOutputText="www."     android:keyLabel="www." />
         <Key android:codes="0"     android:keyOutputText="\@gmail"  android:keyLabel="\@gmail" />
@@ -52,7 +52,7 @@
         <Key android:codes="-139" android:keyLabel="⌴$" />
         <Key android:codes="-140" android:keyLabel="\w⌴$" />
     </Row>
-    <Row android:keyWidth="10%p">
+    <Row android:keyWidth="9.09%p">
         <Key android:codes="-61" android:keyIcon="@drawable/ic_indent" />
         <Key android:codes="-62" android:keyIcon="@drawable/ic_unindent" />
         <Key android:codes="-97" android:keyIcon="@drawable/ic_date" />
@@ -63,6 +63,7 @@
         <Key android:codes="0"   android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
         <Key android:codes="-105"  android:keyIcon="@drawable/ic_sort_lines" />
         <Key android:codes="-106"  android:keyIcon="@drawable/ic_reverse_lines" />
+        <Key android:codes="-145"  android:keyIcon="@drawable/ic_bolt" />
     </Row>
     <!--<Row android:keyWidth="10%p">-->
         <!-- <Key android:codes="-88"  android:keyIcon="@drawable/ic_undo" android:isRepeatable="true" /> -->

@@ -11,9 +11,10 @@ mysteries:
 + use of layouts on keyboard
 + swiping between layouts
 
-
++ shortcuts with sigil
++ bug when autoshift
 + combine utility, navigation, function, macros, fonts, coding, clipboard, arrows
-
++ convenience method for setting checks
 + shuffle lines
 + Count characters, words, lines
 + Column from table

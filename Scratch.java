@@ -26,6 +26,27 @@ height: 84
 rows: 126
 
 
+cut
+copy
+paste
+select_all
+select
+left
+right
+up
+down
+home
+end
+page_up
+page_down
+clear
+backspace
+delete
+enter
+shift
+capslock
+tab
+
 
 
 
