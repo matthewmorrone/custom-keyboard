@@ -104,7 +104,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         layouts.clear();
 
-        layouts.add(new CustomKeyboard(this, R.layout.qwerty_symbol, "Default", "qwerty", 0));
+        layouts.add(new CustomKeyboard(this, R.layout.qwerty, "Default", "qwerty", 0));
         if (sharedPreferences.getBoolean("accents", true))         {layouts.add(new CustomKeyboard(this, R.layout.accents, "accents", "Accents", "◌̀◌́◌̂"));}
         if (sharedPreferences.getBoolean("arrows", false))         {layouts.add(new CustomKeyboard(this, R.layout.arrows, "arrows", "Arrows", ""));}
         if (sharedPreferences.getBoolean("braille", false))        {layouts.add(new CustomKeyboard(this, R.layout.braille, "braille", "Braille", "⠟⠺⠑⠗⠞⠽"));}
@@ -479,6 +479,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+    
+    /*
         if (keyCode == -400 || keyCode == -3 || keyCode == -4) {
             InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
             if (imeManager != null) {
@@ -486,6 +488,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 return true;
             }
         }
+    */
         return false;
     }
 
@@ -505,7 +508,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void onRelease(int primaryCode) {
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
-
+    /*
             // try {
                 if (getKey(primaryCode) != null && getKey(primaryCode).popupCharacters != null) {
                     if (getKey(primaryCode).popupCharacters.length() == 1) {
@@ -535,6 +538,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 //     if (imeManager != null) imeManager.showInputMethodPicker();
                 // break;
             }
+    */
         }
     }
 
@@ -1306,9 +1310,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
             break;
             case -10:
-                if (!isSelecting()) selectLine();
+                
+                int saveCursor = getSelectionStart();
+                if (!isSelecting()) {
+                    selectLine();
+                }
                 sendKey(KeyEvent.KEYCODE_COPY);
-
+                ic.setSelection(saveCursor, saveCursor);
+                
+                
+                
                 record = getClipboardEntry(0);
                 if (!record.equals("")) {
                     clipboardHistory.add(record);
@@ -1325,7 +1336,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         break;
                     }
                 }
-
                 sendKey(KeyEvent.KEYCODE_PASTE);
                 // }
             break;
@@ -1391,11 +1401,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -59: performReplace(Util.snakeToCamel(getText(ic))); break;
             case -60: performReplace(Util.doubleCharacters(getText(ic))); break;
             case -61: 
-                if (!isSelecting()) selectLine();
+                // if (!isSelecting()) selectLine();
                 performReplace(Util.increaseIndentation(getText(ic))); 
             break;
             case -62: 
-                if (!isSelecting()) selectLine();
+                // if (!isSelecting()) selectLine();
                 performReplace(Util.decreaseIndentation(getText(ic))); 
             break;
             case -75: selectNone(); break;

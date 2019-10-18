@@ -46,6 +46,7 @@ public class CustomKeyboardView extends KeyboardView {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
+        // todo: cancel popup if zero len
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
             // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
@@ -191,6 +192,7 @@ public class CustomKeyboardView extends KeyboardView {
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
                 else if (getKeyboard().isShifted()) {
+                    selectKey(key, corner);
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
             }
@@ -226,20 +228,19 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.popupCharacters != null && sharedPreferences.getBoolean("hints", true)) {
                 canvas.save();
 
-                if (key.popupCharacters.length() == 1 && sharedPreferences.getBoolean("hint1", true)) {
+                if (key.popupCharacters.length() == 1 
+                &&  sharedPreferences.getBoolean("hint1", true)
+                && !sharedPreferences.getBoolean("hint2", false)
+                && !sharedPreferences.getBoolean("hint3", false)
+                && !sharedPreferences.getBoolean("hint4", false)
+                ) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                          : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+30, mPaint);
                 }
 
-                // if (key.popupCharacters.length() == 1
-                // &&  sharedPreferences.getBoolean("hint1", true)
-                // && !sharedPreferences.getBoolean("hint2", false)
-                // && !sharedPreferences.getBoolean("hint3", false)
-                // && !sharedPreferences.getBoolean("hint4", false)
-
                 else {
-                    if (key.popupCharacters.length() > 1 && sharedPreferences.getBoolean("hint1", false) && sharedPreferences.getBoolean("hint2", false)) {
+                    if (sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                              : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);

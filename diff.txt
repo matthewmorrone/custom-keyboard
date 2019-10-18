@@ -1,0 +1,46 @@
+@@ -957,7 +961,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
+         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+         ic = getCurrentInputConnection();
+         final int length = mComposing.length();
+-        
++        String indent = Util.getIndentation(prevLine());
+         String prev;
+         try {
+             prev = String.valueOf(ic.getTextBeforeCursor(1, 0).length() > 0 ? ic.getTextBeforeCursor(1, 0) : "");
+@@ -970,9 +974,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
+         
+         try {
+             if (!isSelecting()
+-                 && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
+-                 && sharedPreferences.getBoolean("spaces", true)) {
+-                ic.deleteSurroundingText(4, 0);
++            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
++            && sharedPreferences.getBoolean("spaces", true)) {
++                if (prevLine().trim().length() == 0) {
++                    ic.deleteSurroundingText(prevLine().length()+1, 0);
++                }
++                else {
++                    ic.deleteSurroundingText(4, 0);
++                }
+             }
+             else if (length > 1) {
+                 mComposing.delete(length - 1, length);
+@@ -1196,7 +1205,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
+                 if (kv.getKeyboard().isShifted()) {commitText("\n", 1);}
+                 if (sharedPreferences.getBoolean("spaces", true)) {
+                     String indent = Util.getIndentation(prevLine());
+-                    if (indent.length() > 0) {commitText("\n"+indent); break;}
++                    if (indent.length() > 0) {
++                        String maybeLeftBracket = String.valueOf(ic.getTextBeforeCursor(1, 0));
++                        String maybeRightBracket = String.valueOf(ic.getTextAfterCursor(1, 0));
++                        commitText("\n"+indent); 
++                        // break;
++                        if (maybeLeftBracket.equals("{")) {
++                            commitText("    ");
++                        }
++                        if (maybeRightBracket.equals("}")) {
++                            commitText("\n"+indent);
++                        }
++                    }
+                 }
+  

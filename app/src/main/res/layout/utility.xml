@@ -50,9 +50,9 @@
         <Key android:keyLabel="\\\\" android:keyOutputText="\\\\" />
         <Key android:keyOutputText="\\n" android:keyLabel="\\n" />
         <Key android:keyOutputText="\\t" android:keyLabel="\\t" />
-        <Key android:keyLabel="\\s" android:keyOutputText="\\s" android:popupCharacters="S" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyLabel="\\w" android:keyOutputText="\\w" android:popupCharacters="W" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyLabel="\\d" android:keyOutputText="\\d" android:popupCharacters="D" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyLabel="\\s" android:keyOutputText="\\s" />
+        <Key android:keyLabel="\\w" android:keyOutputText="\\w" />
+        <Key android:keyLabel="\\d" android:keyOutputText="\\d" />
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" />
         
