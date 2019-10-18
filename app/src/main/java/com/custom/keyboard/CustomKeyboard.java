@@ -8,32 +8,68 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     
     private static short rowNumber = 6;
     
-    public String name;    
+    public String key;
+    public String title;
     public String label;
-    public int order = Integer.MAX_VALUE;
+    int order = 1024;
     
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
     }
     
-    CustomKeyboard(Context context, int xmlLayoutResId, String name) {
+    CustomKeyboard(Context context, int xmlLayoutResId, String title) {
         super(context, xmlLayoutResId);
-        this.name = name;
+        this.key = title.toLowerCase();
+        this.title = title;
     }    
     
-    CustomKeyboard(Context context, int xmlLayoutResId, String name, String label) {
+    CustomKeyboard(Context context, int xmlLayoutResId, String title, String label) {
         super(context, xmlLayoutResId);
-        this.name = name;    
+        this.key = title.toLowerCase();
+        this.title = title;
         this.label = label;
     }
 
-    CustomKeyboard(Context context, int xmlLayoutResId, String name, String label, int order) {
+    CustomKeyboard(Context context, int xmlLayoutResId, String title, int order) {
         super(context, xmlLayoutResId);
-        this.name = name;    
+        this.key = title.toLowerCase();
+        this.title = title;
+        this.label = title;
+        this.order = order;
+        if (this.order < 0) {
+            this.order = 1024 + this.order;
+            // this.order += 1024;
+        }
+    }
+
+    CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
+        super(context, xmlLayoutResId);
+        this.key = title.toLowerCase();
+        this.title = title;
         this.label = label;
         this.order = order;
         if (this.order < 0) {
-            this.order = Integer.MAX_VALUE - this.order;
+            this.order = 1024 + this.order;
+            // this.order += 1024;
+        }
+    }
+
+    CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label) {
+        super(context, xmlLayoutResId);
+        this.key = key;
+        this.title = title;
+        this.label = label;
+    }
+
+    CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label, int order) {
+        super(context, xmlLayoutResId);
+        this.key = key;
+        this.title = title;
+        this.label = label;
+        this.order = order;
+        if (this.order < 0) {
+            this.order = 1024 + this.order;
+            // this.order += 1024;
         }
     }
 
@@ -42,7 +78,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order != kb.order) {
             return this.order - kb.order;
         }
-        return this.name.compareTo(kb.name);
+        return this.title.compareTo(kb.title);
     }
     
     void setRowNumber(short number) {

@@ -24,7 +24,7 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            // def flavor = variant.name
+            // def flavor = variant.title
             // def versionName = variant.versionName
             outputFileName = "custom-keyboard.apk"
             // outputFileName = "custom-keyboard_${flavor}_${versionName}.apk"

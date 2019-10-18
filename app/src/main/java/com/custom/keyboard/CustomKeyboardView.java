@@ -11,15 +11,7 @@ import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-
 import java.util.List;
-
-import static com.custom.keyboard.Variables.isShift;
-
-// import org.apache.commons.lang3.StringUtils;
-// import static com.custom.keyboard.CustomInputMethodService.hexBuffer;
-// import static com.custom.keyboard.CustomInputMethodService.morseBuffer;
-
 
 public class CustomKeyboardView extends KeyboardView {
 
@@ -54,14 +46,12 @@ public class CustomKeyboardView extends KeyboardView {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
-        /*
-        if (key.popupCharacters.length() == 1) {
-            // cancel popup
-            // send key
-            // commitText(String.valueOf(getKey(primaryCode).popupCharacters.charAt(0)));
-            return false;
+        if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
+            // getOnKeyboardActionListener().onRelease(key.codes[0]);
+            getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
+
+            return true;
         }
-        */
         return super.onLongPress(key);
     }
 
@@ -191,7 +181,7 @@ public class CustomKeyboardView extends KeyboardView {
             */
 
             if (key.codes[0] == -1) {
-                if (isShift()) {    
+                if (Variables.isShift()) {
                     canvas.save();
                     mPaint.setColor(Color.parseColor("#40000000"));
                     canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -235,19 +225,21 @@ public class CustomKeyboardView extends KeyboardView {
             mPaint.setColor(Color.parseColor("#b0ffffff"));
             if (key.popupCharacters != null && sharedPreferences.getBoolean("hints", true)) {
                 canvas.save();
-                if (key.popupCharacters.length() == 1 
-                &&  sharedPreferences.getBoolean("hint1", true)
-                && !sharedPreferences.getBoolean("hint2", false)
-                && !sharedPreferences.getBoolean("hint3", false)
-                && !sharedPreferences.getBoolean("hint4", false)
-                ) {
+
+                if (key.popupCharacters.length() == 1 && sharedPreferences.getBoolean("hint1", true)) {
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase())
-                         , key.x+(key.width/2), key.y+30, mPaint);
+                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+30, mPaint);
                 }
+
+                // if (key.popupCharacters.length() == 1
+                // &&  sharedPreferences.getBoolean("hint1", true)
+                // && !sharedPreferences.getBoolean("hint2", false)
+                // && !sharedPreferences.getBoolean("hint3", false)
+                // && !sharedPreferences.getBoolean("hint4", false)
+
                 else {
-                    if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
+                    if (key.popupCharacters.length() > 1 && sharedPreferences.getBoolean("hint1", false) && sharedPreferences.getBoolean("hint2", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                              : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);

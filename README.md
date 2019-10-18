@@ -34,6 +34,8 @@ mysteries:
 + getCharacterFrequencies
 + getWordFrequencies
 + toColor & fromColor
++ if no selection, un/indent saves cursor spot, highlights all, then puts it back ±4
++ if line empty, cut should backspace
 + bug with drawing borders on press
 + page containing clipboard history
 + make popup keys repeatable

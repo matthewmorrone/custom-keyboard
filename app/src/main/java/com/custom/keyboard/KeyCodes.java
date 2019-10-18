@@ -2,15 +2,19 @@ package com.custom.keyboard;
 
 import android.view.KeyEvent;
 
-class Codes {
+class KeyCodes {
 
-    static final int[] hexPasses = {
-        -5, -7, -107, -108, -109, -111, -101, -102, 
-        -103, -8, -9, -10, -11, -4, 32, 9, 10,
-        -25, -26, -76,  -93, -1
+    static final int[] hexPasses = new int[] {
+            7,    9,   10,   32,
+           -1,   -4,   -5,   -7,
+           -8,   -9,  -10,  -11,
+         -101, -102, -103,  -25,
+          -26,  -76,  -93, -107,
+         -108, -109, -110, -111,
     };
-    static final int[] hexCaptures = {
-         48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70,
+    static final int[] hexCaptures = new int[] {
+         48, 49, 50,  51,  52,  53, 54, 55,
+         56, 57, 65,  66,  67,  68, 69, 70,
          97, 98, 99, 100, 101, 102
     };
 
@@ -49,136 +53,71 @@ class Codes {
 
     static int handleCharacter(CustomKeyboardView kv, int primaryCode) {
         if (Util.isAlphaNumeric(primaryCode)) {
-            if (Util.isDigit(primaryCode) && Variables.isBold()) {
-                primaryCode += 120764;
-            }
+            if (Util.isDigit(primaryCode) && Variables.isBold()) primaryCode += 120764;
+
             else if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
-                if (Variables.isBold() && Variables.isItalic()) {
-                    primaryCode += 120315;
-                }
-                else if (Variables.isBold()) {
-                    primaryCode += 120211;
-                }
-                else if (Variables.isItalic()) {
-                    primaryCode += 120263;
-                }
+                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120315;
+                else if (Variables.isBold()) primaryCode += 120211;
+                else if (Variables.isItalic()) primaryCode += 120263;
             }
             else {
-                if (Variables.isBold() && Variables.isItalic()) {
-                    primaryCode += 120309;
-                }
-                else if (Variables.isBold()) {
-                    primaryCode += 120205;
-                }
-                else if (Variables.isItalic()) {
-                    primaryCode += 120257;
-                }
+                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120309;
+                else if (Variables.isBold()) primaryCode += 120205;
+                else if (Variables.isItalic()) primaryCode += 120257;
             }
 
             if (Variables.is119808()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119808 - 65);
-                }
-                else {
-                    primaryCode += (119808 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (119808 - 65);
+                else primaryCode += (119808 - 71);
             }
             if (Variables.is119860()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119860 - 65);
-                }
-                else {
-                    primaryCode += (119860 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (119860 - 65);
+                else primaryCode += (119860 - 71);
             }
             if (Variables.is119912()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119912 - 65);
-                }
-                else {
-                    primaryCode += (119912 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (119912 - 65);
+                else primaryCode += (119912 - 71);
             }
             if (Variables.is119964()) {
-                if (kv.isShifted()) {
-                    primaryCode += (119964 - 65);
-                }
-                else {
-                    primaryCode += (119964 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (119964 - 65);
+                else primaryCode += (119964 - 71);
             }
             if (Variables.is120016()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120016 - 65);
-                }
-                else {
-                    primaryCode += (120016 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120016 - 65);
+                else primaryCode += (120016 - 71);
             }
             if (Variables.is120068()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120068 - 65);
-                }
-                else {
-                    primaryCode += (120068 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120068 - 65);
+                else primaryCode += (120068 - 71);
             }
             if (Variables.is120120()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120120 - 65);
-                }
-                else {
-                    primaryCode += (120120 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120120 - 65);
+                else primaryCode += (120120 - 71);
             }
             if (Variables.is120172()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120172 - 65);
-                }
-                else {
-                    primaryCode += (120172 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120172 - 65);
+                else primaryCode += (120172 - 71);
             }
             if (Variables.is120224()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120224 - 65);
-                }
-                else {
-                    primaryCode += (120224 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120224 - 65);
+                else primaryCode += (120224 - 71);
             }
             if (Variables.is120276()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120276 - 65);
-                }
-                else {
-                    primaryCode += (120276 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120276 - 65);
+                else primaryCode += (120276 - 71);
             }
             if (Variables.is120328()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120328 - 65);
-                }
-                else {
-                    primaryCode += (120328 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120328 - 65);
+                else primaryCode += (120328 - 71);
             }
             if (Variables.is120380()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120380 - 65);
-                }
-                else {
-                    primaryCode += (120380 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120380 - 65);
+                else primaryCode += (120380 - 71);
             }
             if (Variables.is120432()) {
-                if (kv.isShifted()) {
-                    primaryCode += (120432 - 65);
-                }
-                else {
-                    primaryCode += (120432 - 71);
-                }
+                if (kv.isShifted()) primaryCode += (120432 - 65);
+                else primaryCode += (120432 - 71);
             }
         }
         return blockException(primaryCode);

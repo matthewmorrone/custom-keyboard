@@ -3,8 +3,11 @@ package com.custom.keyboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.*;
-import java.util.*;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -45,7 +48,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
 
         try {
-            addPreferencesFromResource(R.xml.ime_preferences);
+            addPreferencesFromResource(R.xml.preferences);
+
+            // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(baseContext);
+            // prefs.edit().clear().apply();
+            // PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         }
         catch (Exception ignored) {}
         try {
@@ -106,29 +113,26 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         catch (Exception ignored) {}
 
-Map<String,?> keys = sharedPreferences.getAll(); 
-for(Map.Entry<String,?> entry : keys.entrySet()) {
-    // entry.getKey()
-    // entry.getValue()
-}
+        PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+        for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
+            CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
+            CheckBoxPreference preference;
+            try {
+                preference = (CheckBoxPreference)(preferences.findPreference(kv.key));
+                preference.setOrder(preferences.getPreferenceCount()-kv.order);
+            }
+            catch (Exception ignored) {}
 
-
-
-        
+        }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
-
-// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
-// prefs.edit().clear(); 
-// PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-
 
 
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         try {
-            addPreferencesFromResource(R.xml.ime_preferences);
+            addPreferencesFromResource(R.xml.preferences);
         }
         catch (Exception ignored) {}
         try {
@@ -148,7 +152,7 @@ for(Map.Entry<String,?> entry : keys.entrySet()) {
             popup2.setSummary(sharedPreferences.getString("popup2", ""));
             popup3.setSummary(sharedPreferences.getString("popup3", ""));
 
-            name.setSummary(sharedPreferences.getString("name", ""));
+            name.setSummary(sharedPreferences.getString("title", ""));
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));
             address.setSummary(sharedPreferences.getString("address", ""));
