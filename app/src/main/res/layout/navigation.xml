@@ -1,13 +1,11 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <Row android:keyWidth="12.5%p">
+    <Row android:keyWidth="16.667%p">
         <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
-        <Key android:codes="-77"  android:keyIcon="@drawable/ic_arrow_left"  android:isRepeatable="true" />
-        <Key android:codes="-78"  android:keyIcon="@drawable/ic_arrow_right" android:isRepeatable="true" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace"   android:isRepeatable="true" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"      android:isRepeatable="true" />
     </Row>
@@ -20,9 +18,11 @@
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_double_chevron_up"      android:isRepeatable="true" />
     </Row>
     <Row android:keyHeight="8.67%p"  android:keyWidth="16%p">
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"       android:isRepeatable="true" android:horizontalGap="26%p" />
+        <Key android:codes="-77"  android:keyIcon="@drawable/ic_arrow_left"             android:isRepeatable="true" android:horizontalGap="10%p" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"       android:isRepeatable="true" />
         <Key android:codes="-76"  android:keyIcon="@drawable/ic_nav" />
         <Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right"      android:isRepeatable="true" />
+        <Key android:codes="-78"  android:keyIcon="@drawable/ic_arrow_right"            android:isRepeatable="true" />
     </Row>
     <Row android:keyHeight="8.67%p"  android:keyWidth="16%p">
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right"   android:isRepeatable="true" android:horizontalGap="10%p" />

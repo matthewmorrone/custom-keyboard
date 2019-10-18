@@ -186,14 +186,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
 
+        /*
         if (sharedPreferences.getBoolean("relayout", false)) {
             int layoutCount = layouts.size()-2;
             int colCount = 6; // hardcoded for now
-            int startRowCount = 7;
+            int startRowCount = 8;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
             int row;
             int[] bounds = getBounds(getKeyboard("Layouts").getKeys());
             int rowHeight = getKey(-400) != null ? getKey(-400).height : 96;
+            // int rowHeight = getKeyboard("Layouts").getKeyHeight();
             int areaHeight = rowHeight * startRowCount;
             int freeHeight = areaHeight - (rowHeight * finalRowCount);
             int moveBy = (int)Math.ceil(freeHeight / finalRowCount);
@@ -215,6 +217,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             try { redraw(); }
             catch (Exception ignored) {}
         }
+        */
         
         for(CustomKeyboard layout : layouts) {
             layoutOrder.append(layout.title).append(":").append(layout.order).append("\n");
@@ -520,25 +523,24 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
             // }
             // catch (Exception ignored) {}
-
+    */
             switch (primaryCode) {
-                case -32: toastIt(findKeyboard("Layouts")); break;
-                case -76: toastIt(findKeyboard("Navigation")); break;
+                case  32: toastIt(findKeyboard("Layouts")); break;
                 case -93: selectAll(); break;
                 case -99:
                     ic = getCurrentInputConnection();
                     ic.deleteSurroundingText(MAX, MAX);
                 break;
-                case -101: toastIt(findKeyboard("Utility")); break;
-                case -102: toastIt(findKeyboard("Function")); break;
+                // case  -76: toastIt(findKeyboard("Navigation")); break;
+                // case -101: toastIt(findKeyboard("Utility")); break;
+                // case -102: toastIt(findKeyboard("Function")); break;
                 // case -400:
-                // case -3:
-                // case -4:
+                // case   -3:
+                // case   -4:
                 //     InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 //     if (imeManager != null) imeManager.showInputMethodPicker();
                 // break;
             }
-    */
         }
     }
 
@@ -1209,8 +1211,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
             break;
             case 7:
-                if (sharedPreferences.getBoolean("spaces", true)) {commitText("    ");}
-                else {commitText("    ");}
+                if (sharedPreferences.getBoolean("spaces", true)) {
+                    commitText("    ");
+                    if (isSelecting()) {
+                        ic.setSelection(getSelectionStart(), getSelectionEnd() + 4);
+                    }
+                }
+                else {
+                    commitText("	");
+                    if (isSelecting()) {
+                        ic.setSelection(getSelectionStart(), getSelectionEnd() + 1);
+                    }
+                }
             break;
             case 6: commitText("'s"); break;
             case -1:
@@ -1308,23 +1320,22 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (!record.equals("")) {
                     clipboardHistory.add(record);
                 }
-            break;
+                break;
             case -10:
                 
-                int saveCursor = getSelectionStart();
+                // int saveCursor = getSelectionStart();
                 if (!isSelecting()) {
                     selectLine();
+                    // ic.setSelection(saveCursor, saveCursor);
                 }
                 sendKey(KeyEvent.KEYCODE_COPY);
-                ic.setSelection(saveCursor, saveCursor);
-                
                 
                 
                 record = getClipboardEntry(0);
                 if (!record.equals("")) {
                     clipboardHistory.add(record);
                 }
-            break;
+                break;
             case -11:
                 // record = clipboardHistoryHas() ? clipboardHistoryGet() : "";
                 // if (!record.equals("")) commitText(record);

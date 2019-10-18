@@ -44,7 +44,7 @@
     <Row>
         <Key android:codes="44" android:keyLabel=","    android:popupCharacters=""        android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="45" android:keyLabel="-"    android:popupCharacters="‐‑‒–—―¯" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="46" android:keyLabel="."    android:popupCharacters="∙•…"      android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="46" android:keyLabel="."    android:popupCharacters="°∙•…"      android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="47" android:keyLabel="/"    android:popupCharacters="÷"      android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="58" android:keyLabel=":"    android:popupCharacters="¨"      android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="59" android:keyLabel=";"    android:popupCharacters="§⁋¶❡"     android:popupKeyboard="@layout/popup_template" />

@@ -112,7 +112,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k8.setSummary(sharedPreferences.getString("k8", ""));
         }
         catch (Exception ignored) {}
-
+/*
         PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
         for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
             CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
@@ -124,6 +124,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             catch (Exception ignored) {}
 
         }
+*/
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -132,7 +133,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         try {
-            addPreferencesFromResource(R.xml.preferences);
+            // addPreferencesFromResource(R.xml.preferences);
         }
         catch (Exception ignored) {}
         try {

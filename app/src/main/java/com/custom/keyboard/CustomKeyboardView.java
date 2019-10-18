@@ -223,23 +223,32 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -66) {if (Variables.is009398())    {selectKey(key, corner);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
-            mPaint.setTextSize(32);
-            mPaint.setColor(Color.parseColor("#b0ffffff"));
-            if (key.popupCharacters != null && sharedPreferences.getBoolean("hints", true)) {
+            if (key.popupCharacters != null 
+            && key.codes != null
+            && sharedPreferences.getBoolean("hints", true)
+            && key.codes[0] != -1
+            && key.codes[0] !=  7
+            && key.codes[0] != 10
+            && key.codes[0] != 32
+            ) {
                 canvas.save();
 
-                if (key.popupCharacters.length() == 1 
-                &&  sharedPreferences.getBoolean("hint1", true)
-                && !sharedPreferences.getBoolean("hint2", false)
-                && !sharedPreferences.getBoolean("hint3", false)
-                && !sharedPreferences.getBoolean("hint4", false)
+                if (key.popupCharacters.length() >= 1 
+                &&   sharedPreferences.getBoolean("hint1", true)
+                &&  !sharedPreferences.getBoolean("hint2", false)
+                &&  !sharedPreferences.getBoolean("hint3", false)
+                &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
+                    mPaint.setTextSize(32);
+                    mPaint.setColor(Color.parseColor("#ffffffff"));
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+30, mPaint);
+                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+38, mPaint);
                 }
 
                 else {
+                    mPaint.setTextSize(30);
+                    mPaint.setColor(Color.parseColor("#b0ffffff"));
                     if (sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
