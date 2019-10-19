@@ -132,6 +132,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if (s.equals("all")) {
+            String layoutOrder = "";
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+            boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
+            int start = preference.getOrder();
+            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
+                // CustomInputMethodService.layouts.size()
+                preference = (CheckBoxPreference)(preferences.getPreference(i));
+                if (preference == null) continue;
+                preference.setChecked(isChecked);
+                layoutOrder += preference.getTitle()+" "+i+"\n";
+            }
+            EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
+            layoutList.setText(layoutOrder);
+        }
         try {
             // addPreferencesFromResource(R.xml.preferences);
         }

@@ -51,6 +51,7 @@
         <Key android:codes="-135" android:keyLabel="(.)\\n" />
         <Key android:codes="-139" android:keyLabel="⌴$" />
         <Key android:codes="-140" android:keyLabel="\w⌴$" />
+        <Key android:codes="-302" android:keyLabel="/**/" />
     </Row>
     <Row android:keyWidth="10%p">
         <Key android:codes="-142" android:keyLabel="abc"                       android:keyWidth="10%p" />

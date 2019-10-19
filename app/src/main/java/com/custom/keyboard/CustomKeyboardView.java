@@ -240,15 +240,15 @@ public class CustomKeyboardView extends KeyboardView {
                 &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
                     mPaint.setTextSize(32);
-                    mPaint.setColor(Color.parseColor("#ffffffff"));
+                    mPaint.setColor(Color.parseColor("#ddffffff"));
                     canvas.drawText((getKeyboard().isShifted()
                          ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+38, mPaint);
+                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+36, mPaint);
                 }
 
                 else {
-                    mPaint.setTextSize(30);
-                    mPaint.setColor(Color.parseColor("#b0ffffff"));
+                    mPaint.setTextSize(28);
+                    mPaint.setColor(Color.parseColor("#bbffffff"));
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()

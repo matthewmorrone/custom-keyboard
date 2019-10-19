@@ -17,13 +17,13 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row>
-        <Key android:codes="49" android:keyLabel="1" android:popupCharacters="@string/popupCharacters1" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="50" android:keyLabel="2" android:popupCharacters="@string/popupCharacters2" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="49" android:keyLabel="1" android:popupCharacters="¡!~`¬" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="50" android:keyLabel="2" android:popupCharacters="\@¿\?" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="51" android:keyLabel="3" android:popupCharacters="@string/popupCharacters3" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="52" android:keyLabel="4" android:popupCharacters="@string/popupCharacters4" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="53" android:keyLabel="5" android:popupCharacters="@string/popupCharacters5" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="54" android:keyLabel="6" android:popupCharacters="@string/popupCharacters6" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="55" android:keyLabel="7" android:popupCharacters="@string/popupCharacters7" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="55" android:keyLabel="7" android:popupCharacters="⅋+≠≈" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="56" android:keyLabel="8" android:popupCharacters="@string/popupCharacters8" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="57" android:keyLabel="9" android:popupCharacters="@string/popupCharacters9" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="48" android:keyLabel="0" android:popupCharacters="@string/popupCharacters0" android:popupKeyboard="@layout/popup_template" />
