@@ -23,21 +23,22 @@
         <Key android:codes="-79"   android:keyIcon="@drawable/ic_reverse" />
         <Key android:codes="-75"   android:keyIcon="@drawable/ic_close" />
         <Key android:codes="-94"   android:keyIcon="@drawable/ic_duplicate" />
-        <Key android:codes="0"     android:keyOutputText="https://" android:keyLabel="https" />
+        <Key android:codes="-136"  android:keyIcon="@drawable/ic_join" />
+        <!-- <Key android:codes="0"     android:keyOutputText="https://" android:keyLabel="https" /> -->
         <Key android:codes="0"     android:keyOutputText="www."     android:keyLabel="www." />
         <Key android:codes="0"     android:keyOutputText="\@gmail"  android:keyLabel="\@gmail" />
         <Key android:codes="0"     android:keyOutputText=".com"     android:keyLabel=".com" />
     </Row>
     <Row android:keyWidth="10%p">
-        <Key android:codes="-124" android:keyIcon="@drawable/ic_uppercase" />
-        <Key android:codes="-125" android:keyIcon="@drawable/ic_titlecase" />
-        <Key android:codes="-126" android:keyIcon="@drawable/ic_lowercase" />
+        <Key android:codes="-124"  android:keyIcon="@drawable/ic_uppercase" />
+        <Key android:codes="-125"  android:keyIcon="@drawable/ic_titlecase" />
+        <Key android:codes="-126"  android:keyIcon="@drawable/ic_lowercase" />
         <Key android:codes="-58"   android:keyIcon="@drawable/ic_snake" /><!-- android:keyLabel="🐍" -->
         <Key android:codes="-59"   android:keyIcon="@drawable/ic_camel" /><!-- android:keyLabel="🐪" -->
-        <Key android:codes="-129" android:keyLabel="- ⌴" />
-        <Key android:codes="-127" android:keyLabel="_ ⌴" />
-        <Key android:codes="-130" android:keyLabel="⌴ -" />
-        <Key android:codes="-128" android:keyLabel="⌴ _" />
+        <Key android:codes="-129"  android:keyLabel="- ⌴" />
+        <Key android:codes="-127"  android:keyLabel="_ ⌴" />
+        <Key android:codes="-130"  android:keyLabel="⌴ -" />
+        <Key android:codes="-128"  android:keyLabel="⌴ _" />
         <Key android:codes="-104"  android:keyLabel="#?" />
     </Row>
     <Row android:keyWidth="10%p">
@@ -48,22 +49,24 @@
         <Key android:codes="-133" android:keyLabel="⌴ \\t" />
         <Key android:codes="-134" android:keyLabel="\\t ⌴" />
         <Key android:codes="-135" android:keyLabel="(.)\\n" />
-        <Key android:codes="-136" android:keyIcon="@drawable/ic_join" />
         <Key android:codes="-139" android:keyLabel="⌴$" />
         <Key android:codes="-140" android:keyLabel="\w⌴$" />
     </Row>
-    <Row android:keyWidth="9.09%p">
+    <Row android:keyWidth="10%p">
+        <Key android:codes="-142" android:keyLabel="abc"                       android:keyWidth="10%p" />
         <Key android:codes="-61" android:keyIcon="@drawable/ic_indent" />
         <Key android:codes="-62" android:keyIcon="@drawable/ic_unindent" />
         <Key android:codes="-97" android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-98" android:keyIcon="@drawable/ic_time" />
-        <Key android:codes="0"   android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />
-        <Key android:codes="0"   android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" />
-        <Key android:codes="0"   android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" />
-        <Key android:codes="0"   android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
+        <!-- <Key android:codes="0"   android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" /> -->
+        <!-- <Key android:codes="0"   android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" /> -->
+        <!-- <Key android:codes="0"   android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" /> -->
+        <!-- <Key android:codes="0"   android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" /> -->
         <Key android:codes="-105"  android:keyIcon="@drawable/ic_sort_lines" />
         <Key android:codes="-106"  android:keyIcon="@drawable/ic_reverse_lines" />
         <Key android:codes="-145"  android:keyIcon="@drawable/ic_bolt" />
+        <Key android:codes="-5"    android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
+        <Key android:codes="-7"    android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
     <!--<Row android:keyWidth="10%p">-->
         <!-- <Key android:codes="-88"  android:keyIcon="@drawable/ic_undo" android:isRepeatable="true" /> -->
