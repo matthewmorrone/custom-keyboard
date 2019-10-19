@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ListPreference android:title="Theme"   android:key="theme"   android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
-    <ListPreference android:title="Standard Keyboard" android:key="standard" android:defaultValue="1" android:entryValues="@array/standard_values" android:entries="@array/standard" />
+    <!--<ListPreference android:title="Standard Keyboard" android:key="standard" android:defaultValue="1" android:entryValues="@array/standard_values" android:entries="@array/standard" />-->
     <SwitchPreference android:title="Use Custom Colors"  android:key="rainbow" android:defaultValue="false" />
     <EditTextPreference android:title="Foreground" android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:key="fg" android:defaultValue="#FFFFFF" android:dialogMessage="Doesn't work yet." />
     <EditTextPreference android:title="Background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
@@ -24,7 +24,7 @@
     <SwitchPreference android:title="Autocapitalization" android:key="caps" android:defaultValue="false" />
     <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />
     <SwitchPreference android:title="Prediction" android:key="pred" android:defaultValue="false" />
-    <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="false" />
+    <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
     <EditTextPreference android:dialogTitle="Layout Order" android:title="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
@@ -94,16 +94,20 @@
         <EditTextPreference android:dialogTitle="Custom Key 7" android:title="Custom Key 7" android:summary="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
         <EditTextPreference android:dialogTitle="Custom Key 8" android:title="Custom Key 8" android:summary="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
     </PreferenceCategory>
-<!--
-    android:dialogIcon="@drawable/ic_sort"
-    android:icon="@drawable/ic_sort"
--->
-    <!-- <com.vlath.keyboard.SeekBar
+    <!--
+        android:dialogIcon="@drawable/ic_sort"
+        android:icon="@drawable/ic_sort"
+    -->
+    <!--
+    <com.vlath.keyboard.SeekBar
         android:defaultValue="50"
         android:key="height"
-        android:title="Key Height" /> -->
-    <!-- <SeekBar
+        android:title="Key Height" />
+    -->
+    <!--
+    <SeekBar
         android:defaultValue="50"
         android:key="height"
-        android:title="Key Height" /> -->
+        android:title="Key Height" />
+    -->
 </PreferenceScreen>

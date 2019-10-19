@@ -183,16 +183,9 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
-                    canvas.save();
-                    mPaint.setColor(Color.parseColor("#40000000"));
-                    canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                    canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-                    canvas.restore();
                     selectKey(key, corner);
-                    drawable(key, R.drawable.ic_shift_lock, 35);
                 }
-                else if (getKeyboard().isShifted()) {
-                    selectKey(key, corner);
+                if (getKeyboard().isShifted()) {
                     drawable(key, R.drawable.ic_shift_lock, 35);
                 }
             }

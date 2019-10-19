@@ -49,10 +49,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         try {
             addPreferencesFromResource(R.xml.preferences);
-
-            // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(baseContext);
-            // prefs.edit().clear().apply();
-            // PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+            PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         }
         catch (Exception ignored) {}
         try {
@@ -112,7 +109,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k8.setSummary(sharedPreferences.getString("k8", ""));
         }
         catch (Exception ignored) {}
-/*
+
+
+
         PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
         for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
             CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
@@ -122,9 +121,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference.setOrder(preferences.getPreferenceCount()-kv.order);
             }
             catch (Exception ignored) {}
-
         }
-*/
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -132,26 +129,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+
         if (s.equals("all")) {
-            String layoutOrder = "";
+            StringBuilder layoutOrder = new StringBuilder();
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
             CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
             int start = preference.getOrder();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                // CustomInputMethodService.layouts.size()
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
                 preference.setChecked(isChecked);
-                layoutOrder += preference.getTitle()+" "+i+"\n";
+                layoutOrder.append(preference.getTitle()).append(" ").append(i).append("\n");
             }
             EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
-            layoutList.setText(layoutOrder);
+            layoutList.setText(layoutOrder.toString().trim());
         }
-        try {
-            // addPreferencesFromResource(R.xml.preferences);
-        }
-        catch (Exception ignored) {}
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
             fg.setSummary(sharedPreferences.getString("fg", ""));

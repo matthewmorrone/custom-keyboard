@@ -1,7 +1,5 @@
 package com.custom.keyboard;
 
-import java.util.*;
-
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,9 +12,7 @@ import android.graphics.Paint;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-// import android.os.Build;
 import android.os.Vibrator;
-import android.os.VibrationEffect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -35,6 +31,15 @@ import android.view.textservice.TextServicesManager;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+// import android.os.Build;
 
 public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
@@ -70,7 +75,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     InputConnection ic = getCurrentInputConnection();
     SharedPreferences sharedPreferences;
-    
+
+    static void print(Object ...a) {
+        // a.length
+        for(int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + " ");
+            // if (i % 2 == 1) System.out.println();
+        }
+        // for (Object i: a) System.out.print(i + " ");
+    }
 
     public ArrayList<String> clipboardHistory = new ArrayList<>(10);
 
@@ -170,23 +183,49 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
 
-        
-        if (sharedPreferences.getBoolean("relayout", false)) {
+
+        if (sharedPreferences.getBoolean("relayout", true)) {
             int layoutCount = layouts.size()-2;
             int colCount = 6; // hardcoded for now
-            int startRowCount = 6;
+            int startRowCount = 8;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
-            int row;
-            int[] bounds = getBounds(getKeyboard("Layouts").getKeys());
-            // int rowHeight = 140; // (int)(layouts.get(0).getHeight()/6);
-            int rowHeight = getKey(-32) != null ? getKey(-32).height : 140;
-            int areaHeight = rowHeight * (startRowCount - 2);
-            int freeHeight = areaHeight - (rowHeight * finalRowCount);
+
+            List<Keyboard.Key> layoutKeys = new ArrayList<>();
+            for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
+                // System.out.println(key.x+" "+key.y+" "+key.label);
+                if (key.codes[0] <= -400 && key.codes[0] >= -449) {
+                    layoutKeys.add(key);
+                }
+            }
+            Bounds bounds = getBounds(layoutKeys);
+            int rowHeight = layoutKeys.get(0).height;
+            int areaHeight = bounds.dY;
+            int usedHeight = rowHeight * (finalRowCount + 1) - bounds.minY;
+            int freeHeight = areaHeight - usedHeight;
             int moveBy = (int)Math.ceil(freeHeight / finalRowCount);
-            int index = 0;
+
+
+            System.out.println(
+                "layoutCount: "+layoutCount+
+                ", colCount: "+colCount+
+                ", startRowCount: "+startRowCount+
+                ", finalRowCount: "+finalRowCount+
+                ", minY: "+bounds.minY+
+                ", maxY: "+bounds.maxY+
+                ", rowHeight: "+rowHeight+
+                ", areaHeight: "+areaHeight+
+                ", usedHeight: "+usedHeight+
+                ", freeHeight: "+freeHeight+
+                ", moveBy: "+moveBy+
+                 ""
+            );
+
+            int row, index = 0;
+
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -449) {
                     row = (index / colCount);
+                    // if (key.codes[0] % 6 == -4) print("label: "+key.label, "key.x: "+key.x, "h: "+key.height+"")+
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y += key.height;
                         key.height = 0;
@@ -201,12 +240,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             try {redraw();}
             catch (Exception ignored) {}
         }
-        
-        // Editor editor = sharedPreferences.edit(); 
-        // StringBuilder layoutOrder = new StringBuilder();
+
         StringBuilder autoLabel;
         for(CustomKeyboard layout : layouts) {
-            // layoutOrder.append(layout.title).append(":").append(layout.order).append("\n");
             autoLabel = new StringBuilder();
             for(Keyboard.Key key : layout.getKeys()) {
                 if (key.label == null) continue;
@@ -218,16 +254,49 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (autoLabel.length() > 2) break;
             }
             String label = autoLabel.toString().trim();
-            
             if (layout.label == null || layout.label.equals("")) {
                 layout.label = label;
             }
         }
-        // editor.putString("layout_order", layoutOrder.toString().substring(0, layoutOrder.toString().length() - 1));
-        // editor.apply();
     }
 
-    public int[] getBounds(List<Keyboard.Key> keys) {
+    public class Bounds {
+        public int minX;
+        public int minY;
+        public int maxX;
+        public int maxY;
+
+        public int dX;
+        public int dY;
+
+        public Bounds(int minX, int minY, int maxX, int maxY) {
+            this.minX = minX;
+            this.minY = minY;
+            this.maxX = maxX;
+            this.maxY = maxY;
+
+            this.dX = Math.abs(this.maxX - this.minX);
+            this.dY = Math.abs(this.maxY - this.minY);
+        }
+
+        public Bounds(int[] bounds) {
+            if (bounds.length < 4) return;
+            this.minX = bounds[0];
+            this.minY = bounds[1];
+            this.maxX = bounds[2];
+            this.maxY = bounds[3];
+
+            this.dX = Math.abs(this.maxX - this.minX);
+            this.dY = Math.abs(this.maxY - this.minY);
+        }
+
+        @Override
+        public String toString() {
+            return "minX: "+minX+" minY: "+minY+" maxX: "+maxX+" maxY: "+maxY;
+        }
+    }
+
+    public Bounds getBounds(List<Keyboard.Key> keys) {
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, maxX = 0, maxY = 0;
         for (Keyboard.Key key : keys) {
             if (key.x < minX) minX = key.x;
@@ -236,7 +305,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (key.x+key.width  > maxX) maxX = key.x;
             if (key.y+key.height > maxY) maxY = key.y;
         }
-        return new int[] {minX, minY, maxX, maxY};
+        return new Bounds(minX, minY, maxX, maxY);
     }
     
     // @todo instead of cancelling, concat contents
@@ -263,7 +332,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (layout.title.equals(name)) break;
             index++;
         }
-        return layouts.get(index);
+        try {
+            return layouts.get(index);
+        }
+        catch (Exception e) {
+            return layouts.get(0);
+        }
     }
 
     public String findKeyboard(String name) {
@@ -291,12 +365,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 currentKeyboard = layouts.get(currentKeyboardID);
                 String currentKeyboardLabel = currentKeyboard.label;
                 if (currentKeyboard.title.equals("Layouts")) {
-                    if (layouts.size()-1 != 1) {
-                        getKey(32).label = (layouts.size()-1)+" layouts";
-                    }
-                    else {
-                        getKey(32).label = "1 layout";
-                    }
+                    if (layouts.size()-1 != 1) getKey(32).label = (layouts.size()-1)+" layouts";
+                    else getKey(32).label = "1 layout";
+
                 }
                 else {
                     if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
