@@ -19,26 +19,22 @@ public class CustomKeyboardView extends KeyboardView {
     Context kcontext;
     SharedPreferences sharedPreferences;
     Paint mPaint = new Paint();
-
+    
+    private String selected = "#80FFFFFF";
+    
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mPaint.setColor(Color.parseColor("#80ffffff")); 
+        mPaint.setColor(Color.parseColor(selected));
     }
 
     public CustomKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mPaint.setColor(Color.parseColor("#80ffffff")); 
+        mPaint.setColor(Color.parseColor(selected));
     }
     
     public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
-    
-/*
-    public void setBackground() {
-        this.setBackground();
-    }
-*/
 
     @Override
     protected boolean onLongPress(Key key) {
@@ -50,7 +46,6 @@ public class CustomKeyboardView extends KeyboardView {
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
             // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
-
             return true;
         }
         return super.onLongPress(key);
@@ -59,7 +54,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     public void selectKey(Key key, int corner) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
-        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+        String color = theme % 2 == 1 ? selected : selected;
 
         canvas.save();
         mPaint.setColor(Color.parseColor(color));
@@ -75,7 +70,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     public void selectKey(Key key) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
-        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+        String color = theme % 2 == 1 ? selected : selected;
 
         canvas.save();
         mPaint.setColor(Color.parseColor(color));
@@ -156,7 +151,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (keyback) {
                 canvas.save();
                 canvas.clipRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                mPaint.setColor(Color.parseColor("#80ffffff"));
+                mPaint.setColor(Color.parseColor(selected));
                 canvas.drawRoundRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border, corner, corner, mPaint);
                 canvas.restore();
             }
@@ -165,7 +160,7 @@ public class CustomKeyboardView extends KeyboardView {
             border = 2;
             canvas.save();
             mPaint.setColor(Color.parseColor("#ff000000"));
-            mPaint.setColor(Color.parseColor("#80ffffff"));
+            mPaint.setColor(Color.parseColor(selected));
             mPaint.setColor(Color.parseColor("#ffffffff"));
             canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
             canvas.clipOutRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -218,14 +213,16 @@ public class CustomKeyboardView extends KeyboardView {
             mPaint.setTextAlign(Paint.Align.CENTER);
             if (key.popupCharacters != null 
             && key.codes != null
-            && sharedPreferences.getBoolean("hints", true)
             && key.codes[0] != -1
             && key.codes[0] !=  7
             && key.codes[0] != 10
             && key.codes[0] != 32
+            && sharedPreferences.getBoolean("hints", true)
             ) {
                 canvas.save();
-
+                if (getCustomKeyboard().title.contains("Shift")) {
+                    continue;
+                }
                 if (key.popupCharacters.length() >= 1 
                 &&   sharedPreferences.getBoolean("hint1", true)
                 &&  !sharedPreferences.getBoolean("hint2", false)
@@ -234,16 +231,16 @@ public class CustomKeyboardView extends KeyboardView {
                 ) {
                     mPaint.setTextSize(32);
                     mPaint.setColor(Color.parseColor("#ddffffff"));
-                    canvas.drawText((getKeyboard().isShifted()
-                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+36, mPaint);
+                    canvas.drawText(((getKeyboard().isShifted())
+                        ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
+                        : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+36, mPaint);
                 }
 
                 else {
                     mPaint.setTextSize(28);
                     mPaint.setColor(Color.parseColor("#bbffffff"));
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
-                        canvas.drawText((getKeyboard().isShifted()
+                        canvas.drawText(((getKeyboard().isShifted())
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                              : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);
                     }

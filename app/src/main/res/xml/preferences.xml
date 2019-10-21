@@ -21,17 +21,18 @@
     <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
     <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="true" />
     <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
-    <SwitchPreference android:title="Autocapitalization" android:key="caps" android:defaultValue="false" />
+    <SwitchPreference android:title="Autocapitalization" android:key="autocaps" android:defaultValue="false" />
     <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />
     <SwitchPreference android:title="Prediction" android:key="pred" android:defaultValue="false" />
+    <SwitchPreference android:title="Dynamic Space Bar" android:key="respace" android:defaultValue="false" />
     <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
-    <EditTextPreference android:dialogTitle="Layout Order" android:title="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
+    <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="arrows" android:title="Arrows" android:defaultValue="false" />
         <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="false" />
-        <CheckBoxPreference android:key="small_caps" android:title="Caps" android:defaultValue="true" />
+        <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="true" />
         <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="true" />
         <CheckBoxPreference android:key="coptic" android:title="Coptic" android:defaultValue="true" />
         <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="false" />
@@ -60,7 +61,10 @@
         <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />
         <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty Plus" android:defaultValue="false" />
+        <CheckBoxPreference android:key="rirrom" android:title="Rirrom" android:defaultValue="true" />
         <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="true" />
+        <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="true" />
+        <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="true" />
         <CheckBoxPreference android:key="stealth" android:title="Stealth" android:defaultValue="true" />
         <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="false" />
         <CheckBoxPreference android:key="symbol" android:title="Symbol" android:defaultValue="true" />
@@ -94,20 +98,7 @@
         <EditTextPreference android:dialogTitle="Custom Key 7" android:title="Custom Key 7" android:summary="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
         <EditTextPreference android:dialogTitle="Custom Key 8" android:title="Custom Key 8" android:summary="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
     </PreferenceCategory>
-    <!--
-        android:dialogIcon="@drawable/ic_sort"
-        android:icon="@drawable/ic_sort"
-    -->
-    <!--
-    <com.vlath.keyboard.SeekBar
-        android:defaultValue="50"
-        android:key="height"
-        android:title="Key Height" />
-    -->
-    <!--
-    <SeekBar
-        android:defaultValue="50"
-        android:key="height"
-        android:title="Key Height" />
-    -->
+    <!--         android:dialogIcon="@drawable/ic_sort"         android:icon="@drawable/ic_sort"     -->
+    <!--     <com.vlath.keyboard.SeekBar         android:defaultValue="50"         android:key="height"         android:title="Key Height" />     -->
+    <!--     <SeekBar         android:defaultValue="50"         android:key="height"         android:title="Key Height" />     -->
 </PreferenceScreen>
