@@ -77,11 +77,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     SharedPreferences sharedPreferences;
 
     static void print(Object ...a) {
-        // a.length
         for(int i = 0; i < a.length; i++) {
             System.out.print(a[i] + " ");
             // if (i % 2 == 1) System.out.println();
         }
+        System.out.println();
         // for (Object i: a) System.out.print(i + " ");
     }
 
@@ -115,7 +115,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("accents", true))         {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents", "Accents", "◌̀◌́◌̂"));}
         if (sharedPreferences.getBoolean("arrows", false))         {layouts.add(new CustomKeyboard(this, R.layout.arrows,      "arrows", "Arrows", ""));}
         if (sharedPreferences.getBoolean("braille", false))        {layouts.add(new CustomKeyboard(this, R.layout.braille,     "braille", "Braille", "⠟⠺⠑⠗⠞⠽"));}
-        if (sharedPreferences.getBoolean("small_caps", true))      {layouts.add(new CustomKeyboard(this, R.layout.small_caps,  "small_caps", "Caps", "ҩᴡᴇʀᴛʏ"));}
+        if (sharedPreferences.getBoolean("caps", true))            {layouts.add(new CustomKeyboard(this, R.layout.caps,        "caps", "Caps", "ҩᴡᴇʀᴛʏ"));}
         if (sharedPreferences.getBoolean("coding", true))          {layouts.add(new CustomKeyboard(this, R.layout.coding,      "coding", "Coding", "∅⊤⊥"));}
         if (sharedPreferences.getBoolean("coptic", true))          {layouts.add(new CustomKeyboard(this, R.layout.coptic,      "coptic", "Coptic", "ⲑϣⲉⲣⲧⲯ"));}
         if (sharedPreferences.getBoolean("cree", false))           {layouts.add(new CustomKeyboard(this, R.layout.cree,        "cree", "Cree", "ᐁᐯᑌᑫᒉᒣ"));}
@@ -129,7 +129,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("etruscan", false))       {layouts.add(new CustomKeyboard(this, R.layout.etruscan,    "etruscan", "Etruscan", "𐌀𐌁𐌂𐌃𐌄𐌅"));}
         if (sharedPreferences.getBoolean("extra", true))           {layouts.add(new CustomKeyboard(this, R.layout.extra,       "extra", "Extra", "☳ツᰄ"));}
         if (sharedPreferences.getBoolean("fonts", true))           {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts", "Fonts", "🄰🅐🄐𝔸𝕬𝒜"));}
-        if (sharedPreferences.getBoolean("function", true))        {layouts.add(new CustomKeyboard(this, R.layout.function,    "function", "Function", "ƒ(x)", -1));} // ⒳
+        if (sharedPreferences.getBoolean("function", true))        {layouts.add(new CustomKeyboard(this, R.layout.function,    "function", "Function", "ƒ(x)", -2));} // ⒳
         if (sharedPreferences.getBoolean("futhark", false))        {layouts.add(new CustomKeyboard(this, R.layout.futhark,     "futhark", "Futhark", "ᚠᚢᚦᚨᚱᚲ"));}
         if (sharedPreferences.getBoolean("gothic", false))         {layouts.add(new CustomKeyboard(this, R.layout.gothic,      "gothic", "Gothic", "𐌵𐍈𐌴𐍂𐍄𐍅"));}
         if (sharedPreferences.getBoolean("greek", true))           {layouts.add(new CustomKeyboard(this, R.layout.greek,       "greek", "Greek", "ςερτυθ"));}
@@ -140,17 +140,20 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("macros", true))          {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros", "Macros", "✐"));}
         if (sharedPreferences.getBoolean("math", true))            {layouts.add(new CustomKeyboard(this, R.layout.math,        "math", "Math", "+−×÷=%"));}
         if (sharedPreferences.getBoolean("mirror", true))          {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror", "Mirror", "poiuyt"));}
-        if (sharedPreferences.getBoolean("navigation", true))      {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation", "Navigation", "⇄↑↓", -3));}
+        if (sharedPreferences.getBoolean("rirrom", true))          {layouts.add(new CustomKeyboard(this, R.layout.rorrim,      "rirrom", "Rirrom", "ytrewq"));}
+        if (sharedPreferences.getBoolean("navigation", true))      {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation", "Navigation", "  →←↑↓", -1));}
         if (sharedPreferences.getBoolean("numeric", true))         {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric", "Numeric", "123456"));}
         if (sharedPreferences.getBoolean("pointy", false))         {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy", "Pointy", "ᛩꟽⵉᚱⵜY"));}
         if (sharedPreferences.getBoolean("qwerty_plus", false))    {layouts.add(new CustomKeyboard(this, R.layout.qwerty_plus, "qwerty_plus", "Qwerty+", "qwerty+"));}
         if (sharedPreferences.getBoolean("rotated", true))         {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated", "Rotated", "ʎʇɹəʍb"));}
+        if (sharedPreferences.getBoolean("shift_1", true))         {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1", "Shift₁", "qWeRtY"));}
+        if (sharedPreferences.getBoolean("shift_2", true))         {layouts.add(new CustomKeyboard(this, R.layout.shift_2,     "shift_2", "Shift₂", "QwErTy"));}
         if (sharedPreferences.getBoolean("stealth", true))         {layouts.add(new CustomKeyboard(this, R.layout.stealth,     "stealth", "Stealth", "ԛԝеrtу"));}
         if (sharedPreferences.getBoolean("strike", false))         {layouts.add(new CustomKeyboard(this, R.layout.strike,      "strike", "Strike", "ꝗwɇꞧⱦɏ"));}
         if (sharedPreferences.getBoolean("symbol", true))          {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol", "Symbol", "!@#$%^"));}
         if (sharedPreferences.getBoolean("tails", false))          {layouts.add(new CustomKeyboard(this, R.layout.tails,       "tails", "Tails", "ɋꝡҽɽʈƴ"));}
         if (sharedPreferences.getBoolean("unicode", true))         {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode", "Unicode", "\\uxxxx"));}
-        if (sharedPreferences.getBoolean("utility", true))         {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility", "Utility", "/**/", -2));}
+        if (sharedPreferences.getBoolean("utility", true))         {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility", "Utility", "/**/", -3));}
 
         int layoutLayout = R.layout.layouts;
         
@@ -363,16 +366,20 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (newKeyboardID < layouts.size()) {
                 currentKeyboardID = newKeyboardID;
                 currentKeyboard = layouts.get(currentKeyboardID);
-                String currentKeyboardLabel = currentKeyboard.label;
-                if (currentKeyboard.title.equals("Layouts")) {
-                    if (layouts.size()-1 != 1) getKey(32).label = (layouts.size()-1)+" layouts";
-                    else getKey(32).label = "1 layout";
-
-                }
-                else {
-                    if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
-                    else currentKeyboardLabel = currentKeyboardLabel.toLowerCase();
-                    getKey(32).label = currentKeyboard.title +"\t•\t"+currentKeyboardLabel; // ·
+                if (sharedPreferences.getBoolean("respace", false)) {
+                    String currentKeyboardLabel = currentKeyboard.label;
+                    if (currentKeyboard.title.equals("Layouts")) {
+                        if (layouts.size()-1 != 1) getKey(32).label = (layouts.size()-1)+" layouts";
+                        else getKey(32).label = "1 layout";
+                    }
+                    else if (currentKeyboard.title.equals("Shift")) {
+                        
+                    }
+                    else {
+                        if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
+                        else currentKeyboardLabel = currentKeyboardLabel.toLowerCase();
+                        getKey(32).label = currentKeyboard.title +"\t•\t"+currentKeyboardLabel; // ·
+                    }
                 }
                 kv.setKeyboard(currentKeyboard);
                 kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
@@ -786,8 +793,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void goToEnd() {
         ic = getCurrentInputConnection();
         ic.setSelection(
-            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()-1,
-            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()-1
+            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
+            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
         );
     }
     public void selectAll() {
@@ -899,7 +906,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void capsOnFirst() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
-        if (sharedPreferences.getBoolean("caps", false)) {
+        if (sharedPreferences.getBoolean("autocaps", false)) {
             if (getCursorCapsMode(ic, getCurrentInputEditorInfo()) != 0) {
                 firstCaps = true;
                 setCapsOn(true);
@@ -1292,7 +1299,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     if (indent.length() > 0) {commitText("\n"+indent); break;}
                 }
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-                    case EditorInfo.IME_ACTION_GO: ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
+                    case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO);     break;
                     case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
                     default: sendKey(KeyEvent.KEYCODE_ENTER); break;
                 }
@@ -1311,7 +1318,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     }
                 }
             break;
-            case 6: commitText("'s"); break;
             case -1:
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", false)) {
                     String text = ic.getSelectedText(0).toString();
@@ -1332,14 +1338,20 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 else {
                     switch (currentKeyboard.title) {
+                        case "Caps":
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.caps, "Caps", "ҩᴡᴇʀᴛʏ");}
+                            else {currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift, "Caps", "ҩᴡᴇʀᴛʏ");}
+                        break;
                         case "Rotated":
                             if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.rotated, "Rotated", "bʍəɹʇʎ");}
                             else {currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated", "Ò𐊰ƎꓤꞱ⅄");}
                         break;
-                        case "Caps":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.small_caps, "Caps", "ҩᴡᴇʀᴛʏ");}
-                            else {currentKeyboard = new CustomKeyboard(this, R.layout.small_caps_shift, "Caps", "ҩᴡᴇʀᴛʏ");}
+                        /*
+                        case "Shift":
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.shift_1, "Shift", "qWeRtY");}
+                            else {currentKeyboard = new CustomKeyboard(this, R.layout.shift_2, "Shift", "QwErTy");}
                         break;
+                        */
                         case "Stealth":
                             if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.stealth, "Stealth", "ԛԝеrtу");}
                             else {currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ");}
@@ -1364,8 +1376,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                             shift_pressed = System.currentTimeMillis();
                         }
                     }
-                    if (!currentKeyboard.title.equals("Rotated")
-                     && !currentKeyboard.title.equals("Caps")
+                    if (!currentKeyboard.title.equals("Caps")
+                     && !currentKeyboard.title.equals("Rotated")
+                     // && !currentKeyboard.title.equals("Shift")
                      && !currentKeyboard.title.equals("Stealth")
                     ) {
                         setKeyboard();
@@ -1501,12 +1514,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -85: commitText(getClipboardEntry(5)); break;
             case -86: commitText(getClipboardEntry(6)); break;
             case -87: commitText(getClipboardEntry(7)); break;
-            case -93: selectLine(); break;
-            case -94: commitText(nextLine()+"\n"+ prevLine()); break;
-            case -99:
-                if (!isSelecting()) selectLine();
-                sendKey(KeyEvent.KEYCODE_DEL);
-            break;
             case -100:
             case -101: prevKeyboard(); break;
             case -102: nextKeyboard(); break;
@@ -1537,8 +1544,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else Variables.setAltOn();
                 redraw();
             break;
-            case -115: commitText(Util.generateRandomInt(1, 10) + " "); break;
-            case -116: commitText(Util.nowAsLong()+" "+Util.nowAsInt()); break;
             case -121:
                 if (Variables.isCtrl() || Variables.isAlt()) {
                     if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
@@ -1556,7 +1561,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 else sendKey(KeyEvent.KEYCODE_TAB);
             break;
+            case -93: selectLine(); break;
+            case -94: commitText(nextLine()+"\n"+ prevLine()); break;
+            case -99:
+                if (!isSelecting()) selectLine();
+                sendKey(KeyEvent.KEYCODE_DEL);
+            break;
             case -123: clearAll(); break;
+            case -115: commitText(Util.generateRandomInt(1, 10) + " "); break;
+            case -116: commitText(Util.nowAsLong()+" "+Util.nowAsInt()); break;
             case -124: performReplace(getText(ic).toUpperCase()); break;
             case -125: performReplace(Util.toTitleCase(getText(ic))); break;
             case -126: performReplace(getText(ic).toLowerCase()); break;
@@ -1652,6 +1665,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             break;
             case -105: performReplace(Util.sortLines(getText(ic))); break;
             case -106: performReplace(Util.reverseLines(getText(ic))); break;
+            case -146: performReplace(Util.uniqueLines(getText(ic))); break;
+            case -147: performReplace(Util.shuffleLines(getText(ic))); break;
             case -300: toastIt(findKeyboard("Default")); break;
             case -301: toastIt(findKeyboard("Function")); break;
             case -302: toastIt(findKeyboard("Utility")); break;
@@ -1715,10 +1730,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else {
                     try {
                         handleCharacter(primaryCode);
-                        // getKey(32).popupResId = "";
-                        // getKey(32).height = (int)(getKey(32).height * 0.9);
-                        // getKey(32).width = (int)(getKey(32).width * 0.8);
-                        // getKey(32).gap = (int)(getKey(32).gap * 0.2);
                         redraw();
                         if (Variables.isReflected() || sharedPreferences.getBoolean("cursor_left", false) || currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) {
                             sendKey(KeyEvent.KEYCODE_DPAD_LEFT);

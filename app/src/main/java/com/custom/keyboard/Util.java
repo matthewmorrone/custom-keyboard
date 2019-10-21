@@ -11,19 +11,8 @@ import java.nio.file.Files;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 class Util {
 
@@ -165,41 +154,6 @@ class Util {
         return sb.toString();
     }
 
-    /*
-
-    // List directories
-    static File[] listDirectories(String path) {
-        return new File(path).listFiles(File::isDirectory);
-    }
-
-    // List files in directory
-    static File[] listFilesInDirectory(final File folder) {
-        return folder.listFiles(File::isFile);
-    }
-
-    // List files in directory recursively
-    private static List<File> listAllFiles(String path) {
-        List<File> all = new ArrayList<>();
-        File[] list = new File(path).listFiles();
-        if (list != null) {  // In case of access error, list is null
-            for (File f : list) {
-                if (f.isDirectory()) {
-                    all.addAll(listAllFiles(f.getAbsolutePath()));
-                } else {
-                    all.add(f.getAbsoluteFile());
-                }
-            }
-        }
-        return all;
-    }
-
-    // Read lines from file to string list
-    static List<String> readLines(String filename) throws IOException {
-        return Files.readAllLines(new File(filename).toPath());
-    }
-
-    */
-
     static String getDateString(String dateFormat) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
@@ -229,12 +183,47 @@ class Util {
     private static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");
     }
+    
+    static String uniqueLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        
+        Set<String> unique = new HashSet<String>(result);
+        result = unique.toArray();
+        
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
 
     static String sortLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    
+    static String shuffleLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    
+    static String rotateLinesBackward(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.rotate(result, -1);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    
+    static String rotateLinesForward(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.rotate(result, 1);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 

@@ -19,7 +19,9 @@ public class CustomKeyboardView extends KeyboardView {
     Context kcontext;
     SharedPreferences sharedPreferences;
     Paint mPaint = new Paint();
-
+    
+    private String selected = "80FFFFFF";
+    
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint.setColor(Color.parseColor("#80ffffff")); 
@@ -33,12 +35,6 @@ public class CustomKeyboardView extends KeyboardView {
     public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
-    
-/*
-    public void setBackground() {
-        this.setBackground();
-    }
-*/
 
     @Override
     protected boolean onLongPress(Key key) {
@@ -59,7 +55,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     public void selectKey(Key key, int corner) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
-        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+        String color = theme % 2 == 1 ? selected : selected;
 
         canvas.save();
         mPaint.setColor(Color.parseColor(color));
@@ -75,7 +71,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     public void selectKey(Key key) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
-        String color = theme % 2 == 1 ? "#40ffffff" : "#40ffffff";
+        String color = theme % 2 == 1 ? selected : selected;
 
         canvas.save();
         mPaint.setColor(Color.parseColor(color));
@@ -234,16 +230,24 @@ public class CustomKeyboardView extends KeyboardView {
                 ) {
                     mPaint.setTextSize(32);
                     mPaint.setColor(Color.parseColor("#ddffffff"));
-                    canvas.drawText((getKeyboard().isShifted()
-                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+36, mPaint);
+                    canvas.drawText(((
+                    getKeyboard().isShifted()
+                    && 
+                    !getCustomKeyboard().title.contains("Shift"))
+                        ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
+                        : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+36, mPaint);
                 }
 
                 else {
                     mPaint.setTextSize(28);
                     mPaint.setColor(Color.parseColor("#bbffffff"));
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
-                        canvas.drawText((getKeyboard().isShifted()
+                        canvas.drawText((
+                        (
+                        getKeyboard().isShifted() 
+                        && 
+                        !getCustomKeyboard().title.contains("Shift")
+                        )
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                              : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,              mPaint);
                     }
