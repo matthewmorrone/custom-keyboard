@@ -32,7 +32,7 @@
         <Key android:codes="11409" android:keyLabel="ⲑ" />
         <Key android:codes="995" android:keyLabel="ϣ" android:popupCharacters="ⳃ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="11401" android:keyLabel="ⲉ" />
-        <Key android:codes="11427" android:keyLabel="ⲣ" />
+        <Key android:codes="11427" android:keyLabel="ⲣ" android:popupCharacters="ⳏⳡ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="11431" android:keyLabel="ⲧ" android:popupCharacters="ϯⳣ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="11439" android:keyLabel="ⲯ" />
         <Key android:codes="11433" android:keyLabel="ⲩ" />

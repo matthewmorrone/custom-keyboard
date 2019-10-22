@@ -309,6 +309,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public String setKeyboardLayout(int newKeyboardID) {
+        boolean capsOn = Variables.isShift();
         try {
             if (newKeyboardID < layouts.size()) {
                 currentKeyboardID = newKeyboardID;
@@ -331,6 +332,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
         catch (Exception ignored) {}
+        kv.setShifted(capsOn);
+        firstCaps = capsOn;
+        setCapsOn(capsOn);
+        redraw();
         return currentKeyboard.title; //+" "+currentKeyboard.order;
     }
 
@@ -1176,6 +1181,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic.requestCursorUpdates(3);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String record, currentKeyboardName = currentKeyboard.title;
+        boolean capsOn = Variables.isShift();
         if (currentKeyboardName.equals("Enmorse") && !Util.charToMorse(String.valueOf((char)primaryCode)).equals("")) {
             String res = Util.charToMorse(String.valueOf((char)primaryCode));
             if (kv.isShifted()) res = res.toUpperCase();
@@ -1305,6 +1311,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         }
                     }
                     if (!currentKeyboard.title.equals("Caps")
+                     && !currentKeyboard.title.equals("Cherokee")
                      && !currentKeyboard.title.equals("Rotated")
                      && !currentKeyboard.title.equals("Stealth")
                     ) {
@@ -1595,11 +1602,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -307:
                 currentKeyboard = new CustomKeyboard(this, R.layout.cherokee_1,  "cherokee_1",  "Cherokee", "ꭰꭱꭲꭳꭴꭵ");
                 kv.setKeyboard(currentKeyboard);
+                kv.setShifted(capsOn);
+                firstCaps = capsOn;
+                setCapsOn(capsOn);
                 redraw();
             break;
             case -308:
                 currentKeyboard = new CustomKeyboard(this, R.layout.cherokee_2,  "cherokee_2",  "Cherokee", "ꮛꮜꮝꮞꮟꮠ");
                 kv.setKeyboard(currentKeyboard);
+                kv.setShifted(capsOn);
+                firstCaps = capsOn;
+                setCapsOn(capsOn);
                 redraw();
             break;
             case -400: toastIt(setKeyboardLayout(0)); break;

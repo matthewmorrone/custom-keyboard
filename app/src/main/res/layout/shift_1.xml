@@ -51,7 +51,7 @@
         <Key android:codes="107" android:keyLabel="k" android:popupCharacters="K" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="108" android:keyLabel="l" android:popupCharacters="L" android:popupKeyboard="@layout/popup_template" />
     </Row>
-    <Row android:keyWidth="9.09%p">
+    <Row>
         <Key android:codes="122" android:keyLabel="z" android:popupCharacters="Z" android:popupKeyboard="@layout/popup_template" android:horizontalGap="18.18%p" />
         <Key android:codes="120" android:keyLabel="x" android:popupCharacters="X" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="99"  android:keyLabel="c" android:popupCharacters="C" android:popupKeyboard="@layout/popup_template" />

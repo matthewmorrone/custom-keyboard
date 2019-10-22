@@ -41,8 +41,8 @@
         <Key android:codes="7448" android:keyLabel="ᴘ" />
     </Row>
     <Row>
-        <Key android:codes="7424"  android:keyLabel="ᴀ" android:horizontalGap="5%p" />
-        <Key android:codes="42801" android:keyLabel="ꜱ" />
+        <Key android:codes="7424"  android:keyLabel="ᴀ" android:popupCharacters="ʌ" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
+        <Key android:codes="42801" android:keyLabel="ꜱ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template"/>
         <Key android:codes="7429"  android:keyLabel="ᴅ" />
         <Key android:codes="42800" android:keyLabel="ꜰ" />
         <Key android:codes="610"   android:keyLabel="ɢ" />
