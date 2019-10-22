@@ -52,7 +52,8 @@
         <Key android:codes="76"  android:keyLabel="L" android:popupCharacters="l" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="90" android:keyLabel="Z" android:popupCharacters="z" android:popupKeyboard="@layout/popup_template" android:horizontalGap="18.18%p" />
+        <Key android:codes="-311" android:keyIcon="@drawable/ic_shift_lock" />
+        <Key android:codes="90" android:keyLabel="Z" android:popupCharacters="z" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="88" android:keyLabel="X" android:popupCharacters="x" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="67" android:keyLabel="C" android:popupCharacters="c" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="86" android:keyLabel="V" android:popupCharacters="v" android:popupKeyboard="@layout/popup_template" />

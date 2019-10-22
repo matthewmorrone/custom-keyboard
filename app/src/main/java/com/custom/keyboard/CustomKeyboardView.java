@@ -105,7 +105,7 @@ public class CustomKeyboardView extends KeyboardView {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
         // System.out.println(sharedPreferences.getAll());
 
-        boolean borders = sharedPreferences.getBoolean("borders", true);
+        boolean borders = sharedPreferences.getBoolean("borders", false);
         boolean padding = sharedPreferences.getBoolean("padding", false);
         boolean corners = sharedPreferences.getBoolean("corners", false);
         boolean keyback = sharedPreferences.getBoolean("keyback", false);

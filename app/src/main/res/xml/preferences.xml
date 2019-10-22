@@ -8,7 +8,7 @@
     <EditTextPreference android:title="Background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
     <SwitchPreference android:title="Debug" android:key="debug" android:defaultValue="false" />
     <SwitchPreference android:title="Vibrate" android:key="vib" android:defaultValue="true" />
-    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="true" />
+    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="false" />
     <SwitchPreference android:title="Padding" android:key="padding" android:defaultValue="false" />
     <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
     <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
@@ -28,7 +28,10 @@
     <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
     <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
-    <CheckBoxPreference android:key="just" android:title="Just Functional" android:defaultValue="false" />
+    <CheckBoxPreference android:key="primary" android:title="Primary" android:defaultValue="false" />
+    <CheckBoxPreference android:key="secondary" android:title="Secondary" android:defaultValue="false" />
+    <CheckBoxPreference android:key="tertiary" android:title="Tertiary" android:defaultValue="false" />
+    <CheckBoxPreference android:key="forthary" android:title="Forthary" android:defaultValue="false" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
@@ -78,7 +81,7 @@
         <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
         <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
     </PreferenceCategory>
-    <CheckBoxPreference android:key="custom_order" android:title="Custom Layout Order" android:defaultValue="true" />
+    <CheckBoxPreference android:key="custom_order" android:title="Custom Layout Order" android:defaultValue="false" />
     <PreferenceCategory android:key="hint" android:title="Hints">
         <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="true" />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true"  android:dependency="hints" />

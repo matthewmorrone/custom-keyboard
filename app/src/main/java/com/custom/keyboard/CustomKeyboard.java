@@ -83,7 +83,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     @Override
     public int compareTo(CustomKeyboard kb) {
         if (this.order == 0) return -1024;
-        if (sharedPreferences.getBoolean("custom_order", true)) {
+        if (sharedPreferences.getBoolean("custom_order", false)) {
             if (this.order != kb.order) {
                 return this.order - kb.order;
             }

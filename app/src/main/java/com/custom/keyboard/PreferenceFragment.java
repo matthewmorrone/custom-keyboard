@@ -42,8 +42,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k8;
     
     List<String> primary = Arrays.asList(new String[] {
-        "arrows", "caps", "caps_shift", "clipboard",
-        "dvorak", "extra", "fonts", "function",
+        "arrows", "clipboard",
+        "extra", "fonts", "function",
         "hex", "macros", "mirror", "mirror_shift",
         "navigation", "numeric", "qwerty_plus",
         "rorrim", "shift_1", "shift_2", "unicode",
@@ -59,15 +59,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     });
     
     List<String> tertiary = Arrays.asList(new String[] {
-        "accents", "coding", "emoji", "ipa",
-        "math", "symbol"
+        "accents", "coding", "dvorak", "emoji", 
+        "ipa", "math", "symbol"
     });
     
     List<String> forthary = Arrays.asList(new String[] {
-        "demorse", "drawing", "enmorse", "insular",
-        "pointy", "rotated", "rotated_shift", "small_caps",
-        "small_caps_shift", "stealth", "stealth_shift", "strike",
-        "tails"
+        "caps", "caps_shift", "demorse", "drawing", 
+        "enmorse", "insular", "pointy", "rotated", 
+        "rotated_shift", "small_caps", "small_caps_shift", "stealth", 
+        "stealth_shift", "strike", "tails"
     });
 
     @Override
@@ -142,7 +142,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
 
         PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-        if (sharedPreferences.getBoolean("custom_order", true)) {
+        if (sharedPreferences.getBoolean("custom_order", false)) {
             for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
                 CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
                 CheckBoxPreference preference;
@@ -160,18 +160,55 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equals("just")) {
+        if (s.equals("primary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
             CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
-            boolean isChecked = ((CheckBoxPreference)findPreference("just")).isChecked();
+            boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
-                if (primary.contains(preference.key)){
+                if (primary.contains(preference.getKey())) {
                     preference.setChecked(isChecked);
                 }
             }
         }
+        if (s.equals("secondary")) {
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+            boolean isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
+            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
+                preference = (CheckBoxPreference)(preferences.getPreference(i));
+                if (preference == null) continue;
+                if (secondary.contains(preference.getKey())) {
+                    preference.setChecked(isChecked);
+                }
+            }
+        }
+        if (s.equals("tertiary")) {
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+            boolean isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
+            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
+                preference = (CheckBoxPreference)(preferences.getPreference(i));
+                if (preference == null) continue;
+                if (tertiary.contains(preference.getKey())) {
+                    preference.setChecked(isChecked);
+                }
+            }
+        }
+        if (s.equals("forthary")) {
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+            boolean isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
+            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
+                preference = (CheckBoxPreference)(preferences.getPreference(i));
+                if (preference == null) continue;
+                if (forthary.contains(preference.getKey())) {
+                    preference.setChecked(isChecked);
+                }
+            }
+        }
+        
         if (s.equals("all")) {
             // StringBuilder layoutOrder = new StringBuilder();
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
@@ -184,6 +221,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference.setChecked(isChecked);
                 // layoutOrder.append(preference.getTitle()).append(" ").append(i).append("\n");
             }
+            ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
+            
+            
+            
             // EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
             // layoutList.setText(layoutOrder.toString().trim());
         }

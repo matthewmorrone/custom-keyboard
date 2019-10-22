@@ -141,13 +141,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("insular",      true)) {layouts.add(new CustomKeyboard(this, R.layout.insular,     "insular",     "Insular",    "ꝺꝼᵹꞃꞅꞇ"));}
         if (sharedPreferences.getBoolean("ipa",          true)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "ipa",         "IPA",        "ʔʕʘǁǂ"));}
         if (sharedPreferences.getBoolean("lisu",         true)) {layouts.add(new CustomKeyboard(this, R.layout.lisu,        "lisu",        "Lisu",       "ⵚꓟꓱꓤꓕ⅄"));}
-        if (sharedPreferences.getBoolean("macros",       true)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐",               -4));}
+        // if (sharedPreferences.getBoolean("macros",       true)) {
+        layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐",               -4));
+        // }
         if (sharedPreferences.getBoolean("math",         true)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%"));}
         if (sharedPreferences.getBoolean("mirror",       true)) {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror",      "Mirror",     "poiuyt"));}
         if (sharedPreferences.getBoolean("ogham",        true)) {layouts.add(new CustomKeyboard(this, R.layout.ogham,       "ogham",       "Ogham",      "᚛ᚁᚆᚋᚐ᚜"));}
         if (sharedPreferences.getBoolean("rorrim",       true)) {layouts.add(new CustomKeyboard(this, R.layout.rorrim,      "rorrim",      "Rorrim",     "ytrewq"));}
         if (sharedPreferences.getBoolean("navigation",   true)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓",          -1));}
-        if (sharedPreferences.getBoolean("numeric",      true)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456"));}
+        // if (sharedPreferences.getBoolean("numeric",      true)) {
+        layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456"));
+        // }
         if (sharedPreferences.getBoolean("pointy",       true)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY"));}
         if (sharedPreferences.getBoolean("qwerty_plus",  true)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty_plus, "qwerty_plus", "Qwerty+",    "qwerty+"));}
         if (sharedPreferences.getBoolean("rotated",      true)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb"));}
@@ -615,18 +619,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void setInputType() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         EditorInfo attribute = getCurrentInputEditorInfo();
-        if (Objects.equals(sharedPreferences.getString("start", "1"), "1")) {
+        //if (Objects.equals(sharedPreferences.getString("start", "1"), "1")) {
             switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
                 case InputType.TYPE_TEXT_VARIATION_URI:
                 case InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS:
-                case InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS: currentKeyboard = new CustomKeyboard(this, R.layout.function); break;
+                case InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS: findKeyboard("Macros"); break;
                 case InputType.TYPE_CLASS_NUMBER:
                 case InputType.TYPE_CLASS_DATETIME:
-                case InputType.TYPE_CLASS_PHONE: currentKeyboard = new CustomKeyboard(this, R.layout.numeric); break;
-                default: currentKeyboard = layouts.get(0); break;
+                case InputType.TYPE_CLASS_PHONE: findKeyboard("Numeric"); break;
+                default: findKeyboard("Default"); break;
             }
-        }
-        if (kv != null) {kv.setKeyboard(currentKeyboard);}
+        // }
+        // if (kv != null) {kv.setKeyboard(currentKeyboard);}
     }
 
     
@@ -1326,8 +1330,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (imeManager != null) imeManager.showInputMethodPicker();
             break;
             case -4:
-                if (currentKeyboardID != 0) setKeyboardLayout(0);
-                else setKeyboardLayout(layouts.size()-1);
+                //if (currentKeyboardID != 0) setKeyboardLayout(0);
+                // else 
+                setKeyboardLayout(layouts.size()-1);
             break;
             case -5:
                 if (currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) handleDelete();
@@ -1615,6 +1620,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 setCapsOn(capsOn);
                 redraw();
             break;
+            case -309: toastIt(findKeyboard("Rorrim")); break;
+            case -310: toastIt(findKeyboard("Mirror")); break;
+            case -311: toastIt(findKeyboard("Shift₁")); break;
+            case -312: toastIt(findKeyboard("Shift₂")); break;
             case -400: toastIt(setKeyboardLayout(0)); break;
             case -401: toastIt(setKeyboardLayout(1)); break;
             case -402: toastIt(setKeyboardLayout(2)); break;
