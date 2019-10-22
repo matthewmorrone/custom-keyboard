@@ -28,6 +28,7 @@
     <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
     <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
+    <CheckBoxPreference android:key="just" android:title="Just Functional" android:defaultValue="false" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
