@@ -117,7 +117,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("arrows",       true)) {layouts.add(new CustomKeyboard(this, R.layout.arrows,      "arrows",      "Arrows",     "",                -4));}
         if (sharedPreferences.getBoolean("braille",      true)) {layouts.add(new CustomKeyboard(this, R.layout.braille,     "braille",     "Braille",    "⠟⠺⠑⠗⠞⠽"));}
         if (sharedPreferences.getBoolean("caps",         true)) {layouts.add(new CustomKeyboard(this, R.layout.caps,        "caps",        "Caps",       "ҩᴡᴇʀᴛʏ"));}
-        if (sharedPreferences.getBoolean("cherokee_1",   true)) {layouts.add(new CustomKeyboard(this, R.layout.cherokee_1,  "cherokee_1",  "Cherokee",   "ꭰꭱꭲꭳꭴꭵ"));}
+        if (sharedPreferences.getBoolean("cherokee",     true)) {layouts.add(new CustomKeyboard(this, R.layout.cherokee_1,  "cherokee_1",  "Cherokee",   "ꭰꭱꭲꭳꭴꭵ"));}
         if (sharedPreferences.getBoolean("coding",       true)) {layouts.add(new CustomKeyboard(this, R.layout.coding,      "coding",      "Coding",     "∅⊤⊥"));}
         if (sharedPreferences.getBoolean("coptic",       true)) {layouts.add(new CustomKeyboard(this, R.layout.coptic,      "coptic",      "Coptic",     "ⲑϣⲉⲣⲧⲯ"));}
         if (sharedPreferences.getBoolean("cree",         true)) {layouts.add(new CustomKeyboard(this, R.layout.cree,        "cree",        "Cree",       "ᐁᐯᑌᑫᒉᒣ"));}
@@ -145,7 +145,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("math",         true)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%"));}
         if (sharedPreferences.getBoolean("mirror",       true)) {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror",      "Mirror",     "poiuyt"));}
         if (sharedPreferences.getBoolean("ogham",        true)) {layouts.add(new CustomKeyboard(this, R.layout.ogham,       "ogham",       "Ogham",      "᚛ᚁᚆᚋᚐ᚜"));}
-        if (sharedPreferences.getBoolean("rorrim",       true)) {layouts.add(new CustomKeyboard(this, R.layout.rorrim,      "rorrim",      "Rirrom",     "ytrewq"));}
+        if (sharedPreferences.getBoolean("rorrim",       true)) {layouts.add(new CustomKeyboard(this, R.layout.rorrim,      "rorrim",      "Rorrim",     "ytrewq"));}
         if (sharedPreferences.getBoolean("navigation",   true)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓",          -1));}
         if (sharedPreferences.getBoolean("numeric",      true)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456"));}
         if (sharedPreferences.getBoolean("pointy",       true)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY"));}
@@ -332,10 +332,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
         catch (Exception ignored) {}
-        kv.setShifted(capsOn);
-        firstCaps = capsOn;
-        setCapsOn(capsOn);
-        redraw();
+        // kv.setShifted(capsOn);
+        // firstCaps = capsOn;
+        // setCapsOn(capsOn);
+        // redraw();
         return currentKeyboard.title; //+" "+currentKeyboard.order;
     }
 

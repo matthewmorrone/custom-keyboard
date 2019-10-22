@@ -30,6 +30,7 @@
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
+        <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
         <CheckBoxPreference android:key="arrows" android:title="Arrows" android:defaultValue="true" />
         <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="true" />
         <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="true" />
@@ -65,7 +66,7 @@
         <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="true" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="true" />
         <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty Plus" android:defaultValue="true" />
-        <CheckBoxPreference android:key="rirrom" android:title="Rirrom" android:defaultValue="true" />
+        <CheckBoxPreference android:key="rorrim" android:title="Rorrim" android:defaultValue="true" />
         <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="true" />
         <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="true" />
         <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="true" />
