@@ -5,14 +5,24 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class Util {
 
@@ -189,10 +199,10 @@ class Util {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         
-        Set<String> unique = new HashSet<String>(result);
-        result = unique.toArray();
+        Set<String> unique = new HashSet<>(result);
+
         
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return StringUtils.join(unique.toArray(new String[0]), "\n");
     }
 
     static String sortLines(String text) {
