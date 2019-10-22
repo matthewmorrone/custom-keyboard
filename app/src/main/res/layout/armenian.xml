@@ -1,0 +1,79 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:keyHeight="7%p"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"    android:isRepeatable="true" />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"  android:isRepeatable="true" />
+        <Key android:codes="-76"  android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+    </Row>
+    <Row>
+        <Key android:codes="1377" android:keyLabel="ա" />
+        <Key android:codes="1378" android:keyLabel="բ" />
+        <Key android:codes="1379" android:keyLabel="գ" />
+        <Key android:codes="1380" android:keyLabel="դ" />
+        <Key android:codes="1381" android:keyLabel="ե" />
+        
+        <Key android:codes="1382" android:keyLabel="զ" />
+        <Key android:codes="1383" android:keyLabel="է" />
+        <Key android:codes="1384" android:keyLabel="ը" />
+        <Key android:codes="1385" android:keyLabel="թ" />
+        <Key android:codes="1386" android:keyLabel="ժ" />
+    </Row>
+    <Row>
+        <Key android:codes="1387" android:keyLabel="ի" />
+        <Key android:codes="1388" android:keyLabel="լ" />
+        <Key android:codes="1389" android:keyLabel="խ" />
+        <Key android:codes="1390" android:keyLabel="ծ" />
+        <Key android:codes="1391" android:keyLabel="կ" />
+        
+        <Key android:codes="1392" android:keyLabel="հ" />
+        <Key android:codes="1393" android:keyLabel="ձ" />
+        <Key android:codes="1394" android:keyLabel="ղ" />
+        <Key android:codes="1395" android:keyLabel="ճ" />
+        <Key android:codes="1396" android:keyLabel="մ" />
+    </Row>
+    <Row>
+        <Key android:codes="1397" android:keyLabel="յ" />
+        <Key android:codes="1398" android:keyLabel="ն" />
+        <Key android:codes="1399" android:keyLabel="շ" />
+        <Key android:codes="1400" android:keyLabel="ո" />
+        <Key android:codes="1401" android:keyLabel="չ" />
+        
+        <Key android:codes="1402" android:keyLabel="պ" />
+        <Key android:codes="1403" android:keyLabel="ջ" />
+        <Key android:codes="1404" android:keyLabel="ռ" />
+        <Key android:codes="1405" android:keyLabel="ս" />
+        <Key android:codes="1406" android:keyLabel="վ" />
+    </Row>
+    <Row android:keyWidth="8.75%p">
+        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" android:popupCharacters="ՙ՚՛՜՝՞՟։֊֍֎֏" android:popupKeyboard="@layout/popup_template" android:keyWidth="10%p" />
+        <Key android:codes="1407" android:keyLabel="տ" />
+        <Key android:codes="1408" android:keyLabel="ր" />
+        <Key android:codes="1409" android:keyLabel="ց" />
+        <Key android:codes="1410" android:keyLabel="ւ" />
+        <Key android:codes="1411" android:keyLabel="փ" />
+        <Key android:codes="1412" android:keyLabel="ք" />
+        <Key android:codes="1413" android:keyLabel="օ" />
+        <Key android:codes="1414" android:keyLabel="ֆ" />
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" android:keyWidth="10%p" />
+        <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" android:keyWidth="10%p" />
+    </Row>
+    <Row>
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
+        <Key android:codes="-4"   android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="@string/popup_a" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup_b" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_c" android:popupKeyboard="@layout/popup_template" />
+    </Row>
+</Keyboard>

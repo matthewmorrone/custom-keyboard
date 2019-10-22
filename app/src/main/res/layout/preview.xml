@@ -8,12 +8,10 @@
     android:bottomLeftRadius="8dp" 
     android:topLeftRadius="8dp" 
     android:topRightRadius="8dp"
-    android:numColumns="2"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
-    <!-- android:rowCount="2" -->
     <android.inputmethodservice.KeyboardView
         android:id="@android:id/keyboardView"
         android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
     />
     <ImageButton
         android:id="@android:id/closeButton"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -46,16 +43,14 @@
         android:contentDescription="@string/close" />
 </GridLayout>
 <!--
-        android:drawable="@drawable/round_corners"
-        android:drawable="@drawable/round_corners"
-        android:drawable="@drawable/round_corners"
-        android:bottomRightRadius="8dp" 
-        android:bottomLeftRadius="8dp" 
-        android:topLeftRadius="8dp" 
-        android:topRightRadius="8dp"
-        android:bottomRightRadius="8dp" 
-        android:bottomLeftRadius="8dp" 
-        android:topLeftRadius="8dp" 
-        android:topRightRadius="8dp"
-        android:radius="8dp" 
+android:drawable="@drawable/round_corners"
+android:bottomRightRadius="8dp"
+android:bottomLeftRadius="8dp"
+android:topLeftRadius="8dp"
+android:topRightRadius="8dp"
+android:bottomRightRadius="8dp"
+android:bottomLeftRadius="8dp"
+android:topLeftRadius="8dp"
+android:topRightRadius="8dp"
+android:radius="8dp"
 -->

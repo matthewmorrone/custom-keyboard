@@ -1,5 +1,3 @@
-mysteries:
-
 + popups
 + runtime modification/generation of layouts
 + modification of xml attributes at runtime
@@ -10,7 +8,33 @@ mysteries:
 + scrollable areas
 + use of layouts on keyboard
 + swiping between layouts
-
++ option for numbers on nav instead of repeatable
++ includes
++ change space insertion to mod on full line length 
++ voice to text
++ emoji 
++ open settings from key
++ scrollable/swipeable areas
++ if indents match on paste, trim
++ selection doesn't work with 4space
++ Key codes and labels customizable
++ Menu
++ Prediction bar
++ Voice shortcut
++ emoji shortcut
++ Swiping
++ Tabs on symbols page 
++ Autoreplace toggleable from keyboard predictions 
++ Adding entries on the fly
++ Settings button
++ release on popup for choice
++ previews? 
++ Swipe on spacebar
++ Draggable resize right on the front
++ Settings opens up a drawer
++ 2nd bar changeable
++ Selection pad
++ slideable bar
 + app crashes on backspace past start
 + shortcuts with sigil
 + bug when autoshift

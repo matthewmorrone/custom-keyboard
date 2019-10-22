@@ -51,7 +51,7 @@ tab
 
 
 r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
-popup3.setOrder(0);
+popup_c.setOrder(0);
 getKey(32).popupResId
 // preference has getIntent for opening custom key editors
 // preference also has getOrder for possible use in recycler view for layout order

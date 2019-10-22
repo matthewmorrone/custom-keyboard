@@ -21,9 +21,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     EditTextPreference text_size;
     EditTextPreference seps;
-    EditTextPreference popup1;
-    EditTextPreference popup2;
-    EditTextPreference popup3;
+    EditTextPreference popup_a;
+    EditTextPreference popup_b;
+    EditTextPreference popup_c;
 
     EditTextPreference name;
     EditTextPreference email;
@@ -63,9 +63,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         text_size = (EditTextPreference)findPreference("text_size");
         seps = (EditTextPreference)findPreference("seps");
-        popup1 = (EditTextPreference)findPreference("popup1");
-        popup2 = (EditTextPreference)findPreference("popup2");
-        popup3 = (EditTextPreference)findPreference("popup3");
+        popup_a = (EditTextPreference)findPreference("popup_a");
+        popup_b = (EditTextPreference)findPreference("popup_b");
+        popup_c = (EditTextPreference)findPreference("popup_c");
         
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -93,9 +93,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup1.setSummary(sharedPreferences.getString("popup1", ""));
-            popup2.setSummary(sharedPreferences.getString("popup2", ""));
-            popup3.setSummary(sharedPreferences.getString("popup3", ""));
+            popup_a.setSummary(sharedPreferences.getString("popup_a", ""));
+            popup_b.setSummary(sharedPreferences.getString("popup_b", ""));
+            popup_c.setSummary(sharedPreferences.getString("popup_c", ""));
         }
         catch (Exception ignored) {}
         try {
@@ -113,14 +113,16 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
 
         PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-        for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
-            CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
-            CheckBoxPreference preference;
-            try {
-                preference = (CheckBoxPreference)(preferences.findPreference(kv.key));
-                preference.setOrder(preferences.getPreferenceCount()-kv.order);
+        if (sharedPreferences.getBoolean("custom_order", true)) {
+            for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
+                CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
+                CheckBoxPreference preference;
+                try {
+                    preference = (CheckBoxPreference)(preferences.findPreference(kv.key));
+                    preference.setOrder(preferences.getPreferenceCount()-kv.order);
+                }
+                catch (Exception ignored) {}
             }
-            catch (Exception ignored) {}
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -158,9 +160,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup1.setSummary(sharedPreferences.getString("popup1", ""));
-            popup2.setSummary(sharedPreferences.getString("popup2", ""));
-            popup3.setSummary(sharedPreferences.getString("popup3", ""));
+            popup_a.setSummary(sharedPreferences.getString("popup_a", ""));
+            popup_b.setSummary(sharedPreferences.getString("popup_b", ""));
+            popup_c.setSummary(sharedPreferences.getString("popup_c", ""));
 
             name.setSummary(sharedPreferences.getString("title", ""));
             email.setSummary(sharedPreferences.getString("email", ""));

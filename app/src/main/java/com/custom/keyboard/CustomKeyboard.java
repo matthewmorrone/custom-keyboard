@@ -1,7 +1,10 @@
 package com.custom.keyboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.inputmethodservice.Keyboard;
+import android.preference.PreferenceManager;
+
 
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
     
@@ -11,15 +14,18 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     String title;
     String label;
     int order = 1024;
+    SharedPreferences sharedPreferences;
     
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title) {
         super(context, xmlLayoutResId);
         this.key = title.toLowerCase();
         this.title = title;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }    
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label) {
@@ -27,6 +33,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         this.key = title.toLowerCase();
         this.title = title;
         this.label = label;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, int order) {
@@ -38,6 +45,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
@@ -49,6 +57,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label) {
@@ -56,6 +65,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         this.key = key;
         this.title = title;
         this.label = label;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label, int order) {
@@ -67,12 +77,16 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
     public int compareTo(CustomKeyboard kb) {
-        if (this.order != kb.order) {
-            return this.order - kb.order;
+        if (this.order == 0) return -1024;
+        if (sharedPreferences.getBoolean("custom_order", true)) {
+            if (this.order != kb.order) {
+                return this.order - kb.order;
+            }
         }
         return this.title.compareTo(kb.title);
     }

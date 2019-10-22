@@ -1,0 +1,87 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="8.334%p"
+    android:keyHeight="7%p"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_light_arrow_left"  android:isRepeatable="true" />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_light_arrow_right" android:isRepeatable="true" />
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"    android:isRepeatable="true" />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"  android:isRepeatable="true" />
+        <Key android:codes="-76"  android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+    </Row>
+    <Row>
+        <Key android:codes="-307" android:keyLabel="ꭰꭱꭲ" />
+        <Key android:codes="43931" android:keyLabel="ꮛ" />
+        <Key android:codes="43932" android:keyLabel="ꮜ" />
+        <Key android:codes="43933" android:keyLabel="ꮝ" />
+        <Key android:codes="43934" android:keyLabel="ꮞ" />
+        <Key android:codes="43935" android:keyLabel="ꮟ" />
+
+        <Key android:codes="43936" android:keyLabel="ꮠ" />
+        <Key android:codes="43937" android:keyLabel="ꮡ" />
+        <Key android:codes="43938" android:keyLabel="ꮢ" />
+        <Key android:codes="43939" android:keyLabel="ꮣ" />
+        <Key android:codes="43940" android:keyLabel="ꮤ" />
+        <Key android:codes="43941" android:keyLabel="ꮥ" />
+    </Row>
+    <Row>
+        <Key android:codes="43942" android:keyLabel="ꮦ" />
+        <Key android:codes="43943" android:keyLabel="ꮧ" />
+        <Key android:codes="43944" android:keyLabel="ꮨ" />
+        <Key android:codes="43945" android:keyLabel="ꮩ" />
+        <Key android:codes="43946" android:keyLabel="ꮪ" />
+        <Key android:codes="43947" android:keyLabel="ꮫ" />
+
+        <Key android:codes="43948" android:keyLabel="ꮬ" />
+        <Key android:codes="43949" android:keyLabel="ꮭ" />
+        <Key android:codes="43950" android:keyLabel="ꮮ" />
+        <Key android:codes="43951" android:keyLabel="ꮯ" />
+        <Key android:codes="43952" android:keyLabel="ꮰ" />
+        <Key android:codes="43953" android:keyLabel="ꮱ" />
+    </Row>
+    <Row>
+        <Key android:codes="43954" android:keyLabel="ꮲ" />
+        <Key android:codes="43955" android:keyLabel="ꮳ" />
+        <Key android:codes="43956" android:keyLabel="ꮴ" />
+        <Key android:codes="43957" android:keyLabel="ꮵ" />
+        <Key android:codes="43958" android:keyLabel="ꮶ" />
+        <Key android:codes="43959" android:keyLabel="ꮷ" />
+
+        <Key android:codes="43960" android:keyLabel="ꮸ" />
+        <Key android:codes="43961" android:keyLabel="ꮹ" />
+        <Key android:codes="43962" android:keyLabel="ꮺ" />
+        <Key android:codes="43963" android:keyLabel="ꮻ" />
+        <Key android:codes="43964" android:keyLabel="ꮼ" />
+        <Key android:codes="43965" android:keyLabel="ꮽ" />
+
+    </Row>
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" />
+        <Key android:codes="43966" android:keyLabel="ꮾ" />
+        <Key android:codes="43967" android:keyLabel="ꮿ" />
+        <Key android:codes="5112"  android:keyLabel="ᏸ" />
+        <Key android:codes="5113"  android:keyLabel="ᏹ" />
+
+        <Key android:codes="5114"  android:keyLabel="ᏺ" />
+        <Key android:codes="5115"  android:keyLabel="ᏻ" />
+        <Key android:codes="5116"  android:keyLabel="ᏼ" />
+        <Key android:codes="5117"  android:keyLabel="ᏽ" />
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
+        <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
+    </Row>
+    <Row>
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
+        <Key android:codes="-4"   android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="@string/popup_a" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup_b" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_c" android:popupKeyboard="@layout/popup_template" />
+    </Row>
+</Keyboard>
