@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -114,7 +113,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         layouts.add(new CustomKeyboard(this, R.layout.qwerty, "Default", "qwerty", 0));
         if (sharedPreferences.getBoolean("accents",      true)) {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents",     "Accents",    "◌̀◌́◌̂"));}
         if (sharedPreferences.getBoolean("armenian",     true)) {layouts.add(new CustomKeyboard(this, R.layout.armenian,    "armenian",    "Armenian",   "աբգդեզ"));}
-        if (sharedPreferences.getBoolean("arrows",       true)) {layouts.add(new CustomKeyboard(this, R.layout.arrows,      "arrows",      "Arrows",     "",                -4));}
         if (sharedPreferences.getBoolean("braille",      true)) {layouts.add(new CustomKeyboard(this, R.layout.braille,     "braille",     "Braille",    "⠟⠺⠑⠗⠞⠽"));}
         if (sharedPreferences.getBoolean("caps",         true)) {layouts.add(new CustomKeyboard(this, R.layout.caps,        "caps",        "Caps",       "ҩᴡᴇʀᴛʏ"));}
         if (sharedPreferences.getBoolean("cherokee",     true)) {layouts.add(new CustomKeyboard(this, R.layout.cherokee_1,  "cherokee_1",  "Cherokee",   "ꭰꭱꭲꭳꭴꭵ"));}
@@ -161,6 +159,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("strike",       true)) {layouts.add(new CustomKeyboard(this, R.layout.strike,      "strike",      "Strike",     "ꝗwɇꞧⱦɏ"));}
         if (sharedPreferences.getBoolean("symbol",       true)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",      "Symbol",     "!@#$%^"));}
         if (sharedPreferences.getBoolean("tails",        true)) {layouts.add(new CustomKeyboard(this, R.layout.tails,       "tails",       "Tails",      "ɋꝡҽɽʈƴ"));}
+        if (sharedPreferences.getBoolean("tifinagh",     true)) {layouts.add(new CustomKeyboard(this, R.layout.tifinagh,    "tifinagh",    "Tifinagh",   ""));}
         if (sharedPreferences.getBoolean("unicode",      true)) {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode",     "Unicode",    "\\uxxxx"));}
         if (sharedPreferences.getBoolean("utility",      true)) {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility",     "Utility",    "/**/",            -3));}
 

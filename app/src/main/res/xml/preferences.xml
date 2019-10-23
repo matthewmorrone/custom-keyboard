@@ -35,7 +35,6 @@
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
-        <CheckBoxPreference android:key="arrows" android:title="Arrows" android:defaultValue="true" />
         <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="true" />
         <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="true" />
         <CheckBoxPreference android:key="cherokee" android:title="Cherokee" android:defaultValue="true" />
@@ -78,6 +77,7 @@
         <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="true" />
         <CheckBoxPreference android:key="symbol" android:title="Symbol" android:defaultValue="true" />
         <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="true" />
+        <CheckBoxPreference android:key="tifinagh" android:title="Tifinagh" android:defaultValue="true" />
         <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
         <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
     </PreferenceCategory>

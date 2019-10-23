@@ -1,6 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="12.5%p"
-    android:keyHeight="7%p"
+    android:keyHeight="6%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <Row android:keyWidth="9.09%p">
@@ -15,6 +15,20 @@
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+    </Row>
+    <Row android:keyWidth="8.34%p">
+        <Key android:codes="131" android:keyLabel="F1" />
+        <Key android:codes="132" android:keyLabel="F2" />
+        <Key android:codes="133" android:keyLabel="F3" />
+        <Key android:codes="134" android:keyLabel="F4" />
+        <Key android:codes="135" android:keyLabel="F5" />
+        <Key android:codes="136" android:keyLabel="F6" />
+        <Key android:codes="137" android:keyLabel="F7" />
+        <Key android:codes="138" android:keyLabel="F8" />
+        <Key android:codes="139" android:keyLabel="F9" />
+        <Key android:codes="140" android:keyLabel="F10" />
+        <Key android:codes="141" android:keyLabel="F11" />
+        <Key android:codes="142" android:keyLabel="F12" />
     </Row>
     <Row android:keyWidth="10%p">
         <Key android:codes="-22"   android:keyIcon="@drawable/ic_double_chevron_up" />

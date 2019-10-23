@@ -41,34 +41,33 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k7;
     EditTextPreference k8;
     
-    List<String> primary = Arrays.asList(new String[] {
-        "arrows", "clipboard",
-        "extra", "fonts", "function",
-        "hex", "macros", "mirror", "mirror_shift",
-        "navigation", "numeric", "qwerty_plus",
-        "rorrim", "shift_1", "shift_2", "unicode",
-        "utility"
-    });
+    List<String> primary = Arrays.asList(
+         "clipboard", "extra", "fonts",
+         "function", "hex", "macros", "mirror",
+         "mirror_shift", "navigation", "numeric",
+         "qwerty_plus", "rorrim", "shift_1",
+         "shift_2", "unicode", "utility"
+    );
     
-    List<String> secondary = Arrays.asList(new String[] {
-        "armenian", "braille", "cherokee", "cherokee_1", 
-        "cherokee_2", "coptic", "coptic_shift", "cree", 
-        "cyrillic", "deseret", "deseret_shift", "etruscan",
-        "futhark", "georgian", "glagolitic", "gothic",
-        "greek", "lisu", "ogham"
-    });
+    List<String> secondary = Arrays.asList(
+         "armenian", "braille", "cherokee", "cherokee_1",
+         "cherokee_2", "coptic", "coptic_shift", "cree",
+         "cyrillic", "deseret", "deseret_shift", "etruscan",
+         "futhark", "georgian", "glagolitic",
+         "gothic", "greek", "lisu", "ogham", "tifinagh"
+    );
     
-    List<String> tertiary = Arrays.asList(new String[] {
-        "accents", "coding", "dvorak", "emoji", 
-        "ipa", "math", "symbol"
-    });
+    List<String> tertiary = Arrays.asList(
+         "accents", "coding", "dvorak", "emoji",
+         "ipa", "math", "symbol"
+    );
     
-    List<String> forthary = Arrays.asList(new String[] {
-        "caps", "caps_shift", "demorse", "drawing", 
-        "enmorse", "insular", "pointy", "rotated", 
-        "rotated_shift", "small_caps", "small_caps_shift", "stealth", 
-        "stealth_shift", "strike", "tails"
-    });
+    List<String> forthary = Arrays.asList(
+         "caps", "caps_shift", "demorse", "drawing",
+         "enmorse", "insular", "pointy", "rotated",
+         "rotated_shift", "small_caps", "small_caps_shift", "stealth",
+         "stealth_shift", "strike", "tails"
+    );
 
     @Override
     public void onCreate(Bundle s) {
