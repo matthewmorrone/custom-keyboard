@@ -124,6 +124,10 @@ class Util {
     static String decodeMime(String encodedString) {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
+    
+    static String spaceReplace(String text) {
+        return text.replaceAll(" +", " ");
+    }
 
     static String escapeHtml(String s) {
         // return Html.escapeHtml(html).trim();

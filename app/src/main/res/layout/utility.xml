@@ -47,12 +47,14 @@
         <Key android:keyLabel="&lt;!-- --&gt;" android:codes="-92" />
     </Row>
     <Row>
+        <Key android:codes="-61"  android:keyIcon="@drawable/ic_indent" />
+        <Key android:codes="-62"  android:keyIcon="@drawable/ic_unindent" />
         <Key android:keyLabel="\\\\" android:keyOutputText="\\\\" />
         <Key android:keyOutputText="\\n" android:keyLabel="\\n" />
         <Key android:keyOutputText="\\t" android:keyLabel="\\t" />
         <Key android:keyLabel="\\s" android:keyOutputText="\\s" />
-        <Key android:keyLabel="\\w" android:keyOutputText="\\w" />
-        <Key android:keyLabel="\\d" android:keyOutputText="\\d" />
+        <!-- <Key android:keyLabel="\\w" android:keyOutputText="\\w" /> -->
+        <!-- <Key android:keyLabel="\\d" android:keyOutputText="\\d" /> -->
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" />
         

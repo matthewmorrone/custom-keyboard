@@ -20,13 +20,13 @@ public class Edit {
         replacements.put(newKey, value);
     }
 
-    private static void makeData() {
+    private static void makeReplacements() {
 
-        replacements.put(" i", " I");
+        replacements.put("(^|\\s)i", "$1I");
         replacements.put(" yoy", " you");      replacements.put(" yoyou", " you");
         replacements.put(" cant", " can't");   replacements.put(" cantt", " cant");
         replacements.put(" hell", " he'll");   replacements.put(" helll", " hell");
-        replacements.put(" id", " I'd");       replacements.put(" idd", " id");
+        replacements.put("(^|\\s)id", "$1I'd");       replacements.put(" idd", " id");
         replacements.put(" ill", " I'll");     replacements.put(" illl", " ill");
         replacements.put(" its", " it's");     replacements.put(" itss", " its");
         replacements.put(" lets", " let's");   replacements.put(" letss", " lets");
@@ -42,7 +42,7 @@ public class Edit {
         replacements.put(" hed", " he'd");
         replacements.put(" hes", " he's");
         replacements.put(" hows", " how's");
-        replacements.put(" im", " I'm");
+        replacements.put("(^|\\s)im", "$1I'm");
         replacements.put(" ive", " I've");
         replacements.put(" shes", " she's");
         replacements.put(" tis", " 'tis");
@@ -129,6 +129,7 @@ public class Edit {
         replacements.put(" youre", " you're");
         replacements.put(" youve", " you've");
 
+        /*
         replacements.put(" cmu", " CMU");
         replacements.put(" fiance", " fiancé");
         replacements.put(" fiancee", " fiancée");
@@ -160,6 +161,7 @@ public class Edit {
         replacements.put(" tilll", " till");
         replacements.put(" uk", " UK");
         replacements.put(" usa", " USA");
+        */
     }
 
     private static void makeShortcuts(char sigil) {
@@ -189,7 +191,7 @@ public class Edit {
     }
 
     static HashMap<String, String> getReplacements() {
-        makeData();
+        makeReplacements();
         return replacements;
     }
 

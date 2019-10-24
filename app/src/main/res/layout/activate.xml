@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:hint="Try numbers here."
         android:inputType="number"
+        android:visibility="gone"
         />
     <EditText
         android:id="@+id/editPhone"
@@ -82,6 +83,7 @@
         android:layout_height="wrap_content"
         android:hint="Try a phone number here."
         android:inputType="phone"
+        android:visibility="gone"
         />
     <EditText
         android:id="@+id/editEmail"
@@ -93,6 +95,7 @@
         android:layout_height="wrap_content"
         android:hint="Try an email here."
         android:inputType="textEmailAddress"
+        android:visibility="gone"
         />
     <EditText
         android:id="@+id/editUri"
@@ -104,5 +107,6 @@
         android:layout_height="wrap_content"
         android:hint="Try a website here."
         android:inputType="textUri"
+        android:visibility="gone"
         />
 </LinearLayout>

@@ -15,7 +15,7 @@
     <SwitchPreference android:title="Insert Right" android:key="cursor_left" android:defaultValue="false" />
     <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Insert Pairs" android:key="pairs" android:defaultValue="true" />
-    <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
+    <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="true" />
     <SwitchPreference android:title="Shortcuts" android:key="shortcuts" android:defaultValue="false" />
     <!-- todo: create choice of trigger sigil -->
     <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
@@ -65,11 +65,11 @@
         <CheckBoxPreference android:key="math" android:title="Math" android:defaultValue="true" />
         <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="true" />
         <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
-        <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" />
+        <!-- <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" /> -->
         <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="true" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="true" />
-        <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty Plus" android:defaultValue="true" />
-        <CheckBoxPreference android:key="rorrim" android:title="Rorrim" android:defaultValue="true" />
+        <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty+" android:defaultValue="true" />
+        <!-- <CheckBoxPreference android:key="rorrim" android:title="Rorrim" android:defaultValue="true" /> -->
         <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="true" />
         <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="true" />
         <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="true" />

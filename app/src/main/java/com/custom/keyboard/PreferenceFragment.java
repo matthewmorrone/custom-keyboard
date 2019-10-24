@@ -42,11 +42,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k8;
     
     List<String> primary = Arrays.asList(
-         "clipboard", "extra", "fonts",
-         "function", "hex", "macros", "mirror",
-         "mirror_shift", "navigation", "numeric",
-         "qwerty_plus", "rorrim", "shift_1",
-         "shift_2", "unicode", "utility"
+        "extra", "fonts", "function", "hex", 
+        "macros", "navigation", "numeric", "utility"
     );
     
     List<String> secondary = Arrays.asList(
@@ -58,8 +55,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     );
     
     List<String> tertiary = Arrays.asList(
-         "accents", "coding", "dvorak", "emoji",
-         "ipa", "math", "symbol"
+        "clipboard", "mirror", "mirror_shift", "qwerty_plus", 
+        "rorrim", "shift_1", "shift_2", "unicode",
+        "accents", "coding", "dvorak", "emoji",
+        "ipa", "math", "symbol"
     );
     
     List<String> forthary = Arrays.asList(

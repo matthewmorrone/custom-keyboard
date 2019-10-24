@@ -29,7 +29,7 @@
         <Key android:codes="9825" android:keyLabel="♡" android:popupCharacters="❥♥❤❣" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row android:keyWidth="10%p">
-        <Key android:keyOutputText="¯\\_(ツ)_/¯" android:keyLabel="ツ" android:popupCharacters="ツッﾂｯ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="¯\\_(ツ)_/¯" android:keyLabel="ツ" android:popupCharacters="㋡ツッﾂｯヅ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="3424"  android:keyLabel="ൠ" android:popupCharacters="ൠഋපඏ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="7172"  android:keyLabel="ᰄ" android:popupCharacters="ಱ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="3846"  android:keyLabel="༆" android:popupCharacters="༈" android:popupKeyboard="@layout/popup_template" />
@@ -54,10 +54,23 @@
         <Key android:keyOutputText="o_0" android:keyLabel="o_0" />
     </Row>
     <Row>
-        <Key android:codes="0" />
-        <Key android:codes="0" />
-        <Key android:codes="0" />
-        <Key android:codes="0" />
+        <Key android:keyLabel="🚗" android:keyOutputText="driving" />
+<!--
+⌚⌛⏳⏲⏱⏰
+⭐⭕♨⚖☕☘⬛⬜⚙ -⃣
+◀▶➡⬅⬆⬇⤴⤵ℹ↔↕↖↗↘↙↩↪
+♈♉♊♋♌♍♎♏♐♑♒♓⛎
+♔♕♖♗♘♙♚♛♜♝♞♟
+☼☽☾☿♀♁♂♃♄♅♆♇☊☋☌☍
+⚲⚳⚴⚵⚶⚷⚸⚹⚺⚻⚼
+⏦⏧⏍⎅⍜⌨‣
+-->
+<!-- <Key android:codes="9735" android:keyLabel="☇" android:popupCharacters="⚡☀☁☄☈☉⛅⛆⛈" android:popupKeyboard="@layout/popup_template" /> -->
+<!-- <Key android:codes="9833" android:keyLabel="♩" android:popupCharacters="♩♪♫♬♭♮♯" android:popupKeyboard="@layout/popup_template" /> -->
+
+        <Key android:keyOutputText="⧙" android:keyLabel="⧙" android:popupCharacters="⧙⧘⧛⧚⟨⟩⟪⟫" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" android:popupCharacters="ꝎӦꙨꙪ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="‽" android:keyLabel="‽" android:popupCharacters="‼⁇⁈⁉" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-115"  android:keyIcon="@drawable/ic_random"    />
         <Key android:codes="-95"   android:keyIcon="@drawable/ic_coin_flip" android:popupCharacters="ⒽⓉ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-96"   android:keyIcon="@drawable/ic_dice_roll" android:popupCharacters="⚀⚁⚂⚃⚄⚅" android:popupKeyboard="@layout/popup_template" />
@@ -74,10 +87,3 @@
         <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_c" android:popupKeyboard="@layout/popup_template" />
     </Row>
 </Keyboard>
-<!-- <Key android:codes="9735" android:keyLabel="☇" android:popupCharacters="⚡☀☁☄☈☉⛅⛆⛈" android:popupKeyboard="@layout/popup_template" /> -->
-<!-- ♈♉♊♋♌♍♎♏♐♑♒♓⛎ -->
-<!-- ♔♕♖♗♘♙♚♛♜♝♞♟ -->
-<!-- ☼☽☾☿♀♁♂♃♄♅♆♇☊☋☌☍ -->
-<!-- ⚲⚳⚴⚵⚶⚷⚸⚹⚺⚻⚼ -->
-<!-- <Key android:codes="9833"  android:keyLabel="♩" android:popupCharacters="♩♪♫♬♭♮♯" android:popupKeyboard="@layout/popup_template" /> -->
-<!-- <Key android:keyLabel="🚗" android:keyOutputText="driving" />  -->

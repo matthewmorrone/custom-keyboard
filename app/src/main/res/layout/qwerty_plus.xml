@@ -23,7 +23,7 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
         <Key android:codes="-628" android:keyIcon="@drawable/ic_keyboard" />
-        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate" />
+        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines" />
     </Row>
     <Row>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="1~`" android:popupKeyboard="@layout/popup_template" />

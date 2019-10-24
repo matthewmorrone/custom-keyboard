@@ -10,13 +10,13 @@
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"      android:isRepeatable="true" />
     </Row>
     <Row android:keyHeight="9.34%p"                                                     android:keyWidth="17.2%p">
-        <Key android:codes="0"    android:keyIcon="@drawable/ic_blank"                  android:keyWidth="12.1%p" />
+        <Key android:codes="-150" android:keyIcon="@drawable/ic_undo"                   android:keyWidth="12.1%p" />
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="12.1%p" android:isRepeatable="true" />
         <Key android:codes="-117" android:keyIcon="@drawable/ic_light_arrow_up_left"                              android:isRepeatable="true" />
         <Key android:codes="-107" android:keyIcon="@drawable/ic_light_arrow_up"                                   android:isRepeatable="true" />
         <Key android:codes="-118" android:keyIcon="@drawable/ic_light_arrow_up_right"                             android:isRepeatable="true" />
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_double_chevron_up"      android:keyWidth="12.1%p" android:isRepeatable="true" />
-        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate"              android:keyWidth="12.1%p" />
+        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines"        android:keyWidth="12.1%p" />
     </Row>
     <Row android:keyHeight="9.34%p"                                                     android:keyWidth="17.2%p">
         <Key android:codes="-73"  android:keyIcon="@drawable/ic_start"                  android:keyWidth="12.1%p" />
@@ -28,13 +28,13 @@
         <Key android:codes="-74"  android:keyIcon="@drawable/ic_end"                    android:keyWidth="12.1%p" />
     </Row>
     <Row android:keyHeight="9.34%p"                                                     android:keyWidth="17.2%p">
-        <Key android:codes="0"    android:keyIcon="@drawable/ic_blank"                  android:keyWidth="12.1%p" />
+        <Key android:codes="-151"    android:keyIcon="@drawable/ic_redo"                android:keyWidth="12.1%p" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_chevron_right"   android:keyWidth="12.1%p" android:isRepeatable="true" />
         <Key android:codes="-119" android:keyIcon="@drawable/ic_light_arrow_down_left"                            android:isRepeatable="true" />
         <Key android:codes="-109" android:keyIcon="@drawable/ic_light_arrow_down"                                 android:isRepeatable="true" />
         <Key android:codes="-120" android:keyIcon="@drawable/ic_light_arrow_down_right"                           android:isRepeatable="true" />
         <Key android:codes="-23"  android:keyIcon="@drawable/ic_double_chevron_down"    android:keyWidth="12.1%p" android:isRepeatable="true" />
-        <Key android:codes="-136" android:keyIcon="@drawable/ic_join"                   android:keyWidth="12.1%p" />
+        <Key android:codes="-136" android:keyIcon="@drawable/ic_join_lines"             android:keyWidth="12.1%p" />
     </Row>
     <Row>
        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />

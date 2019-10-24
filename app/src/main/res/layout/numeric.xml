@@ -24,13 +24,13 @@
         <Key android:codes="52" android:keyLabel="4" />
         <Key android:codes="53" android:keyLabel="5" />
         <Key android:codes="54" android:keyLabel="6" />
-        <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" />
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="55" android:keyLabel="7" />
         <Key android:codes="56" android:keyLabel="8" />
         <Key android:codes="57" android:keyLabel="9" />
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
+        <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="42"   android:keyLabel="*" />

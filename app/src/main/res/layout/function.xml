@@ -1,6 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="12.5%p"
-    android:keyHeight="6%p"
+    android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <Row android:keyWidth="9.09%p">
@@ -16,6 +16,19 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_double_chevron_up" />
+        <Key android:codes="-23"  android:keyIcon="@drawable/ic_double_chevron_down" />
+        <Key android:codes="-99"  android:keyIcon="@drawable/ic_clear" />
+        <Key android:codes="-75"  android:keyIcon="@drawable/ic_close" />
+        <Key android:codes="-124" android:keyIcon="@drawable/ic_uppercase" />
+        <Key android:codes="-125" android:keyIcon="@drawable/ic_titlecase" />
+        <Key android:codes="-126" android:keyIcon="@drawable/ic_lowercase" />
+        <Key android:codes="-104" android:keyLabel="#?" />
+        <Key android:codes="-152" android:keyIcon="@drawable/ic_paste_text" />
+        <Key android:codes="-136" android:keyIcon="@drawable/ic_join_lines" />
+        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines" />
+    </Row>
     <Row android:keyWidth="8.34%p">
         <Key android:codes="131" android:keyLabel="F1" />
         <Key android:codes="132" android:keyLabel="F2" />
@@ -30,66 +43,37 @@
         <Key android:codes="141" android:keyLabel="F11" />
         <Key android:codes="142" android:keyLabel="F12" />
     </Row>
-    <Row android:keyWidth="10%p">
-        <Key android:codes="-22"   android:keyIcon="@drawable/ic_double_chevron_up" />
-        <Key android:codes="-23"   android:keyIcon="@drawable/ic_double_chevron_down" />
-        <Key android:codes="-99"   android:keyIcon="@drawable/ic_clear" />
-        <Key android:codes="-79"   android:keyIcon="@drawable/ic_reverse" />
-        <Key android:codes="-75"   android:keyIcon="@drawable/ic_close" />
-        <Key android:codes="-94"   android:keyIcon="@drawable/ic_duplicate" />
-        <Key android:codes="-136"  android:keyIcon="@drawable/ic_join" />
-        <!-- <Key android:codes="0"     android:keyOutputText="https://" android:keyLabel="https" /> -->
-        <Key android:codes="0"     android:keyOutputText="www."     android:keyLabel="www." />
-        <Key android:codes="0"     android:keyOutputText="\@gmail"  android:keyLabel="\@gmail" />
-        <Key android:codes="0"     android:keyOutputText=".com"     android:keyLabel=".com" />
-    </Row>
     <Row android:keyWidth="9.09%p">
-        <Key android:codes="-124" android:keyIcon="@drawable/ic_uppercase" />
-        <Key android:codes="-125" android:keyIcon="@drawable/ic_titlecase" />
-        <Key android:codes="-126" android:keyIcon="@drawable/ic_lowercase" />
-        <Key android:codes="-58"  android:keyIcon="@drawable/ic_snake" /><!-- android:keyLabel="🐍" -->
-        <Key android:codes="-59"  android:keyIcon="@drawable/ic_camel" /><!-- android:keyLabel="🐪" -->
+        <!-- <Key android:codes="-58"  android:keyIcon="@drawable/ic_snake" /> --><!-- android:keyLabel="🐍" -->
+        <!-- <Key android:codes="-59"  android:keyIcon="@drawable/ic_camel" /> --><!-- android:keyLabel="🐪" -->
+        <Key android:codes="-137" android:keyLabel="⌤" />
+        <Key android:codes="-138" android:keyLabel="⌅" />
+        <Key android:codes="-168" android:keyLabel="⎶" />
         <Key android:codes="-129" android:keyLabel="- ⌴" />
         <Key android:codes="-127" android:keyLabel="_ ⌴" />
         <Key android:codes="-130" android:keyLabel="⌴ -" />
         <Key android:codes="-128" android:keyLabel="⌴ _" />
-        <Key android:codes="-104" android:keyLabel="#?" />
-        <Key android:codes="-146" android:keyLabel="unq" />
-    </Row>
-    <Row android:keyWidth="9.09%p">
-        <Key android:codes="-137" android:keyLabel="⌤" />
-        <Key android:codes="-138" android:keyLabel="⊼" />
         <Key android:codes="-131" android:keyLabel="⌴ \\n" />
         <Key android:codes="-132" android:keyLabel="\\n ⌴" />
         <Key android:codes="-133" android:keyLabel="⌴ \\t" />
         <Key android:codes="-134" android:keyLabel="\\t ⌴" />
         <Key android:codes="-135" android:keyLabel="(.)\\n" />
-        <Key android:codes="-139" android:keyLabel="⌴$" />
-        <Key android:codes="-140" android:keyLabel="\w⌴$" />
-        <Key android:codes="-302" android:keyLabel="/**/" />
-        <Key android:codes="-147" android:keyLabel="shf" />
+        <!-- <Key android:codes="-139" android:keyLabel="⌴$" /> -->
+        <!-- <Key android:codes="-140" android:keyLabel="\w⌴$" /> -->
     </Row>
-    <Row android:keyWidth="10%p">
-        <!-- <Key android:codes="-142" android:keyLabel="abc"                       android:keyWidth="10%p" /> -->
-        <Key android:codes="-60" android:keyIcon="@drawable/ic_double" />
-        <Key android:codes="-61" android:keyIcon="@drawable/ic_indent" />
-        <Key android:codes="-62" android:keyIcon="@drawable/ic_unindent" />
-        <Key android:codes="-97" android:keyIcon="@drawable/ic_date" />
-        <Key android:codes="-98" android:keyIcon="@drawable/ic_time" />
-        <!-- <Key android:codes="0"   android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" /> -->
-        <!-- <Key android:codes="0"   android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" /> -->
-        <!-- <Key android:codes="0"   android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" /> -->
-        <!-- <Key android:codes="0"   android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" /> -->
-        <Key android:codes="-105"  android:keyIcon="@drawable/ic_sort_lines" />
-        <Key android:codes="-106"  android:keyIcon="@drawable/ic_reverse_lines" />
-        <Key android:codes="-145"  android:keyIcon="@drawable/ic_bolt" />
-        <Key android:codes="-5"    android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
-        <Key android:codes="-7"    android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-150" android:keyIcon="@drawable/ic_undo" />
+        <Key android:codes="-151" android:keyIcon="@drawable/ic_redo" />
+        <Key android:codes="-146" android:keyIcon="@drawable/ic_unique_lines" />
+        <Key android:codes="-105" android:keyIcon="@drawable/ic_sort_lines" />
+        <Key android:codes="-106" android:keyIcon="@drawable/ic_reverse_lines" />
+        <Key android:codes="-147" android:keyIcon="@drawable/ic_shuffle_lines" />
+        <Key android:codes="-60"  android:keyIcon="@drawable/ic_duplicate_chars" />
+        <Key android:codes="-79"  android:keyIcon="@drawable/ic_reverse_chars" />
+        <Key android:codes="-145" android:keyIcon="@drawable/ic_unique_chars" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
+        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
-    <!--<Row android:keyWidth="10%p">-->
-        <!-- <Key android:codes="-88"  android:keyIcon="@drawable/ic_undo" android:isRepeatable="true" /> -->
-        <!-- <Key android:codes="-89"  android:keyIcon="@drawable/ic_redo" android:isRepeatable="true" /> -->
-    <!--</Row>-->
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
         <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
