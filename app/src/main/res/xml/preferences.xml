@@ -58,6 +58,8 @@
         <CheckBoxPreference android:key="gothic" android:title="Gothic" android:defaultValue="true" />
         <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
         <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
+        <CheckBoxPreference android:key="hiragana" android:title="Hiragana" android:defaultValue="true" />
+        <CheckBoxPreference android:key="katakana" android:title="Katakana" android:defaultValue="true" />
         <CheckBoxPreference android:key="insular" android:title="Insular" android:defaultValue="true" />
         <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="true" />
         <CheckBoxPreference android:key="lisu" android:title="Lisu" android:defaultValue="true" />

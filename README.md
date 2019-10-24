@@ -10,21 +10,23 @@
 + change space insertion to mod on full line length 
 + voice to text
 + emoji 
-+ open settings from key
++ open settings from key + Settings button
 + scrollable/swipeable areas
++ Swipe on spacebar + left and right swipe on spacebar
++ Draggable resize right on the front
++ adjust key size
++ fix keyboard height change
 + selection doesn't work with 4space
 + Key codes and labels customizable
++ make popup keys repeatable
 + Menu
 + Prediction bar
 + Swiping
 + Tabs on symbols page 
 + Autoreplace toggleable from keyboard predictions 
 + Adding entries on the fly
-+ Settings button
 + release on popup for choice
 + previews? 
-+ Swipe on spacebar
-+ Draggable resize right on the front
 + Settings opens up a drawer
 + 2nd bar changeable
 + Selection pad
@@ -39,13 +41,9 @@
 + press and hold space for layout page
 + instead of getting rid of last clipboard entry, send that one indefinitely
 + disable context menu in edittexts
-+ voice
-+ emoji
-+ toColor & fromColor
++ color input + toColor & fromColor
 + if no selection, un/indent saves cursor spot, highlights all, then puts it back ±4
-+ if line empty, cut should backspace
 + page containing clipboard history
-+ make popup keys repeatable
 + choice of FIFO or FILO for clipboard history
 + single line comments
 + nonliteral tab
@@ -55,24 +53,17 @@
 + full braille
 + com popup with other choices
 + manually reimplement cut/copy/paste
-+ move lines up and down
 + press and hold del/backspace for up to space
 + selection moves while typing
 + null color array
-+ home toggles between start and first nonspace
 + math ⇄ numeric
 + hash out links
-+ fix keyboard height change
-+ color input
 + use different fonts
-+ adjust key size
 + change enter icon depending on input type
 + wordFore only works for next word
 + convert between fonts
 + basic layout ordering
-+ delete all space up to line end
 + make layouts for fonts
-+ function to determine cursor position on line
 + text area for temporary stuff
 + 2d layout navigation
 + enforce layout toggle dependecies
@@ -102,8 +93,10 @@
 + show clipboard contents after cut/copy
 + scrolling
 + add and remove keys
++ hide and show specific keys, especially in the top or bottom
 + open main activity
 + open other apps
++ open activity from keyboard
 + row with toggles from settings page
 + font color, background, border from settings
 + reorder layouts from settings
@@ -111,15 +104,12 @@
 + add setting that allows specification of longpress delay
 + add toggle for whether or not the first member of the popup is sent upon release
 + add slots in the settings page for customizing the letters that appear on long press
-+ hide and show specific keys, especially in the top or bottom
 + settings screen for autoreplace configuration
 + script for autoreinstall
 + password buttons
 + calculation parsing
 + delete autoinsertions by pressing once
 + autocomplete capitalization
-+ left and right swipe on spacebar
-+ open activity from keyboard
 + append clipboard contents to file on cut or copy
 + lineNext and lineLast probably don't work
 + language detection

@@ -326,6 +326,59 @@ class Util {
         return String.format("%0" + n + "s", s);
     }
 
+    static long nowAsLong() {
+        return Instant.now().getEpochSecond();
+    }
+
+    static int nowAsInt() {
+        // new Date().getTime() / 1000;
+        return (int)(System.currentTimeMillis() / 1000L);
+    }
+
+    static String toggleJavaComment(String text) {
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 2) {
+            regex = "^/\\*\\s*(.+)\\s*\\*/$";
+        }
+        else {
+            regex = "^/\\*\n(.+)\n\\*/$";
+        }
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return text.replaceAll(regex, "$1");
+        }
+        if (lineCount < 2) {
+            return "/* "+text+" */";
+        }
+        else {
+            return "/*\n"+text+"\n*/";
+        }
+    }
+
+    static String toggleHtmlComment(String text) {
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 2) {
+            regex = "^<!--\\s*(.+)\\s*-->$";
+        }
+        else {
+            regex = "^<!--\n(.+)\n-->$";
+        }
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return text.replaceAll(regex, "$1");
+        }
+        if (lineCount < 2) {
+            return "<!-- "+text+" -->";
+        }
+        else {
+            return "<!--\n"+text+"\n-->";
+        }
+    }
+
     static String toggleLineComment(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -345,59 +398,6 @@ class Util {
             }
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-
-    static long nowAsLong() {
-        return Instant.now().getEpochSecond();
-    }
-
-    static int nowAsInt() {
-        // new Date().getTime() / 1000;
-        return (int)(System.currentTimeMillis() / 1000L);
-    }
-
-    static String toggleJavaComment(String text) {
-        int lineCount = countLines(text);
-        String regex;
-        if (lineCount < 1) {
-            regex = "^/\\*\\s*(.+)\\s*\\*/$";
-        }
-        else {
-            regex = "^/\\*\n(.+)\n\\*/$";
-        }
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        if (m.find()) {
-            return text.replaceAll(regex, "$1");
-        }
-        if (lineCount < 1) {
-            return "/* "+text+" */";
-        }
-        else {
-            return "/*\n"+text+"\n*/";
-        }
-    }
-
-    static String toggleHtmlComment(String text) {
-        int lineCount = countLines(text);
-        String regex;
-        if (lineCount < 1) {
-            regex = "^<!--\\s*(.+)\\s*-->$";
-        }
-        else {
-            regex = "^<!--\n(.+)\n-->$";
-        }
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        if (m.find()) {
-            return text.replaceAll(regex, "$1");
-        }
-        if (lineCount < 1) {
-            return "<!-- "+text+" -->";
-        }
-        else {
-            return "<!--\n"+text+"\n-->";
-        }
     }
 
     static String toTitleCase(String text) {

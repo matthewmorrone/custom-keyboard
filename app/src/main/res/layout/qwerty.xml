@@ -14,7 +14,8 @@
         <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
-        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+        <!--<Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />-->
+        <Key android:codes="-152" android:keyIcon="@drawable/ic_paste_text" />
     </Row>
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:popupCharacters="!" android:popupKeyboard="@layout/popup_template" />

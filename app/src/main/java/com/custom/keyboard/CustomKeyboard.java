@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 
-
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
     
     private static short rowNumber = 6;
@@ -14,8 +13,9 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     String title;
     String label;
     int order = 1024;
+    Category category;
     SharedPreferences sharedPreferences;
-    
+
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -90,7 +90,25 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         }
         return this.title.compareTo(kb.title);
     }
-    
+
+    public int getOrder() {
+        return order;
+    }
+
+    public CustomKeyboard setOrder(int order) {
+        this.order = order;
+        return this;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public CustomKeyboard setCategory(Category category) {
+        this.category = category;
+        return this;
+    }
+
     void setRowNumber(short number) {
         rowNumber = number;
     }

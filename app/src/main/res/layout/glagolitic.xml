@@ -67,7 +67,7 @@
         <Key android:codes="11342" android:keyLabel="ⱎ" />
     </Row>
     <Row>
-        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" android:popupCharacters="ՙ՚՛՜՝՞՟։֊֍֎֏" android:popupKeyboard="@layout/popup_template" android:keyWidth="10%p" />
+        <Key android:codes="-1" android:keyIcon="@drawable/ic_shift" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" android:keyWidth="10%p" />
         <Key android:codes="11345" android:keyLabel="ⱑ" />
         <Key android:codes="11346" android:keyLabel="ⱒ" />
         <Key android:codes="11347" android:keyLabel="ⱓ" />
