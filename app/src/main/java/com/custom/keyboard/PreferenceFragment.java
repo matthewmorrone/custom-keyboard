@@ -153,6 +153,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             }
         }
         
+        /*
         CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
         int i;
         boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
@@ -187,7 +188,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference.setChecked(isChecked);
             }
         }        
-        
+        */
         
         
         

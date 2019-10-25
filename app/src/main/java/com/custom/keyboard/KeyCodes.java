@@ -11,6 +11,7 @@ class KeyCodes {
          -101, -102, -103,  -25,
           -26,  -76,  -93, -107,
          -108, -109, -110, -111,
+         -174,
     };
     static final int[] hexCaptures = new int[] {
          48, 49, 50,  51,  52,  53, 54, 55,
@@ -19,7 +20,7 @@ class KeyCodes {
     };
 
     static int getHardKeyCode(int keycode) {
-        char code = (char) keycode;
+        char code = (char)keycode;
         switch (String.valueOf(code)) {
             case "a": return KeyEvent.KEYCODE_A;
             case "b": return KeyEvent.KEYCODE_B;
