@@ -49,10 +49,12 @@
         <Key android:keyOutputText="абвгдежзийклмнопрстуфхцчшщъыьэюя" android:keyLabel="абг" android:keyWidth="10%p" />
     </Row>
     <Row>
-        <Key android:codes="\u200B" android:keyLabel="ZWSP" android:keyWidth="10%p" />
-        <Key android:codes="0" android:keyLabel=" " android:keyWidth="65%p" />
-        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" />
-        <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete" />
+        <Key android:codes="\u200B" android:keyIcon="@drawable/ic_zwsp_plus"  android:keyWidth="10%p" />
+        <Key android:codes="-172"   android:keyIcon="@drawable/ic_zwsp_arrow" android:keyWidth="10%p" />
+        <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" android:keyWidth="10%p" />
+        <Key android:codes="0"      android:keyLabel=" " android:keyWidth="45%p" />
+        <Key android:codes="-5"     android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
+        <Key android:codes="-7"     android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />

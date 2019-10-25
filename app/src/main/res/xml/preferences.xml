@@ -12,6 +12,7 @@
     <SwitchPreference android:title="Padding" android:key="padding" android:defaultValue="false" />
     <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
     <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
+    <SwitchPreference android:title="Show Key Previews" android:key="preview" android:defaultValue="false" />
     <SwitchPreference android:title="Insert Right" android:key="cursor_left" android:defaultValue="false" />
     <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
     <SwitchPreference android:title="Insert Pairs" android:key="pairs" android:defaultValue="true" />
@@ -28,7 +29,7 @@
     <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
     <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
-    <CheckBoxPreference android:key="primary" android:title="Primary" android:defaultValue="false" />
+    <CheckBoxPreference android:key="primary" android:title="Primary" android:defaultValue="true" />
     <CheckBoxPreference android:key="secondary" android:title="Secondary" android:defaultValue="false" />
     <CheckBoxPreference android:key="tertiary" android:title="Tertiary" android:defaultValue="false" />
     <CheckBoxPreference android:key="forthary" android:title="Forthary" android:defaultValue="false" />
@@ -36,6 +37,7 @@
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
         <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
         <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="true" />
+        <CheckBoxPreference android:key="bopomofo" android:title="Bopomofo" android:defaultValue="true" />
         <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="true" />
         <CheckBoxPreference android:key="cherokee" android:title="Cherokee" android:defaultValue="true" />
         <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="true" />

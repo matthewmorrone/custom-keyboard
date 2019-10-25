@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+import android.widget.EditText;
+
+import java.util.List;
 
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -56,9 +59,14 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
-            // List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            // String spokenText = results.get(0);
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
             // Do something with spokenText
+            
+            // mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
+            
+            EditText output = (EditText)findViewById(R.id.editText);
+            output.setText(spokenText);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

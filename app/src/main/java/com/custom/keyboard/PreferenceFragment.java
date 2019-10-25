@@ -47,11 +47,12 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     );
     
     List<String> secondary = Arrays.asList(
-         "armenian", "braille", "cherokee", "cherokee_1",
-         "cherokee_2", "coptic", "coptic_shift", "cree",
-         "cyrillic", "deseret", "deseret_shift", "etruscan",
-         "futhark", "georgian", "glagolitic",
-         "gothic", "greek", "lisu", "ogham", "tifinagh"
+        "armenian", "bopomofo", "braille", "cherokee", 
+        "cherokee_1", "cherokee_2", "coptic", "coptic_shift", 
+        "cree", "cyrillic", "deseret", "deseret_shift", 
+        "devanagari", "etruscan", "futhark", "georgian", 
+        "glagolitic", "gothic", "greek", "hiragana", 
+        "katakana", "lisu", "ogham", "tifinagh"
     );
     
     List<String> tertiary = Arrays.asList(
@@ -151,6 +152,45 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 catch (Exception ignored) {}
             }
         }
+        
+        CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+        int i;
+        boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
+        for(i = 0; i < preferences.getPreferenceCount(); i++) {
+            preference = (CheckBoxPreference)(preferences.getPreference(i));
+            if (preference == null) continue;
+            if (primary.contains(preference.getKey())) {
+                preference.setChecked(isChecked);
+            }
+        }
+        isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
+        for(i = 0; i < preferences.getPreferenceCount(); i++) {
+            preference = (CheckBoxPreference)(preferences.getPreference(i));
+            if (preference == null) continue;
+            if (secondary.contains(preference.getKey())) {
+                preference.setChecked(isChecked);
+            }
+        }
+        isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
+        for(i = 0; i < preferences.getPreferenceCount(); i++) {
+            preference = (CheckBoxPreference)(preferences.getPreference(i));
+            if (preference == null) continue;
+            if (tertiary.contains(preference.getKey())) {
+                preference.setChecked(isChecked);
+            }
+        }
+        isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
+        for(i = 0; i < preferences.getPreferenceCount(); i++) {
+            preference = (CheckBoxPreference)(preferences.getPreference(i));
+            if (preference == null) continue;
+            if (forthary.contains(preference.getKey())) {
+                preference.setChecked(isChecked);
+            }
+        }        
+        
+        
+        
+        
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 

@@ -59,7 +59,7 @@
         <Key android:codes="12569" android:keyLabel="ㄙ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12570" android:keyLabel="ㄚ" android:popupCharacters="ㆩ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12571" android:keyLabel="ㄛ" android:popupCharacters="ㆦㆧㆱ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="12572" android:keyLabel="ㄜ" android:popupCharacters="ㄮ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="12572" android:keyLabel="ㄜ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12573" android:keyLabel="ㄝ" android:popupCharacters="ㆤㆥ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12574" android:keyLabel="ㄞ" android:popupCharacters="ㆮ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12575" android:keyLabel="ㄟ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
