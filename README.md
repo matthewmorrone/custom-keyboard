@@ -1,3 +1,14 @@
++ Settings button
++ Voice input button
++ URI specific layout
++ stay on current layout
++ colorize categories
++ layout toggles on category
++ resurrect key height change
++ and suggestion bar
++ function to determine cursor position for line
++ rename popup, popup template, preview, etc
++ delete all space up to line end (while prev char is space)
 + popups
 + runtime modification/generation of layouts
 + modification of xml attributes at runtime

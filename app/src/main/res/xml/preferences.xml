@@ -112,7 +112,4 @@
         <EditTextPreference android:dialogTitle="Custom Key 7" android:title="Custom Key 7" android:summary="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
         <EditTextPreference android:dialogTitle="Custom Key 8" android:title="Custom Key 8" android:summary="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
     </PreferenceCategory>
-    <!--         android:dialogIcon="@drawable/ic_sort"         android:icon="@drawable/ic_sort"     -->
-    <!--     <com.vlath.keyboard.SeekBar         android:defaultValue="50"         android:key="height"         android:title="Key Height" />     -->
-    <!--     <SeekBar         android:defaultValue="50"         android:key="height"         android:title="Key Height" />     -->
 </PreferenceScreen>
