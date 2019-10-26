@@ -6,20 +6,14 @@ public class Pinyin {
     
     private static HashMap<String,String> charMap = new HashMap<>();
 
-    static HashMap<String, String> getTable() {
+    static HashMap<String, String> getEntries() {
+        putEntries();
         return charMap;
     }
     
-    public static String getChars(String pinyin) {
-        try {
-            return charMap.get(pinyin);
-        }
-        catch (Exception e) {
-            return "";
-        }
-    }
+    public Pinyin() {}
     
-    public Pinyin() {
+    public static void putEntries() {
         charMap.put("wǒ", "我");
         charMap.put("de", "的,得,地");
         charMap.put("nǐ", "你");

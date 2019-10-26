@@ -1090,7 +1090,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 ic.deleteSurroundingText(4, 0);
             }
             else 
+            if (sharedPreferences.getBoolean("pairs", true)
+            && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
+            ) {
+        
+                ic.deleteSurroundingText(0, 1);
             
+            }
             if (length > 1) {
                 mComposing.delete(length - 1, length);
                 ic.setComposingText(mComposing, 1);
@@ -1107,7 +1113,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             //    int limit = 0;
             //    while(String.valueOf(ic.getTextBeforeCursor(1, 0)).trim().length() == 0) {
             //        if (limit > 32) break;
-                    sendKey(KeyEvent.KEYCODE_DEL);
+                sendKey(KeyEvent.KEYCODE_DEL);
             //        limit++;
             //    }
             }
@@ -1167,16 +1173,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
         */
-        if (sharedPreferences.getBoolean("show_data", true)) {
+        if (sharedPreferences.getBoolean("show_data", false)) {
             if (sharedPreferences.getBoolean("show_ascii_data", false)
             || primaryCode > 127) {
                 // text.matches("\\A\\p{ASCII}*\\z")
                 crispIt(Util.unidata(primaryCode));
-                    
             }
         }
         if (sharedPreferences.getBoolean("pairs", true)) {
+        
             if (Util.contains("({\"[", primaryCode)) {
+                
                 String code = String.valueOf((char)primaryCode);
                 if (code.equals("("))  commitText("()");
                 if (code.equals("["))  commitText("[]");
@@ -1377,11 +1384,30 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
     
-    private Map<String, String> pinyin = Pinyin.getTable();
+    private Map<String,String> pinyin = Pinyin.getEntries();
     
-    public Boolean handlePinyin() {
-        String lw = getLastWord();
-        toastIt(lw+" "+pinyin.get(lw));
+    public Boolean handlePinyin(int primaryCode) {
+        try {
+            if (primaryCode == 32 && getKey(32).label != "") {
+                commitText(String.valueOf(getKey(32).label));
+                getKey(32).label = "";
+                return true; 
+            }
+            String prev = String.valueOf(ic.getTextBeforeCursor(8, 0));
+            String[] lcs = prev.split(" ");
+            String lw = lcs[lcs.length-1]+String.valueOf((char)primaryCode);
+            String ch = pinyin.get(lw);
+            getKey(32).label = ch.split(",")[0];
+            /*
+            toastIt(lw+" "+ch);
+            if (ch != null) {
+                ic.deleteSurroundingText(lw.length()-1, 0);
+                commitText(ch);
+                return true;
+            }
+            */
+        } 
+        catch (Exception ignored) {}
         return false;
     }
 
@@ -1393,7 +1419,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         String record, currentKeyboardName = currentKeyboard.title;
         boolean capsOn = Variables.isShift();
         if (currentKeyboardName.equals("Pinyin")) {
-            if (handlePinyin()) {
+            if (handlePinyin(primaryCode)) {
                 return;
             }
         }
