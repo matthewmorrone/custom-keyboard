@@ -88,11 +88,12 @@
     <string name="select">Select</string>
     <string name="enable">Enable</string>
     <string name="test">Test your keyboard here</string>
-    <string name="placeholder">Lorem ipsum dolor sit amet,\n
-consectetur adipiscing elit.\n
-Curabitur dolor dolor</string>
+    <string name="placeholder"></string>
     <!--
     ,\n
+Lorem ipsum dolor sit amet,\n
+consectetur adipiscing elit.\n
+Curabitur dolor dolor
 lobortis fringilla elit ut,\n
 tristique condimentum lacus.
     -->

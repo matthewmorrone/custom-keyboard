@@ -1,18 +1,27 @@
 package com.custom.keyboard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Pinyin {
-    
-    private static HashMap<String,String> charMap = new HashMap<>();
 
-    static HashMap<String, String> getEntries() {
+    private static HashMap<String,String> charMap = new HashMap<>();
+    private static HashMap<String,String> slugMap = new HashMap<>();
+
+    static HashMap<String, String> getCharMap() {
         putEntries();
         return charMap;
     }
-    
-    public Pinyin() {}
-    
+
+    static HashMap<String, String> getSlugMap() {
+        putEntries();
+        return slugMap;
+    }
+
+    public Pinyin() {
+
+    }
+
     public static void putEntries() {
         charMap.put("wǒ", "我");
         charMap.put("de", "的,得,地");
@@ -830,7 +839,20 @@ public class Pinyin {
         charMap.put("piān", "偏");
         charMap.put("qiāo", "敲");
         charMap.put("zàng", "葬");
+
+
+        String key, val;
+        for (Map.Entry<String,String> entry : charMap.entrySet()) {
+            key = Util.normalize(entry.getKey());
+            val = entry.getValue();
+            if (slugMap.get(key) != null) {
+                slugMap.put(key, slugMap.get(key)+","+val);
+            }
+            else {
+                slugMap.put(key, val);
+            }
+        }
     }
-    
-    
+
+
 }

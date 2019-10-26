@@ -28,7 +28,13 @@ class Util {
 
     static void noop() {}
 
-    
+    static String normalize(String input) {
+        // String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        // return normalized.toLowerCase(Locale.ENGLISH);
+        return Normalizer
+             .normalize(input, Normalizer.Form.NFD)
+             .replaceAll("[^\\p{ASCII}]", "");
+    }
 
     static HashMap<Character,Integer> getCharacterFrequencies(String s) {
         HashMap<Character,Integer> map = new HashMap<>();
@@ -58,17 +64,52 @@ class Util {
     }
     
     static String unidata(int primaryCode) {
-        return String.valueOf(primaryCode)+" "+
-               convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n"+
-               toTitleCase(Character.getName(primaryCode))+"\n("+
-               Character.getType(primaryCode)+")\n"+
-               toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
-               (Character.isUpperCase(primaryCode) ? "Uppercase " : "")+
-               (Character.isLowerCase(primaryCode) ? "Lowercase " : "")+
-               (Character.isLetter(primaryCode) ? "Letter" : "")+
-               (Character.isDigit(primaryCode) ? "Digit" : "")+
-               (Character.isSpaceChar(primaryCode) ? "Space" : "")+
-               "";
+        return primaryCode+" "+
+            convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n"+
+            toTitleCase(Character.getName(primaryCode))+"\n("+
+            Character.getType(primaryCode)+")\n"+
+            toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
+            (Character.isUpperCase(primaryCode) ? "Uppercase " : "")+
+            // "isTitleCase: " + Character.isTitleCase(primaryCode)+" "+
+            (Character.isLowerCase(primaryCode) ? "Lowercase " : "")+
+
+            // "toLowerCase: "+Character.toLowerCase(primaryCode)+" "+
+            // "toTitleCase: "+Character.toTitleCase(primaryCode)+" "+
+            // "toUpperCase: "+Character.toUpperCase(primaryCode)+" "+
+
+            (Character.isLetter(primaryCode) ? "Letter" : "")+
+            (Character.isDigit(primaryCode) ? "Digit" : "")+
+            (Character.isSpaceChar(primaryCode) ? "Space" : "");
+            // "isWhitespace: " + Character.isWhitespace(primaryCode)+" "+
+
+            /*
+
+            static byte	getDirectionality(int codePoint)
+            static String	getName(int codePoint)
+            static int	getNumericValue(int codePoint)
+            static int	getType(int codePoint)
+            static Character	valueOf(char c)
+
+            static int	toCodePoint(char high, char low)
+            static char	highSurrogate(int codePoint)
+            static char	lowSurrogate(int codePoint)
+            isSurrogatePair(char high, char low)
+
+            "isAlphabetic: " + Character.isAlphabetic(primaryCode)+" "+
+            "isBmpCodePoint: " + Character.isBmpCodePoint(primaryCode)+" "+
+            "isDefined: " + Character.isDefined(primaryCode)+" "+
+            "isIdentifierIgnorable: " + Character.isIdentifierIgnorable(primaryCode)+" "+
+            "isIdeographic: " + Character.isIdeographic(primaryCode)+" "+
+            "isISOControl: " + Character.isISOControl(primaryCode)+" "+
+            "isJavaIdentifierPart: " + Character.isJavaIdentifierPart(primaryCode)+" "+
+            "isJavaIdentifierStart: " + Character.isJavaIdentifierStart(primaryCode)+" "+
+            "isMirrored: " + Character.isMirrored(primaryCode)+" "+
+            "isSupplementaryCodePoint: " + Character.isSupplementaryCodePoint(primaryCode)+" "+
+            "isUnicodeIdentifierPart: " + Character.isUnicodeIdentifierPart(primaryCode)+" "+
+            "isUnicodeIdentifierStart: " + Character.isUnicodeIdentifierStart(primaryCode)+" "+
+            "isValidCodePoint: " + Character.isValidCodePoint(primaryCode)+" "+
+            "";
+            */
     }
 
     
@@ -593,8 +634,8 @@ class Util {
         return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2)-1));
     }
 
-    static String removeDuplicates(String text) { 
-        char str[] = text.toCharArray();
+    static String removeDuplicates(String text) {
+        char[] str = text.toCharArray();
         int n = str.length;
         int index = 0, i, j;
         for (i = 0; i < n; i++) {
@@ -608,6 +649,44 @@ class Util {
             }
         }
         return String.valueOf(Arrays.copyOf(str, index));
+    }
+
+    public String getClassName() {
+        Class<?> enclosingClass = getClass().getEnclosingClass();
+        String className;
+        if (enclosingClass != null) { className = enclosingClass.getName(); }
+        else { className = getClass().getName(); }
+        try {
+            className = className.split(".")[0];
+        }
+        catch (Exception ignored) {}
+        return className;
+    }
+    public static int getLineNumber() {
+        return ___8drrd3148796d_Xaf();
+    }
+    private static int ___8drrd3148796d_Xaf() {
+        boolean thisOne = false;
+        int thisOneCountDown = 1;
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        for(StackTraceElement element : elements) {
+            String methodName = element.getMethodName();
+            int lineNum = element.getLineNumber();
+            if(thisOne && (thisOneCountDown == 0)) { return lineNum; }
+            else if(thisOne) { thisOneCountDown--; }
+            if(methodName.equals("___8drrd3148796d_Xaf")) { thisOne = true; }
+        }
+        return -1;
+    }
+    public String getMethodName() {
+        return new Throwable().getStackTrace()[1].getMethodName();
+    }
+    public String getMethodName(int depth) {
+        return new Throwable().getStackTrace()[depth].getMethodName();
+    }
+
+    public void whereami() {
+        System.out.println(getClassName()+":"+getMethodName(2)+" "+___8drrd3148796d_Xaf());
     }
 
 }

@@ -15,35 +15,35 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row>
-        <Key android:codes="48" android:keyLabel="0" />
-        <Key android:codes="49" android:keyLabel="1" />
-        <Key android:codes="50" android:keyLabel="2" />
-        <Key android:codes="51" android:keyLabel="3" />
+        <Key android:codes="48" android:keyLabel="0" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="49" android:keyLabel="1" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="50" android:keyLabel="2" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="51" android:keyLabel="3" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-174" android:keyIcon="@drawable/ic_info" android:keyWidth="16.67%p" />
         <Key android:codes="-2001" android:keyLabel="→\\u" android:keyWidth="16.67%p" />
         <Key android:codes="-2002" android:keyLabel="\\u→" android:keyWidth="16.67%p" />
     </Row>
     <Row>
-        <Key android:codes="52" android:keyLabel="4" />
-        <Key android:codes="53" android:keyLabel="5" />
-        <Key android:codes="54" android:keyLabel="6" />
-        <Key android:codes="55" android:keyLabel="7" />
+        <Key android:codes="52" android:keyLabel="4" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="53" android:keyLabel="5" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="54" android:keyLabel="6" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="55" android:keyLabel="7" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-2003" android:keyLabel=" " android:keyWidth="25%p" />
         <Key android:codes="-2004" android:keyLabel=" " android:keyWidth="25%p" />
     </Row>
     <Row>
-        <Key android:codes="56" android:keyLabel="8" />
-        <Key android:codes="57" android:keyLabel="9" />
-        <Key android:codes="97" android:keyLabel="a" />
-        <Key android:codes="98" android:keyLabel="b" />
+        <Key android:codes="56" android:keyLabel="8" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="57" android:keyLabel="9" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="97" android:keyLabel="a" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="98" android:keyLabel="b" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-2005" android:keyIcon="@drawable/ic_long_arrow_left" android:keyWidth="25%p" />
         <Key android:codes="-2006" android:keyIcon="@drawable/ic_close" android:keyWidth="25%p" />
     </Row>
     <Row>
-        <Key android:codes="99" android:keyLabel="c" />
-        <Key android:codes="100" android:keyLabel="d" />
-        <Key android:codes="101" android:keyLabel="e" />
-        <Key android:codes="102" android:keyLabel="f" />
+        <Key android:codes="99" android:keyLabel="c" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="100" android:keyLabel="d" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="102" android:keyLabel="f" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" android:keyWidth="25%p" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" android:keyWidth="25%p" />
     </Row>

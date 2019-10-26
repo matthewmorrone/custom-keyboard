@@ -47,7 +47,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     );
     
     List<String> secondary = Arrays.asList(
-        "armenian", "bopomofo", "braille", "cherokee", 
+        "armenian", "zhuyin", "braille", "cherokee",
         "cherokee_1", "cherokee_2", "coptic", "coptic_shift", 
         "cree", "cyrillic", "deseret", "deseret_shift", 
         "devanagari", "etruscan", "futhark", "georgian", 
@@ -56,7 +56,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     );
     
     List<String> tertiary = Arrays.asList(
-        "clipboard", "mirror", "mirror_shift", "qwerty_plus", 
+        "clipboard", "mirror", "mirror_shift", "qwerty",
         "rorrim", "shift_1", "shift_2", "unicode",
         "accents", "coding", "dvorak", "emoji",
         "ipa", "math", "symbol"

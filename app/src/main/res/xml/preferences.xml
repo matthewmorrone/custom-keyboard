@@ -37,56 +37,55 @@
     <CheckBoxPreference android:key="forthary" android:title="Forthary" android:defaultValue="false" />
     <PreferenceCategory android:key="layouts" android:title="Layouts">
         <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="true" />
-        <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
+        <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="false" />
         <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="false" />
-        <CheckBoxPreference android:key="bopomofo" android:title="Bopomofo" android:defaultValue="true" />
-        <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="true" />
-        <CheckBoxPreference android:key="cherokee" android:title="Cherokee" android:defaultValue="true" />
-        <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="true" />
-        <CheckBoxPreference android:key="coptic" android:title="Coptic" android:defaultValue="true" />
-        <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="true" />
-        <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="true" />
-        <CheckBoxPreference android:key="demorse" android:title="Demorse" android:defaultValue="true" />
+        <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="false" />
+        <CheckBoxPreference android:key="cherokee" android:title="Cherokee" android:defaultValue="false" />
+        <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="false" />
+        <CheckBoxPreference android:key="coptic" android:title="Coptic" android:defaultValue="false" />
+        <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="false" />
+        <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="false" />
+        <CheckBoxPreference android:key="demorse" android:title="Demorse" android:defaultValue="false" />
         <CheckBoxPreference android:key="deseret" android:title="Deseret" android:defaultValue="false" />
         <CheckBoxPreference android:key="drawing" android:title="Drawing" android:defaultValue="true" />
-        <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="true" />
+        <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="false" />
         <CheckBoxPreference android:key="emoji" android:title="Emoji" android:defaultValue="false" />
-        <CheckBoxPreference android:key="enmorse" android:title="Enmorse" android:defaultValue="true" />
+        <CheckBoxPreference android:key="enmorse" android:title="Enmorse" android:defaultValue="false" />
         <CheckBoxPreference android:key="etruscan" android:title="Etruscan" android:defaultValue="false" />
         <CheckBoxPreference android:key="extra" android:title="Extra" android:defaultValue="true" />
         <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
         <CheckBoxPreference android:key="function" android:title="Function" android:defaultValue="true" />
-        <CheckBoxPreference android:key="futhark" android:title="Futhark" android:defaultValue="true" />
-        <CheckBoxPreference android:key="georgian" android:title="Georgian" android:defaultValue="true" />
+        <CheckBoxPreference android:key="futhark" android:title="Futhark" android:defaultValue="false" />
+        <CheckBoxPreference android:key="georgian" android:title="Georgian" android:defaultValue="false" />
         <CheckBoxPreference android:key="glagolitic" android:title="Glagolitic" android:defaultValue="false" />
         <CheckBoxPreference android:key="gothic" android:title="Gothic" android:defaultValue="false" />
-        <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
+        <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="false" />
         <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
-        <CheckBoxPreference android:key="hiragana" android:title="Hiragana" android:defaultValue="true" />
-        <CheckBoxPreference android:key="katakana" android:title="Katakana" android:defaultValue="true" />
+        <CheckBoxPreference android:key="hiragana" android:title="Hiragana" android:defaultValue="false" />
+        <CheckBoxPreference android:key="katakana" android:title="Katakana" android:defaultValue="false" />
         <CheckBoxPreference android:key="insular" android:title="Insular" android:defaultValue="true" />
-        <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="true" />
+        <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="false" />
         <CheckBoxPreference android:key="lisu" android:title="Lisu" android:defaultValue="false" />
         <CheckBoxPreference android:key="macros" android:title="Macros" android:defaultValue="true" />
         <CheckBoxPreference android:key="math" android:title="Math" android:defaultValue="true" />
-        <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="true" />
+        <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="false" />
         <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
         <!-- <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" /> -->
         <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="false" />
         <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="true" />
-        <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="true" />
-        <CheckBoxPreference android:key="qwerty_plus" android:title="Qwerty+" android:defaultValue="true" />
-        <!-- <CheckBoxPreference android:key="rorrim" android:title="Rorrim" android:defaultValue="true" /> -->
-        <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="true" />
-        <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="true" />
-        <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="true" />
-        <CheckBoxPreference android:key="stealth" android:title="Stealth" android:defaultValue="true" />
-        <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="true" />
+        <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />
+        <CheckBoxPreference android:key="qwerty" android:title="Qwerty" android:defaultValue="true" />
+        <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="false" />
+        <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="false" />
+        <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="false" />
+        <CheckBoxPreference android:key="stealth" android:title="Stealth" android:defaultValue="false" />
+        <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="false" />
         <CheckBoxPreference android:key="symbol" android:title="Symbol" android:defaultValue="true" />
         <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="false" />
         <CheckBoxPreference android:key="tifinagh" android:title="Tifinagh" android:defaultValue="false" />
         <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
         <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
+        <CheckBoxPreference android:key="zhuyin" android:title="Zhuyin" android:defaultValue="true" />
     </PreferenceCategory>
     <CheckBoxPreference android:key="custom_order" android:title="Custom Layout Order" android:defaultValue="false" />
     <PreferenceCategory android:key="hint" android:title="Hints">

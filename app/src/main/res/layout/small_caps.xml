@@ -29,37 +29,37 @@
         <Key android:codes="48" android:keyLabel="0" android:popupCharacters="@string/popup_characters_0" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="1193" android:keyLabel="ҩ" />
-        <Key android:codes="7457" android:keyLabel="ᴡ" />
-        <Key android:codes="7431" android:keyLabel="ᴇ" />
-        <Key android:codes="640"  android:keyLabel="ʀ" />
-        <Key android:codes="7451" android:keyLabel="ᴛ" />
-        <Key android:codes="655"  android:keyLabel="ʏ" />
-        <Key android:codes="7452" android:keyLabel="ᴜ" />
-        <Key android:codes="305"  android:keyLabel="ı" />
-        <Key android:codes="7439" android:keyLabel="ᴏ" />
-        <Key android:codes="7448" android:keyLabel="ᴘ" />
+        <Key android:codes="1193" android:keyLabel="ҩ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7457" android:keyLabel="ᴡ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7431" android:keyLabel="ᴇ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="640"  android:keyLabel="ʀ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7451" android:keyLabel="ᴛ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="655"  android:keyLabel="ʏ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7452" android:keyLabel="ᴜ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="305"  android:keyLabel="ı" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7439" android:keyLabel="ᴏ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7448" android:keyLabel="ᴘ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="7424"  android:keyLabel="ᴀ" android:popupCharacters="ʌ" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
         <Key android:codes="42801" android:keyLabel="ꜱ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template"/>
-        <Key android:codes="7429"  android:keyLabel="ᴅ" />
-        <Key android:codes="42800" android:keyLabel="ꜰ" />
-        <Key android:codes="610"   android:keyLabel="ɢ" />
-        <Key android:codes="668"   android:keyLabel="ʜ" />
-        <Key android:codes="7434"  android:keyLabel="ᴊ" />
-        <Key android:codes="7435"  android:keyLabel="ᴋ" />
-        <Key android:codes="671"   android:keyLabel="ʟ" />
+        <Key android:codes="7429"  android:keyLabel="ᴅ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="42800" android:keyLabel="ꜰ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="610"   android:keyLabel="ɢ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="668"   android:keyLabel="ʜ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7434"  android:keyLabel="ᴊ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7435"  android:keyLabel="ᴋ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="671"   android:keyLabel="ʟ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="-1"   android:keyIcon="@drawable/ic_shift" />
-        <Key android:codes="7458" android:keyLabel="ᴢ" />
-        <Key android:codes="120"  android:keyLabel="x" />
-        <Key android:codes="7428" android:keyLabel="ᴄ" />
-        <Key android:codes="7456" android:keyLabel="ᴠ" />
-        <Key android:codes="665"  android:keyLabel="ʙ" />
-        <Key android:codes="628"  android:keyLabel="ɴ" />
-        <Key android:codes="7437" android:keyLabel="ᴍ" />
+        <Key android:codes="7458" android:keyLabel="ᴢ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="120"  android:keyLabel="x" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7428" android:keyLabel="ᴄ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7456" android:keyLabel="ᴠ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="665"  android:keyLabel="ʙ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="628"  android:keyLabel="ɴ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7437" android:keyLabel="ᴍ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>

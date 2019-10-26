@@ -51,11 +51,11 @@
         <Key android:codes="10077" android:keyLabel="❝" android:popupCharacters="❛❮❯" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10078" android:keyLabel="❞" android:popupCharacters="❜❟❠" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="ಠ_ಠ" android:keyLabel="ಠ_ಠ" android:popupCharacters="ಠರර෮" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyOutputText="o_0" android:keyLabel="o_0" />
+        <Key android:keyOutputText="o_0" android:keyLabel="o_0" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:keyLabel="🚗" android:keyOutputText="driving" />
-        <Key android:codes="-171"  android:keyLabel="r13" />
+        <Key android:codes="-171"  android:keyLabel="r13" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="⧙" android:keyLabel="⧙" android:popupCharacters="⧙⧘⧛⧚⟨⟩⟪⟫" android:popupKeyboard="@layout/popup_template" />
 <!--         <Key android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" android:popupCharacters="ꝎӦꙨꙪ" android:popupKeyboard="@layout/popup_template" /> -->
         <Key android:keyOutputText="‽" android:keyLabel="‽" android:popupCharacters="‼⁇⁈⁉" android:popupKeyboard="@layout/popup_template" />

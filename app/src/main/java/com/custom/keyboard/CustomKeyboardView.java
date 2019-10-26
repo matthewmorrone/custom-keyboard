@@ -176,6 +176,8 @@ public class CustomKeyboardView extends KeyboardView {
             canvas.restore();
             */
 
+            // if (key.codes == null) {continue;}
+
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
                     selectKey(key, corner);
