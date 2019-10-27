@@ -52,7 +52,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         "cree", "cyrillic", "deseret", "deseret_shift", 
         "devanagari", "etruscan", "futhark", "georgian", 
         "glagolitic", "gothic", "greek", "hiragana", 
-        "katakana", "lisu", "ogham", "tifinagh"
+        "katakana", "lisu", "ogham", "tifinagh", "zhuyin"
     );
     
     List<String> tertiary = Arrays.asList(
@@ -206,7 +206,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
-                if (primary.contains(preference.getKey())) {
+                if (
+                
+                primary.contains(preference.getKey())
+                
+                ) {
                     preference.setChecked(isChecked);
                 }
             }

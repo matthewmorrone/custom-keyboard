@@ -48,8 +48,6 @@ enum Category {Main, Lang, Util, Font, Misc}
 
 public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
-
-    
     public InputMethodManager mInputMethodManager;
     public CustomKeyboardView mInputView;
     public int mLastDisplayWidth;
@@ -89,10 +87,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         layouts.clear();
                                                                   layouts.add(new CustomKeyboard(this, R.layout.primary,     "primary",     "Primary",    "primary").setCategory(Category.Main).setOrder(0));
-        if (sharedPreferences.getBoolean("accents",       true)) {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents",     "Accents",    "◌̀◌́◌̂").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("accents",      false)) {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents",     "Accents",    "◌̀◌́◌̂").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("armenian",     false)) {layouts.add(new CustomKeyboard(this, R.layout.armenian,    "armenian",    "Armenian",   "աբգդեզ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("braille",      false)) {layouts.add(new CustomKeyboard(this, R.layout.braille,     "braille",     "Braille",    "⠟⠺⠑⠗⠞⠽").setCategory(Category.Misc));}
-        if (sharedPreferences.getBoolean("caps",          true)) {layouts.add(new CustomKeyboard(this, R.layout.caps,        "caps",        "Caps",       "ҩᴡᴇʀᴛʏ").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("caps",         false)) {layouts.add(new CustomKeyboard(this, R.layout.caps,        "caps",        "Caps",       "ҩᴡᴇʀᴛʏ").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("cherokee",     false)) {layouts.add(new CustomKeyboard(this, R.layout.cherokee_1,  "cherokee_1",  "Cherokee",   "ꭰꭱꭲꭳꭴꭵ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("coding",       false)) {layouts.add(new CustomKeyboard(this, R.layout.coding,      "coding",      "Coding",     "∅⊤⊥").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("coptic",       false)) {layouts.add(new CustomKeyboard(this, R.layout.coptic,      "coptic",      "Coptic",     "ⲑϣⲉⲣⲧⲯ").setCategory(Category.Lang));}
@@ -100,46 +98,46 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("cyrillic",     false)) {layouts.add(new CustomKeyboard(this, R.layout.cyrillic,    "cyrillic",    "Cyrillic",   "йцукен").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("demorse",      false)) {layouts.add(new CustomKeyboard(this, R.layout.demorse,     "demorse",     "Demorse",    "-·-·").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("deseret",      false)) {layouts.add(new CustomKeyboard(this, R.layout.deseret,     "deseret",     "Deseret",    "𐐨𐐩𐐪𐐫𐐬𐐭").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("drawing",       true)) {layouts.add(new CustomKeyboard(this, R.layout.drawing,     "drawing",     "Drawing",    "├─┤").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("drawing",      false)) {layouts.add(new CustomKeyboard(this, R.layout.drawing,     "drawing",     "Drawing",    "├─┤").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("dvorak",       false)) {layouts.add(new CustomKeyboard(this, R.layout.dvorak,      "dvorak",      "Dvorak",     "pyfgcr").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("emoji",        false)) {layouts.add(new CustomKeyboard(this, R.layout.emoji,       "emoji",       "Emoji",      "😀😁😂").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("enmorse",      false)) {layouts.add(new CustomKeyboard(this, R.layout.enmorse,     "enmorse",     "Enmorse",    "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("etruscan",     false)) {layouts.add(new CustomKeyboard(this, R.layout.etruscan,    "etruscan",    "Etruscan",   "𐌀𐌁𐌂𐌃𐌄𐌅").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("extra",         true)) {layouts.add(new CustomKeyboard(this, R.layout.extra,       "extra",       "Extra",      "☳ツᰄ").setCategory(Category.Util).setOrder(-4));}
-        if (sharedPreferences.getBoolean("fonts",         true)) {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts",       "Fonts",      "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("function",      true)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",    "Function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
+        if (sharedPreferences.getBoolean("extra",        false)) {layouts.add(new CustomKeyboard(this, R.layout.extra,       "extra",       "Extra",      "☳ツᰄ").setCategory(Category.Util).setOrder(-4));}
+        if (sharedPreferences.getBoolean("fonts",        false)) {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts",       "Fonts",      "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("function",     false)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",    "Function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
         if (sharedPreferences.getBoolean("futhark",      false)) {layouts.add(new CustomKeyboard(this, R.layout.futhark,     "futhark",     "Futhark",    "ᚠᚢᚦᚨᚱᚲ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("georgian",     false)) {layouts.add(new CustomKeyboard(this, R.layout.georgian,    "georgian",    "Georgian",   "აბგდევ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("glagolitic",   false)) {layouts.add(new CustomKeyboard(this, R.layout.glagolitic,  "glagolitic",  "Glagolitic", "ⰀⰁⰂⰃⰄⰅ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("gothic",       false)) {layouts.add(new CustomKeyboard(this, R.layout.gothic,      "gothic",      "Gothic",     "𐌵𐍈𐌴𐍂𐍄𐍅").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("greek",        false)) {layouts.add(new CustomKeyboard(this, R.layout.greek,       "greek",       "Greek",      "ςερτυθ").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("hex",           true)) {layouts.add(new CustomKeyboard(this, R.layout.hex,         "hex",         "Hex",        "\\uabcd").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("hex",          false)) {layouts.add(new CustomKeyboard(this, R.layout.hex,         "hex",         "Hex",        "\\uabcd").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("hiragana",     false)) {layouts.add(new CustomKeyboard(this, R.layout.hiragana,    "hiragana",    "Hiragana",   "あいうえお").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("katakana",     false)) {layouts.add(new CustomKeyboard(this, R.layout.katakana,    "katakana",    "Katakana",   "アイウエオ").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("insular",       true)) {layouts.add(new CustomKeyboard(this, R.layout.insular,     "insular",     "Insular",    "ꝺꝼᵹꞃꞅꞇ").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("insular",      false)) {layouts.add(new CustomKeyboard(this, R.layout.insular,     "insular",     "Insular",    "ꝺꝼᵹꞃꞅꞇ").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("ipa",          false)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "ipa",         "IPA",        "ʔʕʘǁǂ").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("lisu",         false)) {layouts.add(new CustomKeyboard(this, R.layout.lisu,        "lisu",        "Lisu",       "ⵚꓟꓱꓤꓕ⅄").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("macros",        true)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐").setCategory(Category.Util).setOrder(-4));}
-        if (sharedPreferences.getBoolean("math",          true)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("macros",       false)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐").setCategory(Category.Util).setOrder(-4));}
+        if (sharedPreferences.getBoolean("math",         false)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("mirror",       false)) {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror",      "Mirror",     "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("ogham",        false)) {layouts.add(new CustomKeyboard(this, R.layout.ogham,       "ogham",       "Ogham",      "᚛ᚁᚆᚋᚐ᚜").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("navigation",    true)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓").setCategory(Category.Util).setOrder(-1));}
+        if (sharedPreferences.getBoolean("navigation",   false)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓").setCategory(Category.Util).setOrder(-1));}
                                                                   layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456").setCategory(Category.Main));
-        if (sharedPreferences.getBoolean("pinyin",        true)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("pinyin",       false)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("pointy",       false)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("qwerty",        true)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty,      "qwerty",      "Qwerty",     "qwerty").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("qwerty",       false)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty,      "qwerty",      "Qwerty",     "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("rotated",      false)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("shift_1",      false)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift₁",     "qWeRtY").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("shift_2",      false)) {layouts.add(new CustomKeyboard(this, R.layout.shift_2,     "shift_2",     "Shift₂",     "QwErTy").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("stealth",      false)) {layouts.add(new CustomKeyboard(this, R.layout.stealth,     "stealth",     "Stealth",    "ԛԝеrtу").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("strike",       false)) {layouts.add(new CustomKeyboard(this, R.layout.strike,      "strike",      "Strike",     "ꝗwɇꞧⱦɏ").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("symbol",        true)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",      "Symbol",     "!@#$%^").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("symbol",       false)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",      "Symbol",     "!@#$%^").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("tails",        false)) {layouts.add(new CustomKeyboard(this, R.layout.tails,       "tails",       "Tails",      "ɋꝡҽɽʈƴ").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("tifinagh",     false)) {layouts.add(new CustomKeyboard(this, R.layout.tifinagh,    "tifinagh",    "Tifinagh",   "ⴰⴱⴳⴷⴹⴻ").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("unicode",       true)) {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode",     "Unicode",    "\\uxxxx").setCategory(Category.Util));}
-                                                                  layouts.add(new CustomKeyboard(this, R.layout.uri,         "uri",         "URI",        ".com").setCategory(Category.Main));
-        if (sharedPreferences.getBoolean("utility",       true)) {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility",     "Utility",    "/**/").setCategory(Category.Util).setOrder(-3));}
-        if (sharedPreferences.getBoolean("zhuyin",        true)) {layouts.add(new CustomKeyboard(this, R.layout.zhuyin,      "zhuyin",      "Zhuyin",     "ㄅㄆㄇㄈ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("unicode",      false)) {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode",     "Unicode",    "\\uxxxx").setCategory(Category.Util));}
+                                                                  layouts.add(new CustomKeyboard(this, R.layout.url,         "url",         "URL",        "@").setCategory(Category.Main));
+        if (sharedPreferences.getBoolean("utility",      false)) {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility",     "Utility",    "/**/").setCategory(Category.Util).setOrder(-3));}
+        if (sharedPreferences.getBoolean("zhuyin",       false)) {layouts.add(new CustomKeyboard(this, R.layout.zhuyin,      "zhuyin",      "Zhuyin",     "ㄅㄆㄇㄈ").setCategory(Category.Lang));}
 
         int layoutLayout = R.layout.layouts;
         
@@ -763,9 +761,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 case InputType.TYPE_TEXT_VARIATION_URI:
                 case InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS:
                 case InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS: 
-                    currentKeyboard = new CustomKeyboard(this, R.layout.uri, "uri", "URI", "@");
-                    kv.setKeyboard(currentKeyboard);
-                    redraw();
+                    findKeyboard("URL");
                 break;
                 case InputType.TYPE_CLASS_NUMBER:
                 case InputType.TYPE_CLASS_DATETIME:
@@ -1094,7 +1090,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
             else 
             if (sharedPreferences.getBoolean("pairs", true)
-            && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
+            &&  Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
+            &&  String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))
             ) {
         
                 ic.deleteSurroundingText(0, 1);
@@ -1407,19 +1404,26 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             String lw = lcs.length > 1 ? lcs[lcs.length-1] : lcs[0];
 
             if (primaryCode == 32 && getKey(32).label != "" && getKey(32).label != null) {
-                ic.deleteSurroundingText(lw.length(), 0);
+                // ic.deleteSurroundingText(lw.length(), 0);
                 commitText(String.valueOf(getKey(32).label));
                 getKey(32).label = null;
+                getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
                 return true;
             }
             String ch = pinyinSearch(lw);
             if (ch != null) {
                 getKey(32).label = ch;
+                /*
                 String[] choices = ch.split("");
-                crispIt(Arrays.toString(choices));
+                if (choices != null & choices.length > 0) {
+                    getKey(32).label = choices[0];
+                }
+                */
+                // crispIt(Arrays.toString(choices));
             }
             else {
                 getKey(32).label = null;
+                getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
             }
         } 
         catch (Exception e) {
