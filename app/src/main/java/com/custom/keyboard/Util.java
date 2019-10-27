@@ -33,7 +33,8 @@ class Util {
         // return normalized.toLowerCase(Locale.ENGLISH);
         return Normalizer
              .normalize(input, Normalizer.Form.NFD)
-             .replaceAll("[^\\p{ASCII}]", "");
+             .replaceAll("[^\\p{ASCII}]", "")
+             .toLowerCase();
     }
 
     static HashMap<Character,Integer> getCharacterFrequencies(String s) {

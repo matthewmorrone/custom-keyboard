@@ -12,10 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-    
+
     Context baseContext;
     SharedPreferences sharedPreferences;
-    
+
     ListPreference listTheme;
 
     EditTextPreference bg;
@@ -31,7 +31,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference email;
     EditTextPreference phone;
     EditTextPreference address;
-    
+
     EditTextPreference k1;
     EditTextPreference k2;
     EditTextPreference k3;
@@ -40,28 +40,28 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k6;
     EditTextPreference k7;
     EditTextPreference k8;
-    
+
     List<String> primary = Arrays.asList(
-        "extra", "fonts", "function", "hex", 
+        "extra", "fonts", "function", "hex",
         "macros", "navigation", "numeric", "utility"
     );
-    
+
     List<String> secondary = Arrays.asList(
         "armenian", "zhuyin", "braille", "cherokee",
-        "cherokee_1", "cherokee_2", "coptic", "coptic_shift", 
-        "cree", "cyrillic", "deseret", "deseret_shift", 
-        "devanagari", "etruscan", "futhark", "georgian", 
-        "glagolitic", "gothic", "greek", "hiragana", 
+        "cherokee_2", "coptic", "coptic_shift",
+        "cree", "cyrillic", "deseret", "deseret_shift",
+        "devanagari", "etruscan", "futhark", "georgian",
+        "glagolitic", "gothic", "greek", "hiragana",
         "katakana", "lisu", "ogham", "tifinagh", "zhuyin"
     );
-    
+
     List<String> tertiary = Arrays.asList(
         "clipboard", "mirror", "mirror_shift", "qwerty",
         "rorrim", "shift_1", "shift_2", "unicode",
         "accents", "coding", "dvorak", "emoji",
         "ipa", "math", "symbol"
     );
-    
+
     List<String> forthary = Arrays.asList(
          "caps", "caps_shift", "demorse", "drawing",
          "enmorse", "insular", "pointy", "rotated",
@@ -94,7 +94,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         popup_a = (EditTextPreference)findPreference("popup_a");
         popup_b = (EditTextPreference)findPreference("popup_b");
         popup_c = (EditTextPreference)findPreference("popup_c");
-        
+
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
         k3 = (EditTextPreference)findPreference("k3");
@@ -189,9 +189,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             }
         }        
         */
-        
-        
-        
+
+
+
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -207,9 +207,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
                 if (
-                
+
                 primary.contains(preference.getKey())
-                
+
                 ) {
                     preference.setChecked(isChecked);
                 }
@@ -251,7 +251,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
-        
+
         if (s.equals("all")) {
             // StringBuilder layoutOrder = new StringBuilder();
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
@@ -268,9 +268,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             ((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
-            
-            
-            
+
+
+
             // EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
             // layoutList.setText(layoutOrder.toString().trim());
         }
