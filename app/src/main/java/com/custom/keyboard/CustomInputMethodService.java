@@ -80,8 +80,6 @@ class Bounds {
     }
 }
 
-
-
 public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener
      // , SpellCheckerSession.SpellCheckerSessionListener
 {
@@ -195,13 +193,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -449) {
                     try {
-                        if (layouts.get(-key.codes[0] - 400) != null
-                        && !layouts.get(-key.codes[0] - 400).title.equals("Layouts")
-                        ) {
+                        CustomKeyboard layout = layouts.get(-key.codes[0] - 400);
+                        if (layout != null && !layout.title.equals("Layouts")) {
                             if (sharedPreferences.getBoolean("names", true)) {
-                                key.label = layouts.get(-key.codes[0] - 400).title;
+                                key.label = layout.title;
                             }
-                            else key.label = layouts.get(-key.codes[0] - 400).label;
+                            else key.label = layout.label;
                         }
                         else key.label = "";
                     }
@@ -310,6 +307,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 layout.label = label;
             }
         }
+
+
+
+
+
+
+
     }
 
     public Bounds getBounds(List<Keyboard.Key> keys) {
@@ -648,6 +652,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     + ic.getTextAfterCursor(MAX, 0).toString()
         String[] tokens = Util.getWords(text);
         */
+
+        String generated = sharedPreferences.getString("generated", "");
+        System.out.println(generated);
+        if (generated != null && !generated.equals("")) {
+            System.out.println(Generator.toKeyboard(generated));
+        }
     }
 
     @Override
