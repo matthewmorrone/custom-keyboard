@@ -652,12 +652,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     + ic.getTextAfterCursor(MAX, 0).toString()
         String[] tokens = Util.getWords(text);
         */
-
-        String generated = sharedPreferences.getString("generated", "");
-        System.out.println(generated);
+        /*
+        String generated = "ㅂㅃ ㅈㅉ ㄷㄸ ㄱㄲ ㅅㅆ ㅛ ㅕ ㅑ ㅐㅒ ㅔㅖ _ ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ _ ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ";
         if (generated != null && !generated.equals("")) {
             System.out.println(Generator.toKeyboard(generated));
         }
+
+        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+        */
     }
 
     @Override

@@ -30,7 +30,6 @@
     <SwitchPreference android:title="Dynamic Space Bar" android:key="respace" android:defaultValue="false" />
     <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
     <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
-    <EditTextPreference android:title="Customized" android:dialogTitle="Customized Keyboard" android:persistent="true" android:key="generated" android:lines="3" android:defaultValue="@string/generated" />
     <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
     <CheckBoxPreference android:key="primary" android:title="Primary" android:defaultValue="false" />
     <CheckBoxPreference android:key="secondary" android:title="Secondary" android:defaultValue="false" />
