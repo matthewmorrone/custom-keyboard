@@ -51,7 +51,7 @@ public class Edit {
         replacements.put(" hes", " he's");
         // replacements.put("^hows", "how's"); 
         replacements.put(" hows", " how's");
-        // replacements.put("^im", " I'm"); 
+        replacements.put("^im", " I'm");
         replacements.put(" im", " I'm");
         // replacements.put("^ive", "I've"); 
         replacements.put(" ive", " I've");

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CustomView extends View {
     private static final int OUT_OF_BOUNDS = -1;
-    
+
     private CustomInputMethodService mService;
     private List<String> mSuggestions;
     private int mSelectedIndex;
@@ -36,7 +36,7 @@ public class CustomView extends View {
     private static final int X_GAP = 60;
     
     private static final List<String> EMPTY_LIST = new ArrayList<>();
-    
+
     private int mColorNormal;
     private int mColorRecommended;
     private int mColorOther;
@@ -46,9 +46,9 @@ public class CustomView extends View {
     private int mTargetScrollX;
     
     private int mTotalWidth;
-    
+
     private GestureDetector mGestureDetector;
-    
+
     public CustomView(Context context) {
         super(context);
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
@@ -57,18 +57,18 @@ public class CustomView extends View {
         Resources r = context.getResources();
         
         setBackgroundColor(r.getColor(R.color.gray));
-        
+
         mColorNormal = r.getColor(R.color.candidate_normal);
         mColorRecommended = r.getColor(R.color.candidate_recommended);
         mColorOther = r.getColor(R.color.candidate_other);
         mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
-        
+
         mPaint = new Paint();
         mPaint.setColor(mColorNormal);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
         mPaint.setStrokeWidth(5);
-        
+
         mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -96,26 +96,26 @@ public class CustomView extends View {
     public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
-    
+
     @Override
     public int computeHorizontalScrollRange() {
         return mTotalWidth;
     }
-    
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measuredWidth = resolveSize(50, widthMeasureSpec);
-        
+
         // Get the desired height of the icon menu view (last row of items does
         // not have a divider below)
         Rect padding = new Rect();
         mSelectionHighlight.getPadding(padding);
         final int desiredHeight = ((int) mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
-        
+
         // Maximum possible width and desired height
         setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
     }
-    
+
     @Override
     protected void onDraw(Canvas canvas) {
         if (canvas != null) {
@@ -125,7 +125,7 @@ public class CustomView extends View {
         if (mSuggestions == null) {
             return;
         }
-        
+
         if (mBgPadding == null) {
             mBgPadding = new Rect(0, 0, 0, 0);
             if (getBackground() != null) {
@@ -142,12 +142,12 @@ public class CustomView extends View {
         final boolean scrolled = mScrolled;
         final boolean typedWordValid = mTypedWordValid;
         final int y = (int) (((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
-        
+
         for (int i = 0; i < count; i++) {
             String suggestion = mSuggestions.get(i);
             float textWidth = paint.measureText(suggestion);
             final int wordWidth = (int) textWidth + X_GAP * 2;
-            
+
             mWordX[i] = x;
             mWordWidth[i] = wordWidth;
             paint.setColor(mColorNormal);
@@ -160,7 +160,7 @@ public class CustomView extends View {
                 }
                 mSelectedIndex = i;
             }
-            
+
             if (canvas != null) {
                 if ((i == 1 && !typedWordValid) || (i == 0 && typedWordValid)) {
                     paint.setFakeBoldText(true);
@@ -181,7 +181,7 @@ public class CustomView extends View {
             scrollToTarget();
         }
     }
-    
+
     private void scrollToTarget() {
         int sx = getScrollX();
         if (mTargetScrollX > sx) {
@@ -201,7 +201,7 @@ public class CustomView extends View {
         scrollTo(sx, getScrollY());
         invalidate();
     }
-    
+
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
         clear();
         if (suggestions != null) {
@@ -215,26 +215,26 @@ public class CustomView extends View {
         invalidate();
         requestLayout();
     }
-    
+
     public void clear() {
         mSuggestions = EMPTY_LIST;
         mTouchX = OUT_OF_BOUNDS;
         mSelectedIndex = -1;
         invalidate();
     }
-    
+
     @Override
     public boolean onTouchEvent(MotionEvent me) {
-        
+
         if (mGestureDetector.onTouchEvent(me)) {
             return true;
         }
-        
+
         int action = me.getAction();
         int x = (int) me.getX();
         int y = (int) me.getY();
         mTouchX = x;
-        
+
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mScrolled = false;
@@ -244,7 +244,7 @@ public class CustomView extends View {
                 if (y <= 0) {
                     // Fling up!?
                     if (mSelectedIndex >= 0) {
-                        mService.pickSuggestionManually(mSelectedIndex);
+                        // mService.pickSuggestionManually(mSelectedIndex);
                         mSelectedIndex = -1;
                     }
                 }
@@ -253,7 +253,7 @@ public class CustomView extends View {
             case MotionEvent.ACTION_UP:
                 if (!mScrolled) {
                     if (mSelectedIndex >= 0) {
-                        mService.pickSuggestionManually(mSelectedIndex);
+                        // mService.pickSuggestionManually(mSelectedIndex);
                     }
                 }
                 mSelectedIndex = -1;
@@ -263,7 +263,7 @@ public class CustomView extends View {
         }
         return true;
     }
-    
+
     private void removeHighlight() {
         mTouchX = OUT_OF_BOUNDS;
         invalidate();
