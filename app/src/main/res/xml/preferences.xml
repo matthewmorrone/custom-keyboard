@@ -54,7 +54,7 @@
         <CheckBoxPreference android:key="etruscan" android:title="Etruscan" android:defaultValue="false" />
         <CheckBoxPreference android:key="extra" android:title="Extra" android:defaultValue="false" />
         <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="false" />
-        <CheckBoxPreference android:key="function" android:title="Function" android:defaultValue="false" />
+        <CheckBoxPreference android:key="function" android:title="Function" android:defaultValue="true" />
         <CheckBoxPreference android:key="futhark" android:title="Futhark" android:defaultValue="false" />
         <CheckBoxPreference android:key="georgian" android:title="Georgian" android:defaultValue="false" />
         <CheckBoxPreference android:key="glagolitic" android:title="Glagolitic" android:defaultValue="false" />
@@ -66,10 +66,10 @@
         <CheckBoxPreference android:key="insular" android:title="Insular" android:defaultValue="false" />
         <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="false" />
         <CheckBoxPreference android:key="lisu" android:title="Lisu" android:defaultValue="false" />
-        <CheckBoxPreference android:key="macros" android:title="Macros" android:defaultValue="false" />
+        <CheckBoxPreference android:key="macros" android:title="Macros" android:defaultValue="true" />
         <CheckBoxPreference android:key="math" android:title="Math" android:defaultValue="false" />
         <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="false" />
-        <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="false" />
+        <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
         <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="false" />
         <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="false" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />

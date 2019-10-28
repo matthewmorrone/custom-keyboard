@@ -1,6 +1,7 @@
 package com.custom.keyboard;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
@@ -16,11 +17,13 @@ import android.graphics.Paint;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
@@ -137,7 +140,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("etruscan",     fals)) {layouts.add(new CustomKeyboard(this, R.layout.etruscan,    "etruscan",    "Etruscan",   "𐌀𐌁𐌂𐌃𐌄𐌅").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("extra",        fals)) {layouts.add(new CustomKeyboard(this, R.layout.extra,       "extra",       "Extra",      "☳ツᰄ").setCategory(Category.Util).setOrder(-4));}
         if (sharedPreferences.getBoolean("fonts",        fals)) {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts",       "Fonts",      "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("function",     fals)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",    "Function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
+        if (sharedPreferences.getBoolean("function",     true)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",    "Function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
         if (sharedPreferences.getBoolean("futhark",      fals)) {layouts.add(new CustomKeyboard(this, R.layout.futhark,     "futhark",     "Futhark",    "ᚠᚢᚦᚨᚱᚲ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("georgian",     fals)) {layouts.add(new CustomKeyboard(this, R.layout.georgian,    "georgian",    "Georgian",   "აბგდევ").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("glagolitic",   fals)) {layouts.add(new CustomKeyboard(this, R.layout.glagolitic,  "glagolitic",  "Glagolitic", "ⰀⰁⰂⰃⰄⰅ").setCategory(Category.Lang));}
@@ -149,11 +152,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("insular",      fals)) {layouts.add(new CustomKeyboard(this, R.layout.insular,     "insular",     "Insular",    "ꝺꝼᵹꞃꞅꞇ").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("ipa",          fals)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "ipa",         "IPA",        "ʔʕʘǁǂ").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("lisu",         fals)) {layouts.add(new CustomKeyboard(this, R.layout.lisu,        "lisu",        "Lisu",       "ⵚꓟꓱꓤꓕ⅄").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("macros",       fals)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐").setCategory(Category.Util).setOrder(-4));}
+        if (sharedPreferences.getBoolean("macros",       true)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",      "Macros",     "✐").setCategory(Category.Util).setOrder(-4));}
         if (sharedPreferences.getBoolean("math",         fals)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("mirror",       fals)) {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror",      "Mirror",     "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("ogham",        fals)) {layouts.add(new CustomKeyboard(this, R.layout.ogham,       "ogham",       "Ogham",      "᚛ᚁᚆᚋᚐ᚜").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("navigation",   fals)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓").setCategory(Category.Util).setOrder(-1));}
+        if (sharedPreferences.getBoolean("navigation",   true)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "  →←↑↓").setCategory(Category.Util).setOrder(-1));}
                                                                  layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456").setCategory(Category.Main));
         if (sharedPreferences.getBoolean("pinyin",       fals)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("pointy",       fals)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
@@ -406,11 +409,29 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             toastIt("Couldn't launch settings.\n"+e.toString());
         }
     }
+    
+    private IBinder getToken() {
+        final Dialog dialog = getWindow();
+        if (dialog == null) {
+            return null;
+        }
+        final Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        return window.getAttributes().token;
+    }
 
     public void showVoiceInput() {
         try {
-            this.switchToNextInputMethod(false);
+            InputMethodManager imeManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imeManager.setInputMethod(getToken(), "com.google.android.voicesearch.ime.VoiceInputMethodService");
+
+
             /*
+            imeManager.switchToNextInputMethod(getToken(), false);
+            switchToNextInputMethod(false);
+            
             InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
             if (imeManager != null) {
                 imeManager.showInputMethodPicker();
