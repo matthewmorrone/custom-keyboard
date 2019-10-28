@@ -16,7 +16,7 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
-    <Row android:keyHeight="5.62%p">
+    <Row android:keyHeight="5.61%p">
         <Key android:codes="12450" android:keyLabel="ア" android:popupCharacters=" ァ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12452" android:keyLabel="イ" android:popupCharacters=" ィ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12454" android:keyLabel="ウ" android:popupCharacters=" ゥ" android:popupKeyboard="@layout/popup_template" />
@@ -28,7 +28,7 @@
         <Key android:codes="12465" android:keyLabel="ケ" android:popupCharacters=" ヶ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12467" android:keyLabel="コ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
-    <Row android:keyHeight="5.62%p">
+    <Row android:keyHeight="5.61%p">
         <Key android:codes="12469" android:keyLabel="サ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12471" android:keyLabel="シ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12473" android:keyLabel="ス" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
@@ -52,7 +52,7 @@
         <Key android:codes="12504" android:keyLabel="ヘ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12507" android:keyLabel="ホ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
-    <Row android:keyHeight="5.62%p">
+    <Row android:keyHeight="5.61%p">
         <Key android:codes="12510" android:keyLabel="マ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12511" android:keyLabel="ミ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12512" android:keyLabel="ム" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
@@ -79,7 +79,7 @@
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
         <Key android:codes="-102" android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
-        <Key android:codes="-4"   android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
+        <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"           android:keyWidth="10%p" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="-_…゙゚" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup_b" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_c" android:popupKeyboard="@layout/popup_template" />

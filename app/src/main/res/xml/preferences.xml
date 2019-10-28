@@ -71,7 +71,7 @@
         <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="false" />
         <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="false" />
         <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="false" />
-        <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="true" />
+        <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="false" />
         <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />
         <CheckBoxPreference android:key="qwerty" android:title="Qwerty" android:defaultValue="false" />
         <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="false" />

@@ -66,7 +66,7 @@
     <Row>
         <Key android:codes="-101"  android:keyIcon="@drawable/ic_double_arrow_left"  android:keyWidth="10%p" />
         <Key android:codes="-102"  android:keyIcon="@drawable/ic_double_arrow_right" android:keyWidth="10%p" />
-        <Key android:codes="-4"    android:keyIcon="@drawable/ic_keyboard"           android:keyWidth="10%p" />
+        <Key android:codes="-4"    android:keyIcon="@drawable/ic_grid"           android:keyWidth="10%p" />
         <Key android:codes="32"    android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="@string/popup_a" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="7"     android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup_b" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10"    android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_c" android:popupKeyboard="@layout/popup_template" />
