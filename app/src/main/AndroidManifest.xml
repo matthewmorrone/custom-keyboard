@@ -20,6 +20,7 @@
         <activity android:name=".Preference">
             <intent-filter>
                 <action android:name="android.intent.action.PREFERENCE" />
+                <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
         <service android:name="com.custom.keyboard.CustomInputMethodService"
@@ -27,7 +28,7 @@
                  android:windowSoftInputMode="adjustResize"
                  android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data android:name="android.view.im" 
-                       android:resource="@xml/method"/>
+                       android:resource="@xml/method" />
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>

@@ -1,5 +1,11 @@
 package com.custom.keyboard;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -57,13 +63,13 @@ class Util {
         }
         return map;
     }
-    
+
     static String unidata(String text) {
         if (text.length() < 1) return "";
         // if (text.length() > 1) text = text.substring(0, 1);
         return unidata((int)text.charAt(0));
     }
-    
+
     static String unidata(int primaryCode) {
         return primaryCode+" "+
             convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n"+
@@ -113,7 +119,7 @@ class Util {
             */
     }
 
-    
+
     static Date stringToDate(String date, String format) throws Exception {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
         return simpleDateFormat.parse(date);
@@ -146,7 +152,7 @@ class Util {
     static String decodeMime(String encodedString) {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
-    
+
     static String spaceReplace(String text) {
         return text.replaceAll(" +", " ");
     }
@@ -219,15 +225,15 @@ class Util {
     private static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");
     }
-    
+
     static String uniqueLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
-        
+
         Set<String> unique = new HashSet<>(result);
 
-        
+
         return StringUtils.join(unique.toArray(new String[0]), "\n");
     }
 
@@ -238,7 +244,7 @@ class Util {
         Collections.sort(result);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    
+
     static String shuffleLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -246,7 +252,7 @@ class Util {
         Collections.shuffle(result);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    
+
     static String rotateLinesBackward(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -254,7 +260,7 @@ class Util {
         Collections.rotate(result, -1);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    
+
     static String rotateLinesForward(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -335,7 +341,7 @@ class Util {
         bi = Integer.decode("0x"+bs);
         return new int[] {ai, ri, gi, bi};
     }
-                
+
     static int generateRandomInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
@@ -472,10 +478,10 @@ class Util {
     }
 
     static Boolean isAlphaNumeric(int primaryCode) {
-        return (isAlphabet(primaryCode) || isDigit(primaryCode));
+        return (isLetter(primaryCode) || isDigit(primaryCode));
     }
 
-    static Boolean isAlphabet(int primaryCode) {
+    static Boolean isLetter(int primaryCode) {
         if (primaryCode >= 65 && primaryCode <= 91) {
             return true;
         }
@@ -562,7 +568,7 @@ class Util {
         return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
                    .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
     }
-    
+
     static boolean hasZWSP(String text) {
         return text.contains(" ");
     }
@@ -689,5 +695,91 @@ class Util {
     public void whereami() {
         System.out.println(getClassName()+":"+getMethodName(2)+" "+___8drrd3148796d_Xaf());
     }
+
+
+    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
+
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
+
+        if (resolveInfo == null || resolveInfo.size() != 1) {
+            return null;
+        }
+
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        String packageName = serviceInfo.serviceInfo.packageName;
+        String className = serviceInfo.serviceInfo.name;
+        ComponentName component = new ComponentName(packageName, className);
+
+        Intent explicitIntent = new Intent(implicitIntent);
+
+        explicitIntent.setComponent(component);
+
+        return explicitIntent;
+    }
+
+    public final double levenshtein(final String s1, final String s2) {
+        return levenshtein(s1, s2, Integer.MAX_VALUE);
+    }
+
+    public final double levenshtein(final String s1, final String s2, final int limit) {
+        if (s1 == null) throw new NullPointerException("s1 must not be null");
+        if (s2 == null) throw new NullPointerException("s2 must not be null");
+        if (s1.equals(s2)) return 0;
+        if (s1.length() == 0) return s2.length();
+        if (s2.length() == 0) return s1.length();
+        int[] v0 = new int[s2.length() + 1];
+        int[] v1 = new int[s2.length() + 1];
+        int[] vtemp;
+        int i, j, minv1, cost;
+        for (i = 0; i < v0.length; i++) v0[i] = i;
+        for (i = 0; i < s1.length(); i++) {
+            v1[0] = i + 1;
+            minv1 = v1[0];
+            for (j = 0; j < s2.length(); j++) {
+                cost = 1;
+                if (s1.charAt(i) == s2.charAt(j)) cost = 0;
+                v1[j + 1] = Math.min( v1[j] + 1, Math.min(v0[j + 1] + 1, v0[j] + cost));
+                minv1 = Math.min(minv1, v1[j + 1]);
+            }
+            if (minv1 >= limit) return limit;
+            vtemp = v0;
+            v0 = v1;
+            v1 = vtemp;
+        }
+        return v0[s2.length()];
+    }
+
+    public static int damerauLevenshtein(CharSequence source, CharSequence target) {
+        if (source == null || target == null) {
+            throw new IllegalArgumentException("Parameter must not be null");
+        }
+        int sourceLength = source.length();
+        int targetLength = target.length();
+        if (sourceLength == 0) return targetLength;
+        if (targetLength == 0) return sourceLength;
+        int[][] dist = new int[sourceLength + 1][targetLength + 1];
+        for (int i = 0; i < sourceLength + 1; i++) {
+            dist[i][0] = i;
+        }
+        for (int j = 0; j < targetLength + 1; j++) {
+            dist[0][j] = j;
+        }
+        for (int i = 1; i < sourceLength + 1; i++) {
+            for (int j = 1; j < targetLength + 1; j++) {
+                int cost = source.charAt(i - 1) == target.charAt(j - 1) ? 0 : 1;
+                dist[i][j] = Math.min(Math.min(dist[i - 1][j] + 1, dist[i][j - 1] + 1), dist[i - 1][j - 1] + cost);
+                if (i > 1 &&
+                     j > 1 &&
+                     source.charAt(i - 1) == target.charAt(j - 2) &&
+                     source.charAt(i - 2) == target.charAt(j - 1)) {
+                    dist[i][j] = Math.min(dist[i][j], dist[i - 2][j - 2] + cost);
+                }
+            }
+        }
+        return dist[sourceLength][targetLength];
+    }
+
+
 
 }

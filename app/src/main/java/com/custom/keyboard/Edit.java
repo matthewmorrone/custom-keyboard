@@ -1,16 +1,73 @@
 package com.custom.keyboard;
 
+import android.content.Context;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Edit {
-    
+
+    List<String> words = new ArrayList<>();
+
+    public Edit(Context context) {
+        InputStream inputStream = context.getResources().openRawResource(R.raw.dict);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        StringBuilder stringBuilder = new StringBuilder();
+        String string;
+        try {
+            while ((string = bufferedReader.readLine()) != null) {
+                words.add(string);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String check(String word) {
+        System.out.println(word);
+        String result;
+        double distance;
+        int i;
+
+        for(i = 0; i < words.size(); i++) {
+            result = words.get(i);
+            distance = Util.damerauLevenshtein(result, word);
+        }
+
+        return "";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private static HashMap<String, String> replacements = new HashMap<>();
 
     private static HashMap<String, String> shortcuts = new HashMap<>();
 
     static char trigger = ' ';
 
-    public Edit() {}
     public Edit(char trigger) {
         Edit.trigger = trigger;
     }

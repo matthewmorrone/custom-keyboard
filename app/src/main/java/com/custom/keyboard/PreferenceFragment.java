@@ -63,8 +63,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     );
 
     List<String> forthary = Arrays.asList(
-         "caps", "caps_shift", "demorse", "drawing",
-         "enmorse", "insular", "pointy", "rotated",
+         "caps", "caps_shift", "morse", "drawing",
+         "insular", "pointy", "rotated",
          "rotated_shift", "small_caps", "small_caps_shift", "stealth",
          "stealth_shift", "strike", "tails"
     );
