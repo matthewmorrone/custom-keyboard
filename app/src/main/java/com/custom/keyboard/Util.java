@@ -32,6 +32,9 @@ import java.util.regex.Pattern;
 
 class Util {
 
+    String spaces = "    ";
+    String tab = "	";
+
     static void noop() {}
 
     static String normalize(String input) {

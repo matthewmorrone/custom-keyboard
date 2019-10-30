@@ -4,13 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -89,6 +86,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public int MAX = 65536;
     boolean f = false;
     boolean t = true;
+
+    String spaces = "    ";
+    String tab = "	";
+
     CustomKeyboardView kv;
     CustomKeyboard currentKeyboard;
     int currentKeyboardID = 0;
@@ -869,10 +870,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void navigate(int primaryCode) {
         ic = getCurrentInputConnection();
-        if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
+        if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces)) {
             sendKey(primaryCode, 4);
         }
-        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
+        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces)) {
             sendKey(primaryCode, 4);
         }
         else {
@@ -993,7 +994,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         try {
-            if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ") && sharedPreferences.getBoolean("spaces", t)) {
+            if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
                 ic.deleteSurroundingText(4, 0);
             }
             else if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
@@ -1027,7 +1028,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
-        if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ") && sharedPreferences.getBoolean("spaces", t)) {
+        if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
             ic.deleteSurroundingText(0, 4);
         }
         else if (length > 1) {
@@ -1074,6 +1075,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         if (sharedPreferences.getBoolean("auto", t)) {
+            if (primaryCode == 32) {
+                String lastWord = getLastWord();
+                String newWord = spellchecker.check(lastWord);
+                if (!lastWord.equals(newWord)) {
+                    ic.deleteSurroundingText(lastWord.length(), 0);
+                    commitText(newWord);
+                }
+            }
             if (!Util.isLetter(primaryCode) || primaryCode == 32 || primaryCode == 10) {
                 String lastWord = " "+getLastWord();
                 System.out.println(lastWord);
@@ -1113,15 +1122,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             setCapsOn(f);
         }
         if (isSelecting()) ic.setSelection(Variables.cursorStart, getSelectionEnd());
-
-
-        if (Util.isLetter(primaryCode)) {
-            String lastWord = getLastWord();
-            spellchecker.check(lastWord);
-        }
-
     }
 
+    public void replaceText(String src, String trg) {
+        ic.deleteSurroundingText(src.length(), 0);
+        commitText(trg);
+    }
 
     public String getLastWord() {
         ic = getCurrentInputConnection();
@@ -1173,8 +1179,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         time = System.nanoTime();
         if (sharedPreferences.getBoolean("vib", t)) {
             Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-
-            v.vibrate(5);
+            v.vibrate(4);
         }
     }
 
@@ -1222,7 +1227,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 commitText(choices[0]);
                 return t;
             }
-
             if (primaryCode == 32 && getKey(32).label != "" && getKey(32).label != null) {
                 // ic.deleteSurroundingText(lw.length(), 0);
                 commitText(String.valueOf(getKey(32).label));
@@ -1231,7 +1235,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 getKey(32).popupCharacters = " ";
                 return t;
             }
-
             if (ch != null) {
                 String[] choices = ch.split("");
                 if (choices != null & choices.length > 0) {
@@ -1265,7 +1268,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 return;
             }
         }
-        
         if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char)primaryCode)).equals("")) {
             String res = Morse.fromChar(String.valueOf((char)primaryCode));
             if (kv.isShifted()) res = res.toUpperCase();
@@ -1343,15 +1345,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             break;
             case 7:
                 if (sharedPreferences.getBoolean("spaces", t)) {
-                    commitText("    ");
+                    commitText(spaces);
                     if (isSelecting()) {
-                        ic.setSelection(getSelectionStart(), getSelectionEnd() + 4);
+                        ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length());
                     }
                 }
                 else {
-                    commitText("	");
+                    commitText(tab);
                     if (isSelecting()) {
-                        ic.setSelection(getSelectionStart(), getSelectionEnd() + 1);
+                        ic.setSelection(getSelectionStart(), getSelectionEnd() + tab.length());
                     }
                 }
             break;

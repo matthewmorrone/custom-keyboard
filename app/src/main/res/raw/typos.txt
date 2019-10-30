@@ -2499,8 +2499,8 @@ caelndar,calendar
 caendar,calendar
 caese,cease
 caetgory,category
-caf,cafã©
-cafay,cafã©
+caf,cafï¿½
+cafay,cafï¿½
 caffiene,caffeine
 cafine,canine
 cahieve,achieve
@@ -2545,7 +2545,7 @@ calender,calendar
 calenders,calendars
 calendr,calendar
 calendra,calendar
-calfes,cafã©s
+calfes,cafï¿½s
 calfs,calves
 calibur,caliber
 califronia,california
@@ -2816,9 +2816,9 @@ childern,children
 childrens,children
 chimmeny,chimney
 chineese,chinese
-chirstmas,
+chirstmas,christmas
 chisle,chisel
-chistmas,
+chistmas,christmas
 chizzel,chizzes
 chlecystectomy,chlecystectomy
 chloecystectomy,chloecystectomy
@@ -2942,7 +2942,7 @@ clendar,calendar
 clera,clear
 clincial,clinical
 clinicaly,clinically
-cloisonay,cloisonnã©
+cloisonay,cloisonnï¿½
 clonel,colonel
 cloonel,colonel
 closley,closely
@@ -3107,7 +3107,7 @@ commuications,communications
 commuinications,communications
 communciation,communication
 communiation,communication
-communikay,communiquã©
+communikay,communiquï¿½
 communites,communities
 compability,comp ability
 compaired,compared
@@ -3548,16 +3548,15 @@ crcumference,circumference
 creaeted,created
 creasoat,creosote
 creater,creator
-creche,crã¨che
 creedence,credence
 cregslist,craigslist
 creigslist,craigslist
-crhistmas,
+crhistmas,christmas
 criaglist,craigslist
 criagslist,craigslist
 cricumference,circumference
 crigslist,craigslist
-cristmas,
+cristmas,christmas
 criteak,critic
 critereon,criterion
 criterias,criteriaâ€™s
@@ -5512,7 +5511,7 @@ hcandelier,chandelier
 hcangeable,changeable
 hcat,chat
 hcolecystectomy,hcolecystectomy
-hcristmas,
+hcristmas,christmas
 headfone,headphone
 headfones,headphones
 headhones,headphones
@@ -5742,7 +5741,7 @@ hrass,harass
 hravest,harvest
 hreoes,heroes
 hreshold,threshold
-hristmas,
+hristmas,christmas
 hroes,heroes
 hroticulturalist,horticulturalist
 hrticulturalist,horticulturalist
@@ -7586,7 +7585,7 @@ nieghbor,neighbor
 nieghborhood,neighborhood
 niether,neither
 nieve,niece
-nieveatay,naivetã©
+nieveatay,naivetï¿½
 nife,knife
 nigh,nigh
 nighbor,neighbor
@@ -8772,7 +8771,7 @@ presense,presence
 preset,preset
 presetn,present
 preseverance,perseverance
-preshus,prã©cis
+preshus,prï¿½cis
 presidd,presided
 presidde,presided
 preside,preside
@@ -10758,7 +10757,7 @@ tennant,tenant
 tennisplayer,tennis player
 tenous,tenuous
 tenture,tenure
-teoticuahan,teotihuacã¡n
+teoticuahan,teotihuacï¿½n
 tepmorarily,temporarily
 teradactil,pterodactyl
 teridactyl,pterodactyl
@@ -11754,7 +11753,7 @@ yhpochondriac,hypochondriac
 yoman,yeoman
 yot,yet
 youforic,euphoric
-youlogy,you logy
+youlogy,eulogy
 youself,yourself
 youthinasia,euthanasia
 ypochondriac,hypochondriac

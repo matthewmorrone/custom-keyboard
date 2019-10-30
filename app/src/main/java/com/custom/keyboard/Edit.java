@@ -5,23 +5,27 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 public class Edit {
 
-    List<String> words = new ArrayList<>();
+    Map<String,String> typos = new HashMap<>();
 
     public Edit(Context context) {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.dict);
+        InputStream inputStream = context.getResources().openRawResource(R.raw.typos);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         StringBuilder stringBuilder = new StringBuilder();
         String string;
         try {
+            String[] pair;
             while ((string = bufferedReader.readLine()) != null) {
-                words.add(string);
+                pair = string.split(",");
+                if (pair.length > 1) {
+                    typos.put(pair[0], pair[1]);
+                }
+                else System.out.println(string);
             }
         }
         catch (Exception e) {
@@ -29,38 +33,18 @@ public class Edit {
         }
     }
 
-    public String check(String word) {
-        System.out.println(word);
-        String result;
-        double distance;
-        int i;
-
-        for(i = 0; i < words.size(); i++) {
-            result = words.get(i);
-            distance = Util.damerauLevenshtein(result, word);
-        }
-
-        return "";
+    public void add(String src, String trg) {
+        typos.put(src, trg);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public String check(String word) {
+        word = word.trim();
+        String repl = typos.get(word);
+        if (typos.get(word) != null) {
+            return repl;
+        }
+        return word;
+    }
 
     private static HashMap<String, String> replacements = new HashMap<>();
 
