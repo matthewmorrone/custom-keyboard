@@ -43,61 +43,11 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:hint="@string/test"
         android:text="@string/placeholder"
         android:inputType="textMultiLine"
-        android:lines="3"
-        />
-    <EditText
-        android:id="@+id/editNumber"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Try numbers here."
-        android:inputType="number"
-        android:visibility="gone"
-        />
-    <EditText
-        android:id="@+id/editPhone"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Try a phone number here."
-        android:inputType="phone"
-        android:visibility="gone"
-        />
-    <EditText
-        android:id="@+id/editEmail"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Try an email here."
-        android:inputType="textEmailAddress"
-        
-        />
-    <EditText
-        android:id="@+id/editUri"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Try a website here."
-        android:inputType="textUri"
-        
+        android:lines="1"
         />
 </LinearLayout>
-<!-- 
-android:visibility="gone"
- -->
+<!-- android:visibility="gone" -->

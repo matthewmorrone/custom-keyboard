@@ -1,32 +1,35 @@
-+ Settings button
-+ Voice input button
++ fix morse
++ don't cancel popup if it has a long press action
++ more pinyin, combine with autocorrect
++ popup for autocorrect
++ more unicode info
++ settings use categories for hide/show
++ generate keyboard programmatically
++ Normalizer.normalize(x, Normalizer.Form.NFKC)
++ macro customization
 + URI specific layout
 + stay on current layout
 + colorize categories
 + layout toggles on category
++ Draggable resize right on the front
++ drag control for keyboard height
++ adjust key size
 + resurrect key height change
 + and suggestion bar
 + function to determine cursor position for line
-+ rename popup, popup template, preview, etc
 + delete all space up to line end (while prev char is space)
-+ popups
 + runtime modification/generation of layouts
 + modification of xml attributes at runtime
 + settings for numbers, colors, popupchars
 + draggable for layout management
 + include tags FFS
-+ arbitrary popup keys
 + use of layouts on keyboard
-+ option for numbers on nav instead of repeatable
++ option for numbers on nav instead of repeatable, or combine with numeric
 + change space insertion to mod on full line length 
 + voice to text
 + emoji 
-+ open settings from key + Settings button
 + scrollable/swipeable areas
 + Swipe on spacebar + left and right swipe on spacebar
-+ Draggable resize right on the front
-+ adjust key size
-+ fix keyboard height change
 + selection doesn't work with 4space
 + Key codes and labels customizable
 + make popup keys repeatable
@@ -37,7 +40,6 @@
 + Autoreplace toggleable from keyboard predictions 
 + Adding entries on the fly
 + release on popup for choice
-+ previews? 
 + Settings opens up a drawer
 + 2nd bar changeable
 + Selection pad
@@ -58,7 +60,6 @@
 + choice of FIFO or FILO for clipboard history
 + single line comments
 + nonliteral tab
-+ move themes to array or map
 + you can use canvas to add a black layover to darken background
 + move layouts to map
 + full braille
@@ -73,19 +74,14 @@
 + change enter icon depending on input type
 + wordFore only works for next word
 + convert between fonts
-+ basic layout ordering
 + make layouts for fonts
 + text area for temporary stuff
 + 2d layout navigation
-+ enforce layout toggle dependecies
 + popup for arbitrary find/replace screen
 + autocorrect
 + autocomplete
 + swiping
 + prediction
-+ add key for voice input
-+ add key to access settings page
-+ add key for access to keyboard management page in settings
 + button to access recent clipboard entries
 + personal dictionary settings link
 + press and hold custom keys to change them
@@ -97,7 +93,6 @@
 + popup contents should also be keys
 + if there are too many entries in a keys popup, it doesn't render properly
 + label size issue for high surrogates
-+ display unicode information about key, or code
 + autocorrect with google
 + animations
 + unicode input from exhaustive table
@@ -105,13 +100,9 @@
 + scrolling
 + add and remove keys
 + hide and show specific keys, especially in the top or bottom
-+ open main activity
-+ open other apps
-+ open activity from keyboard
 + row with toggles from settings page
 + font color, background, border from settings
 + reorder layouts from settings
-+ drag control for keyboard height
 + add setting that allows specification of longpress delay
 + add toggle for whether or not the first member of the popup is sent upon release
 + add slots in the settings page for customizing the letters that appear on long press

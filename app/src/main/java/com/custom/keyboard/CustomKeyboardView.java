@@ -38,16 +38,25 @@ public class CustomKeyboardView extends KeyboardView {
 
     @Override
     protected boolean onLongPress(Key key) {
+        /*
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
-        // todo: cancel popup if zero len
+        
+        if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
+            // getOnKeyboardActionListener().onRelease(key.codes[0]);
+            getOnKeyboardActionListener().onKey(key.codes[0], null);
+            return true;
+        }
+        */
+        
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
             // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
             return true;
         }
+        
         return super.onLongPress(key);
     }
 

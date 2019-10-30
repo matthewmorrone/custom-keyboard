@@ -43,7 +43,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     List<String> primary = Arrays.asList(
         "extra", "fonts", "function", "hex",
-        "macros", "navigation", "numeric", "utility"
+        "macros", "navigation", "numeric", "utility",
+        "unicode"
     );
 
     List<String> secondary = Arrays.asList(
@@ -57,7 +58,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     List<String> tertiary = Arrays.asList(
         "clipboard", "mirror", "mirror_shift", "qwerty",
-        "rorrim", "shift_1", "shift_2", "unicode",
+        "rorrim", "shift_1", "shift_2", 
         "accents", "coding", "dvorak", "emoji",
         "ipa", "math", "symbol"
     );
@@ -153,7 +154,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             }
         }
         
-        /*
+        
         CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
         int i;
         boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
@@ -188,7 +189,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference.setChecked(isChecked);
             }
         }        
-        */
+        
 
 
 
