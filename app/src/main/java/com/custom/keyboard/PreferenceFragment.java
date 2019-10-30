@@ -41,33 +41,33 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k7;
     EditTextPreference k8;
 
+    List<String> required = Arrays.asList(
+         "primary", "numeric", "url"
+    );
+
     List<String> primary = Arrays.asList(
-        "extra", "fonts", "function", "hex",
-        "macros", "navigation", "numeric", "utility",
-        "unicode"
+         "extra", "fonts", "function", "hex",
+         "macros", "navigation", "utility", "unicode"
     );
 
     List<String> secondary = Arrays.asList(
-        "armenian", "zhuyin", "braille", "cherokee",
-        "cherokee_2", "coptic", "coptic_shift",
-        "cree", "cyrillic", "deseret", "deseret_shift",
-        "devanagari", "etruscan", "futhark", "georgian",
-        "glagolitic", "gothic", "greek", "hiragana",
-        "katakana", "lisu", "ogham", "tifinagh", "zhuyin"
+         "armenian", "braille", "cherokee", "coptic",
+         "cree", "cyrillic", "deseret", "devanagari",
+         "etruscan", "futhark", "georgian", "glagolitic",
+         "gothic", "greek", "hiragana", "katakana",
+         "lisu", "ogham", "tifinagh", "zhuyin"
     );
 
     List<String> tertiary = Arrays.asList(
-        "clipboard", "mirror", "mirror_shift", "qwerty",
-        "rorrim", "shift_1", "shift_2", 
-        "accents", "coding", "dvorak", "emoji",
-        "ipa", "math", "symbol"
+         "clipboard", "mirror", "qwerty", "shift",
+         "accents", "coding", "dvorak", "emoji",
+         "ipa", "math", "symbol"
     );
 
     List<String> forthary = Arrays.asList(
-         "caps", "caps_shift", "morse", "drawing",
-         "insular", "pointy", "rotated",
-         "rotated_shift", "small_caps", "small_caps_shift", "stealth",
-         "stealth_shift", "strike", "tails"
+         "caps", "morse", "drawing", "insular",
+         "pointy", "rotated", "stealth", "strike",
+         "tails"
     );
 
     @Override
@@ -153,45 +153,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 catch (Exception ignored) {}
             }
         }
-        
-        
-        CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
-        int i;
-        boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
-        for(i = 0; i < preferences.getPreferenceCount(); i++) {
-            preference = (CheckBoxPreference)(preferences.getPreference(i));
-            if (preference == null) continue;
-            if (primary.contains(preference.getKey())) {
-                preference.setChecked(isChecked);
-            }
-        }
-        isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
-        for(i = 0; i < preferences.getPreferenceCount(); i++) {
-            preference = (CheckBoxPreference)(preferences.getPreference(i));
-            if (preference == null) continue;
-            if (secondary.contains(preference.getKey())) {
-                preference.setChecked(isChecked);
-            }
-        }
-        isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
-        for(i = 0; i < preferences.getPreferenceCount(); i++) {
-            preference = (CheckBoxPreference)(preferences.getPreference(i));
-            if (preference == null) continue;
-            if (tertiary.contains(preference.getKey())) {
-                preference.setChecked(isChecked);
-            }
-        }
-        isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
-        for(i = 0; i < preferences.getPreferenceCount(); i++) {
-            preference = (CheckBoxPreference)(preferences.getPreference(i));
-            if (preference == null) continue;
-            if (forthary.contains(preference.getKey())) {
-                preference.setChecked(isChecked);
-            }
-        }        
-        
-
-
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -200,25 +161,21 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+
         if (s.equals("primary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
-                if (
-
-                primary.contains(preference.getKey())
-
-                ) {
+                if (primary.contains(preference.getKey())) {
                     preference.setChecked(isChecked);
                 }
             }
         }
         if (s.equals("secondary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
@@ -230,7 +187,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         if (s.equals("tertiary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
@@ -242,7 +198,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         if (s.equals("forthary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
@@ -254,26 +209,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
 
         if (s.equals("all")) {
-            // StringBuilder layoutOrder = new StringBuilder();
+            StringBuilder layoutOrder = new StringBuilder();
             PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
-            // int start = preference.getOrder();
+            int start = preference.getOrder();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
                 if (preference == null) continue;
                 preference.setChecked(isChecked);
-                // layoutOrder.append(preference.getTitle()).append(" ").append(i).append("\n");
+                layoutOrder.append(preference.getTitle()).append(" ").append(i).append("\n");
             }
             ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
-
-
-
-            // EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
-            // layoutList.setText(layoutOrder.toString().trim());
+            EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
+            layoutList.setText(layoutOrder.toString().trim());
         }
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
@@ -291,7 +242,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             popup_a.setSummary(sharedPreferences.getString("popup_a", ""));
             popup_b.setSummary(sharedPreferences.getString("popup_b", ""));
             popup_c.setSummary(sharedPreferences.getString("popup_c", ""));
-
             name.setSummary(sharedPreferences.getString("title", ""));
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));

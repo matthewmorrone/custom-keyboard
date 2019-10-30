@@ -71,53 +71,43 @@ class Util {
     }
 
     static String unidata(int primaryCode) {
-        return primaryCode+" "+
-            convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n"+
-            toTitleCase(Character.getName(primaryCode))+"\n("+
-            Character.getType(primaryCode)+")\n"+
-            toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
-            (Character.isUpperCase(primaryCode) ? "Uppercase " : "")+
-            // "isTitleCase: " + Character.isTitleCase(primaryCode)+" "+
-            (Character.isLowerCase(primaryCode) ? "Lowercase " : "")+
-
-            // "toLowerCase: "+Character.toLowerCase(primaryCode)+" "+
-            // "toTitleCase: "+Character.toTitleCase(primaryCode)+" "+
-            // "toUpperCase: "+Character.toUpperCase(primaryCode)+" "+
-
-            (Character.isLetter(primaryCode) ? "Letter" : "")+
-            (Character.isDigit(primaryCode) ? "Digit" : "")+
-            (Character.isSpaceChar(primaryCode) ? "Space" : "");
-            // "isWhitespace: " + Character.isWhitespace(primaryCode)+" "+
-
-            /*
-
-            static byte	getDirectionality(int codePoint)
-            static String	getName(int codePoint)
-            static int	getNumericValue(int codePoint)
-            static int	getType(int codePoint)
-            static Character	valueOf(char c)
-
-            static int	toCodePoint(char high, char low)
-            static char	highSurrogate(int codePoint)
-            static char	lowSurrogate(int codePoint)
-            isSurrogatePair(char high, char low)
-
-            "isAlphabetic: " + Character.isAlphabetic(primaryCode)+" "+
-            "isBmpCodePoint: " + Character.isBmpCodePoint(primaryCode)+" "+
-            "isDefined: " + Character.isDefined(primaryCode)+" "+
-            "isIdentifierIgnorable: " + Character.isIdentifierIgnorable(primaryCode)+" "+
-            "isIdeographic: " + Character.isIdeographic(primaryCode)+" "+
-            "isISOControl: " + Character.isISOControl(primaryCode)+" "+
-            "isJavaIdentifierPart: " + Character.isJavaIdentifierPart(primaryCode)+" "+
-            "isJavaIdentifierStart: " + Character.isJavaIdentifierStart(primaryCode)+" "+
-            "isMirrored: " + Character.isMirrored(primaryCode)+" "+
-            "isSupplementaryCodePoint: " + Character.isSupplementaryCodePoint(primaryCode)+" "+
-            "isUnicodeIdentifierPart: " + Character.isUnicodeIdentifierPart(primaryCode)+" "+
-            "isUnicodeIdentifierStart: " + Character.isUnicodeIdentifierStart(primaryCode)+" "+
-            "isValidCodePoint: " + Character.isValidCodePoint(primaryCode)+" "+
-            "";
-            */
+        return primaryCode+"\n" +
+             convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n" +
+             toTitleCase(Character.getName(primaryCode))+"\n(" +
+             Character.getType(primaryCode)+")\n" +
+             getCharType((byte)Character.getType(primaryCode))+")\n" +
+             getCharacterType((byte)Character.getType(primaryCode))+")\n" +
+             toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n" +
+             "name: " + Character.getName(primaryCode)+"\n" +
+             "value: " + Character.getNumericValue(primaryCode)+"\n" +
+             "type: " + Character.getType(primaryCode)+"\n" +
+             "upper: " + Character.toUpperCase(primaryCode)+"\n" +
+             "title: " + Character.toTitleCase(primaryCode)+"\n" +
+             "lower: " + Character.toLowerCase(primaryCode)+"\n" +
+             "direction: " + Character.getDirectionality(primaryCode)+"\n"+
+             (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
+             (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
+             (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
+             (Character.isLetter(primaryCode) ? "Letter " : "") +
+             (Character.isDigit(primaryCode) ? "Digit " : "") +
+             (Character.isSpaceChar(primaryCode) ? "SpaceChar " : "") +
+             (Character.isWhitespace(primaryCode) ? "Whitespace " : "") +
+             (Character.isAlphabetic(primaryCode) ? "Alphabetic " : "") +
+             (Character.isBmpCodePoint(primaryCode) ? "BmpCodePoint " : "") +
+             (Character.isDefined(primaryCode) ? "Defined " : "") +
+             (Character.isIdentifierIgnorable(primaryCode) ? "IdentifierIgnorable " : "") +
+             (Character.isIdeographic(primaryCode) ? "Ideographic " : "") +
+             (Character.isISOControl(primaryCode) ? "ISOControl " : "") +
+             (Character.isJavaIdentifierPart(primaryCode) ? "JavaIdentifierPart " : "") +
+             (Character.isJavaIdentifierStart(primaryCode) ? "JavaIdentifierStart " : "") +
+             (Character.isMirrored(primaryCode) ? "Mirrored " : "") +
+             (Character.isSupplementaryCodePoint(primaryCode) ? "SupplementaryCodePoint " : "") +
+             (Character.isUnicodeIdentifierPart(primaryCode) ? "UnicodeIdentifierPart " : "") +
+             (Character.isUnicodeIdentifierStart(primaryCode) ? "UnicodeIdentifierStart " : "") +
+             (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint " : "") +
+             "";
     }
+
 
 
     static Date stringToDate(String date, String format) throws Exception {
@@ -778,6 +768,79 @@ class Util {
             }
         }
         return dist[sourceLength][targetLength];
+    }
+
+    public static String getCharType(byte ch) {
+        switch(ch) {
+            case  8: return "Mc";
+            case 23: return "Pc";
+            case 15: return "Cc";
+            case 26: return "Sc";
+            case 20: return "Pd";
+            case  9: return "Nd";
+            case  7: return "Me";
+            case 22: return "Pe";
+            case 30: return "Pf";
+            case 16: return "Cf";
+            case 29: return "Pi";
+            case 10: return "Nl";
+            case 13: return "Zl";
+            case  2: return "Ll";
+            case 25: return "Sm";
+            case  4: return "Lm";
+            case 27: return "Sk";
+            case  6: return "Mn";
+            case  5: return "Lo";
+            case 11: return "No";
+            case 24: return "Po";
+            case 28: return "So";
+            case 14: return "Zp";
+            case 18: return "Co";
+            case 12: return "Zs";
+            case 21: return "Ps";
+            case 19: return "Cs";
+            case  3: return "Lt";
+            case  0: return "Cn";
+            case  1: return "Lu";
+            default: return "";
+        }
+    }
+
+
+    public static String getCharacterType(byte ch) {
+        switch(ch) {
+            case  8: return "COMBINING_SPACING_MARK";
+            case 23: return "CONNECTOR_PUNCTUATION";
+            case 15: return "CONTROL";
+            case 26: return "CURRENCY_SYMBOL";
+            case 20: return "DASH_PUNCTUATION";
+            case  9: return "DECIMAL_DIGIT_NUMBER";
+            case  7: return "ENCLOSING_MARK";
+            case 22: return "END_PUNCTUATION";
+            case 30: return "FINAL_QUOTE_PUNCTUATION";
+            case 16: return "FORMAT";
+            case 29: return "INITIAL_QUOTE_PUNCTUATION";
+            case 10: return "LETTER_NUMBER";
+            case 13: return "LINE_SEPARATOR";
+            case  2: return "LOWERCASE_LETTER";
+            case 25: return "MATH_SYMBOL";
+            case  4: return "MODIFIER_LETTER";
+            case 27: return "MODIFIER_SYMBOL";
+            case  6: return "NON_SPACING_MARK";
+            case  5: return "OTHER_LETTER";
+            case 11: return "OTHER_NUMBER";
+            case 24: return "OTHER_PUNCTUATION";
+            case 28: return "OTHER_SYMBOL";
+            case 14: return "PARAGRAPH_SEPARATOR";
+            case 18: return "PRIVATE_USE";
+            case 12: return "SPACE_SEPARATOR";
+            case 21: return "START_PUNCTUATION";
+            case 19: return "SURROGATE";
+            case  3: return "TITLECASE_LETTER";
+            case  0: return "UNASSIGNED";
+            case  1: return "UPPERCASE_LETTER";
+            default: return "";
+        }
     }
 
 

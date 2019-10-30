@@ -1,115 +1,129 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <ListPreference android:title="Theme"   android:key="theme"   android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
-    <!--<ListPreference android:title="Standard Keyboard" android:key="standard" android:defaultValue="1" android:entryValues="@array/standard_values" android:entries="@array/standard" />-->
-    <SwitchPreference android:title="Use Custom Colors"  android:key="rainbow" android:defaultValue="false" />
-    <EditTextPreference android:title="Foreground" android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:key="fg" android:defaultValue="#FFFFFF" android:dialogMessage="Doesn't work yet." />
-    <EditTextPreference android:title="Background" android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:key="bg" android:defaultValue="#000000" android:dialogMessage="Doesn't work yet." />
-    <SwitchPreference android:title="Debug" android:key="debug" android:defaultValue="false" />
-    <SwitchPreference android:title="Display Char Data" android:key="show_data" android:defaultValue="true" />
-    <SwitchPreference android:title="Even ASCII" android:key="show_ascii_data" android:defaultValue="false" />
-    <SwitchPreference android:title="Vibrate" android:key="vib" android:defaultValue="true" />
-    <SwitchPreference android:title="Borders" android:key="borders" android:defaultValue="false" />
-    <SwitchPreference android:title="Padding" android:key="padding" android:defaultValue="false" />
-    <SwitchPreference android:title="Corners" android:key="corners" android:defaultValue="false" />
-    <SwitchPreference android:title="Background" android:key="keyback" android:defaultValue="false" />
-    <SwitchPreference android:title="Show Key Previews" android:key="preview" android:defaultValue="false" />
-    <SwitchPreference android:title="Insert Right" android:key="cursor_left" android:defaultValue="false" />
-    <SwitchPreference android:title="Show Layout Names" android:key="names" android:defaultValue="true" />
-    <SwitchPreference android:title="Insert Pairs" android:key="pairs" android:defaultValue="true" />
-    <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="true" />
-    <SwitchPreference android:title="Shortcuts" android:key="shortcuts" android:defaultValue="false" />
-    <!-- todo: create choice of trigger sigil -->
-    <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
-    <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="true" />
-    <SwitchPreference android:title="Double Space for Period" android:key="dot" android:defaultValue="false" />
-    <SwitchPreference android:title="Autocapitalization" android:key="autocaps" android:defaultValue="false" />
-    <SwitchPreference android:title="Toggle Selection Case on Shift" android:key="shift" android:defaultValue="false" />
-    <SwitchPreference android:title="Prediction" android:key="pred" android:defaultValue="false" />
-    <SwitchPreference android:title="Dynamic Space Bar" android:key="respace" android:defaultValue="false" />
-    <SwitchPreference android:title="Dynamic Layout Page" android:key="relayout" android:defaultValue="true" />
-    <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" />
-    <CheckBoxPreference android:key="all" android:title="All" android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
-    <CheckBoxPreference android:key="primary" android:title="Primary" android:defaultValue="false" />
-    <CheckBoxPreference android:key="secondary" android:title="Secondary" android:defaultValue="false" />
-    <CheckBoxPreference android:key="tertiary" android:title="Tertiary" android:defaultValue="false" />
-    <CheckBoxPreference android:key="forthary" android:title="Forthary" android:defaultValue="false" />
-    <PreferenceCategory android:key="layouts" android:title="Layouts">
-        <CheckBoxPreference android:key="accents" android:title="Accents" android:defaultValue="false" />
-        <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="false" />
-        <CheckBoxPreference android:key="braille" android:title="Braille" android:defaultValue="false" />
-        <CheckBoxPreference android:key="caps" android:title="Caps" android:defaultValue="false" />
-        <CheckBoxPreference android:key="cherokee" android:title="Cherokee" android:defaultValue="false" />
-        <CheckBoxPreference android:key="coding" android:title="Coding" android:defaultValue="false" />
-        <CheckBoxPreference android:key="coptic" android:title="Coptic" android:defaultValue="false" />
-        <CheckBoxPreference android:key="cree" android:title="Cree" android:defaultValue="false" />
-        <CheckBoxPreference android:key="cyrillic" android:title="Cyrillic" android:defaultValue="false" />
-        <CheckBoxPreference android:key="deseret" android:title="Deseret" android:defaultValue="false" />
-        <CheckBoxPreference android:key="drawing" android:title="Drawing" android:defaultValue="false" />
-        <CheckBoxPreference android:key="dvorak" android:title="Dvorak" android:defaultValue="false" />
-        <CheckBoxPreference android:key="emoji" android:title="Emoji" android:defaultValue="true" />
-        <CheckBoxPreference android:key="etruscan" android:title="Etruscan" android:defaultValue="false" />
-        <CheckBoxPreference android:key="extra" android:title="Extra" android:defaultValue="true" />
-        <CheckBoxPreference android:key="fonts" android:title="Fonts" android:defaultValue="true" />
-        <CheckBoxPreference android:key="function" android:title="Function" android:defaultValue="true" />
-        <CheckBoxPreference android:key="futhark" android:title="Futhark" android:defaultValue="false" />
-        <CheckBoxPreference android:key="georgian" android:title="Georgian" android:defaultValue="false" />
-        <CheckBoxPreference android:key="glagolitic" android:title="Glagolitic" android:defaultValue="false" />
-        <CheckBoxPreference android:key="gothic" android:title="Gothic" android:defaultValue="false" />
-        <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="false" />
-        <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
-        <CheckBoxPreference android:key="hiragana" android:title="Hiragana" android:defaultValue="false" />
-        <CheckBoxPreference android:key="katakana" android:title="Katakana" android:defaultValue="false" />
-        <CheckBoxPreference android:key="insular" android:title="Insular" android:defaultValue="false" />
-        <CheckBoxPreference android:key="ipa" android:title="IPA" android:defaultValue="false" />
-        <CheckBoxPreference android:key="lisu" android:title="Lisu" android:defaultValue="false" />
-        <CheckBoxPreference android:key="macros" android:title="Macros" android:defaultValue="true" />
-        <CheckBoxPreference android:key="math" android:title="Math" android:defaultValue="false" />
-        <CheckBoxPreference android:key="morse" android:title="Morse" android:defaultValue="false" />
-        <CheckBoxPreference android:key="mirror" android:title="Mirror" android:defaultValue="false" />
-        <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
-        <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="false" />
-        <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="false" />
-        <CheckBoxPreference android:key="pointy" android:title="Pointy" android:defaultValue="false" />
-        <CheckBoxPreference android:key="qwerty" android:title="Qwerty" android:defaultValue="true" />
-        <CheckBoxPreference android:key="rotated" android:title="Rotated" android:defaultValue="false" />
-        <CheckBoxPreference android:key="shift_1" android:title="Shift₁" android:defaultValue="false" />
-        <CheckBoxPreference android:key="shift_2" android:title="Shift₂" android:defaultValue="false" />
-        <CheckBoxPreference android:key="stealth" android:title="Stealth" android:defaultValue="false" />
-        <CheckBoxPreference android:key="strike" android:title="Strike" android:defaultValue="false" />
-        <CheckBoxPreference android:key="symbol" android:title="Symbol" android:defaultValue="false" />
-        <CheckBoxPreference android:key="tails" android:title="Tails" android:defaultValue="false" />
-        <CheckBoxPreference android:key="tifinagh" android:title="Tifinagh" android:defaultValue="false" />
-        <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
-        <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
-        <CheckBoxPreference android:key="zhuyin" android:title="Zhuyin" android:defaultValue="false" />
+
+    <PreferenceCategory android:key="behavior"   android:title="Behavior">
+        <SwitchPreference android:title="Vibrate"                   android:key="vib"               android:defaultValue="true"  />
+        <SwitchPreference android:title="Show Key Previews"         android:key="preview"           android:defaultValue="false" />
+        <SwitchPreference android:title="Debug"                     android:key="debug"             android:defaultValue="false" />
+        <SwitchPreference android:title="Display Char Data"         android:key="show_data"         android:defaultValue="true"  />
+        <SwitchPreference android:title="Even ASCII"                android:key="show_ascii_data"   android:defaultValue="false" />
+        <SwitchPreference android:title="Dynamic Space Bar"         android:key="respace"           android:defaultValue="false" />
+        <SwitchPreference android:title="Dynamic Layout Page"       android:key="relayout"          android:defaultValue="true"  />
+        <SwitchPreference android:title="Show Layout Names"         android:key="names"             android:defaultValue="true"  />
+        <SwitchPreference android:title="Insert Right"              android:key="cursor_left"       android:defaultValue="false" />
+        <SwitchPreference android:title="Insert Pairs"              android:key="pairs"             android:defaultValue="true"  />
+        <SwitchPreference android:title="Toggle Selection Case"     android:key="shift"             android:defaultValue="false" />
+        <SwitchPreference android:title="Autocorrect"               android:key="auto"              android:defaultValue="true"  />
+        <SwitchPreference android:title="Shortcuts"                 android:key="shortcuts"         android:defaultValue="false" /><!-- todo: create choice of trigger sigil -->
+        <SwitchPreference android:title="Indent with Spaces"        android:key="spaces"            android:defaultValue="true"  />
+        <SwitchPreference android:title="Indentation Helper"        android:key="indent"            android:defaultValue="true"  />
+        <SwitchPreference android:title="Double Space for Period"   android:key="dot"               android:defaultValue="false" />
+        <SwitchPreference android:title="Autocapitalization"        android:key="autocaps"          android:defaultValue="false" />
+        <SwitchPreference android:title="Prediction"                android:key="pred"              android:defaultValue="false" />
+        <EditTextPreference android:title="Word Separators"         android:key="seps"              android:defaultValue="@string/word_separators" android:dialogTitle="Word Separators" android:summary="@string/word_separators" android:dialogMessage="Doesn't work yet." />
     </PreferenceCategory>
-    <CheckBoxPreference android:key="custom_order" android:title="Custom Layout Order" android:defaultValue="false" />
+
+    <PreferenceCategory android:key="appearance"   android:title="Appearance">
+        <SwitchPreference   android:title="Borders"             android:key="borders"   android:defaultValue="false" />
+        <SwitchPreference   android:title="Padding"             android:key="padding"   android:defaultValue="false" />
+        <SwitchPreference   android:title="Corners"             android:key="corners"   android:defaultValue="false" />
+        <SwitchPreference   android:title="Background"          android:key="keyback"   android:defaultValue="false" />
+        <ListPreference     android:title="Theme"               android:key="theme"     android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
+        <SwitchPreference   android:title="Use Custom Colors"   android:key="rainbow"   android:defaultValue="false" />
+        <EditTextPreference android:title="Foreground"          android:key="fg"        android:defaultValue="#FFFFFF"          android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:dialogMessage="Doesn't work yet." />
+        <EditTextPreference android:title="Background"          android:key="bg"        android:defaultValue="#000000"          android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:dialogMessage="Doesn't work yet." />
+        <EditTextPreference android:title="Text Size"           android:key="text_size" android:defaultValue="@dimen/text_size" android:dialogTitle="Text Size"  android:summary="@dimen/text_size" android:inputType="number" android:dialogMessage="Doesn't work yet." />
+    </PreferenceCategory>
+
+    <CheckBoxPreference android:key="all"       android:title="All"         android:defaultValue="false" android:summaryOff="Enable All" android:summaryOn="Disable All" />
+    <PreferenceCategory android:key="layouts"   android:title="Layouts">
+
+        <CheckBoxPreference android:key="primary"       android:title="Primary"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="secondary"     android:title="Secondary"   android:defaultValue="false" />
+        <CheckBoxPreference android:key="tertiary"      android:title="Tertiary"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="forthary"      android:title="Forthary"    android:defaultValue="false" />
+
+        <CheckBoxPreference android:key="function"      android:title="Function"    android:defaultValue="true"  />
+        <CheckBoxPreference android:key="utility"       android:title="Utility"     android:defaultValue="true"  />
+        <CheckBoxPreference android:key="navigation"    android:title="Navigation"  android:defaultValue="true"  />
+        <CheckBoxPreference android:key="hex"           android:title="Hex"         android:defaultValue="true"  />
+        <CheckBoxPreference android:key="unicode"       android:title="Unicode"     android:defaultValue="true"  />
+        <CheckBoxPreference android:key="macros"        android:title="Macros"      android:defaultValue="true"  />
+
+        <CheckBoxPreference android:key="emoji"         android:title="Emoji"       android:defaultValue="true"  />
+        <CheckBoxPreference android:key="extra"         android:title="Extra"       android:defaultValue="true"  />
+        <CheckBoxPreference android:key="fonts"         android:title="Fonts"       android:defaultValue="true"  />
+        <CheckBoxPreference android:key="qwerty"        android:title="Qwerty"      android:defaultValue="true"  />
+        <CheckBoxPreference android:key="accents"       android:title="Accents"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="ipa"           android:title="IPA"         android:defaultValue="false" />
+        <CheckBoxPreference android:key="math"          android:title="Math"        android:defaultValue="false" />
+        <CheckBoxPreference android:key="symbol"        android:title="Symbol"      android:defaultValue="false" />
+
+        <CheckBoxPreference android:key="armenian"      android:title="Armenian"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="cherokee"      android:title="Cherokee"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="coptic"        android:title="Coptic"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="cree"          android:title="Cree"        android:defaultValue="false" />
+        <CheckBoxPreference android:key="cyrillic"      android:title="Cyrillic"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="deseret"       android:title="Deseret"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="etruscan"      android:title="Etruscan"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="futhark"       android:title="Futhark"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="georgian"      android:title="Georgian"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="glagolitic"    android:title="Glagolitic"  android:defaultValue="false" />
+        <CheckBoxPreference android:key="gothic"        android:title="Gothic"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="greek"         android:title="Greek"       android:defaultValue="false" />
+        <CheckBoxPreference android:key="hiragana"      android:title="Hiragana"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="katakana"      android:title="Katakana"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="lisu"          android:title="Lisu"        android:defaultValue="false" />
+        <CheckBoxPreference android:key="ogham"         android:title="Ogham"       android:defaultValue="false" />
+        <CheckBoxPreference android:key="pinyin"        android:title="Pinyin"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="tifinagh"      android:title="Tifinagh"    android:defaultValue="false" />
+        <CheckBoxPreference android:key="zhuyin"        android:title="Zhuyin"      android:defaultValue="false" />
+
+        <CheckBoxPreference android:key="braille"       android:title="Braille"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="caps"          android:title="Caps"        android:defaultValue="false" />
+        <CheckBoxPreference android:key="coding"        android:title="Coding"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="drawing"       android:title="Drawing"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="dvorak"        android:title="Dvorak"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="insular"       android:title="Insular"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="morse"         android:title="Morse"       android:defaultValue="false" />
+        <CheckBoxPreference android:key="mirror"        android:title="Mirror"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="pointy"        android:title="Pointy"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="rotated"       android:title="Rotated"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="shift_1"       android:title="Shift₁"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="shift_2"       android:title="Shift₂"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="stealth"       android:title="Stealth"     android:defaultValue="false" />
+        <CheckBoxPreference android:key="strike"        android:title="Strike"      android:defaultValue="false" />
+        <CheckBoxPreference android:key="tails"         android:title="Tails"       android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <!--<CheckBoxPreference android:key="custom_order" android:title="Custom Layout Order" android:defaultValue="false" />-->
+    <EditTextPreference android:title="Layout Order" android:dialogTitle="Layout Order" android:persistent="true" android:key="layout_order" android:lines="5" android:defaultValue="" android:dialogMessage="Doesn't work yet." />
+
     <PreferenceCategory android:key="hint" android:title="Hints">
-        <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="true" />
+        <SwitchPreference android:title="Hints"  android:key="hints" android:defaultValue="true"  />
         <SwitchPreference android:title="Hint 1" android:key="hint1" android:defaultValue="true"  android:dependency="hints" />
-        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="false"  android:dependency="hints" />
+        <SwitchPreference android:title="Hint 2" android:key="hint2" android:defaultValue="false" android:dependency="hints" />
         <SwitchPreference android:title="Hint 3" android:key="hint3" android:defaultValue="false" android:dependency="hints" />
         <SwitchPreference android:title="Hint 4" android:key="hint4" android:defaultValue="false" android:dependency="hints" />
     </PreferenceCategory>
-    <EditTextPreference android:title="Text Size"         android:dialogTitle="Text Size"       android:summary="@dimen/text_size"          android:key="text_size" android:defaultValue="@dimen/text_size" android:inputType="number" android:dialogMessage="Doesn't work yet." />
-    <EditTextPreference android:title="Word Separators"   android:dialogTitle="Word Separators" android:summary="@string/word_separators"   android:key="seps"      android:defaultValue="@string/word_separators" />
-    <EditTextPreference android:title="Popup 1"           android:dialogTitle="Popup 1"         android:summary="@string/popup_a"            android:key="popup_a"    android:defaultValue="@string/popup_a" android:dialogMessage="Doesn't work yet." />
-    <EditTextPreference android:title="Popup 2"           android:dialogTitle="Popup 2"         android:summary="@string/popup_b"            android:key="popup_b"    android:defaultValue="@string/popup_b" android:dialogMessage="Doesn't work yet." />
-    <EditTextPreference android:title="Popup 3"           android:dialogTitle="Popup 3"         android:summary="@string/popup_c"            android:key="popup_c"    android:defaultValue="@string/popup_c" android:dialogMessage="Doesn't work yet." />
+
     <PreferenceCategory android:key="custom_keys" android:title="Custom Keys">
-        <EditTextPreference android:dialogTitle="Name" android:title="Name" android:key="name" android:defaultValue="@string/name" />
-        <EditTextPreference android:dialogTitle="Email" android:title="Email" android:key="email" android:defaultValue="@string/email" />
-        <EditTextPreference android:dialogTitle="Phone №" android:title="Phone №" android:key="phone" android:defaultValue="@string/phone" />
-        <EditTextPreference android:dialogTitle="Address" android:title="Address" android:key="address" android:defaultValue="@string/address" />
-        <EditTextPreference android:dialogTitle="Custom Key 1" android:title="Custom Key 1" android:summary="@string/k1" android:key="k1" android:defaultValue="@string/k1" />
-        <EditTextPreference android:dialogTitle="Custom Key 2" android:title="Custom Key 2" android:summary="@string/k2" android:key="k2" android:defaultValue="@string/k2" />
-        <EditTextPreference android:dialogTitle="Custom Key 3" android:title="Custom Key 3" android:summary="@string/k3" android:key="k3" android:defaultValue="@string/k3" />
-        <EditTextPreference android:dialogTitle="Custom Key 4" android:title="Custom Key 4" android:summary="@string/k4" android:key="k4" android:defaultValue="@string/k4" />
-        <EditTextPreference android:dialogTitle="Custom Key 5" android:title="Custom Key 5" android:summary="@string/k5" android:key="k5" android:defaultValue="@string/k5" />
-        <EditTextPreference android:dialogTitle="Custom Key 6" android:title="Custom Key 6" android:summary="@string/k6" android:key="k6" android:defaultValue="@string/k6" />
-        <EditTextPreference android:dialogTitle="Custom Key 7" android:title="Custom Key 7" android:summary="@string/k7" android:key="k7" android:defaultValue="@string/k7" />
-        <EditTextPreference android:dialogTitle="Custom Key 8" android:title="Custom Key 8" android:summary="@string/k8" android:key="k8" android:defaultValue="@string/k8" />
+        <EditTextPreference android:title="Popup 1"      android:dialogTitle="Popup 1"       android:key="popup_a"  android:summary="@string/popup_a"   android:defaultValue="@string/popup_a" android:dialogMessage="Doesn't work yet." />
+        <EditTextPreference android:title="Popup 2"      android:dialogTitle="Popup 2"       android:key="popup_b"  android:summary="@string/popup_b"   android:defaultValue="@string/popup_b" android:dialogMessage="Doesn't work yet." />
+        <EditTextPreference android:title="Popup 3"      android:dialogTitle="Popup 3"       android:key="popup_c"  android:summary="@string/popup_c"   android:defaultValue="@string/popup_c" android:dialogMessage="Doesn't work yet." />
+        <EditTextPreference android:title="Name"         android:dialogTitle="Name"          android:key="name"     android:summary="@string/name"      android:defaultValue="@string/name" />
+        <EditTextPreference android:title="Email"        android:dialogTitle="Email"         android:key="email"    android:summary="@string/email"     android:defaultValue="@string/email" />
+        <EditTextPreference android:title="Phone №"      android:dialogTitle="Phone №"       android:key="phone"    android:summary="@string/phone"     android:defaultValue="@string/phone" />
+        <EditTextPreference android:title="Address"      android:dialogTitle="Address"       android:key="address"  android:summary="@string/address"   android:defaultValue="@string/address" />
+        <EditTextPreference android:title="Custom Key 1" android:dialogTitle="Custom Key 1"  android:key="k1"       android:summary="@string/k1"        android:defaultValue="@string/k1" />
+        <EditTextPreference android:title="Custom Key 2" android:dialogTitle="Custom Key 2"  android:key="k2"       android:summary="@string/k2"        android:defaultValue="@string/k2" />
+        <EditTextPreference android:title="Custom Key 3" android:dialogTitle="Custom Key 3"  android:key="k3"       android:summary="@string/k3"        android:defaultValue="@string/k3" />
+        <EditTextPreference android:title="Custom Key 4" android:dialogTitle="Custom Key 4"  android:key="k4"       android:summary="@string/k4"        android:defaultValue="@string/k4" />
+        <EditTextPreference android:title="Custom Key 5" android:dialogTitle="Custom Key 5"  android:key="k5"       android:summary="@string/k5"        android:defaultValue="@string/k5" />
+        <EditTextPreference android:title="Custom Key 6" android:dialogTitle="Custom Key 6"  android:key="k6"       android:summary="@string/k6"        android:defaultValue="@string/k6" />
+        <EditTextPreference android:title="Custom Key 7" android:dialogTitle="Custom Key 7"  android:key="k7"       android:summary="@string/k7"        android:defaultValue="@string/k7" />
+        <EditTextPreference android:title="Custom Key 8" android:dialogTitle="Custom Key 8"  android:key="k8"       android:summary="@string/k8"        android:defaultValue="@string/k8" />
     </PreferenceCategory>
+
 </PreferenceScreen>
