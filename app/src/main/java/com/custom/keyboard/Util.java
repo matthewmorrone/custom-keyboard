@@ -40,10 +40,9 @@ class Util {
     static String normalize(String input) {
         // String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         // return normalized.toLowerCase(Locale.ENGLISH);
-        return Normalizer
-             .normalize(input, Normalizer.Form.NFD)
-             .replaceAll("[^\\p{ASCII}]", "")
-             .toLowerCase();
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                         .replaceAll("[^\\p{ASCII}]", "")
+                         .toLowerCase();
     }
 
     static HashMap<Character,Integer> getCharacterFrequencies(String s) {
@@ -69,7 +68,6 @@ class Util {
 
     static String unidata(String text) {
         if (text.length() < 1) return "";
-        // if (text.length() > 1) text = text.substring(0, 1);
         return unidata((int)text.charAt(0));
     }
 
@@ -78,19 +76,17 @@ class Util {
              convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n" +
              toTitleCase(Character.getName(primaryCode))+"\n(" +
              Character.getType(primaryCode)+")\n" +
-             getCharType((byte)Character.getType(primaryCode))+")\n" +
-             getCharacterType((byte)Character.getType(primaryCode))+")\n" +
-             toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n" +
-             "name: " + Character.getName(primaryCode)+"\n" +
-             "value: " + Character.getNumericValue(primaryCode)+"\n" +
-             "type: " + Character.getType(primaryCode)+"\n" +
-             "upper: " + Character.toUpperCase(primaryCode)+"\n" +
-             "title: " + Character.toTitleCase(primaryCode)+"\n" +
-             "lower: " + Character.toLowerCase(primaryCode)+"\n" +
-             "direction: " + Character.getDirectionality(primaryCode)+"\n"+
+             getCharType((byte)Character.getType(primaryCode))+", " +
+             getCharacterType((byte)Character.getType(primaryCode))+", " +
+             toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+", " +
+             "value: " + Character.getNumericValue(primaryCode)+", " +
+             "direction: " + Character.getDirectionality(primaryCode)+", "+
              (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
              (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
              (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
+             "upper: " + Character.toUpperCase(primaryCode)+", " +
+             "title: " + Character.toTitleCase(primaryCode)+", " +
+             "lower: " + Character.toLowerCase(primaryCode)+", " +
              (Character.isLetter(primaryCode) ? "Letter " : "") +
              (Character.isDigit(primaryCode) ? "Digit " : "") +
              (Character.isSpaceChar(primaryCode) ? "SpaceChar " : "") +
@@ -151,7 +147,6 @@ class Util {
     }
 
     static String escapeHtml(String s) {
-        // return Html.escapeHtml(html).trim();
         StringBuilder out = new StringBuilder(Math.max(16, s.length()));
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -709,68 +704,6 @@ class Util {
         explicitIntent.setComponent(component);
 
         return explicitIntent;
-    }
-
-    public final double levenshtein(final String s1, final String s2) {
-        return levenshtein(s1, s2, Integer.MAX_VALUE);
-    }
-
-    public final double levenshtein(final String s1, final String s2, final int limit) {
-        if (s1 == null) throw new NullPointerException("s1 must not be null");
-        if (s2 == null) throw new NullPointerException("s2 must not be null");
-        if (s1.equals(s2)) return 0;
-        if (s1.length() == 0) return s2.length();
-        if (s2.length() == 0) return s1.length();
-        int[] v0 = new int[s2.length() + 1];
-        int[] v1 = new int[s2.length() + 1];
-        int[] vtemp;
-        int i, j, minv1, cost;
-        for (i = 0; i < v0.length; i++) v0[i] = i;
-        for (i = 0; i < s1.length(); i++) {
-            v1[0] = i + 1;
-            minv1 = v1[0];
-            for (j = 0; j < s2.length(); j++) {
-                cost = 1;
-                if (s1.charAt(i) == s2.charAt(j)) cost = 0;
-                v1[j + 1] = Math.min( v1[j] + 1, Math.min(v0[j + 1] + 1, v0[j] + cost));
-                minv1 = Math.min(minv1, v1[j + 1]);
-            }
-            if (minv1 >= limit) return limit;
-            vtemp = v0;
-            v0 = v1;
-            v1 = vtemp;
-        }
-        return v0[s2.length()];
-    }
-
-    public static int damerauLevenshtein(CharSequence source, CharSequence target) {
-        if (source == null || target == null) {
-            throw new IllegalArgumentException("Parameter must not be null");
-        }
-        int sourceLength = source.length();
-        int targetLength = target.length();
-        if (sourceLength == 0) return targetLength;
-        if (targetLength == 0) return sourceLength;
-        int[][] dist = new int[sourceLength + 1][targetLength + 1];
-        for (int i = 0; i < sourceLength + 1; i++) {
-            dist[i][0] = i;
-        }
-        for (int j = 0; j < targetLength + 1; j++) {
-            dist[0][j] = j;
-        }
-        for (int i = 1; i < sourceLength + 1; i++) {
-            for (int j = 1; j < targetLength + 1; j++) {
-                int cost = source.charAt(i - 1) == target.charAt(j - 1) ? 0 : 1;
-                dist[i][j] = Math.min(Math.min(dist[i - 1][j] + 1, dist[i][j - 1] + 1), dist[i - 1][j - 1] + cost);
-                if (i > 1 &&
-                     j > 1 &&
-                     source.charAt(i - 1) == target.charAt(j - 2) &&
-                     source.charAt(i - 2) == target.charAt(j - 1)) {
-                    dist[i][j] = Math.min(dist[i][j], dist[i - 2][j - 2] + cost);
-                }
-            }
-        }
-        return dist[sourceLength][targetLength];
     }
 
     public static String getCharType(byte ch) {

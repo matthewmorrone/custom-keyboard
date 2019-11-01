@@ -35,16 +35,16 @@
     <Row android:keyWidth="20%p">
         <Key android:codes="56" android:keyLabel="8" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="57" android:keyLabel="9" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="97" android:keyLabel="a" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="98" android:keyLabel="b" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="65" android:keyLabel="A" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="66" android:keyLabel="B" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-55" android:keyLabel="\\x→" android:keyWidth="10%p" />
         <Key android:codes="-56" android:keyLabel="→\\x" android:keyWidth="10%p" />
     </Row>
     <Row android:keyWidth="20%p">
-        <Key android:codes="99" android:keyLabel="c" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="100" android:keyLabel="d" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="102" android:keyLabel="f" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="67" android:keyLabel="C" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="68" android:keyLabel="D" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="69" android:keyLabel="E" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="70" android:keyLabel="F" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5" android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" android:keyWidth="10%p" />
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"  android:isRepeatable="true" android:keyWidth="10%p" />
     </Row>

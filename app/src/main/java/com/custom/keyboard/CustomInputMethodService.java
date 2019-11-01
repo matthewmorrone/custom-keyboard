@@ -161,7 +161,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                                                             layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456").setCategory(Category.Main));
         if (sharedPreferences.getBoolean("pinyin",     f)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("pointy",     f)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("qwerty",     t)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty,      "qwerty",      "Qwerty",     "qwerty").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("qwerty",     f)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty,      "qwerty",      "Qwerty",     "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("rotated",    f)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("shift_1",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift₁",     "qWeRtY").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("shift_2",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_2,     "shift_2",     "Shift₂",     "QwErTy").setCategory(Category.Misc));}
@@ -510,7 +510,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         mWordSeparators = getResources().getString(R.string.word_separators);
-        final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        // final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         toast = new Toast(getBaseContext());
         populate();
 
@@ -1043,8 +1043,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    private Map<String, String> replacementData = Edit.getReplacements();
-
     public void handleCharacter(int primaryCode) {
 
         ic = getCurrentInputConnection();
@@ -1078,19 +1076,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (primaryCode == 32) {
                 String lastWord = getLastWord();
                 String newWord = spellchecker.check(lastWord);
+                toastIt(lastWord+""+newWord);
                 if (!lastWord.equals(newWord)) {
                     ic.deleteSurroundingText(lastWord.length(), 0);
                     commitText(newWord);
-                }
-            }
-            if (!Util.isLetter(primaryCode) || primaryCode == 32 || primaryCode == 10) {
-                String lastWord = " "+getLastWord();
-                System.out.println(lastWord);
-                String replacement = replacementData.get(lastWord);
-                System.out.println(replacement);
-                if (replacement != null) {
-                    ic.deleteSurroundingText(lastWord.length(), 0);
-                    commitText(replacement);
                 }
             }
         }
@@ -1305,7 +1294,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 hexBuffer += (char)primaryCode;
             }
             if (primaryCode == -2003) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-
             if (primaryCode == -2004) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
             if (primaryCode == -2005) {
                 if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
