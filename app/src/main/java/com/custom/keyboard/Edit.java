@@ -12,8 +12,8 @@ public class Edit {
 
     static Map<String,String> typos = new HashMap<>();
 
-    public Edit(Context context) {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.typos);
+    private void readFile(Context context, int id) {
+        InputStream inputStream = context.getResources().openRawResource(id);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         StringBuilder stringBuilder = new StringBuilder();
@@ -22,15 +22,19 @@ public class Edit {
             String[] pair;
             while ((string = bufferedReader.readLine()) != null) {
                 pair = string.split(",");
-                if (pair.length > 1) {
+                if (pair.length > 1 && typos.get(pair[0]) == null) {
                     typos.put(pair[0], pair[1]);
                 }
-                else System.out.println(string);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Edit(Context context) {
+        readFile(context, R.raw.typos);
+        readFile(context, R.raw.typos_more);
     }
 
     public void add(String src, String trg) {

@@ -29,7 +29,6 @@ import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.SpellCheckerSession;
-import android.view.textservice.TextServicesManager;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1076,7 +1075,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (primaryCode == 32) {
                 String lastWord = getLastWord();
                 String newWord = spellchecker.check(lastWord);
-                toastIt(lastWord+""+newWord);
+                // toastIt(lastWord+""+newWord);
                 if (!lastWord.equals(newWord)) {
                     ic.deleteSurroundingText(lastWord.length(), 0);
                     commitText(newWord);
