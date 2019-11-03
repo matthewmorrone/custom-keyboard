@@ -4,7 +4,7 @@
 
     <PreferenceCategory android:key="behavior"   android:title="Behavior">
         <SwitchPreference android:icon="@drawable/ic_vibration"     android:title="Vibrate"                   android:key="vib"               android:defaultValue="true"  />
-        <SwitchPreference android:title="Show Key Previews"         android:key="preview"           android:defaultValue="false" />
+        <SwitchPreference android:icon="@drawable/ic_key_preview"   android:title="Show Key Previews"         android:key="preview"           android:defaultValue="false" />
         <SwitchPreference android:icon="@drawable/ic_bug" android:title="Debug"                     android:key="debug"             android:defaultValue="false" />
         <SwitchPreference android:icon="@drawable/ic_unicode" android:title="Display Char Data"         android:key="show_data"         android:defaultValue="true"  />
         <SwitchPreference android:title="Even ASCII"                android:key="show_ascii_data"   android:defaultValue="false" />
@@ -14,7 +14,7 @@
         <SwitchPreference android:title="Insert Right"              android:key="cursor_left"       android:defaultValue="false" />
         <SwitchPreference android:icon="@drawable/ic_pairs" android:title="Insert Pairs"              android:key="pairs"             android:defaultValue="true"  />
         <SwitchPreference android:title="Toggle Selection Case"     android:key="shift"             android:defaultValue="false" />
-        <SwitchPreference android:title="Autocorrect"               android:key="auto"              android:defaultValue="true"  />
+        <SwitchPreference android:title="Autocorrect"               android:key="auto"              android:defaultValue="false" />
         <SwitchPreference android:title="Shortcuts"                 android:key="shortcuts"         android:defaultValue="false" /><!-- todo: create choice of trigger sigil -->
         <SwitchPreference android:title="Indent with Spaces"        android:key="spaces"            android:defaultValue="true"  />
         <SwitchPreference android:title="Indentation Helper"        android:key="indent"            android:defaultValue="true"  />
@@ -25,8 +25,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:key="appearance"   android:title="Appearance">
-        <SwitchPreference   android:title="Borders"             android:key="borders"   android:defaultValue="false" />
-        <SwitchPreference   android:title="Padding"             android:key="padding"   android:defaultValue="false" />
+        <SwitchPreference   android:icon="@drawable/ic_borders" android:title="Borders"             android:key="borders"   android:defaultValue="false" />
+        <SwitchPreference   android:icon="@drawable/ic_padding" android:title="Padding"             android:key="padding"   android:defaultValue="false" />
         <SwitchPreference   android:title="Corners"             android:key="corners"   android:defaultValue="false" />
         <SwitchPreference   android:title="Background"          android:key="keyback"   android:defaultValue="false" />
         <ListPreference     android:title="Theme"               android:key="theme"     android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />

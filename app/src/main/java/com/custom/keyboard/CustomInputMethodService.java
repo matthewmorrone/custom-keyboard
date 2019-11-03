@@ -28,7 +28,7 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textservice.SpellCheckerSession;
+// import android.view.textservice.SpellCheckerSession;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
@@ -92,12 +92,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     CustomKeyboardView kv;
     CustomKeyboard currentKeyboard;
     int currentKeyboardID = 0;
-    short rowNumber = 6;
+    short rowNumber = 7;
     public String mWordSeparators;
     public StringBuilder mComposing = new StringBuilder();
     public boolean mPredictionOn;
     public boolean mCompletionOn;
-    SpellCheckerSession mScs;
+    // SpellCheckerSession mScs;
     List<String> mSuggestions;
     public CustomView mCandidateView;
     public CompletionInfo[] mCompletions;
@@ -445,6 +445,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 kv.setKeyboard(currentKeyboard);
                 kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+                if (currentKeyboardID == 0
+                ||  currentKeyboard.key.equals("url")
+                ) {
+                    currentKeyboard.setRowNumber(getRowNumber());
+                }
+                else {
+                    currentKeyboard.setRowNumber((short)6);
+                }
                 redraw();
             }
         }
@@ -453,7 +461,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void setKeyboard() {
-        if (currentKeyboardID >= layouts.size()-1) currentKeyboardID = 0;
+        if (currentKeyboardID >= layouts.size()-1) currentKeyboardID = layouts.size()-2;
         setKeyboardLayout(currentKeyboardID);
     }
 
@@ -557,8 +565,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        // setTheme();
-        mDefaultFilter = Themes.sPositiveColorArray;
+        setTheme();
         mComposing.setLength(0);
         mCompletions = null;
 
@@ -947,24 +954,24 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (theme != null) {
                 if (theme.equals("0")) theme = String.valueOf(Util.generateRandomInt(1, 22));
                 switch (theme) {
-                    case  "1": mDefaultFilter = Themes.sPositiveColorArray; break;
-                    case  "2": mDefaultFilter = Themes.sNegativeColorArray; break;
-                    case  "3": mDefaultFilter = Themes.sBlueWhiteColorArray;break;
-                    case  "4": mDefaultFilter = Themes.sBlueBlackColorArray;break;
+                    case  "1": mDefaultFilter = Themes.sPositiveColorArray;     break;
+                    case  "2": mDefaultFilter = Themes.sNegativeColorArray;     break;
+                    case  "3": mDefaultFilter = Themes.sBlueWhiteColorArray;    break;
+                    case  "4": mDefaultFilter = Themes.sBlueBlackColorArray;    break;
                     case  "5": mDefaultFilter = Themes.sGreenWhiteColorArray;   break;
                     case  "6": mDefaultFilter = Themes.sGreenBlackColorArray;   break;
-                    case  "7": mDefaultFilter = Themes.sRedWhiteColorArray; break;
-                    case  "8": mDefaultFilter = Themes.sRedBlackColorArray; break;
-                    case  "9": mDefaultFilter = Themes.sCyanWhiteColorArray;break;
-                    case "10": mDefaultFilter = Themes.sCyanBlackColorArray;break;
+                    case  "7": mDefaultFilter = Themes.sRedWhiteColorArray;     break;
+                    case  "8": mDefaultFilter = Themes.sRedBlackColorArray;     break;
+                    case  "9": mDefaultFilter = Themes.sCyanWhiteColorArray;    break;
+                    case "10": mDefaultFilter = Themes.sCyanBlackColorArray;    break;
                     case "11": mDefaultFilter = Themes.sMagentaWhiteColorArray; break;
                     case "12": mDefaultFilter = Themes.sMagentaBlackColorArray; break;
                     case "13": mDefaultFilter = Themes.sYellowWhiteColorArray;  break;
                     case "14": mDefaultFilter = Themes.sYellowBlackColorArray;  break;
                     case "15": mDefaultFilter = Themes.sPurpleWhiteColorArray;  break;
                     case "16": mDefaultFilter = Themes.sPurpleBlackColorArray;  break;
-                    case "17": mDefaultFilter = Themes.sPinkWhiteColorArray;break;
-                    case "18": mDefaultFilter = Themes.sPinkBlackColorArray;break;
+                    case "17": mDefaultFilter = Themes.sPinkWhiteColorArray;    break;
+                    case "18": mDefaultFilter = Themes.sPinkBlackColorArray;    break;
                     case "19": mDefaultFilter = Themes.sOrangeWhiteColorArray;  break;
                     case "20": mDefaultFilter = Themes.sOrangeBlackColorArray;  break;
                     case "21": mDefaultFilter = Themes.sMaterialLiteColorArray; break;
@@ -979,139 +986,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         catch (Exception ignored) {}
     }
 
-    public void handleBackspace() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        ic = getCurrentInputConnection();
-        final int length = mComposing.length();
-
-        String prev;
-        try {
-            prev = String.valueOf(ic.getTextBeforeCursor(1, 0).length() > 0 ? ic.getTextBeforeCursor(1, 0) : "");
-        }
-        catch (Exception e) {
-            prev = "";
-        }
-
-        try {
-            if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
-                ic.deleteSurroundingText(4, 0);
-            }
-            else if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
-                ic.deleteSurroundingText(0, 1);
-            }
-            if (length > 1) {
-                mComposing.delete(length - 1, length);
-                ic.setComposingText(mComposing, 1);
-            }
-            else if (length > 0) {
-                mComposing.setLength(0);
-                commitText("");
-            }
-            else {
-                sendKey(KeyEvent.KEYCODE_DEL);
-            }
-            if (Character.isUpperCase(prev.charAt(0))) {
-                setCapsOn(t);
-                firstCaps = t;
-            }
-            else {
-                setCapsOn(f);
-                firstCaps = f;
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
-        }
-        catch (Exception ignored) {}
-    }
-
-    public void handleDelete() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        ic = getCurrentInputConnection();
-        final int length = mComposing.length();
-        if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
-            ic.deleteSurroundingText(0, 4);
-        }
-        else if (length > 1) {
-            mComposing.delete(length, length - 1);
-            ic.setComposingText(mComposing, 1);
-        }
-        else if (length > 0) {
-            mComposing.setLength(0);
-            commitText("");
-        }
-        else sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
-        updateShiftKeyState(getCurrentInputEditorInfo());
-    }
-
-    public void handleCharacter(int primaryCode) {
-
-        ic = getCurrentInputConnection();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        primaryCode = KeyCodes.handleCharacter(kv, primaryCode);
-        if (sharedPreferences.getBoolean("show_data", f) && !currentKeyboard.title.equals("Pinyin")) {
-            if (sharedPreferences.getBoolean("show_ascii_data", f) || primaryCode > 127) {
-                crispIt(Util.unidata(primaryCode));
-            }
-        }
-        if (sharedPreferences.getBoolean("pairs", t)) {
-
-            if (Util.contains("({\"[", primaryCode)) {
-
-                String code = String.valueOf((char)primaryCode);
-                if (code.equals("("))  commitText("()");
-                if (code.equals("["))  commitText("[]");
-                if (code.equals("{"))  commitText("{}");
-                if (code.equals("\"")) commitText("\"\"");
-                if (Variables.isReflected() || sharedPreferences.getBoolean("cursor_left", f) || currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) {
-                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
-                }
-                else {
-                    sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
-                }
-                return;
-            }
-        }
-
-        if (sharedPreferences.getBoolean("auto", t)) {
-            if (primaryCode == 32) {
-                String lastWord = getLastWord();
-                String newWord = spellchecker.check(lastWord);
-                // toastIt(lastWord+""+newWord);
-                if (!lastWord.equals(newWord)) {
-                    ic.deleteSurroundingText(lastWord.length(), 0);
-                    commitText(newWord);
-                }
-            }
-        }
-
-        if (isInputViewShown()) {
-            if (kv.isShifted()) {
-                primaryCode = Character.toUpperCase(primaryCode);
-            }
-        }
-        if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
-            mComposing.append((char)primaryCode);
-            ic.setComposingText(mComposing, 1);
-            updateShiftKeyState(getCurrentInputEditorInfo());
-        }
-        if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
-            char code = (char)primaryCode;
-            if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-                code = Character.toUpperCase(code);
-            }
-            ic.setComposingRegion(0, 0);
-            commitText(String.valueOf(code), 1);
-            firstCaps = f;
-            setCapsOn(f);
-        }
-        if (!mPredictionOn) {
-            ic.setComposingRegion(0, 0);
-            commitText(String.valueOf(Character.toChars(primaryCode)), 1);
-            firstCaps = f;
-            setCapsOn(f);
-        }
-        if (isSelecting()) ic.setSelection(Variables.cursorStart, getSelectionEnd());
-    }
-
+    
     public void replaceText(String src, String trg) {
         ic.deleteSurroundingText(src.length(), 0);
         commitText(trg);
@@ -1119,11 +994,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public String getLastWord() {
         ic = getCurrentInputConnection();
-        String prev = String.valueOf(ic.getTextBeforeCursor(MAX, 0));
+        String prev = String.valueOf(ic.getTextBeforeCursor(20, 0));
         prev = prev.trim();
         String[] words = prev.split(" ");
-        if (words.length < 2) return ic.getTextBeforeCursor(MAX, 0).toString();
-        return words.length > 1 ? words[words.length-1] : words[0];
+        if (words.length < 2) return ic.getTextBeforeCursor(20, 0).toString();
+        return words[words.length-1];
     }
 
     public String getLastMorse() {
@@ -1183,6 +1058,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 case -2003:
                     commitText(Util.unidata(getText(ic)));
                 break;
+                case 31: 
+                    performContextMenuAction(16908330);
+                break;
             }
         }
     }
@@ -1241,6 +1119,198 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             crispIt(e.toString());
         }
         return f;
+    }
+    
+    public void handleBackspace() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        ic = getCurrentInputConnection();
+        final int length = mComposing.length();
+
+        String prev;
+        try {
+            prev = String.valueOf(ic.getTextBeforeCursor(1, 0).length() > 0 ? ic.getTextBeforeCursor(1, 0) : "");
+        }
+        catch (Exception e) {
+            prev = "";
+        }
+
+        try {
+            if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
+                ic.deleteSurroundingText(4, 0);
+            }
+            else if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
+                ic.deleteSurroundingText(0, 1);
+            }
+            else if (length > 1) {
+                mComposing.delete(length - 1, length);
+                ic.setComposingText(mComposing, 1);
+            }
+            else if (length > 0) {
+                mComposing.setLength(0);
+                commitText("");
+            }
+            else {
+                sendKey(KeyEvent.KEYCODE_DEL);
+            }
+            if (Character.isUpperCase(prev.charAt(0))) {
+                setCapsOn(t);
+                firstCaps = t;
+            }
+            else {
+                setCapsOn(f);
+                firstCaps = f;
+            }
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        }
+        catch (Exception ignored) {}
+        
+        // spellcheck(0);
+    }
+
+    public void handleDelete() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        ic = getCurrentInputConnection();
+        final int length = mComposing.length();
+        if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
+            ic.deleteSurroundingText(0, 4);
+        }
+        else if (length > 1) {
+            mComposing.delete(length, length - 1);
+            ic.setComposingText(mComposing, 1);
+        }
+        else if (length > 0) {
+            mComposing.setLength(0);
+            commitText("");
+        }
+        else sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+        updateShiftKeyState(getCurrentInputEditorInfo());
+        
+        // spellcheck(0);
+    }
+
+    public void handleCharacter(int primaryCode) {
+        ic = getCurrentInputConnection();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        primaryCode = KeyCodes.handleCharacter(kv, primaryCode);
+        if (sharedPreferences.getBoolean("show_data", f) && !currentKeyboard.title.equals("Pinyin")) {
+            if (sharedPreferences.getBoolean("show_ascii_data", f) || primaryCode > 127) {
+                crispIt(Util.unidata(primaryCode));
+            }
+        }
+        if (sharedPreferences.getBoolean("pairs", t)) {
+
+            if (Util.contains("({\"[", primaryCode)) {
+
+                String code = String.valueOf((char)primaryCode);
+                if (code.equals("("))  commitText("()");
+                if (code.equals("["))  commitText("[]");
+                if (code.equals("{"))  commitText("{}");
+                if (code.equals("\"")) commitText("\"\"");
+                if (Variables.isReflected() || sharedPreferences.getBoolean("cursor_left", f) || currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) {
+                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
+                }
+                else {
+                    sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+                }
+                return;
+            }
+        }
+
+        
+        
+
+        if (isInputViewShown()) {
+            if (kv.isShifted()) {
+                primaryCode = Character.toUpperCase(primaryCode);
+            }
+        }
+        if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
+            mComposing.append((char)primaryCode);
+            ic.setComposingText(mComposing, 1);
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        }
+        if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
+            char code = (char)primaryCode;
+            if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
+                code = Character.toUpperCase(code);
+            }
+            ic.setComposingRegion(0, 0);
+            commitText(String.valueOf(code), 1);
+            firstCaps = f;
+            setCapsOn(f);
+        }
+        if (!mPredictionOn) {
+            ic.setComposingRegion(0, 0);
+            commitText(String.valueOf(Character.toChars(primaryCode)), 1);
+            firstCaps = f;
+            setCapsOn(f);
+        }
+        // if (isSelecting()) ic.setSelection(Variables.cursorStart, getSelectionEnd());
+        
+        
+        
+        
+        // spellcheck(primaryCode);
+        
+
+    }
+    
+    public void spellcheck(int primaryCode) {
+        try {
+            Keyboard.Key key = getKey(31);
+            key.label = "";
+            if (key == null) return;
+            
+            if (!(Util.isLetter(primaryCode)
+            || primaryCode == 31
+            || primaryCode == 32)) {
+                redraw();
+                return;
+            }
+            String lastWord = getLastWord();
+            boolean isWord = spellchecker.inTrie(lastWord);
+            String newWord = spellchecker.check(lastWord);
+                    
+            if (isWord) {
+                key.label = lastWord+" ✓";
+            }
+            else {
+                key.label = lastWord+" ✗";
+                if (!lastWord.equals(newWord)) {
+                    key.label = lastWord+" ✗ "+newWord+"?";
+                }
+            }
+            redraw();
+            /*
+            
+            */
+            /*
+            if (!lastWord.equals(newWord)) {
+                try {}
+                catch(Exception e) {}
+            }
+            */
+            if (primaryCode == 31) {
+                ic.deleteSurroundingText(lastWord.length()+1, 0);
+                commitText(newWord+" ");
+                key.label = "";
+                redraw();
+                return;
+            }
+            if (sharedPreferences.getBoolean("auto", f)) {
+                if (primaryCode == 32) {
+                    if (!lastWord.equals(newWord)) {
+                        ic.deleteSurroundingText(lastWord.length()+1, 0);
+                        commitText(newWord+" ");
+                        key.label = "";
+                        redraw();
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+            toastIt(e.toString());
+        }
     }
 
     @Override

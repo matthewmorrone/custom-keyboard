@@ -3,6 +3,21 @@
     android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">    
+    <Row android:keyHeight="7%p">
+        <Key android:codes="-148" android:keyIcon="@drawable/ic_settings" />
+        <Key android:codes="-150" android:keyIcon="@drawable/ic_undo" />
+        <Key android:codes="31"   android:keyWidth="60%p" />
+        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines" />
+        <Key android:codes="-149" android:keyIcon="@drawable/ic_voice" />
+        <!-- 
+        <Key android:codes="-301" android:keyIcon="@drawable/ic_function" />
+        <Key android:codes="-302" android:keyIcon="@drawable/ic_utility" />
+        <Key android:codes="-303" android:keyIcon="@drawable/ic_emoji" />
+        <Key android:codes="-304" android:keyIcon="@drawable/ic_nav" />
+        <Key android:codes="-305" android:keyIcon="@drawable/ic_symbol" />
+        <Key android:codes="-306" android:keyIcon="@drawable/ic_format_font" />
+         -->
+    </Row>
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
@@ -66,13 +81,13 @@
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_pointer_left"  android:keyWidth="10%p" />
         <Key android:codes="-102" android:keyIcon="@drawable/ic_double_pointer_right" android:keyWidth="10%p" />
+        <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"                 android:keyWidth="10%p" />
         <!--
         <Key android:codes="-148" android:keyIcon="@drawable/ic_settings"           android:keyWidth="10%p" />
         <Key android:codes="-149" android:keyIcon="@drawable/ic_voice"              android:keyWidth="10%p" />
         -->
-        <Key android:codes="0"     android:keyOutputText="www."    android:keyIcon="@drawable/ic_www"                android:keyWidth="10%p" />
-        <Key android:codes="32"    android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" />
-        <Key android:codes="0"     android:keyOutputText=".com"    android:keyLabel=".com"                android:keyWidth="10%p" android:popupKeyboard="@layout/tld" />
-        <Key android:codes="10"    android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" />
+        <Key android:codes="32"    android:keyIcon="@drawable/ic_space"               android:keyWidth="40%p" />
+        <Key android:codes="0"     android:keyOutputText=".com"                       android:keyLabel=".com"                android:keyWidth="10%p" android:popupKeyboard="@layout/tld" />
+        <Key android:codes="10"    android:keyIcon="@drawable/ic_enter"               android:keyWidth="20%p" />
     </Row>
 </Keyboard>

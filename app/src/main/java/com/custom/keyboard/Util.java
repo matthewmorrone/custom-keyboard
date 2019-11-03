@@ -72,39 +72,39 @@ class Util {
     }
 
     static String unidata(int primaryCode) {
-        return primaryCode+"\n" +
-             convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n" +
-             toTitleCase(Character.getName(primaryCode))+"\n(" +
-             Character.getType(primaryCode)+")\n" +
-             getCharType((byte)Character.getType(primaryCode))+", " +
-             getCharacterType((byte)Character.getType(primaryCode))+", " +
-             toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+", " +
-             "value: " + Character.getNumericValue(primaryCode)+", " +
-             "direction: " + Character.getDirectionality(primaryCode)+", "+
+        return ""+primaryCode+" " +
+             ""+convertNumberBase(String.valueOf(primaryCode), 10, 16)+" " +
+             ""+toTitleCase(Character.getName(primaryCode))+" " +
+             ""+Character.getType(primaryCode)+" " +
+             ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+" " +
+             ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+" " +
              (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
              (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
              (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
-             "upper: " + Character.toUpperCase(primaryCode)+", " +
-             "title: " + Character.toTitleCase(primaryCode)+", " +
-             "lower: " + Character.toLowerCase(primaryCode)+", " +
-             (Character.isLetter(primaryCode) ? "Letter " : "") +
-             (Character.isDigit(primaryCode) ? "Digit " : "") +
-             (Character.isSpaceChar(primaryCode) ? "SpaceChar " : "") +
-             (Character.isWhitespace(primaryCode) ? "Whitespace " : "") +
-             (Character.isAlphabetic(primaryCode) ? "Alphabetic " : "") +
-             (Character.isBmpCodePoint(primaryCode) ? "BmpCodePoint " : "") +
-             (Character.isDefined(primaryCode) ? "Defined " : "") +
-             (Character.isIdentifierIgnorable(primaryCode) ? "IdentifierIgnorable " : "") +
-             (Character.isIdeographic(primaryCode) ? "Ideographic " : "") +
-             (Character.isISOControl(primaryCode) ? "ISOControl " : "") +
-             (Character.isJavaIdentifierPart(primaryCode) ? "JavaIdentifierPart " : "") +
-             (Character.isJavaIdentifierStart(primaryCode) ? "JavaIdentifierStart " : "") +
-             (Character.isMirrored(primaryCode) ? "Mirrored " : "") +
-             (Character.isSupplementaryCodePoint(primaryCode) ? "SupplementaryCodePoint " : "") +
-             (Character.isUnicodeIdentifierPart(primaryCode) ? "UnicodeIdentifierPart " : "") +
-             (Character.isUnicodeIdentifierStart(primaryCode) ? "UnicodeIdentifierStart " : "") +
-             (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint " : "") +
-             "";
+             "Upper: " + Character.toUpperCase(primaryCode)+", " +
+             "Title: " + Character.toTitleCase(primaryCode)+", " +
+             "Lower: " + Character.toLowerCase(primaryCode)+", " +
+             (Character.isLetter(primaryCode) ? "Letter, " : "") +
+             (Character.isDigit(primaryCode) ? "Digit, " : "") +
+             (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
+             (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
+             (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
+             (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
+             (Character.isDefined(primaryCode) ? "Defined, " : "") +
+             (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
+             (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
+             (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
+             (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
+             (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
+             (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
+             (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
+             (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
+             (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
+             (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
+             "Value " + Character.getNumericValue(primaryCode)+", " +
+             "Direction " + Character.getDirectionality(primaryCode)+""+
+              ""
+             ;
     }
 
 
