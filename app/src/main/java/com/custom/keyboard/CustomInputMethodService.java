@@ -482,6 +482,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
     
     public void setInputType() {
+        /*
         EditorInfo attribute = getCurrentInputEditorInfo();
         switch (attribute.inputType) {
             case InputType.TYPE_TEXT_VARIATION_URI:
@@ -507,9 +508,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 196609:
             default:
                 // crispIt("Primary "+attribute.inputType);
-                findKeyboard("Primary");
+        */
+            findKeyboard("Primary");
+        /*
             break;
         }
+        */
     }
 
     Edit spellchecker;
