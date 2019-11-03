@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
+
 
 enum Category {Main, Lang, Util, Font, Misc}
 
@@ -996,6 +998,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         String prev = String.valueOf(ic.getTextBeforeCursor(20, 0));
         prev = prev.trim();
+        
+        prev = prev.replaceAll("[\\u0009.,;:!?\\n()\\[\\]*&amp;@{}/&lt;&gt;_+=|&quot;]", " ");
         String[] words = prev.split(" ");
         if (words.length < 2) return ic.getTextBeforeCursor(20, 0).toString();
         return words[words.length-1];
@@ -1250,16 +1254,45 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         
         
         
-        // spellcheck(primaryCode);
+        spellcheck(primaryCode);
         
 
     }
     
     public void spellcheck(int primaryCode) {
         try {
+            if (!Util.isLetter(primaryCode)) return;
+            String lastWord = getLastWord();
+            if (lastWord.length() < 2) return;
+            
+            boolean isWord = Edit.inTrie(lastWord);
+            String newWord = "";
+            ArrayList<String> completions = Edit.getCompletions(lastWord);
+            
+            toastIt(String.join(", ", completions));
+            
             Keyboard.Key key = getKey(31);
-            key.label = "";
             if (key == null) return;
+            key.label = "";
+            
+            if (isWord) {
+                key.label = lastWord+" ✓";
+            }
+            else {
+                key.label = lastWord+" ✗";
+                if (completions.size() == 1) {
+                    newWord = completions.get(0);
+                }
+                if (!lastWord.equals(newWord)) {
+                    key.label = lastWord+" ✗ "+newWord+"?";
+                }
+            }
+            redraw();
+            
+            /*
+            
+            
+            
             
             if (!(Util.isLetter(primaryCode)
             || primaryCode == 31
@@ -1271,17 +1304,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             boolean isWord = spellchecker.inTrie(lastWord);
             String newWord = spellchecker.check(lastWord);
                     
-            if (isWord) {
-                key.label = lastWord+" ✓";
-            }
-            else {
-                key.label = lastWord+" ✗";
-                if (!lastWord.equals(newWord)) {
-                    key.label = lastWord+" ✗ "+newWord+"?";
-                }
-            }
-            redraw();
-            /*
+            
             
             */
             /*
@@ -1290,6 +1313,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 catch(Exception e) {}
             }
             */
+            /*
             if (primaryCode == 31) {
                 ic.deleteSurroundingText(lastWord.length()+1, 0);
                 commitText(newWord+" ");
@@ -1307,6 +1331,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     }
                 }
             }
+            */
         }
         catch(Exception e){
             toastIt(e.toString());

@@ -9974,3 +9974,4 @@ searchcom
 shoppercom
 shoppingcom
 tvcom
+freezer

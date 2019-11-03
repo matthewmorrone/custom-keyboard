@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Edit {
 
@@ -17,6 +18,26 @@ public class Edit {
     static List<String> list = new ArrayList<>();
     
     
+  
+    public static boolean inTrie(String word) {
+        return trie.search(word);
+    }
+    
+    public static boolean isPrefix(String word) {
+        return trie.startsWith(word);
+    }
+    
+    public static ArrayList<String> getCompletions(String word) {
+        TrieNode tn = trie.searchNode(word);
+        trie.wordsFinderTraversal(tn, 0);
+        ArrayList<String> result = trie.getWords();
+        Collections.sort(result);
+        if (result.size() > 10) {
+            result = new ArrayList<String>(result.subList(0, 10));
+        }
+        return result;
+    }
+
     private void buildTrie(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -24,9 +45,11 @@ public class Edit {
         StringBuilder stringBuilder = new StringBuilder();
         String string;
         try {
+            String[] pair;
             while ((string = bufferedReader.readLine()) != null) {
-                trie.insert(string);
-                list.add(string);
+                pair = string.split(" ");
+                trie.insert(pair[0], Integer.parseInt(pair[1]));
+                list.add(pair[0]);
             }
         }
         catch (Exception e) {
@@ -34,9 +57,7 @@ public class Edit {
         }
     }
     
-    public boolean inTrie(String word) {
-        return trie.search(word);
-    }
+    
     
     private void readFile(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
