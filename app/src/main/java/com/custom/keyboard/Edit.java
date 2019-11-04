@@ -5,20 +5,18 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class Edit {
 
-    static Map<String,String> typos = new HashMap<>();
     static Trie trie = new Trie();
-    static List<String> list = new ArrayList<>();
-    
-    
-  
+
+    public Edit(Context context) {
+        buildTrie(context, R.raw.words_82765);
+    }
+
     public static boolean inTrie(String word) {
         return trie.search(word);
     }
@@ -30,12 +28,12 @@ public class Edit {
     public static ArrayList<String> getCompletions(String word) {
         TrieNode tn = trie.searchNode(word);
         trie.wordsFinderTraversal(tn, 0);
-        ArrayList<String> result = trie.getWords();
+        ArrayList<TrieNode> result = trie.termini;
         Collections.sort(result);
         if (result.size() > 10) {
-            result = new ArrayList<String>(result.subList(0, 10));
+            result = new ArrayList<>(result.subList(0, 10));
         }
-        return result;
+        return result.stream().map(TrieNode::getWord).collect(Collectors.toCollection(ArrayList::new));
     }
 
     private void buildTrie(Context context, int id) {
@@ -48,8 +46,7 @@ public class Edit {
             String[] pair;
             while ((string = bufferedReader.readLine()) != null) {
                 pair = string.split(" ");
-                trie.insert(pair[0], Integer.parseInt(pair[1]));
-                list.add(pair[0]);
+                trie.insert(pair[0], Long.parseLong(pair[1]));
             }
         }
         catch (Exception e) {
@@ -59,6 +56,14 @@ public class Edit {
     
     
     
+    /*
+    static Map<String,String> typos = new HashMap<>();
+
+    public Edit(Context context) {
+        readFile(context, R.raw.typos);
+        readFile(context, R.raw.typos_more);
+    }
+
     private void readFile(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -78,13 +83,9 @@ public class Edit {
             e.printStackTrace();
         }
     }
+    */
 
-    public Edit(Context context) {
-        readFile(context, R.raw.typos);
-        readFile(context, R.raw.typos_more);
-        buildTrie(context, R.raw.dict);
-    }
-
+    /*
     public void add(String src, String trg) {
         src = src.trim();
         trg = trg.trim();
@@ -94,27 +95,18 @@ public class Edit {
     public String check(String word) {
         word = word.trim();
         String repl = typos.get(word);
-        /*
-        if (typos.get(word) != null) {
-            return repl;
-        }
-        else {
-        */
-            int minScore = 1024, score;
-            String result = "";
-            for (String line : list) {
-                line = line.trim();
-                score = damerauLevenshtein(word, line);
-                if (score < minScore) {
-                    minScore = score;
-                    result = line;
-                }
+
+        int minScore = 1024, score;
+        String result = "";
+        for (String line : list) {
+            line = line.trim();
+            score = damerauLevenshtein(word, line);
+            if (score < minScore) {
+                minScore = score;
+                result = line;
             }
-            return result;
-        /*
         }
-        */ 
-        // return word;
+        return result;
     }
 
     private static void changeKey(String oldKey, String newKey) {
@@ -148,4 +140,5 @@ public class Edit {
         }
         return dist[sourceLength][targetLength];
     }
+    */
 }

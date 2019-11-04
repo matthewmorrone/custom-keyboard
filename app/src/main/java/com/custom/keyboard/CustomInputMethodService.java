@@ -28,7 +28,11 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-// import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SentenceSuggestionsInfo;
+import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SuggestionsInfo;
+import android.view.textservice.TextInfo;
+import android.view.textservice.TextServicesManager;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,8 +40,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Arrays;
+
+// import android.view.textservice.SpellCheckerSession;
 
 
 enum Category {Main, Lang, Util, Font, Misc}
@@ -78,7 +82,7 @@ class Bounds {
     }
 }
 
-public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
+public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
     public InputMethodManager mInputMethodManager;
     public CustomKeyboardView mInputView;
@@ -99,9 +103,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public StringBuilder mComposing = new StringBuilder();
     public boolean mPredictionOn;
     public boolean mCompletionOn;
-    // SpellCheckerSession mScs;
+    SpellCheckerSession mScs;
     List<String> mSuggestions;
-    public CustomView mCandidateView;
+    public CandidateView mCandidateView;
     public CompletionInfo[] mCompletions;
 
     boolean firstCaps = f;
@@ -523,7 +527,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         mWordSeparators = getResources().getString(R.string.word_separators);
-        // final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;
+
         toast = new Toast(getBaseContext());
         populate();
 
@@ -573,6 +579,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme();
         mComposing.setLength(0);
+        updateCandidates();
+
         mCompletions = null;
 
         if (sharedPreferences.getBoolean("preview", f)) {
@@ -587,10 +595,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
 
-        mCandidateView = new CustomView(this);
+        mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
-        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
+        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         currentKeyboard.setRowNumber(getRowNumber());
         kv.setKeyboard(currentKeyboard);
 
@@ -605,7 +614,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
+
         setCandidatesView(mCandidateView);
+
+
 
         populate();
 
@@ -624,6 +636,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void onFinishInput() {
         super.onFinishInput();
         mComposing.setLength(0);
+        updateCandidates();
         setCandidatesViewShown(f);
         Variables.setSelectOff();
         if (mInputView != null) mInputView.closing();
@@ -633,8 +646,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             mComposing.setLength(0);
-            ic = getCurrentInputConnection();
-            if (ic != null) ic.finishComposingText();
+            updateCandidates();
+            InputConnection ic = getCurrentInputConnection();
+            if (ic != null) {
+                ic.finishComposingText();
+            }
         }
     }
 
@@ -666,6 +682,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (mComposing.length() > 0) {
             commitText(String.valueOf(mComposing), mComposing.length());
             mComposing.setLength(0);
+            updateCandidates();
         }
     }
 
@@ -1003,7 +1020,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         String prev = String.valueOf(ic.getTextBeforeCursor(20, 0));
         prev = prev.trim();
         
-        prev = prev.replaceAll("[\\u0009.,;:!?\\n()\\[\\]*&amp;@{}/&lt;&gt;_+=|&quot;]", " ");
+        prev = prev.replaceAll("[\\s.,]+", " ");
         String[] words = prev.split(" ");
         if (words.length < 2) return ic.getTextBeforeCursor(20, 0).toString();
         return words[words.length-1];
@@ -1073,61 +1090,61 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    private Map<String,String> pinyin = Pinyin.getCharMap();
-    private Map<String,String> pinyinSlugs = Pinyin.getSlugMap();
-    public String pinyinSearch(String text) {
-        String ch = pinyin.get(text);
-        if (ch == null) {
-            ch = pinyinSlugs.get(Util.normalize(text));
-        }
-        if (ch == null || ch.trim() == null || ch.trim().equals("")) {
-            return "";
-        }
-        return ch;
-    }
-
-    public Boolean pinyinHandle(int primaryCode) {
-        try {
-            String prev = String.valueOf(ic.getTextBeforeCursor(8, 0))+(char)primaryCode;
-            prev = prev.trim();
-            String[] lcs = prev.split(" ");
-            String lw = lcs.length > 1 ? lcs[lcs.length-1] : lcs[0];
-            String ch = pinyinSearch(lw);
-            String[] choices = ch.split("(?!^)");
-            return f;
-            /*
-            if (choices != null && ch.length() > 0) {
-                ic.deleteSurroundingText(lw.length()-1, 0);
-                commitText(choices[0]);
-                return t;
-            }
-            if (primaryCode == 32 && getKey(32).label != "" && getKey(32).label != null) {
-                // ic.deleteSurroundingText(lw.length(), 0);
-                commitText(String.valueOf(getKey(32).label));
-                getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
-                getKey(32).label = null;
-                getKey(32).popupCharacters = " ";
-                return t;
-            }
-            if (ch != null) {
-                String[] choices = ch.split("");
-                if (choices != null & choices.length > 0) {
-                    getKey(32).label = choices[0];
-                    getKey(32).popupCharacters = ch;
-                }
-            }
-            else {
-                getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
-                getKey(32).label = null;
-                getKey(32).popupCharacters = " ";
-            }
-            */
-        }
-        catch (Exception e) {
-            crispIt(e.toString());
-        }
-        return f;
-    }
+    // private Map<String,String> pinyin = Pinyin.getCharMap();
+    // private Map<String,String> pinyinSlugs = Pinyin.getSlugMap();
+    // public String pinyinSearch(String text) {
+    //     String ch = pinyin.get(text);
+    //     if (ch == null) {
+    //         ch = pinyinSlugs.get(Util.normalize(text));
+    //     }
+    //     if (ch == null || ch.trim() == null || ch.trim().equals("")) {
+    //         return "";
+    //     }
+    //     return ch;
+    // }
+    //
+    // public Boolean pinyinHandle(int primaryCode) {
+    //     try {
+    //         String prev = String.valueOf(ic.getTextBeforeCursor(8, 0))+(char)primaryCode;
+    //         prev = prev.trim();
+    //         String[] lcs = prev.split(" ");
+    //         String lw = lcs.length > 1 ? lcs[lcs.length-1] : lcs[0];
+    //         String ch = pinyinSearch(lw);
+    //         String[] choices = ch.split("(?!^)");
+    //         return f;
+    //         /*
+    //         if (choices != null && ch.length() > 0) {
+    //             ic.deleteSurroundingText(lw.length()-1, 0);
+    //             commitText(choices[0]);
+    //             return t;
+    //         }
+    //         if (primaryCode == 32 && getKey(32).label != "" && getKey(32).label != null) {
+    //             // ic.deleteSurroundingText(lw.length(), 0);
+    //             commitText(String.valueOf(getKey(32).label));
+    //             getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
+    //             getKey(32).label = null;
+    //             getKey(32).popupCharacters = " ";
+    //             return t;
+    //         }
+    //         if (ch != null) {
+    //             String[] choices = ch.split("");
+    //             if (choices != null & choices.length > 0) {
+    //                 getKey(32).label = choices[0];
+    //                 getKey(32).popupCharacters = ch;
+    //             }
+    //         }
+    //         else {
+    //             getKey(32).icon = getResources().getDrawable(R.drawable.ic_space, getBaseContext().getTheme());
+    //             getKey(32).label = null;
+    //             getKey(32).popupCharacters = " ";
+    //         }
+    //         */
+    //     }
+    //     catch (Exception e) {
+    //         crispIt(e.toString());
+    //     }
+    //     return f;
+    // }
     
     public void handleBackspace() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -1152,10 +1169,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             else if (length > 1) {
                 mComposing.delete(length - 1, length);
                 ic.setComposingText(mComposing, 1);
+                updateCandidates();
             }
             else if (length > 0) {
                 mComposing.setLength(0);
                 commitText("");
+                updateCandidates();
             }
             else {
                 sendKey(KeyEvent.KEYCODE_DEL);
@@ -1185,10 +1204,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         else if (length > 1) {
             mComposing.delete(length, length - 1);
             ic.setComposingText(mComposing, 1);
+            updateCandidates();
         }
         else if (length > 0) {
             mComposing.setLength(0);
             commitText("");
+            updateCandidates();
         }
         else sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
         updateShiftKeyState(getCurrentInputEditorInfo());
@@ -1236,6 +1257,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             mComposing.append((char)primaryCode);
             ic.setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
+            updateCandidates();
         }
         if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
             char code = (char)primaryCode;
@@ -1254,15 +1276,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             setCapsOn(f);
         }
         // if (isSelecting()) ic.setSelection(Variables.cursorStart, getSelectionEnd());
-        
-        
-        
-        
-        spellcheck(primaryCode);
-        
 
+        spellcheck(primaryCode);
     }
-    
+
+    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
+        final int len = si.getSuggestionsCount();
+        for (int j = 0; j < len; ++j) {
+            sb.add(si.getSuggestionAt(j));
+        }
+    }
+
     public void spellcheck(int primaryCode) {
         try {
             if (!Util.isLetter(primaryCode)) return;
@@ -1291,33 +1315,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     key.label = lastWord+" ✗ "+newWord+"?";
                 }
             }
+
+
+
+
+
+
             redraw();
-            
-            /*
-            
-            
-            
-            
-            if (!(Util.isLetter(primaryCode)
-            || primaryCode == 31
-            || primaryCode == 32)) {
-                redraw();
-                return;
-            }
-            String lastWord = getLastWord();
-            boolean isWord = spellchecker.inTrie(lastWord);
-            String newWord = spellchecker.check(lastWord);
-                    
-            
-            
-            */
-            /*
-            if (!lastWord.equals(newWord)) {
-                try {}
-                catch(Exception e) {}
-            }
-            */
-            /*
+
+
             if (primaryCode == 31) {
                 ic.deleteSurroundingText(lastWord.length()+1, 0);
                 commitText(newWord+" ");
@@ -1335,10 +1341,86 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     }
                 }
             }
-            */
+
         }
         catch(Exception e){
             toastIt(e.toString());
+        }
+    }
+
+    @Override
+    public View onCreateCandidatesView() {
+        mCandidateView = new CandidateView(this);
+        mCandidateView.setService(this);
+        setTheme();
+        Paint mPaint = new Paint();
+        ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
+        mPaint.setColorFilter(filterInvert);
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+
+        return mCandidateView;
+    }
+
+    public void pickSuggestionManually(int index) {
+        if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
+            CompletionInfo ci = mCompletions[index];
+            getCurrentInputConnection().commitCompletion(ci);
+            if (mCandidateView != null) {
+                mCandidateView.clear();
+            }
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        }
+        else if (mComposing.length() > 0) {
+            if (mPredictionOn && mSuggestions != null && index >= 0) {
+                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
+            }
+            commitTyped(getCurrentInputConnection());
+        }
+    }
+
+    @Override
+    public void onDisplayCompletions(CompletionInfo[] completions) {
+        if (mCompletionOn) {
+            mCompletions = completions;
+            if (completions == null) {
+                setSuggestions(null, false, false);
+                return;
+            }
+
+            List<String> stringList = new ArrayList<>();
+            for (CompletionInfo ci : completions) {
+                if (ci != null) {
+                    stringList.add(ci.getText().toString());
+                }
+            }
+            setSuggestions(stringList, true, true);
+        }
+    }
+
+    private void updateCandidates() {
+        if (!mCompletionOn) {
+            if (mComposing.length() > 0) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(mComposing.toString());
+                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(mComposing.toString())}, 5);
+                setSuggestions(list, true, true);
+            }
+            else {
+                setSuggestions(null, false, false);
+            }
+        }
+    }
+
+    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
+        if (suggestions != null && suggestions.size() > 0) {
+            setCandidatesViewShown(true);
+        }
+        else if (isExtractViewShown()) {
+            setCandidatesViewShown(true);
+        }
+        mSuggestions = suggestions;
+        if (mCandidateView != null) {
+            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
         }
     }
 
@@ -1350,11 +1432,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String record, currentKeyboardName = currentKeyboard.title;
         boolean capsOn = Variables.isShift();
-        if (currentKeyboardName.equals("Pinyin")) {
-            if (pinyinHandle(primaryCode)) {
-                return;
-            }
-        }
+        // if (currentKeyboardName.equals("Pinyin")) {
+        //     if (pinyinHandle(primaryCode)) {
+        //         return;
+        //     }
+        // }
         if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char)primaryCode)).equals("")) {
             String res = Morse.fromChar(String.valueOf((char)primaryCode));
             if (kv.isShifted()) res = res.toUpperCase();
@@ -1970,4 +2052,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         return (double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) / (double)50;
     }
 
+    @Override
+    public void onGetSuggestions(SuggestionsInfo[] results) {
+
+    }
+
+    @Override
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
+
+    }
 }

@@ -1,8 +1,5 @@
 package com.custom.keyboard;
 
-import android.view.MotionEvent;
-import android.view.View;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -10,12 +7,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-public class CustomView extends View {
+public class CandidateView extends View {
+
     private static final int OUT_OF_BOUNDS = -1;
 
     private CustomInputMethodService mService;
@@ -24,17 +23,17 @@ public class CustomView extends View {
     private int mTouchX = OUT_OF_BOUNDS;
     private Drawable mSelectionHighlight;
     private boolean mTypedWordValid;
-    
+
     private Rect mBgPadding;
-    
+
     private static final int MAX_SUGGESTIONS = 32;
     private static final int SCROLL_PIXELS = 20;
-    
+
     private int[] mWordWidth = new int[MAX_SUGGESTIONS];
     private int[] mWordX = new int[MAX_SUGGESTIONS];
-    
+
     private static final int X_GAP = 60;
-    
+
     private static final List<String> EMPTY_LIST = new ArrayList<>();
 
     private int mColorNormal;
@@ -44,18 +43,18 @@ public class CustomView extends View {
     private Paint mPaint;
     private boolean mScrolled;
     private int mTargetScrollX;
-    
+
     private int mTotalWidth;
 
     private GestureDetector mGestureDetector;
 
-    public CustomView(Context context) {
+    public CandidateView(Context context) {
         super(context);
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
         mSelectionHighlight.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused, android.R.attr.state_window_focused, android.R.attr.state_pressed});
-        
+
         Resources r = context.getResources();
-        
+
         setBackgroundColor(r.getColor(R.color.gray));
 
         mColorNormal = r.getColor(R.color.candidate_normal);
@@ -92,7 +91,7 @@ public class CustomView extends View {
         setHorizontalScrollBarEnabled(false);
         setVerticalScrollBarEnabled(false);
     }
-    
+
     public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
@@ -106,13 +105,10 @@ public class CustomView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measuredWidth = resolveSize(50, widthMeasureSpec);
 
-        // Get the desired height of the icon menu view (last row of items does
-        // not have a divider below)
         Rect padding = new Rect();
         mSelectionHighlight.getPadding(padding);
         final int desiredHeight = ((int) mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
 
-        // Maximum possible width and desired height
         setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
     }
 
@@ -239,29 +235,39 @@ public class CustomView extends View {
             case MotionEvent.ACTION_DOWN:
                 mScrolled = false;
                 invalidate();
-            break;
+                break;
             case MotionEvent.ACTION_MOVE:
                 if (y <= 0) {
                     // Fling up!?
                     if (mSelectedIndex >= 0) {
-                        // mService.pickSuggestionManually(mSelectedIndex);
+                        mService.pickSuggestionManually(mSelectedIndex);
                         mSelectedIndex = -1;
                     }
                 }
                 invalidate();
-            break;
+                break;
             case MotionEvent.ACTION_UP:
                 if (!mScrolled) {
                     if (mSelectedIndex >= 0) {
-                        // mService.pickSuggestionManually(mSelectedIndex);
+                        mService.pickSuggestionManually(mSelectedIndex);
                     }
                 }
                 mSelectedIndex = -1;
                 removeHighlight();
                 requestLayout();
-            break;
+                break;
         }
         return true;
+    }
+
+    public void takeSuggestionAt(float x) {
+        mTouchX = (int) x;
+        // To detect candidate
+        draw(null);
+        if (mSelectedIndex >= 0) {
+            mService.pickSuggestionManually(mSelectedIndex);
+        }
+        invalidate();
     }
 
     private void removeHighlight() {
