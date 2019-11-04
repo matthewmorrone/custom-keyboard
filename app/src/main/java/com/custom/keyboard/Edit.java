@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class Edit {
 
@@ -33,7 +32,13 @@ public class Edit {
         if (result.size() > 10) {
             result = new ArrayList<>(result.subList(0, 10));
         }
-        return result.stream().map(TrieNode::getWord).collect(Collectors.toCollection(ArrayList::new));
+
+        ArrayList<String> strings = new ArrayList<>();
+        for (TrieNode trieNode : result) {
+            String trieNodeWord = trieNode.getWord();
+            strings.add(trieNodeWord);
+        }
+        return strings;
     }
 
     private void buildTrie(Context context, int id) {
