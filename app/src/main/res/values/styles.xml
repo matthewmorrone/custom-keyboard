@@ -11,8 +11,7 @@
     <color name="cyan">#26C6DA</color>
     <color name="yellow">#D93925</color>
     <color name="magenta">#BD5A0A</color>
-
-
+    
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>

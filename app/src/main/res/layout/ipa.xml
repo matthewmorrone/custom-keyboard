@@ -1,6 +1,9 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="10%p" android:keyHeight="7%p"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:keyWidth="10%p" 
+    android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+    <!-- <Row></Row> -->
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />

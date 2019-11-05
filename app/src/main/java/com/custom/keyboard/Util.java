@@ -20,6 +20,7 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Calendar; 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -72,12 +73,13 @@ class Util {
     }
 
     static String unidata(int primaryCode) {
-        return ""+primaryCode+" " +
-             ""+convertNumberBase(String.valueOf(primaryCode), 10, 16)+" " +
-             ""+toTitleCase(Character.getName(primaryCode))+" " +
-             ""+Character.getType(primaryCode)+" " +
-             ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+" " +
-             ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+" " +
+        return ""+primaryCode+"\n" +
+             ""+convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n" +
+             ""+toTitleCase(Character.getName(primaryCode))+"\n" +
+             ""+Character.getType(primaryCode)+"\n" +
+             ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n" +
+             ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n" +
+             /*
              (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
              (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
              (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
@@ -103,6 +105,7 @@ class Util {
              (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
              "Value " + Character.getNumericValue(primaryCode)+", " +
              "Direction " + Character.getDirectionality(primaryCode)+""+
+              */
               ""
              ;
     }
@@ -627,6 +630,55 @@ class Util {
 
     static String castALot() {
         return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2)-1));
+    }
+    
+    static String pickACard() {
+        String letters = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠 
+        return String.valueOf(letters.charAt(generateRandomInt(1, 52)-1));
+    }
+    
+    static String timemoji() {
+        String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
+    
+    
+        Calendar rightNow = Calendar.getInstance(); 
+        rightNow.getTime(); 
+        int hours = rightNow.get(Calendar.HOUR_OF_DAY); 
+        if (hours == 0) hours = 12;
+        if (hours > 12) hours -= 12;
+        int minutes = rightNow.get(Calendar.MINUTE); 
+        
+        // 0 thru 29, 30 thru 59
+        int which = (((hours-1)*2)+(minutes/30));
+    
+        return which+" "+clocks.codePointAt(which)+" "+clocks.codePointCount(0, clocks.length());
+    }
+    
+    static String[] answers = new String[]{
+        "It is certain. ",
+        "It is decidedly so. ",
+        "Without a doubt. ",
+        "Yes; definitely. ",
+        "You may rely on it. ",
+        "As I see it, yes. ",
+        "Most likely. ",
+        "Outlook good. ",
+        "Yes. ",
+        "Signs point to yes. ",
+        "Reply hazy, try again. ",
+        "Ask again later. ",
+        "Better not tell you now. ",
+        "Cannot predict now. ",
+        "Concentrate and ask again. ",
+        "Don't count on it. ",
+        "My reply is no. ",
+        "My sources say no. ",
+        "Outlook not so good. ",
+        "Very doubtful. "
+    };
+    
+    static String shake8Ball() {
+        return ""+answers[generateRandomInt(1, 20)-1];
     }
 
     static String removeDuplicates(String text) {

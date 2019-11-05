@@ -11,6 +11,7 @@ import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
@@ -35,7 +36,7 @@ public class CustomKeyboardView extends KeyboardView {
     public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
-
+    
     @Override
     protected boolean onLongPress(Key key) {
         /*

@@ -32,7 +32,7 @@ public class CandidateView extends View {
     private int[] mWordWidth = new int[MAX_SUGGESTIONS];
     private int[] mWordX = new int[MAX_SUGGESTIONS];
 
-    private static final int X_GAP = 60;
+    private static final int X_GAP = 20;
 
     private static final List<String> EMPTY_LIST = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class CandidateView extends View {
 
         Resources r = context.getResources();
 
-        setBackgroundColor(r.getColor(R.color.gray));
+        setBackgroundColor(r.getColor(R.color.background));
 
         mColorNormal = r.getColor(R.color.candidate_normal);
         mColorRecommended = r.getColor(R.color.candidate_recommended);
@@ -66,7 +66,7 @@ public class CandidateView extends View {
         mPaint.setColor(mColorNormal);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
-        mPaint.setStrokeWidth(5);
+        mPaint.setStrokeWidth(1);
 
         mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -86,7 +86,7 @@ public class CandidateView extends View {
                 return true;
             }
         });
-        setHorizontalFadingEdgeEnabled(true);
+        setHorizontalFadingEdgeEnabled(false);
         setWillNotDraw(false);
         setHorizontalScrollBarEnabled(false);
         setVerticalScrollBarEnabled(false);
@@ -107,7 +107,7 @@ public class CandidateView extends View {
 
         Rect padding = new Rect();
         mSelectionHighlight.getPadding(padding);
-        final int desiredHeight = ((int) mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
+        final int desiredHeight = ((int)mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
 
         setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
     }
@@ -137,12 +137,12 @@ public class CandidateView extends View {
         final int scrollX = getScrollX();
         final boolean scrolled = mScrolled;
         final boolean typedWordValid = mTypedWordValid;
-        final int y = (int) (((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
+        final int y = (int)(((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
 
         for (int i = 0; i < count; i++) {
             String suggestion = mSuggestions.get(i);
             float textWidth = paint.measureText(suggestion);
-            final int wordWidth = (int) textWidth + X_GAP * 2;
+            final int wordWidth = (int)textWidth + X_GAP * 2;
 
             mWordX[i] = x;
             mWordWidth[i] = wordWidth;
@@ -203,6 +203,7 @@ public class CandidateView extends View {
         if (suggestions != null) {
             mSuggestions = new ArrayList<>(suggestions);
         }
+        // mSuggestions.add(0, "⚙");
         mTypedWordValid = typedWordValid;
         scrollTo(0, 0);
         mTargetScrollX = 0;
@@ -217,6 +218,7 @@ public class CandidateView extends View {
         mTouchX = OUT_OF_BOUNDS;
         mSelectedIndex = -1;
         invalidate();
+        // mSuggestions.add(0, "⚙");
     }
 
     @Override
@@ -227,15 +229,15 @@ public class CandidateView extends View {
         }
 
         int action = me.getAction();
-        int x = (int) me.getX();
-        int y = (int) me.getY();
+        int x = (int)me.getX();
+        int y = (int)me.getY();
         mTouchX = x;
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mScrolled = false;
                 invalidate();
-                break;
+            break;
             case MotionEvent.ACTION_MOVE:
                 if (y <= 0) {
                     // Fling up!?
@@ -245,7 +247,8 @@ public class CandidateView extends View {
                     }
                 }
                 invalidate();
-                break;
+            break;
+            
             case MotionEvent.ACTION_UP:
                 if (!mScrolled) {
                     if (mSelectedIndex >= 0) {
@@ -255,15 +258,16 @@ public class CandidateView extends View {
                 mSelectedIndex = -1;
                 removeHighlight();
                 requestLayout();
-                break;
+            break;
         }
         return true;
     }
 
     public void takeSuggestionAt(float x) {
-        mTouchX = (int) x;
+        mTouchX = (int)x;
         // To detect candidate
         draw(null);
+        // if (mSelectedIndex == 0) {mService.showSettings();}
         if (mSelectedIndex >= 0) {
             mService.pickSuggestionManually(mSelectedIndex);
         }

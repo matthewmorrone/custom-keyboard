@@ -7,13 +7,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Edit {
 
     static Trie trie = new Trie();
+    static Map<String,String> typos = new HashMap<>();
+    static List<String> list = new ArrayList<>();
+    
 
     public Edit(Context context) {
         buildTrie(context, R.raw.words_82765);
+        readFile(context, R.raw.typos);
+        readFile(context, R.raw.typos_more);
     }
 
     public static boolean inTrie(String word) {
@@ -28,6 +36,8 @@ public class Edit {
         TrieNode tn = trie.searchNode(word);
         trie.wordsFinderTraversal(tn, 0);
         ArrayList<TrieNode> result = trie.termini;
+        result.remove(word);
+        // todo: remove self
         Collections.sort(result);
         if (result.size() > 10) {
             result = new ArrayList<>(result.subList(0, 10));
@@ -52,6 +62,7 @@ public class Edit {
             while ((string = bufferedReader.readLine()) != null) {
                 pair = string.split(" ");
                 trie.insert(pair[0], Long.parseLong(pair[1]));
+                list.add(pair[0]);
             }
         }
         catch (Exception e) {
@@ -61,13 +72,8 @@ public class Edit {
     
     
     
-    /*
-    static Map<String,String> typos = new HashMap<>();
-
-    public Edit(Context context) {
-        readFile(context, R.raw.typos);
-        readFile(context, R.raw.typos_more);
-    }
+    
+    
 
     private void readFile(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
@@ -88,19 +94,19 @@ public class Edit {
             e.printStackTrace();
         }
     }
-    */
-
-    /*
-    public void add(String src, String trg) {
-        src = src.trim();
-        trg = trg.trim();
-        typos.put(src, trg);
+    
+    public static String check(String word) {
+        if (typos.get(word) != null) {
+            return typos.get(word);
+        }
+        else {
+            return suggest(word);
+        }
+        // return word;
     }
-
-    public String check(String word) {
+    
+    public static String suggest(String word) {
         word = word.trim();
-        String repl = typos.get(word);
-
         int minScore = 1024, score;
         String result = "";
         for (String line : list) {
@@ -112,11 +118,6 @@ public class Edit {
             }
         }
         return result;
-    }
-
-    private static void changeKey(String oldKey, String newKey) {
-        String value = typos.remove(oldKey);
-        typos.put(newKey, value);
     }
     
     public static int damerauLevenshtein(CharSequence source, CharSequence target) {
@@ -145,5 +146,4 @@ public class Edit {
         }
         return dist[sourceLength][targetLength];
     }
-    */
 }

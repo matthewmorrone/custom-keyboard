@@ -1,32 +1,31 @@
 + font color, background, border from settings
++ settings for numbers, colors, popupchars
 + reorder layouts from settings: draggable for layout management
 + don't cancel popup if it has a long press action
 + more pinyin, combine with autocorrect
-+ popup for autocorrect
 + selection doesn't work with 4space
 + function to determine cursor position
 + delete all space up to line end (while prev char is space)
++ press and hold del/backspace for up to space
 + runtime modification/generation of layouts
-+ make layouts for fonts
++ generate keyboard programmatically
++ show clipboard contents after cut/copy
++ page containing clipboard history
++ choice of fifo or filo for clipboard history
 + button to access recent clipboard entries
 + personal dictionary settings link
 + press and hold custom keys to change them
 + close by clicking outside popup
-+ autocorrect with google
-+ show clipboard contents after cut/copy
 + delete autoinsertions by pressing once
++ colorize categories
 + settings use categories for hide/show
-+ generate keyboard programmatically
++ layout checkboxes use category
 + normalizer.normalize(x, normalizer.form.nfkc)
 + macro customization
 + stay on current layout
-+ colorize categories
-+ layout checkboxes use category
 + change space insertion to mod on full line length 
-+ press and hold del/backspace for up to space
 + prefix/suffix lines, add line numbers
-+ single line comments
-
++ transparent keyboard
 + selection moves while typing
 + select with manual cursor movement
 + move cursor and select text by dragging the space key
@@ -36,17 +35,12 @@
 + adjust key size
 + key height change
 + suggestion bar
-+ settings for numbers, colors, popupchars
 + include tags ffs
-+ use of layouts on keyboard
-+ option for numbers on nav instead of repeatable, or combine with numeric
 + emoji 
 + scrollable/swipeable areas
 + swipe on spacebar + left and right swipe on spacebar
 + key codes and labels customizable
 + make popup keys repeatable
-+ menu
-+ prediction bar
 + swiping
 + tabs on symbols page 
 + autoreplace toggleable from keyboard predictions 
@@ -66,27 +60,18 @@
 + instead of getting rid of last clipboard entry, send that one indefinitely
 + disable context menu in edittexts
 + color input + tocolor & fromcolor
-+ page containing clipboard history
-+ choice of fifo or filo for clipboard history
 + nonliteral tab
 + you can use canvas to add a black layover to darken background
-+ move layouts to map
-+ full braille
 + manually reimplement cut/copy/paste
-+ null color array
 + math ⇄ numeric
 + hash out links
-+ use different fonts
 + change enter icon depending on input type
 + wordfore only works for next word
 + convert between fonts
 + edittext popup for temporary stuff
 + 2d layout navigation
 + popup for arbitrary find/replace screen
-+ autocorrect
-+ autocomplete
 + swiping
-+ prediction
 + separate out settings page for layouts and custom keys
 + layout of popup
 + popup contents should also be keys
@@ -109,7 +94,9 @@
 + append clipboard contents to file on cut or copy
 + linenext and linelast probably don't work
 + language detection
-
++ get location as string, coordinates or address
++ include contact names
++ learn new words
 
 
 === Settings ===

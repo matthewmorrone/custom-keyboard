@@ -2,7 +2,8 @@
     android:keyWidth="10%p"
     android:keyHeight="7%p"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">    
+    android:layout_height="wrap_content">
+    <!-- <Row></Row> -->
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
@@ -66,8 +67,8 @@
     </Row>
     <Row>
         
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_pointer_left"  android:keyWidth="10%p" />
-        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_pointer_right" android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_chevron_right"   android:keyWidth="10%p" />
         <!--
         <Key android:codes="-148" android:keyIcon="@drawable/ic_settings"           android:keyWidth="10%p" />
         <Key android:codes="-149" android:keyIcon="@drawable/ic_voice"              android:keyWidth="10%p" />
