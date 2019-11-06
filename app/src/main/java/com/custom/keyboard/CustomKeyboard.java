@@ -15,9 +15,11 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     int order = 1024;
     Category category;
     SharedPreferences sharedPreferences;
+    int layoutId;
 
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
     
@@ -25,6 +27,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         super(context, xmlLayoutResId);
         this.key = title.toLowerCase();
         this.title = title;
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }    
     
@@ -33,6 +36,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         this.key = title.toLowerCase();
         this.title = title;
         this.label = label;
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -45,6 +49,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -57,6 +62,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -65,6 +71,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         this.key = key;
         this.title = title;
         this.label = label;
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -77,6 +84,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

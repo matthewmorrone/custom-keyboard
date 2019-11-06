@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Bundle;
+import android.webkit.URLUtil;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -20,7 +23,6 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Calendar; 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +46,51 @@ class Util {
         return Normalizer.normalize(input, Normalizer.Form.NFD)
                          .replaceAll("[^\\p{ASCII}]", "")
                          .toLowerCase();
+    }
+
+    // URLUtil.isHttpUrl(url)
+    // URLUtil.isHttpsUrl(url)
+    static boolean isValidUrl(String url) {
+        return URLUtil.isValidUrl(url);
+    }
+    static boolean isValidUri(String uri) {
+        final URL url;
+        try {
+            url = new URL(uri);
+        }
+        catch (Exception e1) {
+            return false;
+        }
+        return "http".equals(url.getProtocol());
+    }
+
+
+    static boolean isIntentAvailable(Context ctx, Intent intent) {
+        final PackageManager mgr = ctx.getPackageManager();
+        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
+    }
+
+    static CharSequence stringToCharSequence(String text) {
+        Bundle bundle = new Bundle();
+        return bundle.getCharSequence(text);
+    }
+
+    static boolean isValidPhoneNumber(String s) {
+        // The given argument to compile() method
+        // is regular expression. With the help of
+        // regular expression we can validate mobile
+        // number.
+        // 1) Begins with 0 or 91
+        // 2) Then contains 7 or 8 or 9.
+        // 3) Then contains 9 digits
+        Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
+
+        // Pattern class contains matcher() method
+        // to find matching between given number
+        // and regular expression
+        Matcher m = p.matcher(s);
+        return (m.find() && m.group().equals(s));
     }
 
     static HashMap<Character,Integer> getCharacterFrequencies(String s) {
@@ -633,14 +680,13 @@ class Util {
     }
     
     static String pickACard() {
-        String letters = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠 
-        return String.valueOf(letters.charAt(generateRandomInt(1, 52)-1));
+        String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
+        return String.valueOf(cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length()))-1));
     }
     
     static String timemoji() {
         String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
-    
-    
+
         Calendar rightNow = Calendar.getInstance(); 
         rightNow.getTime(); 
         int hours = rightNow.get(Calendar.HOUR_OF_DAY); 
@@ -698,7 +744,7 @@ class Util {
         return String.valueOf(Arrays.copyOf(str, index));
     }
 
-    public String getClassName() {
+    String getClassName() {
         Class<?> enclosingClass = getClass().getEnclosingClass();
         String className;
         if (enclosingClass != null) { className = enclosingClass.getName(); }
@@ -709,7 +755,7 @@ class Util {
         catch (Exception ignored) {}
         return className;
     }
-    public static int getLineNumber() {
+    static int getLineNumber() {
         return ___8drrd3148796d_Xaf();
     }
     private static int ___8drrd3148796d_Xaf() {
@@ -725,18 +771,17 @@ class Util {
         }
         return -1;
     }
-    public String getMethodName() {
+    String getMethodName() {
         return new Throwable().getStackTrace()[1].getMethodName();
     }
-    public String getMethodName(int depth) {
+    String getMethodName(int depth) {
         return new Throwable().getStackTrace()[depth].getMethodName();
     }
-    public void whereami() {
+    void whereami() {
         System.out.println(getClassName()+":"+getMethodName(2)+" "+___8drrd3148796d_Xaf());
     }
 
-
-    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
+    static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
 
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
@@ -757,7 +802,7 @@ class Util {
         return explicitIntent;
     }
 
-    public static String getCharType(byte ch) {
+    static String getCharType(byte ch) {
         switch(ch) {
             case  8: return "Mc";
             case 23: return "Pc";
@@ -793,8 +838,7 @@ class Util {
         }
     }
 
-
-    public static String getCharacterType(byte ch) {
+    static String getCharacterType(byte ch) {
         switch(ch) {
             case  8: return "COMBINING_SPACING_MARK";
             case 23: return "CONNECTOR_PUNCTUATION";
@@ -829,7 +873,4 @@ class Util {
             default: return "";
         }
     }
-
-
-
 }

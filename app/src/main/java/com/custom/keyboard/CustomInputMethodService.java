@@ -2,30 +2,34 @@ package com.custom.keyboard;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.hardware.Camera;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationListener;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.InputType;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
@@ -36,22 +40,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
-import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
 // import android.view.textservice.SpellCheckerSession;
-
-
-enum Category {Main, Lang, Util, Font, Misc}
-
-
 
 public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
@@ -262,10 +261,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     }
                 }
             }
-            catch (Exception ignored) {}
+            catch(Exception ignored) {}
 
             try {redraw();}
-            catch (Exception ignored) {}
+            catch(Exception ignored) {}
         }
 
         StringBuilder autoLabel;
@@ -285,6 +284,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 layout.label = label;
             }
         }
+
     }
 
     public Bounds getBounds(List<Keyboard.Key> keys) {
@@ -320,7 +320,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             text = args[0];
         }
         toast.cancel();
-        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -329,7 +329,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (sharedPreferences.getBoolean("debug", f)) return;
         toast.cancel();
-        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
         toast.show();
     }
 
@@ -361,36 +361,252 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         inputMethodManager.setInputMethod(getToken(), "com.google.android.googlequicksearchbox/com.google.android.voicesearch.ime.VoiceInputMethodService");
     }
 
+    public void startIntent(Intent intent) {
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+
     public void showSettings() {
         Intent intent = new Intent(getApplicationContext(), Preference.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        startIntent(intent);
     }
     
     public void showClipboard() {
         try {
             // Intent intent = new Intent(getApplicationContext(), "com.samsung.android.ClipboardUIService");
-            Intent intent = new Intent("com.samsung.android.ClipboardUIService");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Intent intent = new Intent("com.samsung.android.ClipboardUIService")
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent(intent);
         }
         catch (Exception e) {
             toastIt(e.toString());
         }
     }
-    
-    public void showInputSettings() {
-        Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-    
+
     public void showActivity(String id) {
-        Intent intent = new Intent(id);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        Intent intent = new Intent(id)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startIntent(intent);
     }
-    
+
+
+    public void dialPhone(String phoneNumber) {
+        if (!Util.isValidPhoneNumber(phoneNumber)) return;
+        Intent intent = new Intent(Intent.ACTION_DIAL)
+            .setData(Uri.parse("tel:" + phoneNumber));
+        startIntent(intent);
+    }
+
+    public void openWebpage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW)
+             .setData(webpage);
+        startIntent(intent);
+    }
+
+    public void searchWeb(String query) {
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH)
+            .putExtra(SearchManager.QUERY, query);
+        startIntent(intent);
+    }
+
+    public void createAlarm(String message) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+             .putExtra(AlarmClock.EXTRA_MESSAGE, message);
+        startIntent(intent);
+    }
+
+    public void createAlarm(String message, int hour, int minutes) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+             .putExtra(AlarmClock.EXTRA_MESSAGE, message)
+             .putExtra(AlarmClock.EXTRA_HOUR, hour)
+             .putExtra(AlarmClock.EXTRA_MINUTES, minutes);
+        startIntent(intent);
+    }
+
+    public void showAlarms() {
+        Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
+        startIntent(intent);
+    }
+
+    public void startTimer(int seconds) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+             .putExtra(AlarmClock.EXTRA_LENGTH, seconds);
+             // .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        startIntent(intent);
+    }
+
+    public void startTimer() {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+             .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer")
+             .putExtra(AlarmClock.EXTRA_LENGTH, 60)
+             .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        startIntent(intent);
+    }
+
+    public void showMap(Uri geoLocation) {
+        Intent intent = new Intent(Intent.ACTION_VIEW)
+             .setData(geoLocation);
+        startIntent(intent);
+    }
+
+    public void showLocationFromAddress(String address) {
+        address = Util.encodeUrl(address);
+        Uri location = Uri.parse("geo:0,0?q="+address);
+        showMap(location);
+    }
+    public void showLocationFromAddress(String address, int zoom) {
+        address = Util.encodeUrl(address);
+        Uri location = Uri.parse("geo:0,0?q="+address+"?z="+zoom);
+        showMap(location);
+    }
+    public void showLocationFromCoordinates(double latitude, double longitude) {
+        Uri location = Uri.parse("geo:"+latitude+","+longitude+"?z=14");
+        showMap(location);
+    }
+    public void showLocationFromCoordinates(double latitude, double longitude, int zoom) {
+        Uri location = Uri.parse("geo:"+latitude+","+longitude+"?z="+zoom);
+        showMap(location);
+    }
+
+    public void addCalendarEvent(String title) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+             .setData(CalendarContract.Events.CONTENT_URI)
+             .putExtra(CalendarContract.Events.TITLE, title);
+        startIntent(intent);
+    }
+
+    public void addCalendarEvent(String title, String location, long begin, long end) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.Events.TITLE, title)
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
+        startIntent(intent);
+
+        /*
+        Intent calendarIntent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(2012, 0, 19, 7, 30);
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(2012, 0, 19, 10, 30);
+        calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis());
+        calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
+        calendarIntent.putExtra(CalendarContract.Events.TITLE, "Ninja class");
+        calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Secret dojo");
+        */
+    }
+
+    public void insertContactByName(String name) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+            .setType(ContactsContract.Contacts.CONTENT_TYPE)
+            .putExtra(ContactsContract.Intents.Insert.NAME, name);
+        startIntent(intent);
+    }
+    public void insertContactByEmail(String email) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+             .setType(ContactsContract.Contacts.CONTENT_TYPE)
+             .putExtra(ContactsContract.Intents.Insert.EMAIL, email);
+        startIntent(intent);
+    }
+
+    public void composeEmail(String address) {
+        Intent intent = new Intent(Intent.ACTION_SEND)
+             .setData(Uri.parse("mailto:")) // only email apps should handle this
+             .putExtra(Intent.EXTRA_EMAIL, new String[] {address}); // .setType("*/*");
+            // .putExtra(Intent.EXTRA_SUBJECT, "Email subject")
+            // .putExtra(Intent.EXTRA_TEXT, "Email message text")
+            // // if the intent does not have a URI, so declare the "text/plain" MIME type
+            // .setType(HTTP.PLAIN_TEXT_TYPE)
+            // // You can also attach multiple items by passing an ArrayList of Uris
+            // .putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
+        startIntent(intent);
+    }
+
+    public void composeEmail(String[] addresses) {
+        Intent intent = new Intent(Intent.ACTION_SEND)
+            .setData(Uri.parse("mailto:")) // only email apps should handle this
+            .putExtra(Intent.EXTRA_EMAIL, addresses); // .setType("*/*");
+            // .putExtra(Intent.EXTRA_SUBJECT, "Email subject")
+            // .putExtra(Intent.EXTRA_TEXT, "Email message text")
+            // // if the intent does not have a URI, so declare the "text/plain" MIME type
+            // .setType(HTTP.PLAIN_TEXT_TYPE)
+            // // You can also attach multiple items by passing an ArrayList of Uris
+            // .putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
+        startIntent(intent);
+    }
+
+    public void composeEmail(String[] addresses, String subject, Uri attachment) {
+        Intent intent = new Intent(Intent.ACTION_SEND)
+            .setData(Uri.parse("mailto:"))
+            .putExtra(Intent.EXTRA_EMAIL, addresses)
+            .putExtra(Intent.EXTRA_SUBJECT, subject)
+            .putExtra(Intent.EXTRA_STREAM, attachment);
+        startIntent(intent);
+    }
+
+    // // String	ACTION_APPEND_NOTE	Intent action for appending to an existing note.
+    // // String	ACTION_CREATE_NOTE	Intent action for creating a note.
+    // // String	ACTION_DELETE_NOTE	Intent action for removing an existing note.
+    // // String	EXTRA_NAME	Intent extra specifying an optional title or subject for the note as a string.
+    // // String	EXTRA_NOTE_QUERY	Intent extra specifying an unstructured query for a note as a string.
+    // // String	EXTRA_TEXT	Intent extra specifying the text of the note as a string.
+    // public void createNote(String subject, String text) {
+    //     Intent intent = new Intent(NoteIntents.ACTION_CREATE_NOTE)
+    //          .putExtra(NoteIntents.EXTRA_NAME, subject)
+    //          .putExtra(NoteIntents.EXTRA_TEXT, text);
+    //     if (intent.resolveActivity(getPackageManager()) != null) {
+    //         startActivity(intent);
+    //     }
+    // }
+
+    public void capturePhoto() {
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+        startIntent(intent);
+
+        /*
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+             Uri.withAppendedPath(locationForPhotos, targetFilename));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        */
+    }
+
+    public void selectImage() {
+        // Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+            .setType("image/*");
+            // .addCategory(Intent.CATEGORY_OPENABLE);
+        startIntent(intent);
+    }
+
+    boolean flashlight = false;
+    public void toggleFlashlight() {
+        if (!getBaseContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) return;
+        Camera cam = Camera.open();
+        if (!flashlight) {
+            Camera.Parameters p = cam.getParameters();
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            cam.setParameters(p);
+            cam.startPreview();
+        }
+        else {
+            cam.stopPreview();
+            cam.release();
+        }
+        flashlight = !flashlight;
+    }
+
+
+
+
+
     public ArrayList<CustomKeyboard> getLayouts() {
         return layouts;
     }
@@ -447,7 +663,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 redraw();
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+        // Editor editor = sharedPreferences.edit();
+        // editor.putInt("current_keyboard_layout_id", currentKeyboard.layoutId);
+        // editor.putString("current_keyboard_name", currentKeyboard.title);
+        // editor.apply();
         return currentKeyboard.title;
     }
 
@@ -498,7 +720,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             default:
                 // crispIt("Primary "+attribute.inputType);
         */
-            findKeyboard("Primary");
+        findKeyboard("Primary");
         /*
             break;
         }
@@ -566,7 +788,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     @Override
     public View onCreateInputView() {
         populate();
-        mInputView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.qwerty, null);
+        int layoutId;
+        mInputView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.primary, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(sharedPreferences.getBoolean("preview", f));
         return mInputView;
@@ -615,14 +838,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         kv.setOnKeyboardActionListener(this);
         
-/*
+        /*
         kv.setOnTouchListener(new OnSwipeTouchListener(getBaseContext()) {
             @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        toastIt(event.toString());
-        return true;
-        // return gestureDetector.onTouchEvent(event);
-    }
+            public boolean onTouch(View v, MotionEvent event) {
+                toastIt(event.toString());
+                return true;
+                // return gestureDetector.onTouchEvent(event);
+            }
 
             @Override
             public void onSwipeLeft(View v, MotionEvent e) {
@@ -646,10 +869,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
 
         });
-*/
+        */
 
         mPredictionOn = sharedPreferences.getBoolean("pred", f);
-        mCompletionOn = sharedPreferences.getBoolean("auto", f);;
+        mCompletionOn = sharedPreferences.getBoolean("auto", f);
 
         setInputView(kv);
 
@@ -667,8 +890,21 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         
         
         // mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){});
-        
-        
+
+        // toastIt(sharedPreferences.getInt("current_keyboard_layout_id", R.layout.primary));
+
+
+        /*
+        if (currentKeyboard != null) {
+            for(CustomKeyboard ck : getLayouts()) {
+                if (ck.layoutId == currentKeyboard.layoutId) {
+                    findKeyboard(ck.title);
+                    toastIt(ck.title);
+                }
+            }
+        }
+        */
+
     }
 
     @Override
@@ -834,7 +1070,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else ic.setSelection(position, position);
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
     }
 
     public void nextWord(int n) {
@@ -849,7 +1087,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else ic.setSelection(position, position);
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
     }
 
     public void goToStart() {
@@ -875,7 +1115,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             ic.setSelection(end, end);
             Variables.setSelectOff();
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
     }
 
     public void selectLine() {
@@ -1042,7 +1284,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 editor.apply();
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
     }
 
     
@@ -1223,7 +1467,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
             updateShiftKeyState(getCurrentInputEditorInfo());
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
         
         spellcheck(0);
     }
@@ -1846,9 +2092,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -146: performReplace(Util.uniqueLines(getText(ic))); break;
             case -147: performReplace(Util.shuffleLines(getText(ic))); break;
             case -148: showSettings(); break;
-            case -149: showVoiceInput(); break;
+            case -149: showVoiceInput(); break; // 🎙🎤
             case -152: performContextMenuAction(16908337); break; // pasteAsPlainText,
-            case -150: performContextMenuAction(16908338); break; // undo
+            case -150: performContextMenuAction(16908338); break; // undo ⎌
             case -151: performContextMenuAction(16908339); break; // redo
             case -153: performContextMenuAction(16908323); break; // copyUrl
             case -154: performContextMenuAction(16908355); break; // autofill
@@ -1898,80 +2144,55 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             break;
             case -173: performReplace(Util.removeZWSP(getText(ic))); break;
             case -174: toastIt(Util.unidata(getText(ic))); break;
-            case -175: showInputSettings(); break;
-            
-            case -176: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -177: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
-            case -178: showActivity(Settings.ACTION_SETTINGS); break;
-            case -179: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
             case -180: commitText(Util.shake8Ball()); break;
             case -181: commitText(Util.pickACard()); break;
             case -182: showClipboard(); break;
             case -183: toastIt(Util.timemoji()); break;
-            
+            case -189: dialPhone(getText(ic)); break; // 📞
+            case -190: openWebpage(getText(ic)); break;
+            case -191: searchWeb(getText(ic)); break;
+            case -192:
+                Calendar rightNow = Calendar.getInstance();
+                rightNow.getTime();
+                int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int minute = rightNow.get(Calendar.MINUTE);
+                createAlarm(getText(ic), hour, minute);
+            break;
+            case -193: showAlarms(); break; // ⏰
+            case -194: capturePhoto(); break; // 📷
+            case -195: selectImage(); break;
+            case -196: insertContactByName(getText(ic)); break; // 📇📛
+            case -197: insertContactByEmail(getText(ic)); break; // 📇@
+            case -198: composeEmail(getText(ic)); break;
+            case -199: startTimer(Integer.parseInt(getText(ic))); break;
+            case -200: showLocationFromAddress(getText(ic)); break; // 🧭
+            // "2217+Concord+Circle,+Harrisburg,+Pennsylvania"
+            case -201: addCalendarEvent(getText(ic)); break; // 🗓📆📅
+            case -202: toggleFlashlight(); break; // 💡🔦
+            case -175: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
+            case -176: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -177: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
+            case -178: showActivity(Settings.ACTION_SETTINGS); break;
+            case -179: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
             case -184: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
             case -185: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
             case -186: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
             case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
             case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
-            
-            // android.intent.action.WEB_SEARCH
-            // 🔠🔡🔢🔣🔤
-            // 🎙🎤🔔🔕
-            // 📳📴
-            // 📷
-            // 🎥🎦🎞
-            // 💭🗯🗣🗨💬
-            // ⏰🕰
-            // 🔧🔨🔩🎛🎚🛠
-            // ⛓🔗📎🖇🧷🧶🧵
-            // 🧭
-            // ℹ
-            // 🧪🧫🧬⚗🏗🔭🔬🛸🤖
-            // 📑📓📔📕📗📘📙📚🔖
-            // 📝📃📄🧾🗒🗞📒📜📰
-            // 🖍🖌🖎🖋🖊✒✑✐✎
-            // 🎶🎵🎼📣📢🎹
-            // 🧲⚡☇🔋🔌
-            // 🏠
-            // 📐📏
-            // 📶📟🛰📡
-            // 💡🔦
-            // 🖱🖥💻🕹🖲🎮
-            // 🗂🗃🗄💼
-            // 📞📇
-            // 📠🖨📨📩📧📥📤
-            // 🗓📆📅
-            // 🗝🔏🔐🔑🔒🔓
-            // 🧰🧮
-            // 📪📫📬📭📮🗳📦
-            // ★⌘⌥⌤⎋⏎⌂⎔⎌
-            // 🔍🔎
-            // 📵
-            // 🗑
-            // 🖼
-            // 📱📲
-            // 🏭⛭
-            // 🔮
-            // 🔲🔳🛑🛇⃣☑💯🔘🆗🔜🔚🔙🔝✓✗
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            
-            
+            case -203: showActivity(Settings.ACTION_HOME_SETTINGS); break; // 🏠⌂
+            case -204: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break; // 📳📴📵
+            case -205: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // ✈✈️
+            case -206: showActivity(Settings.ACTION_SOUND_SETTINGS); break; // 🔔🔕🎶🎵🎼📣📢🎹
+            case -207: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
+            case -208: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -209: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+
+            // 🔠🔡🔢🔣🔤 🎥🎦🎞 💭🗯🗣🗨💬 🕰 🔧🔨🔩🎛🎚🛠 ⛓🔗📎🖇🧷🧶🧵
+            // ℹ 🧪🧫🧬⚗🏗🔭🔬🛸🤖 📑📓📔📕📗📘📙📚🔖 📝📃📄🧾🗒🗞📒📜📰 🖍🖌🖎🖋🖊✒✑✐✎ 🧲⚡☇🔋
+            // 🔌 📐📏 📶📟🛰📡 🖱🖥💻🕹🖲🎮 🗂🗃🗄💼 📠🖨📨📩📧📥📤 🗝🔏🔐🔑🔒🔓 🧰🧮 📪📫📬📭📮🗳📦
+            // ★⌘⌥⌤⎋⏎⎔ 🔍🔎 🗑 🖼 📱📲 🏭⛭ 🔮 🔲🔳🛑🛇 ⃣ ☑ 💯 🔘 🆗 🔜 🔚 🔙 🔝 ✓ ✗
+
             /*
 
             here
@@ -2097,7 +2318,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 firstCaps = t;
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
         if (sharedPreferences.getBoolean("debug", f)) toastIt(KeyEvent.keyCodeToString(primaryCode));
     }
 

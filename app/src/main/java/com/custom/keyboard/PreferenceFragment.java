@@ -105,14 +105,19 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
-        name = (EditTextPreference)findPreference("name");
-        name.setSummary(sharedPreferences.getString("name", ""));
-        email = (EditTextPreference)findPreference("email");
-        email.setSummary(sharedPreferences.getString("email", ""));
-        phone = (EditTextPreference)findPreference("phone");
-        phone.setSummary(sharedPreferences.getString("phone", ""));
-        address = (EditTextPreference)findPreference("address");
-        address.setSummary(sharedPreferences.getString("address", ""));
+        try {
+            name = (EditTextPreference)findPreference("name");
+            name.setSummary(sharedPreferences.getString("name", ""));
+            email = (EditTextPreference)findPreference("email");
+            email.setSummary(sharedPreferences.getString("email", ""));
+            phone = (EditTextPreference)findPreference("phone");
+            phone.setSummary(sharedPreferences.getString("phone", ""));
+            address = (EditTextPreference)findPreference("address");
+            address.setSummary(sharedPreferences.getString("address", ""));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
