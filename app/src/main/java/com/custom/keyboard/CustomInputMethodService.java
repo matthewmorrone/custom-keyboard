@@ -18,6 +18,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.UserDictionary;
 import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -49,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 // import android.view.textservice.SpellCheckerSession;
 
@@ -604,7 +607,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
 
-
+    public void addToDictionary(String word) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            // On JellyBean & above, you can provide a shortcut and an explicit Locale
+            UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            UserDictionary.Words.addWord(this, word, 10, UserDictionary.Words.LOCALE_TYPE_CURRENT);
+        }
+    }
 
 
     public ArrayList<CustomKeyboard> getLayouts() {
@@ -1467,9 +1478,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
             updateShiftKeyState(getCurrentInputEditorInfo());
         }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
+        catch (Exception ignored) {}
         
         spellcheck(0);
     }
@@ -1653,6 +1662,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
 
     }
+    
+    
     
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {

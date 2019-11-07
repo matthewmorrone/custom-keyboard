@@ -681,7 +681,7 @@ class Util {
     
     static String pickACard() {
         String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
-        return String.valueOf(cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length()))-1));
+        return String.valueOf((char)cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length()))-1));
     }
     
     static String timemoji() {
@@ -697,7 +697,7 @@ class Util {
         // 0 thru 29, 30 thru 59
         int which = (((hours-1)*2)+(minutes/30));
     
-        return which+" "+clocks.codePointAt(which)+" "+clocks.codePointCount(0, clocks.length());
+        return String.valueOf((char)clocks.codePointAt(which));
     }
     
     static String[] answers = new String[]{
