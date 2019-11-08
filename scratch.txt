@@ -1,0 +1,98 @@
+https://www.androidhive.info/2016/11/android-integrate-emojis-keyboard-app/
+https://github.com/hani-momanii/SuperNova-Emoji
+
+https://github.com/vanniktech/Emoji
+
+android:inputType="textShortMessage"
+
+https://stackoverflow.com/questions/29031402/how-to-include-suggestions-in-android-keyboard
+
+input.setRawInputType(Configuration.KEYBOARD_12KEY);
+android:inputType="phone"
+android:digits="1234567890"
+
+android:imeOptions="actionNext"
+android:imeOptions="actionDone"
+android:imeOptions="flagNavigateNext"
+actionNext
+flagNavigateNext
+InputConnection.performEditorAction(int)
+actionPrevious
+flagNavigatePrevious
+actionPrevious at InputConnection.performEditorAction(int)
+EditorInfo.IME_FLAG_NAVIGATE_PREVIOUS.
+
+
+
+com.samsung.android.ClipboardUIService
+com.android.providers.userdictionary
+com.android.storagemanager
+com.samsung.android.location
+com.android.shell
+com.android.inputdevices
+
+    public void pickSuggestionManually(int index) {
+        if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
+            // toastIt(index+" "+mCompletions[index].toString());
+            CompletionInfo ci = mCompletions[index];
+            getCurrentInputConnection().commitCompletion(ci);
+            if (mCandidateView != null) {
+                mCandidateView.clear();
+            }
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        }
+        else if (mComposing.length() > 0) {
+            if (mPredictionOn && mSuggestions != null && index >= 0) {
+                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
+            }
+            commitTyped(getCurrentInputConnection());
+        }
+    }
+
+    @Override
+    public void onDisplayCompletions(CompletionInfo[] completions) {
+        if (mCompletionOn) {
+            mCompletions = completions;
+            if (completions == null) {
+                setSuggestions(null, false, false);
+                return;
+            }
+
+            List<String> stringList = new ArrayList<>();
+            for (CompletionInfo ci : completions) {
+                if (ci != null) {
+                    stringList.add(ci.getText().toString());
+                }
+            }
+            setSuggestions(stringList, true, true);
+        }
+    }
+
+    private void updateCandidates() {
+        if (!mCompletionOn) {
+            if (mComposing.length() > 0) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(mComposing.toString());
+                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(mComposing.toString())}, 5);
+                // setSuggestions(list, true, true);
+            }
+            else {
+                // setSuggestions(null, false, false);
+            }
+        }
+    }
+
+    
+
+
+https://developer.android.com/reference/android/view/textservice/SuggestionsInfo.html#RESULT_ATTR_LOOKS_LIKE_TYPO
+
+https://developer.android.com/reference/android/view/textservice/SpellCheckerSession.html#getSentenceSuggestions
+(android.view.textservice.TextInfo[],%20int)
+
+https://developer.android.com/reference/android/view/textclassifier/TextClassifier
+
+https://source.android.com/devices/tech/display/textclassifier
+
+https://developer.android.com/reference/android/view/inputmethod/InputConnection.html#performEditorAction(int)
+

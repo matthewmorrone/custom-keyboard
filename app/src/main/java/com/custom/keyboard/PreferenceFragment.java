@@ -17,6 +17,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     SharedPreferences sharedPreferences;
 
     ListPreference listTheme;
+    ListPreference listDefaultLayout;
 
     EditTextPreference bg;
     EditTextPreference fg;
@@ -79,6 +80,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             addPreferencesFromResource(R.xml.preferences);
             PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+        }
+        catch (Exception ignored) {}
+        try {
+            listDefaultLayout = (ListPreference)findPreference("default_layout");
+            listDefaultLayout.setSummary(listDefaultLayout.getEntry());
         }
         catch (Exception ignored) {}
         try {
@@ -231,6 +237,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
             layoutList.setText(layoutOrder.toString().trim());
         }
+        try {
+            listDefaultLayout = (ListPreference)findPreference("default_layout");
+            listDefaultLayout.setSummary(listDefaultLayout.getEntry());
+        }
+        catch (Exception ignored) {}
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
             fg.setSummary(sharedPreferences.getString("fg", ""));

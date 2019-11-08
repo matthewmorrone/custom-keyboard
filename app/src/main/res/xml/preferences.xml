@@ -5,7 +5,7 @@
     <PreferenceCategory android:key="editing"   android:title="Editing">
         <!--<EditTextPreference android:key="current_keyboard_layout_id" android:title="Current Keyboard ID"   android:summary="" android:visibility="visible" android:dialogTitle="" android:dialogMessage="" android:defaultValue="" />-->
         <!--<EditTextPreference android:key="current_keyboard_name"      android:title="Current Keyboard Name" android:summary="" android:visibility="visible" android:dialogTitle="" android:dialogMessage="" android:defaultValue="" />-->
-
+        <ListPreference   android:title="Default Layout"            android:key="default_layout"    android:defaultValue="1" android:entryValues="@array/default_layout_values"   android:entries="@array/default_layout" />
         <SwitchPreference android:title="Prediction"                android:key="pred"              android:defaultValue="false" />
         <SwitchPreference android:title="Autocorrect"               android:key="auto"              android:defaultValue="false" />
         <SwitchPreference android:title="Autocapitalization"        android:key="autocaps"          android:defaultValue="false" />

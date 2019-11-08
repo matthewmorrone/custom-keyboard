@@ -21,6 +21,20 @@
     <string name="multiple_title">Multiple faces</string>
     <string name="open_desc">No spying, no data collecting. All the source code can be found on GitHub</string>
     <string name="open_title">Open source</string>
+    <string-array name="default_layout">
+        <item name="1">Symbol Alternates</item>
+        <item name="2">Word Alternates</item>
+        <item name="3">Shifted Alternates</item>
+        <item name="4">Mirrored Alternates</item>
+        <item name="5">Extra Alternates</item>
+    </string-array>
+    <string-array name="default_layout_values">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+    </string-array>
     <string-array name="theme">
         <item name="0">Random</item>
         <item name="1">Black/White</item>
@@ -70,16 +84,6 @@
         <item name="20">20</item>
         <item name="21">21</item>
         <item name="22">22</item>
-    </string-array>
-    <string-array name="standard">
-        <item name="1">Numbers</item>
-        <item name="2">Symbols</item>
-        <item name="3">meh</item>
-    </string-array>
-    <string-array name="standard_values">
-        <item name="1">1</item>
-        <item name="2">2</item>
-        <item name="3">3</item>
     </string-array>
     <string name="debug">Debug</string>
     <string name="word_separators" translatable="false">\u0009.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
