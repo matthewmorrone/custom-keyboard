@@ -1462,6 +1462,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
 
+        /*
         String prev;
         try {
             prev = String.valueOf(ic.getTextBeforeCursor(1, 0).length() > 0 ? ic.getTextBeforeCursor(1, 0) : "");
@@ -1469,38 +1470,41 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         catch (Exception e) {
             prev = "";
         }
+        */
 
-        try {
-            if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
-                ic.deleteSurroundingText(4, 0);
-            }
-            else if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
-                ic.deleteSurroundingText(0, 1);
-            }
-            else if (length > 1) {
-                mComposing.delete(length - 1, length);
-                ic.setComposingText(mComposing, 1);
-            }
-            else if (length > 0) {
-                mComposing.setLength(0);
-                commitText("");
-            }
-            else {
-                sendKey(KeyEvent.KEYCODE_DEL);
-            }
-            if (Character.isUpperCase(prev.charAt(0))) {
-                setCapsOn(t);
-                firstCaps = t;
-            }
-            else {
-                setCapsOn(f);
-                firstCaps = f;
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
+        // try {
+        if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
+            ic.deleteSurroundingText(0, 1);
         }
-        catch (Exception ignored) {}
+        if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
+            ic.deleteSurroundingText(4, 0);
+        }
+        else sendKey(KeyEvent.KEYCODE_DEL);
+        /*
+        else if (length > 1) {
+            mComposing.delete(length - 1, length);
+            ic.setComposingText(mComposing, 1);
+        }
+        else if (length > 0) {
+            mComposing.setLength(0);
+            commitText("");
+        }
+        */
+        /*
+        if (Character.isUpperCase(prev.charAt(0))) {
+            setCapsOn(t);
+            firstCaps = t;
+        }
+        else {
+            setCapsOn(f);
+            firstCaps = f;
+        }
+        */
+        updateShiftKeyState(getCurrentInputEditorInfo());
+        // }
+        // catch (Exception ignored) {}
         
-        spellcheck(0);
+        // spellcheck(0);
     }
 
     public void handleDelete() {
