@@ -100,7 +100,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public ArrayList<String> clipboardHistory = new ArrayList<>(10);
     
     private GestureDetector mGestureDetector;
-        
+    int firstLayout = -400;
+    int lastLayout = -453;
         
     public void populate() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -161,9 +162,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         layouts.add(new CustomKeyboard(this, R.layout.words,     "words",     "Words",    "qwerty").setCategory(Category.Misc));
         if (sharedPreferences.getBoolean("zhuyin",     f)) {layouts.add(new CustomKeyboard(this, R.layout.zhuyin,      "zhuyin",      "Zhuyin",     "ㄅㄆㄇㄈ").setCategory(Category.Lang));}
 
-        
-        //
-        
         String defaultLayout = sharedPreferences.getString("default_layout", "1");
         if (defaultLayout != null) {
             switch (defaultLayout) {
@@ -180,21 +178,23 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         
         int layoutLayout = R.layout.layouts;
 
+        /*
         Collections.sort(layouts);
         for (int i = 0; i < layouts.size(); i++) {
             if (layouts.get(i).order == 1024) {
                 layouts.get(i).order = i;
             }
         }
-
         Collections.sort(layouts);
+        */
+        
         layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts").setOrder(-1));
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -449) {
+                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
                     try {
-                        CustomKeyboard layout = layouts.get(-key.codes[0] - 400);
+                        CustomKeyboard layout = layouts.get(-key.codes[0] + firstLayout);
                         if (layout != null && !layout.title.equals("Layouts")) {
                             if (sharedPreferences.getBoolean("names", t)) {
                                 key.label = layout.title;
@@ -211,15 +211,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = Math.min(layouts.size()-2, 47);
+            int layoutCount = firstLayout - lastLayout;
+            // int layoutCount = Math.min(layouts.size()-2, 47);
 
             int colCount = 6;
-            int startRowCount = 8;
+            int startRowCount = 9;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
-
             List<Keyboard.Key> layoutKeys = new ArrayList<>();
             for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -449) {
+                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
                     layoutKeys.add(key);
                 }
             }
@@ -232,7 +232,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int row, index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -449) {
+                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
                     row = (index / colCount);
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y = bounds.maxY;
@@ -247,11 +247,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
             try {
                 layoutCount = layouts.size()-1;
-                int layoutMod = (layoutCount % 6);
+                int layoutMod = (layoutCount % colCount);
                 if (layoutMod > 0) {
-                    int hi = -400 - layoutCount; // -447
+                    int hi = firstLayout - layoutCount; // -447
                     int lo = hi + layoutMod; // -442
-                    hi = lo - 6;
+                    hi = lo - colCount;
 
                     layoutKeys = new ArrayList<>();
                     for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -367,6 +367,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         InputConnection ic = getCurrentInputConnection();
         ic.performContextMenuAction(id);
     }
+    
+    public void showActivity(String id) {
+        Intent intent = new Intent(id)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startIntent(intent);
+    }
+
 
     private IBinder getToken() {
         final Dialog dialog = getWindow();
@@ -384,7 +391,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         InputMethodManager inputMethodManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.setInputMethod(getToken(), "com.google.android.googlequicksearchbox/com.google.android.voicesearch.ime.VoiceInputMethodService");
     }
-
+    
     public void startIntent(Intent intent) {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
@@ -408,223 +415,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         catch (Exception e) {
             toastIt(e.toString());
         }
-    }
-
-    public void showActivity(String id) {
-        Intent intent = new Intent(id)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
-    }
-
-
-    public void dialPhone(String phoneNumber) {
-        if (!Util.isValidPhoneNumber(phoneNumber)) return;
-        Intent intent = new Intent(Intent.ACTION_DIAL)
-            .setData(Uri.parse("tel:" + phoneNumber));
-        startIntent(intent);
-    }
-
-    public void openWebpage(String url) {
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW)
-             .setData(webpage);
-        startIntent(intent);
-    }
-
-    public void searchWeb(String query) {
-        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH)
-            .putExtra(SearchManager.QUERY, query);
-        startIntent(intent);
-    }
-
-    public void createAlarm(String message) {
-        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-             .putExtra(AlarmClock.EXTRA_MESSAGE, message);
-        startIntent(intent);
-    }
-
-    public void createAlarm(String message, int hour, int minutes) {
-        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-             .putExtra(AlarmClock.EXTRA_MESSAGE, message)
-             .putExtra(AlarmClock.EXTRA_HOUR, hour)
-             .putExtra(AlarmClock.EXTRA_MINUTES, minutes);
-        startIntent(intent);
-    }
-
-    public void showAlarms() {
-        Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
-        startIntent(intent);
-    }
-
-    public void startTimer(int seconds) {
-        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-             .putExtra(AlarmClock.EXTRA_LENGTH, seconds);
-             // .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        startIntent(intent);
-    }
-
-    public void startTimer() {
-        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-             .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer")
-             .putExtra(AlarmClock.EXTRA_LENGTH, 60)
-             .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        startIntent(intent);
-    }
-
-    public void showMap(Uri geoLocation) {
-        Intent intent = new Intent(Intent.ACTION_VIEW)
-             .setData(geoLocation);
-        startIntent(intent);
-    }
-
-    public void showLocationFromAddress(String address) {
-        address = Util.encodeUrl(address);
-        Uri location = Uri.parse("geo:0,0?q="+address);
-        showMap(location);
-    }
-    public void showLocationFromAddress(String address, int zoom) {
-        address = Util.encodeUrl(address);
-        Uri location = Uri.parse("geo:0,0?q="+address+"?z="+zoom);
-        showMap(location);
-    }
-    public void showLocationFromCoordinates(double latitude, double longitude) {
-        Uri location = Uri.parse("geo:"+latitude+","+longitude+"?z=14");
-        showMap(location);
-    }
-    public void showLocationFromCoordinates(double latitude, double longitude, int zoom) {
-        Uri location = Uri.parse("geo:"+latitude+","+longitude+"?z="+zoom);
-        showMap(location);
-    }
-
-    public void addCalendarEvent(String title) {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-             .setData(CalendarContract.Events.CONTENT_URI)
-             .putExtra(CalendarContract.Events.TITLE, title);
-        startIntent(intent);
-    }
-
-    public void addCalendarEvent(String title, String location, long begin, long end) {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.Events.TITLE, title)
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
-        startIntent(intent);
-
-        /*
-        Intent calendarIntent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2012, 0, 19, 7, 30);
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(2012, 0, 19, 10, 30);
-        calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis());
-        calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
-        calendarIntent.putExtra(CalendarContract.Events.TITLE, "Ninja class");
-        calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Secret dojo");
-        */
-    }
-
-    public void insertContactByName(String name) {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-            .setType(ContactsContract.Contacts.CONTENT_TYPE)
-            .putExtra(ContactsContract.Intents.Insert.NAME, name);
-        startIntent(intent);
-    }
-    public void insertContactByEmail(String email) {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-             .setType(ContactsContract.Contacts.CONTENT_TYPE)
-             .putExtra(ContactsContract.Intents.Insert.EMAIL, email);
-        startIntent(intent);
-    }
-
-    public void composeEmail(String address) {
-        Intent intent = new Intent(Intent.ACTION_SEND)
-             .setData(Uri.parse("mailto:")) // only email apps should handle this
-             .putExtra(Intent.EXTRA_EMAIL, new String[] {address}); // .setType("*/*");
-            // .putExtra(Intent.EXTRA_SUBJECT, "Email subject")
-            // .putExtra(Intent.EXTRA_TEXT, "Email message text")
-            // // if the intent does not have a URI, so declare the "text/plain" MIME type
-            // .setType(HTTP.PLAIN_TEXT_TYPE)
-            // // You can also attach multiple items by passing an ArrayList of Uris
-            // .putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
-        startIntent(intent);
-    }
-
-    public void composeEmail(String[] addresses) {
-        Intent intent = new Intent(Intent.ACTION_SEND)
-            .setData(Uri.parse("mailto:")) // only email apps should handle this
-            .putExtra(Intent.EXTRA_EMAIL, addresses); // .setType("*/*");
-            // .putExtra(Intent.EXTRA_SUBJECT, "Email subject")
-            // .putExtra(Intent.EXTRA_TEXT, "Email message text")
-            // // if the intent does not have a URI, so declare the "text/plain" MIME type
-            // .setType(HTTP.PLAIN_TEXT_TYPE)
-            // // You can also attach multiple items by passing an ArrayList of Uris
-            // .putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
-        startIntent(intent);
-    }
-
-    public void composeEmail(String[] addresses, String subject, Uri attachment) {
-        Intent intent = new Intent(Intent.ACTION_SEND)
-            .setData(Uri.parse("mailto:"))
-            .putExtra(Intent.EXTRA_EMAIL, addresses)
-            .putExtra(Intent.EXTRA_SUBJECT, subject)
-            .putExtra(Intent.EXTRA_STREAM, attachment);
-        startIntent(intent);
-    }
-
-    // // String	ACTION_APPEND_NOTE	Intent action for appending to an existing note.
-    // // String	ACTION_CREATE_NOTE	Intent action for creating a note.
-    // // String	ACTION_DELETE_NOTE	Intent action for removing an existing note.
-    // // String	EXTRA_NAME	Intent extra specifying an optional title or subject for the note as a string.
-    // // String	EXTRA_NOTE_QUERY	Intent extra specifying an unstructured query for a note as a string.
-    // // String	EXTRA_TEXT	Intent extra specifying the text of the note as a string.
-    // public void createNote(String subject, String text) {
-    //     Intent intent = new Intent(NoteIntents.ACTION_CREATE_NOTE)
-    //          .putExtra(NoteIntents.EXTRA_NAME, subject)
-    //          .putExtra(NoteIntents.EXTRA_TEXT, text);
-    //     if (intent.resolveActivity(getPackageManager()) != null) {
-    //         startActivity(intent);
-    //     }
-    // }
-
-    public void capturePhoto() {
-        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-        startIntent(intent);
-
-        /*
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-             Uri.withAppendedPath(locationForPhotos, targetFilename));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-        */
-    }
-
-    public void selectImage() {
-        // Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-            .setType("image/*");
-            // .addCategory(Intent.CATEGORY_OPENABLE);
-        startIntent(intent);
-    }
-
-    boolean flashlight = false;
-    public void toggleFlashlight() {
-        if (!getBaseContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) return;
-        Camera cam = Camera.open();
-        if (!flashlight) {
-            Camera.Parameters p = cam.getParameters();
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            cam.setParameters(p);
-            cam.startPreview();
-        }
-        else {
-            cam.stopPreview();
-            cam.release();
-        }
-        flashlight = !flashlight;
     }
 
 
@@ -1019,8 +809,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
     }
-
-    
 
     public void performReplace(String newText) {
         ic = getCurrentInputConnection();
@@ -2183,6 +1971,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -181: commitText(Util.pickACard()); break;
             case -182: showClipboard(); break;
             case -183: toastIt(Util.timemoji()); break;
+            
+            /*
             case -189: dialPhone(getText(ic)); break; // 📞
             case -190: openWebpage(getText(ic)); break;
             case -191: searchWeb(getText(ic)); break;
@@ -2204,6 +1994,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             // "2217+Concord+Circle,+Harrisburg,+Pennsylvania"
             case -201: addCalendarEvent(getText(ic)); break; // 🗓📆📅
             case -202: toggleFlashlight(); break; // 💡🔦
+            */
+            
             case -175: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
             case -176: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -177: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
@@ -2327,6 +2119,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -447: toastIt(setKeyboardLayout(47)); break;
             case -448: toastIt(setKeyboardLayout(48)); break;
             case -449: toastIt(setKeyboardLayout(49)); break;
+            case -450: toastIt(setKeyboardLayout(50)); break;
+            case -451: toastIt(setKeyboardLayout(51)); break;
+            case -452: toastIt(setKeyboardLayout(52)); break;
+            case -453: toastIt(setKeyboardLayout(53)); break;
 
             default:
                 if (Variables.isCtrl() || Variables.isAlt()) { processKeyCombo(primaryCode); }
