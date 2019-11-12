@@ -42,7 +42,7 @@
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="p" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="-310" android:keyIcon="@drawable/ic_mirror" />
+        <Key android:codes="-309" android:keyIcon="@drawable/ic_mirror" />
         <Key android:codes="108" android:keyLabel="l" android:popupCharacters="a" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="107" android:keyLabel="k" android:popupCharacters="s" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters="d" android:popupKeyboard="@layout/popup_template" />

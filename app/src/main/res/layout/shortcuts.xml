@@ -15,8 +15,6 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
-
-
     <Row>
         <Key android:codes="-176"  android:keyLabel="⌨" />
         <Key android:codes="-177"  android:keyLabel="💬" />
@@ -39,6 +37,20 @@
         <!--case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;-->
         <Key android:codes="-188"  android:keyLabel="⎅" />
         <!--case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;-->
+        <Key android:codes="-203"  android:keyLabel="🏠" />
+        <!--case -203: showActivity(Settings.ACTION_HOME_SETTINGS); break; // ⌂-->
+        <Key android:codes="-205"  android:keyLabel="✈️" />
+        <!--case -205: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // -->
+        <Key android:codes="-206"  android:keyLabel="🕪" />
+        <!--case -206: showActivity(Settings.ACTION_SOUND_SETTINGS); break; // 🎧🔇🔈🔉🔊🕨🕩🕪🔔🔕🎶🎵🎼📣📢🎹-->
+        <Key android:codes="-207"  android:keyLabel="⌘" />
+        <!--case -207: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;-->
+        <Key android:codes="-209"  android:keyLabel="㏄" />
+        <!--case -209: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;-->
+        <Key android:codes="-210"  android:keyLabel="📱" />
+        <!--case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;-->
+<!--         <Key android:codes="-208"  android:keyLabel="🔵🦷" /> -->
+        <!--case -208: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;-->
 <!--         <Key android:codes="-189"  android:keyLabel="📞" /> -->
         <!--case -189: dialPhone(getText(ic)); break; // -->
 <!--         <Key android:codes="-190"  android:keyLabel="⎚" /> -->
@@ -49,8 +61,6 @@
         <!--case -192: createAlarm(getText(ic), hour, minute); break;-->
 <!--         <Key android:codes="-193"  android:keyLabel="⏰" /> -->
         <!--case -193: showAlarms(); break; // -->
-    </Row>
-    <Row>
 <!--         <Key android:codes="-194"  android:keyLabel="📷" /> -->
         <!--case -194: capturePhoto(); break; // -->
 <!--         <Key android:codes="-195"  android:keyLabel="🖼" /> -->
@@ -69,24 +79,12 @@
         <!--case -201: addCalendarEvent(getText(ic)); break; // -->
 <!--         <Key android:codes="-202"  android:keyLabel="🔦" /> -->
         <!--case -202: toggleFlashlight(); break; // -->
-        <Key android:codes="-203"  android:keyLabel="🏠" />
-        <!--case -203: showActivity(Settings.ACTION_HOME_SETTINGS); break; // ⌂-->
-    </Row>
-    <Row>
 <!--         <Key android:codes="-204"  android:keyLabel="📵" /> -->
         <!--case -204: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break; // 📳📴📵-->
-        <Key android:codes="-205"  android:keyLabel="✈️" />
-        <!--case -205: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // -->
-        <Key android:codes="-206"  android:keyLabel="🕪" />
-        <!--case -206: showActivity(Settings.ACTION_SOUND_SETTINGS); break; // 🎧🔇🔈🔉🔊🕨🕩🕪🔔🔕🎶🎵🎼📣📢🎹-->
-        <Key android:codes="-207"  android:keyLabel="⌘" />
-        <!--case -207: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;-->
-<!--         <Key android:codes="-208"  android:keyLabel="🔵🦷" /> -->
-        <!--case -208: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;-->
-        <Key android:codes="-209"  android:keyLabel="㏄" />
-        <!--case -209: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;-->
-        <Key android:codes="-210"  android:keyLabel="📱" />
-        <!--case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;-->
+    </Row>
+    <Row>
+    </Row>
+    <Row>
     </Row>
     <Row android:keyHeight="7%p">
         <Key android:codes="-148"  android:keyIcon="@drawable/ic_settings"      />

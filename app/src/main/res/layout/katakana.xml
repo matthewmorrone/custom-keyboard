@@ -66,7 +66,7 @@
         <Key android:codes="12522" android:keyLabel="リ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row android:keyHeight="5.6%p">
-        <Key android:codes="-314" android:keyIcon="@drawable/ic_shift" />
+        <Key android:codes="-314" android:keyIcon="@drawable/ic_shift_lock" />
         <Key android:codes="12523" android:keyLabel="ル" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12524" android:keyLabel="レ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="12525" android:keyLabel="ロ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

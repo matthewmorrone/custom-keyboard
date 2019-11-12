@@ -148,8 +148,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("pointy",     f)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("qwerty",     f)) {layouts.add(new CustomKeyboard(this, R.layout.qwerty,      "qwerty",      "Qwerty",     "qwerty").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("rotated",    f)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("shift_1",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift₁",     "qWeRtY").setCategory(Category.Misc));}
-        if (sharedPreferences.getBoolean("shift_2",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_2,     "shift_2",     "Shift₂",     "QwErTy").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("shift_1",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift",     "qWeRtY").setCategory(Category.Misc));}
+        // if (sharedPreferences.getBoolean("shift_2",    f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_2,     "shift_2",     "Shift₂",     "QwErTy").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("shortcuts",  t)) {layouts.add(new CustomKeyboard(this, R.layout.shortcuts,   "shortcuts",   "Shortcuts",  "").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("stealth",    f)) {layouts.add(new CustomKeyboard(this, R.layout.stealth,     "stealth",     "Stealth",    "ԛԝеrtу").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("strike",     f)) {layouts.add(new CustomKeyboard(this, R.layout.strike,      "strike",      "Strike",     "ꝗwɇꞧⱦɏ").setCategory(Category.Font));}
@@ -192,7 +192,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     try {
                         CustomKeyboard layout = layouts.get(-key.codes[0] + firstLayout);
                         if (layout != null && !layout.title.equals("Layouts")) {
@@ -211,7 +211,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = firstLayout - lastLayout;
+            int layoutCount = layouts.size()-1; // firstLayout - lastLayout;
             // int layoutCount = Math.min(layouts.size()-2, 47);
 
             int colCount = 6;
@@ -232,7 +232,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int row, index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     row = (index / colCount);
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y = bounds.maxY;
@@ -249,7 +249,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 layoutCount = layouts.size()-1;
                 int layoutMod = (layoutCount % colCount);
                 if (layoutMod > 0) {
-                    int hi = firstLayout - layoutCount; // -447
+                    int hi = -400 - layoutCount; // -447
                     int lo = hi + layoutMod; // -442
                     hi = lo - colCount;
 
@@ -374,7 +374,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         startIntent(intent);
     }
 
-
     private IBinder getToken() {
         final Dialog dialog = getWindow();
         if (dialog == null) {
@@ -398,7 +397,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-
     public void showSettings() {
         Intent intent = new Intent(getApplicationContext(), Preference.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -417,7 +415,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-
     public void addToDictionary(String word) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             // On JellyBean & above, you can provide a shortcut and an explicit Locale
@@ -427,7 +424,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             UserDictionary.Words.addWord(this, word, 10, UserDictionary.Words.LOCALE_TYPE_CURRENT);
         }
     }
-
 
     public ArrayList<CustomKeyboard> getLayouts() {
         return layouts;
@@ -473,6 +469,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     if (currentKeyboard.title.equals("Layouts")) {
                         if (layouts.size()-1 != 1) getKey(32).label = (layouts.size()-1)+" layouts";
                         else getKey(32).label = "1 layout";
+                    }
+                    else if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
+                        kv.setShifted(true);
                     }
                     else if (!currentKeyboard.title.equals("Shift")) {
                         if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
@@ -542,7 +541,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             default:
                 // crispIt("Primary "+attribute.inputType);
         */
-        findKeyboard("Primary");
+        setKeyboard();
+        // findKeyboard("Primary");
         /*
             break;
         }
@@ -1026,7 +1026,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void setCapsOn(boolean on) {
         if (Variables.isShift()) {
-            kv.getKeyboard().setShifted(t);
+            kv.getKeyboard().setShifted(true);
             redraw();
         }
         else {
@@ -1604,16 +1604,20 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else {
                     switch (currentKeyboard.title) {
                         case "Caps":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.caps, "Caps", "ҩᴡᴇʀᴛʏ");}
-                            else {currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift, "Caps", "ҩᴡᴇʀᴛʏ");}
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.caps,       "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);}
+                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift, "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);}
                         break;
                         case "Rotated":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.rotated, "Rotated", "bʍəɹʇʎ");}
-                            else {currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated", "Ò𐊰ƎꓤꞱ⅄");}
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.rotated,       "Rotated", "bʍəɹʇʎ").setCategory(Category.Misc);}
+                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated", "Ò𐊰ƎꓤꞱ⅄").setCategory(Category.Misc);}
+                        break;
+                        case "Shift":
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.shift_1, "shift_1", "Shift", "qWeRtY").setCategory(Category.Misc);}
+                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.shift_2, "shift_2", "Shift", "QwErTy").setCategory(Category.Misc);}
                         break;
                         case "Stealth":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.stealth, "Stealth", "ԛԝеrtу");}
-                            else {currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ");}
+                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.stealth,       "Stealth", "ԛԝеrtу").setCategory(Category.Misc);}
+                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ").setCategory(Category.Misc);}
                         break;
                     }
                     kv.setKeyboard(currentKeyboard);
@@ -1636,8 +1640,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         }
                     }
                     if (!currentKeyboard.title.equals("Caps")
-                     && !currentKeyboard.title.equals("Cherokee")
                      && !currentKeyboard.title.equals("Rotated")
+                     && !currentKeyboard.title.equals("Shift")
                      && !currentKeyboard.title.equals("Stealth")
                     ) {
                         setKeyboard();
@@ -2055,8 +2059,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 setShifted(capsOn);
                 toastIt("Mirror");
             break;
-            case -311: toastIt(findKeyboard("Shift₁")); break;
-            case -312: toastIt(findKeyboard("Shift₂")); break;
+            // case -311: break;
+            // case -312: break;
             case -313: toastIt(findKeyboard("Katakana")); break;
             case -314: toastIt(findKeyboard("Hiragana")); break;
             case -315:

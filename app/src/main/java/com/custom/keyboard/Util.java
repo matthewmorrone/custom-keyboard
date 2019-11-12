@@ -120,44 +120,40 @@ class Util {
     }
 
     static String unidata(int primaryCode) {
-        return ""+primaryCode+"\n" +
-             ""+convertNumberBase(String.valueOf(primaryCode), 10, 16)+"\n" +
-             ""+toTitleCase(Character.getName(primaryCode))+"\n" +
-             ""+Character.getType(primaryCode)+"\n" +
-             ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n" +
-             ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n" +
-             /*
-             (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
-             (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
-             (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
-             "Upper: " + Character.toUpperCase(primaryCode)+", " +
-             "Title: " + Character.toTitleCase(primaryCode)+", " +
-             "Lower: " + Character.toLowerCase(primaryCode)+", " +
-             (Character.isLetter(primaryCode) ? "Letter, " : "") +
-             (Character.isDigit(primaryCode) ? "Digit, " : "") +
-             (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
-             (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
-             (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
-             (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
-             (Character.isDefined(primaryCode) ? "Defined, " : "") +
-             (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
-             (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
-             (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
-             (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
-             (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
-             (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
-             (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
-             (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
-             (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
-             (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
-             "Value " + Character.getNumericValue(primaryCode)+", " +
-             "Direction " + Character.getDirectionality(primaryCode)+""+
-              */
-              ""
-             ;
+        return ""+toTitleCase(Character.getName(primaryCode))+"\n" +
+               ""+primaryCode+"\t"+convertNumberBase(String.valueOf(primaryCode), 10, 16)+""+
+               /*
+               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
+               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
+               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
+               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
+               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
+               "Upper: " + Character.toUpperCase(primaryCode)+", " +
+               "Title: " + Character.toTitleCase(primaryCode)+", " +
+               "Lower: " + Character.toLowerCase(primaryCode)+", " +
+               (Character.isLetter(primaryCode) ? "Letter, " : "") +
+               (Character.isDigit(primaryCode) ? "Digit, " : "") +
+               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
+               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
+               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
+               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
+               (Character.isDefined(primaryCode) ? "Defined, " : "") +
+               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
+               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
+               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
+               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
+               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
+               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
+               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
+               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
+               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
+               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
+               "Value " + Character.getNumericValue(primaryCode)+", " +
+               "Direction " + Character.getDirectionality(primaryCode)+""+
+               */
+               ""
+               ;
     }
-
-
 
     static Date stringToDate(String date, String format) throws Exception {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
@@ -324,9 +320,13 @@ class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
+    
+    static String normalizeString(String text) {
+        return Normalizer.normalize(text, Normalizer.Form.NFD);
+    }
 
     static int countChars(String text) {
-        return Normalizer.normalize(text, Normalizer.Form.NFD).length();
+        return text.codePointCount(0, text.length());
     }
 
     static String[] getWords(String text) {
@@ -564,7 +564,7 @@ class Util {
     static String snakeToCamel(String text) {
         StringBuilder nameBuilder = new StringBuilder(text.length());
         boolean capitalizeNextChar = false;
-        for (char c:text.toCharArray()) {
+        for (char c : text.toCharArray()) {
             if (c == '_') {
                 capitalizeNextChar = true;
                 continue;

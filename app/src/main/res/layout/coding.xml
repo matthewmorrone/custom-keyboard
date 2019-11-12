@@ -19,8 +19,8 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row>
-        <Key android:keyLabel="⊤" android:keyOutputText="true"  android:popupCharacters="1⊤⊢⊨⊦⊧⊩" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyLabel="⊥" android:keyOutputText="false" android:popupCharacters="0⊥⊭⊣⊬⊮" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyLabel="⊤" android:keyOutputText="true"  android:popupCharacters=" 1⊤⊢⊨⊦⊧⊩" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyLabel="⊥" android:keyOutputText="false" android:popupCharacters=" 0⊥⊭⊣⊬⊮" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyLabel="∅" android:keyOutputText="null" />
         <Key android:keyLabel="void" android:keyOutputText="void" />
         <Key android:keyLabel="NaN" android:keyOutputText="NaN" />
@@ -35,7 +35,7 @@
         <Key android:keyLabel="import" android:keyOutputText="import" />
         <Key android:keyLabel="obj" android:keyOutputText="object" />
         <Key android:keyLabel="new" android:keyOutputText="new" />
-        <Key android:keyLabel="func" android:keyOutputText="function" android:popupCharacters="ƒλ→" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyLabel="func" android:keyOutputText="function" android:popupCharacters=" ƒλ→" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyLabel="return" android:keyOutputText="return" />
     </Row>
     <Row>

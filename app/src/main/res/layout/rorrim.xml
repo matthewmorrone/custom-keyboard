@@ -51,10 +51,11 @@
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters="d" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="107" android:keyLabel="k" android:popupCharacters="s" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="108" android:keyLabel="l" android:popupCharacters="a" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="-309" android:keyIcon="@drawable/ic_rorrim" />
+        <Key android:codes="-310" android:keyIcon="@drawable/ic_rorrim" />
     </Row>
     <Row>
-        <Key android:codes="-1"  android:keyIcon="@drawable/ic_shift"     android:keyWidth="10%p" />
+        <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" android:isRepeatable="true" />
+        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:isRepeatable="true" />
         <Key android:codes="122" android:keyLabel="z" android:popupCharacters="m" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="120" android:keyLabel="x" android:popupCharacters="n" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="99"  android:keyLabel="c" android:popupCharacters="b" android:popupKeyboard="@layout/popup_template" />
@@ -62,8 +63,7 @@
         <Key android:codes="98"  android:keyLabel="b" android:popupCharacters="c" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="110" android:keyLabel="n" android:popupCharacters="x" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="109" android:keyLabel="m" android:popupCharacters="z" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:isRepeatable="true" />
-        <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" android:isRepeatable="true" />
+        <Key android:codes="-1"  android:keyIcon="@drawable/ic_shift"     android:keyWidth="10%p" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
