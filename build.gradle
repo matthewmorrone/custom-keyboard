@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
     }
 }
 
@@ -12,9 +12,6 @@ allprojects {
     repositories {
         jcenter()
         google()
-        maven { 
-            url "https://dl.bintray.com/hani-momanii/maven"
-        }
     }
 }
 

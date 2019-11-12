@@ -8,8 +8,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import java.util.Arrays;
-import java.util.List;
+import android.preference.PreferenceScreen;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -24,9 +23,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     EditTextPreference text_size;
     EditTextPreference seps;
-    EditTextPreference popup_a;
-    EditTextPreference popup_b;
-    EditTextPreference popup_c;
+    EditTextPreference popup_first;
+    EditTextPreference popup_second;
+    EditTextPreference popup_third;
 
     EditTextPreference name;
     EditTextPreference email;
@@ -41,35 +40,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k6;
     EditTextPreference k7;
     EditTextPreference k8;
-
-    List<String> required = Arrays.asList(
-         "primary", "numeric", "url"
-    );
-
-    List<String> primary = Arrays.asList(
-         "extra", "fonts", "function", "hex",
-         "macros", "navigation", "utility", "unicode"
-    );
-
-    List<String> secondary = Arrays.asList(
-         "armenian", "braille", "cherokee", "coptic",
-         "cree", "cyrillic", "deseret", "devanagari",
-         "etruscan", "futhark", "georgian", "glagolitic",
-         "gothic", "greek", "hiragana", "katakana",
-         "lisu", "ogham", "tifinagh", "zhuyin"
-    );
-
-    List<String> tertiary = Arrays.asList(
-         "clipboard", "mirror", "qwerty", "shift",
-         "accents", "coding", "dvorak", "emoji",
-         "ipa", "math", "symbol"
-    );
-
-    List<String> forthary = Arrays.asList(
-         "caps", "morse", "drawing", "insular",
-         "pointy", "rotated", "stealth", "strike",
-         "tails"
-    );
 
     @Override
     public void onCreate(Bundle s) {
@@ -98,9 +68,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         text_size = (EditTextPreference)findPreference("text_size");
         seps = (EditTextPreference)findPreference("seps");
-        popup_a = (EditTextPreference)findPreference("popup_a");
-        popup_b = (EditTextPreference)findPreference("popup_b");
-        popup_c = (EditTextPreference)findPreference("popup_c");
+        popup_first = (EditTextPreference)findPreference("popup_first");
+        popup_second = (EditTextPreference)findPreference("popup_second");
+        popup_third = (EditTextPreference)findPreference("popup_third");
 
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -133,9 +103,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup_a.setSummary(sharedPreferences.getString("popup_a", ""));
-            popup_b.setSummary(sharedPreferences.getString("popup_b", ""));
-            popup_c.setSummary(sharedPreferences.getString("popup_c", ""));
+            popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
+            popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
+            popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
         }
         catch (Exception ignored) {}
         try {
@@ -150,9 +120,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         catch (Exception ignored) {}
 
-
-
-        PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+        PreferenceScreen preferences = (PreferenceScreen)findPreference("layouts");
         if (sharedPreferences.getBoolean("custom_order", false)) {
             for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
                 CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
@@ -164,7 +132,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 catch (Exception ignored) {}
             }
         }
-
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -172,71 +139,65 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        CheckBoxPreference preference = (CheckBoxPreference)findPreference("all");
+        CheckBoxPreference preference;
+             // = (CheckBoxPreference)findPreference("all");
 
+        if (s.equals("background")) {
+            // System.out.println(((EditTextPreference)findPreference("background").));
+            // getActivity().findViewById((int)R.layout.keyboard);
+
+            // getActivity().openContextMenu(getView());
+                 // .findViewById(R.id.keyboard).setBackgroundColor(Color.argb(255, 255, 255, 255));
+        }
+
+        if (s.equals("all")) {
+            boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
+            ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
+            ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
+        }
         if (s.equals("primary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("primary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
-                if (preference == null) continue;
-                if (primary.contains(preference.getKey())) {
+                for(int j = 0; j < CustomInputMethodService.layouts.size(); j++) {
                     preference.setChecked(isChecked);
                 }
             }
         }
         if (s.equals("secondary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("secondary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
-                if (preference == null) continue;
-                if (secondary.contains(preference.getKey())) {
+                for(int j = 0; j < CustomInputMethodService.layouts.size(); j++) {
                     preference.setChecked(isChecked);
                 }
             }
         }
         if (s.equals("tertiary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("tertiary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
-                if (preference == null) continue;
-                if (tertiary.contains(preference.getKey())) {
+                for(int j = 0; j < CustomInputMethodService.layouts.size(); j++) {
                     preference.setChecked(isChecked);
                 }
             }
         }
         if (s.equals("forthary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
+            PreferenceCategory preferences = (PreferenceCategory)findPreference("forthary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 preference = (CheckBoxPreference)(preferences.getPreference(i));
-                if (preference == null) continue;
-                if (forthary.contains(preference.getKey())) {
+                for(int j = 0; j < CustomInputMethodService.layouts.size(); j++) {
                     preference.setChecked(isChecked);
                 }
             }
         }
 
-        if (s.equals("all")) {
-            StringBuilder layoutOrder = new StringBuilder();
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("layouts");
-            boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
-            int start = preference.getOrder();
-            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                preference = (CheckBoxPreference)(preferences.getPreference(i));
-                if (preference == null) continue;
-                preference.setChecked(isChecked);
-                layoutOrder.append(preference.getTitle()).append(" ").append(i).append("\n");
-            }
-            ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
-            ((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);
-            ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
-            ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
-            EditTextPreference layoutList = (EditTextPreference)findPreference("layout_order");
-            layoutList.setText(layoutOrder.toString().trim());
-        }
         try {
             listDefaultLayout = (ListPreference)findPreference("default_layout");
             listDefaultLayout.setSummary(listDefaultLayout.getEntry());
@@ -255,9 +216,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup_a.setSummary(sharedPreferences.getString("popup_a", ""));
-            popup_b.setSummary(sharedPreferences.getString("popup_b", ""));
-            popup_c.setSummary(sharedPreferences.getString("popup_c", ""));
+            popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
+            popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
+            popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
             name.setSummary(sharedPreferences.getString("title", ""));
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));

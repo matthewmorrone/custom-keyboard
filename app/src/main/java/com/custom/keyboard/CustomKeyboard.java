@@ -13,7 +13,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     String title;
     String label;
     int order = 1024;
-    Category category;
+    Category category = Category.Misc;
     SharedPreferences sharedPreferences;
     int layoutId;
 
