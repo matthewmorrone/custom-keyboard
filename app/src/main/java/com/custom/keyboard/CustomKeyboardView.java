@@ -43,7 +43,11 @@ public class CustomKeyboardView extends KeyboardView {
             return true;
         }
         */
+        /*
+        if (key.popupKeyboard != null && !key.popupKeyboard.equals("")) {
         
+        }
+        */
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
             // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.codes[0], null);
