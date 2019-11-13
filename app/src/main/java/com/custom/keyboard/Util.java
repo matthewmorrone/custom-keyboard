@@ -302,6 +302,25 @@ class Util {
         Collections.rotate(result, 1);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
+    
+    public static String addLineNumbers(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        int index = 0;
+        for (String line : lines) {
+            result.add(++index+" "+line);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    
+    public static String removeLineNumbers(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(line.replaceAll("^\\d+\\s*", ""));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
 
     public static String increaseIndentation(String text) {
         String[] lines = getLines(text);
@@ -608,13 +627,13 @@ class Util {
     }
 
     public static boolean hasZWSP(String text) {
-        return text.contains(" ");
+        return text.contains("");
     }
     public static String replaceZWSP(String text, String ins) {
-        return text.replaceAll(" ", " "+ins);
+        return text.replaceAll("", ""+ins);
     }
     public static String removeZWSP(String text) {
-        return text.replaceAll(" ", "");
+        return text.replaceAll("", "");
     }
 
     public static String reverse(String s) {
