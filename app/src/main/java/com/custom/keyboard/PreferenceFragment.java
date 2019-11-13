@@ -140,15 +140,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         CheckBoxPreference preference;
-             // = (CheckBoxPreference)findPreference("all");
-
-        if (s.equals("background")) {
-            // System.out.println(((EditTextPreference)findPreference("background").));
-            // getActivity().findViewById((int)R.layout.keyboard);
-
-            // getActivity().openContextMenu(getView());
-                 // .findViewById(R.id.keyboard).setBackgroundColor(Color.argb(255, 255, 255, 255));
-        }
 
         if (s.equals("all")) {
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();

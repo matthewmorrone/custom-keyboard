@@ -28,20 +28,17 @@
         <SwitchPreference android:title="Show Layout Names"         android:key="names"             android:defaultValue="true"  />
     </PreferenceScreen>
     <PreferenceScreen android:key="appearance"   android:title="Appearance">
-        <EditTextPreference android:title="Background" android:key="background" android:summary="" android:defaultValue="@color/background" android:dialogTitle="Background Color" />
-
-
-
+        <!--<EditTextPreference android:title="Background"          android:key="background"    android:defaultValue="@color/background" android:dialogTitle="Background Color" android:summary="" />-->
         <SwitchPreference   android:title="Transparent"         android:key="transparent"   android:defaultValue="false" />
-        <SwitchPreference   android:title="Borders"             android:key="borders"   android:defaultValue="false" />
-        <SwitchPreference   android:title="Padding"             android:key="padding"   android:defaultValue="false" />
-        <SwitchPreference   android:title="Corners"             android:key="corners"   android:defaultValue="false" />
-        <SwitchPreference   android:title="Background"          android:key="keyback"   android:defaultValue="false" />
-        <ListPreference     android:title="Theme"               android:key="theme"     android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
-        <SwitchPreference   android:title="Use Custom Colors"   android:key="rainbow"   android:defaultValue="false" />
-        <EditTextPreference android:title="Foreground"          android:key="fg"        android:defaultValue="#FFFFFF"          android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:dialogMessage="" />
-        <EditTextPreference android:title="Background"          android:key="bg"        android:defaultValue="#000000"          android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:dialogMessage="" />
-        <EditTextPreference android:title="Text Size"           android:key="text_size" android:defaultValue="@dimen/text_size"             android:dialogTitle="Text Size"  android:summary="@dimen/text_size" android:inputType="number" android:dialogMessage="" />
+        <SwitchPreference   android:title="Borders"             android:key="borders"       android:defaultValue="false" />
+        <SwitchPreference   android:title="Padding"             android:key="padding"       android:defaultValue="false" />
+        <SwitchPreference   android:title="Corners"             android:key="corners"       android:defaultValue="false" />
+        <SwitchPreference   android:title="Background"          android:key="keyback"       android:defaultValue="false" />
+        <ListPreference     android:title="Theme"               android:key="theme"         android:defaultValue="1" android:entryValues="@array/theme_values"   android:entries="@array/theme" />
+        <SwitchPreference   android:title="Use Custom Colors"   android:key="rainbow"       android:defaultValue="false" />
+        <EditTextPreference android:title="Foreground"          android:key="fg"            android:defaultValue="#FFFFFF"          android:dialogTitle="Foreground" android:summary="" android:dependency="rainbow" android:dialogMessage="" />
+        <EditTextPreference android:title="Background"          android:key="bg"            android:defaultValue="#000000"          android:dialogTitle="Background" android:summary="" android:dependency="rainbow" android:dialogMessage="" />
+        <EditTextPreference android:title="Text Size"           android:key="text_size"     android:defaultValue="@dimen/text_size"             android:dialogTitle="Text Size"  android:summary="@dimen/text_size" android:inputType="number" android:dialogMessage="" />
     </PreferenceScreen>
     <PreferenceScreen android:key="layouts"   android:title="Layouts">
         <CheckBoxPreference android:key="all"       android:title="All"         android:defaultValue="true" android:summaryOff="Enable All" android:summaryOn="Disable All" />
