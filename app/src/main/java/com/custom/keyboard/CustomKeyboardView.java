@@ -6,10 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+
 import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
@@ -37,32 +39,23 @@ public class CustomKeyboardView extends KeyboardView {
     
     @Override
     protected boolean onLongPress(Key key) {
-        /*
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
-        */
-        /*
-        if (key.popupKeyboard != null && !key.popupKeyboard.equals("")) {
-        
+        if (key.popupResId != 2131361901) {
+            return super.onLongPress(key);
         }
-        */
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-            // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.codes[0], null);
             return true;
         }
-        
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
-            // getOnKeyboardActionListener().onRelease(key.codes[0]);
             getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
             return true;
         }
-        
         return super.onLongPress(key);
     }
-
 
     public void selectKey(Key key, int corner) {
         int theme = Integer.parseInt(sharedPreferences.getString("theme", "1"));
@@ -115,7 +108,6 @@ public class CustomKeyboardView extends KeyboardView {
 
         kcontext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
-        // System.out.println(sharedPreferences.getAll());
 
         boolean borders = sharedPreferences.getBoolean("borders", false);
         boolean padding = sharedPreferences.getBoolean("padding", false);

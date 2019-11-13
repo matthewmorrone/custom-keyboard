@@ -364,7 +364,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             text = args[0];
         }
         toast.cancel();
-        toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -373,7 +373,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (sharedPreferences.getBoolean("debug", f)) return;
         toast.cancel();
-        toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 

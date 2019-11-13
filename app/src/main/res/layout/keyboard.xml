@@ -19,8 +19,3 @@ android:shadowRadius="0.0"
 android:ellipsize="end"
 android:fitsSystemWindows="true">
 </com.custom.keyboard.CustomKeyboardView>
-<!--
-android:verticalCorrection="-10dp"
-android:keyTextSize="@dimen/text_size"
-android:background="@drawable/keyboard_background_1"
--->
