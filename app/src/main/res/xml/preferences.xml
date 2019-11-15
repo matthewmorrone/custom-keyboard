@@ -54,9 +54,11 @@
             <CheckBoxPreference android:key="hex" android:title="Hex" android:defaultValue="true" />
             <CheckBoxPreference android:key="macros" android:title="Macros" android:defaultValue="true" />
             <CheckBoxPreference android:key="navigation" android:title="Navigation" android:defaultValue="true" />
+            <CheckBoxPreference android:key="numeric" android:title="Numeric" android:defaultValue="true" />
             <CheckBoxPreference android:key="shortcuts" android:title="Shortcuts" android:defaultValue="true" />
             <CheckBoxPreference android:key="unicode" android:title="Unicode" android:defaultValue="true" />
             <CheckBoxPreference android:key="utility" android:title="Utility" android:defaultValue="true" />
+            <CheckBoxPreference android:key="url" android:title="URL" android:defaultValue="true" />
         </PreferenceCategory>
         <PreferenceCategory android:key="secondary_category"       android:title="Secondary">
             <CheckBoxPreference android:key="armenian" android:title="Armenian" android:defaultValue="true" />
@@ -71,8 +73,7 @@
             <CheckBoxPreference android:key="glagolitic" android:title="Glagolitic" android:defaultValue="true" />
             <CheckBoxPreference android:key="gothic" android:title="Gothic" android:defaultValue="true" />
             <CheckBoxPreference android:key="greek" android:title="Greek" android:defaultValue="true" />
-            <CheckBoxPreference android:key="hiragana" android:title="Hiragana" android:defaultValue="true" />
-            <CheckBoxPreference android:key="katakana" android:title="Katakana" android:defaultValue="true" />
+            <CheckBoxPreference android:key="kana" android:title="Kana" android:defaultValue="true" />
             <CheckBoxPreference android:key="lisu" android:title="Lisu" android:defaultValue="true" />
             <CheckBoxPreference android:key="ogham" android:title="Ogham" android:defaultValue="true" />
             <CheckBoxPreference android:key="pinyin" android:title="Pinyin" android:defaultValue="true" />

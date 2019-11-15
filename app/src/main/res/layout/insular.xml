@@ -46,9 +46,9 @@
         <Key android:codes="42885" android:keyLabel="ꞅ" android:popupCharacters="ſʃsßσ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42874" android:keyLabel="ꝺ" android:popupCharacters="δ∂ɗԃԁ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="42876" android:keyLabel="ꝼ" android:popupCharacters="ƒϝꜰꞙ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="541"   android:keyLabel="ᵹ" android:popupCharacters="ꝿԍɡ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="7545"   android:keyLabel="ᵹ" android:popupCharacters="ꝿԍɡ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="405"   android:keyLabel="ƕ" android:popupCharacters="ɦⲏηһ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="7545"  android:keyLabel="ȝ" android:popupCharacters="ɉᴊɟȷ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="541"  android:keyLabel="ȝ" android:popupCharacters="ɉᴊɟȷ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="983"   android:keyLabel="ϗ" android:popupCharacters="ⲕкĸӄƙκ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="621"   android:keyLabel="ɭ" android:popupCharacters="λꝇⳑⴑɬʟ" android:popupKeyboard="@layout/popup_template" />
     </Row>

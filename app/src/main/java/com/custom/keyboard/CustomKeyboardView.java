@@ -37,22 +37,25 @@ public class CustomKeyboardView extends KeyboardView {
         return (CustomKeyboard)getKeyboard();
     }
     
+    
     @Override
     protected boolean onLongPress(Key key) {
+        /*
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
-        if (key.popupResId != 2131361901) {
-            return super.onLongPress(key);
-        }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-            getOnKeyboardActionListener().onKey(key.codes[0], null);
-            return true;
+                getOnKeyboardActionListener().onKey(key.codes[0], null);
+                return true;
+            }
         }
+        */
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
-            getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
-            return true;
+            if (sharedPreferences.getBoolean("single_hint", true)) {
+                getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
+                return true;
+            }
         }
         return super.onLongPress(key);
     }

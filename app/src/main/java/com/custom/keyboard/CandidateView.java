@@ -197,6 +197,20 @@ public class CandidateView extends View {
         scrollTo(sx, getScrollY());
         invalidate();
     }
+    
+    public void setSuggestions(List<String> suggestions) {
+        clear();
+        if (suggestions != null) {
+            mSuggestions = new ArrayList<>(suggestions);
+        }
+        // mSuggestions.add(0, "⚙");
+        scrollTo(0, 0);
+        mTargetScrollX = 0;
+        // Compute the total width
+        draw(new Canvas());
+        invalidate();
+        requestLayout();
+    }
 
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
         clear();

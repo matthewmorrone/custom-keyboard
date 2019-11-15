@@ -1,31 +1,25 @@
++ show clipboard contents after cut/copy
++ change space insertion to mod on full line length 
++ tabs on symbols page 
++ add toggle for whether or not the first member of the popup is sent upon release
++ convenience method for setting checks
++ delete all space up to line end (while prev char is space)
++ press and hold del/backspace for up to space
++ don't cancel popup if it has a long press action
 + font color, background, border from settings
 + settings for numbers, colors, popupchars
 + reorder layouts from settings: draggable for layout management
-+ don't cancel popup if it has a long press action
 + more pinyin, combine with autocorrect
 + selection doesn't work with 4space
-+ function to determine cursor position
-+ delete all space up to line end (while prev char is space)
-+ press and hold del/backspace for up to space
 + runtime modification/generation of layouts
 + generate keyboard programmatically
-+ show clipboard contents after cut/copy
 + page containing clipboard history
 + choice of fifo or filo for clipboard history
 + button to access recent clipboard entries
-+ personal dictionary settings link
 + press and hold custom keys to change them
 + close by clicking outside popup
 + delete autoinsertions by pressing once
-+ colorize categories
-+ settings use categories for hide/show
-+ layout checkboxes use category
-+ normalizer.normalize(x, normalizer.form.nfkc)
 + macro customization
-+ stay on current layout
-+ change space insertion to mod on full line length 
-+ prefix/suffix lines, add line numbers
-+ transparent keyboard
 + selection moves while typing
 + select with manual cursor movement
 + move cursor and select text by dragging the space key
@@ -34,17 +28,13 @@
 + drag control for keyboard height
 + adjust key size
 + key height change
-+ suggestion bar
 + include tags ffs
 + emoji 
-+ scrollable/swipeable areas
++ swiping, scrollable/swipeable areas
 + swipe on spacebar + left and right swipe on spacebar
 + key codes and labels customizable
 + make popup keys repeatable
-+ swiping
-+ tabs on symbols page 
 + autoreplace toggleable from keyboard predictions 
-+ adding entries on the fly
 + release on popup for choice
 + settings opens up a drawer
 + 2nd bar changeable
@@ -52,7 +42,6 @@
 + slideable bar
 + shortcuts with sigil
 + bug when autoshift
-+ convenience method for setting checks
 + column from table
 + identify hash
 + format numbers
@@ -71,7 +60,6 @@
 + edittext popup for temporary stuff
 + 2d layout navigation
 + popup for arbitrary find/replace screen
-+ swiping
 + separate out settings page for layouts and custom keys
 + layout of popup
 + popup contents should also be keys
@@ -84,9 +72,7 @@
 + hide and show specific keys, especially in the top or bottom
 + row with toggles from settings page
 + add setting that allows specification of longpress delay
-+ add toggle for whether or not the first member of the popup is sent upon release
 + add slots in the settings page for customizing the letters that appear on long press
-+ settings screen for autoreplace configuration
 + script for autoreinstall
 + password buttons
 + calculation parsing
@@ -97,6 +83,7 @@
 + get location as string, coordinates or address
 + include contact names
 + learn new words
++ adding entries on the fly
 
 
 === Settings ===
