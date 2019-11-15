@@ -87,8 +87,8 @@
     <Row>
     </Row>
     <Row android:keyHeight="7%p">
-        <Key android:codes="-148"  android:keyIcon="@drawable/ic_settings"      />
-        <Key android:codes="-149"  android:keyIcon="@drawable/ic_voice"         />
+        <Key android:codes="-101"  android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
+        <Key android:codes="-102"  android:keyIcon="@drawable/ic_double_chevron_right"   android:keyWidth="10%p" />
         <Key android:codes="-142"  android:keyIcon="@drawable/ic_abc"           />
         <Key android:codes="32"    android:keyIcon="@drawable/ic_space"          android:keyWidth="40%p" />
         <Key android:codes="-3"    android:keyIcon="@drawable/ic_keyboard"      />

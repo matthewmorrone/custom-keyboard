@@ -1,10 +1,8 @@
 + show clipboard contents after cut/copy
-+ change space insertion to mod on full line length 
 + tabs on symbols page 
 + add toggle for whether or not the first member of the popup is sent upon release
 + convenience method for setting checks
-+ delete all space up to line end (while prev char is space)
-+ press and hold del/backspace for up to space
++ press and hold to delete all space up to line end (while prev char is space)
 + don't cancel popup if it has a long press action
 + font color, background, border from settings
 + settings for numbers, colors, popupchars

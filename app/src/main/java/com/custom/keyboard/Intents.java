@@ -10,8 +10,6 @@ import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.provider.UserDictionary;
 
 
 public class Intents {
@@ -36,9 +34,7 @@ public class Intents {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startIntent(context, intent);
         }
-        catch (Exception e) {
-            // toastIt(e.toString());
-        }
+        catch (Exception ignored) {}
     }
 
     public void showActivity(Context context, String id) {

@@ -33,17 +33,17 @@
     <Row>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="119" android:keyLabel="w" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="101" android:keyLabel="e" android:popupCharacters=" ēéěè" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="ēéěè" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="114" android:keyLabel="r" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="116" android:keyLabel="t" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="121" android:keyLabel="y" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="117" android:keyLabel="u" android:popupCharacters="üūúǔùǖǘǚǜ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="105" android:keyLabel="i" android:popupCharacters=" īíǐì" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="111" android:keyLabel="o" android:popupCharacters=" ōóǒò" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="105" android:keyLabel="i" android:popupCharacters="īíǐì" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="111" android:keyLabel="o" android:popupCharacters="ōóǒò" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="112" android:keyLabel="p" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />    
     </Row>
     <Row>
-        <Key android:codes="97"  android:keyLabel="a" android:popupCharacters=" āáâà" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
+        <Key android:codes="97"  android:keyLabel="a" android:popupCharacters="āáâà" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
         <Key android:codes="115" android:keyLabel="s" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="100" android:keyLabel="d" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
