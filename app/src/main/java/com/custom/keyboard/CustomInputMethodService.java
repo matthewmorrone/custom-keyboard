@@ -91,8 +91,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public ArrayList<String> clipboardHistory = new ArrayList<>(10);
     
     private GestureDetector mGestureDetector;
-    int firstLayout = -400;
-    int lastLayout = -453;
+    // int firstLayout = -400;
+    // int lastLayout = -453;
     
     
             
@@ -133,9 +133,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("math",       t)) {layouts.add(new CustomKeyboard(this, R.layout.math,        "math",        "Math",       "+−×÷=%").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("mirror",     t)) {layouts.add(new CustomKeyboard(this, R.layout.mirror,      "mirror",      "Mirror",     "ytrewq").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("morse",      t)) {layouts.add(new CustomKeyboard(this, R.layout.enmorse,     "morse",       "Morse",      "·-·-").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("navigation", t)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));}
         if (sharedPreferences.getBoolean("numeric",    t)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",     "Numeric",    "123456").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("ogham",      t)) {layouts.add(new CustomKeyboard(this, R.layout.ogham,       "ogham",       "Ogham",      "᚛ᚁᚆᚋᚐ᚜").setCategory(Category.Lang));}
-        if (sharedPreferences.getBoolean("navigation", t)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation",  "Navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));}
         if (sharedPreferences.getBoolean("pinyin",     t)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("pointy",     t)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("rotated",    t)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb").setCategory(Category.Font));}
@@ -159,7 +159,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
                 if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     try {
-                        CustomKeyboard layout = layouts.get(-key.codes[0] + firstLayout);
+                        CustomKeyboard layout = layouts.get(-key.codes[0] - 400);
                         if (layout != null && !layout.title.equals("Layouts")) {
                             if (sharedPreferences.getBoolean("names", t)) {
                                 key.label = layout.title;
@@ -199,13 +199,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void adjustLayoutPage() {
         if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = Math.max(layouts.size()-2, 1); // firstLayout - lastLayout;
+            int layoutCount = Math.max(layouts.size()-1, 1); // firstLayout - lastLayout;
             int colCount = 6;
             int startRowCount = 9;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
             List<Keyboard.Key> layoutKeys = new ArrayList<>();
             for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     layoutKeys.add(key);
                 }
             }
@@ -218,7 +218,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int row, index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= firstLayout && key.codes[0] >= lastLayout) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     row = (index / colCount);
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y = bounds.maxY;
@@ -234,7 +234,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
             int layoutMod = (layoutCount % colCount);
             if (layoutMod > 0) {
-                int hi = firstLayout - layoutCount;
+                int hi = -400 - layoutCount;
                 int lo = hi + layoutMod;
                 hi = lo - colCount;
 
