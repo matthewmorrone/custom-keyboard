@@ -92,7 +92,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             address.setSummary(sharedPreferences.getString("address", ""));
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
         try {
@@ -141,6 +141,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         CheckBoxPreference preference;
 
+        try {
         if (s.equals("all")) {
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
             ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
@@ -148,6 +149,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             ((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);
             ((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);
         }
+        }
+        catch (Exception e) {}
+        
+        try {
         if (s.equals("primary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("primary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
@@ -158,6 +163,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
+        }
+        catch (Exception e) {}
+        
+        try {
         if (s.equals("secondary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("secondary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
@@ -168,6 +177,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
+        }
+        catch (Exception e) {}
+        
+        try {
         if (s.equals("tertiary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("tertiary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
@@ -178,6 +191,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
+        }
+        catch (Exception e) {}
+        
+        try {
         if (s.equals("forthary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("forthary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
@@ -188,6 +205,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
+        }
+        catch (Exception e) {}
 
         try {
             listDefaultLayout = (ListPreference)findPreference("default_layout");

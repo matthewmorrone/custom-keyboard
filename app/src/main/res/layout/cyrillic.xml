@@ -40,7 +40,7 @@
         <Key android:codes="1096" android:keyLabel="ш" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1097" android:keyLabel="щ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1079" android:keyLabel="з" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="1093" android:keyLabel="х" android:popupCharacters="ҳҳӽӿ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="1093" android:keyLabel="х" android:popupCharacters="ҳӽӿ" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row android:keyWidth="8.333%p">
         <Key android:codes="1092" android:keyLabel="ф" android:popupCharacters="ѳ" android:popupKeyboard="@layout/popup_template" android:horizontalGap="4.167%p" />

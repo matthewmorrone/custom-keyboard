@@ -189,14 +189,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void adjustLayoutPage() {
+        int first = -400;
         if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = Math.max(layouts.size()-1, 1); // firstLayout - lastLayout;
+            int layoutCount = Math.max(layouts.size()-2, 1); // firstLayout - lastLayout;
             int colCount = 6;
             int startRowCount = 9;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
             List<Keyboard.Key> layoutKeys = new ArrayList<>();
             for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                if (key.codes[0] <= first && key.codes[0] >= -453) {
                     layoutKeys.add(key);
                 }
             }
@@ -209,7 +210,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int row, index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                if (key.codes[0] <= first && key.codes[0] >= -453) {
                     row = (index / colCount);
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y = bounds.maxY;
@@ -225,7 +226,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
             int layoutMod = (layoutCount % colCount);
             if (layoutMod > 0) {
-                int hi = -400 - layoutCount;
+                int hi = first - layoutCount;
                 int lo = hi + layoutMod;
                 hi = lo - colCount;
 
@@ -457,7 +458,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public String setKeyboardLayout(int newKeyboardID) {
         boolean capsOn = Variables.isShift();
-        System.out.println(newKeyboardID);
         try {
             if (newKeyboardID < layouts.size()) {
                 currentKeyboardID = newKeyboardID;
@@ -490,7 +490,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void setKeyboard() {
-        if (currentKeyboardID >= layouts.size()-1) currentKeyboardID = layouts.size()-2;
+        if (currentKeyboardID >= layouts.size()-1) currentKeyboardID = 0; // layouts.size()-2;
         setKeyboardLayout(currentKeyboardID);
     }
 
@@ -1085,14 +1085,22 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
 
-        if (sharedPreferences.getBoolean("pairs", t) && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
+        if (sharedPreferences.getBoolean("pairs", t) 
+&& ic.getTextBeforeCursor(1, 0) != null
+&& String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
+&& Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0))) 
+&& String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
             ic.deleteSurroundingText(0, 1);
         }
-        if (!isSelecting() && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
+        if (!isSelecting() 
+&& ic.getTextBeforeCursor(4, 0) != null
+&& String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
+&& String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces) 
+&& sharedPreferences.getBoolean("spaces", t)) {
             ic.deleteSurroundingText((4 - (prevLine().length() % 4)), 0);
         }
         else sendKey(KeyEvent.KEYCODE_DEL);
-        if (prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
+        if (prevLine() != null && prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
             setCapsOn(t);
             firstCaps = t;
         }
@@ -1126,6 +1134,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         primaryCode = KeyCodes.handleCharacter(kv, primaryCode);
+        if (kv.isShifted() && !currentKeyboard.key.equals("shift_2")) {
+            primaryCode = Character.toUpperCase(primaryCode);
+        }
         if (sharedPreferences.getBoolean("show_data", f) && !currentKeyboard.title.equals("Pinyin")) {
             if (sharedPreferences.getBoolean("show_ascii_data", f) || primaryCode > 127) {
                 toastIt(Util.unidata(primaryCode));
@@ -1146,9 +1157,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 return;
             }
-        }
-        if (kv.isShifted() && !currentKeyboard.key.equals("shift_2")) {
-            primaryCode = Character.toUpperCase(primaryCode);
         }
         if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
             mComposing.append((char)primaryCode);
@@ -1323,8 +1331,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        System.out.println(primaryCode);
-
         ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -1393,10 +1399,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
             case 10:
                 EditorInfo curEditor = getCurrentInputEditorInfo();
+                /*
                 if (sharedPreferences.getBoolean("spaces", t)) {
                     String indent = Util.getIndentation(prevLine());
                     if (indent.length() > 0) {commitText("\n"+indent); break;}
                 }
+                */
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
                     case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
                     case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
@@ -1938,15 +1946,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         }
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
+                        // e.printStackTrace();
                     }
                 }
         }
         try {
             if (sharedPreferences.getBoolean("caps", f)
-            && (ic.getTextBeforeCursor(2, 0).toString().contains(". ")
-            ||  ic.getTextBeforeCursor(2, 0).toString().contains("? ")
-            ||  ic.getTextBeforeCursor(2, 0).toString().contains("! "))
+            &&  ic.getTextBeforeCursor(2, 0) != null
+            &&  String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2
+            && (String.valueOf(ic.getTextBeforeCursor(2, 0)).contains(". ")
+            ||  String.valueOf(ic.getTextBeforeCursor(2, 0)).contains("? ")
+            ||  String.valueOf(ic.getTextBeforeCursor(2, 0)).contains("! "))
             ) {
                 setCapsOn(t);
                 firstCaps = t;
@@ -1967,7 +1977,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public double getHeightKeyModifier() {
-        return (double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) 
+        return (double)sharedPreferences.getInt("height", 50) 
              / (double)50;
     }
 }
