@@ -81,7 +81,6 @@
             <CheckBoxPreference android:title="Drawing"                     android:key="drawing"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Dvorak"                      android:key="dvorak"                    android:defaultValue="true" />
             <CheckBoxPreference android:title="Emoji"                       android:key="emoji"                     android:defaultValue="true" />
-            <CheckBoxPreference android:title="Extended"                    android:key="extended"                  android:defaultValue="true" />
             <CheckBoxPreference android:title="IPA"                         android:key="ipa"                       android:defaultValue="true" />
             <CheckBoxPreference android:title="Math"                        android:key="math"                      android:defaultValue="true" />
             <CheckBoxPreference android:title="Mirror"                      android:key="mirror"                    android:defaultValue="true" />
