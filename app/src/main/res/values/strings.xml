@@ -1,4 +1,3 @@
-
 <resources>
     <string name="app_name">Custom Keyboard</string>
     <string-array name="default_layout">
@@ -84,40 +83,4 @@
     <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
-    <string name="popup_1">!`~"</string>
-    <string name="popup_2">\@²"</string>
-    <string name="popup_3">#³"</string>
-    <string name="popup_4">$¢"</string>
-    <string name="popup_5">%÷"</string>
-    <string name="popup_6">^→←↑↓⇄"</string>
-    <string name="popup_7">&amp;+±°"</string>
-    <string name="popup_8">*×="</string>
-    <string name="popup_9">([{&lt;⧼⧙⧛"</string>
-    <string name="popup_0">)]}&gt;⧽⧘⧚"</string>
-    <string name="popup_q">ɋϙȹƣ</string>
-    <string name="popup_w">ɯωѡƿꚇɰɷ</string>
-    <string name="popup_e">ɛⲉǝҽəᴇɘɜ</string>
-    <string name="popup_r">ρϱꝛʀʁɾɹ</string>
-    <string name="popup_t">ɵθϑþτŧтꞇԏꚍ</string>
-    <string name="popup_y">үчɥɣʏɤ</string>
-    <string name="popup_u">ᴜυʊʉⳙ</string>
-    <string name="popup_i">ıꙇɨɪĳi̇ⱶ</string>
-    <string name="popup_o">οœøɔꚛꭥɶҩȣ</string>
-    <string name="popup_p">πψφƥᴩпⲣⳡϡ</string>
-    <string name="popup_a">αɑæąʌɐɒᴀ</string>
-    <string name="popup_s">ʃꜱσſʆꞩß</string>
-    <string name="popup_d">ꝺδðɗȸ∂ᴅᴆ</string>
-    <string name="popup_f">ƒϝꞙꜰꟻфɸ</string>
-    <string name="popup_g">ᵹγɡɢ</string>
-    <string name="popup_h">ηħƕɦʎʜ</string>
-    <string name="popup_j">ȝɉȷᴊɟʄʝ</string>
-    <string name="popup_k">κƙкʞϟɂʔʕ</string>
-    <string name="popup_l">ƚłɫɬλʎʟɮỻꝇꝉꞁ</string>
-    <string name="popup_z">ʒȝƶƨζʐʑʓ</string>
-    <string name="popup_x">χжξⲷ</string>
-    <string name="popup_c">ϛçɕʗ</string>
-    <string name="popup_v">Ꝩʋⱱỽ</string>
-    <string name="popup_b">βбϐƀƃɓ␢ʙ</string>
-    <string name="popup_n">νŋиɲɳɴᛝ</string>
-    <string name="popup_m">μɱʍᴍ</string>
 </resources>
