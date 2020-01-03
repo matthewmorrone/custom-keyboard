@@ -79,4 +79,14 @@
     <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
+    <string name="popup_1">!`~"</string>
+    <string name="popup_2">\@²"</string>
+    <string name="popup_3">#³"</string>
+    <string name="popup_4">$¢"</string>
+    <string name="popup_5">%÷"</string>
+    <string name="popup_6">^→←↑↓⇄"</string>
+    <string name="popup_7">&amp;+±°"</string>
+    <string name="popup_8">*×="</string>
+    <string name="popup_9">([{&lt;⧼⧙⧛"</string>
+    <string name="popup_0">)]}&gt;⧽⧘⧚"</string>
 </resources>
