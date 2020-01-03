@@ -1933,7 +1933,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
         }
         try {
-            if (sharedPreferences.getBoolean("caps", f) && ic.getTextBeforeCursor(2, 0) != null && String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2)) {
+            if (sharedPreferences.getBoolean("caps", f) 
+&& ic.getTextBeforeCursor(2, 0) != null 
+&& String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
                 setCapsOn(t);
                 firstCaps = t;
             }
