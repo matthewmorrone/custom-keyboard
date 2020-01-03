@@ -187,7 +187,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void adjustLayoutPage() {
-        int first = -400;
         if (sharedPreferences.getBoolean("relayout", t)) {
             int layoutCount = Math.max(layouts.size()-2, 1); // firstLayout - lastLayout;
             int colCount = 6;
@@ -195,7 +194,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
             List<Keyboard.Key> layoutKeys = new ArrayList<>();
             for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= first && key.codes[0] >= -453) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     layoutKeys.add(key);
                 }
             }
@@ -208,7 +207,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int row, index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= first && key.codes[0] >= -453) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
                     row = (index / colCount);
                     if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                         key.y = bounds.maxY;
@@ -224,7 +223,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
             int layoutMod = (layoutCount % colCount);
             if (layoutMod > 0) {
-                int hi = first - layoutCount;
+                int hi = -400 - layoutCount;
                 int lo = hi + layoutMod;
                 hi = lo - colCount;
 
