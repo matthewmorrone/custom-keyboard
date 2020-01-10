@@ -584,7 +584,7 @@ class Util {
         StringBuilder converted = new StringBuilder();
         boolean convertNext = true;
         for (char ch : text.toCharArray()) {
-            if (Character.isSpaceChar(ch) || ch.equals("\n")) {
+            if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
                 convertNext = true;
             }
             else if (convertNext) {

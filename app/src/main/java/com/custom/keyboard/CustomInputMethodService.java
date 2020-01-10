@@ -1081,7 +1081,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         final int length = mComposing.length();
 
         if (ic.getTextBeforeCursor(1, 0) != null
-        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(1, 0))) {
+        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(1, 0)))) {
             sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
         }
 
