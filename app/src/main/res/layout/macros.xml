@@ -51,7 +51,9 @@
         <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" android:keyWidth="10%p" />
         <Key android:codes="-211"   android:keyIcon="@drawable/ic_line_numbers" android:keyWidth="10%p" />
         <Key android:codes="-212"   android:keyIcon="@drawable/ic_no_line_numbers" android:keyWidth="10%p" />
-        <Key android:codes="0"      android:keyIcon="@drawable/ic_blank" android:keyWidth="25%p" />
+        <Key android:codes="-189"   android:keyLabel="Ⓝ" android:keyWidth="10%p" />
+        <Key android:codes="-190"   android:keyLabel="Ⓢ" android:keyWidth="10%p" />
+        <Key android:codes="0"      android:keyIcon="@drawable/ic_blank" android:keyWidth="5%p" />
         <Key android:codes="-5"     android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"     android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>

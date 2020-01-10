@@ -45,12 +45,11 @@ public class CustomKeyboardView extends KeyboardView {
             getOnKeyboardActionListener().onKey(-100, null);
             return true;
         }
-        if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-                getOnKeyboardActionListener().onKey(key.codes[0], null);
-                return true;
-            }
-        }
         */
+        if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
+            getOnKeyboardActionListener().onKey(key.codes[0], null);
+            return true;
+        }
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
             if (sharedPreferences.getBoolean("single_hint", true)) {
                 getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);

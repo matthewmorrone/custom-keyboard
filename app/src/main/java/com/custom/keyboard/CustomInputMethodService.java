@@ -188,7 +188,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void adjustLayoutPage() {
         if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = Math.max(layouts.size()-2, 1); // firstLayout - lastLayout;
+            int layoutCount = Math.max(layouts.size()-1, 1); // firstLayout - lastLayout;
             int colCount = 6;
             int startRowCount = 9;
             int finalRowCount = (int)Math.ceil(layoutCount / colCount) + 1;
@@ -1067,11 +1067,23 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
     }
+
+    public Boolean isAstralCharacter(String ch) {
+        int value = Integer.parseInt(ch, 16);
+        char[] codeUnits = Character.toChars(value);
+        if (codeUnits.length > 1) return true;
+        return false;
+    }
     
     public void handleBackspace() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
+
+        if (ic.getTextBeforeCursor(1, 0) != null
+        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(1, 0))) {
+            sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+        }
 
         if (sharedPreferences.getBoolean("pairs", t) 
         && ic.getTextBeforeCursor(1, 0) != null
@@ -1647,9 +1659,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -98: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -61: performReplace(Util.increaseIndentation(getText(ic))); break;
             case -62: performReplace(Util.decreaseIndentation(getText(ic))); break;
+            case -79: performReplace(Util.reverse(getText(ic))); break;
             case -136:
                 if (!isSelecting()) {
                     sendKey(KeyEvent.KEYCODE_MOVE_END);
+                    commitText(" ");
                     sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
                 }
                 else {
@@ -1660,7 +1674,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -138: performReplace(Util.removeSpaces(getText(ic))); break;
             case -139: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
             case -140: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
-            case -79: performReplace(Util.reverse(getText(ic))); break;
             case -91:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleJavaComment(getText(ic)));
@@ -1784,11 +1797,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
             case -211: performReplace(Util.addLineNumbers(getText(ic))); break;
             case -212: performReplace(Util.removeLineNumbers(getText(ic))); break;
-
+            case -189: performReplace(Util.normalize(getText(ic))); break;
+            case -190: performReplace(Util.slug(getText(ic)));  break;
             /*
             case -100: break;
-            case -189: break;
-            case -190: break;
             case -191: break;
             case -192: break;
             case -193: break;
