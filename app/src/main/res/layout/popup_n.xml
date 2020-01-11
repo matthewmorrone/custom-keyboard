@@ -1,9 +1,0 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content">
-<Row>
-<Key android:codes="0" android:keyOutputText="no " android:keyLabel="no" />
-<Key android:codes="0" android:keyOutputText="not " android:keyLabel="not" />
-<Key android:codes="0" android:keyOutputText="ing " android:keyLabel="ing" />
-<Key android:codes="0" android:keyOutputText="n't " android:keyLabel="n't" />
-<Key android:codes="0" android:keyOutputText="now " android:keyLabel="now" />
-</Row>
-</Keyboard>

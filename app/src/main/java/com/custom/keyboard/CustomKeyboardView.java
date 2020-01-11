@@ -105,7 +105,12 @@ public class CustomKeyboardView extends KeyboardView {
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        try {
+            super.onDraw(canvas);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         this.canvas = canvas;
 
         kcontext = getContext();
