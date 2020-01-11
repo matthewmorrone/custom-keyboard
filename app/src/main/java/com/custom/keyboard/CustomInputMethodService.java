@@ -1100,6 +1100,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             setCapsOn(f);
             firstCaps = f;
         }
+        if (length == 0) {
+            setCandidatesViewShown(false);
+        }
+        else {
+            spellcheck();
+        }
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
@@ -1107,6 +1113,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
+
         if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
             ic.deleteSurroundingText(0, 4);
         }
@@ -1119,6 +1126,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             commitText(empty);
         }
         else sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+        if (length == 0) {
+            setCandidatesViewShown(false);
+        }
+        else {
+            spellcheck();
+        }
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
@@ -1171,7 +1184,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             firstCaps = f;
             setCapsOn(f);
         }
-        spellcheck(primaryCode);
+        if (sharedPreferences.getBoolean("pred", f)) {
+            spellcheck(primaryCode);
+        }
     }
 
     private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
@@ -1190,10 +1205,33 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (key3 != null) key3.label = empty;
     }
 
-    public void spellcheck(int primaryCode) {
-        if (!sharedPreferences.getBoolean("pred", f)) {
+    public void spellcheck() {
+        if (sharedPreferences.getBoolean("pred", f)) {
             return;
         }
+        try {
+            String lastWord = getLastWord();
+            lastWord = lastWord.toLowerCase();
+            if (lastWord.length() < 2) return;
+
+            boolean isWord = Edit.inTrie(lastWord);
+
+            ArrayList<String> completions;
+            if (!isWord) {
+                lastWord = Edit.check(lastWord);
+            }
+            completions = Edit.getCompletions(lastWord);
+            List<String> stringList = new ArrayList<>();
+
+            setSuggestions(completions, true, isWord);
+        }
+        catch (Exception ignored) {}
+    }
+
+    public void spellcheck(int primaryCode) {
+        // if (sharedPreferences.getBoolean("pred", f)) {
+        //     return;
+        // }
         try {
             if (!(Util.isLetter(primaryCode) 
             || primaryCode == 29
@@ -1228,7 +1266,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-
         return mCandidateView;
     }
     
