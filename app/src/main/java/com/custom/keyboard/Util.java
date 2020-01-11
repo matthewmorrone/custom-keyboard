@@ -40,12 +40,108 @@ class Util {
 
     public static void noop() {}
 
-    public static String normalize(String input) {
-        // String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+    public static String normalize(String text) {
+        // String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
         // return normalized.toLowerCase(Locale.ENGLISH);
-        return Normalizer.normalize(input, Normalizer.Form.NFD)
-                         .replaceAll("[^\\p{ASCII}]", "")
-                         .toLowerCase();
+        return Normalizer.normalize(text, Normalizer.Form.NFD);
+                         //.replaceAll("[^\\p{ASCII}]", "")
+                         //.toLowerCase();
+    }
+
+    public static String slug(String text) {
+        return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
+        .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
+        .replaceAll("[ḂḄḆ]", "B")
+        .replaceAll("[ḃḅḇ]", "b")
+        .replaceAll("[ḉćĉċč]", "c")
+        .replaceAll("[ḈĆĈĊČ]", "C")
+        .replaceAll("[ḋḍḏḑḓď]", "d")
+        .replaceAll("[ḊḌḎḐḒĎ]", "D")
+        .replaceAll("[ȆĒĔĖĘĚÈÉÊËḔḖḘḚḜẸẺẼẾỀỂỄỆȨȄ]", "E")
+        .replaceAll("[ȇēĕėęěèéêëḕḗḙḛḝẹẻẽếềểễệȩȅ]", "e")
+        .replaceAll("[Ḟ]", "F")
+        .replaceAll("[ḟ]", "f")
+        .replaceAll("[ḠǴǦĜĞĠĢ]", "G")
+        .replaceAll("[ḡǵǧĝğġģ]", "g")
+        .replaceAll("[ḢḤḦḨḪĤȞ]", "H")
+        .replaceAll("[ḣḥḧḩḫẖĥȟ]", "h")
+        .replaceAll("[İÌÍÎÏḬḮỈỊǏȈȊĨĪĬĮ]", "I")
+        .replaceAll("[ıìíîïḭḯỉịǐȉȋĩīĭį]", "i")
+        .replaceAll("[Ĵ]", "J")
+        .replaceAll("[ǰĵ]", "j")
+        .replaceAll("[ḰḲḴǨĶ]", "K")
+        .replaceAll("[ḱḳḵǩķ]", "k")
+        .replaceAll("[ḶḸḺḼĹĻĽĿŁ]", "L")
+        .replaceAll("[ḷḹḻḽĺļľŀł]", "l")
+        .replaceAll("[ḿṁṃ]", "m")
+        .replaceAll("[ḾṀṂ]", "M")
+        .replaceAll("[ṄṆṈṊÑǸŃŅŇ]", "N")
+        .replaceAll("[ṅṇṉṋñǹńņňŉ]", "n")
+        .replaceAll("[ÒÓÔÕÖṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢǑǪǬȌȎŌŎŐȪȬȮȰǾ]", "O")
+        .replaceAll("[òóôõöṍṏṑṓọỏốồổỗộớờởỡợǒǫǭȍȏōŏőȫȭȯȱǿ]", "o")
+        .replaceAll("[ṕṗ]", "p")
+        .replaceAll("[ṔṖ]", "P")
+        .replaceAll("[ṙṛṝṟȑȓŕŗř]", "r")
+        .replaceAll("[ṘṚṜṞȐȒŔŖŘ]", "R")
+        .replaceAll("[ṡṣṥṧṩșśŝşš]", "s")
+        .replaceAll("[ṠṢṤṦṨȘŚŜŞŠ]", "S")
+        .replaceAll("[ṪṬṮṰȚŢŤ]", "T")
+        .replaceAll("[ṫṭṯṱẗțţť]", "t")
+        .replaceAll("[ùúûüũūŭůűṳṵṷṹṻụủứừửữựȕȗǔǖǘǚǜų]", "u")
+        .replaceAll("[ÙÚÛÜŨŪŬŮŰṲṴṶṸṺỤỦỨỪỬỮỰȔȖǓǕǗǙǛŲ]", "U")
+        .replaceAll("[ṼṾ]", "V")
+        .replaceAll("[ṽṿ]", "v")
+        .replaceAll("[ẀẂẄẆẈŴ]", "W")
+        .replaceAll("[ẁẃẅẇẉẘŵ]", "w")
+        .replaceAll("[ẋẍ]", "x")
+        .replaceAll("[ẊẌ]", "X")
+        .replaceAll("[ẎỲỴỶỸÝȲŶŸ]", "Y")
+        .replaceAll("[ẏỳỵỷỹẙýȳŷÿ]", "y")
+        .replaceAll("[ẑẓẕźżžǯ]", "z")
+        .replaceAll("[ẐẒẔŹŻŽǮ]", "Z")
+        .replaceAll("[ΆἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]", "Α")
+        .replaceAll("[άἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷ]", "α")
+        .replaceAll("[ΈἘἙἚἛἜἝῈΈ]", "Ε")
+        .replaceAll("[έἐἑἒἓἔἕὲέ]", "ε")
+        .replaceAll("[ΉἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]", "Η")
+        .replaceAll("[ήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇ]", "η")
+        .replaceAll("[ΪΊἸἹἺἻἼἽἾἿῘῙῚΊ]", "Ι")
+        .replaceAll("[ίϊΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗ]", "ι")
+        .replaceAll("[ΌὈὉὊὋὌὍ]", "Ο")
+        .replaceAll("[όὀὁὂὃὄὅὸό]", "ο")
+        .replaceAll("[Ῥ]", "Ρ")
+        .replaceAll("[ῤῥ]", "ρ")
+        .replaceAll("[ΫΎὙὛὝὟῨῩῪΎϒϓϔ]", "Υ")
+        .replaceAll("[ΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]", "υ")
+        .replaceAll("[ΏὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῸΌῺΏῼ]", "Ω")
+        .replaceAll("[ώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]", "ω")
+        .replaceAll("[ӐӒ]", "А")
+        .replaceAll("[Ӛ]", "Ә")
+        .replaceAll("[ЃҐҒӺҔӶ]", "Г")
+        .replaceAll("[ЀӖЁ]", "Е")
+        .replaceAll("[ӁӜҖ]", "Ж")
+        .replaceAll("[Ӟ]", "З")
+        .replaceAll("[ЍӤӢҊЙ]", "И")
+        .replaceAll("[Ї]", "І")
+        .replaceAll("[ЌҚҠҞҜ]", "К")
+        .replaceAll("[ӉҢӇҤЊ]", "Н")
+        .replaceAll("[Ӧ]", "О")
+        .replaceAll("[Ӫ]", "Ө")
+        .replaceAll("[Ҧ]", "П")
+        .replaceAll("[Ҏ]", "Р")
+        .replaceAll("[Ҫ]", "С")
+        .replaceAll("[Ҭ]", "Т")
+        .replaceAll("[ЎӰӲӮ]", "У")
+        .replaceAll("[Ұ]", "Ү")
+        .replaceAll("[ӼӾҲ]", "Х")
+        .replaceAll("[ѾѼ]", "Ѡ")
+        .replaceAll("[Ҵ]", "Ц")
+        .replaceAll("[ӴҶӋҸ]", "Ч")
+        .replaceAll("[Ҿ]", "Ҽ")
+        .replaceAll("[Ӹ]", "Ы")
+        .replaceAll("[ҌѢ]", "Ь")
+        .replaceAll("[Ӭ]", "Э")
+        .replaceAll("[Ѷ]", "Ѵ");
     }
 
     // URLUtil.isHttpUrl(url)
@@ -339,10 +435,6 @@ class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    
-    public static String normalizeString(String text) {
-        return Normalizer.normalize(text, Normalizer.Form.NFD);
-    }
 
     public static int countChars(String text) {
         return text.codePointCount(0, text.length());
@@ -492,7 +584,7 @@ class Util {
         StringBuilder converted = new StringBuilder();
         boolean convertNext = true;
         for (char ch : text.toCharArray()) {
-            if (Character.isSpaceChar(ch)) {
+            if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
                 convertNext = true;
             }
             else if (convertNext) {
@@ -797,7 +889,7 @@ class Util {
         return new Throwable().getStackTrace()[depth].getMethodName();
     }
     public void whereami() {
-        System.out.println(getClassName()+":"+getMethodName(2)+" "+___8drrd3148796d_Xaf());
+        // System.out.println(getClassName()+":"+getMethodName(2)+" "+___8drrd3148796d_Xaf());
     }
 
     public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {

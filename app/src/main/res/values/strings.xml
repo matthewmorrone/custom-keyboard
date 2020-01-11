@@ -1,19 +1,14 @@
-
 <resources>
     <string name="app_name">Custom Keyboard</string>
     <string-array name="default_layout">
         <item name="1">Symbol Alternates</item>
-        <item name="2">Word Alternates</item>
-        <item name="3">Shifted Alternates</item>
-        <item name="4">Mirrored Alternates</item>
-        <item name="5">Extra Alternates</item>
+        <item name="2">Shifted Alternates</item>
+        <item name="3">Mirrored Alternates</item>
     </string-array>
     <string-array name="default_layout_values">
         <item name="1">1</item>
         <item name="2">2</item>
         <item name="3">3</item>
-        <item name="4">4</item>
-        <item name="5">5</item>
     </string-array>
     <string-array name="theme">
         <item name="0">Random</item>
@@ -94,30 +89,4 @@
     <string name="popup_8">*×="</string>
     <string name="popup_9">([{&lt;⧼⧙⧛"</string>
     <string name="popup_0">)]}&gt;⧽⧘⧚"</string>
-    <string name="popup_q">ɋϙϟҩȹƣ</string>
-    <string name="popup_w">ɯωѡƿꚇɰɷʚ</string>
-    <string name="popup_e">ɛⲉǝҽəᴇɘɜ</string>
-    <string name="popup_r">ρϱꝛʀʁɾɹ®</string>
-    <string name="popup_t">τθϑþŧтʇʈꞇԏꚍ</string>
-    <string name="popup_y">үчɥɣⴴʏɤϥ</string>
-    <string name="popup_u">ᴜυʊʉȣⳙ</string>
-    <string name="popup_i">ıꙇⱶɨɪĳi̇</string>
-    <string name="popup_o">οœøɵɔꚛꭥɶ</string>
-    <string name="popup_p">πψφƥᴩпⲣⳡϡ</string>
-    <string name="popup_a">αɑæąʌɐɒᴀ</string>
-    <string name="popup_s">ꜱσſʃʆꞩßʂ</string>
-    <string name="popup_d">δðꝺɗȸд∂ᴅᴆ</string>
-    <string name="popup_f">ϝƒꞙꟻфɸꜰ</string>
-    <string name="popup_g">γᵹȝɠɡɢ</string>
-    <string name="popup_h">ηħƕɦɧʎʜ</string>
-    <string name="popup_j">ɉȷᴊɟʄʝ</string>
-    <string name="popup_k">κƙкʞɂʔʕʡʢ</string>
-    <string name="popup_l">ƚłɫɬλⴳʎʟɮỻꝇꝉꞁ</string>
-    <string name="popup_z">ʒȝƶƨζʐʑʓ</string>
-    <string name="popup_x">χжξⲷ</string>
-    <string name="popup_c">ϛçɕʗ©</string>
-    <string name="popup_v">ʋꝨⱱỽⱽ</string>
-    <string name="popup_b">βбϐƀƃɓ␢ʙ</string>
-    <string name="popup_n">νŋиɲɳɴᛝ</string>
-    <string name="popup_m">μɱʍᴍ</string>
 </resources>
