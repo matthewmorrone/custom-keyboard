@@ -63,6 +63,7 @@
             <CheckBoxPreference android:title="Cree"                        android:key="cree"                      android:defaultValue="false" />
             <CheckBoxPreference android:title="Cyrillic"                    android:key="cyrillic"                  android:defaultValue="true" />
             <CheckBoxPreference android:title="Deseret"                     android:key="deseret"                   android:defaultValue="true" />
+            <CheckBoxPreference android:title="Etruscan"                    android:key="etruscan"                  android:defaultValue="false" />
             <CheckBoxPreference android:title="Futhark"                     android:key="futhark"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Georgian"                    android:key="georgian"                  android:defaultValue="false" />
             <CheckBoxPreference android:title="Glagolitic"                  android:key="glagolitic"                android:defaultValue="false" />
