@@ -42,7 +42,7 @@
         <Key android:codes="128532" android:keyLabel="😔" />
     </Row>
     <Row android:keyHeight="4.667%p">
-        <Key android:codes="10003"  android:keyLabel="✓" />
+        <Key android:codes="0"      android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" />
         <Key android:codes="128533" android:keyLabel="😕" />
         <Key android:codes="128534" android:keyLabel="😖" />
         <Key android:codes="128535" android:keyLabel="😗" />
@@ -54,7 +54,7 @@
         <Key android:codes="128555" android:keyLabel="😫" />
     </Row>
     <Row android:keyHeight="4.667%p">
-        <Key android:codes="10007"  android:keyLabel="✗" />
+        <Key android:codes="10003"  android:keyLabel="✓" />
         <Key android:codes="128556" android:keyLabel="😬" />
         <Key android:codes="128557" android:keyLabel="😭" />
         <Key android:codes="128558" android:keyLabel="😮" />
@@ -66,7 +66,7 @@
         <Key android:codes="128579" android:keyLabel="🙃" />
     </Row>
     <Row android:keyHeight="4.667%p">
-        <Key android:codes="0"      android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" />
+        <Key android:codes="10007"  android:keyLabel="✗" />
         <Key android:codes="128580" android:keyLabel="🙄" />
         <Key android:codes="129296" android:keyLabel="🤐" />
         <Key android:codes="129299" android:keyLabel="🤓" />
@@ -78,7 +78,7 @@
         <Key android:codes="129320" android:keyLabel="🤨" />
     </Row>
     <Row android:keyHeight="4.667%p">
-        <Key android:codes="0"      android:keyLabel=" " android:keyOutputText=" " android:popupKeyboard="@layout/random" />
+        <Key android:keyOutputText="‽" android:keyLabel="‽" android:popupCharacters="❢❓❗❔❕‼⁇⁈⁉" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="129321" android:keyLabel="🤩" />
         <Key android:codes="129322" android:keyLabel="🤪" />
         <Key android:codes="129323" android:keyLabel="🤫" />

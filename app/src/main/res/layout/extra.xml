@@ -47,8 +47,8 @@
         <Key android:codes="10078" android:keyLabel="❞" android:popupCharacters="❜❟❠" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="⧙" android:keyLabel="⧙" android:popupCharacters="⧙⧘⧛⧚⟨⟩⟪⟫" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10082" android:keyLabel="❢" android:popupCharacters="❓❗❔❕" android:popupKeyboard="@layout/popup_template" />
-        <Key android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" android:popupCharacters="ꝎӦꙨꙪ" android:popupKeyboard="@layout/popup_template" />
         <Key android:keyOutputText="‽" android:keyLabel="‽" android:popupCharacters="‼⁇⁈⁉" android:popupKeyboard="@layout/popup_template" />
+        <Key android:keyOutputText="Ꙭ" android:keyLabel="Ꙭ" android:popupCharacters="ꝎӦꙨꙪ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5"    android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"    android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
