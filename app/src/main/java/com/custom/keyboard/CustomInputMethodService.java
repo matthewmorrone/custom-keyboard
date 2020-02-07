@@ -131,7 +131,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("pinyin",     f)) {layouts.add(new CustomKeyboard(this, R.layout.pinyin,      "pinyin",      "Pinyin",     "").setCategory(Category.Lang));}
         if (sharedPreferences.getBoolean("pointy",     f)) {layouts.add(new CustomKeyboard(this, R.layout.pointy,      "pointy",      "Pointy",     "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("rotated",    f)) {layouts.add(new CustomKeyboard(this, R.layout.rotated,     "rotated",     "Rotated",    "ʎʇɹəʍb").setCategory(Category.Font));}
-        if (sharedPreferences.getBoolean("shift",      f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift",      "qWeRtY").setCategory(Category.Misc));}
+        // if (sharedPreferences.getBoolean("shift",      f)) {layouts.add(new CustomKeyboard(this, R.layout.shift_1,     "shift_1",     "Shift",      "qWeRtY").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("shortcuts",  f)) {layouts.add(new CustomKeyboard(this, R.layout.shortcuts,   "shortcuts",   "Shortcuts",  "").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("stealth",    f)) {layouts.add(new CustomKeyboard(this, R.layout.stealth,     "stealth",     "Stealth",    "ԛԝеrtу").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("symbol",     t)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",      "Symbol",     "!@#$%^").setCategory(Category.Misc));}
@@ -188,78 +188,79 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void adjustLayoutPage() {
-        if (sharedPreferences.getBoolean("relayout", t)) {
-            int layoutCount = Math.max(layouts.size()-1, 1); // firstLayout - lastLayout;
-            int colCount = 6;
-            int startRowCount = 9;
-            int finalRowCount = (int)(Math.ceil(layoutCount / colCount) + 1);
-            List<Keyboard.Key> layoutKeys = new ArrayList<>();
+        if (!sharedPreferences.getBoolean("relayout", t)) {return;}
+        int layoutCount = Math.max(layouts.size()-1, 1); // firstLayout - lastLayout;
+        int colCount = 6;
+        int startRowCount = 9;
+        int finalRowCount = layoutCount / colCount;
+        // int finalRowCount = (int)(Math.ceil(layoutCount / colCount) + 1);
+        List<Keyboard.Key> layoutKeys = new ArrayList<>();
+        for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
+            if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                layoutKeys.add(key);
+            }
+        }
+        Bounds bounds = getBounds(layoutKeys);
+        int rowHeight = layoutKeys.get(0).height;
+        int areaHeight = bounds.dY;
+        int usedHeight = rowHeight * (finalRowCount + 1) - bounds.minY;
+        int freeHeight = areaHeight - usedHeight;
+        int moveBy = (int)Math.ceil(freeHeight / finalRowCount);
+        int row, index = 0;
+
+        for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
+            if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                row = (index / colCount);
+                if (row >= (startRowCount-(startRowCount-finalRowCount))) {
+                    key.y = bounds.maxY;
+                    key.height = 0;
+                }
+                else {
+                    key.y += (moveBy * row);
+                    key.height += moveBy;
+                }
+                index++;
+            }
+        }
+
+        int layoutMod = (layoutCount % colCount);
+        if (layoutMod > 0) {
+            int hi = -400 - layoutCount;
+            int lo = hi + layoutMod;
+            hi = lo - colCount;
+
+            layoutKeys = new ArrayList<>();
             for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                if (key.codes[0] <= lo && key.codes[0] >= hi) {
                     layoutKeys.add(key);
                 }
             }
-            Bounds bounds = getBounds(layoutKeys);
-            int rowHeight = layoutKeys.get(0).height;
-            int areaHeight = bounds.dY;
-            int usedHeight = rowHeight * (finalRowCount + 1) - bounds.minY;
-            int freeHeight = areaHeight - usedHeight;
-            int moveBy = (int)Math.ceil(freeHeight / finalRowCount);
-            int row, index = 0;
+            bounds = getBounds(layoutKeys);
+            int keyWidth = layoutKeys.get(0).width;
+            int rowWidth = bounds.dX;
 
-            for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
-                    row = (index / colCount);
-                    if (row >= (startRowCount-(startRowCount-finalRowCount))) {
-                        key.y = bounds.maxY;
-                        key.height = 0;
+            int usedWidth = keyWidth * layoutMod;
+            int freeWidth = rowWidth - usedWidth;
+
+            moveBy = (int)Math.ceil(freeWidth / layoutMod) + (keyWidth / layoutMod);
+            index = 0;
+
+            for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
+                if (key.codes[0] <= lo && key.codes[0] >= hi) {
+                    if (index >= layoutMod) {
+                        key.x = bounds.maxX;
+                        key.width = 0;
+                        key.label = empty;
                     }
                     else {
-                        key.y += (moveBy * row);
-                        key.height += moveBy;
+                        key.x += (moveBy * index);
+                        key.width += moveBy;
                     }
                     index++;
                 }
             }
-
-            int layoutMod = (layoutCount % colCount);
-            if (layoutMod > 0) {
-                int hi = -400 - layoutCount;
-                int lo = hi + layoutMod;
-                hi = lo - colCount;
-
-                layoutKeys = new ArrayList<>();
-                for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                    if (key.codes[0] <= lo && key.codes[0] >= hi) {
-                        layoutKeys.add(key);
-                    }
-                }
-                bounds = getBounds(layoutKeys);
-                int keyWidth = layoutKeys.get(0).width;
-                int rowWidth = bounds.dX;
-
-                int usedWidth = keyWidth * layoutMod;
-                int freeWidth = rowWidth - usedWidth;
-
-                moveBy = (int)Math.ceil(freeWidth / layoutMod) + (keyWidth / layoutMod);
-                index = 0;
-
-                for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                    if (key.codes[0] <= lo && key.codes[0] >= hi) {
-                        if (index >= layoutMod) {
-                            key.x = bounds.maxX;
-                            key.width = 0;
-                            key.label = empty;
-                        }
-                        else {
-                            key.x += (moveBy * index);
-                            key.width += moveBy;
-                        }
-                        index++;
-                    }
-                }
-            }
         }
+    
 
         try {redraw();}
         catch(Exception ignored) {}
@@ -459,7 +460,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         if (layouts.size()-1 != 1) getKey(32).label = (layouts.size()-1)+" layouts";
                         else getKey(32).label = "1 layout";
                     }
-                    else if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
+                    else 
+                    if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
                         kv.setShifted(true);
                     }
                     else if (!currentKeyboard.title.equals("Shift")) {
@@ -1062,6 +1064,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (time > 300) {
             switch (primaryCode) {
                 case 31: performContextMenuAction(16908330); break;
+                case -11: performContextMenuAction(16908337); break; // pasteAsPlainText,
                 case -93: selectAll(); break;
                 case -99: ic.deleteSurroundingText(MAX, MAX); break;
                 case -2003: commitText(Util.unidata(getText(ic))); break;
@@ -1079,12 +1082,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
-
 /*
-        if (ic.getTextBeforeCursor(1, 0) != null
-        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(1, 0)))) {
+try {
+        if (ic.getTextBeforeCursor(2, 0) != null
+        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(2, 0)))) {
             sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
         }
+}
+catch(Exception e) {toastIt(e.toString());}
 */
 
         if (sharedPreferences.getBoolean("pairs", t)
@@ -1685,6 +1690,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     sendKey(KeyEvent.KEYCODE_MOVE_END);
                     commitText(" ");
                     sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+                    sendKey(KeyEvent.KEYCODE_MOVE_END);
                 }
                 else {
                     performReplace(Util.linebreaksToSpaces(getText(ic)));
@@ -1709,7 +1715,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -142: setKeyboardLayout(0); break;
             case -143: performReplace(Util.rot13(getText(ic))); break;
             case -144: commitText(Util.pickALetter()); break;
-            case -145: performReplace(Util.removeDuplicates(getText(ic))); break;
+            case -145: 
+int bef = Util.countLines(getText(ic));
+performReplace(Util.removeDuplicates(getText(ic))); 
+int aft = Util.countLines(getText(ic));
+toastIt(bef+" → "+aft);
+            break;
             case -103:
                 commitText(Util.castALot());
                 String trigram;
@@ -1741,7 +1752,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -105: performReplace(Util.sortLines(getText(ic))); break;
             case -106: performReplace(Util.reverseLines(getText(ic))); break;
             case -146: performReplace(Util.uniqueLines(getText(ic))); break;
-            case -147: performReplace(Util.shuffleLines(getText(ic))); break;
+            // case -147: performReplace(Util.shuffleLines(getText(ic))); break;
             case -152: performContextMenuAction(16908337); break; // pasteAsPlainText,
             case -150: performContextMenuAction(16908338); break; // undo
             case -151: performContextMenuAction(16908339); break; // redo
@@ -1818,10 +1829,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -211: performReplace(Util.addLineNumbers(getText(ic))); break;
             case -212: performReplace(Util.removeLineNumbers(getText(ic))); break;
             case -189: performReplace(Util.normalize(getText(ic))); break;
-            case -190: performReplace(Util.slug(getText(ic)));  break;
+            case -190: performReplace(Util.slug(getText(ic))); break;
+            case -100: performReplace(Util.replaceNbsp(getText(ic))); break;
+            case -191: performReplace(Util.toAlternatingCase(getText(ic))); break;
             /*
-            case -100: break;
-            case -191: break;
             case -192: break;
             case -193: break;
             case -194: break;

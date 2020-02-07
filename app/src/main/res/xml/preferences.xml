@@ -1,13 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content">
+    <SwitchPreference       android:title="Indent with Spaces"          android:key="spaces"                    android:defaultValue="true" />
     <PreferenceScreen           android:title="Editing">
         <SwitchPreference       android:title="Prediction"                  android:key="pred"                      android:defaultValue="false" />
         <SwitchPreference       android:title="Autocorrect"                 android:key="auto"                      android:defaultValue="false" />
         <SwitchPreference       android:title="Autocapitalization"          android:key="autocaps"                  android:defaultValue="false" />
         <SwitchPreference       android:title="Insert Pairs"                android:key="pairs"                     android:defaultValue="false" />
         <SwitchPreference       android:title="Toggle Selection Case"       android:key="shift"                     android:defaultValue="true" />
-        <SwitchPreference       android:title="Indent with Spaces"          android:key="spaces"                    android:defaultValue="true" />
         <SwitchPreference       android:title="Indentation Helper"          android:key="indent"                    android:defaultValue="true" />
         <EditTextPreference     android:title="Word Separators"             android:key="seps"                      android:defaultValue="@string/word_separators" android:dialogTitle="Word Separators" android:summary="@string/word_separators" android:dialogMessage="" />
     </PreferenceScreen>
@@ -19,7 +19,7 @@
         <SwitchPreference       android:title="Dynamic Space Bar"           android:key="respace"                   android:defaultValue="false" />
         <SwitchPreference       android:title="Dynamic Layout Page"         android:key="relayout"                  android:defaultValue="true" />
         <SwitchPreference       android:title="Show Layout Names"           android:key="names"                     android:defaultValue="true" />
-        <SwitchPreference       android:title="Debug"                       android:key="debug"                     android:defaultValue="false" />
+        <SwitchPreference       android:title="Debug"                       android:key="debug"                     android:defaultValue="true" />
     </PreferenceScreen>
     <PreferenceScreen           android:title="Layouts">
         <ListPreference         android:title="Default Layout"              android:key="default_layout"            android:defaultValue="1"     android:entryValues="@array/default_layout_values"  android:entries="@array/default_layout" />
@@ -72,7 +72,7 @@
             <CheckBoxPreference android:title="Math"                        android:key="math"                      android:defaultValue="false" />
             <CheckBoxPreference android:title="Mirror"                      android:key="mirror"                    android:defaultValue="false" />
             <CheckBoxPreference android:title="Morse"                       android:key="morse"                     android:defaultValue="false" />
-            <CheckBoxPreference android:title="Shift"                       android:key="shift"                     android:defaultValue="false" />
+<!--             <CheckBoxPreference android:title="Shift"                       android:key="shift"                     android:defaultValue="false" /> -->
             <CheckBoxPreference android:title="Symbol"                      android:key="symbol"                    android:defaultValue="true" />
         </PreferenceCategory>
         <PreferenceCategory     android:title="Forthary"                    android:key="forthary_category">

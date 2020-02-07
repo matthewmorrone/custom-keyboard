@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -48,100 +49,27 @@ class Util {
                          //.toLowerCase();
     }
 
-    public static String slug(String text) {
-        return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
-        .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
-        .replaceAll("[ḂḄḆ]", "B")
-        .replaceAll("[ḃḅḇ]", "b")
-        .replaceAll("[ḉćĉċč]", "c")
-        .replaceAll("[ḈĆĈĊČ]", "C")
-        .replaceAll("[ḋḍḏḑḓď]", "d")
-        .replaceAll("[ḊḌḎḐḒĎ]", "D")
-        .replaceAll("[ȆĒĔĖĘĚÈÉÊËḔḖḘḚḜẸẺẼẾỀỂỄỆȨȄ]", "E")
-        .replaceAll("[ȇēĕėęěèéêëḕḗḙḛḝẹẻẽếềểễệȩȅ]", "e")
-        .replaceAll("[Ḟ]", "F")
-        .replaceAll("[ḟ]", "f")
-        .replaceAll("[ḠǴǦĜĞĠĢ]", "G")
-        .replaceAll("[ḡǵǧĝğġģ]", "g")
-        .replaceAll("[ḢḤḦḨḪĤȞ]", "H")
-        .replaceAll("[ḣḥḧḩḫẖĥȟ]", "h")
-        .replaceAll("[İÌÍÎÏḬḮỈỊǏȈȊĨĪĬĮ]", "I")
-        .replaceAll("[ıìíîïḭḯỉịǐȉȋĩīĭį]", "i")
-        .replaceAll("[Ĵ]", "J")
-        .replaceAll("[ǰĵ]", "j")
-        .replaceAll("[ḰḲḴǨĶ]", "K")
-        .replaceAll("[ḱḳḵǩķ]", "k")
-        .replaceAll("[ḶḸḺḼĹĻĽĿŁ]", "L")
-        .replaceAll("[ḷḹḻḽĺļľŀł]", "l")
-        .replaceAll("[ḿṁṃ]", "m")
-        .replaceAll("[ḾṀṂ]", "M")
-        .replaceAll("[ṄṆṈṊÑǸŃŅŇ]", "N")
-        .replaceAll("[ṅṇṉṋñǹńņňŉ]", "n")
-        .replaceAll("[ÒÓÔÕÖṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢǑǪǬȌȎŌŎŐȪȬȮȰǾ]", "O")
-        .replaceAll("[òóôõöṍṏṑṓọỏốồổỗộớờởỡợǒǫǭȍȏōŏőȫȭȯȱǿ]", "o")
-        .replaceAll("[ṕṗ]", "p")
-        .replaceAll("[ṔṖ]", "P")
-        .replaceAll("[ṙṛṝṟȑȓŕŗř]", "r")
-        .replaceAll("[ṘṚṜṞȐȒŔŖŘ]", "R")
-        .replaceAll("[ṡṣṥṧṩșśŝşš]", "s")
-        .replaceAll("[ṠṢṤṦṨȘŚŜŞŠ]", "S")
-        .replaceAll("[ṪṬṮṰȚŢŤ]", "T")
-        .replaceAll("[ṫṭṯṱẗțţť]", "t")
-        .replaceAll("[ùúûüũūŭůűṳṵṷṹṻụủứừửữựȕȗǔǖǘǚǜų]", "u")
-        .replaceAll("[ÙÚÛÜŨŪŬŮŰṲṴṶṸṺỤỦỨỪỬỮỰȔȖǓǕǗǙǛŲ]", "U")
-        .replaceAll("[ṼṾ]", "V")
-        .replaceAll("[ṽṿ]", "v")
-        .replaceAll("[ẀẂẄẆẈŴ]", "W")
-        .replaceAll("[ẁẃẅẇẉẘŵ]", "w")
-        .replaceAll("[ẋẍ]", "x")
-        .replaceAll("[ẊẌ]", "X")
-        .replaceAll("[ẎỲỴỶỸÝȲŶŸ]", "Y")
-        .replaceAll("[ẏỳỵỷỹẙýȳŷÿ]", "y")
-        .replaceAll("[ẑẓẕźżžǯ]", "z")
-        .replaceAll("[ẐẒẔŹŻŽǮ]", "Z")
-        .replaceAll("[ΆἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]", "Α")
-        .replaceAll("[άἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷ]", "α")
-        .replaceAll("[ΈἘἙἚἛἜἝῈΈ]", "Ε")
-        .replaceAll("[έἐἑἒἓἔἕὲέ]", "ε")
-        .replaceAll("[ΉἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]", "Η")
-        .replaceAll("[ήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇ]", "η")
-        .replaceAll("[ΪΊἸἹἺἻἼἽἾἿῘῙῚΊ]", "Ι")
-        .replaceAll("[ίϊΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗ]", "ι")
-        .replaceAll("[ΌὈὉὊὋὌὍ]", "Ο")
-        .replaceAll("[όὀὁὂὃὄὅὸό]", "ο")
-        .replaceAll("[Ῥ]", "Ρ")
-        .replaceAll("[ῤῥ]", "ρ")
-        .replaceAll("[ΫΎὙὛὝὟῨῩῪΎϒϓϔ]", "Υ")
-        .replaceAll("[ΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]", "υ")
-        .replaceAll("[ΏὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῸΌῺΏῼ]", "Ω")
-        .replaceAll("[ώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]", "ω")
-        .replaceAll("[ӐӒ]", "А")
-        .replaceAll("[Ӛ]", "Ә")
-        .replaceAll("[ЃҐҒӺҔӶ]", "Г")
-        .replaceAll("[ЀӖЁ]", "Е")
-        .replaceAll("[ӁӜҖ]", "Ж")
-        .replaceAll("[Ӟ]", "З")
-        .replaceAll("[ЍӤӢҊЙ]", "И")
-        .replaceAll("[Ї]", "І")
-        .replaceAll("[ЌҚҠҞҜ]", "К")
-        .replaceAll("[ӉҢӇҤЊ]", "Н")
-        .replaceAll("[Ӧ]", "О")
-        .replaceAll("[Ӫ]", "Ө")
-        .replaceAll("[Ҧ]", "П")
-        .replaceAll("[Ҏ]", "Р")
-        .replaceAll("[Ҫ]", "С")
-        .replaceAll("[Ҭ]", "Т")
-        .replaceAll("[ЎӰӲӮ]", "У")
-        .replaceAll("[Ұ]", "Ү")
-        .replaceAll("[ӼӾҲ]", "Х")
-        .replaceAll("[ѾѼ]", "Ѡ")
-        .replaceAll("[Ҵ]", "Ц")
-        .replaceAll("[ӴҶӋҸ]", "Ч")
-        .replaceAll("[Ҿ]", "Ҽ")
-        .replaceAll("[Ӹ]", "Ы")
-        .replaceAll("[ҌѢ]", "Ь")
-        .replaceAll("[Ӭ]", "Э")
-        .replaceAll("[Ѷ]", "Ѵ");
+    public static String toAlternatingCase(String text) {
+        char[] array = new char[]{};
+            
+        int seed = generateRandomInt(0, 1);
+        array = text.toCharArray();
+    
+        for (int i = seed; i < array.length-seed; i += 2) {
+            if (array[i] == ' ') {
+                i++;
+            }
+            array[i] = Character.toUpperCase(array[i]);
+        }
+        
+        text = new String(array);
+        return text;
+    }
+
+    public static String replaceNbsp(String text) {
+        // String nbsp = "&nbsp;"
+        // text.replaceAll("&nbsp;", " ");
+        return text.replaceAll("\u00a0", " ");
     }
 
     // URLUtil.isHttpUrl(url)
@@ -216,8 +144,14 @@ class Util {
     }
 
     public static String unidata(int primaryCode) {
-        return ""+toTitleCase(Character.getName(primaryCode))+"\n" +
-               ""+primaryCode+"\t"+convertNumberBase(String.valueOf(primaryCode), 10, 16)+""+
+        return 
+""+
+toTitleCase(Character.getName(primaryCode))+
+"\n"+
+primaryCode+
+"\t"+
+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
+""+
                /*
                ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
                ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
@@ -360,10 +294,7 @@ class Util {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
-
-        Set<String> unique = new HashSet<>(result);
-
-
+        Set<String> unique = new LinkedHashSet<>(result);
         return StringUtils.join(unique.toArray(new String[0]), "\n");
     }
 
@@ -495,13 +426,34 @@ class Util {
         return new Random().nextInt((max - min) + 1) + min;
     }
 
-    public static String padRight(String s, int n) {
-        return String.format("%-0" + n + "s", s);
-    }
-
-    public static String padLeft(String s, int n) {
-        return String.format("%0" + n + "s", s);
-    }
+public static String padLeft(String text, int length) {
+return padLeft(text, length, " ");
+}
+public static String padLeft(String text, int length, String pad) {
+if (text.length() >= length) {
+return text;
+}
+StringBuilder sb = new StringBuilder();
+while (sb.length() < length - text.length()) {
+sb.append(pad);
+}
+sb.append(text);
+return sb.toString();
+}
+public String padRight(String text, int length) {
+return padRight(text, length, " ");
+}
+public String padRight(String text, int length, String pad) {
+if (text.length() >= length) {
+return text;
+}
+StringBuilder sb = new StringBuilder();
+sb.append(text);
+while (sb.length() < length - text.length()) {
+sb.append(pad);
+}
+return sb.toString();
+}
 
     public static long nowAsLong() {
         return Instant.now().getEpochSecond();
@@ -984,4 +936,103 @@ class Util {
             default: return "";
         }
     }
+
+
+    public static String slug(String text) {
+        return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
+        .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
+        .replaceAll("[ḂḄḆ]", "B")
+        .replaceAll("[ḃḅḇ]", "b")
+        .replaceAll("[ḉćĉċč]", "c")
+        .replaceAll("[ḈĆĈĊČ]", "C")
+        .replaceAll("[ḋḍḏḑḓď]", "d")
+        .replaceAll("[ḊḌḎḐḒĎ]", "D")
+        .replaceAll("[ȆĒĔĖĘĚÈÉÊËḔḖḘḚḜẸẺẼẾỀỂỄỆȨȄ]", "E")
+        .replaceAll("[ȇēĕėęěèéêëḕḗḙḛḝẹẻẽếềểễệȩȅ]", "e")
+        .replaceAll("[Ḟ]", "F")
+        .replaceAll("[ḟ]", "f")
+        .replaceAll("[ḠǴǦĜĞĠĢ]", "G")
+        .replaceAll("[ḡǵǧĝğġģ]", "g")
+        .replaceAll("[ḢḤḦḨḪĤȞ]", "H")
+        .replaceAll("[ḣḥḧḩḫẖĥȟ]", "h")
+        .replaceAll("[İÌÍÎÏḬḮỈỊǏȈȊĨĪĬĮ]", "I")
+        .replaceAll("[ıìíîïḭḯỉịǐȉȋĩīĭį]", "i")
+        .replaceAll("[Ĵ]", "J")
+        .replaceAll("[ǰĵ]", "j")
+        .replaceAll("[ḰḲḴǨĶ]", "K")
+        .replaceAll("[ḱḳḵǩķ]", "k")
+        .replaceAll("[ḶḸḺḼĹĻĽĿŁ]", "L")
+        .replaceAll("[ḷḹḻḽĺļľŀł]", "l")
+        .replaceAll("[ḿṁṃ]", "m")
+        .replaceAll("[ḾṀṂ]", "M")
+        .replaceAll("[ṄṆṈṊÑǸŃŅŇ]", "N")
+        .replaceAll("[ṅṇṉṋñǹńņňŉ]", "n")
+        .replaceAll("[ÒÓÔÕÖṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢǑǪǬȌȎŌŎŐȪȬȮȰǾ]", "O")
+        .replaceAll("[òóôõöṍṏṑṓọỏốồổỗộớờởỡợǒǫǭȍȏōŏőȫȭȯȱǿ]", "o")
+        .replaceAll("[ṕṗ]", "p")
+        .replaceAll("[ṔṖ]", "P")
+        .replaceAll("[ṙṛṝṟȑȓŕŗř]", "r")
+        .replaceAll("[ṘṚṜṞȐȒŔŖŘ]", "R")
+        .replaceAll("[ṡṣṥṧṩșśŝşš]", "s")
+        .replaceAll("[ṠṢṤṦṨȘŚŜŞŠ]", "S")
+        .replaceAll("[ṪṬṮṰȚŢŤ]", "T")
+        .replaceAll("[ṫṭṯṱẗțţť]", "t")
+        .replaceAll("[ùúûüũūŭůűṳṵṷṹṻụủứừửữựȕȗǔǖǘǚǜų]", "u")
+        .replaceAll("[ÙÚÛÜŨŪŬŮŰṲṴṶṸṺỤỦỨỪỬỮỰȔȖǓǕǗǙǛŲ]", "U")
+        .replaceAll("[ṼṾ]", "V")
+        .replaceAll("[ṽṿ]", "v")
+        .replaceAll("[ẀẂẄẆẈŴ]", "W")
+        .replaceAll("[ẁẃẅẇẉẘŵ]", "w")
+        .replaceAll("[ẋẍ]", "x")
+        .replaceAll("[ẊẌ]", "X")
+        .replaceAll("[ẎỲỴỶỸÝȲŶŸ]", "Y")
+        .replaceAll("[ẏỳỵỷỹẙýȳŷÿ]", "y")
+        .replaceAll("[ẑẓẕźżžǯ]", "z")
+        .replaceAll("[ẐẒẔŹŻŽǮ]", "Z")
+        .replaceAll("[ΆἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]", "Α")
+        .replaceAll("[άἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷ]", "α")
+        .replaceAll("[ΈἘἙἚἛἜἝῈΈ]", "Ε")
+        .replaceAll("[έἐἑἒἓἔἕὲέ]", "ε")
+        .replaceAll("[ΉἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]", "Η")
+        .replaceAll("[ήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇ]", "η")
+        .replaceAll("[ΪΊἸἹἺἻἼἽἾἿῘῙῚΊ]", "Ι")
+        .replaceAll("[ίϊΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗ]", "ι")
+        .replaceAll("[ΌὈὉὊὋὌὍ]", "Ο")
+        .replaceAll("[όὀὁὂὃὄὅὸό]", "ο")
+        .replaceAll("[Ῥ]", "Ρ")
+        .replaceAll("[ῤῥ]", "ρ")
+        .replaceAll("[ΫΎὙὛὝὟῨῩῪΎϒϓϔ]", "Υ")
+        .replaceAll("[ΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]", "υ")
+        .replaceAll("[ΏὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῸΌῺΏῼ]", "Ω")
+        .replaceAll("[ώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]", "ω")
+        .replaceAll("[ӐӒ]", "А")
+        .replaceAll("[Ӛ]", "Ә")
+        .replaceAll("[ЃҐҒӺҔӶ]", "Г")
+        .replaceAll("[ЀӖЁ]", "Е")
+        .replaceAll("[ӁӜҖ]", "Ж")
+        .replaceAll("[Ӟ]", "З")
+        .replaceAll("[ЍӤӢҊЙ]", "И")
+        .replaceAll("[Ї]", "І")
+        .replaceAll("[ЌҚҠҞҜ]", "К")
+        .replaceAll("[ӉҢӇҤЊ]", "Н")
+        .replaceAll("[Ӧ]", "О")
+        .replaceAll("[Ӫ]", "Ө")
+        .replaceAll("[Ҧ]", "П")
+        .replaceAll("[Ҏ]", "Р")
+        .replaceAll("[Ҫ]", "С")
+        .replaceAll("[Ҭ]", "Т")
+        .replaceAll("[ЎӰӲӮ]", "У")
+        .replaceAll("[Ұ]", "Ү")
+        .replaceAll("[ӼӾҲ]", "Х")
+        .replaceAll("[ѾѼ]", "Ѡ")
+        .replaceAll("[Ҵ]", "Ц")
+        .replaceAll("[ӴҶӋҸ]", "Ч")
+        .replaceAll("[Ҿ]", "Ҽ")
+        .replaceAll("[Ӹ]", "Ы")
+        .replaceAll("[ҌѢ]", "Ь")
+        .replaceAll("[Ӭ]", "Э")
+        .replaceAll("[Ѷ]", "Ѵ");
+    }
+
+
 }

@@ -58,6 +58,7 @@
         <Key android:codes="-96"   android:keyIcon="@drawable/ic_dice_roll" android:keyLabel="🎲" android:popupCharacters="⚀⚁⚂⚃⚄⚅" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-180"  android:keyLabel="🎱" android:popupCharacters="🎱" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-103"  android:keyIcon="@drawable/ic_hexagram"  android:popupCharacters="⚊⚋⚌⚍⚎⚏" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="-191"  android:keyLabel="aBcD" />
     </Row>
     <Row>
         <Key android:codes="-101" android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
