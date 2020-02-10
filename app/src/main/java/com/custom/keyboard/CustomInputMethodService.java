@@ -1832,8 +1832,13 @@ toastIt(bef+" → "+aft);
             case -190: performReplace(Util.slug(getText(ic))); break;
             case -100: performReplace(Util.replaceNbsp(getText(ic))); break;
             case -191: performReplace(Util.toAlternatingCase(getText(ic))); break;
+            case -192: 
+                currentKeyboard = new CustomKeyboard(this, R.layout.ctrl,  "control",  "Control", "").setCategory(Category.Main);
+                kv.setKeyboard(currentKeyboard);
+                layouts.set(currentKeyboardID, currentKeyboard);
+                setShifted(capsOn);
+            break;
             /*
-            case -192: break;
             case -193: break;
             case -194: break;
             case -195: break;
@@ -1976,8 +1981,8 @@ toastIt(bef+" → "+aft);
         }
         try {
             if (sharedPreferences.getBoolean("caps", f)
-&& ic.getTextBeforeCursor(2, 0) != null
-&& String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
+                && ic.getTextBeforeCursor(2, 0) != null
+                && String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
                 setCapsOn(t);
                 firstCaps = t;
             }
