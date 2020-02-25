@@ -272,6 +272,17 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
         return sdf.format(cal.getTime());
     }
 
+    public static String unstrikethrough(String text) {
+        return text.replaceAll("̶", "");
+    }
+
+    public static String strikethrough(String text) {
+        if (text.contains("̶")) {
+            return text.replaceAll("̶", "");
+        }
+        return text.replaceAll("(.)", "$1̶");
+    }
+
     public static String getIndentation(String line) {
         String regex = "^(\\s+).+$";
         Pattern p = Pattern.compile(regex);
@@ -440,10 +451,10 @@ sb.append(pad);
 sb.append(text);
 return sb.toString();
 }
-public String padRight(String text, int length) {
+public static String padRight(String text, int length) {
 return padRight(text, length, " ");
 }
-public String padRight(String text, int length, String pad) {
+public static String padRight(String text, int length, String pad) {
 if (text.length() >= length) {
 return text;
 }

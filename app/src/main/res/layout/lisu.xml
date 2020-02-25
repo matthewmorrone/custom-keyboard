@@ -66,9 +66,9 @@
         <Key android:codes="-7" android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
     <Row>
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
-        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_chevron_right"   android:keyWidth="10%p" />
-        <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"               android:keyWidth="10%p" />
+                <Key android:codes="-192" android:keyIcon="@drawable/ic_cmd"                    android:keyWidth="14%p" />
+                <Key android:codes="-149" android:keyIcon="@drawable/ic_voice"                  android:keyWidth="8%p" />
+                <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"                   android:keyWidth="8%p" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space"              android:keyWidth="40%p" android:popupCharacters="@string/popup_first" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"                android:keyWidth="10%p" android:popupCharacters="@string/popup_second" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="10"   android:keyIcon="@drawable/ic_enter"              android:keyWidth="20%p" android:popupCharacters="@string/popup_third" android:popupKeyboard="@layout/popup_template" />
