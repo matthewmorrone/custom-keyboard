@@ -50,7 +50,7 @@
     <Row>
         <Key android:codes="113" android:keyLabel="q" android:popupCharacters="~" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="119" android:keyLabel="w" android:popupCharacters="°" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="•" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="·" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="114" android:keyLabel="r" android:popupCharacters="|" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="116" android:keyLabel="t" android:popupCharacters="[" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="121" android:keyLabel="y" android:popupCharacters="]" android:popupKeyboard="@layout/popup_template" />

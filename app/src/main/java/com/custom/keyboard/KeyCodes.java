@@ -52,6 +52,44 @@ class KeyCodes {
         }
     }
 
+    static int getUnbold(int primaryCode) {
+        if      (primaryCode >= 120276 && primaryCode <= 120301) {
+            primaryCode -= 120211;
+        }
+        else if (primaryCode >= 120302 && primaryCode <= 120327) {
+            primaryCode -= 120205;
+        }
+        return primaryCode;
+    }
+    static int getBold(int primaryCode) {
+        if      (primaryCode >= 65 && primaryCode <= 90) {
+            primaryCode += 120211;
+        }
+        else if (primaryCode >= 97 && primaryCode <= 122) {
+            primaryCode += 120205;
+        }
+        return primaryCode;
+    }
+
+    static int getUnitalic(int primaryCode) {
+        if      (primaryCode >= 120328 && primaryCode <= 120353) {
+            primaryCode -= 120263;
+        }
+        else if (primaryCode >= 120354 && primaryCode <= 120379) {
+            primaryCode -= 120257;
+        }
+        return primaryCode;
+    }
+    static int getItalic(int primaryCode) {
+        if      (primaryCode >= 65 && primaryCode <= 90) {
+            primaryCode += 120263;
+        }
+        else if (primaryCode >= 97 && primaryCode <= 122) {
+            primaryCode += 120257;
+        }
+        return primaryCode;
+    }
+
     static int handleCharacter(CustomKeyboardView kv, int primaryCode) {
         if (Util.isAlphaNumeric(primaryCode)) {
             if (Util.isDigit(primaryCode) && Variables.isBold()) primaryCode += 120764;

@@ -140,18 +140,22 @@ class Util {
 
     public static String unidata(String text) {
         if (text.length() < 1) return "";
+
+        if (Character.isHighSurrogate(text.charAt(0)) 
+        ||  Character.isLowSurrogate(text.charAt(0))) {
+            return unidata((int)text.codePointAt(0));
+        }
+
         return unidata((int)text.charAt(0));
     }
 
     public static String unidata(int primaryCode) {
-        return 
-""+
-toTitleCase(Character.getName(primaryCode))+
-"\n"+
-primaryCode+
-"\t"+
-padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
-""+
+        return ""+
+            toTitleCase(Character.getName(primaryCode))+
+            "\n"+
+            primaryCode+
+            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
+            ""+
                /*
                ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
                ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
@@ -272,6 +276,55 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
         return sdf.format(cal.getTime());
     }
 
+    public static String unbolden(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getUnbold((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String bolden(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+result.add(String.valueOf(1+(int)letter.codePointAt(0)));
+// result.add(String.valueOf((char)KeyCodes.getBold((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+
+// performReplace(Util.convertFromUnicodeToNumber(getText(ic));
+// performReplace(Util.convertFromNumberToUnicode(getText(ic));
+// (char)primaryCode;            
+// commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
+// commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+
+
+
+
+    public static String unitalicize(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getUnitalic((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String italicize(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getItalic((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
     public static String unstrikethrough(String text) {
         return text.replaceAll("̶", "");
     }
@@ -281,6 +334,18 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
             return text.replaceAll("̶", "");
         }
         return text.replaceAll("(.)", "$1̶");
+    }
+
+    public static String ununderline(String text) {
+        return text.replaceAll("̲", "");
+    }
+
+    // ◌꯭◌
+    public static String underline(String text) {
+        if (text.contains("̲")) {
+            return text.replaceAll("̲", "");
+        }
+        return text.replaceAll("(.)", "$1̲");
     }
 
     public static String getIndentation(String line) {
@@ -297,8 +362,21 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4)+
         return "";
     }
 
+    public static String[] getChars(String text) {
+        return text.split("");
+        // return text.split("(?!^)");
+    }
+
     public static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");
+    }
+
+    public static String uniqueChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Set<String> unique = new LinkedHashSet<>(result);
+        return StringUtils.join(unique.toArray(new String[0]), "");
     }
 
     public static String uniqueLines(String text) {
@@ -689,6 +767,22 @@ return sb.toString();
     }
     public static String removeZWSP(String text) {
         return text.replaceAll("", "");
+    }
+
+    public static String sortChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String shuffleChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
     }
 
     public static String reverse(String s) {
