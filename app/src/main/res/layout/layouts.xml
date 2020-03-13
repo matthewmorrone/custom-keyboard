@@ -16,7 +16,7 @@
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
-    <Row android:keyHeight="3.111%p" android:keyWidth="16.67%p">
+    <Row android:keyHeight="7%p" android:keyWidth="16.67%p">
         <Key android:codes="-400"  android:keyLabel="Layout 1" />
         <Key android:codes="-401"  android:keyLabel="Layout 2" />
         <Key android:codes="-402"  android:keyLabel="Layout 3" />
@@ -24,7 +24,7 @@
         <Key android:codes="-404"  android:keyLabel="Layout 5" />
         <Key android:codes="-405"  android:keyLabel="Layout 6" />
     </Row>
-    <Row android:keyHeight="3.111%p" android:keyWidth="16.67%p">
+    <Row android:keyHeight="7%p" android:keyWidth="16.67%p">
         <Key android:codes="-406"  android:keyLabel="Layout 7" />
         <Key android:codes="-407"  android:keyLabel="Layout 8" />
         <Key android:codes="-408"  android:keyLabel="Layout 9" />
@@ -32,7 +32,7 @@
         <Key android:codes="-410"  android:keyLabel="Layout 11" />
         <Key android:codes="-411"  android:keyLabel="Layout 12" />
     </Row>
-    <Row android:keyHeight="3.111%p" android:keyWidth="16.67%p">
+    <Row android:keyHeight="7%p" android:keyWidth="16.67%p">
         <Key android:codes="-412"  android:keyLabel="Layout 13" />
         <Key android:codes="-413"  android:keyLabel="Layout 14" />
         <Key android:codes="-414"  android:keyLabel="Layout 15" />
@@ -40,7 +40,7 @@
         <Key android:codes="-416"  android:keyLabel="Layout 17" />
         <Key android:codes="-417"  android:keyLabel="Layout 18" />
     </Row>
-    <Row android:keyHeight="3.111%p" android:keyWidth="16.67%p">
+    <Row android:keyHeight="7%p" android:keyWidth="16.67%p">
         <Key android:codes="-418"  android:keyLabel="Layout 19" />
         <Key android:codes="-419"  android:keyLabel="Layout 20" />
         <Key android:codes="-420"  android:keyLabel="Layout 21" />
@@ -48,6 +48,7 @@
         <Key android:codes="-422"  android:keyLabel="Layout 23" />
         <Key android:codes="-423"  android:keyLabel="Layout 24" />
     </Row>
+<!--
     <Row android:keyHeight="3.111%p" android:keyWidth="16.67%p">
         <Key android:codes="-424"  android:keyLabel="Layout 25" />
         <Key android:codes="-425"  android:keyLabel="Layout 26" />
@@ -88,10 +89,11 @@
         <Key android:codes="-452"  android:keyLabel="Layout 46" />
         <Key android:codes="-453"  android:keyLabel="Layout 47" />
     </Row>
+-->
     <Row android:keyHeight="7%p">
-        <Key android:codes="-148"  android:keyIcon="@drawable/ic_settings"      />
-        <Key android:codes="-149"  android:keyIcon="@drawable/ic_voice"         />
-        <Key android:codes="-142"  android:keyIcon="@drawable/ic_abc"           />
+        <Key android:codes="-148" android:keyIcon="@drawable/ic_settings"       android:keyWidth="14%p" />
+        <Key android:codes="-149" android:keyIcon="@drawable/ic_voice"          android:keyWidth="8%p" />
+        <Key android:codes="-142"   android:keyIcon="@drawable/ic_abc"          android:keyWidth="8%p" />
         <Key android:codes="32"    android:keyIcon="@drawable/ic_space"         android:keyWidth="40%p" android:popupCharacters="@string/popup_first" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-3"    android:keyIcon="@drawable/ic_keyboard"      />
         <Key android:codes="-175"  android:keyIcon="@drawable/ic_input"         />

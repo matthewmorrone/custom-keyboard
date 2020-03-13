@@ -50,8 +50,8 @@
         <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" android:keyWidth="10%p" />
     </Row>
     <Row>
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_double_chevron_left"    android:keyWidth="10%p" />
-        <Key android:codes="-102" android:keyIcon="@drawable/ic_double_chevron_right"   android:keyWidth="10%p" />
+                <Key android:codes="-192" android:keyIcon="@drawable/ic_cmd"                    android:keyWidth="14%p" />
+                <Key android:codes="-149" android:keyIcon="@drawable/ic_voice"                  android:keyWidth="8%p" />
         <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"                   android:keyWidth="10%p" />
         <Key android:codes="-1"   android:keyIcon="@drawable/ic_shift"                  android:keyWidth="10%p" />
         <Key android:codes="32"   android:keyIcon="@drawable/ic_space"                  android:keyWidth="30%p" android:popupCharacters="@string/popup_first" android:popupKeyboard="@layout/popup_template" />

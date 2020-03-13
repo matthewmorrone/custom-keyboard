@@ -148,6 +148,7 @@ class Util {
         }
         return map;
     }
+
     public static String getDateString(String dateFormat) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
@@ -157,6 +158,57 @@ class Util {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
         return sdf.format(cal.getTime());
+    }
+
+    public static String unidata(String text) {
+        if (text.length() < 1) return "";
+
+        if (Character.isHighSurrogate(text.charAt(0)) 
+        ||  Character.isLowSurrogate(text.charAt(0))) {
+            return unidata((int)text.codePointAt(0));
+        }
+
+        return unidata((int)text.charAt(0));
+    }
+
+    public static String unidata(int primaryCode) {
+        return ""+
+            toTitleCase(Character.getName(primaryCode))+
+            "\n"+
+            primaryCode+
+            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
+            ""+
+               /*
+               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
+               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
+               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
+               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
+               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
+               "Upper: " + Character.toUpperCase(primaryCode)+", " +
+               "Title: " + Character.toTitleCase(primaryCode)+", " +
+               "Lower: " + Character.toLowerCase(primaryCode)+", " +
+               (Character.isLetter(primaryCode) ? "Letter, " : "") +
+               (Character.isDigit(primaryCode) ? "Digit, " : "") +
+               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
+               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
+               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
+               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
+               (Character.isDefined(primaryCode) ? "Defined, " : "") +
+               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
+               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
+               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
+               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
+               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
+               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
+               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
+               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
+               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
+               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
+               "Value " + Character.getNumericValue(primaryCode)+", " +
+               "Direction " + Character.getDirectionality(primaryCode)+""+
+               */
+               ""
+               ;
     }
 
     // conversions
@@ -234,18 +286,15 @@ class Util {
     public static String decodeMime(String encodedString) {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
-    public static String unidata(String text) {
-        if (text.length() < 1) return "";
-        return unidata((int) text.charAt(0));
-    }
-    public static String unidata(int primaryCode) {
-        return "" + toTitleCase(Character.getName(primaryCode)) + "\n" + primaryCode + "\t" + padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4, "0") + "";
-    }
     public static String[] getWords(String text) {
         return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]");
     }
     public static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");
+    }
+    public static String[] getChars(String text) {
+        return text.split("");
+        // return text.split("(?!^)");
     }
     public static String padLeft(String text, int length) {
         return padLeft(text, length, " ");
@@ -275,6 +324,89 @@ class Util {
         }
         return sb.toString();
     }
+    public static String unbolden(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getUnbold((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String bolden(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf(1+(int)letter.codePointAt(0)));
+            // result.add(String.valueOf((char)KeyCodes.getBold((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    // performReplace(Util.convertFromUnicodeToNumber(getText(ic));
+    // performReplace(Util.convertFromNumberToUnicode(getText(ic));
+    // (char)primaryCode;
+    // commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
+    // commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+
+    public static String unitalicize(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getUnitalic((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String italicize(String text) {
+        if (text.length() < 1) return text;
+        String[] letters = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String letter : letters) {
+            result.add(String.valueOf((char)KeyCodes.getItalic((int)letter.codePointAt(0))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String unstrikethrough(String text) {
+        return text.replaceAll("̶", "");
+    }
+
+    public static String strikethrough(String text) {
+        if (text.contains("̶")) {
+            return text.replaceAll("̶", "");
+        }
+        return text.replaceAll("(.)", "$1̶");
+    }
+
+    public static String ununderline(String text) {
+        return text.replaceAll("̲", "");
+    }
+
+    // ◌꯭◌
+    // ◌̲◌
+    public static String underline(String text) {
+        if (text.contains("̲")) {
+            return text.replaceAll("̲", "");
+        }
+        return text.replaceAll("(.)", "$1꯭");
+    }
+
+    public static String getIndentation(String line) {
+        String regex = "^(\\s+).+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(line);
+        if (m.find()) {
+            line = line.replaceAll(regex, "$1");
+            if (line.length() % 4 != 0) {
+                line += " ";
+            }
+            return line;
+        }
+        return "";
+    }
+
     public static String increaseIndentation(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -283,6 +415,7 @@ class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
+
     public static String decreaseIndentation(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -320,6 +453,16 @@ class Util {
         }
         return String.valueOf(Arrays.copyOf(str, index));
     }
+
+    public static String uniqueChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Set<String> unique = new LinkedHashSet<>(result);
+        return StringUtils.join(unique.toArray(new String[0]), "");
+    }
+
+
     public static String uniqueLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -435,8 +578,17 @@ class Util {
     public static String tabsToSpaces(String text) {
         return text.replaceAll("\t", " ");
     }
-    public static String splitWithLinebreaks(String text) {
+
+    public static String splitWithLinebreaks(String text){
         return text.replaceAll("(.)", "$1\n");
+    }
+
+    public static long nowAsLong() {
+        return Instant.now().getEpochSecond();
+    }
+    public static int nowAsInt() {
+        // new Date().getTime() / 1000;
+        return (int) (System.currentTimeMillis() / 1000L);
     }
     public static String removeLinebreaks(String text) {
         return text.replaceAll("\n", "");
@@ -596,9 +748,27 @@ class Util {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
         return simpleDateFormat.parse(date);
     }
+
     public static String spaceReplace(String text) {
         return text.replaceAll(" +", " ");
     }
+
+    public static String sortChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String shuffleChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
     public static String formatJson(String jsonString) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject.toString(4);
@@ -614,26 +784,6 @@ class Util {
             sb.append(c);
         }
         return sb.toString();
-    }
-    public static String getIndentation(String line) {
-        String regex = "^(\\s+).+$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(line);
-        if (m.find()) {
-            line = line.replaceAll(regex, "$1");
-            if (line.length() % 4 != 0) {
-                line += " ";
-            }
-            return line;
-        }
-        return "";
-    }
-    public static long nowAsLong() {
-        return Instant.now().getEpochSecond();
-    }
-    public static int nowAsInt() {
-        // new Date().getTime() / 1000;
-        return (int) (System.currentTimeMillis() / 1000L);
     }
     public static boolean hasZWSP(String text) {
         return text.contains("");

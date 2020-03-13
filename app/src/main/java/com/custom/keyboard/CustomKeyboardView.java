@@ -46,6 +46,10 @@ public class CustomKeyboardView extends KeyboardView {
             return true;
         }
         */
+        if (key.codes[0] == -192
+        ||  key.codes[0] == -300) {
+            return super.onLongPress(key);
+        }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
             getOnKeyboardActionListener().onKey(key.codes[0], null);
             return true;

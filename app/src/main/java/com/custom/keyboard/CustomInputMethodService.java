@@ -74,6 +74,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     boolean firstCaps = f;
     long shift_pressed = 0;
+    boolean keepCtrlOpen = false;
 
     Toast toast;
 
@@ -148,7 +149,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+                if (key.codes[0] <= -400 && key.codes[0] >= -423) {
                     try {
                         CustomKeyboard layout = layouts.get(-key.codes[0] - 400);
                         if (layout != null && !layout.title.equals("Layouts")) {
@@ -196,7 +197,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         // int finalRowCount = (int)(Math.ceil(layoutCount / colCount) + 1);
         List<Keyboard.Key> layoutKeys = new ArrayList<>();
         for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-            if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+            if (key.codes[0] <= -400 && key.codes[0] >= -423) {
                 layoutKeys.add(key);
             }
         }
@@ -209,7 +210,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         int row, index = 0;
 
         for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-            if (key.codes[0] <= -400 && key.codes[0] >= -453) {
+            if (key.codes[0] <= -400 && key.codes[0] >= -423) {
                 row = (index / colCount);
                 if (row >= (startRowCount-(startRowCount-finalRowCount))) {
                     key.y = bounds.maxY;
@@ -313,6 +314,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     static void print(Object ...a) {
         for (Object i: a) System.out.print(i + " ");
         System.out.println();
+    }
+
+    public void toastIt(Exception e) {
+        toastIt(e.toString());
     }
 
     // @todo instead of cancelling, concat contents
@@ -1063,10 +1068,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (time > 300) {
             switch (primaryCode) {
-                case 31: performContextMenuAction(16908330); break;
+                case 31:  performContextMenuAction(16908330); break;
                 case -11: performContextMenuAction(16908337); break; // pasteAsPlainText,
                 case -93: selectAll(); break;
                 case -99: ic.deleteSurroundingText(MAX, MAX); break;
+                case -192: keepCtrlOpen = !keepCtrlOpen;
                 case -2003: commitText(Util.unidata(getText(ic))); break;
             }
         }
@@ -1320,6 +1326,7 @@ catch(Exception e) {toastIt(e.toString());}
         toast.cancel();
         if (wasntSelecting) {
             sendKey(KeyEvent.KEYCODE_DEL);
+            sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
         }
 
         record = getClipboardEntry(0);
@@ -1356,6 +1363,9 @@ catch(Exception e) {toastIt(e.toString());}
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String record, currentKeyboardName = currentKeyboard.title;
         boolean capsOn = Variables.isShift();
+        int ere, aft;
+        CustomKeyboard prevKeyboard = currentKeyboard;
+
 
         if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char)primaryCode)).equals(empty)) {
             String res = Morse.fromChar(String.valueOf((char)primaryCode));
@@ -1404,6 +1414,15 @@ catch(Exception e) {toastIt(e.toString());}
             redraw();
             return;
         }
+        if (currentKeyboard.title.equals("Control") && !keepCtrlOpen) {
+            toastIt(findKeyboard(prevKeyboard.title));
+/*            if (prevKeyboard != null) {
+                prevKeyboard = null;
+            }
+            else {
+                toastIt(findKeyboard("Primary"));
+            }*/
+        }
         switch (primaryCode) {
             case 142: sendKey(KeyEvent.KEYCODE_F12); break;
             case 141: sendKey(KeyEvent.KEYCODE_F11); break;
@@ -1419,12 +1438,12 @@ catch(Exception e) {toastIt(e.toString());}
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
             case 10:
                 EditorInfo curEditor = getCurrentInputEditorInfo();
-                /*
+            
                 if (sharedPreferences.getBoolean("spaces", t)) {
                     String indent = Util.getIndentation(prevLine());
                     if (indent.length() > 0) {commitText("\n"+indent); break;}
                 }
-                */
+                
                 switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
                     case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
                     case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
@@ -1433,7 +1452,11 @@ catch(Exception e) {toastIt(e.toString());}
                 break;
             case 7:
                 if (sharedPreferences.getBoolean("spaces", t)) {
-                    commitText(spaces.substring(0, (4 - (prevLine().length() % 4))));
+                    int spaceCount = (4 - (prevLine().length() % 4));
+                    if (spaceCount > 0 && spaceCount < 4 && prevLine().length() < 4) {
+                        spaceCount = 4;
+                    }
+                    commitText(spaces.substring(0, spaceCount));
                     if (isSelecting()) {
                         ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length());
                     }
@@ -1623,9 +1646,39 @@ catch(Exception e) {toastIt(e.toString());}
             case -64: sendKey(KeyEvent.KEYCODE_CALCULATOR); break;
             case -65: sendKey(KeyEvent.KEYCODE_CONTACTS); break;
             case -67: sendKey(KeyEvent.KEYCODE_CALENDAR); break;
-            case -12: Variables.toggleBolded(); break;
-            case -13: Variables.toggleItalic(); break;
-            case -14: Variables.setAllEmOff(); break;
+            case -12: 
+                try {
+                    if (Variables.isBold()) {
+                        performReplace(Util.unbolden(getText(ic)));
+                    }
+                    else {
+                        performReplace(Util.bolden(getText(ic))); 
+                    }
+                    Variables.toggleBolded();
+                } 
+                catch (Exception e) {
+                    toastIt(e);
+                }
+            break;
+            case -13: 
+                try {
+                    if (Variables.isItalic()) {
+                        performReplace(Util.unitalicize(getText(ic)));
+                    }
+                    else {
+                        performReplace(Util.italicize(getText(ic))); 
+                    }
+                    Variables.toggleItalic(); 
+                } 
+                catch (Exception e) {
+                    toastIt(e);
+                }
+            break;
+            case -14: 
+                Variables.setAllEmOff(); 
+                // performReplace(Util.unstrikethrough(getText(ic)));
+                // performReplace(Util.ununderline(getText(ic)));
+            break;
             case -72: Variables.toggle009372(); break;
             case -66: Variables.toggle009398(); break;
             case -35: Variables.toggle119808(); break;
@@ -1716,10 +1769,10 @@ catch(Exception e) {toastIt(e.toString());}
             case -143: performReplace(Util.rot13(getText(ic))); break;
             case -144: commitText(Util.pickALetter()); break;
             case -145: 
-int bef = Util.countLines(getText(ic));
-performReplace(Util.removeDuplicates(getText(ic))); 
-int aft = Util.countLines(getText(ic));
-toastIt(bef+" → "+aft);
+                ere = Util.countChars(getText(ic));
+                performReplace(Util.uniqueChars(getText(ic))); 
+                aft = Util.countChars(getText(ic));
+                toastIt(ere+" → "+aft);
             break;
             case -103:
                 commitText(Util.castALot());
@@ -1751,7 +1804,13 @@ toastIt(bef+" → "+aft);
             break;
             case -105: performReplace(Util.sortLines(getText(ic))); break;
             case -106: performReplace(Util.reverseLines(getText(ic))); break;
-            case -146: performReplace(Util.uniqueLines(getText(ic))); break;
+            case -146: 
+                ere = Util.countLines(getText(ic));
+                performReplace(Util.uniqueLines(getText(ic))); 
+                aft = Util.countLines(getText(ic));
+                toastIt(ere+" → "+aft);
+            break;
+
             // case -147: performReplace(Util.shuffleLines(getText(ic))); break;
             case -152: performContextMenuAction(16908337); break; // pasteAsPlainText,
             case -150: performContextMenuAction(16908338); break; // undo
@@ -1832,12 +1891,12 @@ toastIt(bef+" → "+aft);
             case -190: performReplace(Util.slug(getText(ic))); break;
             case -100: performReplace(Util.replaceNbsp(getText(ic))); break;
             case -191: performReplace(Util.toAlternatingCase(getText(ic))); break;
+            case -193: performReplace(Util.strikethrough(getText(ic))); break;
+            case -194: performReplace(Util.underline(getText(ic))); break;
+            case -195: performReplace(Util.sortChars(getText(ic))); break;
+            case -196: performReplace(Util.shuffleChars(getText(ic))); break;
+
             /*
-            case -192: break;
-            case -193: break;
-            case -194: break;
-            case -195: break;
-            case -196: break;
             case -197: break;
             case -198: break;
             case -199: break;
@@ -1851,8 +1910,27 @@ toastIt(bef+" → "+aft);
             /*
             here
             */
-
-            case -300: toastIt(findKeyboard("Primary")); break;
+            case -192: 
+                prevKeyboard = currentKeyboard;
+                currentKeyboard = new CustomKeyboard(this, R.layout.ctrl,  "control",  "Control", "").setCategory(Category.Main);
+                kv.setKeyboard(currentKeyboard);
+                layouts.set(currentKeyboardID, currentKeyboard);
+                setShifted(capsOn);
+                toastIt("-192 "+prevKeyboard.title);
+            break;
+            case -300:
+                keepCtrlOpen = false;
+                toastIt("-300 "+findKeyboard(prevKeyboard.title));
+/*
+                if (prevKeyboard != null) {
+                    prevKeyboard = null;
+                }
+                else {
+                    toastIt("-300 "+findKeyboard("Primary"));
+                }
+                */
+                setShifted(capsOn);
+            break;
             case -301: toastIt(findKeyboard("Function")); break;
             case -302: toastIt(findKeyboard("Utility")); break;
             case -303: toastIt(findKeyboard("Emoji")); break;
@@ -1976,8 +2054,8 @@ toastIt(bef+" → "+aft);
         }
         try {
             if (sharedPreferences.getBoolean("caps", f)
-&& ic.getTextBeforeCursor(2, 0) != null
-&& String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
+                && ic.getTextBeforeCursor(2, 0) != null
+                && String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
                 setCapsOn(t);
                 firstCaps = t;
             }
