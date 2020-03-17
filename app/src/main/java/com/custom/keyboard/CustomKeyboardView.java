@@ -47,7 +47,8 @@ public class CustomKeyboardView extends KeyboardView {
         }
         */
         if (key.codes[0] == -192
-        ||  key.codes[0] == -300) {
+        ||  key.codes[0] == -300
+        ||  key.codes[0] == 10) {
             return super.onLongPress(key);
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {

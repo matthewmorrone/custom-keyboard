@@ -1068,7 +1068,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (time > 300) {
             switch (primaryCode) {
-                case 31:  performContextMenuAction(16908330); break;
+                case 31: performContextMenuAction(16908330); break;
+                case 10: handleEnter(1); break;
                 case -11: performContextMenuAction(16908337); break; // pasteAsPlainText,
                 case -93: selectAll(); break;
                 case -99: ic.deleteSurroundingText(MAX, MAX); break;
@@ -1355,6 +1356,21 @@ catch(Exception e) {toastIt(e.toString());}
             mCandidateView.clear();
         }
     }
+    public void handleEnter(int noop) {
+        if (noop == 0) return;
+        EditorInfo curEditor = getCurrentInputEditorInfo();
+    
+        if (sharedPreferences.getBoolean("spaces", t)) {
+            String indent = Util.getIndentation(prevLine());
+            if (indent.length() > 0) {commitText("\n"+indent); return;}
+        }
+        
+        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
+            case EditorInfo.IME_ACTION_GO:      ic.performEditorAction(EditorInfo.IME_ACTION_GO);     break;
+            case EditorInfo.IME_ACTION_SEARCH:  ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+            default:                            sendKey(KeyEvent.KEYCODE_ENTER);                      break;
+        }
+    }
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
@@ -1437,19 +1453,8 @@ catch(Exception e) {toastIt(e.toString());}
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
             case 10:
-                EditorInfo curEditor = getCurrentInputEditorInfo();
-            
-                if (sharedPreferences.getBoolean("spaces", t)) {
-                    String indent = Util.getIndentation(prevLine());
-                    if (indent.length() > 0) {commitText("\n"+indent); break;}
-                }
-                
-                switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-                    case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
-                    case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-                    default: sendKey(KeyEvent.KEYCODE_ENTER); break;
-                }
-                break;
+                handleEnter(0);
+            break;
             case 7:
                 if (sharedPreferences.getBoolean("spaces", t)) {
                     int spaceCount = (4 - (prevLine().length() % 4));
@@ -1575,15 +1580,15 @@ catch(Exception e) {toastIt(e.toString());}
             case -109: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
             case -110: navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
             case -111: navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case  -22: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
-            case  -23: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
-            case  -25:
+            case -22: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
+            case -23: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
+            case -25:
                 navigate(KeyEvent.KEYCODE_MOVE_HOME);
                 if (String.valueOf(ic.getTextBeforeCursor(1, 0)).contains("\n")) {
                     sendKey(KeyEvent.KEYCODE_DPAD_RIGHT, Util.getIndentation(nextLine()).length());
                 }
             break;
-            case  -26: navigate(KeyEvent.KEYCODE_MOVE_END); break;
+            case -26: navigate(KeyEvent.KEYCODE_MOVE_END); break;
             case -117: navigate(KeyEvent.KEYCODE_DPAD_UP); navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -118: navigate(KeyEvent.KEYCODE_DPAD_UP); navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -119: navigate(KeyEvent.KEYCODE_DPAD_DOWN); navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;

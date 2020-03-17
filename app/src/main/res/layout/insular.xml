@@ -61,12 +61,12 @@
     </Row>
     <Row>
         <Key android:codes="-1"    android:keyIcon="@drawable/ic_shift" />
-        <Key android:codes="42851" android:keyLabel="ꝣ" android:popupCharacters="zƶƨζⲍᴣᴤʒ"   android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="611"   android:keyLabel="ɣ" android:popupCharacters="xжξⲷхⲭꭓχ"  android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="42851" android:keyLabel="ꝣ" android:popupCharacters="zƶƨζⲍᴤʒӡᴣ"   android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="611"   android:keyLabel="ɣ" android:popupCharacters="xхⲭꭓχжⲷξ"  android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="987"   android:keyLabel="ϛ" android:popupCharacters="cçɕⲋⳟ"     android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="42857" android:keyLabel="ꝩ" android:popupCharacters="vνⱴⱱⱌỽʋ"       android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="42857" android:keyLabel="ꝩ" android:popupCharacters="vνⱴⱱⱌʋỽ"       android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="1073"  android:keyLabel="б" android:popupCharacters="bβϐƀƃ␢ʙвƅьⱃ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="11419" android:keyLabel="ⲛ" android:popupCharacters="nɴиᛝոπпϡŋɲɳ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="11419" android:keyLabel="ⲛ" android:popupCharacters="nɴиᛝոπпŋɲɳϡ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="956"   android:keyLabel="μ" android:popupCharacters="mⰿʍᴍϻмⲙꟿɱ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-5"    android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"    android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
