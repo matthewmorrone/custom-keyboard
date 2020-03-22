@@ -119,6 +119,33 @@ class Util {
         return false;
     }
 
+    public static boolean containsLowerCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isLowerCase(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsNumber(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isDigit(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // info
     public static int countChars(String text) {
         return text.codePointCount(0, text.length());

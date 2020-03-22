@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/StudioProjects-custom-keyboard.iml" filepath="$PROJECT_DIR$/StudioProjects-custom-keyboard.iml" group="custom-keyboard" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/custom-keyboard.iml" filepath="$PROJECT_DIR$/custom-keyboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/custom-keyboard-app.iml" filepath="$PROJECT_DIR$/app/custom-keyboard-app.iml" group="custom-keyboard/app" />
     </modules>
   </component>
 </project>

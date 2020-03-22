@@ -320,7 +320,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         toastIt(e.toString());
     }
 
-    // @todo instead of cancelling, concat contents
     public void toastIt(String ...args) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (!sharedPreferences.getBoolean("debug", f)) return;
@@ -1108,16 +1107,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
-/*
-try {
-        if (ic.getTextBeforeCursor(2, 0) != null
-        && isAstralCharacter(String.valueOf(ic.getTextBeforeCursor(2, 0)))) {
-            sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
-        }
-}
-catch(Exception e) {toastIt(e.toString());}
-*/
-        
 
         try {
             if (sharedPreferences.getBoolean("pairs", t)
@@ -1341,37 +1330,14 @@ catch(Exception e) {toastIt(e.toString());}
 
     }
     
-    
 
-private boolean containsUpperCase(String str) {
-    char ch;
-    boolean capitalFlag = false;
-    boolean lowerCaseFlag = false;
-    boolean numberFlag = false;
-    for (int i = 0; i < str.length(); i++) {
-        ch = str.charAt(i);
-        if (Character.isDigit(ch)) {
-            numberFlag = true;
-        }
-        else if (Character.isUpperCase(ch)) {
-            capitalFlag = true;
-        } 
-        else if (Character.isLowerCase(ch)) {
-            lowerCaseFlag = true;
-        }
-        if (capitalFlag) {
-            return true;
-        }
-    }
-    return false;
-}
 
     public void handleShift() {
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", f)) {
             String text = ic.getSelectedText(0).toString();
             int a = getSelectionStart();
             int b = getSelectionEnd();
-            if (containsUpperCase(text)) {
+            if (Util.containsUpperCase(text)) {
                 text = text.toLowerCase();
             }
             else {
@@ -1981,9 +1947,6 @@ private boolean containsUpperCase(String str) {
             case -312: break;
             */
 
-            /*
-            here
-            */
             case -192: 
                 prevKeyboard = currentKeyboard;
                 currentKeyboard = new CustomKeyboard(this, R.layout.ctrl,  "control",  "Control", "").setCategory(Category.Main);
