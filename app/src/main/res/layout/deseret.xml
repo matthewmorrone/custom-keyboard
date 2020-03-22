@@ -18,7 +18,7 @@
         <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
     </Row>
     <Row>
-        <Key android:codes="66600" android:keyLabel="𐐨" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="66600" android:keyLabel="𐐨" android:popupCharacters="\uD801\uDC28" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="66601" android:keyLabel="𐐩" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="66602" android:keyLabel="𐐪" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="66603" android:keyLabel="𐐫" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

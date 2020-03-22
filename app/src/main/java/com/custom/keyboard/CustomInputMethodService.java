@@ -477,7 +477,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 kv.setKeyboard(currentKeyboard);
                 setRowNumber(6);
+                // kv.setShifted(capsOn);
+                // kv.getKeyboard().setShifted(capsOn);
                 redraw();
+                // setCapsOn(capsOn);
             }
         }
         catch (Exception e) {
@@ -898,9 +901,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (Variables.isSelect()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
         }
     }
-    public void trimClipboard() {
-        setClipboardEntry(getClipboardEntry(0).trim());
-    }
+    
     public String setClipboardEntry(String text) {
         try {
             ClipboardManager clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1049,24 +1050,42 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic.endBatchEdit();
     }
 
-    long time;
+    // long time = 0;
+    long fPress = 0;
+    long cPress = 0;
 
     @Override
     public void onPress(int primaryCode) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        time = System.nanoTime();
+        if (fPress == 0) fPress = System.nanoTime();
+        else cPress = System.nanoTime();
+        // time = System.nanoTime() - time;
         if (sharedPreferences.getBoolean("vib", t)) {
             Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(4);
+        }
+        if (((cPress-fPress)/1000000) > 300) {
+            switch (primaryCode) {
+                case    31: performContextMenuAction(16908330); break;
+                case    10: handleEnter(1); break;
+                case   -11: performContextMenuAction(16908337); break; // pasteAsPlainText,
+                case   -93: selectAll(); break;
+                case   -99: ic.deleteSurroundingText(MAX, MAX); break;
+                case  -192: keepCtrlOpen = !keepCtrlOpen; break;
+                case -2003: commitText(Util.unidata(getText(ic))); break;
+            }
+            fPress = 0;
+            cPress = 0;
         }
     }
 
     @Override
     public void onRelease(int primaryCode) {
+    /*
         ic = getCurrentInputConnection();
-        time = (System.nanoTime() - time) / 1000000;
+        time = System.nanoTime() - time;
 
-        if (time > 300) {
+        if ((time/1000000) > 300) {
             switch (primaryCode) {
                 case 31: performContextMenuAction(16908330); break;
                 case 10: handleEnter(1); break;
@@ -1076,7 +1095,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 case -192: keepCtrlOpen = !keepCtrlOpen;
                 case -2003: commitText(Util.unidata(getText(ic))); break;
             }
-        }
+        } */
     }
 
     public Boolean isAstralCharacter(String ch) {
@@ -1098,37 +1117,43 @@ try {
 }
 catch(Exception e) {toastIt(e.toString());}
 */
+        
 
-        if (sharedPreferences.getBoolean("pairs", t)
-        && ic.getTextBeforeCursor(1, 0) != null
-        && String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
-        && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
-        && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
-            ic.deleteSurroundingText(0, 1);
+        try {
+            if (sharedPreferences.getBoolean("pairs", t)
+            && ic.getTextBeforeCursor(1, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
+            && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
+            && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
+                ic.deleteSurroundingText(0, 1);
+            }
+            if (!isSelecting()
+            && ic.getTextBeforeCursor(4, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces)
+            && sharedPreferences.getBoolean("spaces", t)) {
+                ic.deleteSurroundingText((4 - (prevLine().length() % 4)), 0);
+            }
+            else sendKey(KeyEvent.KEYCODE_DEL);
+            if (prevLine() != null && prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
+                setCapsOn(t);
+                firstCaps = t;
+            }
+            else {
+                setCapsOn(f);
+                firstCaps = f;
+            }
+            if (length == 0) {
+                setCandidatesViewShown(false);
+            }
+            else {
+                spellcheck();
+            }
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        
         }
-        if (!isSelecting()
-        && ic.getTextBeforeCursor(4, 0) != null
-        && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
-        && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces)
-        && sharedPreferences.getBoolean("spaces", t)) {
-            ic.deleteSurroundingText((4 - (prevLine().length() % 4)), 0);
-        }
-        else sendKey(KeyEvent.KEYCODE_DEL);
-        if (prevLine() != null && prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
-            setCapsOn(t);
-            firstCaps = t;
-        }
-        else {
-            setCapsOn(f);
-            firstCaps = f;
-        }
-        if (length == 0) {
-            setCandidatesViewShown(false);
-        }
-        else {
-            spellcheck();
-        }
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        catch(Exception ignored) {}
+
     }
 
     public void handleDelete() {
@@ -1315,7 +1340,97 @@ catch(Exception e) {toastIt(e.toString());}
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
 
     }
+    
+    
 
+private boolean containsUpperCase(String str) {
+    char ch;
+    boolean capitalFlag = false;
+    boolean lowerCaseFlag = false;
+    boolean numberFlag = false;
+    for (int i = 0; i < str.length(); i++) {
+        ch = str.charAt(i);
+        if (Character.isDigit(ch)) {
+            numberFlag = true;
+        }
+        else if (Character.isUpperCase(ch)) {
+            capitalFlag = true;
+        } 
+        else if (Character.isLowerCase(ch)) {
+            lowerCaseFlag = true;
+        }
+        if (capitalFlag) {
+            return true;
+        }
+    }
+    return false;
+}
+
+    public void handleShift() {
+        if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", f)) {
+            String text = ic.getSelectedText(0).toString();
+            int a = getSelectionStart();
+            int b = getSelectionEnd();
+            if (containsUpperCase(text)) {
+                text = text.toLowerCase();
+            }
+            else {
+                text = text.toUpperCase();
+            }
+            commitText(text, b);
+            ic.setSelection(a, b);
+            setKeyboard();
+            redraw();
+        }
+        else {
+            switch (currentKeyboard.title) {
+                case "Caps":
+                    if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.caps,          "Caps",     "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);}
+                    else                {currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift,    "Caps",     "ҨWERTY").setCategory(Category.Misc);}
+                break;
+                case "Rotated":
+                    if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.rotated,       "Rotated",  "bʍəɹʇʎ").setCategory(Category.Misc);}
+                    else                {currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated",  "Ò𐊰ƎꓤꞱ⅄").setCategory(Category.Misc);}
+                break;
+                case "Shift":
+                    if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.shift_1,       "shift_1",  "Shift", "qWeRtY").setCategory(Category.Misc);}
+                    else                {currentKeyboard = new CustomKeyboard(this, R.layout.shift_2,       "shift_2",  "Shift", "QwErTy").setCategory(Category.Misc);}
+                break;
+                case "Stealth":
+                    if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.stealth,       "Stealth",  "ԛԝеrtу").setCategory(Category.Misc);}
+                    else                {currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth",  "ԚԜЕꓣТҮ").setCategory(Category.Misc);}
+                break;
+            }
+            kv.setKeyboard(currentKeyboard);
+            if (shift_pressed + 300 > System.currentTimeMillis()) {
+                Variables.setShiftOn();
+                setCapsOn(t);
+                redraw();
+            }
+            else {
+                if (Variables.isShift()) {
+                    Variables.setShiftOff();
+                    firstCaps = f;
+                    setCapsOn(f);
+                    shift_pressed = System.currentTimeMillis();
+                }
+                else {
+                    firstCaps = !firstCaps;
+                    setCapsOn(firstCaps);
+                    shift_pressed = System.currentTimeMillis();
+                }
+            }
+            if (!currentKeyboard.title.equals("Caps")
+             && !currentKeyboard.title.equals("Rotated")
+             && !currentKeyboard.title.equals("Shift")
+             && !currentKeyboard.title.equals("Stealth")
+            ) {
+                setKeyboard();
+            }
+            redraw();
+        }
+    }
+    
     public void handleCut() {
         String record;
         boolean wasntSelecting = f;
@@ -1349,11 +1464,49 @@ catch(Exception e) {toastIt(e.toString());}
             clipboardHistory.add(record);
         }
     }
+    public String trim(String text) {
+        text = text.trim();
+        text = text.replaceAll("^\u00A0+", "");
+        text = text.replaceAll("^\u0020+", "");
+        text = text.replaceAll("^\u0009+", "");
+        text = text.replaceAll("^\u0010+", "");
+        text = text.replaceAll("\u00A0+$", "");
+        text = text.replaceAll("\u0020+$", "");
+        text = text.replaceAll("\u0009+$", "");
+        text = text.replaceAll("\u0010+$", "");
+        return text;
+    }
+    public void trimClipboard() {
+        setClipboardEntry(trim(getClipboardEntry(0)));
+    }
     public void handlePaste() {
-        trimClipboard();
+        String paste = getClipboardEntry(0);
+        if (sharedPreferences.getBoolean("spaces", t)) {
+            paste = trim(paste);
+            trimClipboard();
+        }
         sendKey(KeyEvent.KEYCODE_PASTE);
         if (mCandidateView != null) {
             mCandidateView.clear();
+        }
+    }
+    
+    public void handleSpace() {
+        if (sharedPreferences.getBoolean("spaces", t)) {
+            int spaceCount = (4 - (prevLine().length() % 4));
+            if (spaceCount > 0 && spaceCount < 4 && prevLine().length() < 4) {
+                spaceCount = 4;
+            }
+            commitText(spaces.substring(0, spaceCount));
+            if (isSelecting()) {
+                ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length());
+            }
+        }
+        else {
+            commitText(tab);
+            if (isSelecting()) {
+                ic.setSelection(getSelectionStart(), getSelectionEnd() + tab.length());
+            }
         }
     }
     public void handleEnter(int noop) {
@@ -1431,13 +1584,15 @@ catch(Exception e) {toastIt(e.toString());}
             return;
         }
         if (currentKeyboard.title.equals("Control") && !keepCtrlOpen) {
-            toastIt(findKeyboard(prevKeyboard.title));
-/*            if (prevKeyboard != null) {
+            findKeyboard(prevKeyboard.title);
+            /*            
+            if (prevKeyboard != null) {
                 prevKeyboard = null;
             }
             else {
                 toastIt(findKeyboard("Primary"));
-            }*/
+            }
+            */
         }
         switch (primaryCode) {
             case 142: sendKey(KeyEvent.KEYCODE_F12); break;
@@ -1452,112 +1607,26 @@ catch(Exception e) {toastIt(e.toString());}
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 10:
-                handleEnter(0);
-            break;
-            case 7:
-                if (sharedPreferences.getBoolean("spaces", t)) {
-                    int spaceCount = (4 - (prevLine().length() % 4));
-                    if (spaceCount > 0 && spaceCount < 4 && prevLine().length() < 4) {
-                        spaceCount = 4;
-                    }
-                    commitText(spaces.substring(0, spaceCount));
-                    if (isSelecting()) {
-                        ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length());
-                    }
-                }
-                else {
-                    commitText(tab);
-                    if (isSelecting()) {
-                        ic.setSelection(getSelectionStart(), getSelectionEnd() + tab.length());
-                    }
-                }
-            break;
-            case -1:
-                if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", f)) {
-                    String text = ic.getSelectedText(0).toString();
-                    int a = getSelectionStart();
-                    int b = getSelectionEnd();
-                    if (selectionCase == 0) {
-                        text = text.toUpperCase();
-                        selectionCase = 1;
-                    }
-                    else {
-                        text = text.toLowerCase();
-                        selectionCase = 0;
-                    }
-                    commitText(text, b);
-                    ic.setSelection(a, b);
-                    setKeyboard();
-                    redraw();
-                }
-                else {
-                    switch (currentKeyboard.title) {
-                        case "Caps":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.caps,          "Caps",     "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);}
-                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift,    "Caps",     "ҨWERTY").setCategory(Category.Misc);}
-                        break;
-                        case "Rotated":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.rotated,       "Rotated",  "bʍəɹʇʎ").setCategory(Category.Misc);}
-                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated",  "Ò𐊰ƎꓤꞱ⅄").setCategory(Category.Misc);}
-                        break;
-                        case "Shift":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.shift_1,       "shift_1",  "Shift", "qWeRtY").setCategory(Category.Misc);}
-                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.shift_2,       "shift_2",  "Shift", "QwErTy").setCategory(Category.Misc);}
-                        break;
-                        case "Stealth":
-                            if (kv.isShifted()) {currentKeyboard = new CustomKeyboard(this, R.layout.stealth,       "Stealth",  "ԛԝеrtу").setCategory(Category.Misc);}
-                            else                {currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth",  "ԚԜЕꓣТҮ").setCategory(Category.Misc);}
-                        break;
-                    }
-                    kv.setKeyboard(currentKeyboard);
-                    if (shift_pressed + 300 > System.currentTimeMillis()) {
-                        Variables.setShiftOn();
-                        setCapsOn(t);
-                        redraw();
-                    }
-                    else {
-                        if (Variables.isShift()) {
-                            Variables.setShiftOff();
-                            firstCaps = f;
-                            setCapsOn(f);
-                            shift_pressed = System.currentTimeMillis();
-                        }
-                        else {
-                            firstCaps = !firstCaps;
-                            setCapsOn(firstCaps);
-                            shift_pressed = System.currentTimeMillis();
-                        }
-                    }
-                    if (!currentKeyboard.title.equals("Caps")
-                     && !currentKeyboard.title.equals("Rotated")
-                     && !currentKeyboard.title.equals("Shift")
-                     && !currentKeyboard.title.equals("Stealth")
-                    ) {
-                        setKeyboard();
-                    }
-                    redraw();
-                }
-            break;
-            case -2: hide(); break;
-            case -3:
+            case  10: handleEnter(0); break;
+            case   7: handleSpace(); break;
+            case  -1: handleShift(); break;
+            case  -2: hide(); break;
+            case  -3:
                 InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 if (imeManager != null) imeManager.showInputMethodPicker();
             break;
-            case -4:
-                setKeyboardLayout(layouts.size()-1);
-            break;
-            case -5:
+            case  -4: setKeyboardLayout(layouts.size()-1); break;
+            case  -5:
                 if (currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) handleDelete();
                 else handleBackspace();
             break;
-            case -6:
-            case -7:
+            // case  -6:
+            case  -7:
                 if (currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) handleBackspace();
                 else handleDelete();
             break;
-            case -8: selectAll(); break;
-            case -9: handleCut(); break;
+            case  -8: selectAll(); break;
+            case  -9: handleCut(); break;
             case -10: handleCopy(); break;
             case -11: handlePaste(); break;
             case -73: goToStart(); break;
