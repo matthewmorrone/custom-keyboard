@@ -172,28 +172,6 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-            /*
-            border = 2;
-            canvas.save();
-            mPaint.setColor(Color.parseColor("#ff000000"));
-            mPaint.setColor(Color.parseColor(selected));
-            mPaint.setColor(Color.parseColor("#ffffffff"));
-            canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-            canvas.clipOutRect(key.x, key.y, key.x+key.width, key.y+key.height);
-            canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-            canvas.drawRect(key.x,            key.y,            key.x+key.width,            key.y+key.height,            mPaint);
-            canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
-            canvas.drawRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), mPaint);
-            canvas.drawRect(key.x+(border*8), key.y+(border*8), key.x+key.width-(border*8), key.y+key.height-(border*8), mPaint);
-            canvas.drawRoundRect(key.x,            key.y,            key.x+key.width,            key.y+key.height,            corner, corner, mPaint);
-            canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
-            canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
-            canvas.drawRoundRect(key.x+(border*8), key.y+(border*8), key.x+key.width-(border*8), key.y+key.height-(border*8), corner, corner, mPaint);
-            canvas.restore();
-            */
-
-            // if (key.codes == null) {continue;}
-
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
                     selectKey(key, corner);
@@ -206,27 +184,6 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key, corner);}}
             if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key, corner);}}
             if (key.codes[0] == -76) {if (Variables.isSelect())    {selectKey(key, corner);}}
-            if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key, corner);}}
-            if (key.codes[0] == -36) {if (Variables.is119860())    {selectKey(key, corner);}}
-            if (key.codes[0] == -37) {if (Variables.is119912())    {selectKey(key, corner);}}
-            if (key.codes[0] == -38) {if (Variables.is119964())    {selectKey(key, corner);}}
-            if (key.codes[0] == -39) {if (Variables.is120016())    {selectKey(key, corner);}}
-            if (key.codes[0] == -40) {if (Variables.is120068())    {selectKey(key, corner);}}
-            if (key.codes[0] == -41) {if (Variables.is120120())    {selectKey(key, corner);}}
-            if (key.codes[0] == -42) {if (Variables.is120172())    {selectKey(key, corner);}}
-            if (key.codes[0] == -43) {if (Variables.is120224())    {selectKey(key, corner);}}
-            if (key.codes[0] == -44) {if (Variables.is120276())    {selectKey(key, corner);}}
-            if (key.codes[0] == -45) {if (Variables.is120328())    {selectKey(key, corner);}}
-            if (key.codes[0] == -46) {if (Variables.is120380())    {selectKey(key, corner);}}
-            if (key.codes[0] == -47) {if (Variables.is120432())    {selectKey(key, corner);}}
-            if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key, corner);}}
-            if (key.codes[0] == -57) {if (Variables.isCaps())      {selectKey(key, corner);}}
-            if (key.codes[0] == -68) {if (Variables.is127280())    {selectKey(key, corner);}}
-            if (key.codes[0] == -69) {if (Variables.is127312())    {selectKey(key, corner);}}
-            if (key.codes[0] == -70) {if (Variables.is127344())    {selectKey(key, corner);}}
-            if (key.codes[0] == -71) {if (Variables.is127462())    {selectKey(key, corner);}}
-            if (key.codes[0] == -72) {if (Variables.is009372())    {selectKey(key, corner);}}
-            if (key.codes[0] == -66) {if (Variables.is009398())    {selectKey(key, corner);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
             if (key.popupCharacters != null 

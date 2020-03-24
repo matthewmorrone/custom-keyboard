@@ -77,18 +77,7 @@ class Util {
         return "http".equals(url.getProtocol());
     }
     public static boolean isValidPhoneNumber(String s) {
-        // The given argument to compile() method
-        // is regular expression. With the help of
-        // regular expression we can validate mobile
-        // number.
-        // 1) Begins with 0 or 91
-        // 2) Then contains 7 or 8 or 9.
-        // 3) Then contains 9 digits
         Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
-
-        // Pattern class contains matcher() method
-        // to find matching between given number
-        // and regular expression
         Matcher m = p.matcher(s);
         return (m.find() && m.group().equals(s));
     }
@@ -199,84 +188,10 @@ class Util {
     }
 
     public static String unidata(int primaryCode) {
-        return ""+
-            toTitleCase(Character.getName(primaryCode))+
-            "\n"+
-            primaryCode+
-            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
-            ""+
-               /*
-               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
-               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
-               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
-               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
-               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
-               "Upper: " + Character.toUpperCase(primaryCode)+", " +
-               "Title: " + Character.toTitleCase(primaryCode)+", " +
-               "Lower: " + Character.toLowerCase(primaryCode)+", " +
-               (Character.isLetter(primaryCode) ? "Letter, " : "") +
-               (Character.isDigit(primaryCode) ? "Digit, " : "") +
-               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
-               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
-               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
-               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
-               (Character.isDefined(primaryCode) ? "Defined, " : "") +
-               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
-               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
-               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
-               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
-               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
-               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
-               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
-               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
-               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
-               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
-               "Value " + Character.getNumericValue(primaryCode)+", " +
-               "Direction " + Character.getDirectionality(primaryCode)+""+
-               */
-               ""
-               ;
+        return toTitleCase(Character.getName(primaryCode))+"\n"+
+               primaryCode+"\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
     }
 
-    // conversions
-    public static String toColor(int r, int g, int b) {
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
-        return "#" + rs + gs + bs;
-    }
-    public static String toColor(int a, int r, int g, int b) {
-        String as = StringUtils.leftPad(Integer.toHexString(a), 2, "0").toUpperCase();
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
-        return "#" + as + rs + gs + bs;
-    }
-    public static int[] fromColor(String color) {
-        color = color.toUpperCase();
-        String as, rs, gs, bs;
-        int ai, ri, gi, bi;
-        if (color.length() == 6) {
-            as = "FF";
-            rs = color.substring(0, 2);
-            gs = color.substring(2, 4);
-            bs = color.substring(4, 6);
-        }
-        else if (color.length() == 8) {
-            as = color.substring(0, 2);
-            rs = color.substring(2, 4);
-            bs = color.substring(4, 6);
-            gs = color.substring(6, 8);
-        }
-        else {
-            return null;
-        }
-        ai = Integer.decode("0x" + as);
-        ri = Integer.decode("0x" + rs);
-        gi = Integer.decode("0x" + gs);
-        bi = Integer.decode("0x" + bs);
-        return new int[]{ai, ri, gi, bi};
-    }
     public static String escapeHtml(String s) {
         StringBuilder out = new StringBuilder(Math.max(16, s.length()));
         for (int i = 0; i < s.length(); i++) {
@@ -614,7 +529,6 @@ class Util {
         return Instant.now().getEpochSecond();
     }
     public static int nowAsInt() {
-        // new Date().getTime() / 1000;
         return (int) (System.currentTimeMillis() / 1000L);
     }
     public static String removeLinebreaks(String text) {
@@ -685,6 +599,40 @@ class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
+    public static String trim(String text) {
+        text = text.trim()
+        .replaceAll("^\u00A0+", "")
+        .replaceAll("^\u0020+", "")
+        .replaceAll("^\u0009+", "")
+        .replaceAll("^\u0010+", "")
+        .replaceAll("\u00A0+$", "")
+        .replaceAll("\u0020+$", "")
+        .replaceAll("\u0009+$", "")
+        .replaceAll("\u0010+$", "");
+        return text;
+    }
+    public static String toAlternatingCase(String text) {
+        char[] array = new char[]{};
+
+        int seed = generateRandomInt(0, 1);
+        array = text.toCharArray();
+
+        for (int i = seed; i < array.length - seed; i += 2) {
+            if (array[i] == ' ') {
+                i++;
+            }
+            array[i] = Character.toUpperCase(array[i]);
+        }
+
+        text = new String(array);
+        return text;
+    }
+    public static String toUpperCase(String text) {
+        return text.toUpperCase();
+    }
+    public static String toLowerCase(String text) {
+        return text.toLowerCase();
+    }
     public static String toTitleCase(String text) {
         if (text == null || text.isEmpty()) {
             return text;
@@ -727,7 +675,7 @@ class Util {
     }
     public static String convertFromNumberToUnicode(String number) {
         try {
-            return String.valueOf((char) (int) Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
+            return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
         }
         catch (Exception e) {
             return number;
@@ -740,31 +688,9 @@ class Util {
         return text.replaceAll("", "");
     }
     public static String normalize(String text) {
-        // String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
-        // return normalized.toLowerCase(Locale.ENGLISH);
         return Normalizer.normalize(text, Normalizer.Form.NFD);
-        //.replaceAll("[^\\p{ASCII}]", "")
-        //.toLowerCase();
-    }
-    public static String toAlternatingCase(String text) {
-        char[] array = new char[]{};
-
-        int seed = generateRandomInt(0, 1);
-        array = text.toCharArray();
-
-        for (int i = seed; i < array.length - seed; i += 2) {
-            if (array[i] == ' ') {
-                i++;
-            }
-            array[i] = Character.toUpperCase(array[i]);
-        }
-
-        text = new String(array);
-        return text;
     }
     public static String replaceNbsp(String text) {
-        // String nbsp = "&nbsp;"
-        // text.replaceAll("&nbsp;", " ");
         return text.replaceAll("\u00a0", " ");
     }
     public static CharSequence toCharSequence(String text) {
@@ -817,98 +743,98 @@ class Util {
     }
     public static String slug(String text) {
         return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
-                .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
-                .replaceAll("[ḂḄḆ]", "B")
-                .replaceAll("[ḃḅḇ]", "b")
-                .replaceAll("[ḉćĉċč]", "c")
-                .replaceAll("[ḈĆĈĊČ]", "C")
-                .replaceAll("[ḋḍḏḑḓď]", "d")
-                .replaceAll("[ḊḌḎḐḒĎ]", "D")
-                .replaceAll("[ȆĒĔĖĘĚÈÉÊËḔḖḘḚḜẸẺẼẾỀỂỄỆȨȄ]", "E")
-                .replaceAll("[ȇēĕėęěèéêëḕḗḙḛḝẹẻẽếềểễệȩȅ]", "e")
-                .replaceAll("[Ḟ]", "F")
-                .replaceAll("[ḟ]", "f")
-                .replaceAll("[ḠǴǦĜĞĠĢ]", "G")
-                .replaceAll("[ḡǵǧĝğġģ]", "g")
-                .replaceAll("[ḢḤḦḨḪĤȞ]", "H")
-                .replaceAll("[ḣḥḧḩḫẖĥȟ]", "h")
-                .replaceAll("[İÌÍÎÏḬḮỈỊǏȈȊĨĪĬĮ]", "I")
-                .replaceAll("[ıìíîïḭḯỉịǐȉȋĩīĭį]", "i")
-                .replaceAll("[Ĵ]", "J")
-                .replaceAll("[ǰĵ]", "j")
-                .replaceAll("[ḰḲḴǨĶ]", "K")
-                .replaceAll("[ḱḳḵǩķ]", "k")
-                .replaceAll("[ḶḸḺḼĹĻĽĿŁ]", "L")
-                .replaceAll("[ḷḹḻḽĺļľŀł]", "l")
-                .replaceAll("[ḿṁṃ]", "m")
-                .replaceAll("[ḾṀṂ]", "M")
-                .replaceAll("[ṄṆṈṊÑǸŃŅŇ]", "N")
-                .replaceAll("[ṅṇṉṋñǹńņňŉ]", "n")
-                .replaceAll("[ÒÓÔÕÖṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢǑǪǬȌȎŌŎŐȪȬȮȰǾ]", "O")
-                .replaceAll("[òóôõöṍṏṑṓọỏốồổỗộớờởỡợǒǫǭȍȏōŏőȫȭȯȱǿ]", "o")
-                .replaceAll("[ṕṗ]", "p")
-                .replaceAll("[ṔṖ]", "P")
-                .replaceAll("[ṙṛṝṟȑȓŕŗř]", "r")
-                .replaceAll("[ṘṚṜṞȐȒŔŖŘ]", "R")
-                .replaceAll("[ṡṣṥṧṩșśŝşš]", "s")
-                .replaceAll("[ṠṢṤṦṨȘŚŜŞŠ]", "S")
-                .replaceAll("[ṪṬṮṰȚŢŤ]", "T")
-                .replaceAll("[ṫṭṯṱẗțţť]", "t")
-                .replaceAll("[ùúûüũūŭůűṳṵṷṹṻụủứừửữựȕȗǔǖǘǚǜų]", "u")
-                .replaceAll("[ÙÚÛÜŨŪŬŮŰṲṴṶṸṺỤỦỨỪỬỮỰȔȖǓǕǗǙǛŲ]", "U")
-                .replaceAll("[ṼṾ]", "V")
-                .replaceAll("[ṽṿ]", "v")
-                .replaceAll("[ẀẂẄẆẈŴ]", "W")
-                .replaceAll("[ẁẃẅẇẉẘŵ]", "w")
-                .replaceAll("[ẋẍ]", "x")
-                .replaceAll("[ẊẌ]", "X")
-                .replaceAll("[ẎỲỴỶỸÝȲŶŸ]", "Y")
-                .replaceAll("[ẏỳỵỷỹẙýȳŷÿ]", "y")
-                .replaceAll("[ẑẓẕźżžǯ]", "z")
-                .replaceAll("[ẐẒẔŹŻŽǮ]", "Z")
-                .replaceAll("[ΆἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]", "Α")
-                .replaceAll("[άἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷ]", "α")
-                .replaceAll("[ΈἘἙἚἛἜἝῈΈ]", "Ε")
-                .replaceAll("[έἐἑἒἓἔἕὲέ]", "ε")
-                .replaceAll("[ΉἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]", "Η")
-                .replaceAll("[ήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇ]", "η")
-                .replaceAll("[ΪΊἸἹἺἻἼἽἾἿῘῙῚΊ]", "Ι")
-                .replaceAll("[ίϊΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗ]", "ι")
-                .replaceAll("[ΌὈὉὊὋὌὍ]", "Ο")
-                .replaceAll("[όὀὁὂὃὄὅὸό]", "ο")
-                .replaceAll("[Ῥ]", "Ρ")
-                .replaceAll("[ῤῥ]", "ρ")
-                .replaceAll("[ΫΎὙὛὝὟῨῩῪΎϒϓϔ]", "Υ")
-                .replaceAll("[ΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]", "υ")
-                .replaceAll("[ΏὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῸΌῺΏῼ]", "Ω")
-                .replaceAll("[ώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]", "ω")
-                .replaceAll("[ӐӒ]", "А")
-                .replaceAll("[Ӛ]", "Ә")
-                .replaceAll("[ЃҐҒӺҔӶ]", "Г")
-                .replaceAll("[ЀӖЁ]", "Е")
-                .replaceAll("[ӁӜҖ]", "Ж")
-                .replaceAll("[Ӟ]", "З")
-                .replaceAll("[ЍӤӢҊЙ]", "И")
-                .replaceAll("[Ї]", "І")
-                .replaceAll("[ЌҚҠҞҜ]", "К")
-                .replaceAll("[ӉҢӇҤЊ]", "Н")
-                .replaceAll("[Ӧ]", "О")
-                .replaceAll("[Ӫ]", "Ө")
-                .replaceAll("[Ҧ]", "П")
-                .replaceAll("[Ҏ]", "Р")
-                .replaceAll("[Ҫ]", "С")
-                .replaceAll("[Ҭ]", "Т")
-                .replaceAll("[ЎӰӲӮ]", "У")
-                .replaceAll("[Ұ]", "Ү")
-                .replaceAll("[ӼӾҲ]", "Х")
-                .replaceAll("[ѾѼ]", "Ѡ")
-                .replaceAll("[Ҵ]", "Ц")
-                .replaceAll("[ӴҶӋҸ]", "Ч")
-                .replaceAll("[Ҿ]", "Ҽ")
-                .replaceAll("[Ӹ]", "Ы")
-                .replaceAll("[ҌѢ]", "Ь")
-                .replaceAll("[Ӭ]", "Э")
-                .replaceAll("[Ѷ]", "Ѵ");
+                   .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
+                   .replaceAll("[ḂḄḆ]", "B")
+                   .replaceAll("[ḃḅḇ]", "b")
+                   .replaceAll("[ḉćĉċč]", "c")
+                   .replaceAll("[ḈĆĈĊČ]", "C")
+                   .replaceAll("[ḋḍḏḑḓď]", "d")
+                   .replaceAll("[ḊḌḎḐḒĎ]", "D")
+                   .replaceAll("[ȆĒĔĖĘĚÈÉÊËḔḖḘḚḜẸẺẼẾỀỂỄỆȨȄ]", "E")
+                   .replaceAll("[ȇēĕėęěèéêëḕḗḙḛḝẹẻẽếềểễệȩȅ]", "e")
+                   .replaceAll("[Ḟ]", "F")
+                   .replaceAll("[ḟ]", "f")
+                   .replaceAll("[ḠǴǦĜĞĠĢ]", "G")
+                   .replaceAll("[ḡǵǧĝğġģ]", "g")
+                   .replaceAll("[ḢḤḦḨḪĤȞ]", "H")
+                   .replaceAll("[ḣḥḧḩḫẖĥȟ]", "h")
+                   .replaceAll("[İÌÍÎÏḬḮỈỊǏȈȊĨĪĬĮ]", "I")
+                   .replaceAll("[ıìíîïḭḯỉịǐȉȋĩīĭį]", "i")
+                   .replaceAll("[Ĵ]", "J")
+                   .replaceAll("[ǰĵ]", "j")
+                   .replaceAll("[ḰḲḴǨĶ]", "K")
+                   .replaceAll("[ḱḳḵǩķ]", "k")
+                   .replaceAll("[ḶḸḺḼĹĻĽĿŁ]", "L")
+                   .replaceAll("[ḷḹḻḽĺļľŀł]", "l")
+                   .replaceAll("[ḿṁṃ]", "m")
+                   .replaceAll("[ḾṀṂ]", "M")
+                   .replaceAll("[ṄṆṈṊÑǸŃŅŇ]", "N")
+                   .replaceAll("[ṅṇṉṋñǹńņňŉ]", "n")
+                   .replaceAll("[ÒÓÔÕÖṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢǑǪǬȌȎŌŎŐȪȬȮȰǾ]", "O")
+                   .replaceAll("[òóôõöṍṏṑṓọỏốồổỗộớờởỡợǒǫǭȍȏōŏőȫȭȯȱǿ]", "o")
+                   .replaceAll("[ṕṗ]", "p")
+                   .replaceAll("[ṔṖ]", "P")
+                   .replaceAll("[ṙṛṝṟȑȓŕŗř]", "r")
+                   .replaceAll("[ṘṚṜṞȐȒŔŖŘ]", "R")
+                   .replaceAll("[ṡṣṥṧṩșśŝşš]", "s")
+                   .replaceAll("[ṠṢṤṦṨȘŚŜŞŠ]", "S")
+                   .replaceAll("[ṪṬṮṰȚŢŤ]", "T")
+                   .replaceAll("[ṫṭṯṱẗțţť]", "t")
+                   .replaceAll("[ùúûüũūŭůűṳṵṷṹṻụủứừửữựȕȗǔǖǘǚǜų]", "u")
+                   .replaceAll("[ÙÚÛÜŨŪŬŮŰṲṴṶṸṺỤỦỨỪỬỮỰȔȖǓǕǗǙǛŲ]", "U")
+                   .replaceAll("[ṼṾ]", "V")
+                   .replaceAll("[ṽṿ]", "v")
+                   .replaceAll("[ẀẂẄẆẈŴ]", "W")
+                   .replaceAll("[ẁẃẅẇẉẘŵ]", "w")
+                   .replaceAll("[ẋẍ]", "x")
+                   .replaceAll("[ẊẌ]", "X")
+                   .replaceAll("[ẎỲỴỶỸÝȲŶŸ]", "Y")
+                   .replaceAll("[ẏỳỵỷỹẙýȳŷÿ]", "y")
+                   .replaceAll("[ẑẓẕźżžǯ]", "z")
+                   .replaceAll("[ẐẒẔŹŻŽǮ]", "Z")
+                   .replaceAll("[ΆἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]", "Α")
+                   .replaceAll("[άἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷ]", "α")
+                   .replaceAll("[ΈἘἙἚἛἜἝῈΈ]", "Ε")
+                   .replaceAll("[έἐἑἒἓἔἕὲέ]", "ε")
+                   .replaceAll("[ΉἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]", "Η")
+                   .replaceAll("[ήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇ]", "η")
+                   .replaceAll("[ΪΊἸἹἺἻἼἽἾἿῘῙῚΊ]", "Ι")
+                   .replaceAll("[ίϊΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗ]", "ι")
+                   .replaceAll("[ΌὈὉὊὋὌὍ]", "Ο")
+                   .replaceAll("[όὀὁὂὃὄὅὸό]", "ο")
+                   .replaceAll("[Ῥ]", "Ρ")
+                   .replaceAll("[ῤῥ]", "ρ")
+                   .replaceAll("[ΫΎὙὛὝὟῨῩῪΎϒϓϔ]", "Υ")
+                   .replaceAll("[ΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]", "υ")
+                   .replaceAll("[ΏὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῸΌῺΏῼ]", "Ω")
+                   .replaceAll("[ώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]", "ω")
+                   .replaceAll("[ӐӒ]", "А")
+                   .replaceAll("[Ӛ]", "Ә")
+                   .replaceAll("[ЃҐҒӺҔӶ]", "Г")
+                   .replaceAll("[ЀӖЁ]", "Е")
+                   .replaceAll("[ӁӜҖ]", "Ж")
+                   .replaceAll("[Ӟ]", "З")
+                   .replaceAll("[ЍӤӢҊЙ]", "И")
+                   .replaceAll("[Ї]", "І")
+                   .replaceAll("[ЌҚҠҞҜ]", "К")
+                   .replaceAll("[ӉҢӇҤЊ]", "Н")
+                   .replaceAll("[Ӧ]", "О")
+                   .replaceAll("[Ӫ]", "Ө")
+                   .replaceAll("[Ҧ]", "П")
+                   .replaceAll("[Ҏ]", "Р")
+                   .replaceAll("[Ҫ]", "С")
+                   .replaceAll("[Ҭ]", "Т")
+                   .replaceAll("[ЎӰӲӮ]", "У")
+                   .replaceAll("[Ұ]", "Ү")
+                   .replaceAll("[ӼӾҲ]", "Х")
+                   .replaceAll("[ѾѼ]", "Ѡ")
+                   .replaceAll("[Ҵ]", "Ц")
+                   .replaceAll("[ӴҶӋҸ]", "Ч")
+                   .replaceAll("[Ҿ]", "Ҽ")
+                   .replaceAll("[Ӹ]", "Ы")
+                   .replaceAll("[ҌѢ]", "Ь")
+                   .replaceAll("[Ӭ]", "Э")
+                   .replaceAll("[Ѷ]", "Ѵ");
     }
     public static String getCharType(byte ch) {
         switch (ch) {
@@ -981,69 +907,6 @@ class Util {
         }
     }
 
-    // random
-    public static String pickALetter() {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        return String.valueOf(letters.charAt(generateRandomInt(1, 26) - 1));
-    }
-    public static String pickALetter(boolean shift) {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        if (shift) letters = letters.toUpperCase();
-        return String.valueOf(letters.charAt(generateRandomInt(1, 26) - 1));
-    }
-    public static String rollADie() {
-        return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6) - 1));
-    }
-    public static String flipACoin() {
-        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(1, 2) - 1));
-    }
-    public static String castALot() {
-        return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2) - 1));
-    }
-    public static String pickACard() {
-        String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
-        return String.valueOf((char) cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length())) - 1));
-    }
-    public static String timemoji() {
-        String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
-
-        Calendar rightNow = Calendar.getInstance();
-        rightNow.getTime();
-        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
-        if (hours == 0) hours = 12;
-        if (hours > 12) hours -= 12;
-        int minutes = rightNow.get(Calendar.MINUTE);
-
-        // 0 thru 29, 30 thru 59
-        int which = (((hours - 1) * 2) + (minutes / 30));
-
-        return String.valueOf((char) clocks.codePointAt(which));
-    }
-    public static String[] answers = new String[]{
-        "It is certain. ",
-        "It is decidedly so. ",
-        "Without a doubt. ",
-        "Yes; definitely. ",
-        "You may rely on it. ",
-        "As I see it, yes. ",
-        "Most likely. ",
-        "Outlook good. ",
-        "Yes. ",
-        "Signs point to yes. ",
-        "Reply hazy, try again. ",
-        "Ask again later. ",
-        "Better not tell you now. ",
-        "Cannot predict now. ",
-        "Concentrate and ask again. ",
-        "Don't count on it. ",
-        "My reply is no. ",
-        "My sources say no. ",
-        "Outlook not so good. ",
-        "Very doubtful. "
-    };
-    public static String shake8Ball() {
-        return "" + answers[generateRandomInt(1, 20) - 1];
-    }
     public static int generateRandomInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
