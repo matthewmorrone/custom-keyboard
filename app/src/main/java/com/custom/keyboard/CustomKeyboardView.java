@@ -48,7 +48,7 @@ public class CustomKeyboardView extends KeyboardView {
         */
         if (key.codes[0] == -192
         ||  key.codes[0] == -300
-        ||  key.codes[0] == 10) {
+        ||  key.codes[0] ==   10) {
             return super.onLongPress(key);
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
@@ -108,6 +108,23 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.restore();
     }
 
+    public void capsHack() {
+        List<Key> keys = getKeyboard().getKeys();
+        for (Key key : keys) {
+            if (key.codes[0] == -1) {
+                if (Variables.isShift()) {
+                    selectKey(key, corner);
+                }
+                if (getKeyboard().isShifted()) {
+                    drawable(key, R.drawable.ic_shift_lock_, 35);
+                }
+            }
+        }
+    }
+
+    int border = 2;  // borders || padding ? 2 : 0;
+    int corner = 16; // corners ? 16 : 0;
+
     @Override
     public void onDraw(Canvas canvas) {
         try {
@@ -125,8 +142,7 @@ public class CustomKeyboardView extends KeyboardView {
         boolean padding = sharedPreferences.getBoolean("padding", false);
         boolean corners = sharedPreferences.getBoolean("corners", false);
         boolean keyback = sharedPreferences.getBoolean("keyback", false);
-        int border = 2;  // borders || padding ? 2 : 0;
-        int corner = 16; // corners ? 16 : 0;
+
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
@@ -175,9 +191,10 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
                     selectKey(key, corner);
+                    drawable(key, R.drawable.ic_shift_lock_, 35);
                 }
                 if (getKeyboard().isShifted()) {
-                    drawable(key, R.drawable.ic_shift_lock, 35);
+                    drawable(key, R.drawable.ic_shift_lock_, 35);
                 }
             }
 

@@ -101,6 +101,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public int getOrder() {
+
         return order;
     }
 
@@ -110,6 +111,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public Category getCategory() {
+
         return category;
     }
 
@@ -119,15 +121,18 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     void setRowNumber(short number) {
+
         rowNumber = number;
     }
 
     @Override
     public int getHeight() {
+
         return getKeyHeight() * rowNumber;
     }
     
     public void setKeyHeight(int height) {
+
         super.setKeyHeight(height);
     }
 

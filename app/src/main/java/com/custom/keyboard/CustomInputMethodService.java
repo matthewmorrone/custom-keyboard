@@ -428,7 +428,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 kv.setKeyboard(currentKeyboard);
                 setRowNumber(6);
+
                 redraw();
+                kv.capsHack();
             }
         }
         catch (Exception e) {
@@ -591,17 +593,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         if (Variables.isCtrl() || Variables.isAlt()) {
             if (Variables.isCtrl() && Variables.isAlt()) {
-                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Util.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   Util.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
             }
             else {
                 if (Variables.isCtrl()) {
-                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
-                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
+                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Util.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
+                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   Util.getHardKeyCode(keycode), 0, KeyEvent.META_CTRL_ON));
                 }
                 if (Variables.isAlt()) {
-                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
-                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyCodes.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
+                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, Util.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
+                    ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   Util.getHardKeyCode(keycode), 0, KeyEvent.META_ALT_ON));
                 }
             }
         }
@@ -1025,7 +1027,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void handleCharacter(int primaryCode) {
         ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        primaryCode = KeyCodes.handleCharacter(kv, primaryCode);
+        primaryCode = Util.handleCharacter(kv, primaryCode);
         if (kv.isShifted() && !currentKeyboard.key.equals("shift_2")) {
             primaryCode = Character.toUpperCase(primaryCode);
         }
@@ -1281,10 +1283,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         int ere, aft;
         CustomKeyboard prevKeyboard = currentKeyboard;
 
-        if (currentKeyboard.title.equals("Unicode") && !Util.contains(KeyCodes.hexPasses, primaryCode)) {
+        if (currentKeyboard.title.equals("Unicode") && !Util.contains(Util.hexPasses, primaryCode)) {
             if (primaryCode == -2001) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
             if (primaryCode == -2002) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
-            if (Util.contains(KeyCodes.hexCaptures, primaryCode)) {
+            if (Util.contains(Util.hexCaptures, primaryCode)) {
                 if (hexBuffer.length() > 3) hexBuffer = empty;
                 hexBuffer += (char)primaryCode;
             }
