@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
+import com.custom.keyboard.CustomInputMethodService.Category;
 
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
     
@@ -25,26 +26,26 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title) {
         super(context, xmlLayoutResId);
-        this.key = title.toLowerCase();
-        this.title = title;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
         layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }    
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label) {
         super(context, xmlLayoutResId);
-        this.key = title.toLowerCase();
-        this.title = title;
-        this.label = label;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
+        this.label = Util.toTitleCase(label);
         layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, int order) {
         super(context, xmlLayoutResId);
-        this.key = title.toLowerCase();
-        this.title = title;
-        this.label = title;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
+        this.label = Util.toTitleCase(title);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
@@ -55,9 +56,9 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
         super(context, xmlLayoutResId);
-        this.key = title.toLowerCase();
-        this.title = title;
-        this.label = label;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
+        this.label = Util.toTitleCase(title);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
@@ -68,18 +69,18 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label) {
         super(context, xmlLayoutResId);
-        this.key = key;
-        this.title = title;
-        this.label = label;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
+        this.label = Util.toTitleCase(title);
         layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label, int order) {
         super(context, xmlLayoutResId);
-        this.key = key;
-        this.title = title;
-        this.label = label;
+        this.key = Util.toLowerCase(title);
+        this.title = Util.toTitleCase(title);
+        this.label = Util.toTitleCase(title);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
@@ -100,6 +101,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public int getOrder() {
+
         return order;
     }
 
@@ -109,6 +111,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public Category getCategory() {
+
         return category;
     }
 
@@ -118,15 +121,19 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     void setRowNumber(short number) {
+
         rowNumber = number;
     }
 
     @Override
     public int getHeight() {
+
         return getKeyHeight() * rowNumber;
     }
     
     public void setKeyHeight(int height) {
+
         super.setKeyHeight(height);
     }
+
 }

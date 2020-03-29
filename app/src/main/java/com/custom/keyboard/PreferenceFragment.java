@@ -141,60 +141,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         CheckBoxPreference preference;
 
-        
         if (s.equals("all")) {
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
             try {((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);}
             catch (Exception ignored) {}
-            try {((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
-            try {((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
-            try {((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
         }
-        
-        
-       
+
         if (s.equals("primary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("primary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
-            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                try {
-                    preference = (CheckBoxPreference)(preferences.getPreference(i));
-                    preference.setChecked(isChecked);
-                }
-                catch (Exception ignored) {}
-            }
-        }
-        
-        if (s.equals("secondary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("secondary_category");
-            boolean isChecked = ((CheckBoxPreference)findPreference("secondary")).isChecked();
-            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                try {
-                    preference = (CheckBoxPreference)(preferences.getPreference(i));
-                    preference.setChecked(isChecked);
-                }
-                catch (Exception ignored) {}
-            }
-        }
-        
-        if (s.equals("tertiary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("tertiary_category");
-            boolean isChecked = ((CheckBoxPreference)findPreference("tertiary")).isChecked();
-            for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                try {
-                    preference = (CheckBoxPreference)(preferences.getPreference(i));
-                    preference.setChecked(isChecked);
-                }
-                catch (Exception ignored) {}
-            }
-        }
-
-        if (s.equals("forthary")) {
-            PreferenceCategory preferences = (PreferenceCategory)findPreference("forthary_category");
-            boolean isChecked = ((CheckBoxPreference)findPreference("forthary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
                 try {
                     preference = (CheckBoxPreference)(preferences.getPreference(i));

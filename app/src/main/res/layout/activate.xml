@@ -42,6 +42,6 @@
               android:layout_height="50dp"
               android:hint="@string/test"
               android:inputType="textMultiLine"
-              android:lines="1"
+              android:lines="3"
               />
 </LinearLayout>

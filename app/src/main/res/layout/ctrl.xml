@@ -49,6 +49,7 @@
         <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
         <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
         <Key android:codes="-0014" android:keyIcon="@drawable/ic_format_eraser" />
+        <Key android:codes="-0197" android:keyIcon="@drawable/ic_find" />
     </Row>
     <Row>
         <Key android:codes="-0001" android:keyIcon="@drawable/ic_shift" />

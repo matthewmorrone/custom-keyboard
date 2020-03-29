@@ -11,3 +11,4 @@ public class Preference extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
     }
 }
+
