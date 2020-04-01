@@ -1,4 +1,4 @@
-## spellcheck/autocomplete ##
+## spellcheck/autocomplete ###
 + reimplement
 + include contact names
 + learn new words
@@ -6,7 +6,7 @@
 + autoreplace toggleable from keyboard predictions 
 + autocomplete capitalization
 
-## clipboard ##
+### clipboard ###
 + show clipboard contents after cut/copy
 + page containing clipboard history
 + choice of fifo or filo for clipboard history
@@ -14,7 +14,7 @@
 + instead of getting rid of last clipboard entry, send that one indefinitely
 + append clipboard contents to file on cut or copy
 
-## customization ##
+### customization ###
 + font color, background, border from settings
 + settings for numbers, colors, popupchars
 + press and hold custom keys to change them
@@ -31,7 +31,7 @@
 + generate keyboard programmatically
 + key codes and labels customizable
 
-## functionality ##
+### functionality ###
 + edit text popup for find/replace
 + press and hold to delete all space up to line end (while prev char is space)
 + move cursor and select text by dragging the space key
@@ -42,27 +42,27 @@
 + swipe on spacebar + left and right swipe on spacebar
 + slideable bar
 
-## under the hood ##
+### under the hood ###
 + include tags ffs
 + script for autoreinstall
 + convenience method for setting checks
 + manually reimplement cut/copy/paste
 
-## bugs ##
+### bugs ###
 + label size issue for high surrogates
 + bug when autoshift
 + wordfore only works for next word
 + linenext and linelast probably don't work
 + if there are too many entries in a keys popup, it doesn't render properly
 
-## layouts ##
+### layouts ###
 + unicode input from exhaustive table
 + emoji 
 + tabs on symbols page 
 + swiping, scrollable/swipeable areas
 + math ⇄ numeric
 
-## nice to haves ##
+### nice to haves ###
 + password buttons
 + convert between fonts
 + language detection
@@ -83,14 +83,14 @@
 + nonliteral tab
 + animations
 
-## popup-related ##
+### popup-related ###
 + popup contents should also be keys
 + layout of popup
 + make popup keys repeatable
 + release on popup for choice
 
 
-##= Settings ##=
+##### Settings #####
 + system settings enable keyboard
 + choose keyboard
 + generate keyboard from text string and vice versa
