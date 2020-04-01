@@ -1,4 +1,4 @@
-## spellcheck/autocomplete ###
+### spellcheck/autocomplete ###
 + reimplement
 + include contact names
 + learn new words
