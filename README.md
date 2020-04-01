@@ -1,90 +1,96 @@
+### spellcheck/autocomplete ###
++ reimplement
++ include contact names
++ learn new words
++ adding entries on the fly
++ autoreplace toggleable from keyboard predictions 
++ autocomplete capitalization
+
+### clipboard ###
 + show clipboard contents after cut/copy
-+ tabs on symbols page 
-+ add toggle for whether or not the first member of the popup is sent upon release
-+ convenience method for setting checks
-+ press and hold to delete all space up to line end (while prev char is space)
-+ don't cancel popup if it has a long press action
-+ font color, background, border from settings
-+ settings for numbers, colors, popupchars
-+ reorder layouts from settings: draggable for layout management
-+ more pinyin, combine with autocorrect
-+ selection doesn't work with 4space
-+ runtime modification/generation of layouts
-+ generate keyboard programmatically
 + page containing clipboard history
 + choice of fifo or filo for clipboard history
 + button to access recent clipboard entries
-+ press and hold custom keys to change them
-+ close by clicking outside popup
-+ delete autoinsertions by pressing once
-+ macro customization
-+ selection moves while typing
-+ select with manual cursor movement
-+ move cursor and select text by dragging the space key
-+ if no selection, un/indent saves cursor spot, highlights all, then puts it back ±4
-+ draggable resize right on the front
-+ drag control for keyboard height
-+ adjust key size
-+ key height change
-+ include tags ffs
-+ emoji 
-+ swiping, scrollable/swipeable areas
-+ swipe on spacebar + left and right swipe on spacebar
-+ key codes and labels customizable
-+ make popup keys repeatable
-+ autoreplace toggleable from keyboard predictions 
-+ release on popup for choice
-+ settings opens up a drawer
-+ 2nd bar changeable
-+ selection pad
-+ slideable bar
-+ shortcuts with sigil
-+ bug when autoshift
-+ column from table
-+ identify hash
-+ format numbers
-+ press and hold space for layout page
 + instead of getting rid of last clipboard entry, send that one indefinitely
-+ disable context menu in edittexts
-+ color input + tocolor & fromcolor
-+ nonliteral tab
-+ you can use canvas to add a black layover to darken background
-+ manually reimplement cut/copy/paste
-+ math ⇄ numeric
-+ hash out links
-+ change enter icon depending on input type
-+ wordfore only works for next word
-+ convert between fonts
-+ edittext popup for temporary stuff
-+ 2d layout navigation
-+ popup for arbitrary find/replace screen
-+ separate out settings page for layouts and custom keys
-+ layout of popup
-+ popup contents should also be keys
-+ if there are too many entries in a keys popup, it doesn't render properly
-+ label size issue for high surrogates
-+ animations
-+ unicode input from exhaustive table
-+ scrolling
++ append clipboard contents to file on cut or copy
+
+### customization ###
++ font color, background, border from settings
++ settings for numbers, colors, popupchars
++ press and hold custom keys to change them
++ macro customization
++ drag control for keyboard height
 + add and remove keys
 + hide and show specific keys, especially in the top or bottom
 + row with toggles from settings page
 + add setting that allows specification of longpress delay
 + add slots in the settings page for customizing the letters that appear on long press
++ add toggle for whether or not the first member of the popup is sent upon release
++ reorder layouts from settings: draggable for layout management
++ runtime modification/generation of layouts
++ generate keyboard programmatically
++ key codes and labels customizable
+
+### functionality ###
++ edit text popup for find/replace
++ press and hold to delete all space up to line end (while prev char is space)
++ move cursor and select text by dragging the space key
++ if no selection, un/indent saves cursor spot, highlights all, then puts it back ±4
++ selection doesn't work with 4space
++ close by clicking outside popup
++ delete autoinsertions by pressing once
++ swipe on spacebar + left and right swipe on spacebar
++ slideable bar
+
+### under the hood ###
++ include tags ffs
 + script for autoreinstall
-+ password buttons
-+ calculation parsing
-+ autocomplete capitalization
-+ append clipboard contents to file on cut or copy
++ convenience method for setting checks
++ manually reimplement cut/copy/paste
+
+### bugs ###
++ label size issue for high surrogates
++ bug when autoshift
++ wordfore only works for next word
 + linenext and linelast probably don't work
++ if there are too many entries in a keys popup, it doesn't render properly
+
+### layouts ###
++ unicode input from exhaustive table
++ emoji 
++ tabs on symbols page 
++ swiping, scrollable/swipeable areas
++ math ⇄ numeric
+
+### nice to haves ###
++ password buttons
++ convert between fonts
 + language detection
++ calculation parsing
++ edittext popup for temporary stuff
++ change enter icon depending on input type
++ selection pad
++ selection moves while typing
++ select with manual cursor movement
 + get location as string, coordinates or address
-+ include contact names
-+ learn new words
-+ adding entries on the fly
++ format numbers
++ settings opens up a drawer
++ shortcuts with sigil
++ column from table
++ identify hash
++ color input + tocolor & fromcolor
++ disable context menu in edittexts
++ nonliteral tab
++ animations
+
+### popup-related ###
++ popup contents should also be keys
++ layout of popup
++ make popup keys repeatable
++ release on popup for choice
 
 
-=== Settings ===
+##### Settings #####
 + system settings enable keyboard
 + choose keyboard
 + generate keyboard from text string and vice versa
