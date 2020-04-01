@@ -3,38 +3,7 @@
     android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <!-- 
-    <Row android:keyWidth="8.333%p" android:keyHeight="7%p">
-        <Key android:codes="-148" android:keyIcon="@drawable/ic_settings" />
-        <Key android:codes="-150" android:keyIcon="@drawable/ic_undo" />
-        <Key android:codes="29"   android:keyWidth="22.223%p" />
-        <Key android:codes="30"   android:keyWidth="22.223%p" />
-        <Key android:codes="31"   android:keyWidth="22.223%p" />
-        <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines" />
-        <Key android:codes="-149" android:keyIcon="@drawable/ic_voice" />
-         -->
-        <!-- 
-        <Key android:codes="-301" android:keyIcon="@drawable/ic_function" />
-        <Key android:codes="-302" android:keyIcon="@drawable/ic_utility" />
-        <Key android:codes="-303" android:keyIcon="@drawable/ic_emoji" />
-        <Key android:codes="-304" android:keyIcon="@drawable/ic_nav" />
-        <Key android:codes="-305" android:keyIcon="@drawable/ic_symbol" />
-        <Key android:codes="-306" android:keyIcon="@drawable/ic_format_font" />
-         -->
-    <!-- </Row> -->
-    <Row android:keyWidth="9.09%p">
-        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
-        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_arrow_left"  android:isRepeatable="true" />
-        <Key android:codes="-111" android:keyIcon="@drawable/ic_arrow_right" android:isRepeatable="true" />
-        <Key android:codes="-107" android:keyIcon="@drawable/ic_arrow_up"    android:isRepeatable="true" />
-        <Key android:codes="-109" android:keyIcon="@drawable/ic_arrow_down"  android:isRepeatable="true" />
-        <Key android:codes="-76"  android:keyIcon="@drawable/ic_select" />
-        <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
-        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
-        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
-        <Key android:codes="-152" android:keyIcon="@drawable/ic_paste_text" />
-    </Row>
+    <include layout="@layout/top_row" />
     <Row>
         <Key android:codes="49"  android:keyLabel="1" android:popupCharacters="!" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="50"  android:keyLabel="2" android:popupCharacters="\@" android:popupKeyboard="@layout/popup_template" />
