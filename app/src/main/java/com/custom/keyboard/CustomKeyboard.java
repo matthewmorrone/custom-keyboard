@@ -20,72 +20,73 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
-        layoutId = xmlLayoutResId;
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title) {
         super(context, xmlLayoutResId);
         this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        layoutId = xmlLayoutResId;
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = Util.toTitleCase(title);
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }    
     
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label) {
         super(context, xmlLayoutResId);
         this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        this.label = Util.toTitleCase(label);
-        layoutId = xmlLayoutResId;
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, int order) {
         super(context, xmlLayoutResId);
         this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        this.label = Util.toTitleCase(title);
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
-        layoutId = xmlLayoutResId;
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
         super(context, xmlLayoutResId);
         this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        this.label = Util.toTitleCase(title);
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
-        layoutId = xmlLayoutResId;
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label) {
         super(context, xmlLayoutResId);
-        this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        this.label = Util.toTitleCase(title);
-        layoutId = xmlLayoutResId;
+        this.key = Util.toLowerCase(key);
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     CustomKeyboard(Context context, int xmlLayoutResId, String key, String title, String label, int order) {
         super(context, xmlLayoutResId);
-        this.key = Util.toLowerCase(title);
-        this.title = Util.toTitleCase(title);
-        this.label = Util.toTitleCase(title);
+        this.key = Util.toLowerCase(key);
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
-        layoutId = xmlLayoutResId;
+        this.layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -101,7 +102,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public int getOrder() {
-
         return order;
     }
 
@@ -111,7 +111,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public Category getCategory() {
-
         return category;
     }
 
@@ -121,18 +120,15 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     void setRowNumber(short number) {
-
         rowNumber = number;
     }
 
     @Override
     public int getHeight() {
-
         return getKeyHeight() * rowNumber;
     }
     
     public void setKeyHeight(int height) {
-
         super.setKeyHeight(height);
     }
 
