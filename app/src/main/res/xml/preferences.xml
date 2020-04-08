@@ -19,12 +19,14 @@
         <SwitchPreference       android:title="Show Layout Names"           android:key="names"                     android:defaultValue="true" />
     </PreferenceScreen>
     <PreferenceScreen           android:title="Layouts">
-        <CheckBoxPreference     android:title="All"                         android:key="all"                       android:defaultValue="false" android:summaryOff="Enable All"                     android:summaryOn="Disable All" />
+        <CheckBoxPreference     android:title="All"                         android:key="all"                       android:defaultValue="true" android:summaryOff="Enable All"                     android:summaryOn="Disable All" />
         <PreferenceCategory     android:title="Primary"                     android:key="primary_category">
             <CheckBoxPreference android:title="Accents"                     android:key="accents"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Emoji"                       android:key="emoji"                     android:defaultValue="true" />
+            <CheckBoxPreference android:title="Fancy"                       android:key="fancy"                     android:defaultValue="true" />
             <CheckBoxPreference android:title="Function"                    android:key="function"                  android:defaultValue="true" />
             <CheckBoxPreference android:title="Hex"                         android:key="hex"                       android:defaultValue="true" />
+            <CheckBoxPreference android:title="IPA"                         android:key="ipa"                       android:defaultValue="true" />
             <CheckBoxPreference android:title="Macros"                      android:key="macros"                    android:defaultValue="true" />
             <CheckBoxPreference android:title="Navigation"                  android:key="navigation"                android:defaultValue="true" />
             <CheckBoxPreference android:title="Numeric"                     android:key="numeric"                   android:defaultValue="true" />
@@ -32,7 +34,7 @@
             <CheckBoxPreference android:title="Symbol"                      android:key="symbol"                    android:defaultValue="true" />
             <CheckBoxPreference android:title="Unicode"                     android:key="unicode"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Utility"                     android:key="utility"                   android:defaultValue="true" />
-            <CheckBoxPreference android:title="URL"                         android:key="url"                       android:defaultValue="false" />
+            <CheckBoxPreference android:title="URL"                         android:key="url"                       android:defaultValue="true" />
         </PreferenceCategory>
         <CheckBoxPreference     android:title="Custom Layout Order"         android:key="custom_order"              android:defaultValue="false" />
         <EditTextPreference     android:title="Layout Order"                android:key="layout_order"              android:defaultValue="" android:dialogTitle="Layout Order" android:persistent="true" android:lines="5" android:dialogMessage="" />

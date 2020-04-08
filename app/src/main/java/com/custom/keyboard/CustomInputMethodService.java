@@ -147,15 +147,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         layouts.add(new CustomKeyboard(this, R.layout.primary,     "primary",     "qwerty").setCategory(Category.Main));
         if (sharedPreferences.getBoolean("accents",    t)) {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents",    "◌̀◌́◌̂").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("emoji",      t)) {layouts.add(new CustomKeyboard(this, R.layout.emoji,       "emoji",      "😀😁😂").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("fancy",      t)) {layouts.add(new CustomKeyboard(this, R.layout.emoji,       "fancy",      "ɋƿҽꝛþү").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("fonts",      t)) {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts",      "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("function",   t)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
         if (sharedPreferences.getBoolean("hex",        t)) {layouts.add(new CustomKeyboard(this, R.layout.hex,         "hex",        "\\uabcd").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("ipa",        t)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "IPA",        "ɋʍəɹʈɥ").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("macros",     t)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",     "✐").setCategory(Category.Util).setOrder(-4));}
         if (sharedPreferences.getBoolean("navigation", t)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));}
         if (sharedPreferences.getBoolean("numeric",    t)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",    "123456").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("symbol",     t)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",     "!@#$%^").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("unicode",    t)) {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode",    "\\uxxxx").setCategory(Category.Util));}
-        if (sharedPreferences.getBoolean("url",        f)) {layouts.add(new CustomKeyboard(this, R.layout.url,         "url",        "@/.com").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("url",        t)) {layouts.add(new CustomKeyboard(this, R.layout.url,         "URL",        "@/.com").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("utility",    t)) {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility",    "/**/").setCategory(Category.Util).setOrder(-3));}
 
         int layoutLayout = R.layout.layouts;
@@ -164,7 +166,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-                if (key.codes[0] <= layoutMin && key.codes[0] >= -423) {
+                if (key.codes[0] <= layoutMin && key.codes[0] >= layoutMax) {
                     try {
                         CustomKeyboard layout = layouts.get(-key.codes[0] + layoutMin);
                         if (layout != null && !layout.title.equals("Layouts")) {
@@ -204,17 +206,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     int layoutMin = -400;
-    int layoutMax = -423;
+    int layoutMax = -454;
 
     public void adjustLayoutPage() {
         if (!sharedPreferences.getBoolean("relayout", t)) {return;}
-        // if (sharedPreferences.getBoolean("relayout", t)) {return;}
-
-        int colCount = 6;
-        int startRowCount = 9;
-        int layoutCount = Math.max(layouts.size()-1, 1);
-        double finalRowCount = Math.ceil((double)layoutCount / (double)colCount);
-
 
         List<Keyboard.Key> layoutKeys = new ArrayList<>();
         for(Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -224,25 +219,26 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
         Bounds bounds = getBounds(layoutKeys);
 
-
         int rowHeight = layoutKeys.get(0).height;
-        int areaHeight = bounds.maxY;
-        int usedHeight = rowHeight * ((int)finalRowCount + 1) - bounds.minY;
-        int freeHeight = areaHeight - usedHeight;
-        int moveBy = (int)Math.ceil(freeHeight / finalRowCount);
+        int colCount = 6;
+        int startRowCount = 9;
+        int layoutCount = Math.max(layouts.size()-1, 1);
+        double finalRowCount = Math.ceil((double)layoutCount / (double)colCount);
+
+        // 1 row:  double moveBy = 448; //bounds.dY / (finalRowCount); 448 - (56 * 0) / 1
+        // 2 rows: double moveBy = 196; //bounds.dY / (finalRowCount); 448 - (56 * 1) / 2
+        // 3 rows: double moveBy = 112; //bounds.dY / (finalRowCount); 448 - (56 * 2) / 3
+        double moveBy = (bounds.dY - (rowHeight * (finalRowCount - 1))) / finalRowCount;
 
         int row, index = 0;
-
         for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
             if (key.codes[0] <= layoutMin && key.codes[0] >= layoutMax) {
                 row = (index / colCount);
                 if (row >= (startRowCount-(startRowCount-finalRowCount))) {
-                    // hide row
                     key.y = bounds.maxY;
                     key.height = 0;
                 }
                 else {
-                    // increase row size/position
                     key.y += (moveBy * row);
                     key.height += moveBy;
                 }
