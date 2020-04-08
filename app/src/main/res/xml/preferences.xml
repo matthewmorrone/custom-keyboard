@@ -7,7 +7,7 @@
         <SwitchPreference       android:title="Autocorrect"                 android:key="auto"                      android:defaultValue="false" />
         <SwitchPreference       android:title="Autocapitalization"          android:key="autocaps"                  android:defaultValue="false" />
         <SwitchPreference       android:title="Insert Pairs"                android:key="pairs"                     android:defaultValue="false" />
-        <SwitchPreference       android:title="Toggle Selection Case"       android:key="shift"                     android:defaultValue="true" />
+        <SwitchPreference       android:title="Toggle Selection Case"       android:key="shift"                     android:defaultValue="false" />
         <SwitchPreference       android:title="Indentation Helper"          android:key="indent"                    android:defaultValue="true" />
         <EditTextPreference     android:title="Word Separators"             android:key="seps"                      android:defaultValue="@string/word_separators" android:dialogTitle="Word Separators" android:summary="@string/word_separators" android:dialogMessage="" />
     </PreferenceScreen>
@@ -24,11 +24,11 @@
             <CheckBoxPreference android:title="Accents"                     android:key="accents"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Emoji"                       android:key="emoji"                     android:defaultValue="true" />
             <CheckBoxPreference android:title="Function"                    android:key="function"                  android:defaultValue="true" />
-            <CheckBoxPreference android:title="Hex"                         android:key="hex"                       android:defaultValue="false" />
+            <CheckBoxPreference android:title="Hex"                         android:key="hex"                       android:defaultValue="true" />
             <CheckBoxPreference android:title="Macros"                      android:key="macros"                    android:defaultValue="true" />
             <CheckBoxPreference android:title="Navigation"                  android:key="navigation"                android:defaultValue="true" />
-            <CheckBoxPreference android:title="Numeric"                     android:key="numeric"                   android:defaultValue="false" />
-            <CheckBoxPreference android:title="Shortcuts"                   android:key="shortcuts"                 android:defaultValue="false" />
+            <CheckBoxPreference android:title="Numeric"                     android:key="numeric"                   android:defaultValue="true" />
+            <CheckBoxPreference android:title="Shortcuts"                   android:key="shortcuts"                 android:defaultValue="true" />
             <CheckBoxPreference android:title="Symbol"                      android:key="symbol"                    android:defaultValue="true" />
             <CheckBoxPreference android:title="Unicode"                     android:key="unicode"                   android:defaultValue="true" />
             <CheckBoxPreference android:title="Utility"                     android:key="utility"                   android:defaultValue="true" />

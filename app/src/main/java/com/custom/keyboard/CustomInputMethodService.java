@@ -155,7 +155,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("numeric",    t)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",    "123456").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("symbol",     t)) {layouts.add(new CustomKeyboard(this, R.layout.symbol,      "symbol",     "!@#$%^").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("unicode",    t)) {layouts.add(new CustomKeyboard(this, R.layout.unicode,     "unicode",    "\\uxxxx").setCategory(Category.Util));}
-        if (sharedPreferences.getBoolean("url",        t)) {layouts.add(new CustomKeyboard(this, R.layout.url,         "url",        "@/.com").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("url",        f)) {layouts.add(new CustomKeyboard(this, R.layout.url,         "url",        "@/.com").setCategory(Category.Util));}
         if (sharedPreferences.getBoolean("utility",    t)) {layouts.add(new CustomKeyboard(this, R.layout.utility,     "utility",    "/**/").setCategory(Category.Util).setOrder(-3));}
 
         int layoutLayout = R.layout.layouts;
@@ -933,12 +933,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     @Override
     public void onRelease(int primaryCode) {
         ic = getCurrentInputConnection();
-        time = System.nanoTime() - time;
+        time = (System.nanoTime() - time) / 1000000;
 
-        if ((time/1000000) > 300) {
+        if (time > 300) {
             switch (primaryCode) {
                 case 31: performContextMenuAction(16908330); break;
-                case 10: handleEnter(1); break;
+                // case 10: handleEnter(1); break;
                 case -11: performContextMenuAction(16908337); break; // pasteAsPlainText
                 case -93: selectAll(); break;
                 case -99: ic.deleteSurroundingText(MAX, MAX); break;
@@ -959,7 +959,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic = getCurrentInputConnection();
         final int length = mComposing.length();
 
-        if (!isSelecting()) selectLine();
+        // if (!isSelecting()) selectLine();
 
         try {
             if (sharedPreferences.getBoolean("pairs", t)
@@ -1257,8 +1257,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
     }
-    public void handleEnter(int noop) {
-        if (noop == 0) return;
+    public void handleEnter() {
+        // if (noop == 0) return;
         EditorInfo curEditor = getCurrentInputEditorInfo();
     
         if (sharedPreferences.getBoolean("spaces", t)) {
@@ -1318,7 +1318,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case  10: handleEnter(0); break;
+            case  10: handleEnter(); break;
             case   7: handleSpace(); break;
             case  -1: handleShift(); break;
             case  -2: hide(); break;
