@@ -46,6 +46,9 @@ public class CustomKeyboardView extends KeyboardView {
             return true;
         }
         */
+        if (key.codes[0] == 32) {
+
+        }
         if (key.codes[0] == -192
         ||  key.codes[0] == -300
         ||  key.codes[0] ==   10) {
@@ -198,6 +201,24 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
+            if (key.codes[0] == 7)      key.popupCharacters = sharedPreferences.getString("popup_second", "");
+            if (key.codes[0] == 10)     key.popupCharacters = sharedPreferences.getString("popup_third",  "");
+            if (key.codes[0] == 32)     key.popupCharacters = sharedPreferences.getString("popup_first",  "");
+
+            if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
+            if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
+            if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
+            if (key.codes[0] == -504)   key.text = sharedPreferences.getString("k4", "");
+            if (key.codes[0] == -505)   key.text = sharedPreferences.getString("k5", "");
+            if (key.codes[0] == -506)   key.text = sharedPreferences.getString("k6", "");
+            if (key.codes[0] == -507)   key.text = sharedPreferences.getString("k7", "");
+            if (key.codes[0] == -508)   key.text = sharedPreferences.getString("k8", "");
+            if (key.codes[0] == -509)   key.text = sharedPreferences.getString("name", "");
+            if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
+            if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
+            if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
+
+
             if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key, corner);}}
             if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key, corner);}}
             if (key.codes[0] == -76) {if (Variables.isSelect())    {selectKey(key, corner);}}
@@ -209,6 +230,7 @@ public class CustomKeyboardView extends KeyboardView {
             && key.codes[0] !=  7
             && key.codes[0] != 10
             && key.codes[0] != 32
+            && !(key.codes[0] <= -500 && key.codes[0] >= -512)
             && sharedPreferences.getBoolean("hints", true)
             ) {
                 canvas.save();

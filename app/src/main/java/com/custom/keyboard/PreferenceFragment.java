@@ -1,6 +1,8 @@
 package com.custom.keyboard;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -47,21 +49,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         baseContext = getActivity().getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
 
-        try {
-            addPreferencesFromResource(R.xml.preferences);
-            PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
-        }
-        catch (Exception ignored) {}
-        try {
-            listDefaultLayout = (ListPreference)findPreference("default_layout");
-            listDefaultLayout.setSummary(listDefaultLayout.getEntry());
-        }
-        catch (Exception ignored) {}
-        try {
-            listTheme = (ListPreference)findPreference("theme");
-            listTheme.setSummary(listTheme.getEntry());
-        }
-        catch (Exception ignored) {}
+        addPreferencesFromResource(R.xml.preferences);
+        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+
+        listTheme = (ListPreference)findPreference("theme");
+        listTheme.setSummary(listTheme.getEntry());
 
         bg = (EditTextPreference)findPreference("bg");
         fg = (EditTextPreference)findPreference("fg");
@@ -81,55 +73,34 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
-        try {
-            name = (EditTextPreference)findPreference("name");
-            name.setSummary(sharedPreferences.getString("name", ""));
-            email = (EditTextPreference)findPreference("email");
-            email.setSummary(sharedPreferences.getString("email", ""));
-            phone = (EditTextPreference)findPreference("phone");
-            phone.setSummary(sharedPreferences.getString("phone", ""));
-            address = (EditTextPreference)findPreference("address");
-            address.setSummary(sharedPreferences.getString("address", ""));
-        }
-        catch (Exception e) {
-            // e.printStackTrace();
-        }
+        name = (EditTextPreference)findPreference("name");
+        name.setSummary(sharedPreferences.getString("name", ""));
+        email = (EditTextPreference)findPreference("email");
+        email.setSummary(sharedPreferences.getString("email", ""));
+        phone = (EditTextPreference)findPreference("phone");
+        phone.setSummary(sharedPreferences.getString("phone", ""));
+        address = (EditTextPreference)findPreference("address");
+        address.setSummary(sharedPreferences.getString("address", ""));
 
-        try {
-            bg.setSummary(sharedPreferences.getString("bg", ""));
-            fg.setSummary(sharedPreferences.getString("fg", ""));
-        }
-        catch (Exception ignored) {}
-        try {
-            text_size.setSummary(sharedPreferences.getString("text_size", ""));
-            seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
-            popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
-            popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
-        }
-        catch (Exception ignored) {}
-        try {
-            k1.setSummary(sharedPreferences.getString("k1", ""));
-            k2.setSummary(sharedPreferences.getString("k2", ""));
-            k3.setSummary(sharedPreferences.getString("k3", ""));
-            k4.setSummary(sharedPreferences.getString("k4", ""));
-            k5.setSummary(sharedPreferences.getString("k5", ""));
-            k6.setSummary(sharedPreferences.getString("k6", ""));
-            k7.setSummary(sharedPreferences.getString("k7", ""));
-            k8.setSummary(sharedPreferences.getString("k8", ""));
-        }
-        catch (Exception ignored) {}
+        popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
+        popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
+        popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
+        k1.setSummary(sharedPreferences.getString("k1", ""));
+        k2.setSummary(sharedPreferences.getString("k2", ""));
+        k3.setSummary(sharedPreferences.getString("k3", ""));
+        k4.setSummary(sharedPreferences.getString("k4", ""));
+        k5.setSummary(sharedPreferences.getString("k5", ""));
+        k6.setSummary(sharedPreferences.getString("k6", ""));
+        k7.setSummary(sharedPreferences.getString("k7", ""));
+        k8.setSummary(sharedPreferences.getString("k8", ""));
 
         PreferenceScreen preferences = (PreferenceScreen)findPreference("layouts");
         if (sharedPreferences.getBoolean("custom_order", false)) {
             for(int i = 0; i < CustomInputMethodService.layouts.size(); i++) {
                 CustomKeyboard kv = CustomInputMethodService.layouts.get(i);
                 CheckBoxPreference preference;
-                try {
-                    preference = (CheckBoxPreference)(preferences.findPreference(kv.key));
-                    preference.setOrder(preferences.getPreferenceCount()-kv.order);
-                }
-                catch (Exception ignored) {}
+                preference = (CheckBoxPreference)(preferences.findPreference(kv.key));
+                preference.setOrder(preferences.getPreferenceCount()-kv.order);
             }
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -143,59 +114,36 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         if (s.equals("all")) {
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
-            try {((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
+            ((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);
         }
 
         if (s.equals("primary")) {
             PreferenceCategory preferences = (PreferenceCategory)findPreference("primary_category");
             boolean isChecked = ((CheckBoxPreference)findPreference("primary")).isChecked();
             for(int i = 0; i < preferences.getPreferenceCount(); i++) {
-                try {
-                    preference = (CheckBoxPreference)(preferences.getPreference(i));
-                    preference.setChecked(isChecked);
-                }
-                catch (Exception ignored) {}
+                preference = (CheckBoxPreference)(preferences.getPreference(i));
+                preference.setChecked(isChecked);
             }
         }
 
-        try {
-            listDefaultLayout = (ListPreference)findPreference("default_layout");
-            listDefaultLayout.setSummary(listDefaultLayout.getEntry());
-        }
-        catch (Exception ignored) {}
-        try {
-            bg.setSummary(sharedPreferences.getString("bg", ""));
-            fg.setSummary(sharedPreferences.getString("fg", ""));
-        }
-        catch (Exception ignored) {}
-        try {
-            listTheme = (ListPreference)findPreference("theme");
-            listTheme.setSummary(listTheme.getEntry());
-        }
-        catch (Exception ignored) {}
-        try {
-            text_size.setSummary(sharedPreferences.getString("text_size", ""));
-            seps.setSummary(sharedPreferences.getString("seps", ""));
-            popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
-            popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
-            popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
-            name.setSummary(sharedPreferences.getString("title", ""));
-            email.setSummary(sharedPreferences.getString("email", ""));
-            phone.setSummary(sharedPreferences.getString("phone", ""));
-            address.setSummary(sharedPreferences.getString("address", ""));
-        }
-        catch (Exception ignored) {}
-        try {
-            k1.setSummary(sharedPreferences.getString("k1", ""));
-            k2.setSummary(sharedPreferences.getString("k2", ""));
-            k3.setSummary(sharedPreferences.getString("k3", ""));
-            k4.setSummary(sharedPreferences.getString("k4", ""));
-            k5.setSummary(sharedPreferences.getString("k5", ""));
-            k6.setSummary(sharedPreferences.getString("k6", ""));
-            k7.setSummary(sharedPreferences.getString("k7", ""));
-            k8.setSummary(sharedPreferences.getString("k8", ""));
-        }
-        catch (Exception ignored) {}
+        popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
+        popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
+        popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
+        name.setSummary(sharedPreferences.getString("name", ""));
+        email.setSummary(sharedPreferences.getString("email", ""));
+        phone.setSummary(sharedPreferences.getString("phone", ""));
+        address.setSummary(sharedPreferences.getString("address", ""));
+        k1.setSummary(sharedPreferences.getString("k1", ""));
+        k2.setSummary(sharedPreferences.getString("k2", ""));
+        k3.setSummary(sharedPreferences.getString("k3", ""));
+        k4.setSummary(sharedPreferences.getString("k4", ""));
+        k5.setSummary(sharedPreferences.getString("k5", ""));
+        k6.setSummary(sharedPreferences.getString("k6", ""));
+        k7.setSummary(sharedPreferences.getString("k7", ""));
+        k8.setSummary(sharedPreferences.getString("k8", ""));
+
+        Intent intent = new Intent("updateKeyboard");
+        getContext().sendBroadcast(intent);
+
     }
 }
