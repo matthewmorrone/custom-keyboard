@@ -147,11 +147,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         layouts.add(new CustomKeyboard(this, R.layout.primary,     "primary",     "qwerty").setCategory(Category.Main));
         if (sharedPreferences.getBoolean("accents",    t)) {layouts.add(new CustomKeyboard(this, R.layout.accents,     "accents",    "◌̀◌́◌̂").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("emoji",      t)) {layouts.add(new CustomKeyboard(this, R.layout.emoji,       "emoji",      "😀😁😂").setCategory(Category.Misc));}
-        if (sharedPreferences.getBoolean("fancy",      t)) {layouts.add(new CustomKeyboard(this, R.layout.emoji,       "fancy",      "ɋƿҽꝛþү").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("fancy",      t)) {layouts.add(new CustomKeyboard(this, R.layout.fancy,       "fancy",      "ɋƿҽꝛþү").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("fonts",      t)) {layouts.add(new CustomKeyboard(this, R.layout.fonts,       "fonts",      "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
         if (sharedPreferences.getBoolean("function",   t)) {layouts.add(new CustomKeyboard(this, R.layout.function,    "function",   "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
         if (sharedPreferences.getBoolean("hex",        t)) {layouts.add(new CustomKeyboard(this, R.layout.hex,         "hex",        "\\uabcd").setCategory(Category.Util));}
-        if (sharedPreferences.getBoolean("ipa",        t)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "IPA",        "ɋʍəɹʈɥ").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("ipa",        t)) {layouts.add(new CustomKeyboard(this, R.layout.ipa,         "IPA",        "ɋʍəɹʈɥ").setCategory(Category.Misc));}
         if (sharedPreferences.getBoolean("macros",     t)) {layouts.add(new CustomKeyboard(this, R.layout.macros,      "macros",     "✐").setCategory(Category.Util).setOrder(-4));}
         if (sharedPreferences.getBoolean("navigation", t)) {layouts.add(new CustomKeyboard(this, R.layout.navigation,  "navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));}
         if (sharedPreferences.getBoolean("numeric",    t)) {layouts.add(new CustomKeyboard(this, R.layout.numeric,     "numeric",    "123456").setCategory(Category.Util));}
