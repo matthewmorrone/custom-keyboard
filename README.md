@@ -1,3 +1,11 @@
+# Current Priorities #
+1. settings menu with reorderable list, used to change keyboard order and enable/disable them
+2. custom key settings' popups should contain three inputs: one to change the label, and one to change the value, and one to change its longpress value
+3. create a popup with two inputs that allows arbitrary search and replace
+4. color input to change key text, background, borders
+5. slider for key transparency
+6. number input/slider combined for specification of keypress delay
+
 ### spellcheck/autocomplete ###
 + reimplement
 + include contact names

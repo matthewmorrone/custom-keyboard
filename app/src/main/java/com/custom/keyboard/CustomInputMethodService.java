@@ -2,8 +2,10 @@ package com.custom.keyboard;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
@@ -16,6 +18,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -482,6 +485,13 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
         return null;
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            toastIt("updateKeyboard");
+        }
+    };
 
     @SuppressLint("InflateParams")
     @Override
@@ -1236,6 +1246,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
     
     public void handleSpace() {
+
         if (sharedPreferences.getBoolean("spaces", t)) {
             int spaceCount = (4 - (prevLine().length() % 4));
             if (spaceCount > 0 && spaceCount < 4 && prevLine().length() < 4) {
