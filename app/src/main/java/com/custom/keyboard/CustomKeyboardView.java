@@ -203,7 +203,13 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.codes[0] == 7)      key.popupCharacters = sharedPreferences.getString("popup_second", "");
             if (key.codes[0] == 10)     key.popupCharacters = sharedPreferences.getString("popup_third",  "");
-            if (key.codes[0] == 32)     key.popupCharacters = sharedPreferences.getString("popup_first",  "");
+            if (key.codes[0] == 32) {
+                // key.popupCharacters = sharedPreferences.getString("popup_first",  "");
+
+                // key.label = sharedPreferences.getString(Constants.SPACEBARLABEL, getContext().getString(R.string.popup_first));
+                key.text = sharedPreferences.getString(Constants.SPACEBARTEXT, " ");
+                key.popupCharacters = sharedPreferences.getString(Constants.SPACEBARPOPUP, getContext().getString(R.string.popup_first));
+            }
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");

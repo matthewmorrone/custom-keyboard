@@ -25,7 +25,7 @@ public class Main extends AppCompatActivity {
     }
 
     public void enable(View v) {
-        this.startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+        startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
     }
 
     public void select(View v) {
@@ -33,5 +33,10 @@ public class Main extends AppCompatActivity {
         if (imeManager != null) {
             imeManager.showInputMethodPicker();
         }
+    }
+
+    public void popup(View v) {
+        Intent intent = new Intent(this, CustomEditTextPreference.class);
+        startActivity(intent);
     }
 }
