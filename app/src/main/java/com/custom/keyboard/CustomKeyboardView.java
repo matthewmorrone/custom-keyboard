@@ -10,6 +10,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import java.util.List;
@@ -145,7 +146,8 @@ public class CustomKeyboardView extends KeyboardView {
         boolean padding = sharedPreferences.getBoolean("padding", false);
         boolean corners = sharedPreferences.getBoolean("corners", false);
         boolean keyback = sharedPreferences.getBoolean("keyback", false);
-
+        String iconId;
+        int imageId;
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
@@ -201,14 +203,44 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
-            if (key.codes[0] == 7)      key.popupCharacters = sharedPreferences.getString("popup_second", "");
-            if (key.codes[0] == 10)     key.popupCharacters = sharedPreferences.getString("popup_third",  "");
             if (key.codes[0] == 32) {
-                // key.popupCharacters = sharedPreferences.getString("popup_first",  "");
-
-                // key.label = sharedPreferences.getString(Constants.SPACEBARLABEL, getContext().getString(R.string.popup_first));
                 key.text = sharedPreferences.getString(Constants.SPACEBARTEXT, " ");
                 key.popupCharacters = sharedPreferences.getString(Constants.SPACEBARPOPUP, getContext().getString(R.string.popup_first));
+
+                iconId = sharedPreferences.getString(Constants.SPACEBARICON, "ic_space");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.SPACEBARLABEL, ""); //  getContext().getString(R.string.popup_first)
+                }
+            }
+            if (key.codes[0] == 7) {
+                key.text = sharedPreferences.getString(Constants.TABKEYTEXT, "\t");
+                key.popupCharacters = sharedPreferences.getString(Constants.TABKEYPOPUP, getContext().getString(R.string.popup_second));
+
+                iconId = sharedPreferences.getString(Constants.TABKEYICON, "ic_tab");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.TABKEYLABEL, ""); // getContext().getString(R.string.popup_second)
+                }
+            }
+            if (key.codes[0] == 10) {
+                key.text = sharedPreferences.getString(Constants.ENTERKEYTEXT, "\n");
+                key.popupCharacters = sharedPreferences.getString(Constants.ENTERKEYPOPUP, getContext().getString(R.string.popup_third));
+
+                iconId = sharedPreferences.getString(Constants.ENTERKEYICON, "ic_enter");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.ENTERKEYLABEL, ""); // getContext().getString(R.string.popup_third)
+                }
             }
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");

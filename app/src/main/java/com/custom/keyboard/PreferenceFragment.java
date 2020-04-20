@@ -2,12 +2,14 @@ package com.custom.keyboard;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -64,6 +66,35 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         popup_second = (EditTextPreference)findPreference("popup_second");
         popup_third = (EditTextPreference)findPreference("popup_third");
 
+        popup_first.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                EditSpacebarPopup popup = new EditSpacebarPopup(getContext(),"space");
+                popup.show();
+                popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        popup_first.getDialog().dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+
+        popup_second.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                EditSpacebarPopup popup = new EditSpacebarPopup(getContext(),"tab");
+                popup.show();
+                popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        popup_second.getDialog().dismiss();
+                    }
+                });
+                return false;
+            }
+        });
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
         k3 = (EditTextPreference)findPreference("k3");

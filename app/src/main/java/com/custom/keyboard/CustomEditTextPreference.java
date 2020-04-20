@@ -11,12 +11,20 @@ public class CustomEditTextPreference extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_edit_text_preference);
         findViewById(R.id.editSpaceBar).setOnClickListener(this);
+        findViewById(R.id.editTabKey).setOnClickListener(this);
+        findViewById(R.id.editEnterKey).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.editSpaceBar) {
-            new EditSpacebarPopup(this).show();
+            new EditSpacebarPopup(this, "space").show();
+        }
+        else if (view.getId() == R.id.editTabKey) {
+            new EditSpacebarPopup(this, "tab").show();
+        }
+        else if (view.getId() == R.id.editEnterKey) {
+            new EditSpacebarPopup(this, "enter").show();
         }
     }
 }

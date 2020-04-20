@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
@@ -18,7 +17,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -39,7 +37,6 @@ import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
