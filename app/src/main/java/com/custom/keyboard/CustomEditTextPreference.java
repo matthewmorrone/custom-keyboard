@@ -40,7 +40,7 @@ public class CustomEditTextPreference extends AppCompatActivity implements View.
         }
         else if (view.getId() == R.id.editForegroundColor) {
             new ColorPickerPopup.Builder(this)
-                .initialColor(sharedPreferences.getInt("bg", -1677216)) // Set initial color
+                .initialColor(sharedPreferences.getInt("fg", -1677216)) // Set initial color
                 .enableBrightness(true) // Enable brightness slider or not
                 // .enableAlpha(true) // Enable alpha slider or not
                 .okTitle("Choose")
@@ -54,7 +54,6 @@ public class CustomEditTextPreference extends AppCompatActivity implements View.
                         SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
                         sharedPreferenceEditor.putInt("fg", color);
                         sharedPreferenceEditor.apply();
-
                     }
                 });
         }

@@ -867,42 +867,36 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public int getIntFromColor(float Red, float Green, float Blue){
-        int R = Math.round(255 * Red);
-        int G = Math.round(255 * Green);
-        int B = Math.round(255 * Blue);
-
-        R = (R << 16) & 0x00FF0000;
-        G = (G << 8) & 0x0000FF00;
-        B = B & 0x000000FF;
-
-        return 0xFF000000 | R | G | B;
-    }
-
     public void setTheme() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         try {
             int fg = sharedPreferences.getInt("fg", -1677216);
-            int bg = sharedPreferences.getInt("bg", -1);
             String foreground = Integer.toHexString(fg);
-            String background = Integer.toHexString(bg);
-            toastIt(foreground, background);
-            /*
+            String fgA = foreground.substring(0, 2);
+            String fgR = foreground.substring(2, 4);
+            String fgG = foreground.substring(4, 6);
+            String fgB = foreground.substring(6, 8);
 
-            int a = 0xFF;
-            int r = bg & 0x00FF0000;
-            int g = bg & 0x0000FF00;
-            int b = bg & 0x000000FF;
+            int bg = sharedPreferences.getInt("bg", -1);
+            String background = Integer.toHexString(bg);
+            String bgA = background.substring(0, 2);
+            String bgR = background.substring(2, 4);
+            String bgG = background.substring(4, 6);
+            String bgB = background.substring(6, 8);
+
+            toastIt(
+                    fgA+" "+ fgR+" "+ fgG+" "+ fgB+"\n"+
+                    bgA+" "+ bgR+" "+ bgG+" "+ bgB
+            );
 
             float[] sCustomColorArray = {
-                1.0f,      0,      0,       0,      r, // red
-                   0,   1.0f,      0,       0,      g, // green
-                   0,      0,   1.0f,       0,      b, // blue
-                   0,      0,      0,    1.0f,      a  // alpha
+                1.0f,      0,      0,       0,      Long.parseLong(bgR, 16), // red
+                   0,   1.0f,      0,       0,      Long.parseLong(bgG, 16), // green
+                   0,      0,   1.0f,       0,      Long.parseLong(bgB, 16), // blue
+                   0,      0,      0,    1.0f,      Long.parseLong(bgA, 16)  // alpha
             };
-            */
 
-            mDefaultFilter = sPositiveColorArray;
+            mDefaultFilter = sCustomColorArray;
         }
         catch (Exception e) {
             toastIt(e.toString());
