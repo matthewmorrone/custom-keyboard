@@ -18,28 +18,27 @@
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:text="Edit Key" />
+            android:text="@string/edit_key" />
         <EditText
             android:id="@+id/editLabel"
-            android:hint="What the key shows"
+            android:hint="@string/what_the_key_shows"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/editText"
-            android:hint="What the key sends"
+            android:hint="@string/what_the_key_sends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/editPopup"
-            android:hint="What the key has on long press"
+            android:hint="@string/what_the_key_has_on_long_press"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/editIcon"
-            android:hint="What icon shows up"
+            android:hint="@string/what_icon_shows_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -47,15 +46,14 @@
             android:layout_height="wrap_content">
             <Button
                 android:id="@+id/savePopup"
-                android:text="Save"
+                android:text="@string/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/exitPopup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
-
+                android:text="@string/cancel" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

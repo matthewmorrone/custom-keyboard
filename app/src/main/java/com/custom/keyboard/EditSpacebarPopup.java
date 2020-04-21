@@ -30,23 +30,24 @@ public class EditSpacebarPopup extends Dialog {
     }
 
     public void setValues(String type) {
+        // @TODO: this isn't working to set the default values
         if (type.equals("space")) {
             labelTextView.setText(sharedPreferences.getString(Constants.SPACEBARLABEL, ""));
+            textTextView.setText(sharedPreferences.getString(Constants.SPACEBARTEXT, " "));
+            popupTextView.setText(sharedPreferences.getString(Constants.SPACEBARPOPUP, getContext().getString(R.string.popup_first)));
             iconTextView.setText(sharedPreferences.getString(Constants.SPACEBARICON, "ic_space"));
-            textTextView.setText(sharedPreferences.getString(Constants.SPACEBARLABEL, ""));
-            popupTextView.setText(sharedPreferences.getString(Constants.SPACEBARTEXT, getContext().getString(R.string.popup_first)));
         }
         if (type.equals("tab")) {
             labelTextView.setText(sharedPreferences.getString(Constants.TABKEYLABEL, ""));
+            textTextView.setText(sharedPreferences.getString(Constants.TABKEYTEXT, ""));
+            popupTextView.setText(sharedPreferences.getString(Constants.TABKEYPOPUP, getContext().getString(R.string.popup_second)));
             iconTextView.setText(sharedPreferences.getString(Constants.TABKEYICON, "ic_tab"));
-            textTextView.setText(sharedPreferences.getString(Constants.TABKEYLABEL, ""));
-            popupTextView.setText(sharedPreferences.getString(Constants.TABKEYTEXT, getContext().getString(R.string.popup_second)));
         }
         if (type.equals("enter")) {
             labelTextView.setText(sharedPreferences.getString(Constants.ENTERKEYLABEL, ""));
+            textTextView.setText(sharedPreferences.getString(Constants.ENTERKEYTEXT, ""));
+            popupTextView.setText(sharedPreferences.getString(Constants.ENTERKEYPOPUP, getContext().getString(R.string.popup_third)));
             iconTextView.setText(sharedPreferences.getString(Constants.ENTERKEYICON, "ic_enter"));
-            textTextView.setText(sharedPreferences.getString(Constants.ENTERKEYLABEL, ""));
-            popupTextView.setText(sharedPreferences.getString(Constants.ENTERKEYTEXT, getContext().getString(R.string.popup_third)));
         }
     }
 

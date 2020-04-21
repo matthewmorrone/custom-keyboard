@@ -867,18 +867,42 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
+    public int getIntFromColor(float Red, float Green, float Blue){
+        int R = Math.round(255 * Red);
+        int G = Math.round(255 * Green);
+        int B = Math.round(255 * Blue);
+
+        R = (R << 16) & 0x00FF0000;
+        G = (G << 8) & 0x0000FF00;
+        B = B & 0x000000FF;
+
+        return 0xFF000000 | R | G | B;
+    }
+
     public void setTheme() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         try {
-            String theme = sharedPreferences.getString("theme", "1");
-            if (theme != null) {
-                if (theme.equals("0")) theme = String.valueOf(Util.generateRandomInt(1, 22));
-                switch (theme) {
-                    // case  "1": mDefaultFilter = Themes.sPositiveColorArray;     break;
-                    case  "2": mDefaultFilter = sNegativeColorArray;     break;
-                    default:   mDefaultFilter = sPositiveColorArray;     break;
-                }
-            }
+            int fg = sharedPreferences.getInt("fg", -1677216);
+            int bg = sharedPreferences.getInt("bg", -1);
+            String foreground = Integer.toHexString(fg);
+            String background = Integer.toHexString(bg);
+            toastIt(foreground, background);
+            /*
+
+            int a = 0xFF;
+            int r = bg & 0x00FF0000;
+            int g = bg & 0x0000FF00;
+            int b = bg & 0x000000FF;
+
+            float[] sCustomColorArray = {
+                1.0f,      0,      0,       0,      r, // red
+                   0,   1.0f,      0,       0,      g, // green
+                   0,      0,   1.0f,       0,      b, // blue
+                   0,      0,      0,    1.0f,      a  // alpha
+            };
+            */
+
+            mDefaultFilter = sPositiveColorArray;
         }
         catch (Exception e) {
             toastIt(e.toString());
