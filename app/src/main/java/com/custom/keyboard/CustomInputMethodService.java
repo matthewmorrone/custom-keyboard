@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrixColorFilter;
@@ -18,7 +17,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -39,7 +37,6 @@ import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -873,15 +870,33 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void setTheme() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         try {
-            String theme = sharedPreferences.getString("theme", "1");
-            if (theme != null) {
-                if (theme.equals("0")) theme = String.valueOf(Util.generateRandomInt(1, 22));
-                switch (theme) {
-                    // case  "1": mDefaultFilter = Themes.sPositiveColorArray;     break;
-                    case  "2": mDefaultFilter = sNegativeColorArray;     break;
-                    default:   mDefaultFilter = sPositiveColorArray;     break;
-                }
-            }
+            int fg = sharedPreferences.getInt("fg", -1677216);
+            String foreground = Integer.toHexString(fg);
+            String fgA = foreground.substring(0, 2);
+            String fgR = foreground.substring(2, 4);
+            String fgG = foreground.substring(4, 6);
+            String fgB = foreground.substring(6, 8);
+
+            int bg = sharedPreferences.getInt("bg", -1);
+            String background = Integer.toHexString(bg);
+            String bgA = background.substring(0, 2);
+            String bgR = background.substring(2, 4);
+            String bgG = background.substring(4, 6);
+            String bgB = background.substring(6, 8);
+
+            toastIt(
+                    fgA+" "+ fgR+" "+ fgG+" "+ fgB+"\n"+
+                    bgA+" "+ bgR+" "+ bgG+" "+ bgB
+            );
+
+            float[] sCustomColorArray = {
+                1.0f,      0,      0,       0,      Long.parseLong(bgR, 16), // red
+                   0,   1.0f,      0,       0,      Long.parseLong(bgG, 16), // green
+                   0,      0,   1.0f,       0,      Long.parseLong(bgB, 16), // blue
+                   0,      0,      0,    1.0f,      Long.parseLong(bgA, 16)  // alpha
+            };
+
+            mDefaultFilter = sCustomColorArray;
         }
         catch (Exception e) {
             toastIt(e.toString());

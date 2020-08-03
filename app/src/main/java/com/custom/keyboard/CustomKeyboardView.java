@@ -6,10 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.preference.PreferenceManager;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 
 import java.util.List;
@@ -141,11 +141,18 @@ public class CustomKeyboardView extends KeyboardView {
         kcontext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
 
+        int fg = sharedPreferences.getInt("fg", -1677216);
+        int bg = sharedPreferences.getInt("bg", -1);
+        String foreground = "#"+Integer.toHexString(fg);
+        String background = "#"+Integer.toHexString(bg);
+
+
         boolean borders = sharedPreferences.getBoolean("borders", false);
         boolean padding = sharedPreferences.getBoolean("padding", false);
         boolean corners = sharedPreferences.getBoolean("corners", false);
         boolean keyback = sharedPreferences.getBoolean("keyback", false);
-
+        String iconId;
+        int imageId;
 
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
@@ -155,7 +162,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                 canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                mPaint.setColor(Color.parseColor("#ffffffff"));
+                mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                 canvas.restore();
             }
@@ -165,7 +172,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2));
                 canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
-                mPaint.setColor(Color.parseColor("#ffffffff"));
+                mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
                 canvas.restore();
             }
@@ -175,9 +182,9 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                 canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-                mPaint.setColor(Color.parseColor("#ffffffff"));
+                mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
-                mPaint.setColor(Color.parseColor("#ff000000"));
+                mPaint.setColor(Color.parseColor(background));
                 canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
                 canvas.restore();
             }
@@ -201,9 +208,45 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
-            if (key.codes[0] == 7)      key.popupCharacters = sharedPreferences.getString("popup_second", "");
-            if (key.codes[0] == 10)     key.popupCharacters = sharedPreferences.getString("popup_third",  "");
-            if (key.codes[0] == 32)     key.popupCharacters = sharedPreferences.getString("popup_first",  "");
+            if (key.codes[0] == 32) {
+                key.text = sharedPreferences.getString(Constants.SPACEBARTEXT, " ");
+                key.popupCharacters = sharedPreferences.getString(Constants.SPACEBARPOPUP, getContext().getString(R.string.popup_first));
+
+                iconId = sharedPreferences.getString(Constants.SPACEBARICON, "ic_space");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.SPACEBARLABEL, ""); //  getContext().getString(R.string.popup_first)
+                }
+            }
+            if (key.codes[0] == 7) {
+                key.text = sharedPreferences.getString(Constants.TABKEYTEXT, "\t");
+                key.popupCharacters = sharedPreferences.getString(Constants.TABKEYPOPUP, getContext().getString(R.string.popup_second));
+
+                iconId = sharedPreferences.getString(Constants.TABKEYICON, "ic_tab");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.TABKEYLABEL, ""); // getContext().getString(R.string.popup_second)
+                }
+            }
+            if (key.codes[0] == 10) {
+                key.text = sharedPreferences.getString(Constants.ENTERKEYTEXT, "\n");
+                key.popupCharacters = sharedPreferences.getString(Constants.ENTERKEYPOPUP, getContext().getString(R.string.popup_third));
+
+                iconId = sharedPreferences.getString(Constants.ENTERKEYICON, "ic_enter");
+                if (!iconId.isEmpty()) {
+                    imageId = getResources().getIdentifier(iconId, "drawable", getContext().getPackageName());
+                    key.icon = ContextCompat.getDrawable(getContext(), imageId);
+                }
+                else {
+                    key.label = sharedPreferences.getString(Constants.ENTERKEYLABEL, ""); // getContext().getString(R.string.popup_third)
+                }
+            }
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
@@ -243,16 +286,17 @@ public class CustomKeyboardView extends KeyboardView {
                 &&  !sharedPreferences.getBoolean("hint3", false)
                 &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
-                    mPaint.setTextSize(24);
-                    mPaint.setColor(Color.parseColor("#ddffffff"));
+                    mPaint.setTextSize(32);
+                    mPaint.setColor(Color.parseColor(foreground));
                     canvas.drawText(((getKeyboard().isShifted())
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+(key.width/2), key.y+(key.height/4), mPaint);
                 }
 
                 else {
-                    mPaint.setTextSize(24);
-                    mPaint.setColor(Color.parseColor("#bbffffff"));
+                    mPaint.setTextSize(28);
+                    mPaint.setColor(Color.parseColor(foreground));
+
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())
                              ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()

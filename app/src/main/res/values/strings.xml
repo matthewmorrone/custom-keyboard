@@ -27,4 +27,16 @@
     <string name="popup_8">*×="</string>
     <string name="popup_9">([{&lt;⧼⧙⧛"</string>
     <string name="popup_0">)]}&gt;⧽⧘⧚"</string>
+    <string name="edit_space_bar">Edit Space Bar</string>
+    <string name="edit_tab_key">Edit Tab Key</string>
+    <string name="edit_enter_key">Edit Enter Key</string>
+    <string name="what_the_key_shows">What the key shows</string>
+    <string name="what_the_key_sends">What the key sends</string>
+    <string name="edit_key">Edit Key</string>
+    <string name="what_the_key_has_on_long_press">What the key has on long press</string>
+    <string name="what_icon_shows_up">What icon shows up</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="foreground_color">Foreground Color</string>
+    <string name="background_color">Background Color</string>
 </resources>
