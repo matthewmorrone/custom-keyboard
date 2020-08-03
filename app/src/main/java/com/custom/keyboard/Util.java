@@ -625,11 +625,12 @@ class Util {
         int seed = generateRandomInt(0, 1);
         array = text.toCharArray();
 
-        for (int i = seed; i < array.length - seed; i += 2) {
+        for (int i = seed; i < array.length - seed; i++) {
             if (array[i] == ' ') {
                 i++;
             }
-            array[i] = Character.toUpperCase(array[i]);
+            if (i % 2 == 0) array[i] = Character.toUpperCase(array[i]);
+            if (i % 2 == 1) array[i] = Character.toLowerCase(array[i]);
         }
 
         text = new String(array);

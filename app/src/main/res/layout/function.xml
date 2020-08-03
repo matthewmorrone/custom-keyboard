@@ -30,7 +30,7 @@
         <Key android:codes="-136" android:keyIcon="@drawable/ic_join_lines" />
         <Key android:codes="-94"  android:keyIcon="@drawable/ic_duplicate_lines" />
     </Row>
-    <Row android:keyWidth="11.11%p">
+    <Row android:keyWidth="9.09%p">
         <!--<Key android:codes="131" android:keyLabel="F1" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />-->
         <!--<Key android:codes="132" android:keyLabel="F2" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />-->
         <!--<Key android:codes="133" android:keyLabel="F3" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />-->
@@ -52,10 +52,11 @@
         <Key android:codes="-137" android:keyLabel="⌤" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-138" android:keyLabel="⌅" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-168" android:keyLabel="⎶" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+
     </Row>
-    <Row android:keyWidth="11.11%p">
-        <!-- <Key android:codes="-58"  android:keyIcon="@drawable/ic_snake" /> --><!-- android:keyLabel="🐍" -->
-        <!-- <Key android:codes="-59"  android:keyIcon="@drawable/ic_camel" /> --><!-- android:keyLabel="🐪" -->
+    <Row android:keyWidth="9.09%p">
+        <Key android:codes="-58"  android:keyIcon="@drawable/ic_snake" /><!-- android:keyLabel="🐍" -->
+        <Key android:codes="-59"  android:keyIcon="@drawable/ic_camel" /><!-- android:keyLabel="🐪" -->
         <Key android:codes="-129" android:keyLabel="- ⌴" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-127" android:keyLabel="_ ⌴" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-130" android:keyLabel="⌴ -" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
@@ -65,8 +66,8 @@
         <Key android:codes="-133" android:keyLabel="⌴ \\t" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-134" android:keyLabel="\\t ⌴" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-135" android:keyLabel="(.)\\n" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <!-- <Key android:codes="-139" android:keyLabel="⌴$" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" /> -->
-        <!-- <Key android:codes="-140" android:keyLabel="\w⌴$" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" /> -->
+        <Key android:codes="-211" android:keyIcon="@drawable/ic_line_numbers" android:keyWidth="10%p" />
+        <Key android:codes="-212" android:keyIcon="@drawable/ic_no_line_numbers" android:keyWidth="10%p" />
     </Row>
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-105" android:keyIcon="@drawable/ic_sort_lines" />

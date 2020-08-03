@@ -12,7 +12,7 @@ class Variables {
     private static boolean IS_BOLD = false;
     private static boolean IS_ITALIC = false;
 
-    static boolean isBold() { return IS_BOLD; }
+    static boolean isBold()   { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
 
     static boolean isShift()  { return IS_SHIFT; }

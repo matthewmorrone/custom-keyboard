@@ -983,6 +983,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 ic.deleteSurroundingText((4 - (prevLine().length() % 4)), 0);
             }
             else sendKey(KeyEvent.KEYCODE_DEL);
+
+														/*
             if (prevLine() != null && prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
                 setCapsOn(t);
                 firstCaps = t;
@@ -991,13 +993,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 setCapsOn(f);
                 firstCaps = f;
             }
+            */
             if (length == 0) {
                 setCandidatesViewShown(false);
             }
             else {
                 spellcheck();
             }
-            updateShiftKeyState(getCurrentInputEditorInfo());
+            // updateShiftKeyState(getCurrentInputEditorInfo());
         
         }
         catch(Exception ignored) {}

@@ -3,7 +3,6 @@
     android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <!-- <Row></Row> -->
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
@@ -45,19 +44,17 @@
         <Key android:keyOutputText="ⲀⲂⲄⲆⲈⲊⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠϤⲢⲤⲦⲨⲪⲬⲮⲰⳀϢϦϨϪϬϮ" android:keyLabel="ⲀⲂⲄ" android:keyWidth="10%p" />
         <Key android:keyOutputText="АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" android:keyLabel="АБГ" android:keyWidth="10%p" />
     </Row>
-    <Row>
-        <Key android:codes="8206"   android:keyLabel="LRM"  android:keyWidth="10%p" />
-        <Key android:codes="8237"   android:keyLabel="LRO"  android:keyWidth="10%p" />
-        <Key android:codes="-100"   android:keyLabel="nbsp" android:keyWidth="10%p" />
-        <Key android:codes="\u200B" android:keyIcon="@drawable/ic_zwsp_plus"  android:keyWidth="10%p" /> 
-        <Key android:codes="-172"   android:keyIcon="@drawable/ic_zwsp_arrow" android:keyWidth="10%p" />
-        <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" android:keyWidth="10%p" />
-        <Key android:codes="-211"   android:keyIcon="@drawable/ic_line_numbers" android:keyWidth="10%p" />
-        <Key android:codes="-212"   android:keyIcon="@drawable/ic_no_line_numbers" android:keyWidth="10%p" />
-        <Key android:codes="-189"   android:keyLabel="Ⓝ" android:keyWidth="10%p" />
-        <Key android:codes="-190"   android:keyLabel="Ⓢ" android:keyWidth="10%p" />
-        <Key android:codes="-5"     android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:isRepeatable="true" />
-        <Key android:codes="-7"     android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" android:isRepeatable="true" />
+    <Row android:keyWidth="10%p">
+        <Key android:codes="+0000" android:keyLabel=" " />
+        <Key android:codes="+0000" android:keyLabel=" " />
+        <Key android:codes="+0000" android:keyLabel=" " />
+        <Key android:codes="+0000" android:keyLabel=" " />
+        <Key android:codes="+0000" android:keyLabel=" " />
+        <Key android:codes="\u200B" android:keyIcon="@drawable/ic_zwsp_plus"  /> 
+        <Key android:codes="-172"   android:keyIcon="@drawable/ic_zwsp_arrow" />
+        <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" />
+        <Key android:codes="-5"     android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
+        <Key android:codes="-7"     android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" />
     </Row>
     <Row>
         <Key android:codes="-192" android:keyIcon="@drawable/ic_cmd"   android:keyWidth="14%p" />
