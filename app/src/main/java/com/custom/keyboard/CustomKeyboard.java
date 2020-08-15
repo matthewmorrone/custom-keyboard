@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
-import com.custom.keyboard.CustomInputMethodService.Category;
 
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
     
@@ -64,7 +63,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         if (this.order < 0) {
             this.order = 1024 + this.order;
         }
-        this.layoutId = xmlLayoutResId;
+        layoutId = xmlLayoutResId;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -131,5 +130,4 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     public void setKeyHeight(int height) {
         super.setKeyHeight(height);
     }
-
 }

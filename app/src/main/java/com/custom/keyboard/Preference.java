@@ -1,7 +1,7 @@
 package com.custom.keyboard;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 
 public class Preference extends AppCompatActivity {
     @Override
@@ -11,4 +11,3 @@ public class Preference extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
     }
 }
-

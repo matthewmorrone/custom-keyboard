@@ -1,35 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.custom.keyboard">
-    <uses-permission
-        android:name="android.permission.VIBRATE"
-        android:required="false" />
-    <uses-permission
-        android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:required="false" />
-    <uses-permission
-        android:name="android.permission.INTERNET"
-        android:required="false" />
-    <uses-permission
-        android:name="android.permission.READ_USER_DICTIONARY"
-        android:required="false" />
-    <uses-permission
-        android:name="android.permission.WRITE_USER_DICTIONARY"
-        android:required="false" />
-    <application
-        android:allowBackup="false"
-        android:fullBackupContent="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CustomEditTextPreference" />
-        <activity
-            android:name=".Main"
-            android:label="@string/app_name">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.custom.keyboard">
+    <uses-permission android:name="android.permission.VIBRATE" android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" android:required="false" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" android:required="false" />
+    <application android:allowBackup="false"
+                 android:fullBackupContent="false"
+                 android:icon="@mipmap/ic_launcher"
+                 android:label="@string/app_name"
+                 android:roundIcon="@mipmap/ic_launcher"
+                 android:supportsRtl="true"
+                 android:theme="@style/AppTheme">
+        <activity android:name=".Main" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,14 +25,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Completions" />
-        <service
-            android:name=".CustomInputMethodService"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_INPUT_METHOD"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.view.im"
-                android:resource="@xml/method" />
+        <service android:name="com.custom.keyboard.CustomInputMethodService"
+                 android:label="@string/app_name"
+                 android:windowSoftInputMode="adjustResize"
+                 android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data android:name="android.view.im" 
+                       android:resource="@xml/method" />
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>

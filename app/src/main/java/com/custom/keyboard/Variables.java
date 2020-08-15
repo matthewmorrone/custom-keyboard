@@ -33,7 +33,7 @@ class Variables {
     private static boolean IS_REFLECTED = false;
     private static boolean IS_CAPS = false;
 
-    static boolean isBold()   { return IS_BOLD; }
+    static boolean isBold() { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
     static boolean is119808() { return IS_119808; }
     static boolean is119860() { return IS_119860; }
@@ -76,11 +76,11 @@ class Variables {
     static void setShiftOff() { IS_SHIFT = false; }
 
     static void setSelectOn() { IS_SELECT = true; }
-    static void setSelectOn(int selectionStart) {
-        IS_SELECT  = true;
+    static void setSelectOn(int selectionStart) { 
+        IS_SELECT  = true; 
         cursorStart = selectionStart;
     }
-    static void setSelectOff() {
+    static void setSelectOff() { 
         IS_SELECT = false;
         cursorStart = -1;
     }

@@ -90,6 +90,8 @@ class KeyCodes {
         return primaryCode;
     }
 
+
+
     static int handleCharacter(CustomKeyboardView kv, int primaryCode) {
         if (Util.isAlphaNumeric(primaryCode)) {
             if (Util.isDigit(primaryCode) && Variables.isBold()) primaryCode += 120764;

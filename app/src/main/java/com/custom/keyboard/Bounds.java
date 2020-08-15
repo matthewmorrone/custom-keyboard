@@ -32,12 +32,12 @@ class Bounds {
 
     @Override
     public String toString() {
-        return    "minX: "+minX
-                +" minY: "+minY
-                +" maxX: "+maxX
-                +" maxY: "+maxY
-                +" dX: "+dX
-                +" dY: "+dY
-                ;
+        return "minX: "+minX
+            + " minY: "+minY
+            + " maxX: "+maxX
+            + " maxY: "+maxY
+            + " dX: "+dX
+            + " dY: "+dY
+              ;
     }
 }
