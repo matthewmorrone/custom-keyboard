@@ -1121,7 +1121,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 editor.apply();
             }
 
-
+            /*
             // int fg = sharedPreferences.getInt("fg", -1677216);
             // String foreground = Integer.toHexString(fg);
             String foreground = sharedPreferences.getString("fg", "#ffffff");
