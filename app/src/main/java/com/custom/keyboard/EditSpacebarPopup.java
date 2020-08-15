@@ -63,8 +63,7 @@ public class EditSpacebarPopup extends Dialog {
         setCancelable(true);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-        SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
-
+        
         labelTextView = findViewById(R.id.editLabel);
         textTextView = findViewById(R.id.editText);
         popupTextView = findViewById(R.id.editPopup);
@@ -73,6 +72,7 @@ public class EditSpacebarPopup extends Dialog {
         findViewById(R.id.savePopup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
                 if (type.equals("space")) {
                     sharedPreferenceEditor.putString(Constants.SPACEBARLABEL, labelTextView.getText().toString());
                     sharedPreferenceEditor.putString(Constants.SPACEBARTEXT,  textTextView.getText().toString());
