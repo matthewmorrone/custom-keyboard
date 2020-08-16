@@ -412,17 +412,32 @@ class Util {
         return text.replaceAll("(.)", "$1̶");
     }
 
+    // ◌꯭◌
+    // ◌̲◌
     public static String ununderline(String text) {
         return text.replaceAll("̲", "");
     }
 
-    // ◌꯭◌
-    // ◌̲◌
     public static String underline(String text) {
         if (text.contains("̲")) {
             return text.replaceAll("̲", "");
         }
-        return text.replaceAll("(.)", "$1꯭");
+        return text.replaceAll("(.)", "$1̲");
+    }
+
+    public static String unemphasize(String text) {
+        return text.replaceAll("꯭", "");
+    }
+
+    public static String emphasize(String text) {
+        if (text.contains("꯭")) {
+            return text.replaceAll("꯭", "");
+        }
+        if (text.length() < 4) return text.replaceAll("(.)", "$1꯭");
+        String first = text.substring(0, text.length() - 1);
+        String secnd = text.substring(text.length() - 1, text.length());
+        first = first.replaceAll("(.)", "$1꯭");
+        return first + secnd;
     }
 
     public static String getIndentation(String line) {

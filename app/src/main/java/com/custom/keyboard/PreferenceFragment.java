@@ -49,12 +49,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         super.onCreate(s);
         baseContext = getActivity().getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
-
+/*
         try {
             addPreferencesFromResource(R.xml.preferences);
             PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         }
         catch (Exception ignored) {}
+*/
         try {
             listDefaultLayout = (ListPreference)findPreference("default_layout");
             listDefaultLayout.setSummary(listDefaultLayout.getEntry());
@@ -65,13 +66,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             listTheme.setSummary(listTheme.getEntry());
         }
         catch (Exception ignored) {}
-               addPreferencesFromResource(R.xml.preferences);
-                PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
-
-                        listTheme = (ListPreference)findPreference("theme");
-                                listTheme.setSummary(listTheme.getEntry());
 
 
+        addPreferencesFromResource(R.xml.preferences);
+        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+
+        listTheme = (ListPreference)findPreference("theme");
+        listTheme.setSummary(listTheme.getEntry());
         bg = (EditTextPreference)findPreference("bg");
         fg = (EditTextPreference)findPreference("fg");
 

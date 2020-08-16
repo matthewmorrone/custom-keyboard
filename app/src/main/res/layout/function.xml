@@ -75,10 +75,10 @@
         <Key android:codes="-146" android:keyIcon="@drawable/ic_unique_lines" />
         <Key android:codes="-147" android:keyIcon="@drawable/ic_shuffle_lines" />
         <Key android:codes="-60"  android:keyIcon="@drawable/ic_duplicate_chars" />
-        <Key android:codes="-195" android:keyIcon="@drawable/ic_sort_chars" />
+        <Key android:codes="-196" android:keyIcon="@drawable/ic_sort_chars" />
         <Key android:codes="-79"  android:keyIcon="@drawable/ic_reverse_chars" />
         <Key android:codes="-145" android:keyIcon="@drawable/ic_unique_chars" />
-        <Key android:codes="-196" android:keyIcon="@drawable/ic_shuffle_chars" />
+        <Key android:codes="-197" android:keyIcon="@drawable/ic_shuffle_chars" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:isRepeatable="true" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" />
     </Row>
