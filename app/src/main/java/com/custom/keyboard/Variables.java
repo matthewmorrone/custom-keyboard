@@ -32,6 +32,9 @@ class Variables {
     private static boolean IS_009398 = false;
     private static boolean IS_REFLECTED = false;
     private static boolean IS_CAPS = false;
+    private static boolean IS_STRIKETHROUGH = false;
+    private static boolean IS_UNDERLINED = false;
+    private static boolean IS_EMPHASIZED = false;
 
     static boolean isBold() { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
@@ -56,6 +59,9 @@ class Variables {
     static boolean is009398() { return IS_009398; }
     static boolean isReflected() { return IS_REFLECTED; }
     static boolean isCaps() { return IS_CAPS; }
+    static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
+    static boolean isUnderlined() {return IS_UNDERLINED;}
+    static boolean isEmphasized() {return IS_EMPHASIZED;}
 
     static boolean isShift()  { return IS_SHIFT; }
     static boolean isSelect() { return IS_SELECT; }
@@ -109,6 +115,9 @@ class Variables {
         IS_009398 = false;
         IS_REFLECTED = false;
         IS_CAPS = false;
+        IS_STRIKETHROUGH = false;
+        IS_UNDERLINED = false;
+        IS_EMPHASIZED = false;
     }
 
     private static void setFontsOff() {
@@ -133,6 +142,9 @@ class Variables {
         IS_009398 = false;
         IS_REFLECTED = false;
         IS_CAPS = false;
+        IS_STRIKETHROUGH = false;
+        IS_UNDERLINED = false;
+        IS_EMPHASIZED = false;
     }
 
     static void toggleSelect() {
@@ -147,8 +159,12 @@ class Variables {
             cursorStart = -1;
         }
     }
-    static void toggleBolded() { setFontsOff(); IS_BOLD = !IS_BOLD; }
+    static void toggleBold() { setFontsOff(); IS_BOLD = !IS_BOLD; }
     static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
+
+    static void toggleStrikethrough() { setFontsOff(); IS_STRIKETHROUGH = !IS_STRIKETHROUGH; }
+    static void toggleUnderlined() { setFontsOff(); IS_UNDERLINED = !IS_UNDERLINED; }
+    static void toggleEmphasized() { setFontsOff(); IS_EMPHASIZED = !IS_EMPHASIZED; }
 
     static void toggle119808() { if (IS_119808) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
     static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }

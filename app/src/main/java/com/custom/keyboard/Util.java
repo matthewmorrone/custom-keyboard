@@ -412,8 +412,6 @@ class Util {
         return text.replaceAll("(.)", "$1̶");
     }
 
-    // ◌꯭◌
-    // ◌̲◌
     public static String ununderline(String text) {
         return text.replaceAll("̲", "");
     }
@@ -1131,8 +1129,7 @@ class Util {
         try {
             className = className.split(".")[0];
         }
-        catch (Exception ignored) {
-        }
+        catch (Exception ignored) {}
         return className;
     }
     public static int getLineNumber() {

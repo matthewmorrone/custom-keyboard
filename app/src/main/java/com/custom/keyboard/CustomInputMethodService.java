@@ -97,55 +97,55 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         layouts.clear();
         layouts.add(new CustomKeyboard(this, R.layout.primary, "primary", "qwerty").setCategory(Category.Main));
-        if (sharedPreferences.getBoolean("accents", t))  {            layouts.add(new CustomKeyboard(this, R.layout.accents, "accents", "◌̀◌́◌̂").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("armenian", f)) {             layouts.add(new CustomKeyboard(this, R.layout.armenian, "armenian", "աբգդեզ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("braille", f)) {             layouts.add(new CustomKeyboard(this, R.layout.braille, "braille", "⠟⠺⠑⠗⠞⠽").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("caps", f)) {             layouts.add(new CustomKeyboard(this, R.layout.caps, "caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("cherokee", f)) {             layouts.add(new CustomKeyboard(this, R.layout.cherokee, "cherokee", "ꭰꭱꭲꭳꭴꭵ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("coding", f)) {             layouts.add(new CustomKeyboard(this, R.layout.coding, "coding", "∅⊤⊥").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("coptic", t)) {             layouts.add(new CustomKeyboard(this, R.layout.coptic, "coptic", "ⲑϣⲉⲣⲧⲯ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("cree", f)) {             layouts.add(new CustomKeyboard(this, R.layout.cree, "cree", "ᐁᐯᑌᑫᒉᒣ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("cyrillic", t)) {             layouts.add(new CustomKeyboard(this, R.layout.cyrillic, "cyrillic", "йцукен").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("deseret", t)) {             layouts.add(new CustomKeyboard(this, R.layout.deseret, "deseret", "𐐨𐐩𐐪𐐫𐐬𐐭").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("drawing", f)) {             layouts.add(new CustomKeyboard(this, R.layout.drawing, "drawing", "├─┤").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("dvorak", f)) {             layouts.add(new CustomKeyboard(this, R.layout.dvorak, "dvorak", "pyfgcr").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("emoji", t)) {             layouts.add(new CustomKeyboard(this, R.layout.emoji, "emoji", "😀😁😂").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("etruscan", f)) {             layouts.add(new CustomKeyboard(this, R.layout.etruscan, "etruscan", "𐌀𐌁𐌂𐌃𐌄𐌅").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("extra", t)) {             layouts.add(new CustomKeyboard(this, R.layout.extra, "extra", "☳ツᰄ").setCategory(Category.Util).setOrder(-4));         }
-        if (sharedPreferences.getBoolean("fancy", t)) {             layouts.add(new CustomKeyboard(this, R.layout.fancy, "fancy", "ɋƿҽꝛþү").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("fonts", t)) {             layouts.add(new CustomKeyboard(this, R.layout.fonts, "fonts", "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("function", t)) {             layouts.add(new CustomKeyboard(this, R.layout.function, "function", "ƒ(x)").setCategory(Category.Util).setOrder(-2));         }
-        if (sharedPreferences.getBoolean("futhark", t)) {            layouts.add(new CustomKeyboard(this, R.layout.futhark, "futhark", "ᚠᚢᚦᚨᚱᚲ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("georgian", f)) {             layouts.add(new CustomKeyboard(this, R.layout.georgian, "georgian", "აბგდევ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("glagolitic", f)) {             layouts.add(new CustomKeyboard(this, R.layout.glagolitic, "glagolitic", "ⰀⰁⰂⰃⰄⰅ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("greek", t)) {             layouts.add(new CustomKeyboard(this, R.layout.greek, "greek", "ςερτυθ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("hex", t)) {             layouts.add(new CustomKeyboard(this, R.layout.hex, "hex", "\\uabcd").setCategory(Category.Util));         }
-        if (sharedPreferences.getBoolean("insular", t)) {             layouts.add(new CustomKeyboard(this, R.layout.insular, "insular", "ꝺꝼᵹꞃꞅꞇ").setCategory(Category.Font).setOrder(5));         }
-        if (sharedPreferences.getBoolean("ipa", t)) {             layouts.add(new CustomKeyboard(this, R.layout.ipa, "IPA", "ɋʍəɹʈɥ").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("kana", f)) {             layouts.add(new CustomKeyboard(this, R.layout.hiragana, "kana", "あいうえお").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("lisu", f)) {             layouts.add(new CustomKeyboard(this, R.layout.lisu, "lisu", "ⵚꓟꓱꓤꓕ⅄").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("macros", t)) {             layouts.add(new CustomKeyboard(this, R.layout.macros, "macros", "✐").setCategory(Category.Util).setOrder(-4));         }
-        if (sharedPreferences.getBoolean("math", f)) {             layouts.add(new CustomKeyboard(this, R.layout.math, "math", "+−×÷=%").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("mirror", f)) {             layouts.add(new CustomKeyboard(this, R.layout.mirror, "mirror", "ytrewq").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("morse", f)) {             layouts.add(new CustomKeyboard(this, R.layout.enmorse, "morse", "·-·-").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("navigation", t)) {             layouts.add(new CustomKeyboard(this, R.layout.navigation, "navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));         }
-        if (sharedPreferences.getBoolean("numeric", t)) {             layouts.add(new CustomKeyboard(this, R.layout.numeric, "numeric", "123456").setCategory(Category.Util));         }
-        if (sharedPreferences.getBoolean("ogham", f)) {             layouts.add(new CustomKeyboard(this, R.layout.ogham, "ogham", "᚛ᚁᚆᚋᚐ᚜").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("pinyin", f)) {             layouts.add(new CustomKeyboard(this, R.layout.pinyin, "pinyin", "").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("pointy", f)) {             layouts.add(new CustomKeyboard(this, R.layout.pointy, "pointy", "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("rotated", f )) {            layouts.add(new CustomKeyboard(this, R.layout.rotated, "rotated", "ʎʇɹəʍb").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("shortcuts", f)) {             layouts.add(new CustomKeyboard(this, R.layout.shortcuts, "shortcuts", "").setCategory(Category.Util));         }
-        if (sharedPreferences.getBoolean("stealth", f)) {             layouts.add(new CustomKeyboard(this, R.layout.stealth, "stealth", "ԛԝеrtу").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("symbol", t)) {             layouts.add(new CustomKeyboard(this, R.layout.symbol, "symbol", "!@#$%^").setCategory(Category.Misc));         }
-        if (sharedPreferences.getBoolean("tails", f)) {             layouts.add(new CustomKeyboard(this, R.layout.tails, "tails", "ɋꝡҽɽʈƴ").setCategory(Category.Font));         }
-        if (sharedPreferences.getBoolean("tifinagh", f)) {            layouts.add(new CustomKeyboard(this, R.layout.tifinagh, "tifinagh", "ⴰⴱⴳⴷⴹⴻ").setCategory(Category.Lang));         }
-        if (sharedPreferences.getBoolean("unicode", t)) {             layouts.add(new CustomKeyboard(this, R.layout.unicode, "unicode", "\\uxxxx").setCategory(Category.Util));         }
-        if (sharedPreferences.getBoolean("url", t)) {             layouts.add(new CustomKeyboard(this, R.layout.url, "URL", "@/.com").setCategory(Category.Util));         }
-        if (sharedPreferences.getBoolean("utility", t)) {             layouts.add(new CustomKeyboard(this, R.layout.utility, "utility", "/**/").setCategory(Category.Util).setOrder(-3));         }
-        if (sharedPreferences.getBoolean("zhuyin", f)) {             layouts.add(new CustomKeyboard(this, R.layout.zhuyin, "zhuyin", "ㄅㄆㄇㄈ").setCategory(Category.Lang));         }
+        if (sharedPreferences.getBoolean("accents", t))     {layouts.add(new CustomKeyboard(this, R.layout.accents, "accents", "◌̀◌́◌̂").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("armenian", f))    {layouts.add(new CustomKeyboard(this, R.layout.armenian, "armenian", "աբգդեզ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("braille", f))     {layouts.add(new CustomKeyboard(this, R.layout.braille, "braille", "⠟⠺⠑⠗⠞⠽").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("caps", f))        {layouts.add(new CustomKeyboard(this, R.layout.caps, "caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("cherokee", f))    {layouts.add(new CustomKeyboard(this, R.layout.cherokee, "cherokee", "ꭰꭱꭲꭳꭴꭵ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("coding", f))      {layouts.add(new CustomKeyboard(this, R.layout.coding, "coding", "∅⊤⊥").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("coptic", t))      {layouts.add(new CustomKeyboard(this, R.layout.coptic, "coptic", "ⲑϣⲉⲣⲧⲯ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("cree", f))        {layouts.add(new CustomKeyboard(this, R.layout.cree, "cree", "ᐁᐯᑌᑫᒉᒣ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("cyrillic", t))    {layouts.add(new CustomKeyboard(this, R.layout.cyrillic, "cyrillic", "йцукен").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("deseret", t))     {layouts.add(new CustomKeyboard(this, R.layout.deseret, "deseret", "𐐨𐐩𐐪𐐫𐐬𐐭").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("drawing", f))     {layouts.add(new CustomKeyboard(this, R.layout.drawing, "drawing", "├─┤").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("dvorak", f))      {layouts.add(new CustomKeyboard(this, R.layout.dvorak, "dvorak", "pyfgcr").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("emoji", t))       {layouts.add(new CustomKeyboard(this, R.layout.emoji, "emoji", "😀😁😂").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("etruscan", f))    {layouts.add(new CustomKeyboard(this, R.layout.etruscan, "etruscan", "𐌀𐌁𐌂𐌃𐌄𐌅").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("extra", t))       {layouts.add(new CustomKeyboard(this, R.layout.extra, "extra", "☳ツᰄ").setCategory(Category.Util).setOrder(-4));}
+        if (sharedPreferences.getBoolean("fancy", t))       {layouts.add(new CustomKeyboard(this, R.layout.fancy, "fancy", "ɋƿҽꝛþү").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("fonts", t))       {layouts.add(new CustomKeyboard(this, R.layout.fonts, "fonts", "🄰🅐🄐𝔸𝕬𝒜").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("function", t))    {layouts.add(new CustomKeyboard(this, R.layout.function, "function", "ƒ(x)").setCategory(Category.Util).setOrder(-2));}
+        if (sharedPreferences.getBoolean("futhark", t))     {layouts.add(new CustomKeyboard(this, R.layout.futhark, "futhark", "ᚠᚢᚦᚨᚱᚲ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("georgian", f))    {layouts.add(new CustomKeyboard(this, R.layout.georgian, "georgian", "აბგდევ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("glagolitic", f))  {layouts.add(new CustomKeyboard(this, R.layout.glagolitic, "glagolitic", "ⰀⰁⰂⰃⰄⰅ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("greek", t))       {layouts.add(new CustomKeyboard(this, R.layout.greek, "greek", "ςερτυθ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("hex", t))         {layouts.add(new CustomKeyboard(this, R.layout.hex, "hex", "\\uabcd").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("insular", t))     {layouts.add(new CustomKeyboard(this, R.layout.insular, "insular", "ꝺꝼᵹꞃꞅꞇ").setCategory(Category.Font).setOrder(5));}
+        if (sharedPreferences.getBoolean("ipa", t))         {layouts.add(new CustomKeyboard(this, R.layout.ipa, "IPA", "ɋʍəɹʈɥ").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("kana", f))        {layouts.add(new CustomKeyboard(this, R.layout.hiragana, "kana", "あいうえお").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("lisu", f))        {layouts.add(new CustomKeyboard(this, R.layout.lisu, "lisu", "ⵚꓟꓱꓤꓕ⅄").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("macros", t))      {layouts.add(new CustomKeyboard(this, R.layout.macros, "macros", "✐").setCategory(Category.Util).setOrder(-4));}
+        if (sharedPreferences.getBoolean("math", f))        {layouts.add(new CustomKeyboard(this, R.layout.math, "math", "+−×÷=%").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("mirror", f))      {layouts.add(new CustomKeyboard(this, R.layout.mirror, "mirror", "ytrewq").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("morse", f))       {layouts.add(new CustomKeyboard(this, R.layout.enmorse, "morse", "·-·-").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("navigation", t))  {layouts.add(new CustomKeyboard(this, R.layout.navigation, "navigation", "→←↑↓").setCategory(Category.Util).setOrder(-1));}
+        if (sharedPreferences.getBoolean("numeric", t))     {layouts.add(new CustomKeyboard(this, R.layout.numeric, "numeric", "123456").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("ogham", f))       {layouts.add(new CustomKeyboard(this, R.layout.ogham, "ogham", "᚛ᚁᚆᚋᚐ᚜").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("pinyin", f))      {layouts.add(new CustomKeyboard(this, R.layout.pinyin, "pinyin", "").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("pointy", f))      {layouts.add(new CustomKeyboard(this, R.layout.pointy, "pointy", "ᛩꟽⵉᚱⵜY").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("rotated", f ))    {layouts.add(new CustomKeyboard(this, R.layout.rotated, "rotated", "ʎʇɹəʍb").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("shortcuts", f))   {layouts.add(new CustomKeyboard(this, R.layout.shortcuts, "shortcuts", "").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("stealth", f))     {layouts.add(new CustomKeyboard(this, R.layout.stealth, "stealth", "ԛԝеrtу").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("symbol", t))      {layouts.add(new CustomKeyboard(this, R.layout.symbol, "symbol", "!@#$%^").setCategory(Category.Misc));}
+        if (sharedPreferences.getBoolean("tails", f))       {layouts.add(new CustomKeyboard(this, R.layout.tails, "tails", "ɋꝡҽɽʈƴ").setCategory(Category.Font));}
+        if (sharedPreferences.getBoolean("tifinagh", f))    {layouts.add(new CustomKeyboard(this, R.layout.tifinagh, "tifinagh", "ⴰⴱⴳⴷⴹⴻ").setCategory(Category.Lang));}
+        if (sharedPreferences.getBoolean("unicode", t))     {layouts.add(new CustomKeyboard(this, R.layout.unicode, "unicode", "\\uxxxx").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("url", t))         {layouts.add(new CustomKeyboard(this, R.layout.url, "URL", "@/.com").setCategory(Category.Util));}
+        if (sharedPreferences.getBoolean("utility", t))     {layouts.add(new CustomKeyboard(this, R.layout.utility, "utility", "/**/").setCategory(Category.Util).setOrder(-3));}
+        if (sharedPreferences.getBoolean("zhuyin", f))      {layouts.add(new CustomKeyboard(this, R.layout.zhuyin, "zhuyin", "ㄅㄆㄇㄈ").setCategory(Category.Lang));}
         int layoutLayout = R.layout.layouts;          
 
-									layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts").setOrder(-1));
+		layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts").setOrder(-1));
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -155,8 +155,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                         if (layout != null && !layout.title.equals("Layouts")) {
                             if (sharedPreferences.getBoolean("names", t)) {
                                 key.label = layout.title;
-                            } else key.label = layout.label;
-                        } else key.label = empty;
+                            }
+                            else key.label = layout.label;
+                        }
+                        else key.label = empty;
                     }
                     catch (Exception e) {
                         key.label = empty;
@@ -206,7 +208,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         int colCount = 6;
         int startRowCount = 9;
         int layoutCount = Math.max(layouts.size() - 1, 1);
-        double finalRowCount = Math.ceil((double) layoutCount / (double) colCount);
+        double finalRowCount = Math.ceil((double)layoutCount / (double)colCount);
 
         // 1 row:  double moveBy = 448; //bounds.dY / (finalRowCount); 448 - (56 * 0) / 1
         // 2 rows: double moveBy = 196; //bounds.dY / (finalRowCount); 448 - (56 * 1) / 2
@@ -216,7 +218,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         int row, index = 0;
 
         for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
-            if (key.codes[0] <= -400 && key.codes[0] >= -423) {
+            if (key.codes[0] <= layoutMin && key.codes[0] >= layoutMax) {
                 row = (index / colCount);
                 if (row >= (startRowCount - (startRowCount - finalRowCount))) {
                     key.y = bounds.maxY;
@@ -249,7 +251,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             int usedWidth = keyWidth * layoutMod;
             int freeWidth = rowWidth - usedWidth;
 
-            moveBy = (int) Math.ceil(freeWidth / layoutMod) + (keyWidth / layoutMod);
+            moveBy = (int)Math.ceil(freeWidth / layoutMod) + (keyWidth / layoutMod);
             index = 0;
 
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -268,9 +270,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
 
-
-        try {             redraw();         }
-        catch (Exception ignored) {         }
+        try {redraw();}
+        catch (Exception ignored) {}
     }
 
     public void setPrimary() {
@@ -429,7 +430,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         return layouts;
     }
 
-
     public CustomKeyboard getKeyboard(String name) {
         int index = 0;
         for (CustomKeyboard layout : layouts) {
@@ -468,14 +468,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (sharedPreferences.getBoolean("respace", f)) {
                     String currentKeyboardLabel = currentKeyboard.label;
                     if (currentKeyboard.title.equals("Layouts")) {
-                        if (layouts.size() - 1 != 1)
-                            getKey(32).label = (layouts.size() - 1) + " layouts";
+                        if (layouts.size() - 1 != 1) getKey(32).label = (layouts.size() - 1) + " layouts";
                         else getKey(32).label = "1 layout";
-                    } else if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
+                    }
+                    else if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
                         kv.setShifted(true);
-                    } else if (!currentKeyboard.title.equals("Shift")) {
-                        if (kv.isShifted())
-                            currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
+                    }
+                    else if (!currentKeyboard.title.equals("Shift")) {
+                        if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
                         else currentKeyboardLabel = currentKeyboardLabel.toLowerCase();
                         getKey(32).label = currentKeyboard.title + "\t•\t" + currentKeyboardLabel; // ·
                     }
@@ -911,11 +911,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             sendKey(primaryCode, 4);
         }
         else {
-            if (Variables.isSelect())
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
+            if (Variables.isSelect()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
             sendKey(primaryCode);
-            if (Variables.isSelect())
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+            if (Variables.isSelect()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
         }
     }
 
@@ -985,7 +983,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
             int caps = 0;
             EditorInfo ei = getCurrentInputEditorInfo();
-            if (ei != null && ei.inputType != InputType.TYPE_NULL)                caps = ic.getCursorCapsMode(attr.inputType);
+            if (ei != null && ei.inputType != InputType.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
             mInputView.setShifted(mCapsLock || caps != 0);
         }
     }
@@ -997,31 +995,31 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (theme != null) {
                 if (theme.equals("0")) theme = String.valueOf(Util.generateRandomInt(1, 22));
                 switch (theme) {
-                    case "1": mDefaultFilter = Themes.sPositiveColorArray;break;
-                    case "2": mDefaultFilter = Themes.sNegativeColorArray;break;
-                    case "3": mDefaultFilter = Themes.sBlueWhiteColorArray;break;
-                    case "4": mDefaultFilter = Themes.sBlueBlackColorArray;break;
-                    case "5": mDefaultFilter = Themes.sGreenWhiteColorArray;break;
-                    case "6": mDefaultFilter = Themes.sGreenBlackColorArray;break;
-                    case "7": mDefaultFilter = Themes.sRedWhiteColorArray;break;
-                    case "8": mDefaultFilter = Themes.sRedBlackColorArray;break;
-                    case "9": mDefaultFilter = Themes.sCyanWhiteColorArray;break;
-                    case "10": mDefaultFilter = Themes.sCyanBlackColorArray;break;
-                    case "11": mDefaultFilter = Themes.sMagentaWhiteColorArray;break;
-                    case "12": mDefaultFilter = Themes.sMagentaBlackColorArray;break;
-                    case "13": mDefaultFilter = Themes.sYellowWhiteColorArray;break;
-                    case "14": mDefaultFilter = Themes.sYellowBlackColorArray;break;
-                    case "15": mDefaultFilter = Themes.sPurpleWhiteColorArray;break;
-                    case "16": mDefaultFilter = Themes.sPurpleBlackColorArray;break;
-                    case "17": mDefaultFilter = Themes.sPinkWhiteColorArray;break;
-                    case "18": mDefaultFilter = Themes.sPinkBlackColorArray;break;
-                    case "19": mDefaultFilter = Themes.sOrangeWhiteColorArray;break;
-                    case "20": mDefaultFilter = Themes.sOrangeBlackColorArray;break;
-                    case "21": mDefaultFilter = Themes.sMaterialLiteColorArray;break;
-                    case "22": mDefaultFilter = Themes.sMaterialDarkColorArray;break;
+                    case "1": mDefaultFilter = Themes.sPositiveColorArray; break;
+                    case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
+                    case "3": mDefaultFilter = Themes.sBlueWhiteColorArray; break;
+                    case "4": mDefaultFilter = Themes.sBlueBlackColorArray; break;
+                    case "5": mDefaultFilter = Themes.sGreenWhiteColorArray; break;
+                    case "6": mDefaultFilter = Themes.sGreenBlackColorArray; break;
+                    case "7": mDefaultFilter = Themes.sRedWhiteColorArray; break;
+                    case "8": mDefaultFilter = Themes.sRedBlackColorArray; break;
+                    case "9": mDefaultFilter = Themes.sCyanWhiteColorArray; break;
+                    case "10": mDefaultFilter = Themes.sCyanBlackColorArray; break;
+                    case "11": mDefaultFilter = Themes.sMagentaWhiteColorArray; break;
+                    case "12": mDefaultFilter = Themes.sMagentaBlackColorArray; break;
+                    case "13": mDefaultFilter = Themes.sYellowWhiteColorArray; break;
+                    case "14": mDefaultFilter = Themes.sYellowBlackColorArray; break;
+                    case "15": mDefaultFilter = Themes.sPurpleWhiteColorArray; break;
+                    case "16": mDefaultFilter = Themes.sPurpleBlackColorArray; break;
+                    case "17": mDefaultFilter = Themes.sPinkWhiteColorArray; break;
+                    case "18": mDefaultFilter = Themes.sPinkBlackColorArray; break;
+                    case "19": mDefaultFilter = Themes.sOrangeWhiteColorArray; break;
+                    case "20": mDefaultFilter = Themes.sOrangeBlackColorArray; break;
+                    case "21": mDefaultFilter = Themes.sMaterialLiteColorArray; break;
+                    case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
                 }
                 Editor editor = sharedPreferences.edit();
-                editor.putString("bg", Util.toColor((int) mDefaultFilter[4], (int) mDefaultFilter[9], (int) mDefaultFilter[14]));
+                editor.putString("bg", Util.toColor((int)mDefaultFilter[4], (int)mDefaultFilter[9], (int)mDefaultFilter[14]));
                 editor.putString("fg", Integer.parseInt(theme) % 2 == 0 ? "#000000" : "#FFFFFF");
                 editor.apply();
             }
@@ -1162,7 +1160,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
              && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals(spaces)
              && sharedPreferences.getBoolean("spaces", t)) {
                 ic.deleteSurroundingText((4 - (prevLine().length() % 4)), 0);
-            } else sendKey(KeyEvent.KEYCODE_DEL);
+            }
+            else sendKey(KeyEvent.KEYCODE_DEL);
             if (prevLine() != null && prevLine().length() > 0 && Character.isUpperCase(ic.getTextBeforeCursor(1, 0).charAt(0))) {
                 setCapsOn(t);
                 firstCaps = t;
@@ -1180,8 +1179,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             updateShiftKeyState(getCurrentInputEditorInfo());
 
         }
-        catch (Exception ignored) {        }
-
+        catch (Exception ignored) {}
     }
 
     public void handleDelete() {
@@ -1224,7 +1222,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
         if (sharedPreferences.getBoolean("pairs", t)) {
             if (Util.contains("({\"[", primaryCode)) {
-                String code = String.valueOf((char) primaryCode);
+                String code = String.valueOf((char)primaryCode);
                 if (code.equals("(")) commitText("()");
                 if (code.equals("[")) commitText("[]");
                 if (code.equals("{")) commitText("{}");
@@ -1239,12 +1237,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
         if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
-            mComposing.append((char) primaryCode);
+            mComposing.append((char)primaryCode);
             ic.setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
         }
         if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
-            char code = (char) primaryCode;
+            char code = (char)primaryCode;
             if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
                 code = Character.toUpperCase(code);
             }
@@ -1256,6 +1254,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (!mPredictionOn) {
             ic.setComposingRegion(0, 0);
             commitText(String.valueOf(Character.toChars(primaryCode)), 1);
+            if (Variables.isStrikethrough()) commitText("̶", 1);
+            if (Variables.isUnderlined()) commitText("̲", 1);
+            if (Variables.isEmphasized()) commitText("꯭", 1);
             firstCaps = f;
             setCapsOn(f);
         }
@@ -1297,15 +1298,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
             setSuggestions(completions, true, isWord);
         }
-        catch (Exception ignored) {
-        }
+        catch (Exception ignored) {}
     }
 
     public void spellcheck(int primaryCode) {
         if (sharedPreferences.getBoolean("pred", f)) {
             return;
         }
-        if (!(Util.isLetter(primaryCode) || primaryCode == 29 || primaryCode == 30 || primaryCode == 31 || primaryCode == 32)) {
+        if (!(Util.isLetter(primaryCode)
+         || primaryCode == 29
+         || primaryCode == 30
+         || primaryCode == 31
+         || primaryCode == 32)) {
             return;
         }
         spellcheck();
@@ -1333,7 +1337,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (suggestions != null && suggestions.size() > 0) {
             setCandidatesViewShown(true);
         } 
-else if (isExtractViewShown()) {
+        else if (isExtractViewShown()) {
             setCandidatesViewShown(true);
         }
         mSuggestions = suggestions;
@@ -1392,11 +1396,11 @@ else if (isExtractViewShown()) {
         else {
             switch (currentKeyboard.title) {
                 case "Caps":
-                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.caps, "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);
+                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.caps,       "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.caps_shift, "Caps", "ҨWERTY").setCategory(Category.Misc);
                 break;
                 case "Rotated":
-                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.rotated, "Rotated", "bʍəɹʇʎ").setCategory(Category.Misc);
+                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.rotated,       "Rotated", "bʍəɹʇʎ").setCategory(Category.Misc);
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.rotated_shift, "Rotated", "Ò𐊰ƎꓤꞱ⅄").setCategory(Category.Misc);
                 break;
                 case "Shift":
@@ -1404,7 +1408,7 @@ else if (isExtractViewShown()) {
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.shift_2, "shift_2", "Shift", "QwErTy").setCategory(Category.Misc);
                 break;
                 case "Stealth":
-                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.stealth, "Stealth", "ԛԝеrtу").setCategory(Category.Misc);
+                    if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.stealth,       "Stealth", "ԛԝеrtу").setCategory(Category.Misc);
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ").setCategory(Category.Misc);
                 break;
             }
@@ -1534,15 +1538,9 @@ else if (isExtractViewShown()) {
         }
 
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_GO:
-                ic.performEditorAction(EditorInfo.IME_ACTION_GO);
-            break;
-            case EditorInfo.IME_ACTION_SEARCH:
-                ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            break;
-            default:
-                sendKey(KeyEvent.KEYCODE_ENTER);
-            break;
+            case EditorInfo.IME_ACTION_GO: ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
+            case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+            default: sendKey(KeyEvent.KEYCODE_ENTER); break;
         }
     }
 
@@ -1556,11 +1554,10 @@ else if (isExtractViewShown()) {
         int ere, aft;
         CustomKeyboard prevKeyboard = currentKeyboard;
 
-
-        if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char) primaryCode)).equals(empty)) {
-            String res = Morse.fromChar(String.valueOf((char) primaryCode));
+        if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char)primaryCode)).equals(empty)) {
+            String res = Morse.fromChar(String.valueOf((char)primaryCode));
             if (kv.isShifted()) res = res.toUpperCase();
-            getKey(32).label = (char) primaryCode + " " + res;
+            getKey(32).label = (char)primaryCode + " " + res;
             commitText(res + " ");
             return;
         }
@@ -1568,7 +1565,7 @@ else if (isExtractViewShown()) {
             commitText("  ");
             return;
         }
-        if (currentKeyboard.key.equals("demorse") && "·- ".contains(String.valueOf((char) primaryCode))) {
+        if (currentKeyboard.key.equals("demorse") && "·- ".contains(String.valueOf((char)primaryCode))) {
             if (primaryCode == 32) {
                 String res = getLastMorse();
                 if (kv.isShifted()) res = res.toUpperCase();
@@ -1578,7 +1575,7 @@ else if (isExtractViewShown()) {
                 redraw();
                 return;
             }
-            String res = String.valueOf((char) primaryCode);
+            String res = String.valueOf((char)primaryCode);
             if (kv.isShifted()) res = res.toUpperCase();
             commitText(res);
             getKey(32).label = getLastMorse() + " " + Morse.toChar(getLastMorse());
@@ -1590,17 +1587,17 @@ else if (isExtractViewShown()) {
             if (primaryCode == -2002) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
             if (Util.contains(KeyCodes.hexCaptures, primaryCode)) {
                 if (hexBuffer.length() > 3) hexBuffer = empty;
-                hexBuffer += (char) primaryCode;
+                hexBuffer += (char)primaryCode;
             }
             if (primaryCode == -2003) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-            if (primaryCode == -2004)                commitText(String.valueOf((char) (int) Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+            if (primaryCode == -2004) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
             if (primaryCode == -2005) {
-                if (hexBuffer.length() > 0)                    hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
+                if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
                 else hexBuffer = "0000";
             }
             if (primaryCode == -2006) hexBuffer = "0000";
             getKey(-2003).label = hexBuffer.equals("0000") ? empty : StringUtils.leftPad(hexBuffer, 4, "0");
-            getKey(-2004).label = String.valueOf((char) (int) Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+            getKey(-2004).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
             redraw();
             return;
         }
@@ -1612,27 +1609,27 @@ else if (isExtractViewShown()) {
             */
         }
         switch (primaryCode) {
-            case 142: sendKey(KeyEvent.KEYCODE_F12);break;
-            case 141: sendKey(KeyEvent.KEYCODE_F11);break;
-            case 140: sendKey(KeyEvent.KEYCODE_F10);break;
-            case 139: sendKey(KeyEvent.KEYCODE_F9);break;
-            case 138: sendKey(KeyEvent.KEYCODE_F8);break;
-            case 137: sendKey(KeyEvent.KEYCODE_F7);break;
-            case 136: sendKey(KeyEvent.KEYCODE_F6);break;
-            case 135: sendKey(KeyEvent.KEYCODE_F5);break;
-            case 134: sendKey(KeyEvent.KEYCODE_F4);break;
-            case 133: sendKey(KeyEvent.KEYCODE_F3);break;
-            case 132: sendKey(KeyEvent.KEYCODE_F2);break;
-            case 131: sendKey(KeyEvent.KEYCODE_F1);break;
-            case 10: handleEnter(0);break;
-            case 7: handleSpace();break;
-            case -1: handleShift();break;
-            case -2: hide();break;
+            case 142: sendKey(KeyEvent.KEYCODE_F12); break;
+            case 141: sendKey(KeyEvent.KEYCODE_F11); break;
+            case 140: sendKey(KeyEvent.KEYCODE_F10); break;
+            case 139: sendKey(KeyEvent.KEYCODE_F9); break;
+            case 138: sendKey(KeyEvent.KEYCODE_F8); break;
+            case 137: sendKey(KeyEvent.KEYCODE_F7); break;
+            case 136: sendKey(KeyEvent.KEYCODE_F6); break;
+            case 135: sendKey(KeyEvent.KEYCODE_F5); break;
+            case 134: sendKey(KeyEvent.KEYCODE_F4); break;
+            case 133: sendKey(KeyEvent.KEYCODE_F3); break;
+            case 132: sendKey(KeyEvent.KEYCODE_F2); break;
+            case 131: sendKey(KeyEvent.KEYCODE_F1); break;
+            case 10: handleEnter(0); break;
+            case 7: handleSpace(); break;
+            case -1: handleShift(); break;
+            case -2: hide(); break;
             case -3:
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 if (imeManager != null) imeManager.showInputMethodPicker();
             break;
-            case -4: setKeyboardLayout(layouts.size() - 1);break;
+            case -4: setKeyboardLayout(layouts.size() - 1); break;
             case -5:
                 if (currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) handleDelete();
                 else handleBackspace();
@@ -1642,55 +1639,43 @@ else if (isExtractViewShown()) {
                 if (currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) handleBackspace();
                 else handleDelete();
             break;
-            case -8: selectAll();break;
-            case -9: handleCut();break;
-            case -10: handleCopy();break;
-            case -11: handlePaste();break;
-            case -73: goToStart();break;
-            case -74: goToEnd();break;
-            case -76: Variables.toggleSelect(getSelectionStart());break;
-            case -75: selectNone();break;
-            case -77: prevWord(1);break;
-            case -78: nextWord(1);break;
-            case -93: selectLine();break;
-            case -94: commitText(nextLine() + "\n" + prevLine());break;
+            case -8: selectAll(); break;
+            case -9: handleCut(); break;
+            case -10: handleCopy(); break;
+            case -11: handlePaste(); break;
+            case -73: goToStart(); break;
+            case -74: goToEnd(); break;
+            case -76: Variables.toggleSelect(getSelectionStart()); break;
+            case -75: selectNone(); break;
+            case -77: prevWord(1); break;
+            case -78: nextWord(1); break;
+            case -93: selectLine(); break;
+            case -94: commitText(nextLine() + "\n" + prevLine()); break;
             case -99:
                 if (!isSelecting()) selectLine();
                 sendKey(KeyEvent.KEYCODE_DEL);
             break;
-            case -123: clearAll();break;
-            case -101: prevKeyboard();break;
-            case -102: nextKeyboard();break;
-            case -107: navigate(KeyEvent.KEYCODE_DPAD_UP);break;
-            case -108: navigate(KeyEvent.KEYCODE_DPAD_LEFT);break;
-            case -109: navigate(KeyEvent.KEYCODE_DPAD_DOWN);break;
-            case -110: navigate(KeyEvent.KEYCODE_DPAD_CENTER);break;
-            case -111: navigate(KeyEvent.KEYCODE_DPAD_RIGHT);break;
-            case -22: navigate(KeyEvent.KEYCODE_PAGE_UP);break;
-            case -23: navigate(KeyEvent.KEYCODE_PAGE_DOWN);break;
+            case -123: clearAll(); break;
+            case -101: prevKeyboard(); break;
+            case -102: nextKeyboard(); break;
+            case -107: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
+            case -108: navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -109: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
+            case -110: navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
+            case -111: navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -22: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
+            case -23: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
             case -25:
                 navigate(KeyEvent.KEYCODE_MOVE_HOME);
                 if (String.valueOf(ic.getTextBeforeCursor(1, 0)).contains("\n")) {
                     sendKey(KeyEvent.KEYCODE_DPAD_RIGHT, Util.getIndentation(nextLine()).length());
                 }
             break;
-            case -26: navigate(KeyEvent.KEYCODE_MOVE_END);break;
-            case -117:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-            break;
-            case -118:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-            break;
-            case -119:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-            break;
-            case -120:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-            break;
+            case -26: navigate(KeyEvent.KEYCODE_MOVE_END); break;
+            case -117: navigate(KeyEvent.KEYCODE_DPAD_UP); navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -118: navigate(KeyEvent.KEYCODE_DPAD_UP); navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -119: navigate(KeyEvent.KEYCODE_DPAD_DOWN); navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -120: navigate(KeyEvent.KEYCODE_DPAD_DOWN); navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -112:
                 if (Variables.isMeta()) Variables.setMetaOff();
                 else Variables.setMetaOn();
@@ -1709,7 +1694,7 @@ else if (isExtractViewShown()) {
             case -121:
                 if (Variables.isCtrl() || Variables.isAlt()) {
                     if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                    if (Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_ALT_ON));
+                    if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_ALT_ON));
                     if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON));
                 }
                 else sendKey(KeyEvent.KEYCODE_DEL);
@@ -1717,127 +1702,125 @@ else if (isExtractViewShown()) {
             case -122:
                 if (Variables.isCtrl() || Variables.isAlt()) {
                     if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                    if (Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_ALT_ON));
+                    if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_ALT_ON));
                     if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON));
                 }
                 else sendKey(KeyEvent.KEYCODE_TAB);
             break;
-            case -148: showSettings();break;
-            case -149: showVoiceInput();break;
-            case -15: sendKey(KeyEvent.KEYCODE_VOLUME_DOWN);break;
-            case -16: sendKey(KeyEvent.KEYCODE_VOLUME_UP);break;
-            case -17: sendKey(KeyEvent.KEYCODE_CAMERA);break;
-            case -18: sendKey(KeyEvent.KEYCODE_EXPLORER);break;
-            case -19: sendKey(KeyEvent.KEYCODE_MENU);break;
-            case -20: sendKey(KeyEvent.KEYCODE_NOTIFICATION);break;
-            case -21: sendKey(KeyEvent.KEYCODE_SEARCH);break;
-            case -24: sendKey(KeyEvent.KEYCODE_BUTTON_START);break;
-            case -27: sendKey(KeyEvent.KEYCODE_SETTINGS);break;
-            case -28: sendKey(KeyEvent.KEYCODE_APP_SWITCH);break;
-            case -29: sendKey(KeyEvent.KEYCODE_LANGUAGE_SWITCH);break;
-            case -30: sendKey(KeyEvent.KEYCODE_BRIGHTNESS_DOWN);break;
-            case -31: sendKey(KeyEvent.KEYCODE_BRIGHTNESS_UP);break;
-            case -32: sendKey(KeyEvent.KEYCODE_NAVIGATE_PREVIOUS);break;
-            case -33: sendKey(KeyEvent.KEYCODE_NAVIGATE_NEXT);break;
-            case -34: sendKey(KeyEvent.KEYCODE_CLEAR);break;
-            case -88: sendKey(KeyEvent.KEYCODE_DPAD_CENTER);break;
-            case -89: sendKey(KeyEvent.ACTION_UP);break;
-            case -90: sendKey(KeyEvent.ACTION_DOWN);break;
-            case -48: sendKey(KeyEvent.KEYCODE_MANNER_MODE);break;
-            case -49: sendKey(KeyEvent.KEYCODE_PICTSYMBOLS);break;
-            case -63: sendKey(KeyEvent.KEYCODE_ESCAPE);break;
-            case -64: sendKey(KeyEvent.KEYCODE_CALCULATOR);break;
-            case -65: sendKey(KeyEvent.KEYCODE_CONTACTS);break;
-            case -67: sendKey(KeyEvent.KEYCODE_CALENDAR);break;
+            case -148: showSettings(); break;
+            case -149: showVoiceInput(); break;
+            case -15: sendKey(KeyEvent.KEYCODE_VOLUME_DOWN); break;
+            case -16: sendKey(KeyEvent.KEYCODE_VOLUME_UP); break;
+            case -17: sendKey(KeyEvent.KEYCODE_CAMERA); break;
+            case -18: sendKey(KeyEvent.KEYCODE_EXPLORER); break;
+            case -19: sendKey(KeyEvent.KEYCODE_MENU); break;
+            case -20: sendKey(KeyEvent.KEYCODE_NOTIFICATION); break;
+            case -21: sendKey(KeyEvent.KEYCODE_SEARCH); break;
+            case -24: sendKey(KeyEvent.KEYCODE_BUTTON_START); break;
+            case -27: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
+            case -28: sendKey(KeyEvent.KEYCODE_APP_SWITCH); break;
+            case -29: sendKey(KeyEvent.KEYCODE_LANGUAGE_SWITCH); break;
+            case -30: sendKey(KeyEvent.KEYCODE_BRIGHTNESS_DOWN); break;
+            case -31: sendKey(KeyEvent.KEYCODE_BRIGHTNESS_UP); break;
+            case -32: sendKey(KeyEvent.KEYCODE_NAVIGATE_PREVIOUS); break;
+            case -33: sendKey(KeyEvent.KEYCODE_NAVIGATE_NEXT); break;
+            case -34: sendKey(KeyEvent.KEYCODE_CLEAR); break;
+            case -88: sendKey(KeyEvent.KEYCODE_DPAD_CENTER); break;
+            case -89: sendKey(KeyEvent.ACTION_UP); break;
+            case -90: sendKey(KeyEvent.ACTION_DOWN); break;
+            case -48: sendKey(KeyEvent.KEYCODE_MANNER_MODE); break;
+            case -49: sendKey(KeyEvent.KEYCODE_PICTSYMBOLS); break;
+            case -63: sendKey(KeyEvent.KEYCODE_ESCAPE); break;
+            case -64: sendKey(KeyEvent.KEYCODE_CALCULATOR); break;
+            case -65: sendKey(KeyEvent.KEYCODE_CONTACTS); break;
+            case -67: sendKey(KeyEvent.KEYCODE_CALENDAR); break;
             case -12:
-                try {
-                    if (Variables.isBold()) performReplace(Util.unbolden(getText(ic)));
-                    else performReplace(Util.bolden(getText(ic)));
-                    Variables.toggleBolded();
-                }
-                catch (Exception e) {
-                    toastIt(e);
-                }
-                break;
+                if (Variables.isBold()) performReplace(Util.unbolden(getText(ic)));
+                else performReplace(Util.bolden(getText(ic)));
+                Variables.toggleBold();
+            break;
             case -13:
-                try {
-                    if (Variables.isItalic()) {
-                        performReplace(Util.unitalicize(getText(ic)));
-                    }
-                    else {
-                        performReplace(Util.italicize(getText(ic)));
-                    }
-                    Variables.toggleItalic();
-                }
-                catch (Exception e) {
-                    toastIt(e);
-                }
-                break;
+                if (Variables.isItalic()) performReplace(Util.unitalicize(getText(ic)));
+                else performReplace(Util.italicize(getText(ic)));
+                Variables.toggleItalic();
+            break;
+            case -193:
+                if (getSelectionLength() == 0) Variables.toggleStrikethrough();
+                else performReplace(Util.strikethrough(getText(ic)));
+            break;
+            case -194:
+                if (getSelectionLength() == 0) Variables.toggleUnderlined();
+                else performReplace(Util.underline(getText(ic)));
+            break;
+            case -195:
+                if (getSelectionLength() == 0) Variables.toggleEmphasized();
+                else performReplace(Util.emphasize(getText(ic)));
+            break;
             case -14:
                 Variables.setAllEmOff();
                 // performReplace(Util.unstrikethrough(getText(ic)));
                 // performReplace(Util.ununderline(getText(ic)));
                 // performReplace(Util.unemphasize(getText(ic)));
-                break;
-            case -72:                 Variables.toggle009372();                 break;
-            case -66:                 Variables.toggle009398();                 break;
-            case -35:                 Variables.toggle119808();                 break;
-            case -36:                 Variables.toggle119860();                 break;
-            case -37:                 Variables.toggle119912();                 break;
-            case -38:                 Variables.toggle119964();                 break;
-            case -39:                 Variables.toggle120016();                 break;
-            case -40:                 Variables.toggle120068();                 break;
-            case -41:                 Variables.toggle120120();                 break;
-            case -42:                 Variables.toggle120172();                 break;
-            case -43:                 Variables.toggle120224();                 break;
-            case -44:                 Variables.toggle120276();                 break;
-            case -45:                 Variables.toggle120328();                 break;
-            case -46:                 Variables.toggle120380();                 break;
-            case -47:                 Variables.toggle120432();                 break;
-            case -68:                 Variables.toggle127280();                 break;
-            case -69:                 Variables.toggle127312();                 break;
-            case -70:                 Variables.toggle127344();                 break;
-            case -71:                 Variables.toggle127462();                 break;
-            case -57:                 Variables.toggleCaps();                 break;
-            case -50:                 Variables.toggleReflected();                 break;
-            case -80:                 commitText(getClipboardEntry(0));                 break;
-            case -81:                 commitText(getClipboardEntry(1));                 break;
-            case -82:                 commitText(getClipboardEntry(2));                 break;
-            case -83:                 commitText(getClipboardEntry(3));                 break;
-            case -84:                 commitText(getClipboardEntry(4));                 break;
-            case -85:                 commitText(getClipboardEntry(5));                 break;
-            case -86:                 commitText(getClipboardEntry(6));                 break;
-            case -87:                 commitText(getClipboardEntry(7));                 break;
-            case -115:                 commitText(Util.generateRandomInt(1, 10) + " ");                 break;
-            case -116:                 commitText(Util.nowAsLong() + " " + Util.nowAsInt());                 break;
-            case -124:                 performReplace(getText(ic).toUpperCase());                 break;
-            case -125:                 performReplace(Util.toTitleCase(getText(ic)));                 break;
-            case -126:                 performReplace(getText(ic).toLowerCase());                 break;
-            case -127:                 performReplace(Util.underscoresToSpaces(getText(ic)));                 break;
-            case -128:                 performReplace(Util.spacesToUnderscores(getText(ic)));                 break;
-            case -129:                 performReplace(Util.dashesToSpaces(getText(ic)));                 break;
-            case -130:                 performReplace(Util.spacesToDashes(getText(ic)));                 break;
-            case -131:                 performReplace(Util.spacesToLinebreaks(getText(ic)));                 break;
-            case -132:                 performReplace(Util.linebreaksToSpaces(getText(ic)));                 break;
-            case -133:                 performReplace(Util.spacesToTabs(getText(ic)));                 break;
-            case -134:                 performReplace(Util.tabsToSpaces(getText(ic)));                 break;
-            case -135:                 performReplace(Util.splitWithLinebreaks(getText(ic)));                 break;
-            case -51:                 performReplace(Util.convertNumberBase(getText(ic), 2, 10));                 break;
-            case -52:                 performReplace(Util.convertNumberBase(getText(ic), 10, 2));                 break;
-            case -53:                 performReplace(Util.convertNumberBase(getText(ic), 8, 10));                 break;
-            case -54:                 performReplace(Util.convertNumberBase(getText(ic), 10, 8));                 break;
-            case -55:                 performReplace(Util.convertNumberBase(getText(ic), 16, 10));                 break;
-            case -56:                 performReplace(Util.convertNumberBase(getText(ic), 10, 16));                 break;
-            case -58:                 performReplace(Util.camelToSnake(getText(ic)));                 break;
-            case -59:                 performReplace(Util.snakeToCamel(getText(ic)));                break;
-            case -60:                 performReplace(Util.doubleCharacters(getText(ic)));                 break;
-            case -95:                 commitText(Util.flipACoin());                 break;
-            case -96:                 commitText(Util.rollADie());                 break;
-            case -97:                 commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd")));                 break;
-            case -98:                 commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss")));                 break;
-            case -61:                 performReplace(Util.increaseIndentation(getText(ic)));                 break;
-            case -62:                 performReplace(Util.decreaseIndentation(getText(ic)));                 break;
-            case -79:                 performReplace(Util.reverse(getText(ic)));                 break;
+            break;
+            case -72: Variables.toggle009372(); break;
+            case -66: Variables.toggle009398(); break;
+            case -35: Variables.toggle119808(); break;
+            case -36: Variables.toggle119860(); break;
+            case -37: Variables.toggle119912(); break;
+            case -38: Variables.toggle119964(); break;
+            case -39: Variables.toggle120016(); break;
+            case -40: Variables.toggle120068(); break;
+            case -41: Variables.toggle120120(); break;
+            case -42: Variables.toggle120172(); break;
+            case -43: Variables.toggle120224(); break;
+            case -44: Variables.toggle120276(); break;
+            case -45: Variables.toggle120328(); break;
+            case -46: Variables.toggle120380(); break;
+            case -47: Variables.toggle120432(); break;
+            case -68: Variables.toggle127280(); break;
+            case -69: Variables.toggle127312(); break;
+            case -70: Variables.toggle127344(); break;
+            case -71: Variables.toggle127462(); break;
+            case -57: Variables.toggleCaps(); break;
+            case -50: Variables.toggleReflected(); break;
+            case -80: commitText(getClipboardEntry(0)); break;
+            case -81: commitText(getClipboardEntry(1)); break;
+            case -82: commitText(getClipboardEntry(2)); break;
+            case -83: commitText(getClipboardEntry(3)); break;
+            case -84: commitText(getClipboardEntry(4)); break;
+            case -85: commitText(getClipboardEntry(5)); break;
+            case -86: commitText(getClipboardEntry(6)); break;
+            case -87: commitText(getClipboardEntry(7)); break;
+            case -115: commitText(Util.generateRandomInt(1, 10) + " "); break;
+            case -116: commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
+            case -124: performReplace(getText(ic).toUpperCase()); break;
+            case -125: performReplace(Util.toTitleCase(getText(ic))); break;
+            case -126: performReplace(getText(ic).toLowerCase()); break;
+            case -127: performReplace(Util.underscoresToSpaces(getText(ic))); break;
+            case -128: performReplace(Util.spacesToUnderscores(getText(ic))); break;
+            case -129: performReplace(Util.dashesToSpaces(getText(ic))); break;
+            case -130: performReplace(Util.spacesToDashes(getText(ic))); break;
+            case -131: performReplace(Util.spacesToLinebreaks(getText(ic))); break;
+            case -132: performReplace(Util.linebreaksToSpaces(getText(ic))); break;
+            case -133: performReplace(Util.spacesToTabs(getText(ic))); break;
+            case -134: performReplace(Util.tabsToSpaces(getText(ic))); break;
+            case -135: performReplace(Util.splitWithLinebreaks(getText(ic))); break;
+            case -51: performReplace(Util.convertNumberBase(getText(ic), 2, 10)); break;
+            case -52: performReplace(Util.convertNumberBase(getText(ic), 10, 2)); break;
+            case -53: performReplace(Util.convertNumberBase(getText(ic), 8, 10)); break;
+            case -54: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
+            case -55: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
+            case -56: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
+            case -58: performReplace(Util.camelToSnake(getText(ic))); break;
+            case -59: performReplace(Util.snakeToCamel(getText(ic))); break;
+            case -60: performReplace(Util.doubleCharacters(getText(ic))); break;
+            case -95: commitText(Util.flipACoin()); break;
+            case -96: commitText(Util.rollADie()); break;
+            case -97: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
+            case -98: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
+            case -61: performReplace(Util.increaseIndentation(getText(ic))); break;
+            case -62: performReplace(Util.decreaseIndentation(getText(ic))); break;
+            case -79: performReplace(Util.reverse(getText(ic))); break;
             case -136:
                 if (!isSelecting()) {
                     sendKey(KeyEvent.KEYCODE_MOVE_END);
@@ -1848,11 +1831,11 @@ else if (isExtractViewShown()) {
                 else {
                     performReplace(Util.linebreaksToSpaces(getText(ic)));
                 }
-                break;
-            case -137:                 performReplace(Util.splitWithSpaces(getText(ic)));                 break;
-            case -138:                 performReplace(Util.removeSpaces(getText(ic)));                 break;
-            case -139:                 performReplace(Util.trimEndingWhitespace(getText(ic)));                 break;
-            case -140:                 performReplace(Util.trimTrailingWhitespace(getText(ic)));             break;
+            break;
+            case -137: performReplace(Util.splitWithSpaces(getText(ic))); break;
+            case -138: performReplace(Util.removeSpaces(getText(ic))); break;
+            case -139: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
+            case -140: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
             case -91:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleJavaComment(getText(ic)));
@@ -1865,15 +1848,15 @@ else if (isExtractViewShown()) {
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleLineComment(getText(ic)));
             break;
-            case -142:                 setKeyboardLayout(0);                 break;
-            case -143:                 performReplace(Util.rot13(getText(ic)));                 break;
-            case -144:                commitText(Util.pickALetter());                 break;
+            case -142: setKeyboardLayout(0); break;
+            case -143: performReplace(Util.rot13(getText(ic))); break;
+            case -144: commitText(Util.pickALetter()); break;
             case -145:
                 ere = Util.countChars(getText(ic));
                 performReplace(Util.uniqueChars(getText(ic)));
                 aft = Util.countChars(getText(ic));
                 toastIt(ere + " → " + aft);
-                break;
+            break;
             case -103:
                 commitText(Util.castALot());
                 String trigram;
@@ -1897,41 +1880,39 @@ else if (isExtractViewShown()) {
                     ic.deleteSurroundingText(2, 0);
                     commitText(trigram);
                 }
-                break;
+            break;
             case -104:
                 String text = getText(ic);
                 toastIt("Chars: " + Util.countChars(text) + "\t\tWords: " + Util.countWords(text) + "\t\tLines: " + Util.countLines(text));
-                break;
-            case -105: performReplace(Util.sortLines(getText(ic)));break;
-            case -106: performReplace(Util.reverseLines(getText(ic)));break;
+            break;
+            case -105: performReplace(Util.sortLines(getText(ic))); break;
+            case -106: performReplace(Util.reverseLines(getText(ic))); break;
             case -146:
                 ere = Util.countLines(getText(ic));
                 performReplace(Util.uniqueLines(getText(ic)));
                 aft = Util.countLines(getText(ic));
                 toastIt(ere + " → " + aft);
-                break;
-
-
+            break;
             case -147: performReplace(Util.shuffleLines(getText(ic))); break;
-            case -152: performContextMenuAction(16908337);break; // pasteAsPlainText,
-            case -150: performContextMenuAction(16908338);break; // undo
-            case -151: performContextMenuAction(16908339);break; // redo
-            case -153: performContextMenuAction(16908323);break; // copyUrl
-            case -154: performContextMenuAction(16908355);break; // autofill
-            case -155: performContextMenuAction(16908330);break; // addToDictionary
-            case -156: performContextMenuAction(16908320);break; // cut
-            case -157: performContextMenuAction(16908321);break; // copy
-            case -158: performContextMenuAction(16908322);break; // paste
-            case -159: performContextMenuAction(16908319);break; // selectAll
-            case -160: performContextMenuAction(16908324);break; // switchInputMethod
-            case -161: performContextMenuAction(16908328);break; // startSelectingText
-            case -162: performContextMenuAction(16908329);break; // stopSelectingText
-            case -163: performContextMenuAction(16908326);break; // keyboardView
-            case -164: performContextMenuAction(16908333);break; // selectTextMode
-            case -165: performContextMenuAction(16908327);break; // closeButton
-            case -166: performContextMenuAction(16908316);break; // extractArea
-            case -167: performContextMenuAction(16908317);break; // candidatesArea
-            case -168: performReplace(Util.spaceReplace(getText(ic)));break;
+            case -152: performContextMenuAction(16908337); break; // pasteAsPlainText,
+            case -150: performContextMenuAction(16908338); break; // undo
+            case -151: performContextMenuAction(16908339); break; // redo
+            case -153: performContextMenuAction(16908323); break; // copyUrl
+            case -154: performContextMenuAction(16908355); break; // autofill
+            case -155: performContextMenuAction(16908330); break; // addToDictionary
+            case -156: performContextMenuAction(16908320); break; // cut
+            case -157: performContextMenuAction(16908321); break; // copy
+            case -158: performContextMenuAction(16908322); break; // paste
+            case -159: performContextMenuAction(16908319); break; // selectAll
+            case -160: performContextMenuAction(16908324); break; // switchInputMethod
+            case -161: performContextMenuAction(16908328); break; // startSelectingText
+            case -162: performContextMenuAction(16908329); break; // stopSelectingText
+            case -163: performContextMenuAction(16908326); break; // keyboardView
+            case -164: performContextMenuAction(16908333); break; // selectTextMode
+            case -165: performContextMenuAction(16908327); break; // closeButton
+            case -166: performContextMenuAction(16908316); break; // extractArea
+            case -167: performContextMenuAction(16908317); break; // candidatesArea
+            case -168: performReplace(Util.spaceReplace(getText(ic))); break;
             case -169:
                 sendKey(KeyEvent.KEYCODE_MOVE_END);
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
@@ -1943,7 +1924,7 @@ else if (isExtractViewShown()) {
                 sendKey(KeyEvent.KEYCODE_ENTER);
                 sendKey(KeyEvent.KEYCODE_DPAD_UP);
                 sendKey(KeyEvent.KEYCODE_PASTE);
-                break;
+            break;
             case -170:
                 sendKey(KeyEvent.KEYCODE_MOVE_END);
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
@@ -1955,48 +1936,45 @@ else if (isExtractViewShown()) {
                 sendKey(KeyEvent.KEYCODE_ENTER);
                 sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
                 sendKey(KeyEvent.KEYCODE_PASTE);
-                break;
-            case -171: performReplace(Util.rot13(getText(ic)));break;
+            break;
+            case -171: performReplace(Util.rot13(getText(ic))); break;
             case -172:
                 String toFind = getText(ic);
                 selectAll();
                 performReplace(Util.replaceZWSP(getText(ic), toFind));
-                break;
-            case -173: performReplace(Util.removeZWSP(getText(ic)));break;
-            case -174: toastIt(Util.unidata(getText(ic)));break;
-            case -180: commitText(Util.shake8Ball());break;
-            case -181: commitText(Util.pickACard());break;
-            case -182: showClipboard();break;
-            case -183: toastIt(Util.timemoji());break;
-            case -175: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS);break;
-            case -176: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS);break;
-            case -177: showActivity(Settings.ACTION_LOCALE_SETTINGS);break;
-            case -178: showActivity(Settings.ACTION_SETTINGS);break;
-            case -179: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS);break;
-            case -184: showActivity(Settings.ACTION_WIFI_SETTINGS);break;
-            case -185: showActivity(Settings.ACTION_WIRELESS_SETTINGS);break;
-            case -186: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS);break;
-            case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS);break;
-            case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);break;
-            case -203: showActivity(Settings.ACTION_HOME_SETTINGS);break; // 🏠⌂
-            case -204: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS);break; // 📳📴📵
-            case -205: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS);break; // ✈✈️
-            case -206: showActivity(Settings.ACTION_SOUND_SETTINGS);break; // 🔔🔕🎶🎵🎼📣📢🎹
-            case -207: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);break;
-            case -208: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS);break;
-            case -209: showActivity(Settings.ACTION_CAPTIONING_SETTINGS);break;
-            case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS);break;
-            case -211: performReplace(Util.addLineNumbers(getText(ic)));break;
-            case -212: performReplace(Util.removeLineNumbers(getText(ic)));break;
-            case -189: performReplace(Util.normalize(getText(ic)));break;
-            case -190: performReplace(Util.slug(getText(ic)));break;
-            case -100: performReplace(Util.replaceNbsp(getText(ic)));break;
-            case -191: performReplace(Util.toAlternatingCase(getText(ic)));break;
-            case -193: performReplace(Util.strikethrough(getText(ic)));break;
-            case -194: performReplace(Util.underline(getText(ic)));break;
-            case -195: performReplace(Util.emphasize(getText(ic)));break;
-            case -196: performReplace(Util.sortChars(getText(ic)));break;
-            case -197: performReplace(Util.shuffleChars(getText(ic)));break;
+            break;
+            case -173: performReplace(Util.removeZWSP(getText(ic))); break;
+            case -174: toastIt(Util.unidata(getText(ic))); break;
+            case -180: commitText(Util.shake8Ball()); break;
+            case -181: commitText(Util.pickACard()); break;
+            case -182: showClipboard(); break;
+            case -183: toastIt(Util.timemoji()); break;
+            case -175: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
+            case -176: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -177: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
+            case -178: showActivity(Settings.ACTION_SETTINGS); break;
+            case -179: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -184: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
+            case -185: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -186: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
+            case -203: showActivity(Settings.ACTION_HOME_SETTINGS); break; // 🏠⌂
+            case -204: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break; // 📳📴📵
+            case -205: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // ✈✈️
+            case -206: showActivity(Settings.ACTION_SOUND_SETTINGS); break; // 🔔🔕🎶🎵🎼📣📢🎹
+            case -207: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
+            case -208: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -209: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -211: performReplace(Util.addLineNumbers(getText(ic))); break;
+            case -212: performReplace(Util.removeLineNumbers(getText(ic))); break;
+            case -189: performReplace(Util.normalize(getText(ic))); break;
+            case -190: performReplace(Util.slug(getText(ic))); break;
+            case -100: performReplace(Util.replaceNbsp(getText(ic))); break;
+            case -191: performReplace(Util.toAlternatingCase(getText(ic))); break;
+            case -196: performReplace(Util.sortChars(getText(ic))); break;
+            case -197: performReplace(Util.shuffleChars(getText(ic))); break;
 
             /*
             case -197: break;
@@ -2016,7 +1994,7 @@ else if (isExtractViewShown()) {
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
                 toastIt(prevKeyboard.title);
-                break;
+            break;
             case -300:
                 keepCtrlOpen = false;
                 /*
@@ -2030,115 +2008,115 @@ else if (isExtractViewShown()) {
                 toastIt(findKeyboard(prevKeyboard.title));
 
                 setShifted(capsOn);
-                break;
-            case -301: toastIt(findKeyboard("Function"));break;
-            case -302: toastIt(findKeyboard("Utility"));break;
-            case -303: toastIt(findKeyboard("Emoji"));break;
-            case -304: toastIt(findKeyboard("Navigation"));break;
-            case -305: toastIt(findKeyboard("Symbol"));break;
-            case -306: toastIt(findKeyboard("Fonts"));break;
+            break;
+            case -301: toastIt(findKeyboard("Function")); break;
+            case -302: toastIt(findKeyboard("Utility")); break;
+            case -303: toastIt(findKeyboard("Emoji")); break;
+            case -304: toastIt(findKeyboard("Navigation")); break;
+            case -305: toastIt(findKeyboard("Symbol")); break;
+            case -306: toastIt(findKeyboard("Fonts")); break;
             case -307:
                 currentKeyboard = new CustomKeyboard(this, R.layout.cherokee, "cherokee", "Cherokee", "ꭰꭱꭲꭳꭴꭵ").setCategory(Category.Lang);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
+            break;
             case -308:
                 currentKeyboard = new CustomKeyboard(this, R.layout.cherokee_2, "cherokee_2", "Cherokee", "ꮛꮜꮝꮞꮟꮠ").setCategory(Category.Lang);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
+            break;
             case -309:
                 currentKeyboard = new CustomKeyboard(this, R.layout.rorrim, "rorrim", "Rorrim", "poiuyt").setCategory(Category.Misc);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
+            break;
             case -310:
                 currentKeyboard = new CustomKeyboard(this, R.layout.mirror, "mirror", "Mirror", "qwerty").setCategory(Category.Misc);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
+            break;
             case -313:
                 currentKeyboard = new CustomKeyboard(this, R.layout.katakana, "kana", "Kana", "アイウエオ").setCategory(Category.Lang);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 toastIt("Katakana");
-                break;
+            break;
             case -314:
                 currentKeyboard = new CustomKeyboard(this, R.layout.hiragana, "kana", "Kana", "あいうえお").setCategory(Category.Lang);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 toastIt("Hiragana");
-                break;
+            break;
             case -315:
                 currentKeyboard = new CustomKeyboard(this, R.layout.enmorse, "enmorse", "Morse", "-·-·").setCategory(Category.Misc);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
+            break;
             case -316:
                 currentKeyboard = new CustomKeyboard(this, R.layout.demorse, "demorse", "Morse", "qwerty").setCategory(Category.Misc);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
                 setShifted(capsOn);
-                break;
-            case -400: toastIt(setKeyboardLayout(0));break;
-            case -401: toastIt(setKeyboardLayout(1));break;
-            case -402: toastIt(setKeyboardLayout(2));break;
-            case -403: toastIt(setKeyboardLayout(3));break;
-            case -404: toastIt(setKeyboardLayout(4));break;
-            case -405: toastIt(setKeyboardLayout(5));break;
-            case -406: toastIt(setKeyboardLayout(6));break;
-            case -407: toastIt(setKeyboardLayout(7));break;
-            case -408: toastIt(setKeyboardLayout(8));break;
-            case -409: toastIt(setKeyboardLayout(9));break;
-            case -410: toastIt(setKeyboardLayout(10));break;
-            case -411: toastIt(setKeyboardLayout(11));break;
-            case -412: toastIt(setKeyboardLayout(12));break;
-            case -413: toastIt(setKeyboardLayout(13));break;
-            case -414: toastIt(setKeyboardLayout(14));break;
-            case -415: toastIt(setKeyboardLayout(15));break;
-            case -416: toastIt(setKeyboardLayout(16));break;
-            case -417: toastIt(setKeyboardLayout(17));break;
-            case -418: toastIt(setKeyboardLayout(18));break;
-            case -419: toastIt(setKeyboardLayout(19));break;
-            case -420: toastIt(setKeyboardLayout(20));break;
-            case -421: toastIt(setKeyboardLayout(21));break;
-            case -422: toastIt(setKeyboardLayout(22));break;
-            case -423: toastIt(setKeyboardLayout(23));break;
-            case -424: toastIt(setKeyboardLayout(24));break;
-            case -425: toastIt(setKeyboardLayout(25));break;
-            case -426: toastIt(setKeyboardLayout(26));break;
-            case -427: toastIt(setKeyboardLayout(27));break;
-            case -428: toastIt(setKeyboardLayout(28));break;
-            case -429: toastIt(setKeyboardLayout(29));break;
-            case -430: toastIt(setKeyboardLayout(30));break;
-            case -431: toastIt(setKeyboardLayout(31));break;
-            case -432: toastIt(setKeyboardLayout(32));break;
-            case -433: toastIt(setKeyboardLayout(33));break;
-            case -434: toastIt(setKeyboardLayout(34));break;
-            case -435: toastIt(setKeyboardLayout(35));break;
-            case -436: toastIt(setKeyboardLayout(36));break;
-            case -437: toastIt(setKeyboardLayout(37));break;
-            case -438: toastIt(setKeyboardLayout(38));break;
-            case -439: toastIt(setKeyboardLayout(39));break;
-            case -440: toastIt(setKeyboardLayout(40));break;
-            case -441: toastIt(setKeyboardLayout(41));break;
-            case -442: toastIt(setKeyboardLayout(42));break;
-            case -443: toastIt(setKeyboardLayout(43));break;
-            case -444: toastIt(setKeyboardLayout(44));break;
-            case -445: toastIt(setKeyboardLayout(45));break;
-            case -446: toastIt(setKeyboardLayout(46));break;
-            case -447: toastIt(setKeyboardLayout(47));break;
-            case -448: toastIt(setKeyboardLayout(48));break;
-            case -449: toastIt(setKeyboardLayout(49));break;
-            case -450: toastIt(setKeyboardLayout(50));break;
-            case -451: toastIt(setKeyboardLayout(51));break;
-            case -452: toastIt(setKeyboardLayout(52));break;
-            case -453: toastIt(setKeyboardLayout(53));break;
+            break;
+            case -400: toastIt(setKeyboardLayout(0)); break;
+            case -401: toastIt(setKeyboardLayout(1)); break;
+            case -402: toastIt(setKeyboardLayout(2)); break;
+            case -403: toastIt(setKeyboardLayout(3)); break;
+            case -404: toastIt(setKeyboardLayout(4)); break;
+            case -405: toastIt(setKeyboardLayout(5)); break;
+            case -406: toastIt(setKeyboardLayout(6)); break;
+            case -407: toastIt(setKeyboardLayout(7)); break;
+            case -408: toastIt(setKeyboardLayout(8)); break;
+            case -409: toastIt(setKeyboardLayout(9)); break;
+            case -410: toastIt(setKeyboardLayout(10)); break;
+            case -411: toastIt(setKeyboardLayout(11)); break;
+            case -412: toastIt(setKeyboardLayout(12)); break;
+            case -413: toastIt(setKeyboardLayout(13)); break;
+            case -414: toastIt(setKeyboardLayout(14)); break;
+            case -415: toastIt(setKeyboardLayout(15)); break;
+            case -416: toastIt(setKeyboardLayout(16)); break;
+            case -417: toastIt(setKeyboardLayout(17)); break;
+            case -418: toastIt(setKeyboardLayout(18)); break;
+            case -419: toastIt(setKeyboardLayout(19)); break;
+            case -420: toastIt(setKeyboardLayout(20)); break;
+            case -421: toastIt(setKeyboardLayout(21)); break;
+            case -422: toastIt(setKeyboardLayout(22)); break;
+            case -423: toastIt(setKeyboardLayout(23)); break;
+            case -424: toastIt(setKeyboardLayout(24)); break;
+            case -425: toastIt(setKeyboardLayout(25)); break;
+            case -426: toastIt(setKeyboardLayout(26)); break;
+            case -427: toastIt(setKeyboardLayout(27)); break;
+            case -428: toastIt(setKeyboardLayout(28)); break;
+            case -429: toastIt(setKeyboardLayout(29)); break;
+            case -430: toastIt(setKeyboardLayout(30)); break;
+            case -431: toastIt(setKeyboardLayout(31)); break;
+            case -432: toastIt(setKeyboardLayout(32)); break;
+            case -433: toastIt(setKeyboardLayout(33)); break;
+            case -434: toastIt(setKeyboardLayout(34)); break;
+            case -435: toastIt(setKeyboardLayout(35)); break;
+            case -436: toastIt(setKeyboardLayout(36)); break;
+            case -437: toastIt(setKeyboardLayout(37)); break;
+            case -438: toastIt(setKeyboardLayout(38)); break;
+            case -439: toastIt(setKeyboardLayout(39)); break;
+            case -440: toastIt(setKeyboardLayout(40)); break;
+            case -441: toastIt(setKeyboardLayout(41)); break;
+            case -442: toastIt(setKeyboardLayout(42)); break;
+            case -443: toastIt(setKeyboardLayout(43)); break;
+            case -444: toastIt(setKeyboardLayout(44)); break;
+            case -445: toastIt(setKeyboardLayout(45)); break;
+            case -446: toastIt(setKeyboardLayout(46)); break;
+            case -447: toastIt(setKeyboardLayout(47)); break;
+            case -448: toastIt(setKeyboardLayout(48)); break;
+            case -449: toastIt(setKeyboardLayout(49)); break;
+            case -450: toastIt(setKeyboardLayout(50)); break;
+            case -451: toastIt(setKeyboardLayout(51)); break;
+            case -452: toastIt(setKeyboardLayout(52)); break;
+            case -453: toastIt(setKeyboardLayout(53)); break;
             default:
                 if (Variables.isCtrl() || Variables.isAlt()) {
                     processKeyCombo(primaryCode);
@@ -2173,11 +2151,11 @@ else if (isExtractViewShown()) {
     }
 
     public void setRowNumber(int number) {
-        rowNumber = (short) number;
+        rowNumber = (short)number;
         currentKeyboard.setRowNumber(rowNumber);
     }
 
     public double getHeightKeyModifier() {
-        return (double) sharedPreferences.getInt("height", 50) / (double) 50;
+        return (double)sharedPreferences.getInt("height", 50) / (double)50;
     }
 }
