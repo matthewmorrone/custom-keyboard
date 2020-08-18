@@ -1254,9 +1254,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (!mPredictionOn) {
             ic.setComposingRegion(0, 0);
             commitText(String.valueOf(Character.toChars(primaryCode)), 1);
-            if (Variables.isStrikethrough()) commitText("̶", 1);
-            if (Variables.isUnderlined()) commitText("̲", 1);
-            if (Variables.isEmphasized()) commitText("꯭", 1);
+            // if (Variables.isStrikethrough()) commitText("̶", 1);
+            // if (Variables.isUnderlined()) commitText("̲", 1);
+            // if (Variables.isEmphasized()) commitText("꯭", 1);
             firstCaps = f;
             setCapsOn(f);
         }
@@ -1394,6 +1394,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             redraw();
         }
         else {
+/*
             switch (currentKeyboard.title) {
                 case "Caps":
                     if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.caps,       "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);
@@ -1412,6 +1413,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ").setCategory(Category.Misc);
                 break;
             }
+*/
             kv.setKeyboard(currentKeyboard);
             if (shift_pressed + 300 > System.currentTimeMillis()) {
                 Variables.setShiftOn();
@@ -2129,8 +2131,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                             sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                         }
                     }
-                    catch (Exception ignored) {
-                    }
+                    catch (Exception ignored) {}
                 }
         }
         try {

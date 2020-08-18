@@ -46,7 +46,7 @@
         <Key android:codes="115" android:keyLabel="s" android:popupCharacters="ʃʂʆƪˢᶳᶴ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="100" android:keyLabel="d" android:popupCharacters="ðɖɗᶑȡʣʤʥᶞᵟ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters="ɸʩᶠᶲ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="103" android:keyLabel="ɡ" android:popupCharacters="ɣɢgɠʛˠᵍᶢᵞ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="103" android:keyLabel="g" android:popupCharacters="ɣɢɡɠʛˠᵍᶢᵞ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="104" android:keyLabel="h" android:popupCharacters="ɦħʜɧʰʱ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters="ɟʝȷʄʲᶨᶡ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="107" android:keyLabel="k" android:popupCharacters="ʔƙʞʡʕʢʖᵏ" android:popupKeyboard="@layout/popup_template" />
