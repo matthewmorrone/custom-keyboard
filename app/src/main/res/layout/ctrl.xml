@@ -43,12 +43,12 @@
         <Key android:codes="-0191" android:keyLabel="aA" /> 
         <Key android:codes="-0124" android:keyLabel="AA" /> 
         <Key android:codes="-0125" android:keyLabel="Aa" /> 
-        <Key android:codes="-0126" android:keyLabel="aa" /> 
+        <Key android:codes="-0126" android:keyLabel="aa" />
+        <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
+        <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
         <Key android:codes="-0193" android:keyLabel="A̶a̶" />
         <Key android:codes="-0194" android:keyLabel="A̲a̲" />
         <Key android:codes="-0195" android:keyLabel="A꯭a" />
-        <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
-        <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
         <Key android:codes="-0014" android:keyIcon="@drawable/ic_format_eraser" />
     </Row>
     <Row>

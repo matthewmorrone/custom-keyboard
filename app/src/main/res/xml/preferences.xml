@@ -70,6 +70,7 @@
             <CheckBoxPreference android:title="Mirror"                      android:key="mirror"                    android:defaultValue="false" />
             <CheckBoxPreference android:title="Morse"                       android:key="morse"                     android:defaultValue="false" />
             <CheckBoxPreference android:title="Symbol"                      android:key="symbol"                    android:defaultValue="true" />
+            <CheckBoxPreference android:title="Fancy"                       android:key="fancy"                     android:defaultValue="true" />
         </PreferenceCategory>
         <PreferenceCategory     android:title="Forthary"                    android:key="forthary_category">
             <CheckBoxPreference android:title="Caps"                        android:key="caps"                      android:defaultValue="false" />

@@ -358,20 +358,19 @@ class Util {
     }
     public static String unbolden(String text) {
         if (text.length() < 1) return text;
-        String[] letters = getChars(text);
+        char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (String letter : letters) {
-            result.add(String.valueOf((char)KeyCodes.getUnbold((int)letter.codePointAt(0))));
+        for (char ch : chars) {
+            result.add(String.valueOf((char)KeyCodes.getUnbold((int)ch)));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String bolden(String text) {
         if (text.length() < 1) return text;
-        String[] letters = getChars(text);
+        char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (String letter : letters) {
-            result.add(String.valueOf(1+(int)letter.codePointAt(0)));
-            // result.add(String.valueOf((char)KeyCodes.getBold((int)letter.codePointAt(0))));
+        for (char ch : chars) {
+            result.add(String.valueOf((char)KeyCodes.getBold((int)ch)));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -384,19 +383,19 @@ class Util {
 
     public static String unitalicize(String text) {
         if (text.length() < 1) return text;
-        String[] letters = getChars(text);
+        char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (String letter : letters) {
-            result.add(String.valueOf((char)KeyCodes.getUnitalic((int)letter.codePointAt(0))));
+        for (char ch : chars) {
+            result.add(String.valueOf((char)KeyCodes.getUnitalic((int)ch)));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String italicize(String text) {
         if (text.length() < 1) return text;
-        String[] letters = getChars(text);
+        char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (String letter : letters) {
-            result.add(String.valueOf((char)KeyCodes.getItalic((int)letter.codePointAt(0))));
+        for (char ch : chars) {
+            result.add(String.valueOf((char)KeyCodes.getItalic((int)ch)));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }

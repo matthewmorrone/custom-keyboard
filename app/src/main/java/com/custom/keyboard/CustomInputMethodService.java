@@ -1527,8 +1527,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public void handleEnter(int noop) {
-        if (noop == 0) return;
+    public void handleEnter() {
+        // if (noop == 0) return;
         EditorInfo curEditor = getCurrentInputEditorInfo();
 
         if (sharedPreferences.getBoolean("spaces", t)) {
@@ -1540,7 +1540,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_GO: ic.performEditorAction(EditorInfo.IME_ACTION_GO); break;
+            case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO);     break;
             case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
             default: sendKey(KeyEvent.KEYCODE_ENTER); break;
         }
@@ -1623,7 +1623,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 10: handleEnter(0); break;
+            case 10: handleEnter(); break;
             case 7: handleSpace(); break;
             case -1: handleShift(); break;
             case -2: hide(); break;

@@ -319,6 +319,9 @@ public class CustomKeyboardView extends KeyboardView {
             && key.codes[0] !=  7
             && key.codes[0] != 10
             && key.codes[0] != 32
+            && key.codes[0] != -124
+            && key.codes[0] != -125
+            && key.codes[0] != -126
             && !(key.codes[0] <= -500 && key.codes[0] >= -512)
             && sharedPreferences.getBoolean("hints", true)
             ) {
