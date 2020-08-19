@@ -145,7 +145,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (sharedPreferences.getBoolean("zhuyin", f))      {layouts.add(new CustomKeyboard(this, R.layout.zhuyin, "zhuyin", "ㄅㄆㄇㄈ").setCategory(Category.Lang));}
         int layoutLayout = R.layout.layouts;          
 
-		layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts").setOrder(-1));
+	       layouts.add(new CustomKeyboard(this, layoutLayout, "Layouts").setOrder(-1));
 
         if (getKeyboard("Layouts") != null) {
             for (Keyboard.Key key : getKeyboard("Layouts").getKeys()) {
@@ -1624,7 +1624,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
             case 10: handleEnter(); break;
-            case 7: handleSpace(); break;
+            case 32:
+toastIt("space");
+// handleSpace();
+commitText(" ", 1);
+break;
+            case 7: 
+commitText(tab, 1);
+break;
             case -1: handleShift(); break;
             case -2: hide(); break;
             case -3:

@@ -284,12 +284,14 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
 
-            if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key, corner);}}
-            if (key.codes[0] == -193) {if (Variables.isStrikethrough())      {selectKey(key, corner);}}
-            if (key.codes[0] == -194) {if (Variables.isUnderlined())      {selectKey(key, corner);}}
-            if (key.codes[0] == -195) {if (Variables.isEmphasized())      {selectKey(key, corner);}}
-            if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key, corner);}}
-            if (key.codes[0] == -76) {if (Variables.isSelect())    {selectKey(key, corner);}}
+            if (key.codes[0] == -12)  {if (Variables.isBold())          {selectKey(key, corner);}}
+            if (key.codes[0] == -193) {if (Variables.isStrikethrough()) {selectKey(key, corner);}}
+            if (key.codes[0] == -194) {if (Variables.isUnderlined())    {selectKey(key, corner);}}
+            if (key.codes[0] == -195) {if (Variables.isEmphasized())    {selectKey(key, corner);}}
+            if (key.codes[0] == -50)  {if (Variables.isReflected())     {selectKey(key, corner);}}
+            if (key.codes[0] == -13)  {if (Variables.isItalic())        {selectKey(key, corner);}}
+            if (key.codes[0] == -76)  {if (Variables.isSelect())        {selectKey(key, corner);}}
+            if (key.codes[0] == -57)  {if (Variables.isCaps())          {selectKey(key, corner);}}
             if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key, corner);}}
             if (key.codes[0] == -36) {if (Variables.is119860())    {selectKey(key, corner);}}
             if (key.codes[0] == -37) {if (Variables.is119912())    {selectKey(key, corner);}}
@@ -303,8 +305,6 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -45) {if (Variables.is120328())    {selectKey(key, corner);}}
             if (key.codes[0] == -46) {if (Variables.is120380())    {selectKey(key, corner);}}
             if (key.codes[0] == -47) {if (Variables.is120432())    {selectKey(key, corner);}}
-            if (key.codes[0] == -50) {if (Variables.isReflected()) {selectKey(key, corner);}}
-            if (key.codes[0] == -57) {if (Variables.isCaps())      {selectKey(key, corner);}}
             if (key.codes[0] == -68) {if (Variables.is127280())    {selectKey(key, corner);}}
             if (key.codes[0] == -69) {if (Variables.is127312())    {selectKey(key, corner);}}
             if (key.codes[0] == -70) {if (Variables.is127344())    {selectKey(key, corner);}}
