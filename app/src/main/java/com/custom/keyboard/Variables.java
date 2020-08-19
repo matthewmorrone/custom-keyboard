@@ -11,6 +11,12 @@ class Variables {
     private static boolean IS_META = false;
     private static boolean IS_BOLD = false;
     private static boolean IS_ITALIC = false;
+    private static boolean IS_EMPHASIZED = false;
+    private static boolean IS_STRIKETHROUGH = false;
+    private static boolean IS_UNDERLINED = false;
+    private static boolean IS_UNDERSCORED = false;
+    private static boolean IS_CAPS = false;
+    private static boolean IS_REFLECTED = false;
     private static boolean IS_119808 = false;
     private static boolean IS_119860 = false;
     private static boolean IS_119912 = false;
@@ -30,14 +36,16 @@ class Variables {
     private static boolean IS_127462 = false;
     private static boolean IS_009372 = false;
     private static boolean IS_009398 = false;
-    private static boolean IS_REFLECTED = false;
-    private static boolean IS_CAPS = false;
-    private static boolean IS_STRIKETHROUGH = false;
-    private static boolean IS_UNDERLINED = false;
-    private static boolean IS_EMPHASIZED = false;
 
     static boolean isBold() { return IS_BOLD; }
     static boolean isItalic() { return IS_ITALIC; }
+    static boolean isEmphasized() { return IS_EMPHASIZED; }
+    static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
+    static boolean isUnderlined() {return IS_UNDERLINED;}
+    static boolean isUnderscored() {return IS_UNDERSCORED;}
+    static boolean isCaps() { return IS_CAPS; }
+    static boolean isReflected() { return IS_REFLECTED; }
+
     static boolean is119808() { return IS_119808; }
     static boolean is119860() { return IS_119860; }
     static boolean is119912() { return IS_119912; }
@@ -57,11 +65,6 @@ class Variables {
     static boolean is127462() { return IS_127462; }
     static boolean is009372() { return IS_009372; }
     static boolean is009398() { return IS_009398; }
-    static boolean isReflected() { return IS_REFLECTED; }
-    static boolean isCaps() { return IS_CAPS; }
-    static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
-    static boolean isUnderlined() {return IS_UNDERLINED;}
-    static boolean isEmphasized() {return IS_EMPHASIZED;}
 
     static boolean isShift()  { return IS_SHIFT; }
     static boolean isSelect() { return IS_SELECT; }
@@ -94,6 +97,13 @@ class Variables {
     static void setAllEmOff() {
         IS_BOLD = false;
         IS_ITALIC = false;
+        IS_EMPHASIZED = false;
+        IS_UNDERLINED = false;
+        IS_UNDERSCORED = false;
+        IS_STRIKETHROUGH = false;
+        IS_CAPS = false;
+        IS_REFLECTED = false;
+
         IS_119808 = false;
         IS_119860 = false;
         IS_119912 = false;
@@ -113,14 +123,15 @@ class Variables {
         IS_127462 = false;
         IS_009372 = false;
         IS_009398 = false;
-        IS_REFLECTED = false;
-        IS_CAPS = false;
-        IS_STRIKETHROUGH = false;
-        IS_UNDERLINED = false;
-        IS_EMPHASIZED = false;
     }
 
     private static void setFontsOff() {
+        IS_CAPS = false;
+        IS_REFLECTED = false;
+        IS_UNDERLINED = false;
+        IS_UNDERSCORED = false;
+        IS_STRIKETHROUGH = false;
+
         IS_119808 = false;
         IS_119860 = false;
         IS_119912 = false;
@@ -140,11 +151,6 @@ class Variables {
         IS_127462 = false;
         IS_009372 = false;
         IS_009398 = false;
-        IS_REFLECTED = false;
-        IS_CAPS = false;
-        IS_STRIKETHROUGH = false;
-        IS_UNDERLINED = false;
-        IS_EMPHASIZED = false;
     }
 
     static void toggleSelect() {
@@ -161,10 +167,12 @@ class Variables {
     }
     static void toggleBold() { setFontsOff(); IS_BOLD = !IS_BOLD; }
     static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
-
-    static void toggleStrikethrough() { setFontsOff(); IS_STRIKETHROUGH = !IS_STRIKETHROUGH; }
-    static void toggleUnderlined() { setFontsOff(); IS_UNDERLINED = !IS_UNDERLINED; }
     static void toggleEmphasized() { setFontsOff(); IS_EMPHASIZED = !IS_EMPHASIZED; }
+    static void toggleUnderlined() { setFontsOff(); IS_UNDERLINED = !IS_UNDERLINED; }
+    static void toggleUnderscored() { setFontsOff(); IS_UNDERSCORED = !IS_UNDERSCORED; }
+    static void toggleStrikethrough() { setFontsOff(); IS_STRIKETHROUGH = !IS_STRIKETHROUGH; }
+    static void toggleCaps() { if (IS_CAPS) { setAllEmOff(); }  else { setAllEmOff(); IS_CAPS = true; } }
+    static void toggleReflected() { if (IS_REFLECTED) { setAllEmOff(); }  else { setAllEmOff(); IS_REFLECTED = true; } }
 
     static void toggle119808() { if (IS_119808) { setAllEmOff(); }  else { setAllEmOff(); IS_119808 = true; } }
     static void toggle119860() { if (IS_119860) { setAllEmOff(); }  else { setAllEmOff(); IS_119860 = true; } }
@@ -185,6 +193,4 @@ class Variables {
     static void toggle127462() { if (IS_127462) { setAllEmOff(); }  else { setAllEmOff(); IS_127462 = true; } }
     static void toggle009372() { if (IS_009372) { setAllEmOff(); }  else { setAllEmOff(); IS_009372 = true; } }
     static void toggle009398() { if (IS_009398) { setAllEmOff(); }  else { setAllEmOff(); IS_009398 = true; } }
-    static void toggleReflected() { if (IS_REFLECTED) { setAllEmOff(); }  else { setAllEmOff(); IS_REFLECTED = true; } }
-    static void toggleCaps() { if (IS_CAPS) { setAllEmOff(); }  else { setAllEmOff(); IS_CAPS = true; } }
 }

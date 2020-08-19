@@ -90,7 +90,25 @@ class KeyCodes {
         return primaryCode;
     }
 
+    static int getUnemphasized(int primaryCode) {
+        if      (primaryCode >= 120380 && primaryCode <= 120405) {
+            primaryCode -= 120315;
+        }
+        else if (primaryCode >= 120406 && primaryCode <= 120431) {
+            primaryCode -= 120309;
+        }
+        return primaryCode;
+    }
 
+    static int getEmphasized(int primaryCode) {
+        if      (primaryCode >= 65 && primaryCode <= 90) {
+            primaryCode += 120315;
+        }
+        else if (primaryCode >= 97 && primaryCode <= 122) {
+            primaryCode += 120309;
+        }
+        return primaryCode;
+    }
 
     static int handleCharacter(CustomKeyboardView kv, int primaryCode) {
         if (Util.isAlphaNumeric(primaryCode)) {

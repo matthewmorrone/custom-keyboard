@@ -360,8 +360,10 @@ class Util {
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(KeyCodes.getUnbold((int)ch))));
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(KeyCodes.getUnbold((ch)))));
+            i += Character.charCount(ch);
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -379,8 +381,10 @@ class Util {
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(KeyCodes.getUnitalic((int)ch))));
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(KeyCodes.getUnitalic((ch)))));
+            i += Character.charCount(ch);
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -390,6 +394,27 @@ class Util {
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
             result.add(new String(Character.toChars(KeyCodes.getItalic((int)ch))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String unemphasize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(KeyCodes.getUnemphasized((ch)))));
+            i += Character.charCount(ch);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String emphasize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (char ch : chars) {
+            result.add(new String(Character.toChars(KeyCodes.getEmphasized((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -416,11 +441,11 @@ class Util {
         return text.replaceAll("(.)", "$1̲");
     }
 
-    public static String unemphasize(String text) {
+    public static String ununderscore(String text) {
         return text.replaceAll("꯭", "");
     }
 
-    public static String emphasize(String text) {
+    public static String underscore(String text) {
         if (text.contains("꯭")) {
             return text.replaceAll("꯭", "");
         }

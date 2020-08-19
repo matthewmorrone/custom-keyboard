@@ -1256,7 +1256,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             commitText(String.valueOf(Character.toChars(primaryCode)), 1);
             // if (Variables.isStrikethrough()) commitText("̶", 1);
             // if (Variables.isUnderlined()) commitText("̲", 1);
-            // if (Variables.isEmphasized()) commitText("꯭", 1);
+            // if (Variables.isUnderscored()) commitText("꯭", 1);
             firstCaps = f;
             setCapsOn(f);
         }
@@ -1746,6 +1746,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else performReplace(Util.italicize(getText(ic)));
                 Variables.toggleItalic();
             break;
+            case -198:
+                if (Variables.isEmphasized()) performReplace(Util.unemphasize(getText(ic)));
+                else performReplace(Util.emphasize(getText(ic)));
+                Variables.toggleEmphasized();
+            break;
             case -193:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
                 else performReplace(Util.strikethrough(getText(ic)));
@@ -1755,14 +1760,17 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 else performReplace(Util.underline(getText(ic)));
             break;
             case -195:
-                if (getSelectionLength() == 0) Variables.toggleEmphasized();
-                else performReplace(Util.emphasize(getText(ic)));
+                if (getSelectionLength() == 0) Variables.toggleUnderscored();
+                else performReplace(Util.underscore(getText(ic)));
             break;
             case -14:
                 Variables.setAllEmOff();
-                // performReplace(Util.unstrikethrough(getText(ic)));
-                // performReplace(Util.ununderline(getText(ic)));
-                // performReplace(Util.unemphasize(getText(ic)));
+                performReplace(Util.unbolden(getText(ic)));
+                performReplace(Util.unitalicize(getText(ic)));
+                performReplace(Util.unemphasize(getText(ic)));
+                performReplace(Util.unstrikethrough(getText(ic)));
+                performReplace(Util.ununderline(getText(ic)));
+                performReplace(Util.ununderscore(getText(ic)));
             break;
             case -72: Variables.toggle009372(); break;
             case -66: Variables.toggle009398(); break;

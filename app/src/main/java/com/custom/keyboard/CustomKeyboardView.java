@@ -287,7 +287,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -12) {if (Variables.isBold())      {selectKey(key, corner);}}
             if (key.codes[0] == -193) {if (Variables.isStrikethrough())      {selectKey(key, corner);}}
             if (key.codes[0] == -194) {if (Variables.isUnderlined())      {selectKey(key, corner);}}
-            if (key.codes[0] == -195) {if (Variables.isEmphasized())      {selectKey(key, corner);}}
+            if (key.codes[0] == -195) {if (Variables.isUnderscored())      {selectKey(key, corner);}}
             if (key.codes[0] == -13) {if (Variables.isItalic())    {selectKey(key, corner);}}
             if (key.codes[0] == -76) {if (Variables.isSelect())    {selectKey(key, corner);}}
             if (key.codes[0] == -35) {if (Variables.is119808())    {selectKey(key, corner);}}
