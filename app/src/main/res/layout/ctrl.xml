@@ -40,10 +40,10 @@
         <Key android:codes="-0094" android:keyIcon="@drawable/ic_duplicate_lines" />
     </Row>
     <Row>
-        <Key android:codes="-0191" android:keyLabel="aA" /> 
-        <Key android:codes="-0124" android:keyLabel="AA" /> 
-        <Key android:codes="-0125" android:keyLabel="Aa" /> 
-        <Key android:codes="-0126" android:keyLabel="aa" />
+        <Key android:codes="-0191" android:keyLabel="𝖺𝖠" /> 
+        <Key android:codes="-0124" android:keyLabel="𝖠𝖠" /> 
+        <Key android:codes="-0125" android:keyLabel="𝖠𝖺" /> 
+        <Key android:codes="-0126" android:keyLabel="𝖺𝖺" />
         <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
         <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
         <Key android:codes="-0193" android:keyLabel="A̶a̶" />
