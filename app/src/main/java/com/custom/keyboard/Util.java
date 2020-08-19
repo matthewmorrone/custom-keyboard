@@ -361,7 +361,7 @@ class Util {
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
-            result.add(String.valueOf((char)KeyCodes.getUnbold((int)ch)));
+            result.add(new String(Character.toChars(KeyCodes.getUnbold((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -369,24 +369,18 @@ class Util {
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(String.valueOf((char)KeyCodes.getBold((int)ch)));
+        for (int ch : chars) {
+            result.add(new String(Character.toChars(KeyCodes.getBold((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
-
-    // performReplace(Util.convertFromUnicodeToNumber(getText(ic));
-    // performReplace(Util.convertFromNumberToUnicode(getText(ic));
-    // (char)primaryCode;
-    // commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-    // commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
 
     public static String unitalicize(String text) {
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
-            result.add(String.valueOf((char)KeyCodes.getUnitalic((int)ch)));
+            result.add(new String(Character.toChars(KeyCodes.getUnitalic((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -395,7 +389,7 @@ class Util {
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
-            result.add(String.valueOf((char)KeyCodes.getItalic((int)ch)));
+            result.add(new String(Character.toChars(KeyCodes.getItalic((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
