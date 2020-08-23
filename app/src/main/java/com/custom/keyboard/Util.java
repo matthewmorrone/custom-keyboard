@@ -356,6 +356,24 @@ class Util {
         }
         return sb.toString();
     }
+
+
+
+    public static ArrayList<Integer> asUnicodeArray(String text) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if (text.length() < 1) return result;
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(ch);
+            i += Character.charCount(ch);
+        }
+        return result; // result.toArray(new String[0]);
+    }
+
+
+
+
     public static String unbolden(String text) {
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();

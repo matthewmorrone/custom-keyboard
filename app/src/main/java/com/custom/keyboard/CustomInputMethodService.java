@@ -631,8 +631,69 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (mInputView != null) mInputView.closing();
     }
 
+    // cursorhere
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
+
+String prevLine = prevLine();
+int prevChar = 0;
+try {
+if (prevLine != null && prevLine.length() > 0) {
+ArrayList<Integer> prevChars = Util.asUnicodeArray(prevLine);
+prevChar = prevChars.get(prevChars.size()-1);
+}
+}
+catch(Exception e) {}
+
+
+String nextLine = nextLine();
+int nextChar = 0;
+try {
+if (nextLine != null && nextLine.length() > 0) {
+ArrayList<Integer> nextChars = Util.asUnicodeArray(nextLine);
+nextChar = nextChars.get(0);
+}
+}
+catch(Exception e) {}
+
+/*
+toastIt(
+ " "+prevChar
++" "+nextChar
++" "+String.valueOf(KeyCodes.isBold(prevChar))
++" "+String.valueOf(KeyCodes.isItalic(prevChar))
++" "+String.valueOf(KeyCodes.isEmphasized(prevChar))
++" "+String.valueOf(KeyCodes.isBold(nextChar))
++" "+String.valueOf(KeyCodes.isItalic(nextChar))
++" "+String.valueOf(KeyCodes.isEmphasized(nextChar))
+);
+*/
+
+boolean isBold = KeyCodes.isBold(prevChar)   || KeyCodes.isBold(nextChar);
+boolean isItalic = KeyCodes.isItalic(prevChar) || KeyCodes.isItalic(nextChar);
+boolean isEmphasized = KeyCodes.isEmphasized(prevChar) || KeyCodes.isEmphasized(nextChar);
+
+if (isBold) {
+    Variables.setAllEmOff();
+    Variables.setBoldOn();
+    // toastIt("𝗕𝗼𝗹𝗱");
+}
+else if (isItalic) {
+    Variables.setAllEmOff();
+    Variables.setItalicOn();
+    // toastIt("𝘐𝘵𝘢𝘭𝘪𝘤");
+}
+else if (isEmphasized) {
+    Variables.setAllEmOff();
+    Variables.setEmphasizedOn();
+    // toastIt("𝙀𝙢𝙥𝙝𝙖𝙨𝙞𝙯𝙚𝙙");
+}
+else {
+    Variables.setAllEmOff();
+    // toastIt("Normal");
+}
+
+redraw();
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             mComposing.setLength(0);
             InputConnection ic = getCurrentInputConnection();
@@ -733,7 +794,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void sendKey(int primaryCode, int times) {
         ic = getCurrentInputConnection();
-        while (times-- > 0) {
+        while (times --> 0) {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, primaryCode));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, primaryCode));
         }
@@ -1125,7 +1186,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (time > 300) {
             switch (primaryCode) {
                 case 31: performContextMenuAction(16908330); break;
-                // case 10: handleEnter(1); break;
+                case 10: handleEnter(1); break;
                 case -11: performContextMenuAction(16908337); break; // pasteAsPlainText
                 case -93: selectAll(); break;
                 case -99: ic.deleteSurroundingText(MAX, MAX); break;
@@ -1496,6 +1557,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         setClipboardEntry(trim(getClipboardEntry(0)));
     }
 
+
     public void handlePaste() {
         String paste = getClipboardEntry(0);
         if (sharedPreferences.getBoolean("spaces", t)) {
@@ -1527,8 +1589,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public void handleEnter() {
-        // if (noop == 0) return;
+    public void handleEnter(int noop) {
+        if (noop == 0) return;
         EditorInfo curEditor = getCurrentInputEditorInfo();
 
         if (sharedPreferences.getBoolean("spaces", t)) {
@@ -1623,11 +1685,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 10: handleEnter(); break;
+            case 10: handleEnter(1); break;
             case 32:
-toastIt("space");
-// handleSpace();
-commitText(" ", 1);
+// toastIt("space"); 
+handleSpace();
+// commitText(" ", 1);
 break;
             case 7: 
 commitText(tab, 1);

@@ -165,6 +165,16 @@ class Variables {
             cursorStart = -1;
         }
     }
+
+    static void setBoldOn() {setAllEmOff(); IS_BOLD = true;}
+    static void setBoldOff() {setAllEmOff(); IS_BOLD = false;}
+    static void setItalicOn() {setAllEmOff(); IS_ITALIC = true;}
+    static void setItalicOff() {setAllEmOff(); IS_ITALIC = false;}
+    static void setEmphasizedOn() {setAllEmOff(); IS_EMPHASIZED = true;}
+    static void setEmphasizedOff() {setAllEmOff(); IS_EMPHASIZED = false;}
+
+
+
     static void toggleBold() { setFontsOff(); IS_BOLD = !IS_BOLD; }
     static void toggleItalic() { setFontsOff(); IS_ITALIC = !IS_ITALIC; }
     static void toggleEmphasized() { setFontsOff(); IS_EMPHASIZED = !IS_EMPHASIZED; }

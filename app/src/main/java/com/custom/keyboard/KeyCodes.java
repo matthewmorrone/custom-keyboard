@@ -52,6 +52,16 @@ class KeyCodes {
         }
     }
 
+    static boolean isBold(int primaryCode) {
+        if      (primaryCode >= 120276 && primaryCode <= 120301) {
+            return true;
+        }
+        else if (primaryCode >= 120302 && primaryCode <= 120327) {
+            return true;
+        }
+        return false;
+    }
+
     static int getUnbold(int primaryCode) {
         if      (primaryCode >= 120276 && primaryCode <= 120301) {
             primaryCode -= 120211;
@@ -71,6 +81,15 @@ class KeyCodes {
         return primaryCode;
     }
 
+    static boolean isItalic(int primaryCode) {
+        if      (primaryCode >= 120328 && primaryCode <= 120353) {
+            return true; 
+        }
+        else if (primaryCode >= 120354 && primaryCode <= 120379) {
+            return true;
+        }
+        return false;
+    }
     static int getUnitalic(int primaryCode) {
         if      (primaryCode >= 120328 && primaryCode <= 120353) {
             primaryCode -= 120263;
@@ -90,6 +109,16 @@ class KeyCodes {
         return primaryCode;
     }
 
+
+    static boolean isEmphasized(int primaryCode) {
+        if      (primaryCode >= 120380 && primaryCode <= 120405) {
+            return true;
+        }
+        else if (primaryCode >= 120406 && primaryCode <= 120431) {
+            return true;
+        }
+        return false;
+    }
     static int getUnemphasized(int primaryCode) {
         if      (primaryCode >= 120380 && primaryCode <= 120405) {
             primaryCode -= 120315;
@@ -116,12 +145,14 @@ class KeyCodes {
 
             else if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
-                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120315;
+                // if (Variables.isBold() && Variables.isItalic()) primaryCode += 120315;
+                if (Variables.isEmphasized()) primaryCode += 120315;
                 else if (Variables.isBold()) primaryCode += 120211;
                 else if (Variables.isItalic()) primaryCode += 120263;
             }
             else {
-                if (Variables.isBold() && Variables.isItalic()) primaryCode += 120309;
+                // if (Variables.isBold() && Variables.isItalic()) primaryCode += 120309;
+                if (Variables.isEmphasized()) primaryCode += 120309;
                 else if (Variables.isBold()) primaryCode += 120205;
                 else if (Variables.isItalic()) primaryCode += 120257;
             }

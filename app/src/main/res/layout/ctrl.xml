@@ -29,7 +29,8 @@
         <Key android:codes="-0109" android:keyIcon="@drawable/ic_arrow_down"  android:isRepeatable="true" />
     </Row>
     <Row>
-        <Key android:codes="-0104" android:keyLabel="#?" android:horizontalGap="5%p" />
+        <Key android:codes="-100"  android:keyLabel="nbsp" />
+        <Key android:codes="-0104" android:keyLabel="#?" /><!-- android:horizontalGap="5%p" -->
         <Key android:codes="-0174" android:keyIcon="@drawable/ic_info" />
         <Key android:codes="-0133" android:keyLabel="⌴ \\t" />
         <Key android:codes="-0134" android:keyLabel="\\t ⌴" />
@@ -40,12 +41,12 @@
         <Key android:codes="-0094" android:keyIcon="@drawable/ic_duplicate_lines" />
     </Row>
     <Row>
+        <Key android:codes="8206"  android:keyLabel="LRM" />
+        <Key android:codes="8237"  android:keyLabel="LRO" />
         <Key android:codes="-0191" android:keyLabel="𝖺𝖠" /> 
         <Key android:codes="-0124" android:keyLabel="𝖠𝖠" /> 
         <Key android:codes="-0125" android:keyLabel="𝖠𝖺" /> 
         <Key android:codes="-0126" android:keyLabel="𝖺𝖺" />
-        <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
-        <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
         <Key android:codes="-0193" android:keyLabel="A̶a̶" />
         <Key android:codes="-0194" android:keyLabel="A̲a̲" />
         <Key android:codes="-0195" android:keyLabel="A꯭a" />
@@ -55,9 +56,9 @@
         <Key android:codes="-0001" android:keyIcon="@drawable/ic_shift" />
         <Key android:codes="-189"  android:keyLabel="Ⓝ" android:keyWidth="10%p" />
         <Key android:codes="-190"  android:keyLabel="Ⓢ" android:keyWidth="10%p" />
-        <Key android:codes="8206"  android:keyLabel="LRM" />
-        <Key android:codes="8237"  android:keyLabel="LRO" />
-        <Key android:codes="-100"  android:keyLabel="nbsp" />
+        <Key android:codes="-0012" android:keyLabel="𝗔𝗮" />
+        <Key android:codes="-0013" android:keyLabel="𝘈𝘢" />
+        <Key android:codes="-0198" android:keyLabel="𝘼𝙖" />
         <Key android:codes="+0000" android:keyLabel=" " />
         <Key android:codes="+0000" android:keyLabel=" " />
         <Key android:codes="-0005" android:keyIcon="@drawable/ic_backspace" />
