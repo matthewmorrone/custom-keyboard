@@ -819,6 +819,7 @@ redraw();
     public String prevLine() {
         ic = getCurrentInputConnection();
         CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
+        if (textBeforeCursor == null) return "";
         if (textBeforeCursor.length() < 1) return "";
         String[] lines = textBeforeCursor.toString().split("\n");
         if (lines.length < 2) return textBeforeCursor.toString();
@@ -828,6 +829,7 @@ redraw();
     public String nextLine() {
         ic = getCurrentInputConnection();
         CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
+        if (textAfterCursor == null) return "";
         if (textAfterCursor.length() < 1) return "";
         String[] lines = textAfterCursor.toString().split("\n");
         if (lines.length < 2) return textAfterCursor.toString();
