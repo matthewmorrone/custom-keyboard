@@ -480,10 +480,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 kv.setKeyboard(currentKeyboard);
                 setRowNumber(6);
-                // kv.setShifted(capsOn);
-                // kv.getKeyboard().setShifted(capsOn);
+                kv.setShifted(capsOn);
+                kv.getKeyboard().setShifted(capsOn);
                 redraw();
-                // setCapsOn(capsOn);
+                setCapsOn(capsOn);
                 kv.capsHack();
             }
         }
@@ -1011,46 +1011,46 @@ redraw();
     }
 
     public void setCapsOn(boolean on) {
-        // if (Variables.isShift()) {
-        //     kv.getKeyboard().setShifted(true);
-        //     redraw();
-        // }
-        // else {
-        //     kv.getKeyboard().setShifted(on);
-        //     redraw();
-        // }
+        if (Variables.isShift()) {
+            kv.getKeyboard().setShifted(true);
+            redraw();
+        }
+        else {
+            kv.getKeyboard().setShifted(on);
+            redraw();
+        }
     }
 
     public void capsOnFirst() {
-        // sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        // ic = getCurrentInputConnection();
-        // if (sharedPreferences.getBoolean("autocaps", f)) {
-        //     if (getCursorCapsMode(ic, getCurrentInputEditorInfo()) != 0) {
-        //         firstCaps = t;
-        //         setCapsOn(t);
-        //     }
-        // }
-        // else {
-        //     firstCaps = f;
-        //     setCapsOn(f);
-        // }
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        ic = getCurrentInputConnection();
+        if (sharedPreferences.getBoolean("autocaps", f)) {
+            if (getCursorCapsMode(ic, getCurrentInputEditorInfo()) != 0) {
+                firstCaps = t;
+                setCapsOn(t);
+            }
+        }
+        else {
+            firstCaps = f;
+            setCapsOn(f);
+        }
     }
 
     public int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
         int caps = 0;
-        // EditorInfo ei = getCurrentInputEditorInfo();
-        // if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
+        EditorInfo ei = getCurrentInputEditorInfo();
+        if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
         return caps;
     }
 
     public void updateShiftKeyState(EditorInfo attr) {
-        // ic = getCurrentInputConnection();
-        // if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
-        //     int caps = 0;
-        //     EditorInfo ei = getCurrentInputEditorInfo();
-        //     if (ei != null && ei.inputType != InputType.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
-        //     mInputView.setShifted(mCapsLock || caps != 0);
-        // }
+        ic = getCurrentInputConnection();
+        if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
+            int caps = 0;
+            EditorInfo ei = getCurrentInputEditorInfo();
+            if (ei != null && ei.inputType != InputType.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
+            mInputView.setShifted(mCapsLock || caps != 0);
+        }
     }
 
     public void setTheme() {
@@ -1306,7 +1306,7 @@ redraw();
         if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
             mComposing.append((char)primaryCode);
             ic.setComposingText(mComposing, 1);
-            // updateShiftKeyState(getCurrentInputEditorInfo());
+            updateShiftKeyState(getCurrentInputEditorInfo());
         }
         if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
             char code = (char)primaryCode;
@@ -1315,8 +1315,8 @@ redraw();
             }
             ic.setComposingRegion(0, 0);
             commitText(String.valueOf(code), 1);
-            // firstCaps = f;
-            // setCapsOn(f);
+            firstCaps = f;
+            setCapsOn(f);
         }
         if (!mPredictionOn) {
             ic.setComposingRegion(0, 0);
@@ -1324,8 +1324,8 @@ redraw();
             // if (Variables.isStrikethrough()) commitText("̶", 1);
             // if (Variables.isUnderlined()) commitText("̲", 1);
             // if (Variables.isUnderscored()) commitText("꯭", 1);
-            // firstCaps = f;
-            // setCapsOn(f);
+            firstCaps = f;
+            setCapsOn(f);
         }
         if (sharedPreferences.getBoolean("pred", f)) spellcheck(primaryCode);
     }
@@ -1410,7 +1410,7 @@ redraw();
 
             if (mCandidateView != null) mCandidateView.clear();
             clearCandidates();
-            // updateShiftKeyState(getCurrentInputEditorInfo());
+            updateShiftKeyState(getCurrentInputEditorInfo());
         }
     }
 
@@ -1688,9 +1688,8 @@ redraw();
             case 10: handleEnter(); break;
             case 7: commitText("    "); break;
             case -1:
-                // handleShift();
-                noop();
-                break;
+                handleShift();
+            break;
             case -2: hide(); break;
             case -3:
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
