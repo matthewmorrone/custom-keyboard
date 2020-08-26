@@ -3,7 +3,7 @@
     android:keyHeight="7%p"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-<!--    <include android:keyboardLayout="@layout/top_row" />-->
+    <!-- <include android:keyboardLayout="@layout/top_row" /> -->
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
@@ -18,7 +18,7 @@
         <Key android:codes="-152" android:keyIcon="@drawable/ic_paste_text" />
     </Row>
     <Row>
-        <Key android:codes="49"  android:keyLabel="1" android:popupCharacters="ːˑˈˌ\/!" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="49"  android:keyLabel="1" android:popupCharacters="\/ːˑˈˌ!" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="50"  android:keyLabel="2" android:popupCharacters="◌\/\@" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="51"  android:keyLabel="3" android:popupCharacters="̥̊#" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="52"  android:keyLabel="4" android:popupCharacters="̩̍$" android:popupKeyboard="@layout/popup_template" />

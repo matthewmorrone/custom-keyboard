@@ -1153,14 +1153,14 @@ class Util {
     }
 
     // debug
-    String getClassName() {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
+    public static String getClassName() {
+        Class<?> enclosingClass = Util.class.getEnclosingClass();
         String className;
         if (enclosingClass != null) {
             className = enclosingClass.getName();
         }
         else {
-            className = getClass().getName();
+            className = Util.class.getName();
         }
         try {
             className = className.split(".")[0];

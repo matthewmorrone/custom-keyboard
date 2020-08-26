@@ -3,8 +3,8 @@
                   android:layout_height="wrap_content">
     <SwitchPreference           android:title="Indent with Spaces"          android:key="spaces"                    android:defaultValue="true" />
     <PreferenceScreen           android:title="Editing">
-        <SwitchPreference       android:title="Prediction"                  android:key="pred"                      android:defaultValue="false" />
-        <SwitchPreference       android:title="Autocorrect"                 android:key="auto"                      android:defaultValue="false" />
+        <SwitchPreference       android:title="Prediction"                  android:key="pred"                      android:defaultValue="true" />
+        <SwitchPreference       android:title="Autocorrect"                 android:key="auto"                      android:defaultValue="true" />
         <SwitchPreference       android:title="Autocapitalization"          android:key="autocaps"                  android:defaultValue="false" />
         <SwitchPreference       android:title="Insert Pairs"                android:key="pairs"                     android:defaultValue="false" />
         <SwitchPreference       android:title="Toggle Selection Case"       android:key="shift"                     android:defaultValue="true" />

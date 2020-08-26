@@ -41,6 +41,7 @@ import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -268,7 +269,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         try {redraw();}
-        catch (Exception ignored) {}
+        catch (Exception e) {System.out.println(e);}
     }
 
     public void setPrimary() {
@@ -639,7 +640,7 @@ if (prevLine != null && prevLine.length() > 0) {
 ArrayList<Integer> prevChars = Util.asUnicodeArray(prevLine);
 prevChar = prevChars.get(prevChars.size()-1);
 }
-} catch(Exception e) {}
+} catch(Exception e) {System.out.println(e);}
 
 
 String nextLine = nextLine();
@@ -649,7 +650,7 @@ if (nextLine != null && nextLine.length() > 0) {
 ArrayList<Integer> nextChars = Util.asUnicodeArray(nextLine);
 nextChar = nextChars.get(0);
 }
-} catch(Exception e) {}
+} catch(Exception e) {System.out.println(e);}
 
 /*
 toastIt(
@@ -689,7 +690,7 @@ else {
     Variables.setAllEmOff();
     // toastIt("Normal");
 }
-} catch(Exception e) {}
+} catch(Exception e) {System.out.println(e);}
 redraw();
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             mComposing.setLength(0);
@@ -817,15 +818,19 @@ redraw();
 
     public String prevLine() {
         ic = getCurrentInputConnection();
-        String[] lines = ic.getTextBeforeCursor(MAX, 0).toString().split("\n");
-        if (lines.length < 2) return ic.getTextBeforeCursor(MAX, 0).toString();
+        CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
+        if (textBeforeCursor.length() < 1) return "";
+        String[] lines = textBeforeCursor.toString().split("\n");
+        if (lines.length < 2) return textBeforeCursor.toString();
         return lines[lines.length - 1];
     }
 
     public String nextLine() {
         ic = getCurrentInputConnection();
-        String[] lines = ic.getTextAfterCursor(MAX, 0).toString().split("\n");
-        if (lines.length < 2) return ic.getTextAfterCursor(MAX, 0).toString();
+        CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
+        if (textAfterCursor.length() < 1) return "";
+        String[] lines = textAfterCursor.toString().split("\n");
+        if (lines.length < 2) return textAfterCursor.toString();
         return lines[0];
     }
 
@@ -1004,46 +1009,46 @@ redraw();
     }
 
     public void setCapsOn(boolean on) {
-        if (Variables.isShift()) {
-            kv.getKeyboard().setShifted(true);
-            redraw();
-        }
-        else {
-            kv.getKeyboard().setShifted(on);
-            redraw();
-        }
+        // if (Variables.isShift()) {
+        //     kv.getKeyboard().setShifted(true);
+        //     redraw();
+        // }
+        // else {
+        //     kv.getKeyboard().setShifted(on);
+        //     redraw();
+        // }
     }
 
     public void capsOnFirst() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        ic = getCurrentInputConnection();
-        if (sharedPreferences.getBoolean("autocaps", f)) {
-            if (getCursorCapsMode(ic, getCurrentInputEditorInfo()) != 0) {
-                firstCaps = t;
-                setCapsOn(t);
-            }
-        }
-        else {
-            firstCaps = f;
-            setCapsOn(f);
-        }
+        // sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        // ic = getCurrentInputConnection();
+        // if (sharedPreferences.getBoolean("autocaps", f)) {
+        //     if (getCursorCapsMode(ic, getCurrentInputEditorInfo()) != 0) {
+        //         firstCaps = t;
+        //         setCapsOn(t);
+        //     }
+        // }
+        // else {
+        //     firstCaps = f;
+        //     setCapsOn(f);
+        // }
     }
 
     public int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
         int caps = 0;
-        EditorInfo ei = getCurrentInputEditorInfo();
-        if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
+        // EditorInfo ei = getCurrentInputEditorInfo();
+        // if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
         return caps;
     }
 
     public void updateShiftKeyState(EditorInfo attr) {
-        ic = getCurrentInputConnection();
-        if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
-            int caps = 0;
-            EditorInfo ei = getCurrentInputEditorInfo();
-            if (ei != null && ei.inputType != InputType.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
-            mInputView.setShifted(mCapsLock || caps != 0);
-        }
+        // ic = getCurrentInputConnection();
+        // if (attr != null && mInputView != null && layouts.get(0) == mInputView.getKeyboard()) {
+        //     int caps = 0;
+        //     EditorInfo ei = getCurrentInputEditorInfo();
+        //     if (ei != null && ei.inputType != InputType.TYPE_NULL) caps = ic.getCursorCapsMode(attr.inputType);
+        //     mInputView.setShifted(mCapsLock || caps != 0);
+        // }
     }
 
     public void setTheme() {
@@ -1235,9 +1240,8 @@ redraw();
                 spellcheck();
             }
             updateShiftKeyState(getCurrentInputEditorInfo());
-
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {System.out.println(e);}
     }
 
     public void handleDelete() {
@@ -1267,6 +1271,8 @@ redraw();
     }
 
     public void handleCharacter(int primaryCode) {
+        setCandidatesViewShown(true);
+
         ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         primaryCode = KeyCodes.handleCharacter(kv, primaryCode);
@@ -1285,19 +1291,20 @@ redraw();
                 if (code.equals("[")) commitText("[]");
                 if (code.equals("{")) commitText("{}");
                 if (code.equals("\"")) commitText("\"\"");
-                if (Variables.isReflected() || sharedPreferences.getBoolean("cursor_left", f) || currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) {
+                if (Variables.isReflected()
+                 || sharedPreferences.getBoolean("cursor_left", f)
+                 || currentKeyboard.title.equals("Rotated")
+                 || currentKeyboard.title.equals("Lisu")) {
                     sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
-                else {
-                    sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
-                }
+                else sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                 return;
             }
         }
         if (mPredictionOn && !Util.isWordSeparator(primaryCode)) {
             mComposing.append((char)primaryCode);
             ic.setComposingText(mComposing, 1);
-            updateShiftKeyState(getCurrentInputEditorInfo());
+            // updateShiftKeyState(getCurrentInputEditorInfo());
         }
         if (mPredictionOn && Util.isWordSeparator(primaryCode)) {
             char code = (char)primaryCode;
@@ -1306,8 +1313,8 @@ redraw();
             }
             ic.setComposingRegion(0, 0);
             commitText(String.valueOf(code), 1);
-            firstCaps = f;
-            setCapsOn(f);
+            // firstCaps = f;
+            // setCapsOn(f);
         }
         if (!mPredictionOn) {
             ic.setComposingRegion(0, 0);
@@ -1315,35 +1322,17 @@ redraw();
             // if (Variables.isStrikethrough()) commitText("̶", 1);
             // if (Variables.isUnderlined()) commitText("̲", 1);
             // if (Variables.isUnderscored()) commitText("꯭", 1);
-            firstCaps = f;
-            setCapsOn(f);
+            // firstCaps = f;
+            // setCapsOn(f);
         }
-        if (sharedPreferences.getBoolean("pred", f)) {
-            spellcheck(primaryCode);
-        }
-    }
-
-    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
-        final int len = si.getSuggestionsCount();
-        for (int j = 0; j < len; ++j) {
-            sb.add(si.getSuggestionAt(j));
-        }
-    }
-
-    private void resetCandidates() {
-        Keyboard.Key key1 = getKey(29);
-        Keyboard.Key key2 = getKey(30);
-        Keyboard.Key key3 = getKey(31);
-        if (key1 != null) key1.label = empty;
-        if (key2 != null) key2.label = empty;
-        if (key3 != null) key3.label = empty;
+        if (sharedPreferences.getBoolean("pred", f)) spellcheck(primaryCode);
     }
 
     public void spellcheck() {
         try {
             String lastWord = getLastWord();
             lastWord = lastWord.toLowerCase();
-            if (lastWord.length() < 2) return;
+            if (lastWord.length() < 1) return;
 
             boolean isWord = Edit.inTrie(lastWord);
 
@@ -1356,7 +1345,7 @@ redraw();
 
             setSuggestions(completions, true, isWord);
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {System.out.println(e);}
     }
 
     public void spellcheck(int primaryCode) {
@@ -1415,23 +1404,29 @@ redraw();
             String completion = mSuggestions.get(index);
 
             ic.deleteSurroundingText(getLastWord().length(), 0);
-            commitText(completion + "");
+            commitText(" " + completion + " ", completion.length());
 
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
+            if (mCandidateView != null) mCandidateView.clear();
+            clearCandidates();
+            // updateShiftKeyState(getCurrentInputEditorInfo());
         }
     }
 
     @Override
     public void onGetSuggestions(SuggestionsInfo[] results) {
-
+        System.out.println(Arrays.toString(results));
     }
 
     @Override
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
+        System.out.println(Arrays.toString(results));
+    }
 
+    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
+        final int len = si.getSuggestionsCount();
+        for (int j = 0; j < len; ++j) {
+            sb.add(si.getSuggestionAt(j));
+        }
     }
 
 
@@ -1554,7 +1549,6 @@ redraw();
         setClipboardEntry(trim(getClipboardEntry(0)));
     }
 
-
     public void handlePaste() {
         String paste = getClipboardEntry(0);
         if (sharedPreferences.getBoolean("spaces", t)) {
@@ -1587,28 +1581,27 @@ redraw();
     }
 
     public void handleEnter() {
-try {
-        // if (noop == 0) return;
-        EditorInfo curEditor = getCurrentInputEditorInfo();
+        try {
+            // if (noop == 0) return;
+            EditorInfo curEditor = getCurrentInputEditorInfo();
 
-        // InputType
-        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO);     break;
-            case EditorInfo.IME_ACTION_SEND:   ic.performEditorAction(EditorInfo.IME_ACTION_SEND);   break;
-            case EditorInfo.IME_ACTION_DONE:   ic.performEditorAction(EditorInfo.IME_ACTION_DONE);   break;
-            case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-            default: sendKey(KeyEvent.KEYCODE_ENTER); break;
-        }
+            // InputType
+            switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
+                case EditorInfo.IME_ACTION_GO:     ic.performEditorAction(EditorInfo.IME_ACTION_GO);     break;
+                case EditorInfo.IME_ACTION_SEND:   ic.performEditorAction(EditorInfo.IME_ACTION_SEND);   break;
+                case EditorInfo.IME_ACTION_DONE:   ic.performEditorAction(EditorInfo.IME_ACTION_DONE);   break;
+                case EditorInfo.IME_ACTION_SEARCH: ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+                default: sendKey(KeyEvent.KEYCODE_ENTER); break;
+            }
 
-        if (sharedPreferences.getBoolean("spaces", t)) {
-            String indent = Util.getIndentation(prevLine());
-            if (indent.length() > 0) {
-                commitText("\n" + indent);
-                return;
+            if (sharedPreferences.getBoolean("spaces", t)) {
+                String indent = Util.getIndentation(prevLine());
+                if (indent.length() > 0) {
+                    commitText("\n" + indent);
+                }
             }
         }
-}
-catch(Exception e) {}
+        catch(Exception e) {System.out.println(e);}
     }
     
     @Override
@@ -1689,32 +1682,13 @@ catch(Exception e) {}
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-
-
-case 32:
-toastIt(primaryCode);
-handleSpace();
-break;
-case 10:
-toastIt(primaryCode);
-handleEnter(); 
-break;
-case 7:
-toastIt(primaryCode);
-commitText("    ");
-break;
-
-/*
-case 32:
-navigate(KeyEvent.KEYCODE_DPAD_RIGHT); 
-// commitText(" ", 1);
-break;
-case 10: 
-break;
-case 7: 
-break;
-*/
-            case -1: handleShift(); break;
+            case 32: handleSpace(); break;
+            case 10: handleEnter(); break;
+            case 7: commitText("    "); break;
+            case -1:
+                // handleShift();
+                noop();
+                break;
             case -2: hide(); break;
             case -3:
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -1912,20 +1886,16 @@ break;
             case -119: navigate(KeyEvent.KEYCODE_DPAD_DOWN); navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -120: navigate(KeyEvent.KEYCODE_DPAD_DOWN); navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -121:
-                if (Variables.isCtrl() || Variables.isAlt()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                    if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_ALT_ON));
-                    if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON));
-                }
-                else sendKey(KeyEvent.KEYCODE_DEL);
+                if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                else if (Variables.isAlt())                  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_ALT_ON));
+                else if (Variables.isCtrl())                 ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 67, 0, KeyEvent.META_CTRL_ON));
+                else                                         sendKey(KeyEvent.KEYCODE_DEL);
             break;
             case -122:
-                if (Variables.isCtrl() || Variables.isAlt()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                    if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_ALT_ON));
-                    if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON));
-                }
-                else sendKey(KeyEvent.KEYCODE_TAB);
+                if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                else if (Variables.isAlt())                  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_ALT_ON));
+                else if (Variables.isCtrl())                 ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, 61, 0, KeyEvent.META_CTRL_ON));
+                else                                         sendKey(KeyEvent.KEYCODE_TAB);
             break;
             case -123: clearAll(); break;
             case -124: performReplace(getText(ic).toUpperCase()); break;
@@ -2000,7 +1970,7 @@ break;
                 sendKey(KeyEvent.KEYCODE_MOVE_END);
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
                 sendKey(KeyEvent.KEYCODE_MOVE_HOME);
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
                 sendKey(KeyEvent.KEYCODE_CUT);
                 sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
                 sendKey(KeyEvent.KEYCODE_DPAD_UP);
@@ -2012,7 +1982,7 @@ break;
                 sendKey(KeyEvent.KEYCODE_MOVE_END);
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
                 sendKey(KeyEvent.KEYCODE_MOVE_HOME);
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
                 sendKey(KeyEvent.KEYCODE_CUT);
                 sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
                 sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
@@ -2050,7 +2020,7 @@ break;
                 currentKeyboard = new CustomKeyboard(this, R.layout.ctrl, "control", "Control", "").setCategory(Category.Main);
                 kv.setKeyboard(currentKeyboard);
                 layouts.set(currentKeyboardID, currentKeyboard);
-                setShifted(capsOn);
+                // setShifted(capsOn);
                 toastIt(prevKeyboard.title);
             break;
             case -193:
@@ -2090,21 +2060,21 @@ break;
             case -210: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
             case -211: performReplace(Util.addLineNumbers(getText(ic))); break;
             case -212: performReplace(Util.removeLineNumbers(getText(ic))); break;
-            
-            
+
+            /*
+            case -213: break;
+            ...
+            case -299: break;
+            */
+
             case -300:
                 keepCtrlOpen = false;
                 /*
-                if (prevKeyboard != null) {
-                    prevKeyboard = null;
-                }
-                else {
-                    toastIt("-300 "+findKeyboard("Primary"));
-                }
+                if (prevKeyboard != null) prevKeyboard = null;
+                else toastIt("-300 "+findKeyboard("Primary"));
                 */
                 toastIt(findKeyboard(prevKeyboard.title));
-
-                setShifted(capsOn);
+                // setShifted(capsOn);
             break;
             case -301: toastIt(findKeyboard("Function")); break;
             case -302: toastIt(findKeyboard("Utility")); break;
@@ -2228,25 +2198,28 @@ break;
                     try {
                         handleCharacter(primaryCode);
                         redraw();
-                        if (Variables.isReflected() || sharedPreferences.getBoolean("cursor_left", f) || currentKeyboard.title.equals("Rotated") || currentKeyboard.title.equals("Lisu")) {
+                        if (Variables.isReflected()
+                         || sharedPreferences.getBoolean("cursor_left", f)
+                         || currentKeyboard.title.equals("Rotated")
+                         || currentKeyboard.title.equals("Lisu")) {
                             sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                         }
                     }
-                    catch (Exception ignored) {}
+                    catch (Exception e) {System.out.println(e);}
                 }
         }
-        try {
-            if (sharedPreferences.getBoolean("caps", f)
-             && ic.getTextBeforeCursor(2, 0) != null
-             && String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
-                setCapsOn(t);
-                firstCaps = t;
-            }
-        }
-        catch (Exception e) {
-            toastIt(primaryCode + " " + e.toString());
-        }
+        // try {
+        //     if (sharedPreferences.getBoolean("caps", f)
+        //      && ic.getTextBeforeCursor(2, 0) != null
+        //      && String.valueOf(ic.getTextBeforeCursor(2, 0)).length() >= 2) {
+        //         setCapsOn(t);
+        //         firstCaps = t;
+        //     }
+        // }
+        // catch (Exception e) {System.out.println(e);}
     }
+
+    private void noop() {}
 
     public short getRowNumber() {
         return rowNumber;

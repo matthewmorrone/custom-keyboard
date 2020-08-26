@@ -54,28 +54,38 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             addPreferencesFromResource(R.xml.preferences);
             PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            System.out.println(e);
+        }
 
         try {
             listDefaultLayout = (ListPreference)findPreference("default_layout");
             listDefaultLayout.setSummary(listDefaultLayout.getEntry());
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             listTheme = (ListPreference)findPreference("theme");
             listTheme.setSummary(listTheme.getEntry());
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         try {
             bg = (EditTextPreference)findPreference("bg");
             fg = (EditTextPreference)findPreference("fg");
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             text_size = (EditTextPreference)findPreference("text_size");
             seps = (EditTextPreference)findPreference("seps");
             popup_first = (EditTextPreference)findPreference("popup_first");
             popup_second = (EditTextPreference)findPreference("popup_second");
             popup_third = (EditTextPreference)findPreference("popup_third");
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
 
         popup_first.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -117,7 +127,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k6 = (EditTextPreference)findPreference("k6");
             k7 = (EditTextPreference)findPreference("k7");
             k8 = (EditTextPreference)findPreference("k8");
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
         try {
             name = (EditTextPreference)findPreference("name");
@@ -128,19 +140,25 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             phone.setSummary(sharedPreferences.getString("phone", ""));
             address = (EditTextPreference)findPreference("address");
             address.setSummary(sharedPreferences.getString("address", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
             fg.setSummary(sharedPreferences.getString("fg", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             k1.setSummary(sharedPreferences.getString("k1", ""));
             k2.setSummary(sharedPreferences.getString("k2", ""));
@@ -150,7 +168,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k6.setSummary(sharedPreferences.getString("k6", ""));
             k7.setSummary(sharedPreferences.getString("k7", ""));
             k8.setSummary(sharedPreferences.getString("k8", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         PreferenceScreen preferences = (PreferenceScreen)findPreference("layouts");
         if (sharedPreferences.getBoolean("custom_order", false)) {
@@ -172,13 +192,21 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (s.equals("all")) {
             boolean isChecked = ((CheckBoxPreference)findPreference("all")).isChecked();
             try {((CheckBoxPreference)findPreference("primary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
+            catch (Exception e) {
+                System.out.println(e);
+            }
             try {((CheckBoxPreference)findPreference("secondary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
+            catch (Exception e) {
+                System.out.println(e);
+            }
             try {((CheckBoxPreference)findPreference("tertiary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
+            catch (Exception e) {
+                System.out.println(e);
+            }
             try {((CheckBoxPreference)findPreference("forthary")).setChecked(isChecked);}
-            catch (Exception ignored) {}
+            catch (Exception e) {
+                System.out.println(e);
+            }
         }
                
         if (s.equals("primary")) {
@@ -188,7 +216,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 try {
                     preference = (CheckBoxPreference)(preferences.getPreference(i));
                     preference.setChecked(isChecked);
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
         
@@ -199,7 +229,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 try {
                     preference = (CheckBoxPreference)(preferences.getPreference(i));
                     preference.setChecked(isChecked);
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
         
@@ -210,7 +242,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 try {
                     preference = (CheckBoxPreference)(preferences.getPreference(i));
                     preference.setChecked(isChecked);
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
 
@@ -221,25 +255,37 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 try {
                     preference = (CheckBoxPreference)(preferences.getPreference(i));
                     preference.setChecked(isChecked);
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
 
-        Intent intent = new Intent("updateKeyboard");
-        getContext().sendBroadcast(intent);
+        try {
+            Intent intent = new Intent("updateKeyboard");
+            getContext().sendBroadcast(intent);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         try {
             listDefaultLayout = (ListPreference)findPreference("default_layout");
             listDefaultLayout.setSummary(listDefaultLayout.getEntry());
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             bg.setSummary(sharedPreferences.getString("bg", ""));
             fg.setSummary(sharedPreferences.getString("fg", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             listTheme = (ListPreference)findPreference("theme");
             listTheme.setSummary(listTheme.getEntry());
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             text_size.setSummary(sharedPreferences.getString("text_size", ""));
             seps.setSummary(sharedPreferences.getString("seps", ""));
@@ -250,7 +296,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));
             address.setSummary(sharedPreferences.getString("address", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try {
             k1.setSummary(sharedPreferences.getString("k1", ""));
             k2.setSummary(sharedPreferences.getString("k2", ""));
@@ -260,6 +308,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             k6.setSummary(sharedPreferences.getString("k6", ""));
             k7.setSummary(sharedPreferences.getString("k7", ""));
             k8.setSummary(sharedPreferences.getString("k8", ""));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
