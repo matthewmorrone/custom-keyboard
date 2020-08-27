@@ -5,7 +5,7 @@ import android.view.KeyEvent;
 class KeyCodes {
 
     static final int[] hexPasses = new int[] {
-            7,    9,   10,   32,
+            7,    9,   10,   32,  33,
            -1,   -4,   -5,   -7,
            -8,   -9,  -10,  -11,
          -101, -102, -103,  -25,

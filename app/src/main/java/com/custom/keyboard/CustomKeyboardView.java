@@ -231,7 +231,7 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
-            if (key.codes[0] == 32) {
+            if (key.codes[0] == 33) {
                 key.text = sharedPreferences.getString(Constants.SPACEBARTEXT, " ");
                 key.popupCharacters = sharedPreferences.getString(Constants.SPACEBARPOPUP, getContext().getString(R.string.popup_first));
 
@@ -320,6 +320,7 @@ public class CustomKeyboardView extends KeyboardView {
             && key.codes[0] !=  7
             && key.codes[0] != 10
             && key.codes[0] != 32
+            && key.codes[0] != 33
             && key.codes[0] != -124
             && key.codes[0] != -125
             && key.codes[0] != -126
