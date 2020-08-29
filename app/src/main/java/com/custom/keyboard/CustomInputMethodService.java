@@ -423,10 +423,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public void addToDictionary(String word) {
-        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
-    }
-
     public ArrayList<CustomKeyboard> getLayouts() {
         return layouts;
     }
@@ -469,8 +465,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 if (sharedPreferences.getBoolean("respace", f)) {
                     String currentKeyboardLabel = currentKeyboard.label;
                     if (currentKeyboard.title.equals("Layouts")) {
-                        if (layouts.size() - 1 != 1) getKey(33).label = (layouts.size() - 1) + " layouts";
-                        else getKey(33).label = "1 layout";
+                        if (layouts.size() - 1 != 1) getKey(32).label = (layouts.size() - 1) + " layouts";
+                        else getKey(32).label = "1 layout";
                     }
                     else if (currentKeyboard.title.equals("Hex") || currentKeyboard.title.equals("Unicode")) {
                         kv.setShifted(true);
@@ -478,7 +474,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     else if (!currentKeyboard.title.equals("Shift")) {
                         if (kv.isShifted()) currentKeyboardLabel = currentKeyboardLabel.toUpperCase();
                         else currentKeyboardLabel = currentKeyboardLabel.toLowerCase();
-                        getKey(33).label = currentKeyboard.title + "\t•\t" + currentKeyboardLabel; // ·
+                        getKey(32).label = currentKeyboard.title + "\t•\t" + currentKeyboardLabel; // ·
                     }
                 }
                 kv.setKeyboard(currentKeyboard);
@@ -622,7 +618,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         setKeyboard();
 
-        setCandidatesViewShown(t);
+        setCandidatesViewShown(f);
     }
 
     @Override
@@ -717,9 +713,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void hide() {
+    
         requestHideSelf(0);
     }
+    
+    public void addToDictionary(String word) {
+        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
+    }
 
+    
     public void commitTyped(InputConnection ic) {
         if (mComposing.length() > 0) {
             commitText(String.valueOf(mComposing), mComposing.length());
@@ -765,7 +767,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             || primaryCode == 30
             || primaryCode == 31
             || primaryCode == 32
-            || primaryCode == 33
         )) {
             return;
         }
@@ -1436,6 +1437,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             redraw();
         }
         else {
+/*
             switch (currentKeyboard.title) {
                 case "Caps":
                     if (kv.isShifted()) currentKeyboard = new CustomKeyboard(this, R.layout.caps,       "Caps", "ҩᴡᴇʀᴛʏ").setCategory(Category.Misc);
@@ -1454,6 +1456,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     else                currentKeyboard = new CustomKeyboard(this, R.layout.stealth_shift, "Stealth", "ԚԜЕꓣТҮ").setCategory(Category.Misc);
                 break;
             }
+*/
             kv.setKeyboard(currentKeyboard);
             if (shift_pressed + 300 > System.currentTimeMillis()) {
                 Variables.setShiftOn();
@@ -1605,7 +1608,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (currentKeyboard.key.equals("enmorse") && !Morse.fromChar(String.valueOf((char)primaryCode)).equals(empty)) {
             String res = Morse.fromChar(String.valueOf((char)primaryCode));
             if (kv.isShifted()) res = res.toUpperCase();
-            getKey(33).label = (char)primaryCode + " " + res;
+            getKey(32).label = (char)primaryCode + " " + res;
             commitText(res + " ");
             return;
         }
@@ -1614,19 +1617,19 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             return;
         }
         if (currentKeyboard.key.equals("demorse") && "·- ".contains(String.valueOf((char)primaryCode))) {
-            if (primaryCode == 33) {
+            if (primaryCode == 32) {
                 String res = getLastMorse();
                 if (kv.isShifted()) res = res.toUpperCase();
                 ic.deleteSurroundingText(res.length(), 0);
                 commitText(Morse.toChar(res) + "");
-                getKey(33).label = " ";
+                getKey(32).label = " ";
                 redraw();
                 return;
             }
             String res = String.valueOf((char)primaryCode);
             if (kv.isShifted()) res = res.toUpperCase();
             commitText(res);
-            getKey(33).label = getLastMorse() + " " + Morse.toChar(getLastMorse());
+            getKey(32).label = getLastMorse() + " " + Morse.toChar(getLastMorse());
             redraw();
             return;
         }
@@ -1667,9 +1670,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 33: handleSpace(); break;
-            case 11: handleEnter(); break;
-            case 8:
+            case 32: handleSpace(); break;
+            case 10: handleEnter(); break;
+            case 7:
                 commitText("    ");
             break;
             case -1:
