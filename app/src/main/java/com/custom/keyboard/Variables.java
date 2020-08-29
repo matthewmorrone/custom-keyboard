@@ -173,6 +173,8 @@ class Variables {
     static void setEmphasizedOn() {setAllEmOff(); IS_EMPHASIZED = true;}
     static void setEmphasizedOff() {setAllEmOff(); IS_EMPHASIZED = false;}
 
+    static void setShift(boolean shift) { IS_SHIFT = shift; }
+    static void toggleShift() { IS_SHIFT = !IS_SHIFT; }
 
 
     static void toggleBold() { setFontsOff(); IS_BOLD = !IS_BOLD; }

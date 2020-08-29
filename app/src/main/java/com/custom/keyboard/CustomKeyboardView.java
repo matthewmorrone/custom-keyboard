@@ -223,12 +223,8 @@ public class CustomKeyboardView extends KeyboardView {
             // if (key.codes == null) {continue;}
 
             if (key.codes[0] == -1) {
-                if (Variables.isShift()) {
-                    selectKey(key, corner);
-                }
-                if (getKeyboard().isShifted()) {
-                    drawable(key, R.drawable.ic_shift_lock, 35);
-                }
+                if (Variables.isShift()) selectKey(key, corner);
+                if (getKeyboard().isShifted()) drawable(key, R.drawable.ic_shift_lock, 35);
             }
 
             if (key.codes[0] == 32) {
