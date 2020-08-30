@@ -19,6 +19,10 @@ class TrieNode implements Comparable<TrieNode> {
         return word;
     }
 
+    public long getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return this.word+"("+this.value+")";

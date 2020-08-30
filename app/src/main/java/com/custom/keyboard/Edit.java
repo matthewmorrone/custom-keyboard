@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ public class Edit {
     static Trie trie = new Trie();
     static Map<String,String> typos = new HashMap<>();
     static List<String> list = new ArrayList<>();
-    
 
     public Edit(Context context) {
         buildTrie(context, R.raw.words_82765);
@@ -24,11 +24,12 @@ public class Edit {
         readFile(context, R.raw.typos_more);
     }
 
+
     public static boolean inTrie(String word) {
         return trie.search(word);
     }
     
-    public static boolean isPrefix(String word) {
+    public static boolean startsWith(String word) {
         return trie.startsWith(word);
     }
     
@@ -36,17 +37,21 @@ public class Edit {
         TrieNode tn = trie.searchNode(word);
         trie.wordsFinderTraversal(tn, 0);
         ArrayList<TrieNode> result = trie.termini;
-        result.remove(word);
-        // todo: remove self
-        Collections.sort(result);
+        // result.remove(word);
+        // remove self
+
+        Collections.sort(result, new Comparator<TrieNode>() {
+            @Override
+            public int compare(TrieNode t1, TrieNode t2) {
+                return (int)(t2.value - t1.value);
+            }
+        });
         if (result.size() > 10) {
             result = new ArrayList<>(result.subList(0, 10));
         }
-
         ArrayList<String> strings = new ArrayList<>();
         for (TrieNode trieNode : result) {
-            String trieNodeWord = trieNode.getWord();
-            strings.add(trieNodeWord);
+            strings.add(trieNode.getWord());
         }
         return strings;
     }
@@ -66,14 +71,9 @@ public class Edit {
             }
         }
         catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
-    
-    
-    
-    
 
     private void readFile(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
@@ -91,7 +91,7 @@ public class Edit {
             }
         }
         catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
@@ -102,7 +102,6 @@ public class Edit {
         else {
             return suggest(word);
         }
-        // return word;
     }
     
     public static String suggest(String word) {

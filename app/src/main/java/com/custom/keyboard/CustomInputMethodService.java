@@ -423,10 +423,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public void addToDictionary(String word) {
-        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
-    }
-
     public ArrayList<CustomKeyboard> getLayouts() {
         return layouts;
     }
@@ -751,8 +747,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
+    public void addToDictionary(String word) {
+        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
+    }
+
     public void spellcheck(int primaryCode) {
-        if (sharedPreferences.getBoolean("pred", f)) return;
+        // if (sharedPreferences.getBoolean("pred", f)) return;
         if (!(Util.isLetter(primaryCode)
             || primaryCode == 29
             || primaryCode == 30
@@ -771,14 +771,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             if (lastWord.length() < 1) return;
 
             boolean isWord = Edit.inTrie(lastWord);
+            boolean isPrefix = Edit.startsWith(lastWord);
 
-            ArrayList<String> completions;
-            if (!isWord) {
-                lastWord = Edit.check(lastWord);
-            }
-            completions = Edit.getCompletions(lastWord);
-            List<String> stringList = new ArrayList<>();
+            ArrayList<String> completions = Edit.getCompletions(lastWord);
 
+            // toastIt(lastWord
+            //     +" "+isWord
+            //     +" "+isPrefix
+            //     +" "+Edit.check(lastWord)
+            //     +"\n"+completions.toString()
+            // );
+
+            setCandidatesViewShown(t);
             setSuggestions(completions, true, isWord);
         }
         catch (Exception e) {System.out.println(e);}
@@ -803,12 +807,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-        // if (suggestions != null && suggestions.size() > 0) {
-        //     setCandidatesViewShown(t);
-        // }
-        // else if (isExtractViewShown()) {
-        //     setCandidatesViewShown(t);
-        // }
+        if ((suggestions != null && suggestions.size() > 0) || isExtractViewShown()) {
+            setCandidatesViewShown(t);
+        }
         mSuggestions = suggestions;
         if (mCandidateView != null) {
             mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
@@ -819,19 +820,18 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (mCandidateView != null) {
             mCandidateView.clear();
         }
+        redraw();
     }
 
     public void pickSuggestionManually(int index) {
+        ic = getCurrentInputConnection();
         if (mCompletionOn && mSuggestions != null && index >= 0 && index < mSuggestions.size()) {
             String completion = mSuggestions.get(index);
-
-            ic.deleteSurroundingText(getLastWord().length(), 0);
-            commitText(" " + completion + " ", completion.length());
-
-            if (mCandidateView != null) mCandidateView.clear();
-            clearCandidates();
-
+            String lastWord = getLastWord();
+            ic.deleteSurroundingText(lastWord.length(), 0);
+            commitText(completion, completion.length());
         }
+        clearCandidates();
     }
 
     @Override
@@ -850,7 +850,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             sb.add(si.getSuggestionAt(j));
         }
     }
-
 
     public void performReplace(String newText) {
         ic = getCurrentInputConnection();
@@ -1196,7 +1195,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void commitText(String text) {
         ic.beginBatchEdit();
-        ic.commitText(text, 0);
+        ic.commitText(text, text.length()-1);
         ic.endBatchEdit();
     }
 
@@ -1233,11 +1232,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 ic.deleteSurroundingText((4 - (getPrevLine().length() % 4)), 0);
             }
             else sendKey(KeyEvent.KEYCODE_DEL);
-            if (length > 0) {
-                spellcheck();
-            }
         }
         catch (Exception e) {System.out.println(e);}
+
+        if (length > 0) {
+            clearCandidates();
+            redraw();
+            spellcheck();
+        }
+
+
     }
 
     public void handleDelete() {
@@ -1247,21 +1251,23 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (!isSelecting() && String.valueOf(ic.getTextAfterCursor(4, 0)).equals(spaces) && sharedPreferences.getBoolean("spaces", t)) {
             ic.deleteSurroundingText(0, 4);
-        } 
+        }
         else if (length > 1) {
-            mComposing.delete(length, length - 1);
-            ic.setComposingText(mComposing, 1);
-        } 
+            try {
+                mComposing.delete(length, length - 1);
+                ic.setComposingText(mComposing, 1);
+            }
+            catch(Exception e) {System.out.println(e);};
+        }
         else if (length > 0) {
             mComposing.setLength(0);
             commitText(empty);
-        } 
+        }
         else sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
         if (length > 0) {
             clearCandidates();
             spellcheck();
         }
-
     }
 
     public void handleCharacter(int primaryCode) {
@@ -1323,7 +1329,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
 
         if (sharedPreferences.getBoolean("pred", f)) spellcheck(primaryCode);
-        spellcheck();
     }
 
     public void handleShift() {
@@ -1357,7 +1362,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-
     long time = 0;
 
     @Override
@@ -1388,7 +1392,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
         }
     }
-
 
     public void handleCut() {
         String record;
@@ -1455,6 +1458,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void handleSpace() {
+
         if (sharedPreferences.getBoolean("spaces", t)) {
             int spaceCount = (4 - (getPrevLine().length() % 4));
             if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
@@ -1471,6 +1475,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 ic.setSelection(getSelectionStart(), getSelectionEnd() + tab.length());
             }
         }
+
+        if (mCandidateView != null) mCandidateView.clear();
+        clearCandidates();
+
+        setCandidatesViewShown(f);
+        redraw();
     }
 
     public void handleEnter() {
@@ -1573,7 +1583,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 32: handleSpace(); break;
+            case 32:
+
+                clearCandidates();
+
+                // setCandidatesViewShown(f);
+
+
+            handleSpace(); break;
             case 10: handleEnter(); break;
             case 7:
                 commitText("    ");
