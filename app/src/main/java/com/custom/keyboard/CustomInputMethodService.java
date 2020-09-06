@@ -708,12 +708,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void hide() {
-    
         requestHideSelf(0);
-    }
-    
-    public void addToDictionary(String word) {
-        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
     }
 
     
