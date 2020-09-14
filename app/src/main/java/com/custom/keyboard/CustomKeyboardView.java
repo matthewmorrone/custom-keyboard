@@ -106,6 +106,7 @@ public class CustomKeyboardView extends KeyboardView {
         boolean padding = sharedPreferences.getBoolean("padding", false);
         boolean corners = sharedPreferences.getBoolean("corners", false);
         boolean keyback = sharedPreferences.getBoolean("keyback", false);
+        boolean space = sharedPreferences.getBoolean("space", false);
 
         int border = 2;  // borders || padding ? 2 : 0;
         int corner = 16; // corners ? 16 : 0;
@@ -173,7 +174,7 @@ public class CustomKeyboardView extends KeyboardView {
                     drawKey(mPressedBackground, key);
                 }
             }
-            if (key.codes[0] == 32) {
+            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) {
                 drawKey(mSpaceBackground, key);
             }
             if (Variables.isAnyOn()) {
