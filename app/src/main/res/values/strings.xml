@@ -1,106 +1,40 @@
 <resources>
-    <string name="app_name">Custom Keyboard</string>
-    <string-array name="default_layout">
-        <item name="1">Symbol Alternates</item>
-        <item name="2">Shifted Alternates</item>
-        <item name="3">Mirrored Alternates</item>
-    </string-array>
-    <string-array name="default_layout_values">
+    <string name="app_name">Ancillary Keyboard</string>
+    <string name="subtype_generic">%s</string>
+    <string name="version" translatable="false">Version 0.0.0</string>
+    <string name="caps">Auto capitalization</string>
+    <string name="vib">Vibrate on key press</string>
+    <string name="borders">Key borders</string>
+    <string name="prediction" translatable="false" >Enable text prediction</string>
+    <string-array name="color_values">
         <item name="1">1</item>
         <item name="2">2</item>
         <item name="3">3</item>
-    </string-array>
-
-    <string-array name="theme">
-        <item name="0">Random</item>
-        <item name="1">Black/White</item>
-        <item name="2">White/Black</item>
-        <item name="3">Blue/White</item>
-        <item name="4">Blue/Black</item>
-        <item name="5">Green/White</item>
-        <item name="6">Green/Black</item>
-        <item name="7">Red/White</item>
-        <item name="8">Red/Black</item>
-        <item name="9">Cyan/White</item>
-        <item name="10">Cyan/Black</item>
-        <item name="11">Magenta/White</item>
-        <item name="12">Magenta/Black</item>
-        <item name="13">Yellow/White</item>
-        <item name="14">Yellow/Black</item>
-        <item name="15">Purple/White</item>
-        <item name="16">Purple/Black</item>
-        <item name="17">Pink/White</item>
-        <item name="18">Pink/Black</item>
-        <item name="19">Orange/White</item>
-        <item name="20">Orange/Black</item>
-        <item name="21">Material/White</item>
-        <item name="22">Material/Black</item>
-    </string-array>
-
-    <string-array name="theme_values">
-        <item name="0">0</item>
         <item name="4">4</item>
         <item name="5">5</item>
         <item name="6">6</item>
         <item name="7">7</item>
-        <item name="8">8</item>
-        <item name="9">9</item>
-        <item name="10">10</item>
-        <item name="11">11</item>
-        <item name="12">12</item>
-        <item name="13">13</item>
-        <item name="14">14</item>
-        <item name="15">15</item>
-        <item name="16">16</item>
-        <item name="17">17</item>
-        <item name="18">18</item>
-        <item name="19">19</item>
-        <item name="20">20</item>
-        <item name="21">21</item>
-        <item name="22">22</item>
+        <item name="7">8</item>
     </string-array>
-
-    <string-array name="y_axis">
-        <item name="CENTER_VERTICAL">Middle</item>
-        <item name="TOP">Top</item>
-        <item name="BOTTOM">Bottom</item>
+    <string-array name="color">
+        <item name="1">Black - white text</item>
+        <item name="2">White - black text</item>
+        <item name="3">Blue - white text</item>
+        <item name="4">Blue - black text</item>
+        <item name="5">Red - white text</item>
+        <item name="6">Red - black text</item>
+        <item name="7">Orange - white text</item>
+        <item name="7">Material Dark - white text</item>
     </string-array>
-
-    <string-array name="x_axis">
-        <item name="CENTER_HORIZONTAL">Center</item>
-        <item name="START">Start</item>
-        <item name="END">End</item>
-    </string-array>
-
-    <string name="word_separators" translatable="false">\u0009.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string><!--\n-->
-    <string name="settings">Settings</string>
-    <string name="select">Select</string>
-    <string name="enable">Enable</string>
-    <string name="close">Close</string>
-    <string name="test">Test your keyboard here</string>
     <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
-    <string name="popup_1">!`~"</string>
-    <string name="popup_2">\@²"</string>
-    <string name="popup_3">#³"</string>
-    <string name="popup_4">$¢"</string>
-    <string name="popup_5">%÷"</string>
-    <string name="popup_6">^→←↑↓⇄"</string>
-    <string name="popup_7">&amp;+±°"</string>
-    <string name="popup_8">*×="</string>
-    <string name="popup_9">([{&lt;⧼⧙⧛"</string>
-    <string name="popup_0">)]}&gt;⧽⧘⧚"</string>
-    <string name="edit_space_bar">Edit Space Bar</string>
-    <string name="edit_tab_key">Edit Tab Key</string>
-    <string name="edit_enter_key">Edit Enter Key</string>
-    <string name="what_the_key_shows">What the key shows</string>
-    <string name="what_the_key_sends">What the key sends</string>
-    <string name="edit_key">Edit Key</string>
-    <string name="what_the_key_has_on_long_press">What the key has on long press</string>
-    <string name="what_icon_shows_up">What icon shows up</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="foreground_color">Foreground Color</string>
-    <string name="background_color">Background Color</string>
+    <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="enable">Enable</string>
+    <string name="select">Select</string>
+    <string name="settings">Settings</string>
+    <string name="test_your_keyboard_here">Test your keyboard here</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="test">Test your keyboard here</string>
 </resources>

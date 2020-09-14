@@ -1,2 +1,2 @@
-NAME=custom-keyboard
+NAME=ancillary-keyboard
 FROM_GRADLE=TRUE

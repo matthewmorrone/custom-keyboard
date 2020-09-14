@@ -1,67 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="12.5%p"
-    android:keyHeight="7%p"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <Row android:keyWidth="9.09%p">
-        <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
-        <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_arrow_left"  android:isRepeatable="true" />
-        <Key android:codes="-111" android:keyIcon="@drawable/ic_arrow_right" android:isRepeatable="true" />
-        <Key android:codes="-107" android:keyIcon="@drawable/ic_arrow_up"    android:isRepeatable="true" />
-        <Key android:codes="-109" android:keyIcon="@drawable/ic_arrow_down"  android:isRepeatable="true" />
-        <Key android:codes="-76"  android:keyIcon="@drawable/ic_select" />
-        <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
-        <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />
-        <Key android:codes="-10"  android:keyIcon="@drawable/ic_copy" />
-        <Key android:codes="-11"  android:keyIcon="@drawable/ic_paste" />
+        <Key android:codes="-20" android:keyIcon="@drawable/ic_double_chevron_left" />
+        <Key android:codes="-21" android:keyIcon="@drawable/ic_double_chevron_right"/>
+        <Key android:codes="-13" android:keyIcon="@drawable/ic_arrow_up"/>
+        <Key android:codes="-14" android:keyIcon="@drawable/ic_arrow_down"/>
+        <Key android:codes="-15" android:keyIcon="@drawable/ic_arrow_left"/>
+        <Key android:codes="-16" android:keyIcon="@drawable/ic_arrow_right"/>
+        <Key android:codes="-8"  android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-9"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-10" android:keyIcon="@drawable/ic_paste" />
+        <Key android:codes="-11" android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-12" android:keyIcon="@drawable/ic_select_all" />
     </Row>
-    <Row android:keyWidth="10%p">
-        <Key android:codes="0" android:keyOutputText="https://" android:keyLabel="https" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText="www."     android:keyLabel="www." android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText="\@gmail"  android:keyLabel="\@gmail" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText=".com"     android:keyLabel=".com" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="-97" android:keyIcon="@drawable/ic_date" />
-        <Key android:codes="-98" android:keyIcon="@drawable/ic_time" />
+    <Row>
+        <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
+        <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
+        <Key android:codes="-37"  android:keyIcon="@drawable/ic_input" />
+        <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"     android:keyLabel="ツ" />
+        <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"            android:keyLabel="ಠ_ಠ" />
+        <Key android:codes="0"    android:keyOutputText="https://"        android:keyLabel="https" />
+        <Key android:codes="0"    android:keyOutputText="www."            android:keyLabel="www." />
+        <Key android:codes="0"    android:keyOutputText="\@gmail"         android:keyLabel="\@gmail" />
+        <Key android:codes="0"    android:keyOutputText=".com"            android:keyLabel=".com" />
         <Key android:codes="-509" android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />
         <Key android:codes="-510" android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" />
         <Key android:codes="-511" android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" />
         <Key android:codes="-512" android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
-    </Row>
-    <Row android:keyWidth="20%p">
-        <Key android:codes="-501" android:keyOutputText="@string/k1" android:keyLabel="@string/k1_label" />
-        <Key android:codes="-502" android:keyOutputText="@string/k2" android:keyLabel="@string/k2_label" />
-        <Key android:codes="-503" android:keyOutputText="@string/k3" android:keyLabel="@string/k3_label" />
-        <Key android:codes="-504" android:keyOutputText="@string/k4" android:keyLabel="@string/k4_label" />
-        <Key android:keyOutputText="ABCDEFGHIJKLMNOPQRSTUVWXYZ" android:keyLabel="ABC" android:keyWidth="10%p" />
-        <Key android:keyOutputText="ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ" android:keyLabel="ΑΒΓ" android:keyWidth="10%p" />
-    </Row>
-    <Row android:keyWidth="20%p">
-        <Key android:codes="-505" android:keyOutputText="@string/k5" android:keyLabel="@string/k5_label" />
-        <Key android:codes="-506" android:keyOutputText="@string/k6" android:keyLabel="@string/k6_label" />
-        <Key android:codes="-507" android:keyOutputText="@string/k7" android:keyLabel="@string/k7_label" />
-        <Key android:codes="-508" android:keyOutputText="@string/k8" android:keyLabel="@string/k8_label" />
-        <Key android:keyOutputText="ⲀⲂⲄⲆⲈⲊⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠϤⲢⲤⲦⲨⲪⲬⲮⲰⳀϢϦϨϪϬϮ" android:keyLabel="ⲀⲂⲄ" android:keyWidth="10%p" />
-        <Key android:keyOutputText="АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" android:keyLabel="АБГ" android:keyWidth="10%p" />
-    </Row>
-    <Row android:keyWidth="10%p">
-        <Key android:codes="+0000" android:keyLabel=" " />
-        <Key android:codes="+0000" android:keyLabel=" " />
-        <Key android:codes="+0000" android:keyLabel=" " />
-        <Key android:codes="+0000" android:keyLabel=" " />
-        <Key android:codes="+0000" android:keyLabel=" " />
-        <Key android:codes="\u200B" android:keyIcon="@drawable/ic_zwsp_plus"  /> 
-        <Key android:codes="-172"   android:keyIcon="@drawable/ic_zwsp_arrow" />
-        <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" />
-        <Key android:codes="-5"     android:keyIcon="@drawable/ic_backspace"  android:isRepeatable="true" />
-        <Key android:codes="-7"     android:keyIcon="@drawable/ic_delete"     android:isRepeatable="true" />
+        <Key android:codes="-501" android:keyOutputText="@string/k1"      android:keyLabel="@string/k1_label" />
+        <Key android:codes="-502" android:keyOutputText="@string/k2"      android:keyLabel="@string/k2_label" />
+        <Key android:codes="-503" android:keyOutputText="@string/k3"      android:keyLabel="@string/k3_label" />
+        <Key android:codes="-504" android:keyOutputText="@string/k4"      android:keyLabel="@string/k4_label" />
+        <Key android:codes="-505" android:keyOutputText="@string/k5"      android:keyLabel="@string/k5_label" />
+        <Key android:codes="-506" android:keyOutputText="@string/k6"      android:keyLabel="@string/k6_label" />
+        <Key android:codes="-507" android:keyOutputText="@string/k7"      android:keyLabel="@string/k7_label" />
+        <Key android:codes="-508" android:keyOutputText="@string/k8"      android:keyLabel="@string/k8_label" />
     </Row>
     <Row>
-        <Key android:codes="-192" android:keyIcon="@drawable/ic_cmd"   android:keyWidth="14%p" />
-        <Key android:codes="-149" android:keyIcon="@drawable/ic_voice" android:keyWidth="8%p" />
-        <Key android:codes="-4"   android:keyIcon="@drawable/ic_grid"  android:keyWidth="8%p" />
-        <Key android:codes="32"   android:keyIcon="@drawable/ic_space" android:keyWidth="40%p" android:popupCharacters="@string/popup_first" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="7"    android:keyIcon="@drawable/ic_tab"   android:keyWidth="10%p" android:popupCharacters="@string/popup_second" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="10"   android:keyIcon="@drawable/ic_enter" android:keyWidth="20%p" android:popupCharacters="@string/popup_third" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings" android:keyWidth="8%p" />
+        <Key android:codes="-27"  android:keyIcon="@drawable/ic_emoji" android:keyWidth="8%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_abc" android:keyWidth="8%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space" android:keyWidth="52%p" />
+        <Key android:codes="-23"  android:keyIcon="@drawable/ic_voice" android:keyWidth="8%p" />
+        <Key android:codes="46"   android:keyLabel="." android:keyWidth="8%p" android:popupCharacters=",'?!;:/-" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="8%p" />
     </Row>
 </Keyboard>

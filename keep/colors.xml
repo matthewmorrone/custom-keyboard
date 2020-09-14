@@ -1,0 +1,11 @@
+<resources>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="accent">#FF4081</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="translucent">#C0000000</color>
+    <color name="candidate_normal">#FFFFFFFF</color>
+    <color name="candidate_recommended">#FFFFFFFF</color>
+    <color name="candidate_other">#FFFFFFFF</color>
+</resources>

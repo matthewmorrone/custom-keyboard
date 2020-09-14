@@ -1,21 +1,18 @@
-<com.custom.keyboard.CustomKeyboardView
-xmlns:android="http://schemas.android.com/apk/res/android" 
-android:id="@+id/keyboard"
-android:keyBackground="@drawable/background"
-android:background="@color/translucent"
-android:keyTextSize="@dimen/text_size"
-android:labelTextSize="@dimen/label_size"
-android:keyTextColor="@color/white"
-android:layout_alignParentBottom="true"
-android:layout_height="wrap_content"
-android:layout_marginTop="0dp"
-android:layout_width="match_parent"
-android:paddingTop="0dp"
-android:popupLayout="@layout/popup"
-android:keyPreviewLayout="@null"
-android:keyPreviewOffset="0dp"
-android:shadowColor="@android:color/transparent"
-android:shadowRadius="0.0"
-android:ellipsize="end"
-android:fitsSystemWindows="true">
-</com.custom.keyboard.CustomKeyboardView>
+<?xml version="1.0" encoding="utf-8"?>
+<com.ancillary.keyboard.CustomKeyboardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/keyboard"
+    android:layout_alignParentBottom="true"
+    android:paddingTop="0dp"
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:keyPreviewLayout="@layout/preview"
+    android:layout_height="wrap_content"
+    android:keyBackground="@drawable/key_background"
+    android:popupLayout="@layout/popup"
+    android:keyPreviewOffset="5dp"
+    android:keyTextColor="@color/white"
+    android:shadowColor="@android:color/transparent"
+    android:shadowRadius="0.0"
+    android:background="@color/black">
+</com.ancillary.keyboard.CustomKeyboardView>

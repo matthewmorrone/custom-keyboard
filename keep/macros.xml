@@ -1,0 +1,15 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="12.5%p"
+    android:keyHeight="7%p"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Row android:keyWidth="9.09%p">
+        <Key android:keyOutputText="ABCDEFGHIJKLMNOPQRSTUVWXYZ" android:keyLabel="ABC" android:keyWidth="10%p" />
+        <Key android:keyOutputText="ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ" android:keyLabel="ΑΒΓ" android:keyWidth="10%p" />
+        <Key android:keyOutputText="ⲀⲂⲄⲆⲈⲊⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠϤⲢⲤⲦⲨⲪⲬⲮⲰⳀϢϦϨϪϬϮ" android:keyLabel="ⲀⲂⲄ" android:keyWidth="10%p" />
+        <Key android:keyOutputText="АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" android:keyLabel="АБГ" android:keyWidth="10%p" />
+        <Key android:codes="\u200B" android:keyIcon="@drawable/ic_zwsp_plus"  /> 
+        <Key android:codes="-172"   android:keyIcon="@drawable/ic_zwsp_arrow" />
+        <Key android:codes="-173"   android:keyIcon="@drawable/ic_zwsp_minus" />
+    </Row>
+</Keyboard>

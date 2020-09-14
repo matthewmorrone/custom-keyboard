@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">Matthew Morrone</string>
+    <string name="email">matthewmorrone1@gmail.com</string>
+    <string name="phone">7177362012</string>
+    <string name="address">2217 Concord Circle</string>
+    <string name="k1_label">git clone</string>
+    <string name="k1">git clone https://github.com/matthewmorrone/</string>
+    <string name="k2_label">git pull</string>
+    <string name="k2">git pull</string>
+    <string name="k3_label">git add</string>
+    <string name="k3">git add --all</string>
+    <string name="k4_label">git commit</string>
+    <string name="k4">git commit -m \u0022autocommit\u0022</string>
+    <string name="k5_label">git push</string>
+    <string name="k5">git push</string>
+    <string name="k6_label">git diff</string>
+    <string name="k6">git diff</string>
+    <string name="k7_label">git status</string>
+    <string name="k7">git status -s</string>
+    <string name="k8_label">mm</string>
+    <string name="k8">matthewmorrone</string>
+</resources>
