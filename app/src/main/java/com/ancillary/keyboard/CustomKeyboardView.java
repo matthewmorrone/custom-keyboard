@@ -1,4 +1,4 @@
-package com.ancillary.keyboard;
+package com.custom.keyboard;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;

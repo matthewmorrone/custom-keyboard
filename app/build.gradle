@@ -7,7 +7,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.ancillary.keyboard"
+        applicationId "com.custom.keyboard"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 112
@@ -23,7 +23,7 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "ancillary-keyboard.apk"
+            outputFileName = "custom-keyboard.apk"
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.ancillary.keyboard;
+package com.custom.keyboard;
 
 public class Variables {
 

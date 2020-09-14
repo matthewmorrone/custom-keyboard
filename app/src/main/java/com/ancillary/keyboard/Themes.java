@@ -1,4 +1,4 @@
-package com.ancillary.keyboard;
+package com.custom.keyboard;
 
 public class Themes {
     // TODO: Add the arrays in a separate, static class, so they are eay to access and modify

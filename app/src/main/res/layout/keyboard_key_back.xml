@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ancillary.keyboard.CustomKeyboardView
+<com.custom.keyboard.CustomKeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard"
     android:paddingTop="0dp"
@@ -9,4 +9,4 @@
     android:layout_height="wrap_content"
     android:keyBackground="@drawable/key_background_back"
     android:popupLayout="@layout/popup">
-</com.ancillary.keyboard.CustomKeyboardView>
+</com.custom.keyboard.CustomKeyboardView>

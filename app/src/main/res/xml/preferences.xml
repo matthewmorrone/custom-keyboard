@@ -21,11 +21,11 @@
         android:defaultValue="false"
         android:key="pred"
         android:title="@string/prediction" />
-    <com.ancillary.keyboard.SeekPreference
+    <com.custom.keyboard.SeekPreference
         android:defaultValue="40"
         android:key="height"
         android:title="Key Height" />
-    <com.ancillary.keyboard.SeekPreference
+    <com.custom.keyboard.SeekPreference
         android:defaultValue="50"
         android:key="transparency"
         android:title="Transparency" />
