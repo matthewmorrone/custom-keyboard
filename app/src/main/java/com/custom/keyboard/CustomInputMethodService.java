@@ -216,7 +216,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         kv.setOnKeyboardActionListener(this);
 
         mPredictionOn = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("pred", false);
-        mCompletionOn = false;
+        mCompletionOn = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("comp", false);
 
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
@@ -255,7 +255,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
-        if (getSelectionStart() == 0 && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
+        if ((getSelectionStart() == 0 || ic.getTextBeforeCursor(1, 0) == "\n")
+            && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
             if (Variables.isShift()) {
                 Variables.setShiftOff();
                 firstCaps = false;
@@ -474,9 +475,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * Helper function to commit any text being composed in to the editor.
-     */
     private void commitTyped(InputConnection inputConnection) {
         if (mComposing.length() > 0) {
             inputConnection.commitText(mComposing, mComposing.length());
@@ -485,9 +483,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    /**
-     * Helper to update the shift state of our keyboard based on the initial editor state.
-     */
     private void updateShiftKeyState(EditorInfo attr) {
         if (attr != null && mInputView != null && mStandardKeyboard == mInputView.getKeyboard()) {
             int caps = 0;
@@ -556,15 +551,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         startIntent(intent);
     }
 
-    /**
-     * Update the list of available candidates from the current composing
-     * text.  This will need to be filled in by however you are determining
-     * candidates.
-     */
     private void updateCandidates() {
-        if (!mCompletionOn) {
+        if (mCompletionOn) {
             if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<String>();
+                ArrayList<String> list = new ArrayList<>();
                 list.add(mComposing.toString());
                 mScs.getSentenceSuggestions(new TextInfo[]{
                     new TextInfo(mComposing.toString())
@@ -595,11 +585,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
             popupWindow = new EmojiconsPopup(popupView, this);
-            // popupWindow.setSizeForSoftKeyboard();
-            // popupWindow.setHeight(currentKeyboard.getHeight());
             popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, currentKeyboard.getHeight());
             popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
-
             popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
                 public void onKeyboardOpen(int keyBoardHeight) {}
@@ -703,7 +690,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public void hide() {
-        requestHideSelf(0);
+        handleClose();
     }
 
     private void handleClose() {
@@ -726,17 +713,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     private void handleLanguageSwitch() {
         mInputMethodManager.switchToNextInputMethod(getToken(), false /* onlyCurrentIme */);
-    }
-
-    private void checkToggleCapsLock() {
-        long now = System.currentTimeMillis();
-        if (mLastShiftTime + 300 > now) {
-            mCapsLock = !mCapsLock;
-            mLastShiftTime = 0;
-        }
-        else {
-            mLastShiftTime = now;
-        }
     }
 
     private String getWordSeparators() {
@@ -797,25 +773,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         if (time > 300) {
             switch (primaryCode) {
-                case -11: selectAll(); break;
+                case -12: selectAll(); break;
             }
         }
     }
 
-    /**
-     * http://www.tutorialspoint.com/android/android_spelling_checker.htm
-     * Sort of copy-paste, huh.
-     * <p>
-     * I need to find time to refine this code
-     *
-     * @param results results
-     */
     @Override
     public void onGetSuggestions(SuggestionsInfo[] results) {
         final StringBuilder sb = new StringBuilder();
 
         for (SuggestionsInfo result : results) {
-            // Returned suggestions are contained in SuggestionsInfo
             final int len = result.getSuggestionsCount();
             sb.append('\n');
 
@@ -828,7 +795,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
-        // Returned suggestions are contained in SuggestionsInfo
         final int len = si.getSuggestionsCount();
         for (int j = 0; j < len; ++j) {
             sb.add(si.getSuggestionAt(j));
@@ -849,20 +815,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         catch (Exception ignored) {}
     }
 
-    private void setCapsOn(boolean on) {
-        /** Simple function that enables us to rapidly set the keyboard shifted or not. */
-        if (Variables.isShift()) kv.getKeyboard().setShifted(true);
-        else kv.getKeyboard().setShifted(on);
-        kv.invalidateAllKeys();
-    }
-
     private void sendKeyEvent(int keyCode, int metaState) {
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keyCode), 0, metaState));
         getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   getHardKeyCode(keyCode), 0, metaState));
     }
 
     private void processKeyCombo(int keycode) {
-        /** As the function name says, we process key combinations here*/
         if (Variables.isAnyOn()) {
             if (Variables.isCtrl() && Variables.isAlt()) {
                 sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
@@ -879,7 +837,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     private int getHardKeyCode(int keycode) {
-        /** Seems like the actual soft key code doesn't match the hard key code*/
         PopupWindow p = new PopupWindow();
         char code = (char)keycode;
         switch (String.valueOf(code)) {
@@ -927,7 +884,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void setTheme() {
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1")) {
-            case "1": mDefaultFilter = Themes.sNoneColorArray; break;
+            case "1": mDefaultFilter = Themes.sPositiveColorArray; break;
             case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
             case "3": mDefaultFilter = Themes.sBlueWhiteColorArray; break;
             case "4": mDefaultFilter = Themes.sBlueBlackColorArray; break;
@@ -978,11 +935,24 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         currentKeyboard = standardKeyboard;
     }
 
+    private void checkToggleCapsLock() {
+        long now = System.currentTimeMillis();
+        if (mLastShiftTime + 300 > now) {
+            mCapsLock = !mCapsLock;
+            mLastShiftTime = 0;
+        }
+        else {
+            mLastShiftTime = now;
+        }
+    }
+
+    private void setCapsOn(boolean on) {
+        if (Variables.isShift()) kv.getKeyboard().setShifted(true);
+        else kv.getKeyboard().setShifted(on);
+        kv.invalidateAllKeys();
+    }
+
     private void capsOnFirst() {
-        /** Huh, a method that calls getCursorCapsMode() and performs a check.
-         * According to the official android documentation, if the caps mode is not equal to 0,
-         * we should start in caps mode, although tests have proven that additional checks are needed.
-         * I'll see what I can do with this. */
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", true)) {
             if (getCursorCapsMode(getCurrentInputConnection(), getCurrentInputEditorInfo()) != 0) {
                 firstCaps = true;
@@ -996,9 +966,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     private int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
-        /** A rudimentary method to find out whether we should start with caps on or not. */
-        // TODO: Perform additional checks.
-
         int caps = 0;
         EditorInfo ei = getCurrentInputEditorInfo();
         if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) {
@@ -1030,9 +997,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         toast.show();
     }
 
-    /**
-     * Helper to send a character to the editor as raw key events.
-     */
     private void sendRawKey(int keyCode) {
         if (keyCode == '\n') {
             sendKey(KeyEvent.KEYCODE_ENTER);
@@ -1047,8 +1011,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public Boolean isSelecting() {
-        return getSelectionStart() != getSelectionEnd();
+    public Keyboard.Key getKey(int primaryCode) {
+        if (currentKeyboard == null) return null;
+        for (Keyboard.Key key : currentKeyboard.getKeys()) {
+            if (key.codes[0] == primaryCode) return key;
+        }
+        return null;
     }
 
     public void sendKey(int primaryCode) {
@@ -1057,7 +1025,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   primaryCode));
     }
 
-
     public void sendKey(int primaryCode, int times) {
         ic = getCurrentInputConnection();
         while (times --> 0) {
@@ -1065,14 +1032,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-
-
     public void navigate(int primaryCode) {
         ic = getCurrentInputConnection();
         
         if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
         sendKey(primaryCode);
         if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
+    }
+
+    public Boolean isSelecting() {
+        return getSelectionStart() != getSelectionEnd();
     }
 
     public int getSelectionStart() {
@@ -1108,12 +1077,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
     }
 
-    public Keyboard.Key getKey(int primaryCode) {
-        if (currentKeyboard == null) return null;
-        for (Keyboard.Key key : currentKeyboard.getKeys()) {
-            if (key.codes[0] == primaryCode) return key;
-        }
-        return null;
+    public void switchKeyboard(int id) {
+        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
+        currentKeyboard.setRowNumber(getStandardRowNumber());
+        kv.setKeyboard(currentKeyboard);
+        kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
     static String hexBuffer = "";
@@ -1171,8 +1139,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case -1: // Keyboard.KEYCODE_SHIFT:
-
+            case -1:
                 if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 &&
                     PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", false)) {
                     String text = ic.getSelectedText(0).toString();
@@ -1218,33 +1185,16 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     default: sendKey(66); break;
                 }
                 break;
-            case -2: // Keyboard.KEYCODE_MODE_CHANGE:
+            case -2:
                 break;
-            case -101: // CustomKeyboard.KEYCODE_LAYOUT_SWITCH:
-                currentKeyboard = new CustomKeyboard(this, R.layout.primary);
-                kv.invalidateAllKeys();
-                kv.setKeyboard(currentKeyboard);
-                kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-                break;
-            case -102:
-                currentKeyboard = new CustomKeyboard(this, R.layout.function);
-                kv.invalidateAllKeys();
-                kv.setKeyboard(currentKeyboard);
-                kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-                break;
-            case -103:
-                currentKeyboard = new CustomKeyboard(this, R.layout.macros);
-                kv.invalidateAllKeys();
-                kv.setKeyboard(currentKeyboard);
-                kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-                break;
+
             case -117: //CustomKeyboard.KEYCODE_STANDARD_SWITCH:
                 currentKeyboard = new CustomKeyboard(getBaseContext(), R.layout.primary);
                 currentKeyboard.setRowNumber(getStandardRowNumber());
                 kv.setKeyboard(currentKeyboard);
                 kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
                 break;
-            case -112: sendKey(KeyEvent.KEYCODE_ESCAPE);break;
+            case -112: sendKey(KeyEvent.KEYCODE_ESCAPE); break;
             case -113: // CustomKeyboard.KEYCODE_CTRL:
                 if (Variables.isCtrl()) Variables.setCtrlOff();
                 else Variables.setCtrlOn();
@@ -1470,6 +1420,19 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -129: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
             case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
             case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
+
+
+            case -101: switchKeyboard(R.layout.primary); break;
+            case -102: switchKeyboard(R.layout.function); break;
+            case -103: switchKeyboard(R.layout.macros); break;
+            case -133: switchKeyboard(R.layout.hex); break;
+            case -134: switchKeyboard(R.layout.emoji); break;
+            case -135: switchKeyboard(R.layout.numbers); break;
+            case -136: switchKeyboard(R.layout.navigation); break;
+            case -137: switchKeyboard(R.layout.secondary); break;
+            case -138: switchKeyboard(R.layout.symbol); break;
+            case -139: switchKeyboard(R.layout.unicode); break;
+
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
                 else handleCharacter(primaryCode, keyCodes);

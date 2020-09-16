@@ -53,7 +53,7 @@ public class Main extends AppCompatActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         else {
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            window.setStatusBarColor(getResources().getColor(R.color.black));
         }
     }
 

@@ -34,7 +34,7 @@ public class CandidateView extends View {
 
     private static final int X_GAP = 60;
 
-    private static final List<String> EMPTY_LIST = new ArrayList<String>();
+    private static final List<String> EMPTY_LIST = new ArrayList<>();
 
     private int mColorNormal;
     private int mColorRecommended;
@@ -52,7 +52,7 @@ public class CandidateView extends View {
     public CandidateView(Context context) {
         super(context);
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
-        mSelectionHighlight.setState(new int[]{
+        mSelectionHighlight.setState(new int[] {
             android.R.attr.state_enabled,
             android.R.attr.state_focused,
             android.R.attr.state_window_focused,
@@ -61,11 +61,11 @@ public class CandidateView extends View {
 
         Resources r = context.getResources();
 
-        setBackgroundColor(r.getColor(R.color.gray));
+        setBackgroundColor(r.getColor(R.color.black));
 
-        mColorNormal = r.getColor(R.color.candidate_normal);
-        mColorRecommended = r.getColor(R.color.candidate_recommended);
-        mColorOther = r.getColor(R.color.candidate_other);
+        mColorNormal = r.getColor(R.color.black);
+        mColorRecommended = r.getColor(R.color.white);
+        mColorOther = r.getColor(R.color.white);
         mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 
         mPaint = new Paint();
@@ -73,7 +73,6 @@ public class CandidateView extends View {
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
         mPaint.setStrokeWidth(5);
-
 
         mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -99,11 +98,6 @@ public class CandidateView extends View {
         setVerticalScrollBarEnabled(false);
     }
 
-    /**
-     * A connection back to the service to communicate with the text field
-     *
-     * @param listener
-     */
     public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
@@ -279,12 +273,6 @@ public class CandidateView extends View {
         return true;
     }
 
-    /**
-     * For flick through from keyboard, call this method with the x coordinate of the flick
-     * gesture.
-     *
-     * @param x
-     */
     public void takeSuggestionAt(float x) {
         mTouchX = (int)x;
         // To detect candidate

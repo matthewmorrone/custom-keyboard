@@ -47,13 +47,12 @@
         android:layout_marginBottom="5dp"
         android:hint="@string/test"
         android:inputType="textMultiLine"
-        android:lines="5" />
+        android:lines="1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/versionView"
             android:layout_width="wrap_content"
@@ -67,5 +66,4 @@
             android:text="@string/version"
             android:textStyle="bold" />
     </RelativeLayout>
-
 </LinearLayout>

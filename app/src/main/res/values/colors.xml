@@ -1,57 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#888888</color>
-    <color name="black">@android:color/black</color>
-    <color name="green">#4CAF50</color>
-    <color name="blue">#42A5F5</color>
-    <color name="red">#EF5350</color>
-    <color name="cyan">#26C6DA</color>
-    <color name="teal">#26A69A</color>
-    <color name="amber">#FFC107</color>
-    <color name="lime">#D4E157</color>
-    <color name="purple">#AB47BC</color>
-    <color name="white">#FFFF</color>
+    <color name="black">#000000</color>
+    <color name="green">#4caf50</color>
+    <color name="blue">#42a5f5</color>
+    <color name="red">#ef5350</color>
+    <color name="cyan">#26c6da</color>
+    <color name="teal">#26a69a</color>
+    <color name="amber">#ffc107</color>
+    <color name="lime">#d4e157</color>
+    <color name="purple">#ab47bc</color>
+    <color name="white">#ffffff</color>
     <color name="gray">#424242</color>
     <color name="transparent">#00000000</color>
     <color name="gray_dark">#212121</color>
-    <color name="text">#ffffff</color>
-    <color name="candidate_normal">#FF000000</color>
-    <color name="candidate_recommended">#000000</color>
-    <color name="candidate_other">#ff808080</color>
-    <color name="candidate_background">#bbffffff</color>
-
-     <!-- Screens background color-->
-    <color name="bg_screen1">#009688</color>
-    <color name="bg_screen2">#00bcd4</color>
-    <color name="bg_screen3">#4caf50</color>
-    <color name="bg_screen4">#8bc34a</color>
-
-    <!-- dots inactive colors -->
-    <color name="dot_dark_screen1">#00897b</color>
-    <color name="dot_dark_screen2">#00acc1</color>
-    <color name="dot_dark_screen3">#43a047</color>
-    <color name="dot_dark_screen4">#7cb342</color>
-
-    <!-- dots active colors -->
-    <color name="dot_light_screen1">#26a69a</color>
-    <color name="dot_light_screen2">#26c6da</color>
-    <color name="dot_light_screen3">#66bb6a</color>
-    <color name="dot_light_screen4">#9ccc65</color>
-
-    <array name="array_dot_active">
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen2</item>
-        <item>@color/dot_light_screen3</item>
-        <item>@color/dot_light_screen4</item>
-    </array>
-
-    <array name="array_dot_inactive">
-        <item>@color/dot_dark_screen1</item>
-        <item>@color/dot_dark_screen2</item>
-        <item>@color/dot_dark_screen3</item>
-        <item>@color/dot_dark_screen4</item>
-    </array>
-
 </resources>

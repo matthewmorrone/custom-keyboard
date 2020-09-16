@@ -62,12 +62,11 @@
         <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"    android:isRepeatable="true" android:keyWidth="10%p" android:keyEdgeFlags="right" />
     </Row>
     <Row>
-<!-- android:rowEdgeFlags="bottom"> -->
-        <Key android:codes="-22" android:keyIcon="@drawable/ic_settings" android:keyWidth="10%p" android:keyEdgeFlags="left" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="-23" android:keyIcon="@drawable/ic_voice"    android:keyWidth="10%p" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-<!--        <Key android:codes="-2"  android:keyIcon="@drawable/ic_dots"     android:keyWidth="10%p" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />-->
-        <Key android:codes="32"  android:keyIcon="@drawable/ic_space"    android:keyWidth="60%p" android:popupCharacters="" android:popupKeyboard="@layout/popup_template"  android:isRepeatable="true" />
-<!--        <Key android:codes="46"  android:keyLabel="." android:keyWidth="10%p" android:popupCharacters=",'?!;:/-" android:popupKeyboard="@layout/popup_template" />-->
-        <Key android:codes="10"  android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" android:keyEdgeFlags="right" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="10%p" />
+        <Key android:codes="-27"  android:keyIcon="@drawable/ic_emoji"           android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_abc"             android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space"           android:keyWidth="40%p" />
+        <Key android:codes="-23"  android:keyIcon="@drawable/ic_voice"           android:keyWidth="10%p" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
     </Row>
 </Keyboard>

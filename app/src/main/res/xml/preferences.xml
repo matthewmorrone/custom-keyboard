@@ -1,185 +1,46 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:defaultValue="1"
-        android:entries="@array/color"
-        android:entryValues="@array/color_values"
-        android:key="theme"
-        android:title="Theme" />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="caps"
-        android:title="@string/caps" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="vib"
-        android:title="@string/vib" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="bord"
-        android:title="@string/borders" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="pred"
-        android:title="@string/prediction" />
-    <com.custom.keyboard.SeekPreference
-        android:defaultValue="40"
-        android:key="height"
-        android:title="Key Height" />
-    <com.custom.keyboard.SeekPreference
-        android:defaultValue="100"
-        android:key="transparency"
-        android:title="Transparency" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="preview"
-        android:title="Show Key Previews" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="pairs"
-        android:title="Insert Pairs" />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="shift"
-        android:title="Toggle Selection Case" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="borders"
-        android:title="Borders" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="padding"
-        android:title="Padding" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="corners"
-        android:title="Corners" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="keyback"
-        android:title="Background" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="space"
-        android:title="Make Space Look Distinct" />
+    <PreferenceScreen android:title="Functionality">
+        <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
+        <SwitchPreference android:defaultValue="false" android:key="pairs"   android:title="Insert Pairs" />
+        <SwitchPreference android:defaultValue="true"  android:key="shift"   android:title="Toggle Selection Case" />
+        <SwitchPreference android:defaultValue="true"  android:key="caps"    android:title="@string/caps" />
+        <SwitchPreference android:defaultValue="false" android:key="vib"     android:title="@string/vib" />
+        <SwitchPreference android:defaultValue="false" android:key="pred"    android:title="@string/prediction" />
+        <SwitchPreference android:defaultValue="false" android:key="comp"    android:title="@string/completion" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Appearance">
+        <ListPreference   android:defaultValue="1" android:entries="@array/color" android:entryValues="@array/color_values" android:key="theme" android:title="Theme" />
+        <com.custom.keyboard.SeekPreference android:defaultValue="40" android:key="height" android:title="Key Height" />
+        <com.custom.keyboard.SeekPreference android:defaultValue="100" android:key="transparency" android:title="Transparency" />
+        <SwitchPreference android:defaultValue="false" android:key="bord"    android:title="@string/borders" />
+        <SwitchPreference android:defaultValue="false" android:key="borders" android:title="Borders" />
+        <SwitchPreference android:defaultValue="false" android:key="padding" android:title="Padding" />
+        <SwitchPreference android:defaultValue="false" android:key="corners" android:title="Corners" />
+        <SwitchPreference android:defaultValue="false" android:key="keyback" android:title="Background" />
+        <SwitchPreference android:defaultValue="false" android:key="space"   android:title="Distinct Spacebar" />
+    </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="hints"
-            android:title="Hints" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="hints"
-            android:key="hint1"
-            android:title="Hint 1" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="hints"
-            android:key="hint2"
-            android:title="Hint 2" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="hints"
-            android:key="hint3"
-            android:title="Hint 3" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="hints"
-            android:key="hint4"
-            android:title="Hint 4" />
+        <SwitchPreference android:defaultValue="true"  android:key="hints" android:title="Hints" />
+        <SwitchPreference android:defaultValue="true"  android:dependency="hints" android:key="hint1" android:title="Hint 1" />
+        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint2" android:title="Hint 2" />
+        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint3" android:title="Hint 3" />
+        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint4" android:title="Hint 4" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
-        <EditTextPreference
-            android:defaultValue="@string/popup_first"
-            android:dialogMessage=""
-            android:dialogTitle="Popup 1"
-            android:key="popup_first"
-            android:summary="@string/popup_first"
-            android:title="Popup 1" />
-        <EditTextPreference
-            android:defaultValue="@string/popup_second"
-            android:dialogMessage=""
-            android:dialogTitle="Popup 2"
-            android:key="popup_second"
-            android:summary="@string/popup_second"
-            android:title="Popup 2" />
-        <EditTextPreference
-            android:defaultValue="@string/popup_third"
-            android:dialogMessage=""
-            android:dialogTitle="Popup 3"
-            android:key="popup_third"
-            android:summary="@string/popup_third"
-            android:title="Popup 3" />
-        <EditTextPreference
-            android:defaultValue="@string/name"
-            android:dialogTitle="Name"
-            android:key="name"
-            android:summary="@string/name"
-            android:title="Name" />
-        <EditTextPreference
-            android:defaultValue="@string/email"
-            android:dialogTitle="Email"
-            android:key="email"
-            android:summary="@string/email"
-            android:title="Email" />
-        <EditTextPreference
-            android:defaultValue="@string/phone"
-            android:dialogTitle="Phone №"
-            android:key="phone"
-            android:summary="@string/phone"
-            android:title="Phone №" />
-        <EditTextPreference
-            android:defaultValue="@string/address"
-            android:dialogTitle="Address"
-            android:key="address"
-            android:summary="@string/address"
-            android:title="Address" />
-        <EditTextPreference
-            android:defaultValue="@string/k1"
-            android:dialogTitle="Custom Key 1"
-            android:key="k1"
-            android:summary="@string/k1"
-            android:title="Custom Key 1" />
-        <EditTextPreference
-            android:defaultValue="@string/k2"
-            android:dialogTitle="Custom Key 2"
-            android:key="k2"
-            android:summary="@string/k2"
-            android:title="Custom Key 2" />
-        <EditTextPreference
-            android:defaultValue="@string/k3"
-            android:dialogTitle="Custom Key 3"
-            android:key="k3"
-            android:summary="@string/k3"
-            android:title="Custom Key 3" />
-        <EditTextPreference
-            android:defaultValue="@string/k4"
-            android:dialogTitle="Custom Key 4"
-            android:key="k4"
-            android:summary="@string/k4"
-            android:title="Custom Key 4" />
-        <EditTextPreference
-            android:defaultValue="@string/k5"
-            android:dialogTitle="Custom Key 5"
-            android:key="k5"
-            android:summary="@string/k5"
-            android:title="Custom Key 5" />
-        <EditTextPreference
-            android:defaultValue="@string/k6"
-            android:dialogTitle="Custom Key 6"
-            android:key="k6"
-            android:summary="@string/k6"
-            android:title="Custom Key 6" />
-        <EditTextPreference
-            android:defaultValue="@string/k7"
-            android:dialogTitle="Custom Key 7"
-            android:key="k7"
-            android:summary="@string/k7"
-            android:title="Custom Key 7" />
-        <EditTextPreference
-            android:defaultValue="@string/k8"
-            android:dialogTitle="Custom Key 8"
-            android:key="k8"
-            android:summary="@string/k8"
-            android:title="Custom Key 8" />
+        <EditTextPreference android:defaultValue="@string/popup_first" android:dialogMessage="" android:dialogTitle="Popup 1" android:key="popup_first" android:summary="@string/popup_first" android:title="Popup 1" />
+        <EditTextPreference android:defaultValue="@string/popup_second" android:dialogMessage="" android:dialogTitle="Popup 2" android:key="popup_second" android:summary="@string/popup_second" android:title="Popup 2" />
+        <EditTextPreference android:defaultValue="@string/popup_third" android:dialogMessage="" android:dialogTitle="Popup 3" android:key="popup_third" android:summary="@string/popup_third" android:title="Popup 3" />
+        <EditTextPreference android:defaultValue="@string/name" android:dialogTitle="Name" android:key="name" android:summary="@string/name" android:title="Name" />
+        <EditTextPreference android:defaultValue="@string/email" android:dialogTitle="Email" android:key="email" android:summary="@string/email" android:title="Email" />
+        <EditTextPreference android:defaultValue="@string/phone" android:dialogTitle="Phone №" android:key="phone" android:summary="@string/phone" android:title="Phone №" />
+        <EditTextPreference android:defaultValue="@string/address" android:dialogTitle="Address" android:key="address" android:summary="@string/address" android:title="Address" />
+        <EditTextPreference android:defaultValue="@string/k1" android:dialogTitle="Custom Key 1" android:key="k1" android:summary="@string/k1" android:title="Custom Key 1" />
+        <EditTextPreference android:defaultValue="@string/k2" android:dialogTitle="Custom Key 2" android:key="k2" android:summary="@string/k2" android:title="Custom Key 2" />
+        <EditTextPreference android:defaultValue="@string/k3" android:dialogTitle="Custom Key 3" android:key="k3" android:summary="@string/k3" android:title="Custom Key 3" />
+        <EditTextPreference android:defaultValue="@string/k4" android:dialogTitle="Custom Key 4" android:key="k4" android:summary="@string/k4" android:title="Custom Key 4" />
+        <EditTextPreference android:defaultValue="@string/k5" android:dialogTitle="Custom Key 5" android:key="k5" android:summary="@string/k5" android:title="Custom Key 5" />
+        <EditTextPreference android:defaultValue="@string/k6" android:dialogTitle="Custom Key 6" android:key="k6" android:summary="@string/k6" android:title="Custom Key 6" />
+        <EditTextPreference android:defaultValue="@string/k7" android:dialogTitle="Custom Key 7" android:key="k7" android:summary="@string/k7" android:title="Custom Key 7" />
+        <EditTextPreference android:defaultValue="@string/k8" android:dialogTitle="Custom Key 8" android:key="k8" android:summary="@string/k8" android:title="Custom Key 8" />
     </PreferenceScreen>
 </PreferenceScreen>
