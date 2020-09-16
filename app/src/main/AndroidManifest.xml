@@ -2,6 +2,8 @@
     package="com.custom.keyboard">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" android:required="false" />
 
     <application
         android:allowBackup="true"

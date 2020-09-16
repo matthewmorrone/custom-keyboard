@@ -1,18 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-     lintOptions {
-          abortOnError false
+    dataBinding.enabled = true
+    lintOptions {
+        abortOnError false
     }
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.custom.keyboard"
-        minSdkVersion 24
+        minSdkVersion 28
         targetSdkVersion 30
         versionCode 112
-        versionName "1.1.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "0.0.0"
     }
     buildTypes {
         release {
@@ -20,6 +20,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
@@ -30,9 +34,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     implementation 'com.vanniktech:emoji-google:0.7.0'
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation project(':emoji')
