@@ -255,7 +255,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
-        if ((getSelectionStart() == 0 || ic.getTextBeforeCursor(1, 0) == "\n")
+        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
             if (Variables.isShift()) {
                 Variables.setShiftOff();
@@ -759,10 +759,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void onPress(int primaryCode) {
         ic = getCurrentInputConnection();
         time = System.nanoTime() - time;
+
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
             Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-            assert v != null;
-            v.vibrate(40);
+            if (v != null) {
+                v.vibrate(40);
+            }
         }
     }
 

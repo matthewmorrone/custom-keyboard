@@ -88,10 +88,10 @@
 <!--        <Key android:codes="-134" android:keyIcon="@drawable/ic_emoji" />-->
         <Key android:codes="-135" android:keyLabel="num" />
         <Key android:codes="-136" android:keyLabel="nav" />
-        <Key android:codes="-137" android:keyLabel="2nd" />
+<!--        <Key android:codes="-137" android:keyLabel="2nd" />-->
         <Key android:codes="-138" android:keyLabel="sym" />
         <Key android:codes="-139" android:keyLabel="uni" />
-        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" />
+        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" android:horizontalGap="8.333%" />
         <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"   />
     </Row>
     <Row>
