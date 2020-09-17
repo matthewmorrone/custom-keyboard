@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "applicationId": "github.ankushsachdeva.emojicon",
+  "applicationId": "github.custom.emojicon",
   "variantType": "LIBRARY",
   "elements": [
     {
@@ -18,7 +18,7 @@
       },
       "path": "../../library_manifest/debug/AndroidManifest.xml",
       "properties": {
-        "packageId": "github.ankushsachdeva.emojicon",
+        "packageId": "github.custom.emojicon",
         "split": ""
       }
     }

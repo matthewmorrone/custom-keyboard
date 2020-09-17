@@ -7,21 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.view.inputmethod.EditorInfo;
 
-
 public class CustomKeyboard extends Keyboard {
 
     static final int KEYCODE_OPTIONS = -100;
     static final int KEYCODE_LAYOUT_SWITCH = -101;
-    static final int KEYCODE_DPAD_U = -107;
-    static final int KEYCODE_DPAD_L = -108;
-    static final int KEYCODE_DPAD_D = -109;
-    static final int KEYCODE_DPAD_R = -111;
-    static final int KEYCODE_ESCAPE = -112;
-    static final int KEYCODE_CTRL = -113;
-    static final int KEYCODE_ALT = -114;
-    static final int KEYCODE_STANDARD_SWITCH = -117;
-    static final int KEYCODE_BACKSPACE = -121;
-    static final int KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE = -122;
 
     String title;
 
@@ -106,10 +95,6 @@ public class CustomKeyboard extends Keyboard {
         }
     }
 
-    /**
-     * This looks at the ime options given by the current editor, to set the
-     * appropriate label on the keyboard's enter key (if it has one).
-     */
     void setImeOptions(Resources res, int options) {
         if (mEnterKey == null) {
             return;
@@ -118,26 +103,23 @@ public class CustomKeyboard extends Keyboard {
         switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
             case EditorInfo.IME_ACTION_GO:
                 mEnterKey.iconPreview = null;
-                mEnterKey.icon = null;
-                mEnterKey.label = "ENT";
+                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_go, null);
                 break;
             case EditorInfo.IME_ACTION_NEXT:
                 mEnterKey.iconPreview = null;
-                mEnterKey.icon = null;
-                mEnterKey.label = "N";
+                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_next, null);
                 break;
             case EditorInfo.IME_ACTION_SEARCH:
-                //  mEnterKey.icon = "K";
-                mEnterKey.label = null;
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_find, null);
                 break;
             case EditorInfo.IME_ACTION_SEND:
                 mEnterKey.iconPreview = null;
-                mEnterKey.icon = null;
-                mEnterKey.label = "HH";
+                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_send, null);
                 break;
             default:
-                //   mEnterKey.icon = "U";
-                mEnterKey.label = null;
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_enter, null);
                 break;
         }
     }
