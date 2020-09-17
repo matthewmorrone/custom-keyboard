@@ -36,6 +36,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.vanniktech:emoji-google:0.7.0'
     implementation 'org.apache.commons:commons-lang3:3.8.1'
-//    implementation project(':emoji')
+    // implementation project(':emoji')
 
 }
