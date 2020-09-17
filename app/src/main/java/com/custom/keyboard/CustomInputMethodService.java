@@ -206,7 +206,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         currentKeyboard.setRowNumber(getRowNumber());
 
 
-        currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
+        // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
@@ -220,15 +220,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         setInputView(kv);
 
-        kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-        // kv.getCustomKeyboard().changeKeyHeight(1.5);
+        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
     }
 
-    /**
-     * This is called when the user is done editing a field.  We can use this to reset our state.
-     */
     @Override
     public void onFinishInput() {
         super.onFinishInput();
@@ -244,9 +240,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         setCandidatesViewShown(false);
 
         currentKeyboard = standardKeyboard;
-        // if (mInputView != null) {
-        //     mInputView.closing();
-        // }
+        if (mInputView != null) {
+            mInputView.closing();
+        }
     }
 
     /**
@@ -1077,6 +1073,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
         currentKeyboard.setRowNumber(getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
+        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
     static String hexBuffer = "";
