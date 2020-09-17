@@ -11,8 +11,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class Main extends Activity {
 
     @Override

@@ -3,10 +3,11 @@
 + fonts
 
 ### things to put in ###
+=======
++ wider selection of emoji
 + number input/slider combined for specification of keypress delay
 + custom key settings' popups should contain three inputs: one to change the label, and one to change the value, and one to change its longpress value
 + color selection/input to change key text, background, borders
-+ wider selection of emoji
 + popups when holding down key, disappear on release
 + changing row height with drag
 + voice button in suggestion row
@@ -15,6 +16,30 @@
 + multiline popup
 + close popup on blur
 + use system languages
++ actions on keyboard and key gestures
+
+## OpenBoard Settings ##
++ cursor movement on space key drag
++ contact name suggestions
++ multiline popup
++ close popup on blur
++ use system languages
++ Press and hold suggestion bar for more
++ Voice input key in suggestion row
++ Language Switch Key toggle
++ Key popup dismiss delay
++ Keypress vibration duration
++ Keypress sound volume
++ Key long press delay
++ Show app icon
++ Space bar trackpad
++ Delete swipe
++ Auto-capitalization
++ Double-space period
++ Vibrate on keypress
++ Sound on keypress
++ Popup on keypress
++ Voice input key
 
 ### spellcheck/autocomplete ###
 + reimplement
