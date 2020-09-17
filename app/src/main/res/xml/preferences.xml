@@ -1,11 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
-    <SwitchPreference android:defaultValue="false" android:key="pairs"   android:title="Insert Pairs" />
-    <SwitchPreference android:defaultValue="true"  android:key="shift"   android:title="Toggle Selection Case" />
-    <SwitchPreference android:defaultValue="true"  android:key="caps"    android:title="@string/caps" />
-    <SwitchPreference android:defaultValue="false" android:key="vib"     android:title="@string/vib" />
-    <SwitchPreference android:defaultValue="false" android:key="pred"    android:title="@string/prediction" />
-    <SwitchPreference android:defaultValue="false" android:key="comp"    android:title="@string/completion" />
+    <PreferenceScreen android:title="Editing">
+        <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
+        <SwitchPreference android:defaultValue="false" android:key="pairs"   android:title="Insert Pairs" />
+        <SwitchPreference android:defaultValue="true"  android:key="shift"   android:title="Toggle Selection Case" />
+        <SwitchPreference android:defaultValue="true"  android:key="caps"    android:title="@string/caps" />
+        <SwitchPreference android:defaultValue="false" android:key="vib"     android:title="@string/vib" />
+        <SwitchPreference android:defaultValue="false" android:key="pred"    android:title="@string/prediction" />
+        <SwitchPreference android:defaultValue="false" android:key="comp"    android:title="@string/completion" />
+    </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <ListPreference   android:defaultValue="1" android:entries="@array/color" android:entryValues="@array/color_values" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />
