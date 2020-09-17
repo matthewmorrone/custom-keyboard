@@ -37,7 +37,4 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'com.vanniktech:emoji-google:0.7.0'
     implementation project(':emoji')
-
-
-
 }
