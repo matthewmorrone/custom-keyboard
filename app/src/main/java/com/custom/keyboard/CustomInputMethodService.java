@@ -17,12 +17,9 @@ import android.preference.*;
 import android.provider.Settings;
 import android.text.InputType;
 import android.text.method.MetaKeyKeyListener;
-import android.view.Gravity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
@@ -45,15 +42,17 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
+*/
 
 public class CustomInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
 
-    private EmojiconsPopup popupWindow = null;
+    // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
 
     private StringBuilder mComposing = new StringBuilder();
@@ -88,11 +87,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     private CandidateView mCandidateView;
     private CompletionInfo[] mCompletions;
 
-    private CustomKeyboard mStandardKeyboard;
-    private CustomKeyboard mFunctionKeyboard;
     private CustomKeyboard currentKeyboard;
-    private CustomKeyboard mCurrentKeyboard;
     private CustomKeyboard standardKeyboard;
+    private CustomKeyboard functionKeyboard;
 
 
     @Override
@@ -112,7 +109,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
      */
     @Override
     public void onInitializeInterface() {
-        if (mStandardKeyboard != null) {
+        if (standardKeyboard != null) {
             // Configuration changes can happen after the keyboard gets recreated,
             // so we need to be able to re-build the keyboards if the available
             // space has changed.
@@ -122,8 +119,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             }
             mLastDisplayWidth = displayWidth;
         }
-        mStandardKeyboard = new CustomKeyboard(this, R.layout.primary);
-        mFunctionKeyboard = new CustomKeyboard(this, R.layout.function);
+        standardKeyboard = new CustomKeyboard(this, R.layout.primary);
+        functionKeyboard = new CustomKeyboard(this, R.layout.function);
     }
 
     /**
@@ -132,18 +129,15 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
      * is displayed, and every time it needs to be re-created such as due to
      * a configuration change.
      */
-
     @Override
     public View onCreateInputView() {
         mInputView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setPreviewEnabled(false);
-        mInputView.setKeyboard(mStandardKeyboard);
+        mInputView.setKeyboard(standardKeyboard);
 
         return mInputView;
     }
-
-
 
     /**
      * Called by the framework when your view for showing candidates needs to
@@ -164,13 +158,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     /**
      * This is the main point where we do our initialization of the input method
-     * to begin operating on an application.  At this point we have been
+     * to begin operating on an application. At this point we have been
      * bound to the client, and are now receiving all of the detailed information
      * about the target of our edits.
-     * <p>
-     * <p>
-     * And we have to reinitialize all we've one to make sure the keyboard aspect matches
-     * The one selected in settings.
+     * And we have to reinitialize all we've done to make sure the keyboard matches
+     * the one selected in settings.
      */
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
@@ -183,7 +175,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         updateCandidates();
 
         if (!restarting) {
-            // Clear shift states.
             mMetaState = 0;
         }
         mCompletions = null;
@@ -193,12 +184,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
 
-
-
         boolean previews = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(previews);
-
-
 
         setInputType();
         Paint mPaint = new Paint();
@@ -209,6 +196,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         currentKeyboard.setRowNumber(getRowNumber());
+
+
+        currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
@@ -221,6 +211,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
         setInputView(kv);
+
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
@@ -243,7 +234,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         // its window.
         setCandidatesViewShown(false);
 
-        mCurrentKeyboard = mStandardKeyboard;
+        currentKeyboard = standardKeyboard;
         if (mInputView != null) {
             mInputView.closing();
         }
@@ -268,8 +259,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             kv.draw(new Canvas());
         }
 
-        // If the current selection in the text view changes, we should
-        // clear whatever candidate text we have.
+        // If the current selection in the text view changes, we should clear whatever candidate text we have.
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             mComposing.setLength(0);
             updateCandidates();
@@ -280,12 +270,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    /**
-     * This tells us about completions that the editor has determined based
-     * on the current text in it.  We want to use this in fullscreen mode
-     * to show the completions ourself, since the editor can not be seen
-     * in that situation.
-     */
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
         if (mCompletionOn) {
@@ -295,7 +279,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 return;
             }
 
-            List<String> stringList = new ArrayList<String>();
+            List<String> stringList = new ArrayList<>();
             for (CompletionInfo ci : completions) {
                 if (ci != null) {
                     stringList.add(ci.getText().toString());
@@ -484,7 +468,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     private void updateShiftKeyState(EditorInfo attr) {
-        if (attr != null && mInputView != null && mStandardKeyboard == mInputView.getKeyboard()) {
+        if (attr != null && mInputView != null && standardKeyboard == mInputView.getKeyboard()) {
             int caps = 0;
             EditorInfo ei = getCurrentInputEditorInfo();
             if (ei != null && ei.inputType != InputType.TYPE_NULL) {
@@ -580,6 +564,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
+    /*
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -616,6 +601,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void closeEmoticons() {
         if (popupWindow != null) popupWindow.dismiss();
     }
+    */
 
     private void handleBackspace() {
         final int length = mComposing.length();
@@ -689,10 +675,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public void hide() {
-        handleClose();
-    }
-
     private void handleClose() {
         commitTyped(getCurrentInputConnection());
         requestHideSelf(0);
@@ -709,6 +691,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             return null;
         }
         return window.getAttributes().token;
+    }
+
+    private void showInputMethodPicker() {
+        InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+        if (imeManager != null) imeManager.showInputMethodPicker();
     }
 
     private void handleLanguageSwitch() {
@@ -872,17 +859,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    private void handleAction() {
-        EditorInfo curEditor = getCurrentInputEditorInfo();
-        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE:   getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE); break;
-            case EditorInfo.IME_ACTION_GO:     getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
-            case EditorInfo.IME_ACTION_NEXT:   getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT); break;
-            case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-            case EditorInfo.IME_ACTION_SEND:   getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND); break;
-            default: break;
-        }
-    }
 
     public void setTheme() {
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1")) {
@@ -897,44 +873,64 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
+    private void handleAction() {
+        EditorInfo curEditor = getCurrentInputEditorInfo();
+        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
+            case EditorInfo.IME_ACTION_DONE:
+                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);
+                break;
+            case EditorInfo.IME_ACTION_GO:
+                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
+                break;
+            case EditorInfo.IME_ACTION_NEXT:
+                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);
+                break;
+            case EditorInfo.IME_ACTION_SEARCH:
+                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
+                break;
+            case EditorInfo.IME_ACTION_SEND:
+                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
+                break;
+            default: break;
+        }
+    }
+
     private void setInputType() {
 
         /** Checks the preferences for the default keyboard layout.
           * If standard, we start out whether in standard or numbers, depending on the input type. */
 
         EditorInfo attribute = getCurrentInputEditorInfo();
+        int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
 
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("start", "1").equals("1")) {
-            switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
-                case InputType.TYPE_CLASS_NUMBER:
-                case InputType.TYPE_CLASS_DATETIME:
-                case InputType.TYPE_CLASS_PHONE:
-                    currentKeyboard = new CustomKeyboard(this, R.layout.numbers);
-                    break;
-                case InputType.TYPE_CLASS_TEXT:
-                    int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
-                    if (webInputType == InputType.TYPE_TEXT_VARIATION_URI || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
-                        currentKeyboard = new CustomKeyboard(this, R.layout.primary);
-                    }
-                    else {
-                        currentKeyboard = new CustomKeyboard(this, R.layout.primary);
-                    }
-                    break;
-                default:
-                    currentKeyboard = new CustomKeyboard(this, R.layout.primary);
-                    break;
-            }
+        switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
+            case InputType.TYPE_CLASS_NUMBER:
+            case InputType.TYPE_CLASS_DATETIME:
+            case InputType.TYPE_CLASS_PHONE:
+                setKeyboard(R.layout.numeric);
+                break;
+            case InputType.TYPE_CLASS_TEXT:
+                if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
+                    setKeyboard(R.layout.domain);
+                    // getKey(32).icon = getResources().getDrawable(R.drawable.ic_search);
+                    redraw();
+                }
+                else {
+                    setKeyboard(R.layout.primary);
+                }
+                break;
+            default:
+                setKeyboard(R.layout.primary);
+                break;
         }
-        else {
-            setDefaultKeyboard();
-        }
+        // currentKeyboard = standardKeyboard;
+
         if (kv != null) {
             kv.setKeyboard(currentKeyboard);
         }
-    }
-
-    public void setDefaultKeyboard() {
-        currentKeyboard = standardKeyboard;
     }
 
     private void checkToggleCapsLock() {
@@ -994,7 +990,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         else {
             text = args[0];
         }
-        // toast.cancel();
+        if (toast != null) toast.cancel();
         toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
         toast.show();
     }
@@ -1036,7 +1032,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     public void navigate(int primaryCode) {
         ic = getCurrentInputConnection();
-        
         if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
         sendKey(primaryCode);
         if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
@@ -1079,10 +1074,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
     }
 
-    public void switchKeyboard(int id) {
+    public void setKeyboard(int id) {
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
         currentKeyboard.setRowNumber(getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
+        // toastIt(""+getHeightKeyModifier()+" "+kv.getCustomKeyboard().getHeight());
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
@@ -1103,28 +1099,32 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         97, 98, 99, 100, 101, 102
     };
 
+    private void handleUnicode(int primaryCode) {
+        if (Util.contains(hexPasses, primaryCode)) return;
+        if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
+        if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
+        if (Util.contains(hexCaptures, primaryCode)) {
+            if (hexBuffer.length() > 3) hexBuffer = "";
+            hexBuffer += (char)primaryCode;
+        }
+        if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
+        if (primaryCode == -204) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+        if (primaryCode == -205) {
+            if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
+            else hexBuffer = "0000";
+        }
+        if (primaryCode == -206) hexBuffer = "0000";
+        getKey(-2003).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
+        getKey(-2004).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+    }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
 
-        if (currentKeyboard.title != null &&
-            currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
-            if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
-            if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
-            if (Util.contains(hexCaptures, primaryCode)) {
-                if (hexBuffer.length() > 3) hexBuffer = "";
-                hexBuffer += (char)primaryCode;
-            }
-            if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-            if (primaryCode == -204) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
-            if (primaryCode == -205) {
-                if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
-                else hexBuffer = "0000";
-            }
-            if (primaryCode == -206) hexBuffer = "0000";
-            getKey(-2003).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
-            getKey(-2004).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode")) {
+            handleUnicode(primaryCode);
             redraw();
             return;
         }
@@ -1177,32 +1177,34 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 }
                 break;
             case 10:
-                EditorInfo curEditor = getCurrentInputEditorInfo();
-                switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-                    case EditorInfo.IME_ACTION_DONE: sendKey(66); break;
-                    case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
-                    case EditorInfo.IME_ACTION_NEXT: sendKey(66); break;
-                    case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-                    case EditorInfo.IME_ACTION_SEND: sendKey(66); break;
-                    default: sendKey(66); break;
+                // handleAction();
+                EditorInfo currentEditor = getCurrentInputEditorInfo();
+                switch (currentEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
+                    case EditorInfo.IME_ACTION_GO:
+                        getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
+                        break;
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
+                        break;
+                    case EditorInfo.IME_ACTION_DONE:
+                    case EditorInfo.IME_ACTION_NEXT:
+                    case EditorInfo.IME_ACTION_SEND:
+                    default:
+                        sendKey(66);
+                        break;
                 }
                 break;
             case -2:
                 break;
 
-            case -117: //CustomKeyboard.KEYCODE_STANDARD_SWITCH:
-                currentKeyboard = new CustomKeyboard(getBaseContext(), R.layout.primary);
-                currentKeyboard.setRowNumber(getStandardRowNumber());
-                kv.setKeyboard(currentKeyboard);
-                kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-                break;
+            case -117: setKeyboard(R.layout.primary); break;
             case -112: sendKey(KeyEvent.KEYCODE_ESCAPE); break;
-            case -113: // CustomKeyboard.KEYCODE_CTRL:
+            case -113:
                 if (Variables.isCtrl()) Variables.setCtrlOff();
                 else Variables.setCtrlOn();
                 kv.draw(new Canvas());
                 break;
-            case -114: // CustomKeyboard.KEYCODE_ALT:
+            case -114:
                 if (Variables.isAlt()) Variables.setAltOff();
                 else Variables.setAltOn();
                 kv.draw(new Canvas());
@@ -1230,7 +1232,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
                 }
                 break;
-            case -122: //CustomKeyboard.KEYCODE_I_DONT_KNOW_WHY_I_PUT_THAT_HERE:
+            case -122:
                 if (Variables.isAnyOn()) {
                     if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
                     if (Variables.isAlt())  { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON)); }
@@ -1263,16 +1265,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
             case -22: showSettings(); break;
             case -23: showVoiceInput(); break;
-            case -24: hide(); break;
-            case -25:
-                InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-                if (imeManager != null) imeManager.showInputMethodPicker();
-                break;
+            case -24: handleClose(); break;
+            case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            case -27:
-                toastIt(currentKeyboard.getHeight());
-                showEmoticons();
-            break;
+            // case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1409,7 +1405,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -111: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
             case -115: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
             case -116: showActivity(Settings.ACTION_HOME_SETTINGS); break;
-            // case -118: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break;
             case -119: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
             case -120: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
             case -121: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
@@ -1422,18 +1417,19 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -129: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
             case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
             case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
-
-
-            case -101: switchKeyboard(R.layout.primary); break;
-            case -102: switchKeyboard(R.layout.function); break;
-            case -103: switchKeyboard(R.layout.macros); break;
-            case -133: switchKeyboard(R.layout.hex); break;
-            case -134: switchKeyboard(R.layout.emoji); break;
-            case -135: switchKeyboard(R.layout.numbers); break;
-            case -136: switchKeyboard(R.layout.navigation); break;
-            case -137: switchKeyboard(R.layout.secondary); break;
-            case -138: switchKeyboard(R.layout.symbol); break;
-            case -139: switchKeyboard(R.layout.unicode); break;
+            case -101: setKeyboard(R.layout.primary); break;
+            case -102: setKeyboard(R.layout.function); break;
+            case -103: setKeyboard(R.layout.macros); break;
+            case -133: setKeyboard(R.layout.hex); break;
+            case -134: setKeyboard(R.layout.emoji); break;
+            case -135: setKeyboard(R.layout.numeric); break;
+            case -136: setKeyboard(R.layout.navigation); break;
+            case -137: setKeyboard(R.layout.secondary); break;
+            case -138: setKeyboard(R.layout.symbol); break;
+            case -139:
+                setKeyboard(R.layout.unicode);
+                currentKeyboard.title = "Unicode";
+            break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
