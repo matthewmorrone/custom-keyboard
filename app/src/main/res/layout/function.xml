@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keyWidth="10%p"
-    android:keyHeight="6%p">
+    android:keyHeight="7%p">
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-20" android:keyIcon="@drawable/ic_double_chevron_left" />
         <Key android:codes="-21" android:keyIcon="@drawable/ic_double_chevron_right"/>
@@ -76,14 +76,16 @@
     <Row>
         <Key android:codes="-92" android:keyLabel="#?" />
         <Key android:codes="-140" android:keyLabel="acc" />
-        <Key android:codes="-103" android:keyLabel="mac" />
         <Key android:codes="-133" android:keyLabel="hex" />
-        <Key android:codes="-135" android:keyLabel="num" />
+        <Key android:codes="-142" android:keyLabel="fan" />
+        <Key android:codes="-141" android:keyLabel="ipa" />
+        <Key android:codes="-103" android:keyLabel="mac" />
         <Key android:codes="-136" android:keyLabel="nav" />
+        <Key android:codes="-135" android:keyLabel="num" />
         <Key android:codes="-138" android:keyLabel="sym" />
         <Key android:codes="-139" android:keyLabel="uni" />
-        <Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" />
-        <Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"   />
+        <!--<Key android:codes="-5"  android:keyIcon="@drawable/ic_backspace" />-->
+        <!--<Key android:codes="-7"  android:keyIcon="@drawable/ic_delete"   />-->
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="10%p" />

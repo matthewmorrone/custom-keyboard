@@ -1,6 +1,0 @@
-<resources>
-    <dimen name="candidate_font_height">22sp</dimen>
-    <dimen name="candidate_vertical_padding">8sp</dimen>
-    <dimen name="text_size">22dp</dimen>
-    <dimen name="label_size">12dp</dimen>
-</resources>

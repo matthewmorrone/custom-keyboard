@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keyWidth="10%p"
-    android:keyHeight="6%p">
+    android:keyHeight="7%p">
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-20" android:keyIcon="@drawable/ic_double_chevron_left" />
         <Key android:codes="-21" android:keyIcon="@drawable/ic_double_chevron_right"/>

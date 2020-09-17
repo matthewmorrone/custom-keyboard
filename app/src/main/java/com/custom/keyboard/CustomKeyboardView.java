@@ -88,6 +88,8 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.restore();
     }
 
+    int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -112,6 +114,11 @@ public class CustomKeyboardView extends KeyboardView {
         int corner = 16; // corners ? 16 : 0;
 
         for (Key key : keys) {
+
+            if (Util.contains(repeatable, key.codes[0])) {
+                key.repeatable = true;
+            }
+
             // !keyback corners !padding borders
             if (borders) {
                 canvas.save();

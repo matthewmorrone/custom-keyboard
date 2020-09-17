@@ -1427,6 +1427,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 currentKeyboard.title = "Unicode";
             break;
             case -140: setKeyboard(R.layout.accents); break;
+            case -141: setKeyboard(R.layout.ipa); break;
+            case -142: setKeyboard(R.layout.fancy); break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
