@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="github.ankushsachdeva.emojicon" >
+3    package="github.custom.emojicon" >
 4
 5    <uses-sdk
 5-->C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:4:5-46

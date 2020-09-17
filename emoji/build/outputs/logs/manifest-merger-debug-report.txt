@@ -4,7 +4,7 @@ ADDED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidM
 INJECTED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:1:1-12:12
 INJECTED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:1:1-12:12
 	package
-		ADDED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:2:5-45
+		ADDED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:2:5-37
 		INJECTED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml
 	xmlns:android

@@ -8,7 +8,7 @@
     <SwitchPreference android:defaultValue="false" android:key="comp"    android:title="@string/completion" />
     <PreferenceScreen android:title="Appearance">
         <ListPreference   android:defaultValue="1" android:entries="@array/color" android:entryValues="@array/color_values" android:key="theme" android:title="Theme" />
-        <com.custom.keyboard.SeekPreference android:defaultValue="40" android:key="height" android:title="Key Height" />
+        <com.custom.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />
         <com.custom.keyboard.SeekPreference android:defaultValue="100" android:key="transparency" android:title="Transparency" />
         <SwitchPreference android:defaultValue="false" android:key="bord"    android:title="@string/borders" />
         <SwitchPreference android:defaultValue="false" android:key="borders" android:title="Borders" />

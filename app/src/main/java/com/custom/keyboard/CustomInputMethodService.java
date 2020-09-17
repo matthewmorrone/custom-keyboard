@@ -17,9 +17,12 @@ import android.preference.*;
 import android.provider.Settings;
 import android.text.InputType;
 import android.text.method.MetaKeyKeyListener;
+import android.view.Gravity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
@@ -42,6 +45,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.custom.emojicon.EmojiconGridView;
+import github.custom.emojicon.EmojiconsPopup;
+import github.custom.emojicon.emoji.Emojicon;
+
 /*
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
@@ -52,7 +59,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     static final boolean PROCESS_HARD_KEYS = true;
 
-    // private EmojiconsPopup popupWindow = null;
+    private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
 
     private StringBuilder mComposing = new StringBuilder();
@@ -181,6 +188,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
+
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
 
@@ -198,7 +206,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         currentKeyboard.setRowNumber(getRowNumber());
 
 
-        currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
+        // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
@@ -212,14 +220,11 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
         setInputView(kv);
 
-        kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
     }
 
-    /**
-     * This is called when the user is done editing a field.  We can use this to reset our state.
-     */
     @Override
     public void onFinishInput() {
         super.onFinishInput();
@@ -564,7 +569,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    /*
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -601,7 +605,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     public void closeEmoticons() {
         if (popupWindow != null) popupWindow.dismiss();
     }
-    */
 
     private void handleBackspace() {
         final int length = mComposing.length();
@@ -675,6 +678,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
+    public void hide() {
+        handleClose();
+    }
+
     private void handleClose() {
         commitTyped(getCurrentInputConnection());
         requestHideSelf(0);
@@ -691,11 +698,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             return null;
         }
         return window.getAttributes().token;
-    }
-
-    private void showInputMethodPicker() {
-        InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-        if (imeManager != null) imeManager.showInputMethodPicker();
     }
 
     private void handleLanguageSwitch() {
@@ -897,9 +899,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     private void setInputType() {
 
-        /** Checks the preferences for the default keyboard layout.
-          * If standard, we start out whether in standard or numbers, depending on the input type. */
-
         EditorInfo attribute = getCurrentInputEditorInfo();
         int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
 
@@ -915,8 +914,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
                     setKeyboard(R.layout.domain);
-                    // getKey(32).icon = getResources().getDrawable(R.drawable.ic_search);
-                    redraw();
                 }
                 else {
                     setKeyboard(R.layout.primary);
@@ -926,8 +923,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 setKeyboard(R.layout.primary);
                 break;
         }
-        // currentKeyboard = standardKeyboard;
-
         if (kv != null) {
             kv.setKeyboard(currentKeyboard);
         }
@@ -1078,20 +1073,19 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
         currentKeyboard.setRowNumber(getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
-        // toastIt(""+getHeightKeyModifier()+" "+kv.getCustomKeyboard().getHeight());
-        kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
     static String hexBuffer = "";
 
     static final int[] hexPasses = new int[] {
-        7,    9,   10,   32,  33,
-        -1,   -4,   -5,   -7,
-        -8,   -9,  -10,  -11,
-        -101, -102, -103,  -25,
-        -26,  -76,  -93, -107,
-        -108, -109, -110, -111,
-        -174
+        // 7,    9,   10,   32,  33,
+        // -1,   -4,   -5,   -7,
+        // -8,   -9,  -10,  -11,
+        // -101, -102, -103,  -25,
+        // -26,  -76,  -93, -107,
+        // -108, -109, -110, -111,
+        // -174
     };
     static final int[] hexCaptures = new int[] {
         48, 49, 50,  51,  52,  53, 54, 55,
@@ -1114,8 +1108,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             else hexBuffer = "0000";
         }
         if (primaryCode == -206) hexBuffer = "0000";
-        getKey(-2003).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
-        getKey(-2004).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
+        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
     }
 
     @Override
@@ -1197,7 +1191,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -2:
                 break;
 
-            case -117: setKeyboard(R.layout.primary); break;
             case -112: sendKey(KeyEvent.KEYCODE_ESCAPE); break;
             case -113:
                 if (Variables.isCtrl()) Variables.setCtrlOff();
@@ -1266,9 +1259,12 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -22: showSettings(); break;
             case -23: showVoiceInput(); break;
             case -24: handleClose(); break;
-            case -25: showInputMethodPicker(); break;
+            case -25:
+                InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+                if (imeManager != null) imeManager.showInputMethodPicker();
+            break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            // case -27: showEmoticons(); break;
+            case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1430,6 +1426,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 setKeyboard(R.layout.unicode);
                 currentKeyboard.title = "Unicode";
             break;
+            case -140: setKeyboard(R.layout.accents); break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
@@ -1460,6 +1457,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
     }
 
     public double getHeightKeyModifier() {
-        return (double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 40) / (double)50;
+        //   0 → 0.5
+        //  50 → 1.0
+        // 100 → 1.5
+        return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) + 50)/100;
     }
 }
