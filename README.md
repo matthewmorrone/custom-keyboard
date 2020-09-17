@@ -1,11 +1,10 @@
-## things to put back in
-+ spellchecker
+### things I know how to do ###
 + indentation
 + fonts
+
+### things to put in ###
 + number input/slider combined for specification of keypress delay
 + custom key settings' popups should contain three inputs: one to change the label, and one to change the value, and one to change its longpress value
-
-## things to put in
 + color selection/input to change key text, background, borders
 + wider selection of emoji
 + popups when holding down key, disappear on release
@@ -38,7 +37,6 @@
 + settings for numbers, colors, popupchars
 + press and hold custom keys to change them
 + macro customization
-+ drag control for keyboard height
 + add and remove keys
 + hide and show specific keys, especially in the top or bottom
 + row with toggles from settings page
@@ -51,7 +49,6 @@
 + key codes and labels customizable
 
 ### functionality ###
-+ edit text popup for find/replace
 + create a popup with two inputs that allows arbitrary search and replace
 + press and hold to delete all space up to line end (while prev char is space)
 + move cursor and select text by dragging the space key
@@ -77,16 +74,12 @@
 
 ### layouts ###
 + unicode input from exhaustive table
-+ emoji 
 + tabs on symbols page 
 + swiping, scrollable/swipeable areas
-+ math ⇄ numeric
 
 ### nice to haves ###
 + password buttons
-+ convert between fonts
 + language detection
-+ calculation parsing
 + edittext popup for temporary stuff
 + change enter icon depending on input type
 + selection pad
@@ -102,8 +95,6 @@
 + disable context menu in edittexts
 + nonliteral tab
 + animations
-
-### popup-related ###
 + popup contents should also be keys
 + layout of popup
 + make popup keys repeatable
