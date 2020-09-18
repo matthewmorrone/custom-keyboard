@@ -48,7 +48,6 @@ public class CandidateView extends View {
 
     private GestureDetector mGestureDetector;
 
-
     public CandidateView(Context context) {
         super(context);
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
@@ -63,7 +62,7 @@ public class CandidateView extends View {
 
         setBackgroundColor(r.getColor(R.color.black));
 
-        mColorNormal = r.getColor(R.color.black);
+        mColorNormal = r.getColor(R.color.white);
         mColorRecommended = r.getColor(R.color.white);
         mColorOther = r.getColor(R.color.white);
         mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);

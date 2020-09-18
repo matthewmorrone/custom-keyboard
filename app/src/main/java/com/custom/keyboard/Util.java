@@ -420,6 +420,19 @@ public class Util {
         return text.replaceAll("(.)", "$1 ");
     }
 
+    public static boolean isDigit(int code) {
+        return Character.isDigit(code);
+    }
+    public static Boolean isAlphaNumeric(int primaryCode) {
+        return (isLetter(primaryCode) || isDigit(primaryCode));
+    }
+    public static Boolean isLetter(int primaryCode) {
+        if (primaryCode >= 65 && primaryCode <= 91) {
+            return true;
+        }
+        return primaryCode >= 97 && primaryCode <= 123;
+    }
+
 
     static boolean isBold(int primaryCode) {
         if      (primaryCode >= 120276 && primaryCode <= 120301) {
@@ -432,7 +445,10 @@ public class Util {
     }
 
     static int getUnbold(int primaryCode) {
-        if      (primaryCode >= 120276 && primaryCode <= 120301) {
+        if (Util.isDigit(primaryCode)) {
+            primaryCode -= 120764;
+        }
+        else if      (primaryCode >= 120276 && primaryCode <= 120301) {
             primaryCode -= 120211;
         }
         else if (primaryCode >= 120302 && primaryCode <= 120327) {
@@ -441,7 +457,10 @@ public class Util {
         return primaryCode;
     }
     static int getBold(int primaryCode) {
-        if      (primaryCode >= 65 && primaryCode <= 90) {
+        if (Util.isDigit(primaryCode)) {
+            primaryCode += 120764;
+        }
+        else if (primaryCode >= 65 && primaryCode <= 90) {
             primaryCode += 120211;
         }
         else if (primaryCode >= 97 && primaryCode <= 122) {
