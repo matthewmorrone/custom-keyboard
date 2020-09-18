@@ -1,30 +1,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen android:title="Editing">
-        <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
-        <SwitchPreference android:defaultValue="false" android:key="pairs"   android:title="Insert Pairs" />
-        <SwitchPreference android:defaultValue="true"  android:key="shift"   android:title="Toggle Selection Case" />
-        <SwitchPreference android:defaultValue="true"  android:key="caps"    android:title="@string/caps" />
-        <SwitchPreference android:defaultValue="false" android:key="vib"     android:title="@string/vib" />
-        <SwitchPreference android:defaultValue="false" android:key="pred"    android:title="@string/prediction" />
-        <SwitchPreference android:defaultValue="false" android:key="comp"    android:title="@string/completion" />
+        <SwitchPreference android:key="preview" android:title="Show Key Previews" android:defaultValue="false" />
+        <SwitchPreference android:key="pairs"   android:title="Insert Pairs" android:defaultValue="false" />
+        <SwitchPreference android:key="shift"   android:title="Toggle Selection Case" android:defaultValue="true" />
+        <SwitchPreference android:key="caps"    android:title="@string/caps" android:defaultValue="true" />
+        <SwitchPreference android:key="vib"     android:title="@string/vib" android:defaultValue="false" />
+        <SwitchPreference android:key="pred"    android:title="@string/prediction" android:defaultValue="false" />
+        <SwitchPreference android:key="comp"    android:title="@string/completion" android:defaultValue="false" />
+        <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
+        <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <ListPreference   android:defaultValue="1" android:entries="@array/color" android:entryValues="@array/color_values" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />
         <com.custom.keyboard.SeekPreference android:defaultValue="100" android:key="transparency" android:title="Transparency" />
-        <SwitchPreference android:defaultValue="false" android:key="bord"    android:title="@string/borders" />
-        <SwitchPreference android:defaultValue="false" android:key="borders" android:title="Borders" />
-        <SwitchPreference android:defaultValue="false" android:key="padding" android:title="Padding" />
-        <SwitchPreference android:defaultValue="false" android:key="corners" android:title="Corners" />
-        <SwitchPreference android:defaultValue="false" android:key="keyback" android:title="Background" />
-        <SwitchPreference android:defaultValue="false" android:key="space"   android:title="Distinct Spacebar" />
+        <SwitchPreference android:key="bord"    android:title="@string/borders" android:defaultValue="false" />
+        <SwitchPreference android:key="borders" android:title="Borders" android:defaultValue="false" />
+        <SwitchPreference android:key="padding" android:title="Padding" android:defaultValue="false" />
+        <SwitchPreference android:key="corners" android:title="Corners" android:defaultValue="false" />
+        <SwitchPreference android:key="keyback" android:title="Background" android:defaultValue="false" />
+        <SwitchPreference android:key="space"   android:title="Distinct Spacebar" android:defaultValue="false" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:defaultValue="true"  android:key="hints" android:title="Hints" />
-        <SwitchPreference android:defaultValue="true"  android:dependency="hints" android:key="hint1" android:title="Hint 1" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint2" android:title="Hint 2" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint3" android:title="Hint 3" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint4" android:title="Hint 4" />
+        <SwitchPreference android:key="hints"        android:title="Hints" android:defaultValue="true" />
+        <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" android:defaultValue="true" />
+        <SwitchPreference android:dependency="hints" android:key="hint2" android:title="Hint 2" android:defaultValue="false" />
+        <SwitchPreference android:dependency="hints" android:key="hint3" android:title="Hint 3" android:defaultValue="false" />
+        <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" android:defaultValue="false" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
         <EditTextPreference android:defaultValue="@string/popup_first" android:dialogMessage="" android:dialogTitle="Popup 1" android:key="popup_first" android:summary="@string/popup_first" android:title="Popup 1" />

@@ -548,6 +548,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 mScs.getSentenceSuggestions(new TextInfo[]{
                     new TextInfo(mComposing.toString())
                 }, 5);
+                toastIt(list.toArray().toString());
                 setSuggestions(list, true, true);
             }
             else {
@@ -606,6 +607,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         if (popupWindow != null) popupWindow.dismiss();
     }
 
+
     private void handleBackspace() {
         final int length = mComposing.length();
 
@@ -615,6 +617,14 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
             && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
             ic.deleteSurroundingText(0, 1);
+        }
+
+        if (!isSelecting()
+            && ic.getTextBeforeCursor(4, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
+            && sharedPreferences.getBoolean("spaces", true)) {
+            ic.deleteSurroundingText((4 - (getPrevLine().length() % 4)), 0);
         }
 
         if (length > 1) {
@@ -650,6 +660,8 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 return;
             }
         }
+        // setCandidatesViewShown(true);
+
         if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char)primaryCode))) {
             mComposing.append((char)primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
@@ -813,16 +825,10 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
 
     private void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) {
-                sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
-            }
+            if (Variables.isCtrl() && Variables.isAlt()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
             else {
-                if (Variables.isCtrl()) {
-                    sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
-                }
-                if (Variables.isAlt()) {
-                    sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
-                }
+                if (Variables.isCtrl()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
+                if (Variables.isAlt()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
             }
         }
     }
@@ -1082,7 +1088,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         // 7,    9,   10,   32,  33,
         // -1,   -4,   -5,   -7,
         // -8,   -9,  -10,  -11,
-        // -101, -102, -103,  -25,
+        -101, // -102, -103,  -25,
         // -26,  -76,  -93, -107,
         // -108, -109, -110, -111,
         // -174
@@ -1093,8 +1099,26 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         97, 98, 99, 100, 101, 102
     };
 
+    private void handleSpace() {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
+            int spaceCount = (4 - (getPrevLine().length() % 4));
+            if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
+                spaceCount = 4;
+            }
+            commitText("    ".substring(0, spaceCount));
+            if (isSelecting()) {
+                ic.setSelection(getSelectionStart(), getSelectionEnd() + "    ".length());
+            }
+        }
+        else {
+            commitText("\t");
+            if (isSelecting()) {
+                ic.setSelection(getSelectionStart(), getSelectionEnd() + "\t".length());
+            }
+        }
+    }
+
     private void handleUnicode(int primaryCode) {
-        if (Util.contains(hexPasses, primaryCode)) return;
         if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
         if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
         if (Util.contains(hexCaptures, primaryCode)) {
@@ -1117,10 +1141,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
 
-        if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode")) {
+        if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
             redraw();
-            return;
         }
         switch (primaryCode) {
             case 142: sendKey(KeyEvent.KEYCODE_F12); break;
@@ -1170,6 +1193,7 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                     kv.draw(new Canvas());
                 }
                 break;
+            // case 32: handleSpace(); break;
             case 10:
                 // handleAction();
                 EditorInfo currentEditor = getCurrentInputEditorInfo();
@@ -1205,9 +1229,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
             case -5:
                 // handleBackspace();
                 if (Variables.isAnyOn()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
-                    if (Variables.isAlt())  { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON)); }
-                    if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON)); }
+                    if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                    if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
+                    if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
                 }
                 else {
                     getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0));
@@ -1227,9 +1251,9 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
                 break;
             case -122:
                 if (Variables.isAnyOn()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
-                    if (Variables.isAlt())  { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON)); }
-                    if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON)); }
+                    if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+                    if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
+                    if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
                 }
                 else {
                     getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
