@@ -43,7 +43,10 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import github.custom.emojicon.EmojiconGridView;
 import github.custom.emojicon.EmojiconsPopup;
@@ -222,6 +225,47 @@ public class CustomInputMethodService extends InputMethodService
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
+
+    }
+
+    public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, maxX = 0, maxY = 0;
+        for (Keyboard.Key key : keys) {
+            if (key.x < minX) minX = key.x;
+            if (key.y < minY) minY = key.y;
+
+            if (key.x + key.width > maxX) maxX = key.x;
+            if (key.y + key.height > maxY) maxY = key.y;
+        }
+        return new Bounds(minX, minY, maxX, maxY);
+    }
+
+    // @TODO: autoadjustment of key width by number of keys in row
+    public void adjustKeys() {
+        Bounds bounds = getBounds(functionKeyboard.getKeys());
+        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(functionKeyboard);
+        for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
+            if (entry.getValue().size() > 8) {
+                // System.out.print(entry.getKey()+" ("+entry.getValue().size()+"): ");
+                for(Keyboard.Key key : entry.getValue()) {
+                    key.width = bounds.dX / entry.getValue().size();
+                    // System.out.print(key.width+" ");
+                }
+                // System.out.println(bounds.dX);
+            }
+        }
+        redraw();
+    }
+
+    public Map<Integer,List<Keyboard.Key>> getKeyboardRows(CustomKeyboard keyboard) {
+        Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
+        for (Keyboard.Key key : keyboard.getKeys()) {
+            if (!layoutRows.containsKey(key.y)) {
+                layoutRows.put(key.y, new ArrayList<>());
+            }
+            layoutRows.get(key.y).add(key);
+        }
+        return layoutRows;
     }
 
     @Override
@@ -1498,6 +1542,7 @@ public class CustomInputMethodService extends InputMethodService
             case -140: setKeyboard(R.layout.accents); break;
             case -141: setKeyboard(R.layout.ipa); break;
             case -142: setKeyboard(R.layout.fancy); break;
+            case -143: setKeyboard(R.layout.function_2); break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);

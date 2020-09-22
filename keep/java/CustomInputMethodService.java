@@ -306,18 +306,6 @@ public class CustomInputMethodService extends InputMethodService implements Keyb
         }
     }
 
-    public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
-        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, maxX = 0, maxY = 0;
-        for (Keyboard.Key key : keys) {
-            if (key.x < minX) minX = key.x;
-            if (key.y < minY) minY = key.y;
-
-            if (key.x + key.width > maxX) maxX = key.x;
-            if (key.y + key.height > maxY) maxY = key.y;
-        }
-        return new Bounds(minX, minY, maxX, maxY);
-    }
-
     static void print(@NonNull Object... a) {
         for (Object i : a) System.out.print(i + " ");
         System.out.println();

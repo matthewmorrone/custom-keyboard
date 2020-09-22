@@ -3,8 +3,8 @@
     package="github.custom.emojicon" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="27" />
+        android:minSdkVersion="1"
+        android:targetSdkVersion="29" />
 
     <application
         android:allowBackup="true"

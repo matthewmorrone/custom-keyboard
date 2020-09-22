@@ -4,9 +4,9 @@
 4
 5    <uses-sdk
 5-->C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:4:5-46
-6        android:minSdkVersion="8"
+6        android:minSdkVersion="1"
 6-->C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:4:5-46
-7        android:targetSdkVersion="27" />
+7        android:targetSdkVersion="29" />
 7-->C:\Users\Owner\StudioProjects\custom-keyboard\emoji\src\main\AndroidManifest.xml:4:15-44
 8
 9    <application
