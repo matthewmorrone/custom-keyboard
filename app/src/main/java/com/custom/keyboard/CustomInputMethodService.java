@@ -52,12 +52,6 @@ import github.custom.emojicon.EmojiconGridView;
 import github.custom.emojicon.EmojiconsPopup;
 import github.custom.emojicon.emoji.Emojicon;
 
-/*
-import github.ankushsachdeva.emojicon.EmojiconGridView;
-import github.ankushsachdeva.emojicon.EmojiconsPopup;
-import github.ankushsachdeva.emojicon.emoji.Emojicon;
-*/
-
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
@@ -77,13 +71,15 @@ public class CustomInputMethodService extends InputMethodService
     private boolean firstCaps = false;
     private boolean isSymbols = false;
     private boolean shiftSim = false;
-    private InputMethodManager mServ;
+
     private float[] mDefaultFilter;
     long shift_pressed = 0;
 
     int MAX = 65536;
 
     InputConnection ic = getCurrentInputConnection();
+
+
     SharedPreferences sharedPreferences;
     Toast toast;
 
@@ -105,6 +101,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onCreate() {
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+
         mWordSeparators = getResources().getString(R.string.word_separators);
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;

@@ -3,7 +3,6 @@ package com.custom.keyboard;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -12,20 +11,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.inputmethod.InputConnection;
-
-import androidx.annotation.RequiresApi;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CustomKeyboardView extends KeyboardView {
 
     Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
-    NinePatchDrawable mSpaceBackground   = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.space);
-    NinePatchDrawable mPressedBackground = (NinePatchDrawable)getContext().getResources().getDrawable(R.drawable.press);
     Paint mPaint = new Paint();
     Context kcontext;
     SharedPreferences sharedPreferences;
@@ -39,16 +33,13 @@ public class CustomKeyboardView extends KeyboardView {
         super(context, attrs);
     }
 
-    public CustomKeyboardView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
     public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
 
     @Override
     protected boolean onLongPress(Key key) {
+
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
             return true;
@@ -78,6 +69,50 @@ public class CustomKeyboardView extends KeyboardView {
         int top    = middle-(key.height/4);
         int right  = center+(key.width/4);
         int bottom = middle+(key.height/4);
+
+        canvas.save();
+
+        Drawable dr = getResources().getDrawable(drawable, null);
+        dr.setBounds(left, top, right, bottom);
+        dr.draw(canvas);
+
+        canvas.restore();
+    }
+
+    public void selectKey(Key key, int corner) {
+        int theme = Integer.parseInt(Objects.requireNonNull(sharedPreferences.getString("theme", "1")));
+        String color = theme % 2 == 1 ? selected : selected;
+
+        canvas.save();
+        mPaint.setColor(Color.parseColor(color));
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        if (corner > 0) {
+            canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
+        }
+        else {
+            canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
+        }
+        canvas.restore();
+    }
+
+    public void selectKey(Key key) {
+        int theme = Integer.parseInt(Objects.requireNonNull(sharedPreferences.getString("theme", "1")));
+        String color = theme % 2 == 1 ? selected : selected;
+
+        canvas.save();
+        mPaint.setColor(Color.parseColor(color));
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
+        canvas.restore();
+    }
+
+    public void drawable(Key key, int drawable, int size) {
+        int center = key.x+(key.width/2);
+        int middle = key.y+(key.height/2);
+        int left   = center-size;
+        int top    = middle-size;
+        int right  = center+size;
+        int bottom = middle+size;
 
         canvas.save();
 
@@ -123,9 +158,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (borders) {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                }
+                canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
                 mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                 canvas.restore();
@@ -135,9 +168,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (padding) {
                 canvas.save();
                 canvas.clipRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
-                }
+                canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
                 mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
                 canvas.restore();
@@ -147,9 +178,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (corners) {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-                }
+                canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
                 mPaint.setColor(Color.parseColor(foreground));
                 canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
                 mPaint.setColor(Color.parseColor(background));
@@ -166,11 +195,9 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-
-
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
-                    drawKey(mPressedBackground, key);
+                    selectKey(key);
                 }
                 if (getKeyboard().isShifted()) {
                     drawable(key, R.drawable.ic_shift_lock);
@@ -178,21 +205,21 @@ public class CustomKeyboardView extends KeyboardView {
             }
             if (key.codes[0] == -11) {
                 if (Variables.isSelecting()) {
-                    drawKey(mPressedBackground, key);
+                    selectKey(key);
                 }
             }
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) {
-                drawKey(mSpaceBackground, key);
+                selectKey(key);
             }
             if (Variables.isAnyOn()) {
                 if (Variables.isCtrl()) {
                     if (key.codes[0] == -113) {
-                        drawKey(mPressedBackground, key);
+                        selectKey(key);
                     }
                 }
                 if (Variables.isAlt()) {
                     if (key.codes[0] == -114) {
-                        drawKey(mPressedBackground, key);
+                        selectKey(key);
                     }
                 }
             }
