@@ -591,67 +591,57 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
-        try {
+        mCompletions = completions;
+
+        if (mCompletionOn || true) {
             mCompletions = completions;
-
-            if (mCompletionOn || true) {
-                mCompletions = completions;
-                if (completions == null) {
-                    setSuggestions(null, false, false);
-                    return;
-                }
-
-                List<String> stringList = new ArrayList<>();
-                for (CompletionInfo ci : completions) {
-                    if (ci != null) {
-                        stringList.add(ci.getText().toString());
-                    }
-                }
-                setSuggestions(stringList, true, true);
+            if (completions == null) {
+                setSuggestions(null, false, false);
+                return;
             }
-        }
-        catch (Exception e) {
-            toastIt("exception in onDisplayCompletions: "+e);
+
+            List<String> stringList = new ArrayList<>();
+            for (CompletionInfo ci : completions) {
+                if (ci != null) {
+                    stringList.add(ci.getText().toString());
+                }
+            }
+            setSuggestions(stringList, true, true);
         }
     }
 
     private void updateCandidates() {
-        try {
-            if (mCompletionOn) {
-                if (mComposing.length() > 0) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add(mComposing.toString());
+        if (mCompletionOn) {
+            if (mComposing.length() > 0) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(mComposing.toString());
+                try {
                     mScs.getSentenceSuggestions(new TextInfo[]{
                         new TextInfo(mComposing.toString())
                     }, 5);
-                    toastIt(list.toArray().toString());
-                    setSuggestions(list, true, true);
                 }
-                else {
-                    setSuggestions(null, false, false);
+                catch (Exception e) {
+                    toastIt("exception in mScs.getSentenceSuggestions: "+e);
                 }
+                setSuggestions(list, true, true);
+            }
+            else {
+                setSuggestions(null, false, false);
             }
         }
-        catch (Exception e) {
-            toastIt("exception in updateCandidates: "+e);
-        }
+
     }
 
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-        try {
-            if (suggestions != null && suggestions.size() > 0) {
-                setCandidatesViewShown(true);
-            }
-            else if (isExtractViewShown()) {
-                setCandidatesViewShown(true);
-            }
-            mSuggestions = suggestions;
-            if (mCandidateView != null) {
-                mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
-            }
+        if (suggestions != null && suggestions.size() > 0) {
+            setCandidatesViewShown(true);
         }
-        catch (Exception e) {
-            toastIt("exception in setSuggestions: "+e);
+        else if (isExtractViewShown()) {
+            setCandidatesViewShown(true);
+        }
+        mSuggestions = suggestions;
+        if (mCandidateView != null) {
+            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
         }
     }
 
