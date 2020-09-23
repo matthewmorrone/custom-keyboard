@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/ic_emoji_people_light" />
+            android:src="@drawable/emoji_category_people" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/ic_emoji_nature_light" />
+            android:src="@drawable/emoji_category_nature" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/ic_emoji_objects_light" />
+            android:src="@drawable/emoji_category_objects" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
@@ -77,7 +77,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/ic_emoji_places_light" />
+            android:src="@drawable/emoji_category_travel" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
@@ -89,7 +89,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/ic_emoji_symbols_light" />
+            android:src="@drawable/emoji_category_symbols" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"

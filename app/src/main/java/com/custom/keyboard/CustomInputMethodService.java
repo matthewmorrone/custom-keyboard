@@ -304,7 +304,7 @@ public class CustomInputMethodService extends InputMethodService
                 firstCaps = !firstCaps;
             }
             setCapsOn(firstCaps);
-            kv.draw(new Canvas());
+            redraw();
         }
 
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
@@ -783,8 +783,10 @@ public class CustomInputMethodService extends InputMethodService
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
 
-        setCandidatesViewShown(true);
-        mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        if (!getPrevWord(1).isEmpty()) {
+            setCandidatesViewShown(true);
+            mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        }
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
@@ -832,8 +834,10 @@ public class CustomInputMethodService extends InputMethodService
             setCapsOn(false);
         }
 
-        setCandidatesViewShown(true);
-        mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        if (!getPrevWord(1).isEmpty()) {
+            setCandidatesViewShown(true);
+            mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        }
     }
 
     public void hide() {
@@ -1279,7 +1283,7 @@ public class CustomInputMethodService extends InputMethodService
                         setCapsOn(firstCaps);
                         shift_pressed = System.currentTimeMillis();
                     }
-                    kv.draw(new Canvas());
+                    redraw();
                 }
                 break;
             // case 32: handleSpace(); break;
@@ -1308,12 +1312,12 @@ public class CustomInputMethodService extends InputMethodService
             case -113:
                 if (Variables.isCtrl()) Variables.setCtrlOff();
                 else Variables.setCtrlOn();
-                kv.draw(new Canvas());
+                redraw();
                 break;
             case -114:
                 if (Variables.isAlt()) Variables.setAltOff();
                 else Variables.setAltOn();
-                kv.draw(new Canvas());
+                redraw();
                 break;
             case -5:
                 // handleBackspace();
