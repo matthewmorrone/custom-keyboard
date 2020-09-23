@@ -855,10 +855,13 @@ public class CustomInputMethodService extends InputMethodService
             setCapsOn(false);
         }
 
-        if (!getPrevWord(1).isEmpty()) {
-            updateCandidates();
-            setCandidatesViewShown(true);
-            mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        try {
+            if (!getPrevWord(1).isEmpty()) {
+                updateCandidates();
+            }
+        }
+        catch(Exception e) {
+
         }
     }
 
