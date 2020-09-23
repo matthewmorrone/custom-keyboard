@@ -1,3 +1,6 @@
+### to do ###
++ figure out why it won't compile on my phone anymore
+
 ### things I know how to do ###
 + indentation
 + fonts

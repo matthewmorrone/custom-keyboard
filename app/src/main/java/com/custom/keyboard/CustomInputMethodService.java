@@ -591,52 +591,67 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
-        mCompletions = completions;
-
-        if (mCompletionOn || true) {
+        try {
             mCompletions = completions;
-            if (completions == null) {
-                setSuggestions(null, false, false);
-                return;
-            }
 
-            List<String> stringList = new ArrayList<>();
-            for (CompletionInfo ci : completions) {
-                if (ci != null) {
-                    stringList.add(ci.getText().toString());
+            if (mCompletionOn || true) {
+                mCompletions = completions;
+                if (completions == null) {
+                    setSuggestions(null, false, false);
+                    return;
                 }
+
+                List<String> stringList = new ArrayList<>();
+                for (CompletionInfo ci : completions) {
+                    if (ci != null) {
+                        stringList.add(ci.getText().toString());
+                    }
+                }
+                setSuggestions(stringList, true, true);
             }
-            setSuggestions(stringList, true, true);
+        }
+        catch (Exception e) {
+            toastIt("exception in onDisplayCompletions: "+e);
         }
     }
 
     private void updateCandidates() {
-        if (mCompletionOn) {
-            if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(mComposing.toString());
-                mScs.getSentenceSuggestions(new TextInfo[]{
-                    new TextInfo(mComposing.toString())
-                }, 5);
-                toastIt(list.toArray().toString());
-                setSuggestions(list, true, true);
+        try {
+            if (mCompletionOn) {
+                if (mComposing.length() > 0) {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(mComposing.toString());
+                    mScs.getSentenceSuggestions(new TextInfo[]{
+                        new TextInfo(mComposing.toString())
+                    }, 5);
+                    toastIt(list.toArray().toString());
+                    setSuggestions(list, true, true);
+                }
+                else {
+                    setSuggestions(null, false, false);
+                }
             }
-            else {
-                setSuggestions(null, false, false);
-            }
+        }
+        catch (Exception e) {
+            toastIt("exception in updateCandidates: "+e);
         }
     }
 
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-        if (suggestions != null && suggestions.size() > 0) {
-            setCandidatesViewShown(true);
+        try {
+            if (suggestions != null && suggestions.size() > 0) {
+                setCandidatesViewShown(true);
+            }
+            else if (isExtractViewShown()) {
+                setCandidatesViewShown(true);
+            }
+            mSuggestions = suggestions;
+            if (mCandidateView != null) {
+                mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
+            }
         }
-        else if (isExtractViewShown()) {
-            setCandidatesViewShown(true);
-        }
-        mSuggestions = suggestions;
-        if (mCandidateView != null) {
-            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
+        catch (Exception e) {
+            toastIt("exception in setSuggestions: "+e);
         }
     }
 
@@ -678,23 +693,28 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onGetSuggestions(SuggestionsInfo[] results) {
-        final StringBuilder sb = new StringBuilder();
-        ArrayList<String> suggestions = new ArrayList<>();
+        try {
+            final StringBuilder sb = new StringBuilder();
+            ArrayList<String> suggestions = new ArrayList<>();
 
-        for (SuggestionsInfo result : results) {
-            final int len = result.getSuggestionsCount();
-            sb.append('\n');
+            for (SuggestionsInfo result : results) {
+                final int len = result.getSuggestionsCount();
+                sb.append('\n');
 
-            for (int j = 0; j < len; ++j) {
-                sb.append(",").append(result.getSuggestionAt(j));
-                suggestions.add(result.getSuggestionAt(j));
+                for (int j = 0; j < len; ++j) {
+                    sb.append(",").append(result.getSuggestionAt(j));
+                    suggestions.add(result.getSuggestionAt(j));
+                }
+
+                sb.append(" (").append(len).append(")");
             }
 
-            sb.append(" (").append(len).append(")");
+            mSuggestions = suggestions;
+            setSuggestions(suggestions, false, false);
         }
-
-        mSuggestions = suggestions;
-        setSuggestions(suggestions, false, false);
+        catch (Exception e) {
+            toastIt("exception in onGetSuggestions: "+e);
+        }
     }
 
     @Override
@@ -708,7 +728,9 @@ public class CustomInputMethodService extends InputMethodService
             }
             setSuggestions(sb, true, true);
         }
-        catch (Exception ignored) {}
+        catch (Exception e) {
+            toastIt("exception in onGetSentenceSuggestions: "+e);
+        }
     }
 
     public void showEmoticons() {
@@ -811,7 +833,6 @@ public class CustomInputMethodService extends InputMethodService
             mComposing.append((char)primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
-            updateCandidates();
         }
         if (mPredictionOn && mWordSeparators.contains(String.valueOf((char)primaryCode))) {
             char code = (char)primaryCode;
@@ -835,6 +856,7 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         if (!getPrevWord(1).isEmpty()) {
+            updateCandidates();
             setCandidatesViewShown(true);
             mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
         }
@@ -976,21 +998,11 @@ public class CustomInputMethodService extends InputMethodService
     private void handleAction() {
         EditorInfo curEditor = getCurrentInputEditorInfo();
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);
-                break;
-            case EditorInfo.IME_ACTION_GO:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-                break;
-            case EditorInfo.IME_ACTION_NEXT:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);
-                break;
-            case EditorInfo.IME_ACTION_SEARCH:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-                break;
-            case EditorInfo.IME_ACTION_SEND:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
-                break;
+            case EditorInfo.IME_ACTION_DONE: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);break;
+            case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);break;
+            case EditorInfo.IME_ACTION_NEXT: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);break;
+            case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);break;
+            case EditorInfo.IME_ACTION_SEND: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);break;
             default: break;
         }
     }
