@@ -48,9 +48,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import github.custom.emojicon.EmojiconGridView;
-import github.custom.emojicon.EmojiconsPopup;
-import github.custom.emojicon.emoji.Emojicon;
+// import github.custom.emojicon.EmojiconGridView;
+// import github.custom.emojicon.EmojiconsPopup;
+// import github.custom.emojicon.emoji.Emojicon;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
@@ -90,7 +90,7 @@ public class CustomInputMethodService extends InputMethodService
     private CompletionInfo[] mCompletions;
     private SpellCheckerSession mScs;
     private List<String> mSuggestions;
-    private EmojiconsPopup popupWindow = null;
+    // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
@@ -712,6 +712,7 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    /*
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -748,7 +749,7 @@ public class CustomInputMethodService extends InputMethodService
     public void closeEmoticons() {
         if (popupWindow != null) popupWindow.dismiss();
     }
-
+    */
 
     private void handleBackspace() {
         final int length = mComposing.length();
@@ -1393,7 +1394,7 @@ public class CustomInputMethodService extends InputMethodService
                 if (imeManager != null) imeManager.showInputMethodPicker();
             break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            case -27: showEmoticons(); break;
+            // case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
