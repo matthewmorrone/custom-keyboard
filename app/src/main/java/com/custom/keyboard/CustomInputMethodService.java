@@ -651,11 +651,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void pickSuggestionManually(int index) {
-
         if (mSuggestions != null && index >= 0 && index < mSuggestions.size()) {
-
-            toastIt(mSuggestions.get(index));
-
             getCurrentInputConnection().deleteSurroundingText(getPrevWord(1).length(), 0);
             getCurrentInputConnection().commitText(mSuggestions.get(index)+" ", mSuggestions.get(index).length()+1);
 
@@ -686,19 +682,15 @@ public class CustomInputMethodService extends InputMethodService
         try {
             final StringBuilder sb = new StringBuilder();
             ArrayList<String> suggestions = new ArrayList<>();
-
             for (SuggestionsInfo result : results) {
                 final int len = result.getSuggestionsCount();
                 sb.append('\n');
-
                 for (int j = 0; j < len; ++j) {
                     sb.append(",").append(result.getSuggestionAt(j));
                     suggestions.add(result.getSuggestionAt(j));
                 }
-
                 sb.append(" (").append(len).append(")");
             }
-
             mSuggestions = suggestions;
             setSuggestions(suggestions, false, false);
         }
@@ -795,9 +787,13 @@ public class CustomInputMethodService extends InputMethodService
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
 
-        if (!getPrevWord(1).isEmpty()) {
-            setCandidatesViewShown(true);
-            mScs.getSuggestions(new TextInfo(getPrevWord(1)), 10);
+        try {
+            if (!getPrevWord(1).isEmpty()) {
+                updateCandidates();
+            }
+        }
+        catch(Exception e) {
+
         }
     }
 
@@ -981,10 +977,24 @@ public class CustomInputMethodService extends InputMethodService
             case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
             case "3": mDefaultFilter = Themes.sBlueWhiteColorArray; break;
             case "4": mDefaultFilter = Themes.sBlueBlackColorArray; break;
-            case "5": mDefaultFilter = Themes.sRedWhiteColorArray; break;
-            case "6": mDefaultFilter = Themes.sRedBlackColorArray; break;
-            case "7": mDefaultFilter = Themes.sOrangeBlackColorArray; break;
-            case "8": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
+            case "5": mDefaultFilter = Themes.sGreenWhiteColorArray; break;
+            case "6": mDefaultFilter = Themes.sGreenBlackColorArray; break;
+            case "7": mDefaultFilter = Themes.sRedWhiteColorArray; break;
+            case "8": mDefaultFilter = Themes.sRedBlackColorArray; break;
+            case "9": mDefaultFilter = Themes.sCyanWhiteColorArray; break;
+            case "10": mDefaultFilter = Themes.sCyanBlackColorArray; break;
+            case "11": mDefaultFilter = Themes.sMagentaWhiteColorArray; break;
+            case "12": mDefaultFilter = Themes.sMagentaBlackColorArray; break;
+            case "13": mDefaultFilter = Themes.sYellowWhiteColorArray; break;
+            case "14": mDefaultFilter = Themes.sYellowBlackColorArray; break;
+            case "15": mDefaultFilter = Themes.sPurpleWhiteColorArray; break;
+            case "16": mDefaultFilter = Themes.sPurpleBlackColorArray; break;
+            case "17": mDefaultFilter = Themes.sPinkWhiteColorArray; break;
+            case "18": mDefaultFilter = Themes.sPinkBlackColorArray; break;
+            case "19": mDefaultFilter = Themes.sOrangeWhiteColorArray; break;
+            case "20": mDefaultFilter = Themes.sOrangeBlackColorArray; break;
+            case "21": mDefaultFilter = Themes.sMaterialLiteColorArray; break;
+            case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
         }
     }
 
