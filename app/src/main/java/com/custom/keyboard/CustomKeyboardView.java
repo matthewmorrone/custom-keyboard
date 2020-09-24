@@ -167,7 +167,6 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                 canvas.restore();
             }
-
             // !keyback !corners padding borders
             if (padding) {
                 canvas.save();
@@ -177,7 +176,6 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
                 canvas.restore();
             }
-
             // !keyback corners padding borders
             if (corners) {
                 canvas.save();
@@ -189,7 +187,6 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
                 canvas.restore();
             }
-
             // keyback corners padding !borders
             if (keyback) {
                 canvas.save();
@@ -199,6 +196,19 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
+            if (Variables.isAnyOn()) {
+                if (Variables.isCtrl()) {
+                    if (key.codes[0] == -113) {
+                        selectKey(key);
+                    }
+                }
+                if (Variables.isAlt()) {
+                    if (key.codes[0] == -114) {
+                        selectKey(key);
+                    }
+                }
+            }
+            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key);
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
                     selectKey(key);
@@ -212,27 +222,34 @@ public class CustomKeyboardView extends KeyboardView {
                     selectKey(key);
                 }
             }
-            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) {
-                selectKey(key);
-            }
-            if (Variables.isAnyOn()) {
-                if (Variables.isCtrl()) {
-                    if (key.codes[0] == -113) {
-                        selectKey(key);
-                    }
-                }
-                if (Variables.isAlt()) {
-                    if (key.codes[0] == -114) {
-                        selectKey(key);
-                    }
-                }
-            }
-            else if (key.codes[0] == -113) {
-                drawKey(mTransparent, key);
-            }
-            else if (key.codes[0] == -114) {
-                drawKey(mTransparent, key);
-            }
+            if (key.codes[0] == -113) drawKey(mTransparent, key);
+            if (key.codes[0] == -114) drawKey(mTransparent, key);
+
+            if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, corner);}}
+            if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, corner);}}
+            if (key.codes[0] == -96) {if (Variables.isEmphasized()) {selectKey(key, corner);}}
+            if (key.codes[0] == -97) {if (Variables.isUnderlined()) {selectKey(key, corner);}}
+            if (key.codes[0] == -98) {if (Variables.isUnderscored()) {selectKey(key, corner);}}
+            if (key.codes[0] == -99) {if (Variables.isStrikethrough()) {selectKey(key, corner);}}
+            if (key.codes[0] == -145) {if (Variables.isBoldSerif()) {selectKey(key, corner);}}
+            if (key.codes[0] == -146) {if (Variables.isItalicSerif()) {selectKey(key, corner);}}
+            if (key.codes[0] == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, corner);}}
+            if (key.codes[0] == -148) {if (Variables.isScript()) {selectKey(key, corner);}}
+            if (key.codes[0] == -149) {if (Variables.isScriptBold()) {selectKey(key, corner);}}
+            if (key.codes[0] == -150) {if (Variables.isFraktur()) {selectKey(key, corner);}}
+            if (key.codes[0] == -151) {if (Variables.isFrakturBold()) {selectKey(key, corner);}}
+            if (key.codes[0] == -152) {if (Variables.isSans()) {selectKey(key, corner);}}
+            if (key.codes[0] == -153) {if (Variables.isMonospace()) {selectKey(key, corner);}}
+            if (key.codes[0] == -154) {if (Variables.isDoublestruck()) {selectKey(key, corner);}}
+            if (key.codes[0] == -155) {if (Variables.isEnsquare()) {selectKey(key, corner);}}
+            if (key.codes[0] == -156) {if (Variables.isCircularStampLetters()) {selectKey(key, corner);}}
+            if (key.codes[0] == -157) {if (Variables.isRectangularStampLetters()) {selectKey(key, corner);}}
+            if (key.codes[0] == -158) {if (Variables.isSmallCaps()) {selectKey(key, corner);}}
+            if (key.codes[0] == -159) {if (Variables.isParentheses()) {selectKey(key, corner);}}
+            if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, corner);}}
+            if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, corner);}}
+            if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, corner);}}
+
 
             if (key.popupCharacters != null
                 && key.codes != null

@@ -266,35 +266,6 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
 
-            if (key.codes[0] == -12)  {if (Variables.isBold())          {selectKey(key, corner);}}
-            if (key.codes[0] == -13)  {if (Variables.isItalic())        {selectKey(key, corner);}}
-            if (key.codes[0] == -198) {if (Variables.isEmphasized())    {selectKey(key, corner);}}
-            if (key.codes[0] == -193) {if (Variables.isStrikethrough()) {selectKey(key, corner);}}
-            if (key.codes[0] == -194) {if (Variables.isUnderlined())    {selectKey(key, corner);}}
-            if (key.codes[0] == -195) {if (Variables.isUnderscored())   {selectKey(key, corner);}}
-            if (key.codes[0] == -76)  {if (Variables.isSelect())        {selectKey(key, corner);}}
-            if (key.codes[0] == -50)  {if (Variables.isReflected())     {selectKey(key, corner);}}
-            if (key.codes[0] == -57)  {if (Variables.isCaps())          {selectKey(key, corner);}}
-            if (key.codes[0] == -35)  {if (Variables.is119808())        {selectKey(key, corner);}}
-            if (key.codes[0] == -36)  {if (Variables.is119860())        {selectKey(key, corner);}}
-            if (key.codes[0] == -37)  {if (Variables.is119912())        {selectKey(key, corner);}}
-            if (key.codes[0] == -38)  {if (Variables.is119964())        {selectKey(key, corner);}}
-            if (key.codes[0] == -39)  {if (Variables.is120016())        {selectKey(key, corner);}}
-            if (key.codes[0] == -40)  {if (Variables.is120068())        {selectKey(key, corner);}}
-            if (key.codes[0] == -41)  {if (Variables.is120120())        {selectKey(key, corner);}}
-            if (key.codes[0] == -42)  {if (Variables.is120172())        {selectKey(key, corner);}}
-            if (key.codes[0] == -43)  {if (Variables.is120224())        {selectKey(key, corner);}}
-            if (key.codes[0] == -44)  {if (Variables.is120276())        {selectKey(key, corner);}}
-            if (key.codes[0] == -45)  {if (Variables.is120328())        {selectKey(key, corner);}}
-            if (key.codes[0] == -46)  {if (Variables.is120380())        {selectKey(key, corner);}}
-            if (key.codes[0] == -47)  {if (Variables.is120432())        {selectKey(key, corner);}}
-            if (key.codes[0] == -68)  {if (Variables.is127280())        {selectKey(key, corner);}}
-            if (key.codes[0] == -69)  {if (Variables.is127312())        {selectKey(key, corner);}}
-            if (key.codes[0] == -70)  {if (Variables.is127344())        {selectKey(key, corner);}}
-            if (key.codes[0] == -71)  {if (Variables.is127462())        {selectKey(key, corner);}}
-            if (key.codes[0] == -72)  {if (Variables.is009372())        {selectKey(key, corner);}}
-            if (key.codes[0] == -66)  {if (Variables.is009398())        {selectKey(key, corner);}}
-
             mPaint.setTextAlign(Paint.Align.CENTER);
             if (key.popupCharacters != null 
             && key.codes != null

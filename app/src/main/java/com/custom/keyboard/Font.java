@@ -201,465 +201,395 @@ public class Font {
         return first + secnd;
     }
 
-    public int toBoldSerif(int primaryCode, boolean shift) {
+    public static int toBoldSerif(int primaryCode, boolean shift) {
+
+        switch(primaryCode) {
+            case  400: return 120492; // 𝚬
+            case  406: return 120496; // 𝚰
+            case  603: return 120518; // 𝛆
+            case  617: return 120522; // 𝛊
+            case  913: return 120488; // 𝚨
+            case  914: return 120489; // 𝚩
+            case  915: return 120490; // 𝚪
+            case  916: return 120491; // 𝚫
+            case  918: return 120493; // 𝚭
+            case  919: return 120494; // 𝚮
+            case  920: return 120495; // 𝚯
+            case  922: return 120497; // 𝚱
+            case  923: return 120498; // 𝚲
+            case  924: return 120499; // 𝚳
+            case  925: return 120500; // 𝚴
+            case  926: return 120501; // 𝚵
+            case  927: return 120502; // 𝚶
+            case  928: return 120503; // 𝚷
+            case  929: return 120504; // 𝚸
+            case  931: return 120506; // 𝚺
+            case  932: return 120507; // 𝚻
+            case  933: return 120508; // 𝚼
+            case  934: return 120509; // 𝚽
+            case  935: return 120510; // 𝚾
+            case  936: return 120511; // 𝚿
+            case  937: return 120512; // 𝛀
+            case  945: return 120514; // 𝛂
+            case  946: return 120515; // 𝛃
+            case  947: return 120516; // 𝛄
+            case  948: return 120517; // 𝛅
+            case  950: return 120519; // 𝛇
+            case  951: return 120520; // 𝛈
+            case  952: return 120521; // 𝛉
+            case  954: return 120523; // 𝛋
+            case  955: return 120524; // 𝛌
+            case  956: return 120525; // 𝛍
+            case  957: return 120526; // 𝛎
+            case  958: return 120527; // 𝛏
+            case  959: return 120528; // 𝛐
+            case  960: return 120529; // 𝛑
+            case  961: return 120530; // 𝛒
+            case  962: return 120531; // 𝛓
+            case  963: return 120532; // 𝛔
+            case  964: return 120533; // 𝛕
+            case  965: return 120534; // 𝛖
+            case  966: return 120535; // 𝛗
+            case  967: return 120536; // 𝛘
+            case  968: return 120537; // 𝛙
+            case  969: return 120538; // 𝛚
+            case  977: return 120541; // 𝛝
+            case  981: return 120543; // 𝛟
+            case  982: return 120545; // 𝛡
+            case 1008: return 120542; // 𝛞
+            case 1009: return 120544; // 𝛠
+            case 1012: return 120505; // 𝚹
+            case 1013: return 120540; // 𝛜
+            case 8706: return 120539; // 𝛛
+            case 8711: return 120513; // 𝛁
+        }
+
+        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120782 - 48);}
         if (shift) primaryCode += (119808 - 65);
         else primaryCode += (119808 - 71);
         return primaryCode;
-
-        if (Variables.is119808()    && primaryCode ==   48) {return 120782;} // 𝟎
-        if (Variables.is119808()    && primaryCode ==   49) {return 120783;} // 𝟏
-        if (Variables.is119808()    && primaryCode ==   50) {return 120784;} // 𝟐
-        if (Variables.is119808()    && primaryCode ==   51) {return 120785;} // 𝟑
-        if (Variables.is119808()    && primaryCode ==   52) {return 120786;} // 𝟒
-        if (Variables.is119808()    && primaryCode ==   53) {return 120787;} // 𝟓
-        if (Variables.is119808()    && primaryCode ==   54) {return 120788;} // 𝟔
-        if (Variables.is119808()    && primaryCode ==   55) {return 120789;} // 𝟕
-        if (Variables.is119808()    && primaryCode ==   56) {return 120790;} // 𝟖
-        if (Variables.is119808()    && primaryCode ==   57) {return 120791;} // 𝟗
-
-        if (Variables.is119808()    && primaryCode ==  400) {return 120492;} // 𝚬
-        if (Variables.is119808()    && primaryCode ==  406) {return 120496;} // 𝚰
-        if (Variables.is119808()    && primaryCode ==  603) {return 120518;} // 𝛆
-        if (Variables.is119808()    && primaryCode ==  617) {return 120522;} // 𝛊
-        if (Variables.is119808()    && primaryCode ==  913) {return 120488;} // 𝚨
-        if (Variables.is119808()    && primaryCode ==  914) {return 120489;} // 𝚩
-        if (Variables.is119808()    && primaryCode ==  915) {return 120490;} // 𝚪
-        if (Variables.is119808()    && primaryCode ==  916) {return 120491;} // 𝚫
-        if (Variables.is119808()    && primaryCode ==  918) {return 120493;} // 𝚭
-        if (Variables.is119808()    && primaryCode ==  919) {return 120494;} // 𝚮
-        if (Variables.is119808()    && primaryCode ==  920) {return 120495;} // 𝚯
-        if (Variables.is119808()    && primaryCode ==  922) {return 120497;} // 𝚱
-        if (Variables.is119808()    && primaryCode ==  923) {return 120498;} // 𝚲
-        if (Variables.is119808()    && primaryCode ==  924) {return 120499;} // 𝚳
-        if (Variables.is119808()    && primaryCode ==  925) {return 120500;} // 𝚴
-        if (Variables.is119808()    && primaryCode ==  926) {return 120501;} // 𝚵
-        if (Variables.is119808()    && primaryCode ==  927) {return 120502;} // 𝚶
-        if (Variables.is119808()    && primaryCode ==  928) {return 120503;} // 𝚷
-        if (Variables.is119808()    && primaryCode ==  929) {return 120504;} // 𝚸
-        if (Variables.is119808()    && primaryCode ==  931) {return 120506;} // 𝚺
-        if (Variables.is119808()    && primaryCode ==  932) {return 120507;} // 𝚻
-        if (Variables.is119808()    && primaryCode ==  933) {return 120508;} // 𝚼
-        if (Variables.is119808()    && primaryCode ==  934) {return 120509;} // 𝚽
-        if (Variables.is119808()    && primaryCode ==  935) {return 120510;} // 𝚾
-        if (Variables.is119808()    && primaryCode ==  936) {return 120511;} // 𝚿
-        if (Variables.is119808()    && primaryCode ==  937) {return 120512;} // 𝛀
-        if (Variables.is119808()    && primaryCode ==  945) {return 120514;} // 𝛂
-        if (Variables.is119808()    && primaryCode ==  946) {return 120515;} // 𝛃
-        if (Variables.is119808()    && primaryCode ==  947) {return 120516;} // 𝛄
-        if (Variables.is119808()    && primaryCode ==  948) {return 120517;} // 𝛅
-        if (Variables.is119808()    && primaryCode ==  950) {return 120519;} // 𝛇
-        if (Variables.is119808()    && primaryCode ==  951) {return 120520;} // 𝛈
-        if (Variables.is119808()    && primaryCode ==  952) {return 120521;} // 𝛉
-        if (Variables.is119808()    && primaryCode ==  954) {return 120523;} // 𝛋
-        if (Variables.is119808()    && primaryCode ==  955) {return 120524;} // 𝛌
-        if (Variables.is119808()    && primaryCode ==  956) {return 120525;} // 𝛍
-        if (Variables.is119808()    && primaryCode ==  957) {return 120526;} // 𝛎
-        if (Variables.is119808()    && primaryCode ==  958) {return 120527;} // 𝛏
-        if (Variables.is119808()    && primaryCode ==  959) {return 120528;} // 𝛐
-        if (Variables.is119808()    && primaryCode ==  960) {return 120529;} // 𝛑
-        if (Variables.is119808()    && primaryCode ==  961) {return 120530;} // 𝛒
-        if (Variables.is119808()    && primaryCode ==  962) {return 120531;} // 𝛓
-        if (Variables.is119808()    && primaryCode ==  963) {return 120532;} // 𝛔
-        if (Variables.is119808()    && primaryCode ==  964) {return 120533;} // 𝛕
-        if (Variables.is119808()    && primaryCode ==  965) {return 120534;} // 𝛖
-        if (Variables.is119808()    && primaryCode ==  966) {return 120535;} // 𝛗
-        if (Variables.is119808()    && primaryCode ==  967) {return 120536;} // 𝛘
-        if (Variables.is119808()    && primaryCode ==  968) {return 120537;} // 𝛙
-        if (Variables.is119808()    && primaryCode ==  969) {return 120538;} // 𝛚
-        if (Variables.is119808()    && primaryCode ==  977) {return 120541;} // 𝛝
-        if (Variables.is119808()    && primaryCode ==  981) {return 120543;} // 𝛟
-        if (Variables.is119808()    && primaryCode ==  982) {return 120545;} // 𝛡
-        if (Variables.is119808()    && primaryCode == 1008) {return 120542;} // 𝛞
-        if (Variables.is119808()    && primaryCode == 1009) {return 120544;} // 𝛠
-        if (Variables.is119808()    && primaryCode == 1012) {return 120505;} // 𝚹
-        if (Variables.is119808()    && primaryCode == 1013) {return 120540;} // 𝛜
-        if (Variables.is119808()    && primaryCode == 8706) {return 120539;} // 𝛛
-        if (Variables.is119808()    && primaryCode == 8711) {return 120513;} // 𝛁
-
     }
 
-    public int toItalicSerif(int primaryCode, boolean shift) {
+    public static int toItalicSerif(int primaryCode, boolean shift) {
+        switch(primaryCode) {
+            case  400: return 120550; // 𝛦
+            case  406: return 120554; // 𝛪
+            case  603: return 120576; // 𝜀
+            case  617: return 120580; // 𝜄
+            case  913: return 120546; // 𝛢
+            case  914: return 120547; // 𝛣
+            case  915: return 120548; // 𝛤
+            case  916: return 120549; // 𝛥
+            case  918: return 120551; // 𝛧
+            case  919: return 120552; // 𝛨
+            case  920: return 120553; // 𝛩
+            case  922: return 120555; // 𝛫
+            case  923: return 120556; // 𝛬
+            case  924: return 120557; // 𝛭
+            case  925: return 120558; // 𝛮
+            case  926: return 120559; // 𝛯
+            case  927: return 120560; // 𝛰
+            case  928: return 120561; // 𝛱
+            case  929: return 120562; // 𝛲
+            case  931: return 120564; // 𝛴
+            case  932: return 120565; // 𝛵
+            case  933: return 120566; // 𝛶
+            case  934: return 120567; // 𝛷
+            case  935: return 120568; // 𝛸
+            case  936: return 120569; // 𝛹
+            case  937: return 120570; // 𝛺
+            case  945: return 120572; // 𝛼
+            case  946: return 120573; // 𝛽
+            case  947: return 120574; // 𝛾
+            case  948: return 120575; // 𝛿
+            case  950: return 120577; // 𝜁
+            case  951: return 120578; // 𝜂
+            case  952: return 120579; // 𝜃
+            case  954: return 120581; // 𝜅
+            case  955: return 120582; // 𝜆
+            case  956: return 120583; // 𝜇
+            case  957: return 120584; // 𝜈
+            case  958: return 120585; // 𝜉
+            case  959: return 120586; // 𝜊
+            case  960: return 120587; // 𝜋
+            case  961: return 120588; // 𝜌
+            case  962: return 120589; // 𝜍
+            case  963: return 120590; // 𝜎
+            case  964: return 120591; // 𝜏
+            case  965: return 120592; // 𝜐
+            case  966: return 120593; // 𝜑
+            case  967: return 120594; // 𝜒
+            case  968: return 120595; // 𝜓
+            case  969: return 120596; // 𝜔
+            case  977: return 120599; // 𝜗
+            case  981: return 120601; // 𝜙
+            case  982: return 120603; // 𝜛
+            case 1008: return 120600; // 𝜘
+            case 1009: return 120602; // 𝜚
+            case 1012: return 120563; // 𝛳
+            case 1013: return 120598; // 𝜖
+            case 8706: return 120597; // 𝜕
+            case 8711: return 120571; // 𝛻
+        }
         if (shift) primaryCode += (119860 - 65);
         else primaryCode += (119860 - 71);
         return primaryCode;
-
-
-        if (Variables.is119912()    && primaryCode ==  400) {return 120550;} // 𝛦
-        if (Variables.is119912()    && primaryCode ==  406) {return 120554;} // 𝛪
-        if (Variables.is119912()    && primaryCode ==  603) {return 120576;} // 𝜀
-        if (Variables.is119912()    && primaryCode ==  617) {return 120580;} // 𝜄
-        if (Variables.is119912()    && primaryCode ==  913) {return 120546;} // 𝛢
-        if (Variables.is119912()    && primaryCode ==  914) {return 120547;} // 𝛣
-        if (Variables.is119912()    && primaryCode ==  915) {return 120548;} // 𝛤
-        if (Variables.is119912()    && primaryCode ==  916) {return 120549;} // 𝛥
-        if (Variables.is119912()    && primaryCode ==  918) {return 120551;} // 𝛧
-        if (Variables.is119912()    && primaryCode ==  919) {return 120552;} // 𝛨
-        if (Variables.is119912()    && primaryCode ==  920) {return 120553;} // 𝛩
-        if (Variables.is119912()    && primaryCode ==  922) {return 120555;} // 𝛫
-        if (Variables.is119912()    && primaryCode ==  923) {return 120556;} // 𝛬
-        if (Variables.is119912()    && primaryCode ==  924) {return 120557;} // 𝛭
-        if (Variables.is119912()    && primaryCode ==  925) {return 120558;} // 𝛮
-        if (Variables.is119912()    && primaryCode ==  926) {return 120559;} // 𝛯
-        if (Variables.is119912()    && primaryCode ==  927) {return 120560;} // 𝛰
-        if (Variables.is119912()    && primaryCode ==  928) {return 120561;} // 𝛱
-        if (Variables.is119912()    && primaryCode ==  929) {return 120562;} // 𝛲
-        if (Variables.is119912()    && primaryCode ==  931) {return 120564;} // 𝛴
-        if (Variables.is119912()    && primaryCode ==  932) {return 120565;} // 𝛵
-        if (Variables.is119912()    && primaryCode ==  933) {return 120566;} // 𝛶
-        if (Variables.is119912()    && primaryCode ==  934) {return 120567;} // 𝛷
-        if (Variables.is119912()    && primaryCode ==  935) {return 120568;} // 𝛸
-        if (Variables.is119912()    && primaryCode ==  936) {return 120569;} // 𝛹
-        if (Variables.is119912()    && primaryCode ==  937) {return 120570;} // 𝛺
-        if (Variables.is119912()    && primaryCode ==  945) {return 120572;} // 𝛼
-        if (Variables.is119912()    && primaryCode ==  946) {return 120573;} // 𝛽
-        if (Variables.is119912()    && primaryCode ==  947) {return 120574;} // 𝛾
-        if (Variables.is119912()    && primaryCode ==  948) {return 120575;} // 𝛿
-        if (Variables.is119912()    && primaryCode ==  950) {return 120577;} // 𝜁
-        if (Variables.is119912()    && primaryCode ==  951) {return 120578;} // 𝜂
-        if (Variables.is119912()    && primaryCode ==  952) {return 120579;} // 𝜃
-        if (Variables.is119912()    && primaryCode ==  954) {return 120581;} // 𝜅
-        if (Variables.is119912()    && primaryCode ==  955) {return 120582;} // 𝜆
-        if (Variables.is119912()    && primaryCode ==  956) {return 120583;} // 𝜇
-        if (Variables.is119912()    && primaryCode ==  957) {return 120584;} // 𝜈
-        if (Variables.is119912()    && primaryCode ==  958) {return 120585;} // 𝜉
-        if (Variables.is119912()    && primaryCode ==  959) {return 120586;} // 𝜊
-        if (Variables.is119912()    && primaryCode ==  960) {return 120587;} // 𝜋
-        if (Variables.is119912()    && primaryCode ==  961) {return 120588;} // 𝜌
-        if (Variables.is119912()    && primaryCode ==  962) {return 120589;} // 𝜍
-        if (Variables.is119912()    && primaryCode ==  963) {return 120590;} // 𝜎
-        if (Variables.is119912()    && primaryCode ==  964) {return 120591;} // 𝜏
-        if (Variables.is119912()    && primaryCode ==  965) {return 120592;} // 𝜐
-        if (Variables.is119912()    && primaryCode ==  966) {return 120593;} // 𝜑
-        if (Variables.is119912()    && primaryCode ==  967) {return 120594;} // 𝜒
-        if (Variables.is119912()    && primaryCode ==  968) {return 120595;} // 𝜓
-        if (Variables.is119912()    && primaryCode ==  969) {return 120596;} // 𝜔
-        if (Variables.is119912()    && primaryCode ==  977) {return 120599;} // 𝜗
-        if (Variables.is119912()    && primaryCode ==  981) {return 120601;} // 𝜙
-        if (Variables.is119912()    && primaryCode ==  982) {return 120603;} // 𝜛
-        if (Variables.is119912()    && primaryCode == 1008) {return 120600;} // 𝜘
-        if (Variables.is119912()    && primaryCode == 1009) {return 120602;} // 𝜚
-        if (Variables.is119912()    && primaryCode == 1012) {return 120563;} // 𝛳
-        if (Variables.is119912()    && primaryCode == 1013) {return 120598;} // 𝜖
-        if (Variables.is119912()    && primaryCode == 8706) {return 120597;} // 𝜕
-        if (Variables.is119912()    && primaryCode == 8711) {return 120571;} // 𝛻
-
-
     }
 
-    public int toBoldItalicSerif(int primaryCode, boolean shift) {
+    public static int toBoldItalicSerif(int primaryCode, boolean shift) {
+        switch(primaryCode) {
+            case  400: return 120608; // 𝜠
+            case  406: return 120612; // 𝜤
+            case  603: return 120634; // 𝜺
+            case  617: return 120638; // 𝜾
+            case  913: return 120604; // 𝜜
+            case  914: return 120605; // 𝜝
+            case  915: return 120606; // 𝜞
+            case  916: return 120607; // 𝜟
+            case  918: return 120609; // 𝜡
+            case  919: return 120610; // 𝜢
+            case  920: return 120611; // 𝜣
+            case  922: return 120613; // 𝜥
+            case  923: return 120614; // 𝜦
+            case  924: return 120615; // 𝜧
+            case  925: return 120616; // 𝜨
+            case  926: return 120617; // 𝜩
+            case  927: return 120618; // 𝜪
+            case  928: return 120619; // 𝜫
+            case  929: return 120620; // 𝜬
+            case  931: return 120622; // 𝜮
+            case  932: return 120623; // 𝜯
+            case  933: return 120624; // 𝜰
+            case  934: return 120625; // 𝜱
+            case  935: return 120626; // 𝜲
+            case  936: return 120627; // 𝜳
+            case  937: return 120628; // 𝜴
+            case  945: return 120630; // 𝜶
+            case  946: return 120631; // 𝜷
+            case  947: return 120632; // 𝜸
+            case  948: return 120633; // 𝜹
+            case  950: return 120635; // 𝜻
+            case  951: return 120636; // 𝜼
+            case  952: return 120637; // 𝜽
+            case  954: return 120639; // 𝜿
+            case  955: return 120640; // 𝝀
+            case  956: return 120641; // 𝝁
+            case  957: return 120642; // 𝝂
+            case  958: return 120643; // 𝝃
+            case  959: return 120644; // 𝝄
+            case  960: return 120645; // 𝝅
+            case  961: return 120646; // 𝝆
+            case  962: return 120647; // 𝝇
+            case  963: return 120648; // 𝝈
+            case  964: return 120649; // 𝝉
+            case  965: return 120650; // 𝝊
+            case  966: return 120651; // 𝝋
+            case  967: return 120652; // 𝝌
+            case  968: return 120653; // 𝝍
+            case  969: return 120654; // 𝝎
+            case  977: return 120657; // 𝝑
+            case  981: return 120659; // 𝝓
+            case  982: return 120661; // 𝝕
+            case 1008: return 120658; // 𝝒
+            case 1009: return 120660; // 𝝔
+            case 1012: return 120621; // 𝜭
+            case 1013: return 120656; // 𝝐
+            case 8706: return 120655; // 𝝏
+            case 8711: return 120629; // 𝜵
+        }
         if (shift) primaryCode += (119912 - 65);
         else primaryCode += (119912 - 71);
         return primaryCode;
-
-        if (Variables.is120276()    && primaryCode ==  400) {return 120608;} // 𝜠
-        if (Variables.is120276()    && primaryCode ==  406) {return 120612;} // 𝜤
-        if (Variables.is120276()    && primaryCode ==  603) {return 120634;} // 𝜺
-        if (Variables.is120276()    && primaryCode ==  617) {return 120638;} // 𝜾
-        if (Variables.is120276()    && primaryCode ==  913) {return 120604;} // 𝜜
-        if (Variables.is120276()    && primaryCode ==  914) {return 120605;} // 𝜝
-        if (Variables.is120276()    && primaryCode ==  915) {return 120606;} // 𝜞
-        if (Variables.is120276()    && primaryCode ==  916) {return 120607;} // 𝜟
-        if (Variables.is120276()    && primaryCode ==  918) {return 120609;} // 𝜡
-        if (Variables.is120276()    && primaryCode ==  919) {return 120610;} // 𝜢
-        if (Variables.is120276()    && primaryCode ==  920) {return 120611;} // 𝜣
-        if (Variables.is120276()    && primaryCode ==  922) {return 120613;} // 𝜥
-        if (Variables.is120276()    && primaryCode ==  923) {return 120614;} // 𝜦
-        if (Variables.is120276()    && primaryCode ==  924) {return 120615;} // 𝜧
-        if (Variables.is120276()    && primaryCode ==  925) {return 120616;} // 𝜨
-        if (Variables.is120276()    && primaryCode ==  926) {return 120617;} // 𝜩
-        if (Variables.is120276()    && primaryCode ==  927) {return 120618;} // 𝜪
-        if (Variables.is120276()    && primaryCode ==  928) {return 120619;} // 𝜫
-        if (Variables.is120276()    && primaryCode ==  929) {return 120620;} // 𝜬
-        if (Variables.is120276()    && primaryCode ==  931) {return 120622;} // 𝜮
-        if (Variables.is120276()    && primaryCode ==  932) {return 120623;} // 𝜯
-        if (Variables.is120276()    && primaryCode ==  933) {return 120624;} // 𝜰
-        if (Variables.is120276()    && primaryCode ==  934) {return 120625;} // 𝜱
-        if (Variables.is120276()    && primaryCode ==  935) {return 120626;} // 𝜲
-        if (Variables.is120276()    && primaryCode ==  936) {return 120627;} // 𝜳
-        if (Variables.is120276()    && primaryCode ==  937) {return 120628;} // 𝜴
-        if (Variables.is120276()    && primaryCode ==  945) {return 120630;} // 𝜶
-        if (Variables.is120276()    && primaryCode ==  946) {return 120631;} // 𝜷
-        if (Variables.is120276()    && primaryCode ==  947) {return 120632;} // 𝜸
-        if (Variables.is120276()    && primaryCode ==  948) {return 120633;} // 𝜹
-        if (Variables.is120276()    && primaryCode ==  950) {return 120635;} // 𝜻
-        if (Variables.is120276()    && primaryCode ==  951) {return 120636;} // 𝜼
-        if (Variables.is120276()    && primaryCode ==  952) {return 120637;} // 𝜽
-        if (Variables.is120276()    && primaryCode ==  954) {return 120639;} // 𝜿
-        if (Variables.is120276()    && primaryCode ==  955) {return 120640;} // 𝝀
-        if (Variables.is120276()    && primaryCode ==  956) {return 120641;} // 𝝁
-        if (Variables.is120276()    && primaryCode ==  957) {return 120642;} // 𝝂
-        if (Variables.is120276()    && primaryCode ==  958) {return 120643;} // 𝝃
-        if (Variables.is120276()    && primaryCode ==  959) {return 120644;} // 𝝄
-        if (Variables.is120276()    && primaryCode ==  960) {return 120645;} // 𝝅
-        if (Variables.is120276()    && primaryCode ==  961) {return 120646;} // 𝝆
-        if (Variables.is120276()    && primaryCode ==  962) {return 120647;} // 𝝇
-        if (Variables.is120276()    && primaryCode ==  963) {return 120648;} // 𝝈
-        if (Variables.is120276()    && primaryCode ==  964) {return 120649;} // 𝝉
-        if (Variables.is120276()    && primaryCode ==  965) {return 120650;} // 𝝊
-        if (Variables.is120276()    && primaryCode ==  966) {return 120651;} // 𝝋
-        if (Variables.is120276()    && primaryCode ==  967) {return 120652;} // 𝝌
-        if (Variables.is120276()    && primaryCode ==  968) {return 120653;} // 𝝍
-        if (Variables.is120276()    && primaryCode ==  969) {return 120654;} // 𝝎
-        if (Variables.is120276()    && primaryCode ==  977) {return 120657;} // 𝝑
-        if (Variables.is120276()    && primaryCode ==  981) {return 120659;} // 𝝓
-        if (Variables.is120276()    && primaryCode ==  982) {return 120661;} // 𝝕
-        if (Variables.is120276()    && primaryCode == 1008) {return 120658;} // 𝝒
-        if (Variables.is120276()    && primaryCode == 1009) {return 120660;} // 𝝔
-        if (Variables.is120276()    && primaryCode == 1012) {return 120621;} // 𝜭
-        if (Variables.is120276()    && primaryCode == 1013) {return 120656;} // 𝝐
-        if (Variables.is120276()    && primaryCode == 8706) {return 120655;} // 𝝏
-        if (Variables.is120276()    && primaryCode == 8711) {return 120629;} // 𝜵
-
     }
 
-    public int toSans(int primaryCode, boolean shift) {
+    public static int toSans(int primaryCode, boolean shift) {
+        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120802 - 48);}
         if (shift) primaryCode += (120224 - 65);
         else primaryCode += (120224 - 71);
         return primaryCode;
-
-        if (Variables.is120224()    && primaryCode ==   48) {return 120802;} // 𝟢
-        if (Variables.is120224()    && primaryCode ==   49) {return 120803;} // 𝟣
-        if (Variables.is120224()    && primaryCode ==   50) {return 120804;} // 𝟤
-        if (Variables.is120224()    && primaryCode ==   51) {return 120805;} // 𝟥
-        if (Variables.is120224()    && primaryCode ==   52) {return 120806;} // 𝟦
-        if (Variables.is120224()    && primaryCode ==   53) {return 120807;} // 𝟧
-        if (Variables.is120224()    && primaryCode ==   54) {return 120808;} // 𝟨
-        if (Variables.is120224()    && primaryCode ==   55) {return 120809;} // 𝟩
-        if (Variables.is120224()    && primaryCode ==   56) {return 120810;} // 𝟪
-        if (Variables.is120224()    && primaryCode ==   57) {return 120811;} // 𝟫
-
     }
 
-    public int toBoldSans(int primaryCode, boolean shift) {
+    public static int toBoldSans(int primaryCode, boolean shift) {
+        switch(primaryCode) {
+            case  400: return 120666; // 𝝚
+            case  406: return 120670; // 𝝞
+            case  603: return 120692; // 𝝴
+            case  617: return 120696; // 𝝸
+            case  913: return 120662; // 𝝖
+            case  914: return 120663; // 𝝗
+            case  915: return 120664; // 𝝘
+            case  916: return 120665; // 𝝙
+            case  918: return 120667; // 𝝛
+            case  919: return 120668; // 𝝜
+            case  920: return 120669; // 𝝝
+            case  922: return 120671; // 𝝟
+            case  923: return 120672; // 𝝠
+            case  924: return 120673; // 𝝡
+            case  925: return 120674; // 𝝢
+            case  926: return 120675; // 𝝣
+            case  927: return 120676; // 𝝤
+            case  928: return 120677; // 𝝥
+            case  929: return 120678; // 𝝦
+            case  931: return 120680; // 𝝨
+            case  932: return 120681; // 𝝩
+            case  933: return 120682; // 𝝪
+            case  934: return 120683; // 𝝫
+            case  935: return 120684; // 𝝬
+            case  936: return 120685; // 𝝭
+            case  937: return 120686; // 𝝮
+            case  945: return 120688; // 𝝰
+            case  946: return 120689; // 𝝱
+            case  947: return 120690; // 𝝲
+            case  948: return 120691; // 𝝳
+            case  950: return 120693; // 𝝵
+            case  951: return 120694; // 𝝶
+            case  952: return 120695; // 𝝷
+            case  954: return 120697; // 𝝹
+            case  955: return 120698; // 𝝺
+            case  956: return 120699; // 𝝻
+            case  957: return 120700; // 𝝼
+            case  958: return 120701; // 𝝽
+            case  959: return 120702; // 𝝾
+            case  960: return 120703; // 𝝿
+            case  961: return 120704; // 𝞀
+            case  962: return 120705; // 𝞁
+            case  963: return 120706; // 𝞂
+            case  964: return 120707; // 𝞃
+            case  965: return 120708; // 𝞄
+            case  966: return 120709; // 𝞅
+            case  967: return 120710; // 𝞆
+            case  968: return 120711; // 𝞇
+            case  969: return 120712; // 𝞈
+            case  977: return 120715; // 𝞋
+            case  981: return 120717; // 𝞍
+            case  982: return 120719; // 𝞏
+            case 1008: return 120716; // 𝞌
+            case 1009: return 120718; // 𝞎
+            case 1012: return 120679; // 𝝧
+            case 1013: return 120714; // 𝞊
+            case 8706: return 120713; // 𝞉
+            case 8711: return 120687; // 𝝯
+        }
+
+        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120812 - 48);}
         if (shift) primaryCode += (120276 - 65);
         else primaryCode += (120276 - 71);
         return primaryCode;
-
-        if (Variables.is120276()    && primaryCode ==   48) {return 120812;} // 𝟬
-        if (Variables.is120276()    && primaryCode ==   49) {return 120813;} // 𝟭
-        if (Variables.is120276()    && primaryCode ==   50) {return 120814;} // 𝟮
-        if (Variables.is120276()    && primaryCode ==   51) {return 120815;} // 𝟯
-        if (Variables.is120276()    && primaryCode ==   52) {return 120816;} // 𝟰
-        if (Variables.is120276()    && primaryCode ==   53) {return 120817;} // 𝟱
-        if (Variables.is120276()    && primaryCode ==   54) {return 120818;} // 𝟲
-        if (Variables.is120276()    && primaryCode ==   55) {return 120819;} // 𝟳
-        if (Variables.is120276()    && primaryCode ==   56) {return 120820;} // 𝟴
-        if (Variables.is120276()    && primaryCode ==   57) {return 120821;} // 𝟵
-
-
-        if (Variables.is120276()    && primaryCode ==  400) {return 120666;} // 𝝚
-        if (Variables.is120276()    && primaryCode ==  406) {return 120670;} // 𝝞
-        if (Variables.is120276()    && primaryCode ==  603) {return 120692;} // 𝝴
-        if (Variables.is120276()    && primaryCode ==  617) {return 120696;} // 𝝸
-        if (Variables.is120276()    && primaryCode ==  913) {return 120662;} // 𝝖
-        if (Variables.is120276()    && primaryCode ==  914) {return 120663;} // 𝝗
-        if (Variables.is120276()    && primaryCode ==  915) {return 120664;} // 𝝘
-        if (Variables.is120276()    && primaryCode ==  916) {return 120665;} // 𝝙
-        if (Variables.is120276()    && primaryCode ==  918) {return 120667;} // 𝝛
-        if (Variables.is120276()    && primaryCode ==  919) {return 120668;} // 𝝜
-        if (Variables.is120276()    && primaryCode ==  920) {return 120669;} // 𝝝
-        if (Variables.is120276()    && primaryCode ==  922) {return 120671;} // 𝝟
-        if (Variables.is120276()    && primaryCode ==  923) {return 120672;} // 𝝠
-        if (Variables.is120276()    && primaryCode ==  924) {return 120673;} // 𝝡
-        if (Variables.is120276()    && primaryCode ==  925) {return 120674;} // 𝝢
-        if (Variables.is120276()    && primaryCode ==  926) {return 120675;} // 𝝣
-        if (Variables.is120276()    && primaryCode ==  927) {return 120676;} // 𝝤
-        if (Variables.is120276()    && primaryCode ==  928) {return 120677;} // 𝝥
-        if (Variables.is120276()    && primaryCode ==  929) {return 120678;} // 𝝦
-        if (Variables.is120276()    && primaryCode ==  931) {return 120680;} // 𝝨
-        if (Variables.is120276()    && primaryCode ==  932) {return 120681;} // 𝝩
-        if (Variables.is120276()    && primaryCode ==  933) {return 120682;} // 𝝪
-        if (Variables.is120276()    && primaryCode ==  934) {return 120683;} // 𝝫
-        if (Variables.is120276()    && primaryCode ==  935) {return 120684;} // 𝝬
-        if (Variables.is120276()    && primaryCode ==  936) {return 120685;} // 𝝭
-        if (Variables.is120276()    && primaryCode ==  937) {return 120686;} // 𝝮
-        if (Variables.is120276()    && primaryCode ==  945) {return 120688;} // 𝝰
-        if (Variables.is120276()    && primaryCode ==  946) {return 120689;} // 𝝱
-        if (Variables.is120276()    && primaryCode ==  947) {return 120690;} // 𝝲
-        if (Variables.is120276()    && primaryCode ==  948) {return 120691;} // 𝝳
-        if (Variables.is120276()    && primaryCode ==  950) {return 120693;} // 𝝵
-        if (Variables.is120276()    && primaryCode ==  951) {return 120694;} // 𝝶
-        if (Variables.is120276()    && primaryCode ==  952) {return 120695;} // 𝝷
-        if (Variables.is120276()    && primaryCode ==  954) {return 120697;} // 𝝹
-        if (Variables.is120276()    && primaryCode ==  955) {return 120698;} // 𝝺
-        if (Variables.is120276()    && primaryCode ==  956) {return 120699;} // 𝝻
-        if (Variables.is120276()    && primaryCode ==  957) {return 120700;} // 𝝼
-        if (Variables.is120276()    && primaryCode ==  958) {return 120701;} // 𝝽
-        if (Variables.is120276()    && primaryCode ==  959) {return 120702;} // 𝝾
-        if (Variables.is120276()    && primaryCode ==  960) {return 120703;} // 𝝿
-        if (Variables.is120276()    && primaryCode ==  961) {return 120704;} // 𝞀
-        if (Variables.is120276()    && primaryCode ==  962) {return 120705;} // 𝞁
-        if (Variables.is120276()    && primaryCode ==  963) {return 120706;} // 𝞂
-        if (Variables.is120276()    && primaryCode ==  964) {return 120707;} // 𝞃
-        if (Variables.is120276()    && primaryCode ==  965) {return 120708;} // 𝞄
-        if (Variables.is120276()    && primaryCode ==  966) {return 120709;} // 𝞅
-        if (Variables.is120276()    && primaryCode ==  967) {return 120710;} // 𝞆
-        if (Variables.is120276()    && primaryCode ==  968) {return 120711;} // 𝞇
-        if (Variables.is120276()    && primaryCode ==  969) {return 120712;} // 𝞈
-        if (Variables.is120276()    && primaryCode ==  977) {return 120715;} // 𝞋
-        if (Variables.is120276()    && primaryCode ==  981) {return 120717;} // 𝞍
-        if (Variables.is120276()    && primaryCode ==  982) {return 120719;} // 𝞏
-        if (Variables.is120276()    && primaryCode == 1008) {return 120716;} // 𝞌
-        if (Variables.is120276()    && primaryCode == 1009) {return 120718;} // 𝞎
-        if (Variables.is120276()    && primaryCode == 1012) {return 120679;} // 𝝧
-        if (Variables.is120276()    && primaryCode == 1013) {return 120714;} // 𝞊
-        if (Variables.is120276()    && primaryCode == 8706) {return 120713;} // 𝞉
-        if (Variables.is120276()    && primaryCode == 8711) {return 120687;} // 𝝯
-
-
-
     }
 
-    public int toItalicSans(int primaryCode, boolean shift) {
+    public static int toItalicSans(int primaryCode, boolean shift) {
         if (shift) primaryCode += (120328 - 65);
         else primaryCode += (120328 - 71);
         return primaryCode;
-
-
-
-
     }
 
-    public int toBoldItalicSans(int primaryCode, boolean shift) {
+    public static int toBoldItalicSans(int primaryCode, boolean shift) {
+        switch(primaryCode) {
+            case  400: return 120724; // 𝞔
+            case  406: return 120728; // 𝞘
+            case  603: return 120750; // 𝞮
+            case  617: return 120754; // 𝞲
+            case  913: return 120720; // 𝞐
+            case  914: return 120721; // 𝞑
+            case  915: return 120722; // 𝞒
+            case  916: return 120723; // 𝞓
+            case  918: return 120725; // 𝞕
+            case  919: return 120726; // 𝞖
+            case  920: return 120727; // 𝞗
+            case  922: return 120729; // 𝞙
+            case  923: return 120730; // 𝞚
+            case  924: return 120731; // 𝞛
+            case  925: return 120732; // 𝞜
+            case  926: return 120733; // 𝞝
+            case  927: return 120734; // 𝞞
+            case  928: return 120735; // 𝞟
+            case  929: return 120736; // 𝞠
+            case  931: return 120738; // 𝞢
+            case  932: return 120739; // 𝞣
+            case  933: return 120740; // 𝞤
+            case  934: return 120741; // 𝞥
+            case  935: return 120742; // 𝞦
+            case  936: return 120743; // 𝞧
+            case  937: return 120744; // 𝞨
+            case  945: return 120746; // 𝞪
+            case  946: return 120747; // 𝞫
+            case  947: return 120748; // 𝞬
+            case  948: return 120749; // 𝞭
+            case  950: return 120751; // 𝞯
+            case  951: return 120752; // 𝞰
+            case  952: return 120753; // 𝞱
+            case  954: return 120755; // 𝞳
+            case  955: return 120756; // 𝞴
+            case  956: return 120757; // 𝞵
+            case  957: return 120758; // 𝞶
+            case  958: return 120759; // 𝞷
+            case  959: return 120760; // 𝞸
+            case  960: return 120761; // 𝞹
+            case  961: return 120762; // 𝞺
+            case  962: return 120763; // 𝞻
+            case  963: return 120764; // 𝞼
+            case  964: return 120765; // 𝞽
+            case  965: return 120766; // 𝞾
+            case  966: return 120767; // 𝞿
+            case  967: return 120768; // 𝟀
+            case  968: return 120769; // 𝟁
+            case  969: return 120770; // 𝟂
+            case  977: return 120773; // 𝟅
+            case  981: return 120775; // 𝟇
+            case  982: return 120777; // 𝟉
+            case  988: return 120778; // 𝟊
+            case  989: return 120779; // 𝟋
+            case 1008: return 120774; // 𝟆
+            case 1009: return 120776; // 𝟈
+            case 1012: return 120737; // 𝞡
+            case 1013: return 120772; // 𝟄
+            case 8706: return 120771; // 𝟃
+            case 8711: return 120745; // 𝞩
+        }
         if (shift) primaryCode += (120380 - 65);
         else primaryCode += (120380 - 71);
         return primaryCode;
-
-
-        if (Variables.is120380()    && primaryCode ==  400) {return 120724;} // 𝞔
-        if (Variables.is120380()    && primaryCode ==  406) {return 120728;} // 𝞘
-        if (Variables.is120380()    && primaryCode ==  603) {return 120750;} // 𝞮
-        if (Variables.is120380()    && primaryCode ==  617) {return 120754;} // 𝞲
-        if (Variables.is120380()    && primaryCode ==  913) {return 120720;} // 𝞐
-        if (Variables.is120380()    && primaryCode ==  914) {return 120721;} // 𝞑
-        if (Variables.is120380()    && primaryCode ==  915) {return 120722;} // 𝞒
-        if (Variables.is120380()    && primaryCode ==  916) {return 120723;} // 𝞓
-        if (Variables.is120380()    && primaryCode ==  918) {return 120725;} // 𝞕
-        if (Variables.is120380()    && primaryCode ==  919) {return 120726;} // 𝞖
-        if (Variables.is120380()    && primaryCode ==  920) {return 120727;} // 𝞗
-        if (Variables.is120380()    && primaryCode ==  922) {return 120729;} // 𝞙
-        if (Variables.is120380()    && primaryCode ==  923) {return 120730;} // 𝞚
-        if (Variables.is120380()    && primaryCode ==  924) {return 120731;} // 𝞛
-        if (Variables.is120380()    && primaryCode ==  925) {return 120732;} // 𝞜
-        if (Variables.is120380()    && primaryCode ==  926) {return 120733;} // 𝞝
-        if (Variables.is120380()    && primaryCode ==  927) {return 120734;} // 𝞞
-        if (Variables.is120380()    && primaryCode ==  928) {return 120735;} // 𝞟
-        if (Variables.is120380()    && primaryCode ==  929) {return 120736;} // 𝞠
-        if (Variables.is120380()    && primaryCode ==  931) {return 120738;} // 𝞢
-        if (Variables.is120380()    && primaryCode ==  932) {return 120739;} // 𝞣
-        if (Variables.is120380()    && primaryCode ==  933) {return 120740;} // 𝞤
-        if (Variables.is120380()    && primaryCode ==  934) {return 120741;} // 𝞥
-        if (Variables.is120380()    && primaryCode ==  935) {return 120742;} // 𝞦
-        if (Variables.is120380()    && primaryCode ==  936) {return 120743;} // 𝞧
-        if (Variables.is120380()    && primaryCode ==  937) {return 120744;} // 𝞨
-        if (Variables.is120380()    && primaryCode ==  945) {return 120746;} // 𝞪
-        if (Variables.is120380()    && primaryCode ==  946) {return 120747;} // 𝞫
-        if (Variables.is120380()    && primaryCode ==  947) {return 120748;} // 𝞬
-        if (Variables.is120380()    && primaryCode ==  948) {return 120749;} // 𝞭
-        if (Variables.is120380()    && primaryCode ==  950) {return 120751;} // 𝞯
-        if (Variables.is120380()    && primaryCode ==  951) {return 120752;} // 𝞰
-        if (Variables.is120380()    && primaryCode ==  952) {return 120753;} // 𝞱
-        if (Variables.is120380()    && primaryCode ==  954) {return 120755;} // 𝞳
-        if (Variables.is120380()    && primaryCode ==  955) {return 120756;} // 𝞴
-        if (Variables.is120380()    && primaryCode ==  956) {return 120757;} // 𝞵
-        if (Variables.is120380()    && primaryCode ==  957) {return 120758;} // 𝞶
-        if (Variables.is120380()    && primaryCode ==  958) {return 120759;} // 𝞷
-        if (Variables.is120380()    && primaryCode ==  959) {return 120760;} // 𝞸
-        if (Variables.is120380()    && primaryCode ==  960) {return 120761;} // 𝞹
-        if (Variables.is120380()    && primaryCode ==  961) {return 120762;} // 𝞺
-        if (Variables.is120380()    && primaryCode ==  962) {return 120763;} // 𝞻
-        if (Variables.is120380()    && primaryCode ==  963) {return 120764;} // 𝞼
-        if (Variables.is120380()    && primaryCode ==  964) {return 120765;} // 𝞽
-        if (Variables.is120380()    && primaryCode ==  965) {return 120766;} // 𝞾
-        if (Variables.is120380()    && primaryCode ==  966) {return 120767;} // 𝞿
-        if (Variables.is120380()    && primaryCode ==  967) {return 120768;} // 𝟀
-        if (Variables.is120380()    && primaryCode ==  968) {return 120769;} // 𝟁
-        if (Variables.is120380()    && primaryCode ==  969) {return 120770;} // 𝟂
-        if (Variables.is120380()    && primaryCode ==  977) {return 120773;} // 𝟅
-        if (Variables.is120380()    && primaryCode ==  981) {return 120775;} // 𝟇
-        if (Variables.is120380()    && primaryCode ==  982) {return 120777;} // 𝟉
-        if (Variables.is120380()    && primaryCode ==  988) {return 120778;} // 𝟊
-        if (Variables.is120380()    && primaryCode ==  989) {return 120779;} // 𝟋
-        if (Variables.is120380()    && primaryCode == 1008) {return 120774;} // 𝟆
-        if (Variables.is120380()    && primaryCode == 1009) {return 120776;} // 𝟈
-        if (Variables.is120380()    && primaryCode == 1012) {return 120737;} // 𝞡
-        if (Variables.is120380()    && primaryCode == 1013) {return 120772;} // 𝟄
-        if (Variables.is120380()    && primaryCode == 8706) {return 120771;} // 𝟃
-        if (Variables.is120380()    && primaryCode == 8711) {return 120745;} // 𝞩
-
-
-
-
-
-
-
     }
 
-    public int toScript(int primaryCode, boolean shift) {
+    public static int toScript(int primaryCode, boolean shift) {
         if (shift) primaryCode += (119964 - 65);
         else primaryCode += (119964 - 71);
         return primaryCode;
     }
 
-    public int toScriptBold(int primaryCode, boolean shift) {
+    public static int toScriptBold(int primaryCode, boolean shift) {
         if (shift) primaryCode += (120016 - 65);
         else primaryCode += (120016 - 71);
         return primaryCode;
     }
 
-    public int toFraktur(int primaryCode, boolean shift) {
+    public static int toFraktur(int primaryCode, boolean shift) {
         if (shift) primaryCode += (120068 - 65);
         else primaryCode += (120068 - 71);
         return primaryCode;
     }
 
-    public int toFrakturBold(int primaryCode, boolean shift) {
+    public static int toFrakturBold(int primaryCode, boolean shift) {
         if (shift) primaryCode += (120172 - 65);
         else primaryCode += (120172 - 71);
         return primaryCode;
     }
 
-    public int toMonospace(int primaryCode, boolean shift) {
+    public static int toMonospace(int primaryCode, boolean shift) {
+        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120822 - 48);}
         if (shift) primaryCode += (120432 - 65);
         else primaryCode += (120432 - 71);
         return primaryCode;
-
-
-
-        if (Variables.is120432()    && primaryCode ==   48) {return 120822;} // 𝟶
-        if (Variables.is120432()    && primaryCode ==   49) {return 120823;} // 𝟷
-        if (Variables.is120432()    && primaryCode ==   50) {return 120824;} // 𝟸
-        if (Variables.is120432()    && primaryCode ==   51) {return 120825;} // 𝟹
-        if (Variables.is120432()    && primaryCode ==   52) {return 120826;} // 𝟺
-        if (Variables.is120432()    && primaryCode ==   53) {return 120827;} // 𝟻
-        if (Variables.is120432()    && primaryCode ==   54) {return 120828;} // 𝟼
-        if (Variables.is120432()    && primaryCode ==   55) {return 120829;} // 𝟽
-        if (Variables.is120432()    && primaryCode ==   56) {return 120830;} // 𝟾
-        if (Variables.is120432()    && primaryCode ==   57) {return 120831;} // 𝟿
-
     }
 
-    public int toDoublestruck(int primaryCode, boolean shift) {
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120792-48);}
+    public static int toDoublestruck(int primaryCode, boolean shift) {
+        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120792 - 48);}
         if (shift) primaryCode += (120120 - 65);
         else primaryCode += (120120 - 71);
         return primaryCode;
-
-        if (Variables.is120120()    && primaryCode ==   48) {return 120792;} // 𝟘
-        if (Variables.is120120()    && primaryCode ==   49) {return 120793;} // 𝟙
-        if (Variables.is120120()    && primaryCode ==   50) {return 120794;} // 𝟚
-        if (Variables.is120120()    && primaryCode ==   51) {return 120795;} // 𝟛
-        if (Variables.is120120()    && primaryCode ==   52) {return 120796;} // 𝟜
-        if (Variables.is120120()    && primaryCode ==   53) {return 120797;} // 𝟝
-        if (Variables.is120120()    && primaryCode ==   54) {return 120798;} // 𝟞
-        if (Variables.is120120()    && primaryCode ==   55) {return 120799;} // 𝟟
-        if (Variables.is120120()    && primaryCode ==   56) {return 120800;} // 𝟠
-        if (Variables.is120120()    && primaryCode ==   57) {return 120801;} // 𝟡
-
     }
 
-
-    public int toCaps(int primaryCode) {
+    public static int toCaps(int primaryCode) {
         switch(primaryCode) {
             case   81: return   1192; // Ҩ
             case   97: return   7424; // ᴀ
@@ -691,7 +621,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int toParentheses(int primaryCode) {
+    public static int toParentheses(int primaryCode) {
         switch(primaryCode) {
             case   65: return 127248; // 🄐
             case   66: return 127249; // 🄑
@@ -749,7 +679,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int encircle(int primaryCode) {
+    public static int encircle(int primaryCode) {
         switch(primaryCode) {
             case   65: return   9398; // Ⓐ
             case   66: return   9399; // Ⓑ
@@ -807,7 +737,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int toSmallCaps(int primaryCode) {
+    public static int toSmallCaps(int primaryCode) {
         switch(primaryCode) {
             case   65: return 127462; // 🇦
             case   66: return 127463; // 🇧
@@ -865,7 +795,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int ensquare(int primaryCode) {
+    public static int ensquare(int primaryCode) {
         switch(primaryCode) {
             case   65: return 127280; // 🄰
             case   66: return 127281; // 🄱
@@ -923,7 +853,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int toCircularStampLetters(int primaryCode) {
+    public static int toCircularStampLetters(int primaryCode) {
         switch(primaryCode) {
             case   65: return 127312; // 🅐
             case   66: return 127313; // 🅑
@@ -981,7 +911,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int toReflected(int primaryCode) {
+    public static int toReflected(int primaryCode) {
         switch(primaryCode) {
             case   33: return    161; // ¡
             case   40: return     41; // )
@@ -1051,7 +981,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int toRectangularStampLetters(int primaryCode) {
+    public static int toRectangularStampLetters(int primaryCode) {
         switch(primaryCode) {
             case   65: return 127344; // 🅰
             case   66: return 127345; // 🅱
@@ -1109,7 +1039,7 @@ public class Font {
         return primaryCode;
     }
 
-    public int exceptions(int primaryCode) {
+    public static int exceptions(int primaryCode) {
         switch (primaryCode) {
             case 119893: return 8462;      // ℎ
             case 119965: return 8492;      // ℬ
@@ -1138,7 +1068,4 @@ public class Font {
             default:     return primaryCode;
         }
     }
-
-
-
 }
