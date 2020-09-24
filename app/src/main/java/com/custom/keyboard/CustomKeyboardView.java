@@ -37,6 +37,10 @@ public class CustomKeyboardView extends KeyboardView {
         return (CustomKeyboard)getKeyboard();
     }
 
+    public void setOnKeyboardActionListener(OnKeyListener onKeyListener) {
+        System.out.println(onKeyListener);
+    }
+
     @Override
     protected boolean onLongPress(Key key) {
 

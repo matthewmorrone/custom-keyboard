@@ -17,10 +17,12 @@ import android.preference.*;
 import android.provider.Settings;
 import android.text.InputType;
 import android.text.method.MetaKeyKeyListener;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -40,6 +42,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -48,12 +54,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+
+
 // import github.custom.emojicon.EmojiconGridView;
 // import github.custom.emojicon.EmojiconsPopup;
 // import github.custom.emojicon.emoji.Emojicon;
 
 public class CustomInputMethodService extends InputMethodService
-    implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
+    implements
+    KeyboardView.OnKeyboardActionListener,
+    KeyboardView.OnDragListener,
+    KeyboardView.OnTouchListener,
+    SpellCheckerSession.SpellCheckerSessionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
 
@@ -85,7 +97,6 @@ public class CustomInputMethodService extends InputMethodService
 
     private short rowNumber = 6;
     private CustomKeyboardView kv;
-    private CustomKeyboardView mInputView;
     private CandidateView mCandidateView;
     private CompletionInfo[] mCompletions;
     private SpellCheckerSession mScs;
@@ -107,6 +118,10 @@ public class CustomInputMethodService extends InputMethodService
         mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;
 
         toast = new Toast(getBaseContext());
+
+        EmojiManager.install(new GoogleEmojiProvider());
+        // final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(kv).build(editText);
+        // emojiPopup.toggle(); // Toggles visibility of the Popup.
     }
 
     /**
@@ -129,6 +144,20 @@ public class CustomInputMethodService extends InputMethodService
         functionKeyboard = new CustomKeyboard(this, R.layout.function);
     }
 
+    @Override
+    public boolean onDrag(View v, DragEvent event) {
+        System.out.println(v+" "+event);
+        return false;
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        System.out.println(v+" "+event);
+        return false;
+    }
+
+
     /**
      * Called by the framework when your view for creating input needs to
      * be generated.  This will be called the first time your input method
@@ -137,12 +166,25 @@ public class CustomInputMethodService extends InputMethodService
      */
     @Override
     public View onCreateInputView() {
-        mInputView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        mInputView.setOnKeyboardActionListener(this);
-        mInputView.setPreviewEnabled(false);
-        mInputView.setKeyboard(standardKeyboard);
+        kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        kv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    kv.closing(); // Close popup keyboard if it's showing
+                }
+                return false;
+            }
+        });
 
-        return mInputView;
+
+        kv.setOnKeyboardActionListener(this);
+        kv.setPreviewEnabled(false);
+        kv.setKeyboard(standardKeyboard);
+
+
+
+        return kv;
     }
 
     /**
@@ -280,8 +322,8 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(false);
 
         currentKeyboard = standardKeyboard;
-        if (mInputView != null) {
-            mInputView.closing();
+        if (kv != null) {
+            kv.closing();
         }
     }
 
@@ -518,13 +560,13 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void updateShiftKeyState(EditorInfo attr) {
-        if (attr != null && mInputView != null && standardKeyboard == mInputView.getKeyboard()) {
+        if (attr != null && kv != null && standardKeyboard == kv.getKeyboard()) {
             int caps = 0;
             EditorInfo ei = getCurrentInputEditorInfo();
             if (ei != null && ei.inputType != InputType.TYPE_NULL) {
                 caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
             }
-            mInputView.setShifted(mCapsLock || caps != 0);
+            kv.setShifted(mCapsLock || caps != 0);
         }
     }
 
@@ -856,7 +898,7 @@ public class CustomInputMethodService extends InputMethodService
     private void handleClose() {
         commitTyped(getCurrentInputConnection());
         requestHideSelf(0);
-        mInputView.closing();
+        kv.closing();
     }
 
     private IBinder getToken() {

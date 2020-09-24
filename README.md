@@ -1,5 +1,6 @@
 ### to do ###
-+ figure out why it won't compile on my phone anymore
+https://developer.android.com/guide/topics/text/creating-input-method.html#java
+https://customkeyboarddetails.blogspot.com/2019/02/available-resources-for-android.html
 
 ### things I know how to do ###
 + indentation
