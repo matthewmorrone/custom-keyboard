@@ -1,0 +1,67 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keyHeight="7%p">
+    <Row android:keyWidth="8.333%p">
+        <Key android:codes="-20" android:keyIcon="@drawable/ic_double_pointer_left" />
+        <Key android:codes="-21" android:keyIcon="@drawable/ic_double_pointer_right" />
+        <Key android:codes="-13" android:keyIcon="@drawable/ic_arrow_up" />
+        <Key android:codes="-14" android:keyIcon="@drawable/ic_arrow_down" />
+        <Key android:codes="-15" android:keyIcon="@drawable/ic_arrow_left" />
+        <Key android:codes="-16" android:keyIcon="@drawable/ic_arrow_right" />
+        <Key android:codes="-8"  android:keyIcon="@drawable/ic_cut" />
+        <Key android:codes="-9"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-10" android:keyIcon="@drawable/ic_paste" />
+        <Key android:codes="-11" android:keyIcon="@drawable/ic_select" />
+        <Key android:codes="-12" android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
+    </Row>
+    <Row>
+        <Key android:codes="-38" android:keyLabel="𝖠𝖠" android:keyIcon="@drawable/ic_format_uppercase" />
+        <Key android:codes="-39" android:keyLabel="𝖠𝖺" android:keyIcon="@drawable/ic_format_titlecase" />
+        <Key android:codes="-40" android:keyLabel="𝖺𝖺" android:keyIcon="@drawable/ic_format_lowercase" />
+        <Key android:codes="-41" android:keyLabel="𝖺𝖠" android:keyIcon="@drawable/ic_format_altercase" />
+        <Key android:codes="-58" android:keyLabel="🐍" android:keyIcon="@drawable/ic_snake" />
+        <Key android:codes="-59" android:keyLabel="🐪" android:keyIcon="@drawable/ic_camel" />
+    </Row>
+    <Row>
+        <Key android:codes="-100" android:keyLabel="⎚" android:keyIcon="@drawable/ic_format_eraser" />
+        <Key android:codes="-94" android:keyLabel="𝗔𝗮" />
+        <Key android:codes="-95" android:keyLabel="𝘈𝘢" />
+        <Key android:codes="-96" android:keyLabel="𝘼𝙖" />
+        <Key android:codes="-97" android:keyLabel="A̲a̲" />
+        <Key android:codes="-98" android:keyLabel="A꯭a" />
+        <Key android:codes="-99" android:keyLabel="A̶a̶" />
+    </Row>
+    <Row>
+        <Key android:codes="-145" android:keyLabel="𝐀𝐚" /> <!-- toggleBoldSerif() -->
+        <Key android:codes="-146" android:keyLabel="𝐴𝑎" /> <!-- toggleItalicSerif() -->
+        <Key android:codes="-147" android:keyLabel="𝑨𝒂" /> <!-- toggleBoldItalicSerif() -->
+        <Key android:codes="-148" android:keyLabel="𝒜𝒶" /> <!-- toggleScript() -->
+        <Key android:codes="-149" android:keyLabel="𝓐𝓪" /> <!-- toggleScriptBold() -->
+        <Key android:codes="-150" android:keyLabel="𝔄𝔞" /> <!-- toggleFraktur() -->
+        <Key android:codes="-151" android:keyLabel="𝕬𝖆" /> <!-- toggleFrakturBold() -->
+        <Key android:codes="-152" android:keyLabel="𝖠𝖺" /> <!-- toggleSans() -->
+        <Key android:codes="-153" android:keyLabel="𝙰𝚊" /> <!-- toggleMonospace() -->
+        <Key android:codes="-154" android:keyLabel="𝔸𝕒" /> <!-- toggleDoublestruck() -->
+    </Row>
+    <Row>
+        <Key android:codes="-155" android:keyLabel="🄰" /> <!-- toggleEnsquare() -->
+        <Key android:codes="-156" android:keyLabel="🅐" /> <!-- toggleCircularStampLetters() -->
+        <Key android:codes="-157" android:keyLabel="🅰" /> <!-- toggleRectangularStampLetters() -->
+        <Key android:codes="-158" android:keyLabel="🇦" /> <!-- toggleSmallCaps() -->
+        <Key android:codes="-159" android:keyLabel="🄐⒜" /> <!-- toggleParentheses() -->
+        <Key android:codes="-160" android:keyLabel="Ⓐⓐ" /> <!-- toggleEncircle() -->
+        <Key android:codes="-161" android:keyLabel="Ɐɐ" /> <!-- toggleReflected() -->
+        <Key android:codes="-162" android:keyLabel="Aᴀ" /> <!-- toggleCaps() -->
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" />
+        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"   />
+    </Row>
+    <Row>
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="10%p" />
+        <Key android:codes="-143" android:keyIcon="@drawable/ic_swap"            android:keyWidth="10%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_abc"             android:keyWidth="10%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space"           android:keyWidth="50%p" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
+    </Row>
+</Keyboard>

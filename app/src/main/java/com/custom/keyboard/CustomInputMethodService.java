@@ -792,6 +792,31 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
 
+        if (Variables.isBold()) { primaryCode = Font.getBold(primaryCode);}
+        if (Variables.isItalic()) { primaryCode = Font.getItalic(primaryCode);}
+        if (Variables.isEmphasized()) { primaryCode = Font.getEmphasized(primaryCode);}
+        // if (Variables.isUnderlined()) { primaryCode = Font.getUnderlined(primaryCode);}
+        // if (Variables.isUnderscored()) { primaryCode = Font.getUnderscored(primaryCode);}
+        // if (Variables.isStrikethrough()) { primaryCode = Font.getStrikethrough(primaryCode);}
+        if (Variables.isBoldSerif()) { primaryCode = Font.toBoldSerif(primaryCode, kv.isShifted());}
+        if (Variables.isItalicSerif()) { primaryCode = Font.toItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isBoldItalicSerif()) { primaryCode = Font.toBoldItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isScript()) { primaryCode = Font.toScript(primaryCode, kv.isShifted());}
+        if (Variables.isScriptBold()) { primaryCode = Font.toScriptBold(primaryCode, kv.isShifted());}
+        if (Variables.isFraktur()) { primaryCode = Font.toFraktur(primaryCode, kv.isShifted());}
+        if (Variables.isFrakturBold()) { primaryCode = Font.toFrakturBold(primaryCode, kv.isShifted());}
+        if (Variables.isSans()) { primaryCode = Font.toSans(primaryCode, kv.isShifted());}
+        if (Variables.isMonospace()) { primaryCode = Font.toMonospace(primaryCode, kv.isShifted());}
+        if (Variables.isDoublestruck()) { primaryCode = Font.toDoublestruck(primaryCode, kv.isShifted());}
+        if (Variables.isEnsquare()) { primaryCode = Font.ensquare(primaryCode);}
+        if (Variables.isCircularStampLetters()) { primaryCode = Font.toCircularStampLetters(primaryCode);}
+        if (Variables.isRectangularStampLetters()) { primaryCode = Font.toRectangularStampLetters(primaryCode);}
+        if (Variables.isSmallCaps()) { primaryCode = Font.toSmallCaps(primaryCode);}
+        if (Variables.isParentheses()) { primaryCode = Font.toParentheses(primaryCode);}
+        if (Variables.isEncircle()) { primaryCode = Font.encircle(primaryCode);}
+        if (Variables.isReflected()) { primaryCode = Font.toReflected(primaryCode);}
+        if (Variables.isCaps()) { primaryCode = Font.toCaps(primaryCode);}
+
         if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char)primaryCode))) {
             mComposing.append((char)primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
@@ -1450,42 +1475,41 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -94:
-                if (Variables.isBold()) performReplace(Util.unbolden(getText(ic)));
-                else performReplace(Util.bolden(getText(ic)));
+                if (Variables.isBold()) performReplace(Font.unbolden(getText(ic)));
+                else performReplace(Font.bolden(getText(ic)));
                 Variables.toggleBold();
                 break;
             case -95:
-                if (Variables.isItalic()) performReplace(Util.unitalicize(getText(ic)));
-                else performReplace(Util.italicize(getText(ic)));
+                if (Variables.isItalic()) performReplace(Font.unitalicize(getText(ic)));
+                else performReplace(Font.italicize(getText(ic)));
                 Variables.toggleItalic();
                 break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(Util.unemphasize(getText(ic)));
-                else performReplace(Util.emphasize(getText(ic)));
+                if (Variables.isEmphasized()) performReplace(Font.unemphasize(getText(ic)));
+                else performReplace(Font.emphasize(getText(ic)));
                 Variables.toggleEmphasized();
                 break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(Util.underline(getText(ic)));
+                else performReplace(Font.underline(getText(ic)));
                 break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(Util.underscore(getText(ic)));
+                else performReplace(Font.underscore(getText(ic)));
                 break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(Util.strikethrough(getText(ic)));
+                else performReplace(Font.strikethrough(getText(ic)));
                 break;
             case -100:
                 Variables.setAllOff();
-                performReplace(Util.unbolden(getText(ic)));
-                performReplace(Util.unitalicize(getText(ic)));
-                performReplace(Util.unemphasize(getText(ic)));
-                performReplace(Util.unstrikethrough(getText(ic)));
-                performReplace(Util.ununderline(getText(ic)));
-                performReplace(Util.ununderscore(getText(ic)));
+                performReplace(Font.unbolden(getText(ic)));
+                performReplace(Font.unitalicize(getText(ic)));
+                performReplace(Font.unemphasize(getText(ic)));
+                performReplace(Font.unstrikethrough(getText(ic)));
+                performReplace(Font.ununderline(getText(ic)));
+                performReplace(Font.ununderscore(getText(ic)));
                 break;
-            case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
             case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: showActivity(Settings.ACTION_SETTINGS); break;
@@ -1496,6 +1520,7 @@ public class CustomInputMethodService extends InputMethodService
             case -111: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
             case -115: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
             case -116: showActivity(Settings.ACTION_HOME_SETTINGS); break;
+            case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
             case -119: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
             case -120: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
             case -121: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
@@ -1525,6 +1550,26 @@ public class CustomInputMethodService extends InputMethodService
             case -141: setKeyboard(R.layout.ipa); break;
             case -142: setKeyboard(R.layout.fancy); break;
             case -143: setKeyboard(R.layout.function_2); break;
+            case -144: setKeyboard(R.layout.fonts); break;
+
+            case -145: Variables.toggleBoldSerif(); break;
+            case -146: Variables.toggleItalicSerif(); break;
+            case -147: Variables.toggleBoldItalicSerif(); break;
+            case -148: Variables.toggleScript(); break;
+            case -149: Variables.toggleScriptBold(); break;
+            case -150: Variables.toggleFraktur(); break;
+            case -151: Variables.toggleFrakturBold(); break;
+            case -152: Variables.toggleSans(); break;
+            case -153: Variables.toggleMonospace(); break;
+            case -154: Variables.toggleDoublestruck(); break;
+            case -155: Variables.toggleEnsquare(); break;
+            case -156: Variables.toggleCircularStampLetters(); break;
+            case -157: Variables.toggleRectangularStampLetters(); break;
+            case -158: Variables.toggleSmallCaps(); break;
+            case -159: Variables.toggleParentheses(); break;
+            case -160: Variables.toggleEncircle(); break;
+            case -161: Variables.toggleReflected(); break;
+            case -162: Variables.toggleCaps(); break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
