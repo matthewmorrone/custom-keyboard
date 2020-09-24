@@ -54,18 +54,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-
-
 // import github.custom.emojicon.EmojiconGridView;
 // import github.custom.emojicon.EmojiconsPopup;
 // import github.custom.emojicon.emoji.Emojicon;
 
 public class CustomInputMethodService extends InputMethodService
-    implements
-    KeyboardView.OnKeyboardActionListener,
-    KeyboardView.OnDragListener,
-    KeyboardView.OnTouchListener,
-    SpellCheckerSession.SpellCheckerSessionListener {
+    implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
 
@@ -79,7 +73,6 @@ public class CustomInputMethodService extends InputMethodService
 
     private String mWordSeparators;
 
-
     private boolean firstCaps = false;
     private boolean isSymbols = false;
     private boolean shiftSim = false;
@@ -90,7 +83,6 @@ public class CustomInputMethodService extends InputMethodService
     int MAX = 65536;
 
     InputConnection ic = getCurrentInputConnection();
-
 
     SharedPreferences sharedPreferences;
     Toast toast;
@@ -105,8 +97,6 @@ public class CustomInputMethodService extends InputMethodService
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
-    private CustomKeyboard functionKeyboard;
-
 
     @Override
     public void onCreate() {
@@ -131,9 +121,6 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onInitializeInterface() {
         if (standardKeyboard != null) {
-            // Configuration changes can happen after the keyboard gets recreated,
-            // so we need to be able to re-build the keyboards if the available
-            // space has changed.
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
                 return;
@@ -141,20 +128,6 @@ public class CustomInputMethodService extends InputMethodService
             mLastDisplayWidth = displayWidth;
         }
         standardKeyboard = new CustomKeyboard(this, R.layout.primary);
-        functionKeyboard = new CustomKeyboard(this, R.layout.function);
-    }
-
-    @Override
-    public boolean onDrag(View v, DragEvent event) {
-        System.out.println(v+" "+event);
-        return false;
-    }
-
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        System.out.println(v+" "+event);
-        return false;
     }
 
 
@@ -177,12 +150,9 @@ public class CustomInputMethodService extends InputMethodService
             }
         });
 
-
         kv.setOnKeyboardActionListener(this);
         kv.setPreviewEnabled(false);
         kv.setKeyboard(standardKeyboard);
-
-
 
         return kv;
     }
@@ -229,13 +199,6 @@ public class CustomInputMethodService extends InputMethodService
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
-
-        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
-        kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
-
-        boolean previews = sharedPreferences.getBoolean("preview", false);
-        kv.setPreviewEnabled(previews);
-
         setInputType();
         Paint mPaint = new Paint();
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
@@ -246,16 +209,12 @@ public class CustomInputMethodService extends InputMethodService
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         currentKeyboard.setRowNumber(getRowNumber());
 
-
         // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
         capsOnFirst();
         kv.setOnKeyboardActionListener(this);
-
-        mPredictionOn = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("pred", false);
-        mCompletionOn = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("comp", false);
 
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
@@ -264,6 +223,17 @@ public class CustomInputMethodService extends InputMethodService
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
         setCandidatesView(mCandidateView);
+
+        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
+        kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
+
+        boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
+        kv.setPreviewEnabled(mPreviewOn);
+
+        mPredictionOn = sharedPreferences.getBoolean("pred", true);
+        mCompletionOn = sharedPreferences.getBoolean("comp", false);
+        setCandidatesViewShown(mPredictionOn);
+
 
     }
 
@@ -281,16 +251,13 @@ public class CustomInputMethodService extends InputMethodService
 
     // @TODO: autoadjustment of key width by number of keys in row
     public void adjustKeys() {
-        Bounds bounds = getBounds(functionKeyboard.getKeys());
-        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(functionKeyboard);
+        Bounds bounds = getBounds(standardKeyboard.getKeys());
+        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(standardKeyboard);
         for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
             if (entry.getValue().size() > 8) {
-                // System.out.print(entry.getKey()+" ("+entry.getValue().size()+"): ");
                 for(Keyboard.Key key : entry.getValue()) {
                     key.width = bounds.dX / entry.getValue().size();
-                    // System.out.print(key.width+" ");
                 }
-                // System.out.println(bounds.dX);
             }
         }
         redraw();
@@ -505,37 +472,6 @@ public class CustomInputMethodService extends InputMethodService
         return (String) text;
     }
 
-    private boolean translateKeyDown(int keyCode, KeyEvent event) {
-        mMetaState = MetaKeyKeyListener.handleKeyDown(mMetaState, keyCode, event);
-        int c = event.getUnicodeChar(MetaKeyKeyListener.getMetaState(mMetaState));
-        mMetaState = MetaKeyKeyListener.adjustMetaAfterKeypress(mMetaState);
-        InputConnection ic = getCurrentInputConnection();
-        if (c == 0 || ic == null) {
-            return false;
-        }
-
-        boolean dead = false;
-
-        if ((c & KeyCharacterMap.COMBINING_ACCENT) != 0) {
-            dead = true;
-            c = c & KeyCharacterMap.COMBINING_ACCENT_MASK;
-        }
-
-        if (mComposing.length() > 0) {
-            char accent = mComposing.charAt(mComposing.length() - 1);
-            int composed = KeyEvent.getDeadChar(accent, c);
-
-            if (composed != 0) {
-                c = composed;
-                mComposing.setLength(mComposing.length() - 1);
-            }
-        }
-
-        onKey(c, null);
-
-        return true;
-    }
-
     /**
      * Use this to monitor key events being delivered to the application.
      * We get first crack at them, and can either resume them or let them
@@ -583,29 +519,34 @@ public class CustomInputMethodService extends InputMethodService
         if (mComposing.length() > 0) {
             commitTyped(ic);
         }
-        ic.commitText(text, 0);
         ic.endBatchEdit();
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
     @Override
     public void swipeLeft() {
-
+        InputConnection ic = getCurrentInputConnection();
+        ic.requestCursorUpdates(3);
+        String prevWord = getPrevWord(1);
+        ic.setSelection(getSelectionStart()-prevWord.length(), getSelectionStart()-prevWord.length());
     }
 
     @Override
     public void swipeRight() {
-
+        InputConnection ic = getCurrentInputConnection();
+        ic.requestCursorUpdates(3);
+        String nextWord = getNextWord(1);
+        ic.setSelection(getSelectionEnd()+nextWord.length(), getSelectionEnd()+nextWord.length());
     }
 
     @Override
     public void swipeDown() {
-
+        setCandidatesViewShown(false);
     }
 
     @Override
     public void swipeUp() {
-
+        setCandidatesViewShown(true);
     }
 
     public void showVoiceInput() {
@@ -627,73 +568,32 @@ public class CustomInputMethodService extends InputMethodService
         startIntent(intent);
     }
 
-
-    @Override
-    public void onDisplayCompletions(CompletionInfo[] completions) {
-        mCompletions = completions;
-
-        if (mCompletionOn || true) {
-            mCompletions = completions;
-            if (completions == null) {
-                setSuggestions(null, false, false);
-                return;
-            }
-
-            List<String> stringList = new ArrayList<>();
-            for (CompletionInfo ci : completions) {
-                if (ci != null) {
-                    stringList.add(ci.getText().toString());
-                }
-            }
-            setSuggestions(stringList, true, true);
-        }
-    }
-
     private void updateCandidates() {
-        if (mCompletionOn) {
-            if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(mComposing.toString());
-                try {
-                    mScs.getSentenceSuggestions(new TextInfo[]{
-                        new TextInfo(mComposing.toString())
-                    }, 5);
+        try {
+            if (mPredictionOn) {
+                if (mComposing.length() > 0) {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(getPrevWord(1)); // list.add(mComposing.toString());
+
+                    TextInfo[] textInfo = {new TextInfo(getPrevWord(1))};
+                    mScs.getSentenceSuggestions(textInfo, 5);
+
+                    mCandidateView.setSuggestions(list, true, true);
                 }
-                catch (Exception e) {
-                    toastIt("exception in mScs.getSentenceSuggestions: "+e);
+                else {
+                    mCandidateView.setSuggestions(null, true, true);
                 }
-                setSuggestions(list, true, true);
-            }
-            else {
-                setSuggestions(null, false, false);
             }
         }
-
-    }
-
-    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-        if (suggestions != null && suggestions.size() > 0) {
-            setCandidatesViewShown(true);
+        catch (Exception e) {
+            toastIt(e);
         }
-        else if (isExtractViewShown()) {
-            setCandidatesViewShown(true);
-        }
-        mSuggestions = suggestions;
-        if (mCandidateView != null) {
-            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
-        }
-    }
-
-
-    public void pickDefaultCandidate() {
-        pickSuggestionManually(0);
     }
 
     public void pickSuggestionManually(int index) {
         if (mSuggestions != null && index >= 0 && index < mSuggestions.size()) {
             getCurrentInputConnection().deleteSurroundingText(getPrevWord(1).length(), 0);
             getCurrentInputConnection().commitText(mSuggestions.get(index)+" ", mSuggestions.get(index).length()+1);
-
             if (mCandidateView != null) {
                 mCandidateView.clear();
             }
@@ -705,33 +605,36 @@ public class CustomInputMethodService extends InputMethodService
             }
             commitTyped(getCurrentInputConnection());
         }
-        setCandidatesViewShown(false);
-
     }
 
-    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
-        final int len = si.getSuggestionsCount();
-        for (int j = 0; j < len; ++j) {
-            sb.add(si.getSuggestionAt(j));
+/*    @Override
+    public void onDisplayCompletions(CompletionInfo[] completionInfos) {
+        System.out.println("onDisplayCompletions");
+        List<String> results = new ArrayList<>();
+        for (CompletionInfo ci : completionInfos) {
+            if (ci != null) {
+                System.out.print(ci.getText().toString()+" ");
+                results.add(ci.getText().toString());
+            }
         }
+        System.out.println();
+        // setSuggestions(results, true, true);
     }
+    */
 
     @Override
-    public void onGetSuggestions(SuggestionsInfo[] results) {
+    public void onGetSuggestions(SuggestionsInfo[] suggestionsInfos) {
+        System.out.println("onGetSuggestions");
         try {
-            final StringBuilder sb = new StringBuilder();
             ArrayList<String> suggestions = new ArrayList<>();
-            for (SuggestionsInfo result : results) {
-                final int len = result.getSuggestionsCount();
-                sb.append('\n');
+            for (SuggestionsInfo suggestionsInfo : suggestionsInfos) {
+                final int len = suggestionsInfo.getSuggestionsCount();
                 for (int j = 0; j < len; ++j) {
-                    sb.append(",").append(result.getSuggestionAt(j));
-                    suggestions.add(result.getSuggestionAt(j));
+                    suggestions.add(suggestionsInfo.getSuggestionAt(j));
+                    System.out.print(suggestionsInfo.getSuggestionAt(j)+" ");
                 }
-                sb.append(" (").append(len).append(")");
             }
-            mSuggestions = suggestions;
-            setSuggestions(suggestions, false, false);
+            System.out.println();
         }
         catch (Exception e) {
             toastIt("exception in onGetSuggestions: "+e);
@@ -739,19 +642,25 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     @Override
-    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
-        try {
-            final List<String> sb = new ArrayList<>();
-            for (final SentenceSuggestionsInfo ssi : results) {
-                for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
-                    dumpSuggestionsInfoInternal(sb, ssi.getSuggestionsInfoAt(j), ssi.getOffsetAt(j), ssi.getLengthAt(j));
-                }
-            }
-            setSuggestions(sb, true, true);
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] sentenceSuggestionsInfos) {
+        System.out.println("onGetSentenceSuggestions");
+        System.out.println(sentenceSuggestionsInfos);
+        System.out.println(sentenceSuggestionsInfos.length);
+        for (SentenceSuggestionsInfo ssi : sentenceSuggestionsInfos) {
+            System.out.println(ssi);
+            System.out.println(ssi.getSuggestionsCount());
         }
-        catch (Exception e) {
-            toastIt("exception in onGetSentenceSuggestions: "+e);
-        }
+
+
+
+
+
+        // for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
+        //     SuggestionsInfo suggestionsInfo = ssi.getSuggestionsInfoAt(j);
+        //     for(int k = 0; k < suggestionsInfo.getSuggestionsCount(); k++) {
+        //         System.out.println(j+" "+k+" "+suggestionsInfo.getSuggestionAt(k));
+        //     }
+        // }
     }
 
     /*
@@ -812,29 +721,26 @@ public class CustomInputMethodService extends InputMethodService
             ic.deleteSurroundingText((4 - (getPrevLine().length() % 4)), 0);
         }
 
-        if (length > 1) {
+        if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
+        }
+
+        else if (length > 1) {
             mComposing.delete(length - 1, length);
             getCurrentInputConnection().setComposingText(mComposing, 1);
-            updateCandidates();
         }
         else if (length > 0) {
-            mComposing.setLength(0);
+            // mComposing.setLength(0);
             getCurrentInputConnection().commitText("", 0);
-            updateCandidates();
         }
         else {
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
 
-        try {
-            if (!getPrevWord(1).isEmpty()) {
-                updateCandidates();
-            }
-        }
-        catch(Exception e) {
-
-        }
+        updateCandidates();
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
@@ -859,6 +765,7 @@ public class CustomInputMethodService extends InputMethodService
             mComposing.append((char)primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
+
         }
         if (mPredictionOn && mWordSeparators.contains(String.valueOf((char)primaryCode))) {
             char code = (char)primaryCode;
@@ -881,14 +788,7 @@ public class CustomInputMethodService extends InputMethodService
             setCapsOn(false);
         }
 
-        try {
-            if (!getPrevWord(1).isEmpty()) {
-                updateCandidates();
-            }
-        }
-        catch(Exception e) {
-
-        }
+        updateCandidates();
     }
 
     public void hide() {
@@ -1287,7 +1187,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
-        setCandidatesViewShown(false);
+        // setCandidatesViewShown(false);
 
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
@@ -1375,16 +1275,7 @@ public class CustomInputMethodService extends InputMethodService
                 redraw();
                 break;
             case -5:
-                // handleBackspace();
-                if (Variables.isAnyOn()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-                    if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
-                    if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
-                }
-                else {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_DEL, 0));
-                }
+                handleBackspace();
                 break;
             case -7:
                 if (Variables.isAnyOn()) {
