@@ -300,7 +300,7 @@ public class CustomInputMethodService extends InputMethodService
         Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
         for (Keyboard.Key key : keyboard.getKeys()) {
             if (!layoutRows.containsKey(key.y)) {
-                layoutRows.put(key.y, new ArrayList<>());
+                // layoutRows.put(key.y, new ArrayList<>());
             }
             layoutRows.get(key.y).add(key);
         }
