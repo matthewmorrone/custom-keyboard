@@ -87,6 +87,35 @@ public class Variables {
         setUnderscoredOff();
     }
 
+    private boolean IS_BOLD_SERIF;
+    private boolean IS_ITALIC_SERIF;
+    private boolean IS_BOLD_ITALIC_SERIF;
+    private boolean IS_SANS;
+    private boolean IS_BOLD_SANS;
+    private boolean IS_ITALIC_SANS;
+    private boolean IS_BOLD_ITALIC_SANS;
+    private boolean IS_SCRIPT;
+    private boolean IS_SCRIPT_BOLD;
+    private boolean IS_FRAKTUR;
+    private boolean IS_FRAKTUR_BOLD;
+    private boolean IS_MONOSPACE;
+    private boolean IS_DOUBLESTRUCK;
+
+
+
+    public boolean isBoldSerif() {return IS_BOLD_SERIF;}
+    public boolean isItalicSerif() {return IS_ITALIC_SERIF;}
+    public boolean isBoldItalicSerif() {return IS_BOLD_ITALIC_SERIF;}
+    public boolean isSans() {return IS_SANS;}
+    public boolean isBoldSans() {return IS_BOLD_SANS;}
+    public boolean isItalicSans() {return IS_ITALIC_SANS;}
+    public boolean isBoldItalicSans() {return IS_BOLD_ITALIC_SANS;}
+    public boolean isScript() {return IS_SCRIPT;}
+    public boolean isScriptBold() {return IS_SCRIPT_BOLD;}
+    public boolean isFraktur() {return IS_FRAKTUR;}
+    public boolean isFrakturBold() {return IS_FRAKTUR_BOLD;}
+    public boolean isMonospace() {return IS_MONOSPACE;}
+    public boolean isDoublestruck() {return IS_DOUBLESTRUCK;}
 
 
 

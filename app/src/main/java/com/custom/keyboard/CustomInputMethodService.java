@@ -1450,40 +1450,40 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -94:
-                if (Variables.isBold()) performReplace(Util.unbolden(getText(ic)));
-                else performReplace(Util.bolden(getText(ic)));
+                if (Variables.isBold()) performReplace(Font.unbolden(getText(ic)));
+                else performReplace(Font.bolden(getText(ic)));
                 Variables.toggleBold();
                 break;
             case -95:
-                if (Variables.isItalic()) performReplace(Util.unitalicize(getText(ic)));
-                else performReplace(Util.italicize(getText(ic)));
+                if (Variables.isItalic()) performReplace(Font.unitalicize(getText(ic)));
+                else performReplace(Font.italicize(getText(ic)));
                 Variables.toggleItalic();
                 break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(Util.unemphasize(getText(ic)));
-                else performReplace(Util.emphasize(getText(ic)));
+                if (Variables.isEmphasized()) performReplace(Font.unemphasize(getText(ic)));
+                else performReplace(Font.emphasize(getText(ic)));
                 Variables.toggleEmphasized();
                 break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(Util.underline(getText(ic)));
+                else performReplace(Font.underline(getText(ic)));
                 break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(Util.underscore(getText(ic)));
+                else performReplace(Font.underscore(getText(ic)));
                 break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(Util.strikethrough(getText(ic)));
+                else performReplace(Font.strikethrough(getText(ic)));
                 break;
             case -100:
                 Variables.setAllOff();
-                performReplace(Util.unbolden(getText(ic)));
-                performReplace(Util.unitalicize(getText(ic)));
-                performReplace(Util.unemphasize(getText(ic)));
-                performReplace(Util.unstrikethrough(getText(ic)));
-                performReplace(Util.ununderline(getText(ic)));
-                performReplace(Util.ununderscore(getText(ic)));
+                performReplace(Font.unbolden(getText(ic)));
+                performReplace(Font.unitalicize(getText(ic)));
+                performReplace(Font.unemphasize(getText(ic)));
+                performReplace(Font.unstrikethrough(getText(ic)));
+                performReplace(Font.ununderline(getText(ic)));
+                performReplace(Font.ununderscore(getText(ic)));
                 break;
             case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
             case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
