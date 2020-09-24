@@ -48,6 +48,7 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,7 @@ public class CustomInputMethodService extends InputMethodService
     private CandidateView mCandidateView;
     private CompletionInfo[] mCompletions;
     private SpellCheckerSession mScs;
-    private List<String> mSuggestions;
+    private List<String> mSuggestions = new ArrayList<>();
     // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
@@ -568,32 +569,73 @@ public class CustomInputMethodService extends InputMethodService
         startIntent(intent);
     }
 
-    private void updateCandidates() {
-        try {
-            if (mPredictionOn) {
-                if (mComposing.length() > 0) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add(getPrevWord(1)); // list.add(mComposing.toString());
 
-                    TextInfo[] textInfo = {new TextInfo(getPrevWord(1))};
-                    mScs.getSentenceSuggestions(textInfo, 5);
-
-                    mCandidateView.setSuggestions(list, true, true);
-                }
-                else {
-                    mCandidateView.setSuggestions(null, true, true);
-                }
+    /**
+     * This tells us about completions that the editor has determined based
+     * on the current text in it.  We want to use this in fullscreen mode
+     * to show the completions ourself, since the editor can not be seen
+     * in that situation.
+     */
+    @Override
+    public void onDisplayCompletions(CompletionInfo[] completions) {
+        if (mCompletionOn) {
+            mCompletions = completions;
+            if (completions == null) {
+                // setSuggestions(null, false, false);
+                return;
             }
-        }
-        catch (Exception e) {
-            toastIt(e);
+
+            List<String> stringList = new ArrayList<String>();
+            for (int i = 0; i < completions.length; i++) {
+                CompletionInfo ci = completions[i];
+                if (ci != null) stringList.add(ci.getText().toString());
+            }
+            // setSuggestions(stringList, true, true);
         }
     }
 
+
+    /**
+     * Update the list of available candidates from the current composing
+     * text.  This will need to be filled in by however you are determining
+     * candidates.
+     */
+    private void updateCandidates() {
+        if (!mCompletionOn) {
+            if (mComposing.length() > 0) {
+                ArrayList<String> list = new ArrayList<String>();
+                list.add(getPrevWord(1));
+                mScs.getSentenceSuggestions(new TextInfo[] {new TextInfo(getPrevWord(1))}, 5);
+                setSuggestions(list, true, true);
+            }
+            else {
+                setSuggestions(null, false, false);
+            }
+        }
+    }
+
+    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
+        if (suggestions != null && suggestions.size() > 0) {
+            setCandidatesViewShown(true);
+        }
+        else if (isExtractViewShown()) {
+            setCandidatesViewShown(true);
+        }
+        mSuggestions = suggestions;
+        if (mCandidateView != null) {
+            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
+        }
+    }
+
+
+    public void pickDefaultCandidate() {
+        pickSuggestionManually(0);
+    }
+
     public void pickSuggestionManually(int index) {
-        if (mSuggestions != null && index >= 0 && index < mSuggestions.size()) {
-            getCurrentInputConnection().deleteSurroundingText(getPrevWord(1).length(), 0);
-            getCurrentInputConnection().commitText(mSuggestions.get(index)+" ", mSuggestions.get(index).length()+1);
+        if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
+            CompletionInfo ci = mCompletions[index];
+            getCurrentInputConnection().commitCompletion(ci);
             if (mCandidateView != null) {
                 mCandidateView.clear();
             }
@@ -607,60 +649,49 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-/*    @Override
-    public void onDisplayCompletions(CompletionInfo[] completionInfos) {
-        System.out.println("onDisplayCompletions");
-        List<String> results = new ArrayList<>();
-        for (CompletionInfo ci : completionInfos) {
-            if (ci != null) {
-                System.out.print(ci.getText().toString()+" ");
-                results.add(ci.getText().toString());
+    /**
+     * http://www.tutorialspoint.com/android/android_spelling_checker.htm
+     * @param results results
+     */
+    @Override
+    public void onGetSuggestions(SuggestionsInfo[] results) {
+        final StringBuilder sb = new StringBuilder();
+
+        for (SuggestionsInfo result : results) {
+            // Returned suggestions are contained in SuggestionsInfo
+            final int len = result.getSuggestionsCount();
+            sb.append('\n');
+
+            for (int j = 0; j < len; ++j) {
+                sb.append(",").append(result.getSuggestionAt(j));
             }
+
+            sb.append(" (").append(len).append(")");
         }
-        System.out.println();
-        // setSuggestions(results, true, true);
     }
-    */
+
+    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
+        // Returned suggestions are contained in SuggestionsInfo
+        final int len = si.getSuggestionsCount();
+        for (int j = 0; j < len; ++j) {
+            System.out.println(si.getSuggestionAt(j));
+            sb.add(si.getSuggestionAt(j));
+        }
+    }
 
     @Override
-    public void onGetSuggestions(SuggestionsInfo[] suggestionsInfos) {
-        System.out.println("onGetSuggestions");
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
         try {
-            ArrayList<String> suggestions = new ArrayList<>();
-            for (SuggestionsInfo suggestionsInfo : suggestionsInfos) {
-                final int len = suggestionsInfo.getSuggestionsCount();
-                for (int j = 0; j < len; ++j) {
-                    suggestions.add(suggestionsInfo.getSuggestionAt(j));
-                    System.out.print(suggestionsInfo.getSuggestionAt(j)+" ");
+            final List<String> sb = new ArrayList<>();
+            for (final SentenceSuggestionsInfo ssi : results) {
+                for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
+                    dumpSuggestionsInfoInternal(sb, ssi.getSuggestionsInfoAt(j), ssi.getOffsetAt(j), ssi.getLengthAt(j));
                 }
             }
-            System.out.println();
+            setSuggestions(sb, true, true);
         }
-        catch (Exception e) {
-            toastIt("exception in onGetSuggestions: "+e);
-        }
-    }
+        catch(Exception ignored) {}
 
-    @Override
-    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] sentenceSuggestionsInfos) {
-        System.out.println("onGetSentenceSuggestions");
-        System.out.println(sentenceSuggestionsInfos);
-        System.out.println(sentenceSuggestionsInfos.length);
-        for (SentenceSuggestionsInfo ssi : sentenceSuggestionsInfos) {
-            System.out.println(ssi);
-            System.out.println(ssi.getSuggestionsCount());
-        }
-
-
-
-
-
-        // for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
-        //     SuggestionsInfo suggestionsInfo = ssi.getSuggestionsInfoAt(j);
-        //     for(int k = 0; k < suggestionsInfo.getSuggestionsCount(); k++) {
-        //         System.out.println(j+" "+k+" "+suggestionsInfo.getSuggestionAt(k));
-        //     }
-        // }
     }
 
     /*
@@ -1147,22 +1178,23 @@ public class CustomInputMethodService extends InputMethodService
     };
 
     private void handleSpace() {
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
-            int spaceCount = (4 - (getPrevLine().length() % 4));
-            if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
-                spaceCount = 4;
-            }
-            commitText("    ".substring(0, spaceCount));
-            if (isSelecting()) {
-                ic.setSelection(getSelectionStart(), getSelectionEnd() + "    ".length());
-            }
-        }
-        else {
-            commitText("\t");
-            if (isSelecting()) {
-                ic.setSelection(getSelectionStart(), getSelectionEnd() + "\t".length());
-            }
-        }
+        commitText(" ");
+        // if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
+        //     int spaceCount = (4 - (getPrevLine().length() % 4));
+        //     if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
+        //         spaceCount = 4;
+        //     }
+        //     commitText("    ".substring(0, spaceCount));
+        //     if (isSelecting()) {
+        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "    ".length());
+        //     }
+        // }
+        // else {
+        //     commitText("\t");
+        //     if (isSelecting()) {
+        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "\t".length());
+        //     }
+        // }
     }
 
     private void handleUnicode(int primaryCode) {
