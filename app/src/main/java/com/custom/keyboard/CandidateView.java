@@ -210,10 +210,19 @@ public class CandidateView extends View {
         invalidate();
     }
 
+    public List<String> getSuggestions() {
+        return mSuggestions;
+    }
+
+    public void clearSuggestions() {
+        setSuggestions(new ArrayList<>(), false, false);
+        clear();
+    }
+
     public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
         clear();
         if (suggestions != null) {
-            mSuggestions = new ArrayList<String>(suggestions);
+            mSuggestions = new ArrayList<>(suggestions);
         }
         mTypedWordValid = typedWordValid;
         scrollTo(0, 0);
@@ -233,7 +242,6 @@ public class CandidateView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent me) {
-
         if (mGestureDetector.onTouchEvent(me)) {
             return true;
         }

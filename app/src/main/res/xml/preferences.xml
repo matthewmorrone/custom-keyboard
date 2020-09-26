@@ -3,12 +3,14 @@
         <SwitchPreference android:key="preview" android:title="Show Key Previews" android:defaultValue="false" />
         <SwitchPreference android:key="pairs"   android:title="Insert Pairs" android:defaultValue="false" />
         <SwitchPreference android:key="shift"   android:title="Toggle Selection Case" android:defaultValue="true" />
-        <SwitchPreference android:key="caps"    android:title="@string/caps" android:defaultValue="true" />
+        <SwitchPreference android:key="caps"    android:title="@string/caps" android:defaultValue="false" />
         <SwitchPreference android:key="vib"     android:title="@string/vib" android:defaultValue="false" />
-        <SwitchPreference android:key="pred"    android:title="@string/prediction" android:defaultValue="true" />
+        <SwitchPreference android:key="pred"    android:title="@string/prediction" android:defaultValue="false" />
         <SwitchPreference android:key="comp"    android:title="@string/completion" android:defaultValue="false" />
+        <SwitchPreference android:title="Autocorrect" android:key="auto" android:defaultValue="false" />
         <SwitchPreference android:title="Indent with Spaces" android:key="spaces" android:defaultValue="true" />
-        <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="true" />
+        <SwitchPreference android:title="Indentation Helper" android:key="indent" android:defaultValue="false" />
+        <EditTextPreference android:title="Word Separators"  android:key="seps" android:defaultValue="@string/word_separators" android:dialogTitle="Word Separators" android:summary="@string/word_separators" android:dialogMessage="" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <ListPreference   android:defaultValue="1" android:entries="@array/color" android:entryValues="@array/color_values" android:key="theme" android:title="Theme" />
@@ -20,6 +22,9 @@
         <SwitchPreference android:key="corners" android:title="Corners" android:defaultValue="false" />
         <SwitchPreference android:key="keyback" android:title="Background" android:defaultValue="false" />
         <SwitchPreference android:key="space"   android:title="Distinct Spacebar" android:defaultValue="false" />
+        <EditTextPreference android:title="Foreground" android:key="fg" android:defaultValue="#ffffff" android:dialogTitle="Foreground" android:summary="" android:dialogMessage="" />
+        <EditTextPreference android:title="Background" android:key="bg" android:defaultValue="#000000" android:dialogTitle="Background" android:summary="" android:dialogMessage="" />
+
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
         <SwitchPreference android:key="hints"        android:title="Hints" android:defaultValue="true" />

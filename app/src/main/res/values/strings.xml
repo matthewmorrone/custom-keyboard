@@ -62,4 +62,14 @@
     <string name="settings">Settings</string>
     <string name="test">Test your keyboard here</string>
     <string name="completion">Autocomplete</string>
+    <string name="popup_1"></string>
+    <string name="popup_2"></string>
+    <string name="popup_3"></string>
+    <string name="popup_4"></string>
+    <string name="popup_5"></string>
+    <string name="popup_6"></string>
+    <string name="popup_7"></string>
+    <string name="popup_8"></string>
+    <string name="popup_9"></string>
+    <string name="popup_0"></string>
 </resources>

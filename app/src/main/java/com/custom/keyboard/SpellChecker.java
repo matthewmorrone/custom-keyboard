@@ -11,34 +11,43 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
-public class Edit {
+public class SpellChecker {
 
     static Trie trie = new Trie();
     static Map<String,String> typos = new HashMap<>();
     static List<String> list = new ArrayList<>();
 
-    public Edit(Context context) {
+    public SpellChecker(Context context) {
         buildTrie(context, R.raw.words_82765);
-        readFile(context, R.raw.typos);
-        readFile(context, R.raw.typos_more);
     }
 
+    public SpellChecker(Context context, boolean typoCheck) {
+        buildTrie(context, R.raw.words_82765);
+        if (typoCheck) {
+            readFile(context, R.raw.typos);
+            readFile(context, R.raw.typos_more);
+        }
+    }
 
     public static boolean inTrie(String word) {
         return trie.search(word);
     }
     
-    public static boolean startsWith(String word) {
+    public static boolean isPrefix(String word) {
         return trie.startsWith(word);
     }
-    
+
     public static ArrayList<String> getCompletions(String word) {
+        return getCompletions(word, 10);
+    }
+
+    public static ArrayList<String> getCompletions(String word, int limit) {
         TrieNode tn = trie.searchNode(word);
         trie.wordsFinderTraversal(tn, 0);
         ArrayList<TrieNode> result = trie.termini;
-        // result.remove(word);
-        // remove self
+        // remove self: result.remove(word)?
 
         Collections.sort(result, new Comparator<TrieNode>() {
             @Override
@@ -46,8 +55,8 @@ public class Edit {
                 return (int)(t2.value - t1.value);
             }
         });
-        if (result.size() > 10) {
-            result = new ArrayList<>(result.subList(0, 10));
+        if (result.size() > limit) {
+            result = new ArrayList<>(result.subList(0, limit));
         }
         ArrayList<String> strings = new ArrayList<>();
         for (TrieNode trieNode : result) {
@@ -79,7 +88,6 @@ public class Edit {
         InputStream inputStream = context.getResources().openRawResource(id);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        StringBuilder stringBuilder = new StringBuilder();
         String string;
         try {
             String[] pair;
@@ -94,28 +102,71 @@ public class Edit {
             e.printStackTrace();
         }
     }
-    
-    public static String check(String word) {
-        if (typos.get(word) != null) {
-            return typos.get(word);
+
+    public static class Entry {
+        private int score;
+        private String word;
+
+        public Entry(int score, String word) {
+            this.score = score;
+            this.word = word;
         }
-        else {
-            return suggest(word);
-        }
+
+        public int getScore() { return score; }
+        public String getWord() { return word; }
+        public void setScore(int score) { this.score = score; }
+        public void setWord(String word) { this.word = word; }
     }
-    
-    public static String suggest(String word) {
+
+    public static ArrayList<String> getSuggestions(String word) {
+        return getSuggestions(word, 10);
+    }
+
+    public static ArrayList<String> getSuggestions(String word, int limit) {
+
+
         word = word.trim();
-        int minScore = 1024, score;
-        String result = "";
+        ArrayList<String> result = new ArrayList<>();
+
+        if (typos.size() < 1) {
+            return result;
+        }
+
+        if (typos.get(word) != null) {
+            result.add(typos.get(word));
+            return result;
+        }
+
+        PriorityQueue<Entry> topN = new PriorityQueue<>(limit, new Comparator<Entry>() {
+            @Override
+            public int compare(Entry e1, Entry e2) {
+                if (e1.getScore() == e2.getScore()) {
+                    return e2.getWord().length() - e1.getWord().length();
+                }
+                return e2.score - e1.score;
+            }
+        });
+
+        Comparator<String> byLength = new Comparator<String>(){
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.length() - s2.length();
+            }
+        };
+
+        int score;
         for (String line : list) {
             line = line.trim();
             score = damerauLevenshtein(word, line);
-            if (score < minScore) {
-                minScore = score;
-                result = line;
-            }
+            topN.add(new Entry(score, line));
+            if (topN.size() > limit) topN.poll();
         }
+
+        for(Entry entry : topN) {
+            result.add(entry.getWord());
+        }
+        Collections.sort(result);
+        Collections.sort(result, byLength);
         return result;
     }
     
@@ -146,3 +197,4 @@ public class Edit {
         return dist[sourceLength][targetLength];
     }
 }
+
