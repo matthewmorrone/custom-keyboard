@@ -42,8 +42,6 @@ public class Util {
         return haystack.contains(String.valueOf((char) primaryCode));
     }
 
-
-
     public static boolean contains(String haystack, String needle) {
         return haystack.contains(needle);
     }
@@ -55,6 +53,7 @@ public class Util {
         }
         return false;
     }
+
     public static boolean containsLowerCase(String text) {
         for (int i = 0; i < text.length(); i++) {
             if (Character.isLowerCase(text.charAt(i))) {
@@ -62,6 +61,37 @@ public class Util {
             }
         }
         return false;
+    }
+
+    public static boolean isTitleCase(String text) {
+        if (text == null || text.length() < 1) return false;
+        if (!Character.isUpperCase(text.charAt(0))) {
+            return false;
+        }
+        for (int i = 1; i < text.length(); i++) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isLowerCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isUpperCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean containsUpperCase(String text) {
@@ -123,17 +153,6 @@ public class Util {
         return sdf.format(cal.getTime());
     }
 
-    public static String unidata(String text) {
-        if (text.length() < 1) return "";
-
-        if (Character.isHighSurrogate(text.charAt(0))
-            ||  Character.isLowSurrogate(text.charAt(0))) {
-            return unidata((int)text.codePointAt(0));
-        }
-
-        return unidata((int)text.charAt(0));
-    }
-
     public static String convertNumberBase(String number, int base1, int base2) {
         try {
             return Integer.toString(Integer.parseInt(number, base1), base2).toUpperCase();
@@ -157,6 +176,17 @@ public class Util {
         catch (Exception e) {
             return number;
         }
+    }
+
+    public static String unidata(String text) {
+        if (text.length() < 1) return "";
+
+        if (Character.isHighSurrogate(text.charAt(0))
+            ||  Character.isLowSurrogate(text.charAt(0))) {
+            return unidata((int)text.codePointAt(0));
+        }
+
+        return unidata((int)text.charAt(0));
     }
 
     public static String unidata(int primaryCode) {
@@ -453,8 +483,6 @@ public class Util {
         return result; // result.toArray(new String[0]);
     }
 
-
-
     public static String trim(String text) {
         text = text.trim()
             .replaceAll("^\u00A0+", "")
@@ -467,6 +495,7 @@ public class Util {
             .replaceAll("\u0010+$", "");
         return text;
     }
+
     public static String toAlterCase(String text) {
         char[] array = new char[]{};
 
@@ -649,8 +678,6 @@ public class Util {
             .replaceAll("[Ѷ]", "Ѵ");
     }
 
-
-
     public static boolean isIntentAvailable(Context ctx, Intent intent) {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -724,9 +751,6 @@ public class Util {
     public String getMethodName(int depth) {
         return new Throwable().getStackTrace()[depth].getMethodName();
     }
-
-
-
 
     public static String formatJson(String jsonString) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
@@ -897,8 +921,6 @@ public class Util {
         return true;
     }
 
-
-
     public static boolean isValidUrl(String url) {
         return URLUtil.isValidUrl(url);
     }
@@ -1018,14 +1040,11 @@ public class Util {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
 
-
-
     public Boolean isAstralCharacter(String ch) {
         int value = Integer.parseInt(ch, 16);
         char[] codeUnits = Character.toChars(value);
         return codeUnits.length > 1;
     }
-
 
     public static String unbolden(String text) {
         if (text.length() < 1) return text;
@@ -1162,11 +1181,9 @@ public class Util {
         return new StringBuilder(s).reverse().toString();
     }
 
-
     public static String doubleCharacters(String text) {
         return text.replaceAll("(.)", "$1$1");
     }
-
 
     public static String toggleJavaComment(String text) {
         int lineCount = countLines(text);
@@ -1189,6 +1206,7 @@ public class Util {
             return "/*\n" + text + "\n*/";
         }
     }
+
     public static String toggleHtmlComment(String text) {
         int lineCount = countLines(text);
         String regex;
@@ -1210,6 +1228,7 @@ public class Util {
             return "<!--\n" + text + "\n-->";
         }
     }
+
     public static String toggleLineComment(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -1231,29 +1250,9 @@ public class Util {
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
-    public static String toAlternatingCase(String text) {
-        char[] array = new char[]{};
-
-        int seed = generateRandomInt(0, 1);
-        array = text.toCharArray();
-
-        for (int i = seed; i < array.length - seed; i += 2) {
-            if (array[i] == ' ') {
-                i++;
-            }
-            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
-            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
-        }
-
-        text = new String(array);
-        return text;
-    }
-
-
     public static String truncate(String value, int length) {
         return value.length() > length ? value.substring(0, length) : value;
     }
-
 
     public static String replaceZWSP(String text, String ins) {
         return text.replaceAll("", "" + ins);

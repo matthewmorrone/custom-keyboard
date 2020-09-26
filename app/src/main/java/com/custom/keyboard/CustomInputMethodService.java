@@ -16,15 +16,11 @@ import android.os.Vibrator;
 import android.preference.*;
 import android.provider.Settings;
 import android.text.InputType;
-import android.text.method.MetaKeyKeyListener;
-import android.view.DragEvent;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
@@ -35,7 +31,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
-import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -43,14 +38,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -60,13 +54,13 @@ import java.util.TreeMap;
 // import github.custom.emojicon.emoji.Emojicon;
 
 public class CustomInputMethodService extends InputMethodService
-    implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
+    implements KeyboardView.OnKeyboardActionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
 
-    private StringBuilder mComposing = new StringBuilder();
-    private boolean mPredictionOn;
-    private boolean mCompletionOn;
+    // private StringBuilder mComposing = new StringBuilder();
+    // private boolean mPredictionOn;
+    // private boolean mCompletionOn;
     private boolean mCapsLock;
     private int mLastDisplayWidth;
     private long mLastShiftTime;
@@ -91,13 +85,16 @@ public class CustomInputMethodService extends InputMethodService
     private short rowNumber = 6;
     private CustomKeyboardView kv;
     private CandidateView mCandidateView;
-    private CompletionInfo[] mCompletions;
-    private SpellCheckerSession mScs;
-    private List<String> mSuggestions = new ArrayList<>();
+    // private CompletionInfo[] mCompletions;
+    // private SpellCheckerSession mScs;
+    private List<String> suggestions = new ArrayList<>();
+    // private List<String> completions = new ArrayList<>();
     // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
+
+    private SpellChecker spellChecker;
 
     @Override
     public void onCreate() {
@@ -105,14 +102,17 @@ public class CustomInputMethodService extends InputMethodService
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         mWordSeparators = getResources().getString(R.string.word_separators);
-        final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
-        mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;
+        // final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        // mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;
 
         toast = new Toast(getBaseContext());
 
         EmojiManager.install(new GoogleEmojiProvider());
         // final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(kv).build(editText);
         // emojiPopup.toggle(); // Toggles visibility of the Popup.
+
+        spellChecker = new SpellChecker(getApplicationContext());
+
     }
 
     /**
@@ -152,7 +152,7 @@ public class CustomInputMethodService extends InputMethodService
         });
 
         kv.setOnKeyboardActionListener(this);
-        kv.setPreviewEnabled(false);
+        // kv.setPreviewEnabled(false);
         kv.setKeyboard(standardKeyboard);
 
         return kv;
@@ -190,13 +190,13 @@ public class CustomInputMethodService extends InputMethodService
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme();
 
-        mComposing.setLength(0);
-        updateCandidates();
+        // mComposing.setLength(0);
+        // updateCandidates();
 
         if (!restarting) {
             mMetaState = 0;
         }
-        mCompletions = null;
+        // mCompletions = null;
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
@@ -217,12 +217,12 @@ public class CustomInputMethodService extends InputMethodService
         capsOnFirst();
         kv.setOnKeyboardActionListener(this);
 
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
         setInputView(kv);
 
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         setCandidatesView(mCandidateView);
 
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
@@ -231,9 +231,9 @@ public class CustomInputMethodService extends InputMethodService
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
-        mPredictionOn = sharedPreferences.getBoolean("pred", true);
-        mCompletionOn = sharedPreferences.getBoolean("comp", false);
-        setCandidatesViewShown(mPredictionOn);
+        // mPredictionOn = sharedPreferences.getBoolean("pred", true);
+        // mCompletionOn = sharedPreferences.getBoolean("comp", false);
+        setCandidatesViewShown(true);
 
 
     }
@@ -275,10 +275,20 @@ public class CustomInputMethodService extends InputMethodService
         return layoutRows;
     }
 
+    public void clearAll() {
+        // sendKey(KeyEvent.KEYCODE_CLEAR);
+        ic = getCurrentInputConnection();
+        ic.deleteSurroundingText(MAX, MAX);
+    }
+
+    public String getText(@NonNull InputConnection ic) {
+        CharSequence text = ic.getSelectedText(0);
+        if (text == null) return "";
+        return (String) text;
+    }
 
     public String getAllText(@NonNull InputConnection ic) {
-        return ic.getTextBeforeCursor(MAX, 0).toString()
-            + ic.getTextAfterCursor(MAX, 0).toString();
+        return ic.getTextBeforeCursor(MAX, 0).toString() + ic.getTextAfterCursor(MAX, 0).toString();
     }
 
     public void sendCustomKey(String key) {
@@ -292,76 +302,55 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
-
-
-
-
-    public String getPrevWord(int n) {
+    public String getPrevWord() {
         try {
             ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-                String lastWord = words[words.length - 1];
-                return lastWord;
-            }
+            String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+            String lastWord = words[words.length - 1];
+            return lastWord;
         }
         catch (Exception e) {
             toastIt(e.toString());
         }
         return "";
     }
-
-    public void selectPrevWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-                String lastWord = words[words.length - 1];
-                int position = getSelectionStart() - lastWord.length() - 1;
-                if (position < 0) position = 0;
-                if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
-                else ic.setSelection(position, position);
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-    }
-
-    public String getNextWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
-                String nextWord = words[0];
-                return nextWord;
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-        return "";
-    }
-
-    public void selectNextWord() {
-        selectNextWord(1);
-    }
-
     public void selectPrevWord() {
-        selectPrevWord(1);
-    }
-
-    public void selectNextWord(int n) {
         try {
             ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
-                String nextWord = words[0];
-                if (words.length > 1) nextWord = words[1];
-                int position = getSelectionStart() + nextWord.length() + 1;
-                if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
-                else ic.setSelection(position, position);
-            }
+            String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+            String lastWord = words[words.length - 1];
+            int position = getSelectionStart() - lastWord.length() - 1;
+            if (position < 0) position = 0;
+            if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
+            else ic.setSelection(position, position);
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+    }
+
+
+    public String getNextWord() {
+        try {
+            ic = getCurrentInputConnection();
+            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            String nextWord = words[0];
+            return nextWord;
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+        return "";
+    }
+    public void selectNextWord() {
+        try {
+            ic = getCurrentInputConnection();
+            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            String nextWord = words[0];
+            if (words.length > 1) nextWord = words[1];
+            int position = getSelectionStart() + nextWord.length() + 1;
+            if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
+            else ic.setSelection(position, position);
         }
         catch (Exception e) {
             toastIt(e.toString());
@@ -380,8 +369,6 @@ public class CustomInputMethodService extends InputMethodService
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
         );
     }
-
-
 
     public void selectNone() {
         ic = getCurrentInputConnection();
@@ -407,6 +394,26 @@ public class CustomInputMethodService extends InputMethodService
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
     }
 
+    public String getPrevLine() {
+        ic = getCurrentInputConnection();
+        CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
+        if (textBeforeCursor == null) return "";
+        if (textBeforeCursor.length() < 1) return "";
+        String[] lines = textBeforeCursor.toString().split("\n");
+        if (lines.length < 2) return textBeforeCursor.toString();
+        return lines[lines.length - 1];
+    }
+
+    public String getNextLine() {
+        ic = getCurrentInputConnection();
+        CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
+        if (textAfterCursor == null) return "";
+        if (textAfterCursor.length() < 1) return "";
+        String[] lines = textAfterCursor.toString().split("\n");
+        if (lines.length < 2) return textAfterCursor.toString();
+        return lines[0];
+    }
+
     public int getCurrentLine() {
         return Util.getLines(ic.getTextBeforeCursor(MAX, 0).toString()).length;
     }
@@ -423,16 +430,12 @@ public class CustomInputMethodService extends InputMethodService
         return getPrevLine().length();
     }
 
-
-
     public int getCursorPosition() {
         ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.startOffset + extracted.selectionStart;
     }
-
-
 
     public int getStartOffset() {
         ic = getCurrentInputConnection();
@@ -441,14 +444,13 @@ public class CustomInputMethodService extends InputMethodService
         return extracted.startOffset;
     }
 
-
     @Override
     public void onFinishInput() {
         super.onFinishInput();
 
         // Clear current composing text and candidates.
-        mComposing.setLength(0);
-        updateCandidates();
+        // mComposing.setLength(0);
+        // updateCandidates();
 
         // We only hide the candidates window when finishing input on
         // a particular editor, to avoid popping the underlying application
@@ -533,9 +535,8 @@ public class CustomInputMethodService extends InputMethodService
             redraw();
         }
 
-        if (mComposing.length() > 0 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
-            mComposing.setLength(0);
-            updateCandidates();
+        if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
+            // updateCandidates();
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
                 ic.finishComposingText();
@@ -549,9 +550,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void commitText(String text) {
-        ic.beginBatchEdit();
-        ic.commitText(text, text.length()-1);
-        ic.endBatchEdit();
+        commitText(text, text.length()-1);
     }
 
     public void commitText(String text, int offset) {
@@ -571,43 +570,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-
-
-    public String getPrevLine() {
-        ic = getCurrentInputConnection();
-        CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
-        if (textBeforeCursor == null) return "";
-        if (textBeforeCursor.length() < 1) return "";
-        String[] lines = textBeforeCursor.toString().split("\n");
-        if (lines.length < 2) return textBeforeCursor.toString();
-        return lines[lines.length - 1];
-    }
-
-    public String getNextLine() {
-        ic = getCurrentInputConnection();
-        CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
-        if (textAfterCursor == null) return "";
-        if (textAfterCursor.length() < 1) return "";
-        String[] lines = textAfterCursor.toString().split("\n");
-        if (lines.length < 2) return textAfterCursor.toString();
-        return lines[0];
-    }
-
-    public void clearAll() {
-        // sendKey(KeyEvent.KEYCODE_CLEAR);
-        ic = getCurrentInputConnection();
-        ic.deleteSurroundingText(MAX, MAX);
-    }
-
-
-
-
-    public String getText(@NonNull InputConnection ic) {
-        CharSequence text = ic.getSelectedText(0);
-        if (text == null) return "";
-        return (String) text;
-    }
-
     /**
      * Use this to monitor key events being delivered to the application.
      * We get first crack at them, and can either resume them or let them
@@ -624,10 +586,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void commitTyped(InputConnection inputConnection) {
-        if (mComposing.length() > 0) {
-            inputConnection.commitText(mComposing, mComposing.length());
-            mComposing.setLength(0);
-            updateCandidates();
+        if (getPrevWord().length() > 0) {
+            commitText(getPrevWord());
+            // updateCandidates();
         }
     }
 
@@ -652,7 +613,7 @@ public class CustomInputMethodService extends InputMethodService
             return;
         }
         ic.beginBatchEdit();
-        if (mComposing.length() > 0) {
+        if (getPrevWord().length() > 0) {
             commitTyped(ic);
         }
         ic.endBatchEdit();
@@ -663,7 +624,7 @@ public class CustomInputMethodService extends InputMethodService
     public void swipeLeft() {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        String prevWord = getPrevWord(1);
+        String prevWord = getPrevWord();
         ic.setSelection(getSelectionStart()-prevWord.length(), getSelectionStart()-prevWord.length());
     }
 
@@ -671,7 +632,7 @@ public class CustomInputMethodService extends InputMethodService
     public void swipeRight() {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        String nextWord = getNextWord(1);
+        String nextWord = getNextWord();
         ic.setSelection(getSelectionEnd()+nextWord.length(), getSelectionEnd()+nextWord.length());
     }
 
@@ -704,172 +665,93 @@ public class CustomInputMethodService extends InputMethodService
         startIntent(intent);
     }
 
-
-    /**
-     * This tells us about completions that the editor has determined based
-     * on the current text in it.  We want to use this in fullscreen mode
-     * to show the completions ourself, since the editor can not be seen
-     * in that situation.
-     */
-    @Override
-    public void onDisplayCompletions(CompletionInfo[] completions) {
-        if (mCompletionOn) {
-            mCompletions = completions;
-            if (completions == null) {
-                // setSuggestions(null, false, false);
-                return;
-            }
-
-            List<String> stringList = new ArrayList<String>();
-            for (int i = 0; i < completions.length; i++) {
-                CompletionInfo ci = completions[i];
-                if (ci != null) stringList.add(ci.getText().toString());
-            }
-            // setSuggestions(stringList, true, true);
-        }
-    }
-
-
-    /**
-     * Update the list of available candidates from the current composing
-     * text.  This will need to be filled in by however you are determining
-     * candidates.
-     */
     private void updateCandidates() {
-        if (!mCompletionOn) {
-            if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<String>();
-                list.add(getPrevWord(1));
-                mScs.getSentenceSuggestions(new TextInfo[] {new TextInfo(getPrevWord(1))}, 5);
-                setSuggestions(list, true, true);
+
+        String prevLine = getPrevLine();
+        String prevWord = getPrevWord();
+        String prevChar = "";
+        if (prevWord.length() > 0) {
+             prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
+        }
+
+        boolean isTitleCase = Util.isTitleCase(prevWord);
+        boolean isUpperCase = Util.isUpperCase(prevWord);
+
+        prevWord = prevWord.toLowerCase();
+
+        boolean inTrie = SpellChecker.inTrie(prevWord);
+        boolean isPrefix = SpellChecker.isPrefix(prevWord);
+
+        System.out.println("'"+prevLine+"'");
+        System.out.println("'"+prevWord+"'");
+        System.out.println("'"+prevChar+"'");
+
+        System.out.println("isTitleCase: "+isTitleCase);
+        System.out.println("isUpperCase: "+isUpperCase);
+        System.out.println("inTrie: "+inTrie);
+        System.out.println("isPrefix: "+isPrefix);
+
+        ArrayList<String> results = new ArrayList<String>();
+
+        if (prevChar != " ") {
+            if (mCandidateView != null) {
+                if (isPrefix) {
+                    suggestions = SpellChecker.getCompletions(prevWord);
+                    if (isTitleCase) {
+                        for(int i = 0; i < suggestions.size(); i++) {
+                            suggestions.set(i, Util.toTitleCase(suggestions.get(i)));
+                        }
+                    }
+                    if (isUpperCase) {
+                        for(int i = 0; i < suggestions.size(); i++) {
+                            suggestions.set(i, Util.toUpperCase(suggestions.get(i)));
+                        }
+                    }
+                    System.out.println(suggestions);
+                    mCandidateView.setSuggestions(suggestions, true, true);
+                }
             }
-            else {
-                setSuggestions(null, false, false);
-            }
+        }
+        else {
+            mCandidateView.clearSuggestions();
         }
     }
 
-    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
-        if (suggestions != null && suggestions.size() > 0) {
-            setCandidatesViewShown(true);
+    public void pickSuggestionManually(int index) {
+        String prevWord = getPrevWord();
+        suggestions = mCandidateView.getSuggestions();
+        System.out.println(suggestions);
+        if (suggestions != null && index >= 0 && index < suggestions.size()) {
+            getCurrentInputConnection().deleteSurroundingText(prevWord.length(), 0);
+            commitText(suggestions.get(index));
+            commitText(" ");
+            if (mCandidateView != null) {
+                mCandidateView.clear();
+            }
         }
-        else if (isExtractViewShown()) {
-            setCandidatesViewShown(true);
-        }
-        mSuggestions = suggestions;
-        if (mCandidateView != null) {
-            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
-        }
+        updateShiftKeyState(getCurrentInputEditorInfo());
     }
-
 
     public void pickDefaultCandidate() {
         pickSuggestionManually(0);
     }
 
-    public void pickSuggestionManually(int index) {
-        if (mCompletionOn && mCompletions != null && index >= 0 && index < mCompletions.length) {
-            CompletionInfo ci = mCompletions[index];
-            getCurrentInputConnection().commitCompletion(ci);
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
+    private void handleDelete() {
+        if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
+            if (Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON)); }
+            if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON)); }
         }
-        else if (mComposing.length() > 0) {
-            if (mPredictionOn && mSuggestions != null && index >= 0) {
-                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
-            }
-            commitTyped(getCurrentInputConnection());
+        else {
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
         }
-    }
-
-    /**
-     * http://www.tutorialspoint.com/android/android_spelling_checker.htm
-     * @param results results
-     */
-    @Override
-    public void onGetSuggestions(SuggestionsInfo[] results) {
-        final StringBuilder sb = new StringBuilder();
-
-        for (SuggestionsInfo result : results) {
-            // Returned suggestions are contained in SuggestionsInfo
-            final int len = result.getSuggestionsCount();
-            sb.append('\n');
-
-            for (int j = 0; j < len; ++j) {
-                sb.append(",").append(result.getSuggestionAt(j));
-            }
-
-            sb.append(" (").append(len).append(")");
-        }
-    }
-
-    private void dumpSuggestionsInfoInternal(final List<String> sb, final SuggestionsInfo si, final int length, final int offset) {
-        // Returned suggestions are contained in SuggestionsInfo
-        final int len = si.getSuggestionsCount();
-        for (int j = 0; j < len; ++j) {
-            System.out.println(si.getSuggestionAt(j));
-            sb.add(si.getSuggestionAt(j));
-        }
-    }
-
-    @Override
-    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
-        try {
-            final List<String> sb = new ArrayList<>();
-            for (final SentenceSuggestionsInfo ssi : results) {
-                for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
-                    dumpSuggestionsInfoInternal(sb, ssi.getSuggestionsInfoAt(j), ssi.getOffsetAt(j), ssi.getLengthAt(j));
-                }
-            }
-            setSuggestions(sb, true, true);
-        }
-        catch(Exception ignored) {}
+        updateCandidates();
 
     }
-
-    /*
-    public void showEmoticons() {
-        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        if (layoutInflater != null) {
-            View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
-            popupWindow = new EmojiconsPopup(popupView, this);
-            popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, currentKeyboard.getHeight());
-            popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
-            popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
-                @Override
-                public void onKeyboardOpen(int keyBoardHeight) {}
-
-                @Override
-                public void onKeyboardClose() {
-                    if (popupWindow.isShowing()) popupWindow.dismiss();
-                }
-            });
-            popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
-                @Override
-                public void onEmojiconClicked(Emojicon emojicon) {
-                    mComposing.append(emojicon.getEmoji());
-                    commitTyped(getCurrentInputConnection());
-                }
-            });
-            popupWindow.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
-                @Override
-                public void onEmojiconBackspaceClicked(View v) {
-                    KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                    handleBackspace();
-                }
-            });
-        }
-    }
-
-    public void closeEmoticons() {
-        if (popupWindow != null) popupWindow.dismiss();
-    }
-    */
 
     private void handleBackspace() {
-        final int length = mComposing.length();
+        final int length = getPrevWord().length();
 
         if (sharedPreferences.getBoolean("pairs", true)
             && ic.getTextBeforeCursor(1, 0) != null
@@ -893,19 +775,16 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
 
-        else if (length > 1) {
-            mComposing.delete(length - 1, length);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
-        }
         else if (length > 0) {
-            // mComposing.setLength(0);
+            ic.deleteSurroundingText(1, 0);
+        }
+        else if (length == 0) {
             getCurrentInputConnection().commitText("", 0);
         }
         else {
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-
         updateCandidates();
     }
 
@@ -952,33 +831,16 @@ public class CustomInputMethodService extends InputMethodService
         if (Variables.isReflected()) { primaryCode = Font.toReflected(primaryCode);}
         if (Variables.isCaps()) { primaryCode = Font.toCaps(primaryCode);}
 
-        if (mPredictionOn && !mWordSeparators.contains(String.valueOf((char)primaryCode))) {
-            mComposing.append((char)primaryCode);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
-            updateShiftKeyState(getCurrentInputEditorInfo());
+        char code = (char)primaryCode;
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false) &&
+            Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
+            code = Character.toUpperCase(code);
+        }
+        commitText(String.valueOf(code), 1);
+        firstCaps = false;
+        setCapsOn(false);
 
-        }
-        if (mPredictionOn && mWordSeparators.contains(String.valueOf((char)primaryCode))) {
-            char code = (char)primaryCode;
-            if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-                code = Character.toUpperCase(code);
-            }
-            getCurrentInputConnection().setComposingRegion(0, 0);
-            getCurrentInputConnection().commitText(String.valueOf(code), 1);
-            firstCaps = false;
-            setCapsOn(false);
-        }
-        if (!mPredictionOn) {
-            char code = (char)primaryCode;
-            if (Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-                code = Character.toUpperCase(code);
-            }
-            getCurrentInputConnection().setComposingRegion(0, 0);
-            getCurrentInputConnection().commitText(String.valueOf(code), 1);
-            firstCaps = false;
-            setCapsOn(false);
-        }
-
+        updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
     }
 
@@ -1233,7 +1095,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void capsOnFirst() {
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", true)) {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
             if (getCursorCapsMode(getCurrentInputConnection(), getCurrentInputEditorInfo()) != 0) {
                 firstCaps = true;
                 setCapsOn(true);
@@ -1399,6 +1261,9 @@ public class CustomInputMethodService extends InputMethodService
 
     private void handleSpace() {
         commitText(" ");
+        updateCandidates();
+        mCandidateView.clearSuggestions();
+        mCandidateView.clear();
         // if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
         //     int spaceCount = (4 - (getPrevLine().length() % 4));
         //     if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
@@ -1530,15 +1395,7 @@ public class CustomInputMethodService extends InputMethodService
                 handleBackspace();
                 break;
             case -7:
-                if (Variables.isAnyOn()) {
-                    if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
-                    if (Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON)); }
-                    if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON)); }
-                }
-                else {
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
-                    getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
-                }
+                handleDelete();
                 break;
             case -122:
                 if (Variables.isAnyOn()) {
@@ -1584,8 +1441,8 @@ public class CustomInputMethodService extends InputMethodService
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
             case -31: selectNone(); break;
-            case -32: selectPrevWord(1); break;
-            case -33: selectNextWord(1); break;
+            case -32: selectPrevWord(); break;
+            case -33: selectNextWord(); break;
             case -34: commitText(getNextLine() + "\n" + getPrevLine()); break;
             case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
@@ -1775,7 +1632,7 @@ public class CustomInputMethodService extends InputMethodService
                 break;
         }
         try {
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", true)) {
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
                 if (isWordSeparator(ic.getTextBeforeCursor(2, 0).toString())) {
                     setCapsOn(true);
                     firstCaps = true;
