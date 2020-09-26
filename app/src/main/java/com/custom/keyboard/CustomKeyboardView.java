@@ -24,13 +24,20 @@ public class CustomKeyboardView extends KeyboardView {
     Context kcontext;
     SharedPreferences sharedPreferences;
     String selected = "#80FFFFFF";
-    String foreground = "#FFFFFFFF";
-    String background = "#FF000000";
+    String foreground; // = "#FFFFFFFF";
+    String background; // = "#FF000000";
+    // int fg = sharedPreferences.getInt("fg", -1677216);
+    // int bg = sharedPreferences.getInt("bg", -1);
+    // String foreground = "#"+Integer.parseInt(Integer.toHexString(fg));
+    // String background = "#"+Integer.parseInt(Integer.toHexString(bg));
 
     Canvas canvas;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        foreground = sharedPreferences.getString("fg", "#ffffff");
+        background = sharedPreferences.getString("bg", "#000000");
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -43,7 +50,11 @@ public class CustomKeyboardView extends KeyboardView {
 
     @Override
     protected boolean onLongPress(Key key) {
-
+        if (key.codes[0] == -192
+            ||  key.codes[0] == -300
+            ||  key.codes[0] == 10) {
+            return super.onLongPress(key);
+        }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
             return true;
@@ -196,6 +207,20 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
+            if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
+            if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
+            if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
+            if (key.codes[0] == -504)   key.text = sharedPreferences.getString("k4", "");
+            if (key.codes[0] == -505)   key.text = sharedPreferences.getString("k5", "");
+            if (key.codes[0] == -506)   key.text = sharedPreferences.getString("k6", "");
+            if (key.codes[0] == -507)   key.text = sharedPreferences.getString("k7", "");
+            if (key.codes[0] == -508)   key.text = sharedPreferences.getString("k8", "");
+            if (key.codes[0] == -509)   key.text = sharedPreferences.getString("name", "");
+            if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
+            if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
+            if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
+
+
             if (Variables.isAnyOn()) {
                 if (Variables.isCtrl()) {
                     if (key.codes[0] == -113) {
@@ -250,6 +275,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, corner);}}
             if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, corner);}}
 
+            mPaint.setTextAlign(Paint.Align.CENTER);
 
             if (key.popupCharacters != null
                 && key.codes != null

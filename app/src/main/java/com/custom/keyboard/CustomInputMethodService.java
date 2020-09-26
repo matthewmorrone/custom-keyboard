@@ -275,6 +275,173 @@ public class CustomInputMethodService extends InputMethodService
         return layoutRows;
     }
 
+
+    public String getAllText(@NonNull InputConnection ic) {
+        return ic.getTextBeforeCursor(MAX, 0).toString()
+            + ic.getTextAfterCursor(MAX, 0).toString();
+    }
+
+    public void sendCustomKey(String key) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext()); // this?
+        ic = getCurrentInputConnection();
+        ic.requestCursorUpdates(3);
+        int cursorLocation = getSelectionStart();
+        String ins = sharedPreferences.getString(key, "");
+        ic.beginBatchEdit();
+        commitText(ins, cursorLocation + (ins != null ? ins.length() : 0));
+        ic.endBatchEdit();
+    }
+
+
+
+
+
+    public String getPrevWord(int n) {
+        try {
+            ic = getCurrentInputConnection();
+            for (int i = 0; i < n; i++) {
+                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+                String lastWord = words[words.length - 1];
+                return lastWord;
+            }
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+        return "";
+    }
+
+    public void selectPrevWord(int n) {
+        try {
+            ic = getCurrentInputConnection();
+            for (int i = 0; i < n; i++) {
+                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+                String lastWord = words[words.length - 1];
+                int position = getSelectionStart() - lastWord.length() - 1;
+                if (position < 0) position = 0;
+                if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
+                else ic.setSelection(position, position);
+            }
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+    }
+
+    public String getNextWord(int n) {
+        try {
+            ic = getCurrentInputConnection();
+            for (int i = 0; i < n; i++) {
+                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+                String nextWord = words[0];
+                return nextWord;
+            }
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+        return "";
+    }
+
+    public void selectNextWord() {
+        selectNextWord(1);
+    }
+
+    public void selectPrevWord() {
+        selectPrevWord(1);
+    }
+
+    public void selectNextWord(int n) {
+        try {
+            ic = getCurrentInputConnection();
+            for (int i = 0; i < n; i++) {
+                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+                String nextWord = words[0];
+                if (words.length > 1) nextWord = words[1];
+                int position = getSelectionStart() + nextWord.length() + 1;
+                if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
+                else ic.setSelection(position, position);
+            }
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+    }
+
+    public void goToStart() {
+        ic = getCurrentInputConnection();
+        ic.setSelection(0, 0);
+    }
+
+    public void goToEnd() {
+        ic = getCurrentInputConnection();
+        ic.setSelection(
+            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
+            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
+        );
+    }
+
+
+
+    public void selectNone() {
+        ic = getCurrentInputConnection();
+        try {
+            int end = getSelectionEnd();
+            ic.setSelection(end, end);
+            Variables.setSelectingOff();
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+    }
+
+    public void selectLine() {
+        sendKey(KeyEvent.KEYCODE_MOVE_HOME);
+        Variables.setSelectingOn(getSelectionStart());
+        navigate(KeyEvent.KEYCODE_MOVE_END);
+        Variables.setSelectingOff();
+    }
+
+    public void selectAll() {
+        ic = getCurrentInputConnection();
+        ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
+    }
+
+    public int getCurrentLine() {
+        return Util.getLines(ic.getTextBeforeCursor(MAX, 0).toString()).length;
+    }
+
+    public int getLineCount() {
+        return Util.getLines(getAllText(ic)).length;
+    }
+
+    public int[] getCursorLocation() {
+        return new int[]{cursorLocationOnLine(), getCurrentLine()};
+    }
+
+    public int cursorLocationOnLine() {
+        return getPrevLine().length();
+    }
+
+
+
+    public int getCursorPosition() {
+        ic = getCurrentInputConnection();
+        ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
+        if (extracted == null) return -1;
+        return extracted.startOffset + extracted.selectionStart;
+    }
+
+
+
+    public int getStartOffset() {
+        ic = getCurrentInputConnection();
+        ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
+        if (extracted == null) return -1;
+        return extracted.startOffset;
+    }
+
+
     @Override
     public void onFinishInput() {
         super.onFinishInput();
@@ -289,6 +456,9 @@ public class CustomInputMethodService extends InputMethodService
         // its window.
         setCandidatesViewShown(false);
 
+        Variables.setSelectingOff();
+
+
         currentKeyboard = standardKeyboard;
         if (kv != null) {
             kv.closing();
@@ -301,7 +471,56 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
-        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
+
+        String prevLine = getPrevLine();
+        int prevChar = 0;
+        try {
+            if (prevLine != null && prevLine.length() > 0) {
+                ArrayList<Integer> prevChars = Util.asUnicodeArray(prevLine);
+                prevChar = prevChars.get(prevChars.size() - 1);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+
+        String nextLine = getNextLine();
+        int nextChar = 0;
+        try {
+            if (nextLine != null && nextLine.length() > 0) {
+                ArrayList<Integer> nextChars = Util.asUnicodeArray(nextLine);
+                nextChar = nextChars.get(0);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            boolean isBold = Font.isBold(prevChar) || Font.isBold(nextChar);
+            boolean isItalic = Font.isItalic(prevChar) || Font.isItalic(nextChar);
+            boolean isEmphasized = Font.isEmphasized(prevChar) || Font.isEmphasized(nextChar);
+
+            if (isBold) {
+                Variables.setAllOff();
+                Variables.setBoldOn();
+            }
+            else if (isItalic) {
+                Variables.setAllOff();
+                Variables.setItalicOn();
+            }
+            else if (isEmphasized) {
+                Variables.setAllOff();
+                Variables.setEmphasizedOn();
+            }
+            else {
+                Variables.setAllOff();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        redraw();
+       if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
             if (Variables.isShift()) {
                 Variables.setShiftOff();
@@ -352,18 +571,7 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    public void goToStart() {
-        ic = getCurrentInputConnection();
-        ic.setSelection(0, 0);
-    }
 
-    public void goToEnd() {
-        ic = getCurrentInputConnection();
-        ic.setSelection(
-            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
-            (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
-        );
-    }
 
     public String getPrevLine() {
         ic = getCurrentInputConnection();
@@ -391,81 +599,8 @@ public class CustomInputMethodService extends InputMethodService
         ic.deleteSurroundingText(MAX, MAX);
     }
 
-    public String getPrevWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-                String lastWord = words[words.length - 1];
-                return lastWord;
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-        return "";
-    }
 
-    public void selectPrevWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-                String lastWord = words[words.length - 1];
-                int position = getSelectionStart() - lastWord.length() - 1;
-                if (position < 0) position = 0;
-                if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
-                else ic.setSelection(position, position);
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-    }
 
-    public String getNextWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
-                String nextWord = words[0];
-                return nextWord;
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-        return "";
-    }
-
-    public void selectNextWord(int n) {
-        try {
-            ic = getCurrentInputConnection();
-            for (int i = 0; i < n; i++) {
-                String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
-                String nextWord = words[0];
-                if (words.length > 1) nextWord = words[1];
-                int position = getSelectionStart() + nextWord.length() + 1;
-                if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
-                else ic.setSelection(position, position);
-            }
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-    }
-
-    public void selectNone() {
-        ic = getCurrentInputConnection();
-        try {
-            int end = getSelectionEnd();
-            ic.setSelection(end, end);
-            Variables.setSelectingOff();
-        }
-        catch (Exception e) {
-            toastIt(e.toString());
-        }
-    }
 
     public String getText(@NonNull InputConnection ic) {
         CharSequence text = ic.getSelectedText(0);
@@ -857,6 +992,58 @@ public class CustomInputMethodService extends InputMethodService
         kv.closing();
     }
 
+
+    static void print(@NonNull Object... a) {
+        for (Object i : a) System.out.print(i + " ");
+        System.out.println();
+    }
+
+    public int getGravity() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String xAxis = sharedPreferences.getString("x_axis", "BOTTOM").toUpperCase();
+        String yAxis = sharedPreferences.getString("y_axis", "CENTER_HORIZONTAL").toUpperCase();
+        boolean fillHorizontal = sharedPreferences.getBoolean("fill_horizontal", false);
+        boolean fillVertical = sharedPreferences.getBoolean("fill_vertical", false);
+
+        int result = 0;
+        if (xAxis.equals("CENTER_HORIZONTAL")) result |= Gravity.CENTER_HORIZONTAL;    //  1
+        if (xAxis.equals("START")) result |= Gravity.START;                //
+        if (xAxis.equals("END")) result |= Gravity.END;                  //
+        if (yAxis.equals("CENTER_VERTICAL")) result |= Gravity.CENTER_VERTICAL;      // 16
+        if (yAxis.equals("TOP")) result |= Gravity.TOP;                  //
+        if (yAxis.equals("BOTTOM")) result |= Gravity.BOTTOM;               //
+
+        if (fillHorizontal) result |= Gravity.FILL_HORIZONTAL;
+        if (fillVertical) result |= Gravity.FILL_VERTICAL;
+
+        return result;
+    }
+
+    public void performContextMenuAction(int id) {
+        InputConnection ic = getCurrentInputConnection();
+        ic.performContextMenuAction(id);
+    }
+
+    public void showActivity(String id) {
+        Intent intent = new Intent(id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startIntent(intent);
+    }
+
+
+
+
+
+    public void showClipboard() {
+        try {
+            Intent intent = new Intent("com.samsung.android.ClipboardUIService");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent(intent);
+        }
+        catch (Exception e) {
+            toastIt(e.toString());
+        }
+    }
+
     private IBinder getToken() {
         final Dialog dialog = getWindow();
         if (dialog == null) {
@@ -881,15 +1068,6 @@ public class CustomInputMethodService extends InputMethodService
         return s.contains(". ") || s.contains("? ") || s.contains("! ");
     }
 
-    public void performContextMenuAction(int id) {
-        InputConnection ic = getCurrentInputConnection();
-        ic.performContextMenuAction(id);
-    }
-
-    public void showActivity(String id) {
-        Intent intent = new Intent(id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
-    }
 
     long time = 0;
 
@@ -1121,6 +1299,11 @@ public class CustomInputMethodService extends InputMethodService
         return null;
     }
 
+
+
+
+
+
     public void sendKey(int primaryCode) {
         ic = getCurrentInputConnection();
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, primaryCode));
@@ -1134,12 +1317,34 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    public void sendKeys(@NonNull int[] keys) {
+        ic = getCurrentInputConnection();
+        for (int key : keys) {
+            sendKey(key);
+        }
+    }
+
     public void navigate(int primaryCode) {
         ic = getCurrentInputConnection();
-        if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
-        sendKey(primaryCode);
-        if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
+        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
+            sendKey(primaryCode, 4);
+        }
+        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
+            sendKey(primaryCode, 4);
+        }
+        else {
+            if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
+            sendKey(primaryCode);
+            if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+        }
     }
+
+    public void replaceText(@NonNull String src, String trg) {
+        ic.deleteSurroundingText(src.length(), 0);
+        commitText(trg);
+    }
+
+
 
     public Boolean isSelecting() {
         return getSelectionStart() != getSelectionEnd();
@@ -1166,17 +1371,7 @@ public class CustomInputMethodService extends InputMethodService
         return extracted.selectionEnd - extracted.selectionStart;
     }
 
-    public void selectLine() {
-        sendKey(KeyEvent.KEYCODE_MOVE_HOME);
-        Variables.setSelectingOn(getSelectionStart());
-        navigate(KeyEvent.KEYCODE_MOVE_END);
-        Variables.setSelectingOff();
-    }
 
-    public void selectAll() {
-        ic = getCurrentInputConnection();
-        ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
-    }
 
     public void setKeyboard(int id) {
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
@@ -1570,6 +1765,9 @@ public class CustomInputMethodService extends InputMethodService
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
+
+            case -163: performReplace(Util.replaceNbsp(getText(ic))); break;
+
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);

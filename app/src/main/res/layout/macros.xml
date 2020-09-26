@@ -27,7 +27,8 @@
         <Key android:codes="-511" android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" />
         <Key android:codes="-512" android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
     </Row>
-    <Row android:keyWidth="16.666%p">
+    <Row android:keyWidth="14.29%p">
+        <Key android:codes="163" android:keyLabel="nbsp" />
         <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"     android:keyLabel="ツ" />
         <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"            android:keyLabel="ಠ_ಠ" />
         <Key android:codes="0"    android:keyOutputText="https://"        android:keyLabel="https" />

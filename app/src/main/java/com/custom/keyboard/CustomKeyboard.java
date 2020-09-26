@@ -1,16 +1,21 @@
 package com.custom.keyboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
+import android.preference.PreferenceManager;
 import android.view.inputmethod.EditorInfo;
 
-public class CustomKeyboard extends Keyboard {
+public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
 
     static final int KEYCODE_OPTIONS = -100;
     static final int KEYCODE_LAYOUT_SWITCH = -101;
+
+    SharedPreferences sharedPreferences;
+    int order = 1024;
 
     String title;
 
@@ -49,6 +54,41 @@ public class CustomKeyboard extends Keyboard {
     public CustomKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
         super(context, layoutTemplateResId, characters, columns, horizontalPadding);
     }
+
+    public CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
+        super(context, xmlLayoutResId);
+        // this.key = Util.toLowerCase(title);
+        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        // this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);
+        this.order = order;
+        if (this.order < 0) {
+            this.order = 1024 + this.order;
+        }
+        // this.layoutId = xmlLayoutResId;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+
+    public int getOrder() {
+        return order;
+    }
+
+    public CustomKeyboard setOrder(int order) {
+        this.order = order;
+        return this;
+    }
+
+    @Override
+    public int compareTo(CustomKeyboard kb) {
+        if (this.order == 0) return -1024;
+        if (sharedPreferences.getBoolean("custom_order", false)) {
+            if (this.order != kb.order) {
+                return this.order - kb.order;
+            }
+        }
+        return this.title.compareTo(kb.title);
+    }
+
 
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
