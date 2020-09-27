@@ -38,10 +38,24 @@ import org.json.JSONObject;
 
 public class Util {
 
-    public static boolean contains(String haystack, int primaryCode) {
-        return haystack.contains(String.valueOf((char) primaryCode));
-    }
+    // general
+    // is
+    // case
+    // text manipulation
+    // char/word/line manipulation
+    // time-related stuff
+    // random stuff
+    // color
+    // encoding
+    // low level stuff
 
+    public static void noop() {}
+
+
+    public static boolean contains(String haystack, int primaryCode) {
+        return haystack.contains(largeIntToChar(primaryCode));
+
+    }
     public static boolean contains(String haystack, String needle) {
         return haystack.contains(needle);
     }
@@ -53,56 +67,85 @@ public class Util {
         }
         return false;
     }
-
-    public static boolean containsLowerCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isLowerCase(text.charAt(i))) {
-                return true;
-            }
+    public static ArrayList<Integer> asUnicodeArray(String text) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if (text.length() < 1) return result;
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(ch);
+            i += Character.charCount(ch);
         }
-        return false;
+        return result; // result.toArray(new String[0]);
     }
-
-    public static boolean isTitleCase(String text) {
-        if (text == null || text.length() < 1) return false;
-        if (!Character.isUpperCase(text.charAt(0))) {
+    public static boolean isNumeric(String strNum) {
+        try {
+            double d = Double.parseDouble(strNum);
+        }
+        catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
-        for (int i = 1; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
-                return false;
-            }
-        }
         return true;
     }
-
-    public static boolean isLowerCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+    public static boolean isValidUrl(String url) {
+        return URLUtil.isValidUrl(url);
     }
-
-    public static boolean isUpperCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (!Character.isUpperCase(text.charAt(i))) {
-                return false;
-            }
+    public static boolean isValidUri(String uri) {
+        final URL url;
+        try {
+            url = new URL(uri);
         }
-        return true;
-    }
-
-    public static boolean containsUpperCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isUpperCase(text.charAt(i))) {
-                return true;
-            }
+        catch (Exception e1) {
+            return false;
         }
-        return false;
+        return "http".equals(url.getProtocol());
     }
+    public static boolean isValidPhoneNumber(String s) {
+        // The given argument to compile() method
+        // is regular expression. With the help of
+        // regular expression we can validate mobile
+        // number.
+        // 1) Begins with 0 or 91
+        // 2) Then contains 7 or 8 or 9.
+        // 3) Then contains 9 digits
+        Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
 
+        // Pattern class contains matcher() method
+        // to find matching between given number
+        // and regular expression
+        Matcher m = p.matcher(s);
+        return (m.find() && m.group().equals(s));
+    }
+    public static boolean isWordSeparator(int primaryCode) {
+        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(String.valueOf((char) primaryCode));
+    }
+    public static boolean isWordSeparator(String text) {
+        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(text);
+    }
+    public static boolean isWordSeparator(int primaryCode, String delimiters) {
+        // Util.largeIntToChar(primaryCode)
+        return delimiters.contains(String.valueOf((char)primaryCode));
+    }
+    public static boolean isWordSeparator(String text, String delimiters) {
+        return delimiters.contains(text);
+    }
+    public static Boolean isAstralCharacter(String ch) {
+        int value = Integer.parseInt(ch, 16);
+        char[] codeUnits = Character.toChars(value);
+        return codeUnits.length > 1;
+    }
+    public static boolean isDigit(int code) {
+        return Character.isDigit(code);
+    }
+    public static Boolean isAlphaNumeric(int primaryCode) {
+        return (isLetter(primaryCode) || isDigit(primaryCode));
+    }
+    public static Boolean isLetter(int primaryCode) {
+        if (primaryCode >= 65 && primaryCode <= 91) {
+            return true;
+        }
+        return primaryCode >= 97 && primaryCode <= 123;
+    }
     public static boolean containsNumber(String text) {
         for (int i = 0; i < text.length(); i++) {
             if (Character.isDigit(text.charAt(i))) {
@@ -111,8 +154,16 @@ public class Util {
         }
         return false;
     }
-
-    // info
+    public static String[] getChars(String text) {
+        return text.split("");
+        // return text.split("(?!^)");
+    }
+    public static String[] getWords(String text) {
+        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]");
+    }
+    public static String[] getLines(String text) {
+        return text.split("\r\n|\r|\n");
+    }
     public static int countChars(String text) {
         return text.codePointCount(0, text.length());
     }
@@ -121,6 +172,107 @@ public class Util {
     }
     public static int countLines(String text) {
         return text.split("\r\n|\r|\n").length;
+    }
+    public static String sortChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String sortWords(String text) {
+        String[] lines = getWords(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), " ");
+    }
+    public static String sortLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.sort(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String reverseChars(String text) {
+        return new StringBuilder(text).reverse().toString();
+    }
+    public static String reverseWords(String text) {
+        String[] lines = getWords(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.reverse(result);
+        return StringUtils.join(result.toArray(new String[0]), " ");
+    }
+    public static String reverseLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.reverse(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String shuffleChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String shuffleWords(String text) {
+        String[] lines = getWords(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), " ");
+    }
+    public static String shuffleLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.shuffle(result);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String uniqueChars(String text) {
+        String[] lines = getChars(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Set<String> unique = new LinkedHashSet<>(result);
+        return StringUtils.join(unique.toArray(new String[0]), "");
+    }
+    public static String uniqueWords(String text) {
+        String[] lines = getWords(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Set<String> unique = new LinkedHashSet<>(result);
+        return StringUtils.join(unique.toArray(new String[0]), " ");
+    }
+    public static String uniqueLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Set<String> unique = new LinkedHashSet<>(result);
+        return StringUtils.join(unique.toArray(new String[0]), "\n");
+    }
+    public static String doubleChars(String text) {
+        return text.replaceAll("(.)", "$1$1");
+    }
+    public static String doubleWords(String text) {
+        String[] lines = getWords(text);
+        ArrayList<String> result = new ArrayList<>();
+        for(String line : lines) {
+            result.add(line);
+            result.add(line);
+        }
+        return StringUtils.join(result.toArray(new String[0]), " ");
+    }
+    public static String doubleLines(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for(String line : lines) {
+            result.add(line);
+            result.add(line);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static HashMap<Character, Integer> getCharacterFrequencies(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
@@ -141,7 +293,128 @@ public class Util {
         }
         return map;
     }
-
+    public static String rotateLinesBackward(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.rotate(result, -1);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String rotateLinesForward(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        Collections.addAll(result, lines);
+        Collections.rotate(result, 1);
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String addLineNumbers(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        int index = 0;
+        for (String line : lines) {
+            result.add(++index + " " + line);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String removeLineNumbers(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(line.replaceAll("^\\d+\\s*", ""));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String toggleJavaComment(String text) {
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 2) {
+            regex = "^/\\*\\s*(.+)\\s*\\*/$";
+        }
+        else {
+            regex = "^/\\*\n(.+)\n\\*/$";
+        }
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return text.replaceAll(regex, "$1");
+        }
+        if (lineCount < 2) {
+            return "/* " + text + " */";
+        }
+        else {
+            return "/*\n" + text + "\n*/";
+        }
+    }
+    public static String toggleHtmlComment(String text) {
+        int lineCount = countLines(text);
+        String regex;
+        if (lineCount < 2) {
+            regex = "^<!--\\s*(.+)\\s*-->$";
+        }
+        else {
+            regex = "^<!--\n(.+)\n-->$";
+        }
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return text.replaceAll(regex, "$1");
+        }
+        if (lineCount < 2) {
+            return "<!-- " + text + " -->";
+        }
+        else {
+            return "<!--\n" + text + "\n-->";
+        }
+    }
+    public static String toggleLineComment(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        String regexWith = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
+        String regexSans = "(^|\\n)(\\s*)(.+?)(\\n|$)";
+        Pattern p = Pattern.compile(regexWith);
+        Matcher m = p.matcher(lines[0]);
+        boolean found = m.find();
+        p = Pattern.compile(found ? regexWith : regexSans);
+        for (String line : lines) {
+            m = p.matcher(line);
+            if (m.find()) {
+                result.add(line.replaceAll(found ? regexWith : regexSans, found ? "$1$2$3$4" : "$1$2// $3$4"));
+            }
+            else {
+                result.add(line);
+            }
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static boolean hasZWSP(String text) {
+        return text.contains("");
+    }
+    public static String replaceZWSP(String text, String ins) {
+        return text.replaceAll("", "" + ins);
+    }
+    public static String removeZWSP(String text) {
+        return text.replaceAll("", "");
+    }
+    public static CharSequence toCharSequence(String text) {
+        Bundle bundle = new Bundle();
+        return bundle.getCharSequence(text);
+    }
+    public static String removeDuplicateChars(String text) {
+        char[] str = text.toCharArray();
+        int n = str.length;
+        int index = 0, i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < i; j++) {
+                if (str[i] == str[j]) {
+                    break;
+                }
+            }
+            if (j == i) {
+                str[index++] = str[i];
+            }
+        }
+        return String.valueOf(Arrays.copyOf(str, index));
+    }
     public static String getDateString(String dateFormat) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
@@ -152,7 +425,6 @@ public class Util {
         SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
         return sdf.format(cal.getTime());
     }
-
     public static String convertNumberBase(String number, int base1, int base2) {
         try {
             return Integer.toString(Integer.parseInt(number, base1), base2).toUpperCase();
@@ -171,13 +443,13 @@ public class Util {
     }
     public static String convertFromNumberToUnicode(String number) {
         try {
+            // Util.largeIntToChar(primaryCode)
             return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
         }
         catch (Exception e) {
             return number;
         }
     }
-
     public static String unidata(String text) {
         if (text.length() < 1) return "";
 
@@ -186,10 +458,11 @@ public class Util {
             return unidata((int)text.codePointAt(0));
         }
 
+        // Util.largeIntToChar(primaryCode)
         return unidata((int)text.charAt(0));
     }
-
     public static String unidata(int primaryCode) {
+        // Util.largeIntToChar(primaryCode)
         return toTitleCase(Character.getName(primaryCode))+"\n"+
             primaryCode+"\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         /*
@@ -233,17 +506,6 @@ public class Util {
                */
 
     }
-
-    public static String[] getWords(String text) {
-        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]");
-    }
-    public static String[] getLines(String text) {
-        return text.split("\r\n|\r|\n");
-    }
-    public static String[] getChars(String text) {
-        return text.split("");
-        // return text.split("(?!^)");
-    }
     public static String padLeft(String text, int length) {
         return padLeft(text, length, " ");
     }
@@ -272,8 +534,6 @@ public class Util {
         }
         return sb.toString();
     }
-
-
     public static String getIndentation(String line) {
         String regex = "^(\\s+).+$";
         Pattern p = Pattern.compile(regex);
@@ -287,7 +547,6 @@ public class Util {
         }
         return "";
     }
-
     public static String increaseIndentation(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -296,7 +555,6 @@ public class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-
     public static String decreaseIndentation(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -316,82 +574,17 @@ public class Util {
         return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
             .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
     }
-
-    // manipulations
-    public static String removeDuplicates(String text) {
-        char[] str = text.toCharArray();
-        int n = str.length;
-        int index = 0, i, j;
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < i; j++) {
-                if (str[i] == str[j]) {
-                    break;
-                }
-            }
-            if (j == i) {
-                str[index++] = str[i];
-            }
-        }
-        return String.valueOf(Arrays.copyOf(str, index));
-    }
-
-    public static String uniqueChars(String text) {
-        String[] lines = getChars(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Set<String> unique = new LinkedHashSet<>(result);
-        return StringUtils.join(unique.toArray(new String[0]), "");
-    }
-
-
-    public static String uniqueLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Set<String> unique = new LinkedHashSet<>(result);
-        return StringUtils.join(unique.toArray(new String[0]), "\n");
-    }
-    public static String sortLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String shuffleLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.shuffle(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-
-    public static String reverseChars(String s) {
-        return new StringBuilder(s).reverse().toString();
-    }
-    public static ArrayList<String> reverse(String[] a) {
-        List<String> result = Arrays.asList(a);
-        Collections.reverse(result);
-        return new ArrayList<String>(result);
-    }
-    public static String reverseLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.reverse(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String doubleChars(String text) {
-        return text.replaceAll("(.)", "$1$1");
-    }
-    public static String doubleLines(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        for(String line : lines) {
-            result.add(line);
-            result.add(line);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+    public static String trim(String text) {
+        text = text.trim()
+            .replaceAll("^\u00A0+", "")
+            .replaceAll("^\u0020+", "")
+            .replaceAll("^\u0009+", "")
+            .replaceAll("^\u0010+", "")
+            .replaceAll("\u00A0+$", "")
+            .replaceAll("\u0020+$", "")
+            .replaceAll("\u0009+$", "")
+            .replaceAll("\u0010+$", "");
+        return text;
     }
     public static String camelToSnake(String text) {
         return text.replaceAll("([A-Z])", "_$1").toLowerCase();
@@ -438,18 +631,8 @@ public class Util {
     public static String tabsToSpaces(String text) {
         return text.replaceAll("\t", " ");
     }
-
     public static String splitWithLinebreaks(String text){
         return text.replaceAll("(.)", "$1\n");
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static long nowAsLong() {
-        return Instant.now().getEpochSecond();
-    }
-    public static int nowAsInt() {
-        // new Date().getTime() / 1000;
-        return (int) (System.currentTimeMillis() / 1000L);
     }
     public static String removeLinebreaks(String text) {
         return text.replaceAll("\n", "");
@@ -457,74 +640,15 @@ public class Util {
     public static String splitWithSpaces(String text) {
         return text.replaceAll("(.)", "$1 ");
     }
-
-    public static boolean isDigit(int code) {
-        return Character.isDigit(code);
+    public static int generateRandomInt(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
     }
-    public static Boolean isAlphaNumeric(int primaryCode) {
-        return (isLetter(primaryCode) || isDigit(primaryCode));
-    }
-    public static Boolean isLetter(int primaryCode) {
-        if (primaryCode >= 65 && primaryCode <= 91) {
-            return true;
-        }
-        return primaryCode >= 97 && primaryCode <= 123;
-    }
-
-    public static ArrayList<Integer> asUnicodeArray(String text) {
-        ArrayList<Integer> result = new ArrayList<>();
-        if (text.length() < 1) return result;
-        char[] chars = text.toCharArray();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(ch);
-            i += Character.charCount(ch);
-        }
-        return result; // result.toArray(new String[0]);
-    }
-
-    public static String trim(String text) {
-        text = text.trim()
-            .replaceAll("^\u00A0+", "")
-            .replaceAll("^\u0020+", "")
-            .replaceAll("^\u0009+", "")
-            .replaceAll("^\u0010+", "")
-            .replaceAll("\u00A0+$", "")
-            .replaceAll("\u0020+$", "")
-            .replaceAll("\u0009+$", "")
-            .replaceAll("\u0010+$", "");
-        return text;
-    }
-
-    public static String toAlterCase(String text) {
-        char[] array = new char[]{};
-
-        int seed = generateRandomInt(0, 1);
-        array = text.toCharArray();
-
-        for (int i = seed; i < array.length - seed; i += 2) {
-            if (array[i] == ' ') {
-                i++;
-            }
-            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
-            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
-        }
-
-        text = new String(array);
-        return text;
-    }
-
     public static String toUpperCase(String text) {
         return text.toUpperCase();
     }
     public static String toLowerCase(String text) {
         return text.toLowerCase();
     }
-
-    public static int generateRandomInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
-    }
-
     public static String toTitleCase(String text) {
         if (text == null || text.isEmpty()) {
             return text;
@@ -546,8 +670,67 @@ public class Util {
         }
         return converted.toString();
     }
+    public static String toAlterCase(String text) {
+        char[] array = new char[]{};
 
+        int seed = generateRandomInt(0, 1);
+        array = text.toCharArray();
 
+        for (int i = seed; i < array.length - seed; i += 2) {
+            if (array[i] == ' ') {
+                i++;
+            }
+            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
+            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
+        }
+
+        text = new String(array);
+        return text;
+    }
+    public static boolean containsLowerCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isLowerCase(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isTitleCase(String text) {
+        if (text == null || text.length() < 1) return false;
+        if (!Character.isUpperCase(text.charAt(0))) {
+            return false;
+        }
+        for (int i = 1; i < text.length(); i++) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isLowerCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isUpperCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean containsUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static String normalize(String text) {
         // String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
         // return normalized.toLowerCase(Locale.ENGLISH);
@@ -560,28 +743,9 @@ public class Util {
         // text.replaceAll("&nbsp;", " ");
         return text.replaceAll("\u00a0", " ");
     }
-
-
     public static String spaceReplace(String text) {
         return text.replaceAll(" +", " ");
     }
-
-    public static String sortChars(String text) {
-        String[] lines = getChars(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-
-    public static String shuffleChars(String text) {
-        String[] lines = getChars(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.shuffle(result);
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-
     public static String slug(String text) {
         return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
             .replaceAll("[àáâãäåāăąḁạảấầẩẫậắằẳẵặẚǎǻȧȁȃǟǡǣǽ]", "a")
@@ -677,81 +841,23 @@ public class Util {
             .replaceAll("[Ӭ]", "Э")
             .replaceAll("[Ѷ]", "Ѵ");
     }
-
-    public static boolean isIntentAvailable(Context ctx, Intent intent) {
-        final PackageManager mgr = ctx.getPackageManager();
-        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+    public static long nowAsLong() {
+        return Instant.now().getEpochSecond();
     }
-    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
-
-        PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
-
-        if (resolveInfo.size() != 1) {
-            return null;
-        }
-
-        ResolveInfo serviceInfo = resolveInfo.get(0);
-        String packageName = serviceInfo.serviceInfo.packageName;
-        String className = serviceInfo.serviceInfo.name;
-        ComponentName component = new ComponentName(packageName, className);
-
-        Intent explicitIntent = new Intent(implicitIntent);
-
-        explicitIntent.setComponent(component);
-
-        return explicitIntent;
+    public static int nowAsInt() {
+        // new Date().getTime() / 1000;
+        return (int) (System.currentTimeMillis() / 1000L);
     }
-
-    // debug
-    public static String getClassName() {
-        Class<?> enclosingClass = Util.class.getEnclosingClass();
-        String className;
-        if (enclosingClass != null) {
-            className = enclosingClass.getName();
-        }
-        else {
-            className = Util.class.getName();
-        }
-        try {
-            className = className.split(".")[0];
-        }
-        catch (Exception ignored) {}
-        return className;
+    public static Date stringToDate(String date, String format) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
+        return simpleDateFormat.parse(date);
     }
-    public static int getLineNumber() {
-        return ___8drrd3148796d_Xaf();
+    public static String doubleCharacters(String text) {
+        return text.replaceAll("(.)", "$1$1");
     }
-    public static int ___8drrd3148796d_Xaf() {
-        boolean thisOne = false;
-        int thisOneCountDown = 1;
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        for (StackTraceElement element : elements) {
-            String methodName = element.getMethodName();
-            int lineNum = element.getLineNumber();
-            if (thisOne && (thisOneCountDown == 0)) {
-                return lineNum;
-            }
-            else if (thisOne) {
-                thisOneCountDown--;
-            }
-            if (methodName.equals("___8drrd3148796d_Xaf")) {
-                thisOne = true;
-            }
-        }
-        return -1;
+    public static String truncate(String value, int length) {
+        return value.length() > length ? value.substring(0, length) : value;
     }
-    public static String methodName() {
-        return Thread.currentThread().getStackTrace()[1].getMethodName();
-    }
-    public String getMethodName() {
-        return new Throwable().getStackTrace()[1].getMethodName();
-    }
-    public String getMethodName(int depth) {
-        return new Throwable().getStackTrace()[depth].getMethodName();
-    }
-
     public static String formatJson(String jsonString) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject.toString(4);
@@ -768,10 +874,6 @@ public class Util {
         }
         return sb.toString();
     }
-    public static boolean hasZWSP(String text) {
-        return text.contains("");
-    }
-
     public static String getCharType(byte ch) {
         switch (ch) {
             case 8:      return "Mc";
@@ -842,8 +944,6 @@ public class Util {
             default:     return "";
         }
     }
-
-    // random
     public static String pickALetter() {
         String letters = "abcdefghijklmnopqrstuvwxyz";
         return String.valueOf(letters.charAt(generateRandomInt(1, 26) - 1));
@@ -864,7 +964,7 @@ public class Util {
     }
     public static String pickACard() {
         String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
-        return String.valueOf((char) cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length())) - 1));
+        return Util.largeIntToChar(cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length())) - 1));
     }
     public static String timemoji() {
         String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
@@ -879,92 +979,14 @@ public class Util {
         // 0 thru 29, 30 thru 59
         int which = (((hours - 1) * 2) + (minutes / 30));
 
-        return String.valueOf((char) clocks.codePointAt(which));
+        return largeIntToChar(clocks.codePointAt(which));
     }
-    public static String[] answers = new String[]{
-        "It is certain. ",
-        "It is decidedly so. ",
-        "Without a doubt. ",
-        "Yes; definitely. ",
-        "You may rely on it. ",
-        "As I see it, yes. ",
-        "Most likely. ",
-        "Outlook good. ",
-        "Yes. ",
-        "Signs point to yes. ",
-        "Reply hazy, try again. ",
-        "Ask again later. ",
-        "Better not tell you now. ",
-        "Cannot predict now. ",
-        "Concentrate and ask again. ",
-        "Don't count on it. ",
-        "My reply is no. ",
-        "My sources say no. ",
-        "Outlook not so good. ",
-        "Very doubtful. "
-    };
+    public static String largeIntToChar(int primaryCode) {
+        return new String(Character.toChars(primaryCode));
+    }
     public static String shake8Ball() {
-        return "" + answers[generateRandomInt(1, 20) - 1];
+        return "" + Constants.answers[generateRandomInt(1, 20) - 1];
     }
-
-
-    public static void noop() {}
-
-    // is
-    public static boolean isNumeric(String strNum) {
-        try {
-            double d = Double.parseDouble(strNum);
-        }
-        catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean isValidUrl(String url) {
-        return URLUtil.isValidUrl(url);
-    }
-    public static boolean isValidUri(String uri) {
-        final URL url;
-        try {
-            url = new URL(uri);
-        }
-        catch (Exception e1) {
-            return false;
-        }
-        return "http".equals(url.getProtocol());
-    }
-    public static boolean isValidPhoneNumber(String s) {
-        // The given argument to compile() method
-        // is regular expression. With the help of
-        // regular expression we can validate mobile
-        // number.
-        // 1) Begins with 0 or 91
-        // 2) Then contains 7 or 8 or 9.
-        // 3) Then contains 9 digits
-        Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
-
-        // Pattern class contains matcher() method
-        // to find matching between given number
-        // and regular expression
-        Matcher m = p.matcher(s);
-        return (m.find() && m.group().equals(s));
-    }
-    public static boolean isWordSeparator(int primaryCode) {
-        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(String.valueOf((char) primaryCode));
-    }
-    public static boolean isWordSeparator(String text) {
-        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(text);
-    }
-    public static boolean isWordSeparator(int primaryCode, String delimiters) {
-        return delimiters.contains(String.valueOf((char) primaryCode));
-    }
-    public static boolean isWordSeparator(String text, String delimiters) {
-        return delimiters.contains(text);
-    }
-
-
-    // conversions
     public static String toColor(int r, int g, int b) {
         String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
         String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
@@ -1039,235 +1061,75 @@ public class Util {
     public static String decodeMime(String encodedString) {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
-
-    public Boolean isAstralCharacter(String ch) {
-        int value = Integer.parseInt(ch, 16);
-        char[] codeUnits = Character.toChars(value);
-        return codeUnits.length > 1;
+    public static boolean isIntentAvailable(Context ctx, Intent intent) {
+        final PackageManager mgr = ctx.getPackageManager();
+        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
+    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
 
-    public static String unbolden(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnbold((ch)))));
-            i += Character.charCount(ch);
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
+
+        if (resolveInfo.size() != 1) {
+            return null;
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String bolden(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int ch : chars) {
-            result.add(new String(Character.toChars(Font.getBold((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
 
-    public static String unitalicize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnitalic((ch)))));
-            i += Character.charCount(ch);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String italicize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(Font.getItalic((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        String packageName = serviceInfo.serviceInfo.packageName;
+        String className = serviceInfo.serviceInfo.name;
+        ComponentName component = new ComponentName(packageName, className);
 
-    public static String unemphasize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnemphasized((ch)))));
-            i += Character.charCount(ch);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String emphasize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(Font.getEmphasized((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
+        Intent explicitIntent = new Intent(implicitIntent);
 
-    public static String unstrikethrough(String text) {
-        return text.replaceAll("̶", "");
-    }
+        explicitIntent.setComponent(component);
 
-    public static String strikethrough(String text) {
-        if (text.contains("̶")) {
-            return text.replaceAll("̶", "");
-        }
-        return text.replaceAll("(.)", "$1̶");
+        return explicitIntent;
     }
-
-    public static String ununderline(String text) {
-        return text.replaceAll("̲", "");
-    }
-
-    public static String underline(String text) {
-        if (text.contains("̲")) {
-            return text.replaceAll("̲", "");
-        }
-        return text.replaceAll("(.)", "$1̲");
-    }
-
-    public static String ununderscore(String text) {
-        return text.replaceAll("꯭", "");
-    }
-
-    public static String underscore(String text) {
-        if (text.contains("꯭")) {
-            return text.replaceAll("꯭", "");
-        }
-        if (text.length() < 4) return text.replaceAll("(.)", "$1꯭");
-        String first = text.substring(0, text.length() - 1);
-        String secnd = text.substring(text.length() - 1, text.length());
-        first = first.replaceAll("(.)", "$1꯭");
-        return first + secnd;
-    }
-
-    public static String rotateLinesBackward(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.rotate(result, -1);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String rotateLinesForward(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        Collections.addAll(result, lines);
-        Collections.rotate(result, 1);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String addLineNumbers(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        int index = 0;
-        for (String line : lines) {
-            result.add(++index + " " + line);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String removeLineNumbers(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        for (String line : lines) {
-            result.add(line.replaceAll("^\\d+\\s*", ""));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String reverse(String s) {
-        return new StringBuilder(s).reverse().toString();
-    }
-
-    public static String doubleCharacters(String text) {
-        return text.replaceAll("(.)", "$1$1");
-    }
-
-    public static String toggleJavaComment(String text) {
-        int lineCount = countLines(text);
-        String regex;
-        if (lineCount < 2) {
-            regex = "^/\\*\\s*(.+)\\s*\\*/$";
+    public static String getClassName() {
+        Class<?> enclosingClass = Util.class.getEnclosingClass();
+        String className;
+        if (enclosingClass != null) {
+            className = enclosingClass.getName();
         }
         else {
-            regex = "^/\\*\n(.+)\n\\*/$";
+            className = Util.class.getName();
         }
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        if (m.find()) {
-            return text.replaceAll(regex, "$1");
+        try {
+            className = className.split(".")[0];
         }
-        if (lineCount < 2) {
-            return "/* " + text + " */";
-        }
-        else {
-            return "/*\n" + text + "\n*/";
-        }
+        catch (Exception ignored) {}
+        return className;
     }
-
-    public static String toggleHtmlComment(String text) {
-        int lineCount = countLines(text);
-        String regex;
-        if (lineCount < 2) {
-            regex = "^<!--\\s*(.+)\\s*-->$";
-        }
-        else {
-            regex = "^<!--\n(.+)\n-->$";
-        }
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        if (m.find()) {
-            return text.replaceAll(regex, "$1");
-        }
-        if (lineCount < 2) {
-            return "<!-- " + text + " -->";
-        }
-        else {
-            return "<!--\n" + text + "\n-->";
-        }
+    public static int getLineNumber() {
+        return ___8drrd3148796d_Xaf();
     }
-
-    public static String toggleLineComment(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        String regexWith = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
-        String regexSans = "(^|\\n)(\\s*)(.+?)(\\n|$)";
-        Pattern p = Pattern.compile(regexWith);
-        Matcher m = p.matcher(lines[0]);
-        boolean found = m.find();
-        p = Pattern.compile(found ? regexWith : regexSans);
-        for (String line : lines) {
-            m = p.matcher(line);
-            if (m.find()) {
-                result.add(line.replaceAll(found ? regexWith : regexSans, found ? "$1$2$3$4" : "$1$2// $3$4"));
+    public static int ___8drrd3148796d_Xaf() {
+        boolean thisOne = false;
+        int thisOneCountDown = 1;
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        for (StackTraceElement element : elements) {
+            String methodName = element.getMethodName();
+            int lineNum = element.getLineNumber();
+            if (thisOne && (thisOneCountDown == 0)) {
+                return lineNum;
             }
-            else {
-                result.add(line);
+            else if (thisOne) {
+                thisOneCountDown--;
+            }
+            if (methodName.equals("___8drrd3148796d_Xaf")) {
+                thisOne = true;
             }
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return -1;
     }
-
-    public static String truncate(String value, int length) {
-        return value.length() > length ? value.substring(0, length) : value;
+    public static String methodName() {
+        return Thread.currentThread().getStackTrace()[1].getMethodName();
     }
-
-    public static String replaceZWSP(String text, String ins) {
-        return text.replaceAll("", "" + ins);
+    public String getMethodName() {
+        return new Throwable().getStackTrace()[1].getMethodName();
     }
-    public static String removeZWSP(String text) {
-        return text.replaceAll("", "");
+    public String getMethodName(int depth) {
+        return new Throwable().getStackTrace()[depth].getMethodName();
     }
-
-    public static CharSequence toCharSequence(String text) {
-        Bundle bundle = new Bundle();
-        return bundle.getCharSequence(text);
-    }
-    public static Date stringToDate(String date, String format) throws Exception {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
-        return simpleDateFormat.parse(date);
-    }
-
 }

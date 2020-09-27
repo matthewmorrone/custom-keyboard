@@ -102,6 +102,7 @@ public class Font {
 
 
     public static String unbolden(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
@@ -113,6 +114,7 @@ public class Font {
         return StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String bolden(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
@@ -123,6 +125,7 @@ public class Font {
     }
 
     public static String unitalicize(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
@@ -134,6 +137,7 @@ public class Font {
         return StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String italicize(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
@@ -144,6 +148,7 @@ public class Font {
     }
 
     public static String unemphasize(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
@@ -155,6 +160,7 @@ public class Font {
         return StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String emphasize(String text) {
+        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();

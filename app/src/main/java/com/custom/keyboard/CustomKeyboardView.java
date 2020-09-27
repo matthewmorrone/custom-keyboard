@@ -51,8 +51,8 @@ public class CustomKeyboardView extends KeyboardView {
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == -192
-            ||  key.codes[0] == -300
-            ||  key.codes[0] == 10) {
+        ||  key.codes[0] == -300
+        ||  key.codes[0] == 10) {
             return super.onLongPress(key);
         }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
