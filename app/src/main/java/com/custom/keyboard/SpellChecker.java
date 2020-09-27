@@ -17,7 +17,7 @@ public class SpellChecker {
 
     static Trie trie = new Trie();
     static Map<String,String> typos = new HashMap<>();
-    static List<String> list = new ArrayList<>();
+    static ArrayList<String> list = new ArrayList<String>();
 
     public SpellChecker(Context context) {
         buildTrie(context, R.raw.words_82765);

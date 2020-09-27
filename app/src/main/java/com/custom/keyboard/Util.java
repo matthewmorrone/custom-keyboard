@@ -369,10 +369,10 @@ public class Util {
     public static String reverseChars(String s) {
         return new StringBuilder(s).reverse().toString();
     }
-    public static List<String> reverse(String[] a) {
+    public static ArrayList<String> reverse(String[] a) {
         List<String> result = Arrays.asList(a);
         Collections.reverse(result);
-        return result;
+        return new ArrayList<String>(result);
     }
     public static String reverseLines(String text) {
         String[] lines = getLines(text);

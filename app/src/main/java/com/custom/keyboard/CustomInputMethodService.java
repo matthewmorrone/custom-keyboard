@@ -58,9 +58,6 @@ public class CustomInputMethodService extends InputMethodService
 
     static final boolean PROCESS_HARD_KEYS = true;
 
-    // private StringBuilder mComposing = new StringBuilder();
-    // private boolean mPredictionOn;
-    // private boolean mCompletionOn;
     private boolean mCapsLock;
     private int mLastDisplayWidth;
     private long mLastShiftTime;
@@ -87,8 +84,11 @@ public class CustomInputMethodService extends InputMethodService
     private CandidateView mCandidateView;
     // private CompletionInfo[] mCompletions;
     // private SpellCheckerSession mScs;
-    private List<String> suggestions = new ArrayList<>();
-    // private List<String> completions = new ArrayList<>();
+    private ArrayList<String> suggestions = new ArrayList<String>();
+    // private StringBuilder mComposing = new StringBuilder();
+    private boolean mPredictionOn;
+    // private boolean mCompletionOn;
+    // private ArrayList<String> completions = new ArrayList<>();
     // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
@@ -231,10 +231,12 @@ public class CustomInputMethodService extends InputMethodService
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
-        // mPredictionOn = sharedPreferences.getBoolean("pred", true);
+        mPredictionOn = sharedPreferences.getBoolean("pred", false);
         // mCompletionOn = sharedPreferences.getBoolean("comp", false);
-        setCandidatesViewShown(true);
 
+        if (mPredictionOn) {
+            setCandidatesViewShown(true);
+        }
 
     }
 
@@ -465,6 +467,7 @@ public class CustomInputMethodService extends InputMethodService
         if (kv != null) {
             kv.closing();
         }
+        setCandidatesViewShown(false);
     }
 
     /**
@@ -522,7 +525,7 @@ public class CustomInputMethodService extends InputMethodService
             System.out.println(e);
         }
         redraw();
-       if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
+        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
             if (Variables.isShift()) {
                 Variables.setShiftOff();
@@ -696,6 +699,7 @@ public class CustomInputMethodService extends InputMethodService
         if (prevChar != " ") {
             if (mCandidateView != null) {
                 if (isPrefix) {
+                    setCandidatesViewShown(true);
                     suggestions = SpellChecker.getCompletions(prevWord);
                     if (isTitleCase) {
                         for(int i = 0; i < suggestions.size(); i++) {
@@ -730,6 +734,7 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
+        setCandidatesViewShown(false);
     }
 
     public void pickDefaultCandidate() {
@@ -747,7 +752,6 @@ public class CustomInputMethodService extends InputMethodService
             getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
         }
         updateCandidates();
-
     }
 
     private void handleBackspace() {
@@ -765,7 +769,7 @@ public class CustomInputMethodService extends InputMethodService
             && ic.getTextBeforeCursor(4, 0) != null
             && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
             && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
-            && sharedPreferences.getBoolean("spaces", true)) {
+            && sharedPreferences.getBoolean("spaces", false)) {
             ic.deleteSurroundingText((4 - (getPrevLine().length() % 4)), 0);
         }
 
@@ -850,7 +854,9 @@ public class CustomInputMethodService extends InputMethodService
 
     private void handleClose() {
         commitTyped(getCurrentInputConnection());
+        setCandidatesViewShown(false);
         requestHideSelf(0);
+        setCandidatesViewShown(false);
         kv.closing();
     }
 
@@ -1160,11 +1166,6 @@ public class CustomInputMethodService extends InputMethodService
         }
         return null;
     }
-
-
-
-
-
 
     public void sendKey(int primaryCode) {
         ic = getCurrentInputConnection();

@@ -18,7 +18,7 @@ public class CandidateView extends View {
     private static final int OUT_OF_BOUNDS = -1;
 
     private CustomInputMethodService mService;
-    private List<String> mSuggestions;
+    private ArrayList<String> mSuggestions;
     private int mSelectedIndex;
     private int mTouchX = OUT_OF_BOUNDS;
     private Drawable mSelectionHighlight;
@@ -34,7 +34,7 @@ public class CandidateView extends View {
 
     private static final int X_GAP = 60;
 
-    private static final List<String> EMPTY_LIST = new ArrayList<>();
+    private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
     private int mColorNormal;
     private int mColorRecommended;
@@ -210,16 +210,16 @@ public class CandidateView extends View {
         invalidate();
     }
 
-    public List<String> getSuggestions() {
+    public ArrayList<String> getSuggestions() {
         return mSuggestions;
     }
 
     public void clearSuggestions() {
-        setSuggestions(new ArrayList<>(), false, false);
+        setSuggestions(new ArrayList<String>(), false, false);
         clear();
     }
 
-    public void setSuggestions(List<String> suggestions, boolean completions, boolean typedWordValid) {
+    public void setSuggestions(ArrayList<String> suggestions, boolean completions, boolean typedWordValid) {
         clear();
         if (suggestions != null) {
             mSuggestions = new ArrayList<>(suggestions);
