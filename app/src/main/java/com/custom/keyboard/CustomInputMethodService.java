@@ -15,24 +15,18 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.*;
 import android.provider.Settings;
+import android.provider.UserDictionary;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textservice.SentenceSuggestionsInfo;
-import android.view.textservice.SpellCheckerSession;
-import android.view.textservice.SuggestionsInfo;
-import android.view.textservice.TextServicesManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -43,10 +37,9 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -133,12 +126,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
 
-    /**
-     * Called by the framework when your view for creating input needs to
-     * be generated.  This will be called the first time your input method
-     * is displayed, and every time it needs to be re-created such as due to
-     * a configuration change.
-     */
     @Override
     public View onCreateInputView() {
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -159,10 +146,6 @@ public class CustomInputMethodService extends InputMethodService
         return kv;
     }
 
-    /**
-     * Called by the framework when your view for showing candidates needs to
-     * be generated, like {@link #onCreateInputView}.
-     */
     @Override
     public View onCreateCandidatesView() {
         mCandidateView = new CandidateView(this);
@@ -574,11 +557,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    /**
-     * Use this to monitor key events being delivered to the application.
-     * We get first crack at them, and can either resume them or let them
-     * continue to the app.
-     */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return super.onKeyUp(keyCode, event);
@@ -605,10 +583,6 @@ public class CustomInputMethodService extends InputMethodService
             }
             kv.setShifted(mCapsLock || caps != 0);
         }
-    }
-
-    private boolean isAlphabet(int code) {
-        return Character.isLetter(code);
     }
 
     public void onText(CharSequence text) {
@@ -647,8 +621,13 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void swipeUp() {
-        setCandidatesViewShown(true);
+        // setCandidatesViewShown(true);
+        PopupWindow popupWindow = new PopupWindow();
+        popupWindow = new PopupWindow(getBaseContext());
+        popupWindow.setClippingEnabled(false);
+
     }
+
 
     public void showVoiceInput() {
         InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -671,11 +650,19 @@ public class CustomInputMethodService extends InputMethodService
 
     private void updateCandidates() {
 
+
+
+
+
         String prevLine = getPrevLine();
         String prevWord = getPrevWord();
         String prevChar = "";
         if (prevWord.length() > 0) {
              prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
+             prevChar = prevChar.substring(0, 1);
+        }
+        if (!Character.isLetter(prevChar.charAt(0))) {
+            return;
         }
 
         boolean isTitleCase = Util.isTitleCase(prevWord);
@@ -702,16 +689,17 @@ public class CustomInputMethodService extends InputMethodService
                 if (isPrefix) {
                     setCandidatesViewShown(true);
                     suggestions = SpellChecker.getCompletions(prevWord);
-                    if (isTitleCase) {
-                        for(int i = 0; i < suggestions.size(); i++) {
-                            suggestions.set(i, Util.toTitleCase(suggestions.get(i)));
-                        }
-                    }
                     if (isUpperCase) {
                         for(int i = 0; i < suggestions.size(); i++) {
                             suggestions.set(i, Util.toUpperCase(suggestions.get(i)));
                         }
                     }
+                    else if (isTitleCase) {
+                        for(int i = 0; i < suggestions.size(); i++) {
+                            suggestions.set(i, Util.toTitleCase(suggestions.get(i)));
+                        }
+                    }
+
                     System.out.println(suggestions);
                     mCandidateView.setSuggestions(suggestions, true, true);
                 }
@@ -720,6 +708,10 @@ public class CustomInputMethodService extends InputMethodService
         else {
             mCandidateView.clearSuggestions();
         }
+    }
+
+    public void addToDictionary(String word) {
+        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
     }
 
     public void pickSuggestionManually(int index) {
@@ -790,6 +782,7 @@ public class CustomInputMethodService extends InputMethodService
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
+
         updateCandidates();
     }
 
@@ -846,7 +839,7 @@ public class CustomInputMethodService extends InputMethodService
         setCapsOn(false);
 
         updateShiftKeyState(getCurrentInputEditorInfo());
-        updateCandidates();
+        if (Util.isLetter(primaryCode)) updateCandidates();
     }
 
     public void hide() {
@@ -875,12 +868,12 @@ public class CustomInputMethodService extends InputMethodService
         boolean fillVertical = sharedPreferences.getBoolean("fill_vertical", false);
 
         int result = 0;
-        if (xAxis.equals("CENTER_HORIZONTAL")) result |= Gravity.CENTER_HORIZONTAL;    //  1
-        if (xAxis.equals("START")) result |= Gravity.START;                //
-        if (xAxis.equals("END")) result |= Gravity.END;                  //
-        if (yAxis.equals("CENTER_VERTICAL")) result |= Gravity.CENTER_VERTICAL;      // 16
-        if (yAxis.equals("TOP")) result |= Gravity.TOP;                  //
-        if (yAxis.equals("BOTTOM")) result |= Gravity.BOTTOM;               //
+        if (xAxis.equals("CENTER_HORIZONTAL")) result |= Gravity.CENTER_HORIZONTAL;
+        if (xAxis.equals("START")) result |= Gravity.START;
+        if (xAxis.equals("END")) result |= Gravity.END;
+        if (yAxis.equals("CENTER_VERTICAL")) result |= Gravity.CENTER_VERTICAL;
+        if (yAxis.equals("TOP")) result |= Gravity.TOP;
+        if (yAxis.equals("BOTTOM")) result |= Gravity.BOTTOM;
 
         if (fillHorizontal) result |= Gravity.FILL_HORIZONTAL;
         if (fillVertical) result |= Gravity.FILL_VERTICAL;
@@ -1263,8 +1256,6 @@ public class CustomInputMethodService extends InputMethodService
 
     private void handleSpace() {
         commitText(" ");
-        updateCandidates();
-        mCandidateView.clearSuggestions();
         mCandidateView.clear();
         // if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
         //     int spaceCount = (4 - (getPrevLine().length() % 4));
@@ -1404,12 +1395,21 @@ public class CustomInputMethodService extends InputMethodService
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
+        System.out.println(primaryCode);
 
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
             redraw();
         }
         switch (primaryCode) {
+            case -501: System.out.println(primaryCode); break;
+            case -502: System.out.println(primaryCode); break;
+            case -503: System.out.println(primaryCode); break;
+            case -504: System.out.println(primaryCode); break;
+            case -505: System.out.println(primaryCode); break;
+            case -506: System.out.println(primaryCode); break;
+            case -507: System.out.println(primaryCode); break;
+            case -508: System.out.println(primaryCode); break;
             case 142: sendKey(KeyEvent.KEYCODE_F12); break;
             case 141: sendKey(KeyEvent.KEYCODE_F11); break;
             case 140: sendKey(KeyEvent.KEYCODE_F10); break;
@@ -1426,9 +1426,6 @@ public class CustomInputMethodService extends InputMethodService
             case 32: handleSpace(); break;
             case 10: handleEnter(); break;
             case -2:
-                PopupWindow popupWindow = new PopupWindow();
-                popupWindow = new PopupWindow(getBaseContext());
-                popupWindow.setClippingEnabled(false);
 
 
                 break;
@@ -1513,7 +1510,7 @@ public class CustomInputMethodService extends InputMethodService
             case -60: performReplace(Util.splitWithLinebreaks(getText(ic))); break;
             case -61: performReplace(Util.splitWithSpaces(getText(ic))); break;
             case -62: performReplace(Util.removeSpaces(getText(ic))); break;
-            case -63: performReplace(Util.spaceReplace(getText(ic))); break;
+            case -63: performReplace(Util.reduceSpaces(getText(ic))); break;
             case -64: performReplace(Util.increaseIndentation(getText(ic))); break;
             case -65: performReplace(Util.decreaseIndentation(getText(ic))); break;
             case -66: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
@@ -1531,10 +1528,7 @@ public class CustomInputMethodService extends InputMethodService
                     performReplace(Util.linebreaksToSpaces(getText(ic)));
                 }
                 break;
-            case -73:
-                toastIt(Util.timemoji());
-                commitText(Util.timemoji());
-                break;
+            case -73: commitText(Util.timemoji()); break;
             case -74: performContextMenuAction(16908338); break; // undo
             case -75: performContextMenuAction(16908339); break; // redo
             case -76: performContextMenuAction(16908337); break; // pasteAsPlainText,
@@ -1672,6 +1666,7 @@ public class CustomInputMethodService extends InputMethodService
                 else handleCharacter(primaryCode, keyCodes);
                 break;
         }
+        redraw();
         try {
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
                 if (isWordSeparator(ic.getTextBeforeCursor(2, 0).toString())) {
@@ -1682,6 +1677,8 @@ public class CustomInputMethodService extends InputMethodService
         }
         catch (Exception ignored) {}
     }
+
+
 
     public short getRowNumber() {
         return rowNumber;

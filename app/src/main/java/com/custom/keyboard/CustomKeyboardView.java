@@ -160,6 +160,9 @@ public class CustomKeyboardView extends KeyboardView {
         boolean keyback = sharedPreferences.getBoolean("keyback", false);
         boolean space = sharedPreferences.getBoolean("space", false);
 
+        mPaint.setTextAlign(Paint.Align.CENTER);
+
+
         int border = 2;  // borders || padding ? 2 : 0;
         int corner = 16; // corners ? 16 : 0;
 
@@ -221,18 +224,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
 
 
-            if (Variables.isAnyOn()) {
-                if (Variables.isCtrl()) {
-                    if (key.codes[0] == -113) {
-                        selectKey(key);
-                    }
-                }
-                if (Variables.isAlt()) {
-                    if (key.codes[0] == -114) {
-                        selectKey(key);
-                    }
-                }
-            }
+
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key);
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
@@ -242,13 +234,7 @@ public class CustomKeyboardView extends KeyboardView {
                     drawable(key, R.drawable.ic_shift_lock);
                 }
             }
-            if (key.codes[0] == -11) {
-                if (Variables.isSelecting()) {
-                    selectKey(key);
-                }
-            }
-            if (key.codes[0] == -113) drawKey(mTransparent, key);
-            if (key.codes[0] == -114) drawKey(mTransparent, key);
+            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key);}}
 
             if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, corner);}}
             if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, corner);}}
@@ -274,8 +260,10 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, corner);}}
             if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, corner);}}
             if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, corner);}}
+            if (key.codes[0] == -73) key.label = Util.timemoji();
 
             mPaint.setTextAlign(Paint.Align.CENTER);
+
 
             if (key.popupCharacters != null
                 && key.codes != null
@@ -304,23 +292,23 @@ public class CustomKeyboardView extends KeyboardView {
                     mPaint.setColor(Color.parseColor(foreground));
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())
-                             ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                             : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20,             key.y+30,            mPaint);
+                            ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
+                            : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20, key.y+30, mPaint);
                     }
                     if (key.popupCharacters.length() > 1 && sharedPreferences.getBoolean("hint2", false)) {
                         canvas.drawText((getKeyboard().isShifted()
-                             ? String.valueOf(key.popupCharacters.charAt(1)).toUpperCase()
-                             : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), key.x+(key.width-20), key.y+30,            mPaint);
+                            ? String.valueOf(key.popupCharacters.charAt(1)).toUpperCase()
+                            : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), key.x+(key.width-20), key.y+30, mPaint);
                     }
                     if (key.popupCharacters.length() > 2 && sharedPreferences.getBoolean("hint3", false)) {
                         canvas.drawText((getKeyboard().isShifted()
-                             ? String.valueOf(key.popupCharacters.charAt(2)).toUpperCase()
-                             : String.valueOf(key.popupCharacters.charAt(2)).toLowerCase()), key.x+20,             key.y+key.height-15, mPaint);
+                            ? String.valueOf(key.popupCharacters.charAt(2)).toUpperCase()
+                            : String.valueOf(key.popupCharacters.charAt(2)).toLowerCase()), key.x+20, key.y+key.height-15, mPaint);
                     }
                     if (key.popupCharacters.length() > 3 && sharedPreferences.getBoolean("hint4", false)) {
                         canvas.drawText((getKeyboard().isShifted()
-                             ? String.valueOf(key.popupCharacters.charAt(3)).toUpperCase()
-                             : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+key.height-15, mPaint);
+                            ? String.valueOf(key.popupCharacters.charAt(3)).toUpperCase()
+                            : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+key.height-15, mPaint);
                     }
                 }
                 canvas.restore();

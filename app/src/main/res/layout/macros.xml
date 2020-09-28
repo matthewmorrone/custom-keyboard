@@ -21,7 +21,6 @@
     <Row android:keyWidth="16.666%p">
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
-<!--        <Key android:codes="-37"  android:keyIcon="@drawable/ic_input" />-->
         <Key android:codes="-509" android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />
         <Key android:codes="-510" android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" />
         <Key android:codes="-511" android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" />

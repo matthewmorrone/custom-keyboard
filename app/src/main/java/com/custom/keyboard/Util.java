@@ -39,19 +39,7 @@ import org.json.JSONObject;
 public class Util {
 
     // general
-    // is
-    // case
-    // text manipulation
-    // char/word/line manipulation
-    // time-related stuff
-    // random stuff
-    // color
-    // encoding
-    // low level stuff
-
     public static void noop() {}
-
-
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(largeIntToChar(primaryCode));
 
@@ -78,6 +66,51 @@ public class Util {
         }
         return result; // result.toArray(new String[0]);
     }
+    public static CharSequence asCharSequence(String text) {
+        Bundle bundle = new Bundle();
+        return bundle.getCharSequence(text);
+    }
+    public static String convertNumberBase(String number, int base1, int base2) {
+        try {
+            return Integer.toString(Integer.parseInt(number, base1), base2).toUpperCase();
+        }
+        catch (Exception e) {
+            return number;
+        }
+    }
+    public static String convertFromUnicodeToNumber(String glyph) {
+        try {
+            return String.valueOf(glyph.codePointAt(0));
+        }
+        catch (Exception e) {
+            return glyph;
+        }
+    }
+    public static String convertFromNumberToUnicode(String number) {
+        try {
+            // Util.largeIntToChar(primaryCode)
+            return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
+        }
+        catch (Exception e) {
+            return number;
+        }
+    }
+    public static String largeIntToChar(int primaryCode) {
+        return new String(Character.toChars(primaryCode));
+    }
+
+    // is
+    public static boolean containsNumber(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isDigit(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isDigit(int code) {
+        return Character.isDigit(code);
+    }
     public static boolean isNumeric(String strNum) {
         try {
             double d = Double.parseDouble(strNum);
@@ -86,6 +119,20 @@ public class Util {
             return false;
         }
         return true;
+    }
+    public static boolean isAlphaNumeric(int primaryCode) {
+        return (isLetter(primaryCode) || isDigit(primaryCode));
+    }
+    public static boolean isLetter(int primaryCode) {
+        if (primaryCode >= 65 && primaryCode <= 91) {
+            return true;
+        }
+        return primaryCode >= 97 && primaryCode <= 123;
+    }
+    public static boolean isAstralCharacter(String ch) {
+        int value = Integer.parseInt(ch, 16);
+        char[] codeUnits = Character.toChars(value);
+        return codeUnits.length > 1;
     }
     public static boolean isValidUrl(String url) {
         return URLUtil.isValidUrl(url);
@@ -129,30 +176,253 @@ public class Util {
     public static boolean isWordSeparator(String text, String delimiters) {
         return delimiters.contains(text);
     }
-    public static Boolean isAstralCharacter(String ch) {
-        int value = Integer.parseInt(ch, 16);
-        char[] codeUnits = Character.toChars(value);
-        return codeUnits.length > 1;
-    }
-    public static boolean isDigit(int code) {
-        return Character.isDigit(code);
-    }
-    public static Boolean isAlphaNumeric(int primaryCode) {
-        return (isLetter(primaryCode) || isDigit(primaryCode));
-    }
-    public static Boolean isLetter(int primaryCode) {
-        if (primaryCode >= 65 && primaryCode <= 91) {
-            return true;
+
+    // info
+    public static HashMap<Character, Integer> getCharacterFrequencies(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            Integer val = map.get(c);
+            if (val != null) map.put(c, val + 1);
+            else map.put(c, 1);
         }
-        return primaryCode >= 97 && primaryCode <= 123;
+        return map;
     }
-    public static boolean containsNumber(String text) {
+    public static Map<String, Integer> getWordFrequencies(String[] words) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String w : words) {
+            Integer n = map.get(w);
+            n = (n == null) ? 1 : ++n;
+            map.put(w, n);
+        }
+        return map;
+    }
+    public static String unidata(String text) {
+        if (text.length() < 1) return "";
+
+        if (Character.isHighSurrogate(text.charAt(0))
+            ||  Character.isLowSurrogate(text.charAt(0))) {
+            return unidata((int)text.codePointAt(0));
+        }
+
+        // Util.largeIntToChar(primaryCode)
+        return unidata((int)text.charAt(0));
+    }
+    public static String unidata(int primaryCode) {
+        // Util.largeIntToChar(primaryCode)
+        return toTitleCase(Character.getName(primaryCode))+"\n"+
+            primaryCode+"\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
+        /*
+        return ""+
+            toTitleCase(Character.getName(primaryCode))+
+            "\n"+
+            primaryCode+
+            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
+            ""+
+
+               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
+               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
+               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
+               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
+               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
+               "Upper: " + Character.toUpperCase(primaryCode)+", " +
+               "Title: " + Character.toTitleCase(primaryCode)+", " +
+               "Lower: " + Character.toLowerCase(primaryCode)+", " +
+               (Character.isLetter(primaryCode) ? "Letter, " : "") +
+               (Character.isDigit(primaryCode) ? "Digit, " : "") +
+               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
+               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
+               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
+               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
+               (Character.isDefined(primaryCode) ? "Defined, " : "") +
+               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
+               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
+               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
+               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
+               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
+               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
+               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
+               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
+               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
+               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
+               "Value " + Character.getNumericValue(primaryCode)+", " +
+               "Direction " + Character.getDirectionality(primaryCode)+""+
+
+               ""
+               ;
+               */
+
+    }
+    public static String getCharType(byte ch) {
+        switch (ch) {
+            case 8:      return "Mc";
+            case 23:     return "Pc";
+            case 15:     return "Cc";
+            case 26:     return "Sc";
+            case 20:     return "Pd";
+            case 9:      return "Nd";
+            case 7:      return "Me";
+            case 22:     return "Pe";
+            case 30:     return "Pf";
+            case 16:     return "Cf";
+            case 29:     return "Pi";
+            case 10:     return "Nl";
+            case 13:     return "Zl";
+            case 2:      return "Ll";
+            case 25:     return "Sm";
+            case 4:      return "Lm";
+            case 27:     return "Sk";
+            case 6:      return "Mn";
+            case 5:      return "Lo";
+            case 11:     return "No";
+            case 24:     return "Po";
+            case 28:     return "So";
+            case 14:     return "Zp";
+            case 18:     return "Co";
+            case 12:     return "Zs";
+            case 21:     return "Ps";
+            case 19:     return "Cs";
+            case 3:      return "Lt";
+            case 0:      return "Cn";
+            case 1:      return "Lu";
+            default:     return "";
+        }
+    }
+    public static String getCharacterType(byte ch) {
+        switch (ch) {
+            case 8:      return "COMBINING_SPACING_MARK";
+            case 23:     return "CONNECTOR_PUNCTUATION";
+            case 15:     return "CONTROL";
+            case 26:     return "CURRENCY_SYMBOL";
+            case 20:     return "DASH_PUNCTUATION";
+            case 9:      return "DECIMAL_DIGIT_NUMBER";
+            case 7:      return "ENCLOSING_MARK";
+            case 22:     return "END_PUNCTUATION";
+            case 30:     return "FINAL_QUOTE_PUNCTUATION";
+            case 16:     return "FORMAT";
+            case 29:     return "INITIAL_QUOTE_PUNCTUATION";
+            case 10:     return "LETTER_NUMBER";
+            case 13:     return "LINE_SEPARATOR";
+            case 2:      return "LOWERCASE_LETTER";
+            case 25:     return "MATH_SYMBOL";
+            case 4:      return "MODIFIER_LETTER";
+            case 27:     return "MODIFIER_SYMBOL";
+            case 6:      return "NON_SPACING_MARK";
+            case 5:      return "OTHER_LETTER";
+            case 11:     return "OTHER_NUMBER";
+            case 24:     return "OTHER_PUNCTUATION";
+            case 28:     return "OTHER_SYMBOL";
+            case 14:     return "PARAGRAPH_SEPARATOR";
+            case 18:     return "PRIVATE_USE";
+            case 12:     return "SPACE_SEPARATOR";
+            case 21:     return "START_PUNCTUATION";
+            case 19:     return "SURROGATE";
+            case 3:      return "TITLECASE_LETTER";
+            case 0:      return "UNASSIGNED";
+            case 1:      return "UPPERCASE_LETTER";
+            default:     return "";
+        }
+    }
+
+    // case
+    public static boolean isLowerCase(String text) {
         for (int i = 0; i < text.length(); i++) {
-            if (Character.isDigit(text.charAt(i))) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isTitleCase(String text) {
+        if (text == null || text.length() < 1) return false;
+        if (!Character.isUpperCase(text.charAt(0))) {
+            return false;
+        }
+        for (int i = 1; i < text.length(); i++) {
+            if (!Character.isLowerCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isUpperCase(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean containsLowerCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isLowerCase(text.charAt(i))) {
                 return true;
             }
         }
         return false;
+    }
+    public static boolean containsUpperCase(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static String toLowerCase(String text) {
+        return text.toLowerCase();
+    }
+    public static String toTitleCase(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        StringBuilder converted = new StringBuilder();
+        boolean convertNext = true;
+        for (char ch : text.toCharArray()) {
+            if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
+                convertNext = true;
+            }
+            else if (convertNext) {
+                ch = Character.toTitleCase(ch);
+                convertNext = false;
+            }
+            else {
+                ch = Character.toLowerCase(ch);
+            }
+            converted.append(ch);
+        }
+        return converted.toString();
+    }
+    public static String toUpperCase(String text) {
+        return text.toUpperCase();
+    }
+    public static String toAlterCase(String text) {
+        char[] array = new char[]{};
+
+        int seed = generateRandomInt(0, 1);
+        array = text.toCharArray();
+
+        for (int i = seed; i < array.length - seed; i += 2) {
+            if (array[i] == ' ') {
+                i++;
+            }
+            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
+            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
+        }
+
+        text = new String(array);
+        return text;
+    }
+
+    // char/word/line manipulation
+    public static int countChars(String text) {
+        return text.codePointCount(0, text.length());
+    }
+    public static int countWords(String text) {
+        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]").length;
+    }
+    public static int countLines(String text) {
+        return text.split("\r\n|\r|\n").length;
     }
     public static String[] getChars(String text) {
         return text.split("");
@@ -163,15 +433,6 @@ public class Util {
     }
     public static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");
-    }
-    public static int countChars(String text) {
-        return text.codePointCount(0, text.length());
-    }
-    public static int countWords(String text) {
-        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]").length;
-    }
-    public static int countLines(String text) {
-        return text.split("\r\n|\r|\n").length;
     }
     public static String sortChars(String text) {
         String[] lines = getChars(text);
@@ -232,6 +493,24 @@ public class Util {
         Collections.shuffle(result);
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
+
+    // @TODO: removeDuplicateChars or uniqueChars, pick one and ensure consistency
+    public static String removeDuplicateChars(String text) {
+        char[] str = text.toCharArray();
+        int n = str.length;
+        int index = 0, i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < i; j++) {
+                if (str[i] == str[j]) {
+                    break;
+                }
+            }
+            if (j == i) {
+                str[index++] = str[i];
+            }
+        }
+        return String.valueOf(Arrays.copyOf(str, index));
+    }
     public static String uniqueChars(String text) {
         String[] lines = getChars(text);
         ArrayList<String> result = new ArrayList<>();
@@ -274,25 +553,145 @@ public class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    public static HashMap<Character, Integer> getCharacterFrequencies(String s) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            Integer val = map.get(c);
-            if (val != null) map.put(c, val + 1);
-            else map.put(c, 1);
-        }
-        return map;
+
+
+
+    // spacing stuff
+    public static String trim(String text) {
+        text = text.trim()
+            .replaceAll("^\u00A0+", "")
+            .replaceAll("^\u0020+", "")
+            .replaceAll("^\u0009+", "")
+            .replaceAll("^\u0010+", "")
+            .replaceAll("\u00A0+$", "")
+            .replaceAll("\u0020+$", "")
+            .replaceAll("\u0009+$", "")
+            .replaceAll("\u0010+$", "");
+        return text;
     }
-    public static Map<String, Integer> getWordFrequencies(String[] words) {
-        Map<String, Integer> map = new HashMap<>();
-        for (String w : words) {
-            Integer n = map.get(w);
-            n = (n == null) ? 1 : ++n;
-            map.put(w, n);
-        }
-        return map;
+    public static String trimEndingWhitespace(String text) {
+        return text.replaceAll("[ \t]+\n", "\n")
+            .replaceAll("[ \t]+$",  "");
     }
+    public static String trimTrailingWhitespace(String text) {
+        return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
+            .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
+    }
+    public static String getIndentation(String line) {
+        String regex = "^(\\s+).+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(line);
+        if (m.find()) {
+            line = line.replaceAll(regex, "$1");
+            if (line.length() % 4 != 0) {
+                line += " ";
+            }
+            return line;
+        }
+        return "";
+    }
+    public static String increaseIndentation(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(line.replaceAll("^", "    "));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String decreaseIndentation(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(line.replaceAll("^ {4}", ""));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "\n");
+    }
+    public static String padLeft(String text, int length) {
+        return padLeft(text, length, " ");
+    }
+    public static String padLeft(String text, int length, String pad) {
+        if (text.length() >= length) {
+            return text;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - text.length()) {
+            sb.append(pad);
+        }
+        sb.append(text);
+        return sb.toString();
+    }
+    public static String padRight(String text, int length) {
+        return padRight(text, length, " ");
+    }
+    public static String padRight(String text, int length, String pad) {
+        if (text.length() >= length) {
+            return text;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(text);
+        while (sb.length() < length - text.length()) {
+            sb.append(pad);
+        }
+        return sb.toString();
+    }
+    public static String splitWithLinebreaks(String text){
+        return text.replaceAll("(.)", "$1\n");
+    }
+    public static String splitWithSpaces(String text) {
+        return text.replaceAll("(.)", "$1 ");
+    }
+    public static String removeSpaces(String text) {
+        return text.replaceAll(" ", "");
+    }
+    public static String removeLinebreaks(String text) {
+        return text.replaceAll("\n", "");
+    }
+    public static String reduceSpaces(String text) {
+        return text.replaceAll(" +", " ");
+    }
+    public static String reduceLinebreaks(String text) {
+        return text.replaceAll("\n+", "\n");
+    }
+    public static String underscoresToSpaces(String text) {
+        return text.replaceAll("_", " ");
+    }
+    public static String spacesToUnderscores(String text) {
+        return text.replaceAll(" ", "_");
+    }
+    public static String dashesToSpaces(String text) {
+        return text.replaceAll("-", " ");
+    }
+    public static String spacesToDashes(String text) {
+        return text.replaceAll(" ", "-");
+    }
+    public static String spacesToLinebreaks(String text) {
+        return text.replaceAll(" ", "\n");
+    }
+    public static String linebreaksToSpaces(String text) {
+        return text.replaceAll("\n", " ");
+    }
+    public static String spacesToTabs(String text) {
+        return text.replaceAll(" ", "\t");
+    }
+    public static String tabsToSpaces(String text) {
+        return text.replaceAll("\t", " ");
+    }
+    public static String replaceNbsp(String text) {
+        // String nbsp = "&nbsp;"
+        // text.replaceAll("&nbsp;", " ");
+        return text.replaceAll("\u00a0", " ");
+    }
+    public static boolean hasZWSP(String text) {
+        return text.contains("");
+    }
+    public static String replaceZWSP(String text, String ins) {
+        return text.replaceAll("", "" + ins);
+    }
+    public static String removeZWSP(String text) {
+        return text.replaceAll("", "");
+    }
+
+    // text manipulation
     public static String rotateLinesBackward(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
@@ -386,206 +785,6 @@ public class Util {
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    public static boolean hasZWSP(String text) {
-        return text.contains("");
-    }
-    public static String replaceZWSP(String text, String ins) {
-        return text.replaceAll("", "" + ins);
-    }
-    public static String removeZWSP(String text) {
-        return text.replaceAll("", "");
-    }
-    public static CharSequence toCharSequence(String text) {
-        Bundle bundle = new Bundle();
-        return bundle.getCharSequence(text);
-    }
-    public static String removeDuplicateChars(String text) {
-        char[] str = text.toCharArray();
-        int n = str.length;
-        int index = 0, i, j;
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < i; j++) {
-                if (str[i] == str[j]) {
-                    break;
-                }
-            }
-            if (j == i) {
-                str[index++] = str[i];
-            }
-        }
-        return String.valueOf(Arrays.copyOf(str, index));
-    }
-    public static String getDateString(String dateFormat) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-        return sdf.format(cal.getTime());
-    }
-    public static String getTimeString(String timeFormat) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
-        return sdf.format(cal.getTime());
-    }
-    public static String convertNumberBase(String number, int base1, int base2) {
-        try {
-            return Integer.toString(Integer.parseInt(number, base1), base2).toUpperCase();
-        }
-        catch (Exception e) {
-            return number;
-        }
-    }
-    public static String convertFromUnicodeToNumber(String glyph) {
-        try {
-            return String.valueOf(glyph.codePointAt(0));
-        }
-        catch (Exception e) {
-            return glyph;
-        }
-    }
-    public static String convertFromNumberToUnicode(String number) {
-        try {
-            // Util.largeIntToChar(primaryCode)
-            return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
-        }
-        catch (Exception e) {
-            return number;
-        }
-    }
-    public static String unidata(String text) {
-        if (text.length() < 1) return "";
-
-        if (Character.isHighSurrogate(text.charAt(0))
-            ||  Character.isLowSurrogate(text.charAt(0))) {
-            return unidata((int)text.codePointAt(0));
-        }
-
-        // Util.largeIntToChar(primaryCode)
-        return unidata((int)text.charAt(0));
-    }
-    public static String unidata(int primaryCode) {
-        // Util.largeIntToChar(primaryCode)
-        return toTitleCase(Character.getName(primaryCode))+"\n"+
-            primaryCode+"\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
-        /*
-        return ""+
-            toTitleCase(Character.getName(primaryCode))+
-            "\n"+
-            primaryCode+
-            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
-            ""+
-
-               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
-               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
-               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
-               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
-               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
-               "Upper: " + Character.toUpperCase(primaryCode)+", " +
-               "Title: " + Character.toTitleCase(primaryCode)+", " +
-               "Lower: " + Character.toLowerCase(primaryCode)+", " +
-               (Character.isLetter(primaryCode) ? "Letter, " : "") +
-               (Character.isDigit(primaryCode) ? "Digit, " : "") +
-               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
-               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
-               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
-               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
-               (Character.isDefined(primaryCode) ? "Defined, " : "") +
-               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
-               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
-               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
-               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
-               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
-               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
-               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
-               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
-               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
-               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
-               "Value " + Character.getNumericValue(primaryCode)+", " +
-               "Direction " + Character.getDirectionality(primaryCode)+""+
-
-               ""
-               ;
-               */
-
-    }
-    public static String padLeft(String text, int length) {
-        return padLeft(text, length, " ");
-    }
-    public static String padLeft(String text, int length, String pad) {
-        if (text.length() >= length) {
-            return text;
-        }
-        StringBuilder sb = new StringBuilder();
-        while (sb.length() < length - text.length()) {
-            sb.append(pad);
-        }
-        sb.append(text);
-        return sb.toString();
-    }
-    public static String padRight(String text, int length) {
-        return padRight(text, length, " ");
-    }
-    public static String padRight(String text, int length, String pad) {
-        if (text.length() >= length) {
-            return text;
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(text);
-        while (sb.length() < length - text.length()) {
-            sb.append(pad);
-        }
-        return sb.toString();
-    }
-    public static String getIndentation(String line) {
-        String regex = "^(\\s+).+$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(line);
-        if (m.find()) {
-            line = line.replaceAll(regex, "$1");
-            if (line.length() % 4 != 0) {
-                line += " ";
-            }
-            return line;
-        }
-        return "";
-    }
-    public static String increaseIndentation(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        for (String line : lines) {
-            result.add(line.replaceAll("^", "    "));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String decreaseIndentation(String text) {
-        String[] lines = getLines(text);
-        ArrayList<String> result = new ArrayList<>();
-        for (String line : lines) {
-            result.add(line.replaceAll("^ {4}", ""));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
-    }
-    public static String removeSpaces(String text) {
-        return text.replaceAll(" ", "");
-    }
-    public static String trimEndingWhitespace(String text) {
-        return text.replaceAll("[ \t]+\n", "\n")
-            .replaceAll("[ \t]+$",  "");
-    }
-    public static String trimTrailingWhitespace(String text) {
-        return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
-            .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
-    }
-    public static String trim(String text) {
-        text = text.trim()
-            .replaceAll("^\u00A0+", "")
-            .replaceAll("^\u0020+", "")
-            .replaceAll("^\u0009+", "")
-            .replaceAll("^\u0010+", "")
-            .replaceAll("\u00A0+$", "")
-            .replaceAll("\u0020+$", "")
-            .replaceAll("\u0009+$", "")
-            .replaceAll("\u0010+$", "");
-        return text;
-    }
     public static String camelToSnake(String text) {
         return text.replaceAll("([A-Z])", "_$1").toLowerCase();
     }
@@ -607,144 +806,12 @@ public class Util {
         }
         return nameBuilder.toString();
     }
-    public static String underscoresToSpaces(String text) {
-        return text.replaceAll("_", " ");
-    }
-    public static String spacesToUnderscores(String text) {
-        return text.replaceAll(" ", "_");
-    }
-    public static String dashesToSpaces(String text) {
-        return text.replaceAll("-", " ");
-    }
-    public static String spacesToDashes(String text) {
-        return text.replaceAll(" ", "-");
-    }
-    public static String spacesToLinebreaks(String text) {
-        return text.replaceAll(" ", "\n");
-    }
-    public static String linebreaksToSpaces(String text) {
-        return text.replaceAll("\n", " ");
-    }
-    public static String spacesToTabs(String text) {
-        return text.replaceAll(" ", "\t");
-    }
-    public static String tabsToSpaces(String text) {
-        return text.replaceAll("\t", " ");
-    }
-    public static String splitWithLinebreaks(String text){
-        return text.replaceAll("(.)", "$1\n");
-    }
-    public static String removeLinebreaks(String text) {
-        return text.replaceAll("\n", "");
-    }
-    public static String splitWithSpaces(String text) {
-        return text.replaceAll("(.)", "$1 ");
-    }
-    public static int generateRandomInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
-    }
-    public static String toUpperCase(String text) {
-        return text.toUpperCase();
-    }
-    public static String toLowerCase(String text) {
-        return text.toLowerCase();
-    }
-    public static String toTitleCase(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
-        }
-        StringBuilder converted = new StringBuilder();
-        boolean convertNext = true;
-        for (char ch : text.toCharArray()) {
-            if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
-                convertNext = true;
-            }
-            else if (convertNext) {
-                ch = Character.toTitleCase(ch);
-                convertNext = false;
-            }
-            else {
-                ch = Character.toLowerCase(ch);
-            }
-            converted.append(ch);
-        }
-        return converted.toString();
-    }
-    public static String toAlterCase(String text) {
-        char[] array = new char[]{};
-
-        int seed = generateRandomInt(0, 1);
-        array = text.toCharArray();
-
-        for (int i = seed; i < array.length - seed; i += 2) {
-            if (array[i] == ' ') {
-                i++;
-            }
-            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
-            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
-        }
-
-        text = new String(array);
-        return text;
-    }
-    public static boolean containsLowerCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isLowerCase(text.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public static boolean isTitleCase(String text) {
-        if (text == null || text.length() < 1) return false;
-        if (!Character.isUpperCase(text.charAt(0))) {
-            return false;
-        }
-        for (int i = 1; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-    public static boolean isLowerCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-    public static boolean isUpperCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (!Character.isUpperCase(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-    public static boolean containsUpperCase(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isUpperCase(text.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
     public static String normalize(String text) {
         // String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
         // return normalized.toLowerCase(Locale.ENGLISH);
         return Normalizer.normalize(text, Normalizer.Form.NFD);
         //.replaceAll("[^\\p{ASCII}]", "")
         //.toLowerCase();
-    }
-    public static String replaceNbsp(String text) {
-        // String nbsp = "&nbsp;"
-        // text.replaceAll("&nbsp;", " ");
-        return text.replaceAll("\u00a0", " ");
-    }
-    public static String spaceReplace(String text) {
-        return text.replaceAll(" +", " ");
     }
     public static String slug(String text) {
         return text.replaceAll("[ÀÁÂÃÄÅĀĂĄḀẠẢẤẦẨẪẬẮẰẲẴẶǍǺȦȀȂǞǠǢǼ]", "A")
@@ -841,20 +908,6 @@ public class Util {
             .replaceAll("[Ӭ]", "Э")
             .replaceAll("[Ѷ]", "Ѵ");
     }
-    public static long nowAsLong() {
-        return Instant.now().getEpochSecond();
-    }
-    public static int nowAsInt() {
-        // new Date().getTime() / 1000;
-        return (int) (System.currentTimeMillis() / 1000L);
-    }
-    public static Date stringToDate(String date, String format) throws Exception {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
-        return simpleDateFormat.parse(date);
-    }
-    public static String doubleCharacters(String text) {
-        return text.replaceAll("(.)", "$1$1");
-    }
     public static String truncate(String value, int length) {
         return value.length() > length ? value.substring(0, length) : value;
     }
@@ -874,75 +927,10 @@ public class Util {
         }
         return sb.toString();
     }
-    public static String getCharType(byte ch) {
-        switch (ch) {
-            case 8:      return "Mc";
-            case 23:     return "Pc";
-            case 15:     return "Cc";
-            case 26:     return "Sc";
-            case 20:     return "Pd";
-            case 9:      return "Nd";
-            case 7:      return "Me";
-            case 22:     return "Pe";
-            case 30:     return "Pf";
-            case 16:     return "Cf";
-            case 29:     return "Pi";
-            case 10:     return "Nl";
-            case 13:     return "Zl";
-            case 2:      return "Ll";
-            case 25:     return "Sm";
-            case 4:      return "Lm";
-            case 27:     return "Sk";
-            case 6:      return "Mn";
-            case 5:      return "Lo";
-            case 11:     return "No";
-            case 24:     return "Po";
-            case 28:     return "So";
-            case 14:     return "Zp";
-            case 18:     return "Co";
-            case 12:     return "Zs";
-            case 21:     return "Ps";
-            case 19:     return "Cs";
-            case 3:      return "Lt";
-            case 0:      return "Cn";
-            case 1:      return "Lu";
-            default:     return "";
-        }
-    }
-    public static String getCharacterType(byte ch) {
-        switch (ch) {
-            case 8:      return "COMBINING_SPACING_MARK";
-            case 23:     return "CONNECTOR_PUNCTUATION";
-            case 15:     return "CONTROL";
-            case 26:     return "CURRENCY_SYMBOL";
-            case 20:     return "DASH_PUNCTUATION";
-            case 9:      return "DECIMAL_DIGIT_NUMBER";
-            case 7:      return "ENCLOSING_MARK";
-            case 22:     return "END_PUNCTUATION";
-            case 30:     return "FINAL_QUOTE_PUNCTUATION";
-            case 16:     return "FORMAT";
-            case 29:     return "INITIAL_QUOTE_PUNCTUATION";
-            case 10:     return "LETTER_NUMBER";
-            case 13:     return "LINE_SEPARATOR";
-            case 2:      return "LOWERCASE_LETTER";
-            case 25:     return "MATH_SYMBOL";
-            case 4:      return "MODIFIER_LETTER";
-            case 27:     return "MODIFIER_SYMBOL";
-            case 6:      return "NON_SPACING_MARK";
-            case 5:      return "OTHER_LETTER";
-            case 11:     return "OTHER_NUMBER";
-            case 24:     return "OTHER_PUNCTUATION";
-            case 28:     return "OTHER_SYMBOL";
-            case 14:     return "PARAGRAPH_SEPARATOR";
-            case 18:     return "PRIVATE_USE";
-            case 12:     return "SPACE_SEPARATOR";
-            case 21:     return "START_PUNCTUATION";
-            case 19:     return "SURROGATE";
-            case 3:      return "TITLECASE_LETTER";
-            case 0:      return "UNASSIGNED";
-            case 1:      return "UPPERCASE_LETTER";
-            default:     return "";
-        }
+
+    // random stuff
+    public static int generateRandomInt(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
     }
     public static String pickALetter() {
         String letters = "abcdefghijklmnopqrstuvwxyz";
@@ -966,6 +954,32 @@ public class Util {
         String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
         return Util.largeIntToChar(cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length())) - 1));
     }
+    public static String shake8Ball() {
+        return "" + Constants.answers[generateRandomInt(1, 20) - 1];
+    }
+
+    // time-related stuff
+    public static long nowAsLong() {
+        return Instant.now().getEpochSecond();
+    }
+    public static int nowAsInt() {
+        // new Date().getTime() / 1000;
+        return (int) (System.currentTimeMillis() / 1000L);
+    }
+    public static Date stringToDate(String date, String format) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
+        return simpleDateFormat.parse(date);
+    }
+    public static String getDateString(String dateFormat) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        return sdf.format(cal.getTime());
+    }
+    public static String getTimeString(String timeFormat) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
+        return sdf.format(cal.getTime());
+    }
     public static String timemoji() {
         String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
 
@@ -977,16 +991,14 @@ public class Util {
         int minutes = rightNow.get(Calendar.MINUTE);
 
         // 0 thru 29, 30 thru 59
-        int which = (((hours - 1) * 2) + (minutes / 30));
+        int which = (((hours - 1) * 2) + (minutes / 30)) * 2;
+
+        System.out.println(hours+" "+minutes+" "+which+" "+largeIntToChar(clocks.codePointAt(which)));
 
         return largeIntToChar(clocks.codePointAt(which));
     }
-    public static String largeIntToChar(int primaryCode) {
-        return new String(Character.toChars(primaryCode));
-    }
-    public static String shake8Ball() {
-        return "" + Constants.answers[generateRandomInt(1, 20) - 1];
-    }
+
+    // color
     public static String toColor(int r, int g, int b) {
         String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
         String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
@@ -1025,6 +1037,8 @@ public class Util {
         bi = Integer.decode("0x" + bs);
         return new int[]{ai, ri, gi, bi};
     }
+
+    // encoding
     public static String escapeHtml(String s) {
         StringBuilder out = new StringBuilder(Math.max(16, s.length()));
         for (int i = 0; i < s.length(); i++) {
@@ -1061,6 +1075,8 @@ public class Util {
     public static String decodeMime(String encodedString) {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
+
+    // low level stuff
     public static boolean isIntentAvailable(Context ctx, Intent intent) {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
