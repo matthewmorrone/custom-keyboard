@@ -225,7 +225,7 @@ public class CandidateView extends View {
     }
 
     public void clearSuggestions() {
-        this.setSuggestions(new ArrayList<>(), false, false);
+        this.setSuggestions(new ArrayList<String>(), false, false);
         clear();
     }
 

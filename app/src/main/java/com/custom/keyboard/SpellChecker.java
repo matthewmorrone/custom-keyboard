@@ -65,6 +65,10 @@ public class SpellChecker {
         return strings;
     }
 
+    public void addToTrie(String text) {
+        trie.insert(text, 1);
+    }
+
     private void buildTrie(Context context, int id) {
         InputStream inputStream = context.getResources().openRawResource(id);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

@@ -55,6 +55,10 @@ public class Trie {
         termini = new ArrayList<>();
     }
 
+    public void insert(String word) {
+        insert(word, 1);
+    }
+
     public void insert(String word, long value) {
         HashMap<Character,TrieNode> children = root.children;
 

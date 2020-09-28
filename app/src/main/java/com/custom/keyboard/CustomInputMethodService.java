@@ -614,10 +614,12 @@ public class CustomInputMethodService extends InputMethodService
         if (prevWord.length() > 0) {
             prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
             prevChar = prevChar.substring(0, 1);
+/*
             if (!Character.isLetter(prevChar.charAt(0))) {
                 this.mCandidateView.clearSuggestions();
                 return;
             }
+*/
         }
 
         boolean isTitleCase = Util.isTitleCase(prevWord);
@@ -660,6 +662,8 @@ public class CustomInputMethodService extends InputMethodService
 
     public void addToDictionary(String word) {
         UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
+        spellChecker.addToTrie(word);
+        toastIt(word+" added to dictionary");
     }
 
     public void pickSuggestionManually(int index) {
