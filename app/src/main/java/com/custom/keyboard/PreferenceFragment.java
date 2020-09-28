@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -51,10 +49,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         baseContext = getActivity().getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
 
-        for(CharSequence entry : theme.getEntryValues()) {
-            themes.add(String.valueOf(entry));
-        }
-
         try {
             addPreferencesFromResource(R.xml.preferences);
             PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
@@ -66,6 +60,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             seps = (EditTextPreference)findPreference("seps");
             theme = (ListPreference)findPreference("theme");
+            // for(CharSequence entry : theme.getEntryValues()) {
+            //     themes.add(String.valueOf(entry));
+            // }
             foreground = (EditTextPreference)findPreference("foreground");
             background = (EditTextPreference)findPreference("background");
             popup_first = (EditTextPreference)findPreference("popup_first");
@@ -89,7 +86,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "1"))));
+            theme.setSummary(sharedPreferences.getString("theme", "2"));
+            // theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "2"))));
             background.setSummary(sharedPreferences.getString("background", ""));
             foreground.setSummary(sharedPreferences.getString("foreground", ""));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
@@ -127,7 +125,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "1"))));
+            theme.setSummary(sharedPreferences.getString("theme", "2"));
+            // theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "2"))));
             background.setSummary(sharedPreferences.getString("background", ""));
             foreground.setSummary(sharedPreferences.getString("foreground", ""));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));

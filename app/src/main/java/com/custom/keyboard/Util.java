@@ -5,11 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.webkit.URLUtil;
-
-import androidx.annotation.RequiresApi;
 
 import java.net.URL;
 import java.text.Normalizer;
@@ -42,7 +39,6 @@ public class Util {
     public static void noop() {}
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(largeIntToChar(primaryCode));
-
     }
     public static boolean contains(String haystack, String needle) {
         return haystack.contains(needle);
@@ -1081,6 +1077,82 @@ public class Util {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+    }
+
+
+
+    public static String unbolden(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(Font.getUnbold((ch)))));
+            i += Character.charCount(ch);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String bolden(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (int ch : chars) {
+            result.add(new String(Character.toChars(Font.getBold((int)ch))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String unitalicize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(Font.getUnitalic((ch)))));
+            i += Character.charCount(ch);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String italicize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (char ch : chars) {
+            result.add(new String(Character.toChars(Font.getItalic((int)ch))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String unemphasize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add(new String(Character.toChars(Font.getUnemphasized((ch)))));
+            i += Character.charCount(ch);
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+    public static String emphasize(String text) {
+        if (text.length() < 1) return text;
+        char[] chars = text.toCharArray();
+        ArrayList<String> result = new ArrayList<>();
+        for (char ch : chars) {
+            result.add(new String(Character.toChars(Font.getEmphasized((int)ch))));
+        }
+        return StringUtils.join(result.toArray(new String[0]), "");
+    }
+
+    public static String unstrikethrough(String text) {
+        return text.replaceAll("̶", "");
+    }
+
+    public static String strikethrough(String text) {
+        if (text.contains("̶")) {
+            return text.replaceAll("̶", "");
+        }
+        return text.replaceAll("(.)", "$1̶");
     }
     public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
 

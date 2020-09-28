@@ -1,5 +1,7 @@
 package com.custom.keyboard;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CandidateView extends View {
 
@@ -60,7 +61,15 @@ public class CandidateView extends View {
 
         Resources r = context.getResources();
 
-        setBackgroundColor(r.getColor(R.color.black));
+        SharedPreferences sharedPreferences;
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
+        this.setAlpha(transparency);
+        this.setAutofillHints("a", "b", "c");
+
+        this.setBackgroundColor(r.getColor(R.color.black));
 
         mColorNormal = r.getColor(R.color.white);
         mColorRecommended = r.getColor(R.color.white);
@@ -68,6 +77,7 @@ public class CandidateView extends View {
         mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 
         mPaint = new Paint();
+        mPaint.setAlpha(128);
         mPaint.setColor(mColorNormal);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
@@ -91,10 +101,10 @@ public class CandidateView extends View {
                 return true;
             }
         });
-        setHorizontalFadingEdgeEnabled(true);
-        setWillNotDraw(false);
-        setHorizontalScrollBarEnabled(false);
-        setVerticalScrollBarEnabled(false);
+        this.setHorizontalFadingEdgeEnabled(true);
+        this.setWillNotDraw(false);
+        this.setHorizontalScrollBarEnabled(false);
+        this.setVerticalScrollBarEnabled(false);
     }
 
     public void setService(CustomInputMethodService listener) {
@@ -117,7 +127,7 @@ public class CandidateView extends View {
         final int desiredHeight = ((int)mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
 
         // Maximum possible width and desired height
-        setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
+        this.setMeasuredDimension(measuredWidth, this.resolveSize(desiredHeight, heightMeasureSpec));
     }
 
     /**
@@ -136,17 +146,17 @@ public class CandidateView extends View {
 
         if (mBgPadding == null) {
             mBgPadding = new Rect(0, 0, 0, 0);
-            if (getBackground() != null) {
-                getBackground().getPadding(mBgPadding);
+            if (this.getBackground() != null) {
+                this.getBackground().getPadding(mBgPadding);
             }
         }
         int x = 0;
         final int count = mSuggestions.size();
-        final int height = getHeight();
+        final int height = this.getHeight();
         final Rect bgPadding = mBgPadding;
         final Paint paint = mPaint;
         final int touchX = mTouchX;
-        final int scrollX = getScrollX();
+        final int scrollX = this.getScrollX();
         final boolean scrolled = mScrolled;
         final boolean typedWordValid = mTypedWordValid;
         final int y = (int)(((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
@@ -185,7 +195,7 @@ public class CandidateView extends View {
             x += wordWidth;
         }
         mTotalWidth = x;
-        if (mTargetScrollX != getScrollX()) {
+        if (mTargetScrollX != this.getScrollX()) {
             scrollToTarget();
         }
     }
@@ -196,18 +206,18 @@ public class CandidateView extends View {
             sx += SCROLL_PIXELS;
             if (sx >= mTargetScrollX) {
                 sx = mTargetScrollX;
-                requestLayout();
+                this.requestLayout();
             }
         }
         else {
             sx -= SCROLL_PIXELS;
             if (sx <= mTargetScrollX) {
                 sx = mTargetScrollX;
-                requestLayout();
+                this.requestLayout();
             }
         }
-        scrollTo(sx, getScrollY());
-        invalidate();
+        this.scrollTo(sx, this.getScrollY());
+        this.invalidate();
     }
 
     public ArrayList<String> getSuggestions() {
@@ -215,7 +225,7 @@ public class CandidateView extends View {
     }
 
     public void clearSuggestions() {
-        setSuggestions(new ArrayList<String>(), false, false);
+        this.setSuggestions(new ArrayList<>(), false, false);
         clear();
     }
 
@@ -225,12 +235,12 @@ public class CandidateView extends View {
             mSuggestions = new ArrayList<>(suggestions);
         }
         mTypedWordValid = typedWordValid;
-        scrollTo(0, 0);
+        this.scrollTo(0, 0);
         mTargetScrollX = 0;
         // Compute the total width
-        draw(new Canvas());
-        invalidate();
-        requestLayout();
+        this.draw(new Canvas());
+        this.invalidate();
+        this.requestLayout();
     }
 
     public void clear() {
@@ -254,17 +264,16 @@ public class CandidateView extends View {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mScrolled = false;
-                invalidate();
+                this.invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (y <= 0) {
-                    // Fling up!?
                     if (mSelectedIndex >= 0) {
                         mService.pickSuggestionManually(mSelectedIndex);
                         mSelectedIndex = -1;
                     }
                 }
-                invalidate();
+                this.invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 if (!mScrolled) {
@@ -273,8 +282,8 @@ public class CandidateView extends View {
                     }
                 }
                 mSelectedIndex = -1;
-                removeHighlight();
-                requestLayout();
+                this.removeHighlight();
+                this.requestLayout();
                 break;
         }
         return true;
@@ -283,15 +292,15 @@ public class CandidateView extends View {
     public void takeSuggestionAt(float x) {
         mTouchX = (int)x;
         // To detect candidate
-        draw(null);
+        this.draw(null);
         if (mSelectedIndex >= 0) {
             mService.pickSuggestionManually(mSelectedIndex);
         }
-        invalidate();
+        this.invalidate();
     }
 
     private void removeHighlight() {
         mTouchX = OUT_OF_BOUNDS;
-        invalidate();
+        this.invalidate();
     }
 }

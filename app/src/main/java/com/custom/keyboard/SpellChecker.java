@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -17,17 +16,17 @@ public class SpellChecker {
 
     static Trie trie = new Trie();
     static Map<String,String> typos = new HashMap<>();
-    static ArrayList<String> list = new ArrayList<String>();
+    static ArrayList<String> list = new ArrayList<>();
 
     public SpellChecker(Context context) {
-        buildTrie(context, R.raw.words_82765);
+        this.buildTrie(context, R.raw.words_82765);
     }
 
     public SpellChecker(Context context, boolean typoCheck) {
-        buildTrie(context, R.raw.words_82765);
+        this.buildTrie(context, R.raw.words_82765);
         if (typoCheck) {
-            readFile(context, R.raw.typos);
-            readFile(context, R.raw.typos_more);
+            this.readFile(context, R.raw.typos);
+            this.readFile(context, R.raw.typos_more);
         }
     }
 
@@ -62,6 +61,7 @@ public class SpellChecker {
         for (TrieNode trieNode : result) {
             strings.add(trieNode.getWord());
         }
+        strings.add(0, word);
         return strings;
     }
 

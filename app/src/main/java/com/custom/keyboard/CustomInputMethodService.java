@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.*;
@@ -32,9 +33,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.google.GoogleEmojiProvider;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -42,10 +40,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-
-// import github.custom.emojicon.EmojiconGridView;
-// import github.custom.emojicon.EmojiconsPopup;
-// import github.custom.emojicon.emoji.Emojicon;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener {
@@ -68,7 +62,7 @@ public class CustomInputMethodService extends InputMethodService
 
     int MAX = 65536;
 
-    InputConnection ic = getCurrentInputConnection();
+    InputConnection ic = this.getCurrentInputConnection();
 
     SharedPreferences sharedPreferences;
     Toast toast;
@@ -76,14 +70,8 @@ public class CustomInputMethodService extends InputMethodService
     private short rowNumber = 6;
     private CustomKeyboardView kv;
     private CandidateView mCandidateView;
-    // private CompletionInfo[] mCompletions;
-    // private SpellCheckerSession mScs;
-    private ArrayList<String> suggestions = new ArrayList<String>();
-    // private StringBuilder mComposing = new StringBuilder();
+    private ArrayList<String> suggestions = new ArrayList<>();
     private boolean mPredictionOn;
-    // private boolean mCompletionOn;
-    // private ArrayList<String> completions = new ArrayList<>();
-    // private EmojiconsPopup popupWindow = null;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
@@ -93,30 +81,21 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
-        mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        mInputMethodManager = (InputMethodManager)this.getSystemService(INPUT_METHOD_SERVICE);
 
-        mWordSeparators = getResources().getString(R.string.word_separators);
-        // final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
-        // mScs = tsm != null ? tsm.newSpellCheckerSession(null, null, this, true) : null;
+        mWordSeparators = this.getResources().getString(R.string.word_separators);
 
         toast = new Toast(getBaseContext());
 
-        EmojiManager.install(new GoogleEmojiProvider());
-        // final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(kv).build(editText);
-        // emojiPopup.toggle(); // Toggles visibility of the Popup.
+        // EmojiManager.install(new GoogleEmojiProvider());
 
         spellChecker = new SpellChecker(getApplicationContext());
-
     }
 
-    /**
-     * This is the point where you can do all of your UI initialization.  It
-     * is called after creation and any configuration change.
-     */
     @Override
     public void onInitializeInterface() {
         if (standardKeyboard != null) {
-            int displayWidth = getMaxWidth();
+            int displayWidth = this.getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
                 return;
             }
@@ -125,10 +104,9 @@ public class CustomInputMethodService extends InputMethodService
         standardKeyboard = new CustomKeyboard(this, R.layout.primary);
     }
 
-
     @Override
     public View onCreateInputView() {
-        kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        kv = (CustomKeyboardView)this.getLayoutInflater().inflate(R.layout.keyboard, null);
         kv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -148,31 +126,22 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateCandidatesView() {
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
-        setTheme();
+        this.mCandidateView = new CandidateView(this);
+        this.mCandidateView.setService(this);
         Paint mPaint = new Paint();
+        this.setTheme();
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+        this.mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
         return mCandidateView;
     }
 
-    /**
-     * This is the main point where we do our initialization of the input method
-     * to begin operating on an application. At this point we have been
-     * bound to the client, and are now receiving all of the detailed information
-     * about the target of our edits.
-     * And we have to reinitialize all we've done to make sure the keyboard matches
-     * the one selected in settings.
-     */
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        setTheme();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
 
         // mComposing.setLength(0);
         // updateCandidates();
@@ -180,46 +149,44 @@ public class CustomInputMethodService extends InputMethodService
         if (!restarting) {
             mMetaState = 0;
         }
-        // mCompletions = null;
 
-        kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        kv = (CustomKeyboardView)this.getLayoutInflater().inflate(R.layout.keyboard, null);
 
-        setInputType();
+        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
+        kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
+
+        this.setInputType();
         Paint mPaint = new Paint();
+        this.setTheme();
         ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
         mPaint.setColorFilter(filterInvert);
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
+
+        this.mCandidateView = new CandidateView(this);
+        this.mCandidateView.setService(this);
+        this.mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+        this.setCandidatesView(mCandidateView);
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-        currentKeyboard.setRowNumber(getRowNumber());
+        this.currentKeyboard.setRowNumber(this.getRowNumber());
 
-        // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
+        // currentKeyboard.setImeOptions(this.getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
-        capsOnFirst();
+        this.capsOnFirst();
         kv.setOnKeyboardActionListener(this);
-
 
         setInputView(kv);
 
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
 
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-        setCandidatesView(mCandidateView);
-
-        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
-        kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
-
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-        // mCompletionOn = sharedPreferences.getBoolean("comp", false);
 
         if (mPredictionOn) {
-            setCandidatesViewShown(true);
+            this.setCandidatesViewShown(true);
         }
 
     }
@@ -238,8 +205,8 @@ public class CustomInputMethodService extends InputMethodService
 
     // @TODO: autoadjustment of key width by number of keys in row
     public void adjustKeys() {
-        Bounds bounds = getBounds(standardKeyboard.getKeys());
-        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(standardKeyboard);
+        Bounds bounds = this.getBounds(standardKeyboard.getKeys());
+        Map<Integer,List<Keyboard.Key>> layoutRows = this.getKeyboardRows(standardKeyboard);
         for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
             if (entry.getValue().size() > 8) {
                 for(Keyboard.Key key : entry.getValue()) {
@@ -263,7 +230,7 @@ public class CustomInputMethodService extends InputMethodService
 
     public void clearAll() {
         // sendKey(KeyEvent.KEYCODE_CLEAR);
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.deleteSurroundingText(MAX, MAX);
     }
 
@@ -278,31 +245,31 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void sendCustomKey(String key) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext()); // this?
-        ic = getCurrentInputConnection();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext()); // this?
+        ic = this.getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         int cursorLocation = getSelectionStart();
         String ins = sharedPreferences.getString(key, "");
         ic.beginBatchEdit();
-        commitText(ins, cursorLocation + (ins != null ? ins.length() : 0));
+        this.commitText(ins, cursorLocation + (ins != null ? ins.length() : 0));
         ic.endBatchEdit();
     }
 
     public String getPrevWord() {
         try {
-            ic = getCurrentInputConnection();
+            ic = this.getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
             String lastWord = words[words.length - 1];
             return lastWord;
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
         return "";
     }
     public void selectPrevWord() {
         try {
-            ic = getCurrentInputConnection();
+            ic = this.getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
             String lastWord = words[words.length - 1];
             int position = getSelectionStart() - lastWord.length() - 1;
@@ -311,45 +278,45 @@ public class CustomInputMethodService extends InputMethodService
             else ic.setSelection(position, position);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
     }
 
-
     public String getNextWord() {
         try {
-            ic = getCurrentInputConnection();
+            ic = this.getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
             String nextWord = words[0];
             return nextWord;
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
         return "";
     }
+
     public void selectNextWord() {
         try {
-            ic = getCurrentInputConnection();
+            ic = this.getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
             String nextWord = words[0];
             if (words.length > 1) nextWord = words[1];
-            int position = getSelectionStart() + nextWord.length() + 1;
+            int position = this.getSelectionStart() + nextWord.length() + 1;
             if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
             else ic.setSelection(position, position);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
     }
 
     public void goToStart() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.setSelection(0, 0);
     }
 
     public void goToEnd() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.setSelection(
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
@@ -357,31 +324,31 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void selectNone() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         try {
-            int end = getSelectionEnd();
+            int end = this.getSelectionEnd();
             ic.setSelection(end, end);
             Variables.setSelectingOff();
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
     }
 
     public void selectLine() {
-        sendKey(KeyEvent.KEYCODE_MOVE_HOME);
+        this.sendKey(KeyEvent.KEYCODE_MOVE_HOME);
         Variables.setSelectingOn(getSelectionStart());
-        navigate(KeyEvent.KEYCODE_MOVE_END);
+        this.navigate(KeyEvent.KEYCODE_MOVE_END);
         Variables.setSelectingOff();
     }
 
     public void selectAll() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
     }
 
     public String getPrevLine() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
         if (textBeforeCursor == null) return "";
         if (textBeforeCursor.length() < 1) return "";
@@ -391,7 +358,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getNextLine() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
         if (textAfterCursor == null) return "";
         if (textAfterCursor.length() < 1) return "";
@@ -405,26 +372,26 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int getLineCount() {
-        return Util.getLines(getAllText(ic)).length;
+        return Util.getLines(this.getAllText(ic)).length;
     }
 
     public int[] getCursorLocation() {
-        return new int[]{cursorLocationOnLine(), getCurrentLine()};
+        return new int[]{this.cursorLocationOnLine(), this.getCurrentLine()};
     }
 
     public int cursorLocationOnLine() {
-        return getPrevLine().length();
+        return this.getPrevLine().length();
     }
 
     public int getCursorPosition() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.startOffset + extracted.selectionStart;
     }
 
     public int getStartOffset() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.startOffset;
@@ -434,15 +401,9 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
-        // Clear current composing text and candidates.
-        // mComposing.setLength(0);
-        // updateCandidates();
+        this.updateCandidates();
 
-        // We only hide the candidates window when finishing input on
-        // a particular editor, to avoid popping the underlying application
-        // up and down if the user is entering text into the bottom of
-        // its window.
-        setCandidatesViewShown(false);
+        this.setCandidatesViewShown(false);
 
         Variables.setSelectingOff();
 
@@ -451,12 +412,9 @@ public class CustomInputMethodService extends InputMethodService
         if (kv != null) {
             kv.closing();
         }
-        setCandidatesViewShown(false);
+        this.setCandidatesViewShown(false);
     }
 
-    /**
-     * Deal with the editor reporting movement of its cursor.
-     */
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
@@ -473,7 +431,7 @@ public class CustomInputMethodService extends InputMethodService
             System.out.println(e);
         }
 
-        String nextLine = getNextLine();
+        String nextLine = this.getNextLine();
         int nextChar = 0;
         try {
             if (nextLine != null && nextLine.length() > 0) {
@@ -508,9 +466,9 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             System.out.println(e);
         }
-        redraw();
-        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
-            && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
+        this.redraw();
+        if ((this.getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
+            && PreferenceManager.getDefaultSharedPreferences(this.getBaseContext()).getBoolean("caps", false)) {
             if (Variables.isShift()) {
                 Variables.setShiftOff();
                 firstCaps = false;
@@ -518,13 +476,13 @@ public class CustomInputMethodService extends InputMethodService
             else {
                 firstCaps = !firstCaps;
             }
-            setCapsOn(firstCaps);
-            redraw();
+            this.setCapsOn(firstCaps);
+            this.redraw();
         }
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
-            // updateCandidates();
-            InputConnection ic = getCurrentInputConnection();
+            // this.updateCandidates();
+            InputConnection ic = this.getCurrentInputConnection();
             if (ic != null) {
                 ic.finishComposingText();
             }
@@ -537,7 +495,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void commitText(String text) {
-        commitText(text, text.length()-1);
+        this.commitText(text, text.length()-1);
     }
 
     public void commitText(String text, int offset) {
@@ -547,12 +505,12 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void performReplace(String newText) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
-            int a = getSelectionStart();
-            int b = getSelectionStart() + newText.length();
-            commitText(newText);
+            int a = this.getSelectionStart();
+            int b = this.getSelectionStart() + newText.length();
+            this.commitText(newText);
             ic.setSelection(a, b);
         }
     }
@@ -568,55 +526,55 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void commitTyped(InputConnection inputConnection) {
-        if (getPrevWord().length() > 0) {
-            commitText(getPrevWord());
-            // updateCandidates();
+        if (this.getPrevWord().length() > 0) {
+            this.commitText(getPrevWord());
+            // this.updateCandidates();
         }
     }
 
     private void updateShiftKeyState(EditorInfo attr) {
         if (attr != null && kv != null && standardKeyboard == kv.getKeyboard()) {
             int caps = 0;
-            EditorInfo ei = getCurrentInputEditorInfo();
+            EditorInfo ei = this.getCurrentInputEditorInfo();
             if (ei != null && ei.inputType != InputType.TYPE_NULL) {
-                caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
+                caps = this.getCurrentInputConnection().getCursorCapsMode(attr.inputType);
             }
             kv.setShifted(mCapsLock || caps != 0);
         }
     }
 
     public void onText(CharSequence text) {
-        InputConnection ic = getCurrentInputConnection();
+        InputConnection ic = this.getCurrentInputConnection();
         if (ic == null) {
             return;
         }
         ic.beginBatchEdit();
-        if (getPrevWord().length() > 0) {
-            commitTyped(ic);
+        if (this.getPrevWord().length() > 0) {
+            this.commitTyped(ic);
         }
         ic.endBatchEdit();
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        this.updateShiftKeyState(this.getCurrentInputEditorInfo());
     }
 
     @Override
     public void swipeLeft() {
-        InputConnection ic = getCurrentInputConnection();
+        InputConnection ic = this.getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        String prevWord = getPrevWord();
-        ic.setSelection(getSelectionStart()-prevWord.length(), getSelectionStart()-prevWord.length());
+        String prevWord = this.getPrevWord();
+        ic.setSelection(this.getSelectionStart()-prevWord.length(), this.getSelectionStart()-prevWord.length());
     }
 
     @Override
     public void swipeRight() {
-        InputConnection ic = getCurrentInputConnection();
+        InputConnection ic = this.getCurrentInputConnection();
         ic.requestCursorUpdates(3);
-        String nextWord = getNextWord();
-        ic.setSelection(getSelectionEnd()+nextWord.length(), getSelectionEnd()+nextWord.length());
+        String nextWord = this.getNextWord();
+        ic.setSelection(this.getSelectionEnd()+nextWord.length(), this.getSelectionEnd()+nextWord.length());
     }
 
     @Override
     public void swipeDown() {
-        setCandidatesViewShown(false);
+        this.setCandidatesViewShown(false);
     }
 
     @Override
@@ -630,43 +588,40 @@ public class CustomInputMethodService extends InputMethodService
 
 
     public void showVoiceInput() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager)this.getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {
-            inputMethodManager.setInputMethod(getToken(), "com.google.android.googlequicksearchbox/com.google.android.voicesearch.ime.VoiceInputMethodService");
+            inputMethodManager.setInputMethod(this.getToken(), "com.google.android.googlequicksearchbox/com.google.android.voicesearch.ime.VoiceInputMethodService");
         }
     }
 
     public void startIntent(Intent intent) {
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
+            this.startActivity(intent);
         }
     }
 
     public void showSettings() {
-        Intent intent = new Intent(getApplicationContext(), Preference.class);
+        Intent intent = new Intent(this.getApplicationContext(), Preference.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
+        this.startIntent(intent);
     }
 
     private void updateCandidates() {
 
-
-
-
-
-        String prevLine = getPrevLine();
-        String prevWord = getPrevWord();
+        String prevLine = this.getPrevLine();
+        String prevWord = this.getPrevWord();
         String prevChar = "";
         if (prevWord.length() > 0) {
-             prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
-             prevChar = prevChar.substring(0, 1);
-        }
-        if (!Character.isLetter(prevChar.charAt(0))) {
-            return;
+            prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
+            prevChar = prevChar.substring(0, 1);
+            if (!Character.isLetter(prevChar.charAt(0))) {
+                this.mCandidateView.clearSuggestions();
+                return;
+            }
         }
 
         boolean isTitleCase = Util.isTitleCase(prevWord);
-        boolean isUpperCase = Util.isUpperCase(prevWord);
+        boolean isUpperCase = Util.isUpperCase(prevWord) && prevWord.length() > 1;
 
         prevWord = prevWord.toLowerCase();
 
@@ -684,71 +639,63 @@ public class CustomInputMethodService extends InputMethodService
 
         ArrayList<String> results = new ArrayList<String>();
 
-        if (prevChar != " ") {
-            if (mCandidateView != null) {
-                if (isPrefix) {
-                    setCandidatesViewShown(true);
-                    suggestions = SpellChecker.getCompletions(prevWord);
-                    if (isUpperCase) {
-                        for(int i = 0; i < suggestions.size(); i++) {
-                            suggestions.set(i, Util.toUpperCase(suggestions.get(i)));
-                        }
+        if (this.mCandidateView != null) {
+            if (isPrefix) {
+                this.setCandidatesViewShown(true);
+                suggestions = SpellChecker.getCompletions(prevWord);
+                if (isUpperCase) {
+                    for(int i = 0; i < suggestions.size(); i++) {
+                        suggestions.set(i, Util.toUpperCase(suggestions.get(i)));
                     }
-                    else if (isTitleCase) {
-                        for(int i = 0; i < suggestions.size(); i++) {
-                            suggestions.set(i, Util.toTitleCase(suggestions.get(i)));
-                        }
-                    }
-
-                    System.out.println(suggestions);
-                    mCandidateView.setSuggestions(suggestions, true, true);
                 }
+                else if (isTitleCase) {
+                    for(int i = 0; i < suggestions.size(); i++) {
+                        suggestions.set(i, Util.toTitleCase(suggestions.get(i)));
+                    }
+                }
+                this.mCandidateView.setSuggestions(suggestions, true, true);
             }
-        }
-        else {
-            mCandidateView.clearSuggestions();
         }
     }
 
     public void addToDictionary(String word) {
-        UserDictionary.Words.addWord(this, word, 10, "Mad", Locale.getDefault());
+        UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
     }
 
     public void pickSuggestionManually(int index) {
-        String prevWord = getPrevWord();
-        suggestions = mCandidateView.getSuggestions();
-        System.out.println(suggestions);
-        if (suggestions != null && index >= 0 && index < suggestions.size()) {
-            getCurrentInputConnection().deleteSurroundingText(prevWord.length(), 0);
-            commitText(suggestions.get(index));
-            commitText(" ");
-            if (mCandidateView != null) {
-                mCandidateView.clear();
+        String prevWord = this.getPrevWord();
+        this.suggestions = mCandidateView.getSuggestions();
+        if (this.suggestions != null && index >= 0 && index < this.suggestions.size()) {
+            this.getCurrentInputConnection().deleteSurroundingText(prevWord.length(), 0);
+            this.commitText(suggestions.get(index));
+            this.commitText(" ");
+            if (this.mCandidateView != null) {
+                this.mCandidateView.clear();
             }
         }
-        updateShiftKeyState(getCurrentInputEditorInfo());
-        setCandidatesViewShown(false);
+        this.updateShiftKeyState(this.getCurrentInputEditorInfo());
+        this.setCandidatesViewShown(false);
     }
 
     public void pickDefaultCandidate() {
-        pickSuggestionManually(0);
+        this.pickSuggestionManually(0);
     }
 
     private void handleDelete() {
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
-            if (Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON)); }
-            if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON)); }
+            if (Variables.isCtrl() && Variables.isAlt()) { this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
+            if (Variables.isAlt()) { this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON)); }
+            if (Variables.isCtrl()) { this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON)); }
         }
         else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
+            this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
+            this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
         }
-        updateCandidates();
+        this.updateCandidates();
     }
 
     private void handleBackspace() {
-        final int length = getPrevWord().length();
+        final int length = this.getPrevWord().length();
 
         if (sharedPreferences.getBoolean("pairs", true)
             && ic.getTextBeforeCursor(1, 0) != null
@@ -758,36 +705,36 @@ public class CustomInputMethodService extends InputMethodService
             ic.deleteSurroundingText(0, 1);
         }
 
-        if (!isSelecting()
+        if (!this.isSelecting()
             && ic.getTextBeforeCursor(4, 0) != null
             && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
             && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
             && sharedPreferences.getBoolean("spaces", false)) {
-            ic.deleteSurroundingText((4 - (getPrevLine().length() % 4)), 0);
+            ic.deleteSurroundingText((4 - (this.getPrevLine().length() % 4)), 0);
         }
 
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
+            if (Variables.isCtrl() && Variables.isAlt()) this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
 
         else if (length > 0) {
             ic.deleteSurroundingText(1, 0);
         }
         else if (length == 0) {
-            getCurrentInputConnection().commitText("", 0);
+            this.getCurrentInputConnection().commitText("", 0);
         }
         else {
-            sendKey(KeyEvent.KEYCODE_DEL);
+            this.sendKey(KeyEvent.KEYCODE_DEL);
         }
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        this.updateShiftKeyState(this.getCurrentInputEditorInfo());
 
-        updateCandidates();
+        this.updateCandidates();
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
-        if (isInputViewShown()) {
+        if (this.isInputViewShown()) {
             if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
             }
@@ -799,7 +746,7 @@ public class CustomInputMethodService extends InputMethodService
                 if (code.equals("[")) commitText("[]");
                 if (code.equals("{")) commitText("{}");
                 if (code.equals("\"")) commitText("\"\"");
-                sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+                this.sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                 return;
             }
         }
@@ -834,23 +781,23 @@ public class CustomInputMethodService extends InputMethodService
             Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
             code = Character.toUpperCase(code);
         }
-        commitText(String.valueOf(code), 1);
-        firstCaps = false;
-        setCapsOn(false);
+        this.commitText(String.valueOf(code), 1);
+        this.firstCaps = false;
+        this.setCapsOn(false);
 
-        updateShiftKeyState(getCurrentInputEditorInfo());
-        if (Util.isLetter(primaryCode)) updateCandidates();
+        this.updateShiftKeyState(this.getCurrentInputEditorInfo());
+        if (Util.isLetter(primaryCode)) this.updateCandidates();
     }
 
     public void hide() {
-        handleClose();
+        this.handleClose();
     }
 
     private void handleClose() {
-        commitTyped(getCurrentInputConnection());
-        setCandidatesViewShown(false);
-        requestHideSelf(0);
-        setCandidatesViewShown(false);
+        this.commitTyped(this.getCurrentInputConnection());
+        this.setCandidatesViewShown(false);
+        this.requestHideSelf(0);
+        this.setCandidatesViewShown(false);
         kv.closing();
     }
 
@@ -861,11 +808,11 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int getGravity() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String xAxis = sharedPreferences.getString("x_axis", "BOTTOM").toUpperCase();
-        String yAxis = sharedPreferences.getString("y_axis", "CENTER_HORIZONTAL").toUpperCase();
-        boolean fillHorizontal = sharedPreferences.getBoolean("fill_horizontal", false);
-        boolean fillVertical = sharedPreferences.getBoolean("fill_vertical", false);
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        String xAxis = this.sharedPreferences.getString("x_axis", "BOTTOM").toUpperCase();
+        String yAxis = this.sharedPreferences.getString("y_axis", "CENTER_HORIZONTAL").toUpperCase();
+        boolean fillHorizontal = this.sharedPreferences.getBoolean("fill_horizontal", false);
+        boolean fillVertical = this.sharedPreferences.getBoolean("fill_vertical", false);
 
         int result = 0;
         if (xAxis.equals("CENTER_HORIZONTAL")) result |= Gravity.CENTER_HORIZONTAL;
@@ -882,32 +829,28 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void performContextMenuAction(int id) {
-        InputConnection ic = getCurrentInputConnection();
+        InputConnection ic = this.getCurrentInputConnection();
         ic.performContextMenuAction(id);
     }
 
     public void showActivity(String id) {
         Intent intent = new Intent(id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
+        this.startIntent(intent);
     }
-
-
-
-
 
     public void showClipboard() {
         try {
             Intent intent = new Intent("com.samsung.android.ClipboardUIService");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startIntent(intent);
+            this.startIntent(intent);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            this.toastIt(e.toString());
         }
     }
 
     private IBinder getToken() {
-        final Dialog dialog = getWindow();
+        final Dialog dialog = this.getWindow();
         if (dialog == null) {
             return null;
         }
@@ -919,11 +862,11 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void handleLanguageSwitch() {
-        mInputMethodManager.switchToNextInputMethod(getToken(), false /* onlyCurrentIme */);
+        this.mInputMethodManager.switchToNextInputMethod(this.getToken(), false /* onlyCurrentIme */);
     }
 
     private String getWordSeparators() {
-        return mWordSeparators;
+        return this.mWordSeparators;
     }
 
     public boolean isWordSeparator(String s) {
@@ -934,11 +877,11 @@ public class CustomInputMethodService extends InputMethodService
     long time = 0;
 
     public void onPress(int primaryCode) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         time = System.nanoTime() - time;
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
-            Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
+            Vibrator v = (Vibrator)this.getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
             if (v != null) {
                 v.vibrate(40);
             }
@@ -947,27 +890,27 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onRelease(int primaryCode) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         time = (System.nanoTime() - time) / 1000000;
 
         if (time > 300) {
             switch (primaryCode) {
-                case -12: selectAll(); break;
+                case -12: this.selectAll(); break;
             }
         }
     }
 
     private void sendKeyEvent(int keyCode, int metaState) {
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keyCode), 0, metaState));
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   getHardKeyCode(keyCode), 0, metaState));
+        this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, this.getHardKeyCode(keyCode), 0, metaState));
+        this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   this.getHardKeyCode(keyCode), 0, metaState));
     }
 
     private void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
+            if (Variables.isCtrl() && Variables.isAlt()) this.sendKeyEvent(this.getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
             else {
-                if (Variables.isCtrl()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
-                if (Variables.isAlt()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
+                if (Variables.isCtrl()) this.sendKeyEvent(this.getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
+                if (Variables.isAlt())  this.sendKeyEvent(this.getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
             }
         }
     }
@@ -1008,6 +951,7 @@ public class CustomInputMethodService extends InputMethodService
 
 
     public void setTheme() {
+        System.out.println("Theme: "+PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1"));
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1")) {
             case "1": mDefaultFilter = Themes.sPositiveColorArray; break;
             case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
@@ -1031,45 +975,46 @@ public class CustomInputMethodService extends InputMethodService
             case "20": mDefaultFilter = Themes.sOrangeBlackColorArray; break;
             case "21": mDefaultFilter = Themes.sMaterialLiteColorArray; break;
             case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
+            default: mDefaultFilter = Themes.sPositiveColorArray; break;
         }
     }
 
     private void handleAction() {
-        EditorInfo curEditor = getCurrentInputEditorInfo();
+        EditorInfo curEditor = this.getCurrentInputEditorInfo();
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE); break;
-            case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
-            case EditorInfo.IME_ACTION_NEXT: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT); break;
-            case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-            case EditorInfo.IME_ACTION_SEND: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND); break;
+            case EditorInfo.IME_ACTION_DONE: this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE); break;
+            case EditorInfo.IME_ACTION_GO: this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
+            case EditorInfo.IME_ACTION_NEXT: this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT); break;
+            case EditorInfo.IME_ACTION_SEARCH: this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+            case EditorInfo.IME_ACTION_SEND: this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND); break;
             default: break;
         }
     }
 
     private void setInputType() {
 
-        EditorInfo attribute = getCurrentInputEditorInfo();
+        EditorInfo attribute = this.getCurrentInputEditorInfo();
         int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
 
         switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
             case InputType.TYPE_CLASS_PHONE:
-                setKeyboard(R.layout.numeric);
+                this.setKeyboard(R.layout.numeric);
                 break;
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
-                    setKeyboard(R.layout.domain);
+                    this.setKeyboard(R.layout.domain);
                 }
                 else {
-                    setKeyboard(R.layout.primary);
+                    this.setKeyboard(R.layout.primary);
                 }
                 break;
             default:
-                setKeyboard(R.layout.primary);
+                this.setKeyboard(R.layout.primary);
                 break;
         }
         if (kv != null) {
@@ -1079,12 +1024,12 @@ public class CustomInputMethodService extends InputMethodService
 
     private void checkToggleCapsLock() {
         long now = System.currentTimeMillis();
-        if (mLastShiftTime + 300 > now) {
-            mCapsLock = !mCapsLock;
-            mLastShiftTime = 0;
+        if (this.mLastShiftTime + 300 > now) {
+            this.mCapsLock = !this.mCapsLock;
+            this.mLastShiftTime = 0;
         }
         else {
-            mLastShiftTime = now;
+            this.mLastShiftTime = now;
         }
     }
 
@@ -1096,20 +1041,20 @@ public class CustomInputMethodService extends InputMethodService
 
     private void capsOnFirst() {
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
-            if (getCursorCapsMode(getCurrentInputConnection(), getCurrentInputEditorInfo()) != 0) {
-                firstCaps = true;
-                setCapsOn(true);
+            if (this.getCursorCapsMode(this.getCurrentInputConnection(), this.getCurrentInputEditorInfo()) != 0) {
+                this.firstCaps = true;
+                this.setCapsOn(true);
             }
         }
         else {
-            firstCaps = false;
-            setCapsOn(false);
+            this.firstCaps = false;
+            this.setCapsOn(false);
         }
     }
 
     private int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
         int caps = 0;
-        EditorInfo ei = getCurrentInputEditorInfo();
+        EditorInfo ei = this.getCurrentInputEditorInfo();
         if (ei != null && ei.inputType != EditorInfo.TYPE_NULL) {
             caps = ic.getCursorCapsMode(attr.inputType);
         }
@@ -1117,16 +1062,16 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void toastIt(int num) {
-        toastIt(String.valueOf(num));
+        this.toastIt(String.valueOf(num));
     }
     public void toastIt(Exception e) {
-        toastIt(e.toString());
+        this.toastIt(e.toString());
     }
     public void toastIt(String ...args) {
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
-            for(String n: args){
+            for(String n: args) {
                 result.append(n).append(" ");
             }
             text = result.toString().trim();
@@ -1134,95 +1079,93 @@ public class CustomInputMethodService extends InputMethodService
         else {
             text = args[0];
         }
-        if (toast != null) toast.cancel();
-        toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
-        toast.show();
+        if (this.toast != null) this.toast.cancel();
+        this.toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        this.toast.show();
     }
 
     private void sendRawKey(int keyCode) {
         if (keyCode == '\n') {
-            sendKey(KeyEvent.KEYCODE_ENTER);
+            this.sendKey(KeyEvent.KEYCODE_ENTER);
         }
         else {
             if (keyCode >= '0' && keyCode <= '9') {
-                sendKey(keyCode - '0' + KeyEvent.KEYCODE_0);
+                this.sendKey(keyCode - '0' + KeyEvent.KEYCODE_0);
             }
             else {
-                getCurrentInputConnection().commitText(String.valueOf((char)keyCode), 1); // Util.largeIntToChar(primaryCode)
+                this.getCurrentInputConnection().commitText(String.valueOf((char)keyCode), 1); // Util.largeIntToChar(primaryCode)
             }
         }
     }
 
     public Keyboard.Key getKey(int primaryCode) {
-        if (currentKeyboard == null) return null;
-        for (Keyboard.Key key : currentKeyboard.getKeys()) {
+        if (this.currentKeyboard == null) return null;
+        for (Keyboard.Key key : this.currentKeyboard.getKeys()) {
             if (key.codes[0] == primaryCode) return key;
         }
         return null;
     }
 
     public void sendKey(int primaryCode) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, primaryCode));
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   primaryCode));
     }
 
     public void sendKey(int primaryCode, int times) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         while (times --> 0) {
-            sendKey(primaryCode);
+            this.sendKey(primaryCode);
         }
     }
 
     public void sendKeys(@NonNull int[] keys) {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         for (int key : keys) {
-            sendKey(key);
+            this.sendKey(key);
         }
     }
 
     public void navigate(int primaryCode) {
-        ic = getCurrentInputConnection();
-        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
-            sendKey(primaryCode, 4);
+        ic = this.getCurrentInputConnection();
+        if      (!this.isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
+            this.sendKey(primaryCode, 4);
         }
-        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
-            sendKey(primaryCode, 4);
+        else if (!this.isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
+            this.sendKey(primaryCode, 4);
         }
         else {
             if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
-            sendKey(primaryCode);
+            this.sendKey(primaryCode);
             if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
         }
     }
 
     public void replaceText(@NonNull String src, String trg) {
         ic.deleteSurroundingText(src.length(), 0);
-        commitText(trg);
+        this.commitText(trg);
     }
 
-
-
     public Boolean isSelecting() {
-        return getSelectionStart() != getSelectionEnd();
+        return this.getSelectionStart() != this.getSelectionEnd();
     }
 
     public int getSelectionStart() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionStart;
     }
 
     public int getSelectionEnd() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd;
     }
 
     public int getSelectionLength() {
-        ic = getCurrentInputConnection();
+        ic = this.getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd - extracted.selectionStart;
@@ -1231,10 +1174,10 @@ public class CustomInputMethodService extends InputMethodService
 
 
     public void setKeyboard(int id) {
-        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
-        currentKeyboard.setRowNumber(getStandardRowNumber());
+        currentKeyboard = new CustomKeyboard(this.getBaseContext(), id);
+        currentKeyboard.setRowNumber(this.getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
-        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+        // kv.getCustomKeyboard().changeKeyHeight(this.getHeightKeyModifier());
     }
 
     static String hexBuffer = "";
@@ -1255,375 +1198,392 @@ public class CustomInputMethodService extends InputMethodService
     };
 
     private void handleSpace() {
-        commitText(" ");
-        mCandidateView.clear();
+        this.commitText(" ");
+        this.mCandidateView.clear();
         // if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
-        //     int spaceCount = (4 - (getPrevLine().length() % 4));
-        //     if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
+        //     int spaceCount = (4 - (this.getPrevLine().length() % 4));
+        //     if (spaceCount > 0 && spaceCount < 4 && this.getPrevLine().length() < 4) {
         //         spaceCount = 4;
         //     }
         //     commitText("    ".substring(0, spaceCount));
         //     if (isSelecting()) {
-        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "    ".length());
+        //         ic.setSelection(this.getSelectionStart(), this.getSelectionEnd() + "    ".length());
         //     }
         // }
         // else {
         //     commitText("\t");
-        //     if (isSelecting()) {
-        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "\t".length());
+        //     if (this.isSelecting()) {
+        //         ic.setSelection(this.getSelectionStart(), this.getSelectionEnd() + "\t".length());
         //     }
         // }
     }
 
     private void handleUnicode(int primaryCode) {
-        if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
-        if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
+        if (primaryCode == -201) this.performReplace(Util.convertFromUnicodeToNumber(this.getText(ic)));
+        if (primaryCode == -202) this.performReplace(Util.convertFromNumberToUnicode(this.getText(ic)));
         if (Util.contains(hexCaptures, primaryCode)) {
-            if (hexBuffer.length() > 3) hexBuffer = "";
-            hexBuffer += (char)primaryCode; // Util.largeIntToChar(primaryCode)
+            if (this.hexBuffer.length() > 3) this.hexBuffer = "";
+            this.hexBuffer += (char)primaryCode; // Util.largeIntToChar(primaryCode)
         }
-        if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
+        if (primaryCode == -203) this.commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
         if (primaryCode == -204) {
             // Util.largeIntToChar(primaryCode)
-            commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+            this.commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(this.hexBuffer, 4, "0"))));
         }
         if (primaryCode == -205) {
-            if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
-            else hexBuffer = "0000";
+            if (this.hexBuffer.length() > 0) this.hexBuffer = this.hexBuffer.substring(0, hexBuffer.length() - 1);
+            else this.hexBuffer = "0000";
         }
-        if (primaryCode == -206) hexBuffer = "0000";
-        getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
+        if (primaryCode == -206) this.hexBuffer = "0000";
+        this.getKey(-203).label = this.hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
         // Util.largeIntToChar(primaryCode)
-        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        this.getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(this.hexBuffer, 4, "0")));
     }
 
     public void handleShift() {
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 &&
             PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", false)) {
             String text = ic.getSelectedText(0).toString();
-            int a = getSelectionStart();
-            int b = getSelectionEnd();
+            int a = this.getSelectionStart();
+            int b = this.getSelectionEnd();
             if (Util.containsUpperCase(text)) {
                 text = text.toLowerCase();
             }
             else {
                 text = text.toUpperCase();
             }
-            commitText(text, b);
+            this.commitText(text, b);
             ic.setSelection(a, b);
-            redraw();
+            this.redraw();
         }
         else {
-            if (shift_pressed + 200 > System.currentTimeMillis()) {
+            if (this.shift_pressed + 200 > System.currentTimeMillis()) {
                 Variables.setShiftOn();
-                setCapsOn(true);
+                this.setCapsOn(true);
             }
             else {
                 if (Variables.isShift()) {
                     Variables.setShiftOff();
-                    firstCaps = false;
+                    this.firstCaps = false;
                 }
                 else {
-                    firstCaps = !firstCaps;
+                    this.firstCaps = !this.firstCaps;
                 }
-                setCapsOn(firstCaps);
-                shift_pressed = System.currentTimeMillis();
+                this.setCapsOn(this.firstCaps);
+                this.shift_pressed = System.currentTimeMillis();
             }
-            redraw();
+            this.redraw();
         }
     }
 
     public void handleEnter() {
         // handleAction();
 
-        EditorInfo currentEditor = getCurrentInputEditorInfo();
+        EditorInfo currentEditor = this.getCurrentInputEditorInfo();
         switch (currentEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
             case EditorInfo.IME_ACTION_GO:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
+                this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
                 break;
             case EditorInfo.IME_ACTION_SEARCH:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
+                this.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
                 break;
             case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NEXT:
             case EditorInfo.IME_ACTION_SEND:
             default:
-                sendKey(66);
+                this.sendKey(66);
                 break;
         }
     }
 
     public void handleCut() {
-        if (!isSelecting()) selectLine();
-        sendKey(KeyEvent.KEYCODE_CUT);
+        if (!this.isSelecting()) this.selectLine();
+        this.sendKey(KeyEvent.KEYCODE_CUT);
     }
     public void handleCopy() {
-        if (!isSelecting()) selectLine();
-        sendKey(KeyEvent.KEYCODE_COPY);
+        if (!this.isSelecting()) this.selectLine();
+        this.sendKey(KeyEvent.KEYCODE_COPY);
     }
     public void handlePaste() {
-        sendKey(KeyEvent.KEYCODE_PASTE);
+        this.sendKey(KeyEvent.KEYCODE_PASTE);
     }
 
     public void handleAlt() {
         if (Variables.isAlt()) Variables.setAltOff();
         else Variables.setAltOn();
-        redraw();
+        this.redraw();
     }
     public void handleCtrl() {
         if (Variables.isCtrl()) Variables.setCtrlOff();
         else Variables.setCtrlOn();
-        redraw();
+        this.redraw();
     }
     public void handleEsc() {
-        sendKey(KeyEvent.KEYCODE_ESCAPE);
+        this.sendKey(KeyEvent.KEYCODE_ESCAPE);
     }
 
     public void handleTab() {
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
+            if (Variables.isCtrl() && Variables.isAlt()) this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
         }
         else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
+            this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
+            this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
+        }
+    }
+
+    private void playClick(int primaryCode) {
+        AudioManager am = (AudioManager)this.getSystemService(AUDIO_SERVICE);
+        switch (primaryCode) {
+            case 32: am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);break;
+            case Keyboard.KEYCODE_DONE:
+            case 10: am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN); break;
+            case Keyboard.KEYCODE_DELETE: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
+            default:
+                // am.playSoundEffect(AudioManager.FX_KEY_CLICK);
+                am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+                break;
         }
     }
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        InputConnection ic = getCurrentInputConnection();
+        InputConnection ic = this.getCurrentInputConnection();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int ere, aft;
         System.out.println(primaryCode);
 
+        if (sharedPreferences.getBoolean("sound", false)) this.playClick(primaryCode);
+
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
-            handleUnicode(primaryCode);
-            redraw();
+            this.handleUnicode(primaryCode);
+            this.redraw();
         }
         switch (primaryCode) {
-            case -501: System.out.println(primaryCode); break;
-            case -502: System.out.println(primaryCode); break;
-            case -503: System.out.println(primaryCode); break;
-            case -504: System.out.println(primaryCode); break;
-            case -505: System.out.println(primaryCode); break;
-            case -506: System.out.println(primaryCode); break;
-            case -507: System.out.println(primaryCode); break;
-            case -508: System.out.println(primaryCode); break;
-            case 142: sendKey(KeyEvent.KEYCODE_F12); break;
-            case 141: sendKey(KeyEvent.KEYCODE_F11); break;
-            case 140: sendKey(KeyEvent.KEYCODE_F10); break;
-            case 139: sendKey(KeyEvent.KEYCODE_F9); break;
-            case 138: sendKey(KeyEvent.KEYCODE_F8); break;
-            case 137: sendKey(KeyEvent.KEYCODE_F7); break;
-            case 136: sendKey(KeyEvent.KEYCODE_F6); break;
-            case 135: sendKey(KeyEvent.KEYCODE_F5); break;
-            case 134: sendKey(KeyEvent.KEYCODE_F4); break;
-            case 133: sendKey(KeyEvent.KEYCODE_F3); break;
-            case 132: sendKey(KeyEvent.KEYCODE_F2); break;
-            case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case -1: handleShift(); break;
-            case 32: handleSpace(); break;
-            case 10: handleEnter(); break;
+            // case -501: System.out.println(primaryCode); break;
+            // case -502: System.out.println(primaryCode); break;
+            // case -503: System.out.println(primaryCode); break;
+            // case -504: System.out.println(primaryCode); break;
+            // case -505: System.out.println(primaryCode); break;
+            // case -506: System.out.println(primaryCode); break;
+            // case -507: System.out.println(primaryCode); break;
+            // case -508: System.out.println(primaryCode); break;
+            case 142: this.sendKey(KeyEvent.KEYCODE_F12); break;
+            case 141: this.sendKey(KeyEvent.KEYCODE_F11); break;
+            case 140: this.sendKey(KeyEvent.KEYCODE_F10); break;
+            case 139: this.sendKey(KeyEvent.KEYCODE_F9); break;
+            case 138: this.sendKey(KeyEvent.KEYCODE_F8); break;
+            case 137: this.sendKey(KeyEvent.KEYCODE_F7); break;
+            case 136: this.sendKey(KeyEvent.KEYCODE_F6); break;
+            case 135: this.sendKey(KeyEvent.KEYCODE_F5); break;
+            case 134: this.sendKey(KeyEvent.KEYCODE_F4); break;
+            case 133: this.sendKey(KeyEvent.KEYCODE_F3); break;
+            case 132: this.sendKey(KeyEvent.KEYCODE_F2); break;
+            case 131: this.sendKey(KeyEvent.KEYCODE_F1); break;
+            case -1: this.handleShift(); break;
+            case 32: this.handleSpace(); break;
+            case 10: this.handleEnter(); break;
             case -2:
 
 
                 break;
-            case -112: handleEsc(); break;
-            case -113: handleCtrl(); break;
-            case -114: handleAlt(); break;
-            case -5: handleBackspace(); break;
-            case -7: handleDelete(); break;
-            case -122: handleTab(); break;
-            case -8: handleCut(); break;
-            case -9: handleCopy(); break;
-            case -10: handlePaste(); break;
-            case -11: Variables.toggleSelecting(getSelectionStart()); break;
-            case -12: selectLine(); break;
-            case -13: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
-            case -14: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
-            case -15: navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
-            case -16: navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -17: navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
-            case -18: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
-            case -19: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
-            case -20: navigate(KeyEvent.KEYCODE_MOVE_HOME); break;
-            case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
-            case -22: showSettings(); break;
-            case -23: showVoiceInput(); break;
-            case -24: handleClose(); break;
+            case -112: this.handleEsc(); break;
+            case -113: this.handleCtrl(); break;
+            case -114: this.handleAlt(); break;
+            case -5: this.handleBackspace(); break;
+            case -7: this.handleDelete(); break;
+            case -122: this.handleTab(); break;
+            case -8: this.handleCut(); break;
+            case -9: this.handleCopy(); break;
+            case -10: this.handlePaste(); break;
+            case -11: Variables.toggleSelecting(this.getSelectionStart()); break;
+            case -12: this.selectLine(); break;
+            case -13: this.navigate(KeyEvent.KEYCODE_DPAD_UP); break;
+            case -14: this.navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
+            case -15: this.navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -16: this.navigate(KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -17: this.navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
+            case -18: this.navigate(KeyEvent.KEYCODE_PAGE_UP); break;
+            case -19: this.navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
+            case -20: this.navigate(KeyEvent.KEYCODE_MOVE_HOME); break;
+            case -21: this.navigate(KeyEvent.KEYCODE_MOVE_END); break;
+            case -22: this.showSettings(); break;
+            case -23: this.showVoiceInput(); break;
+            case -24: this.handleClose(); break;
             case -25:
-                InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+                InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 if (imeManager != null) imeManager.showInputMethodPicker();
             break;
-            case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            // case -27: showEmoticons(); break;
-            case -28: clearAll(); break;
-            case -29: goToStart(); break;
-            case -30: goToEnd(); break;
-            case -31: selectNone(); break;
-            case -32: selectPrevWord(); break;
-            case -33: selectNextWord(); break;
-            case -34: commitText(getNextLine() + "\n" + getPrevLine()); break;
-            case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
-            case -36: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
-            case -37: commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
-            case -38: performReplace(Util.toUpperCase(getText(ic))); break;
-            case -39: performReplace(Util.toTitleCase(getText(ic))); break;
-            case -40: performReplace(Util.toLowerCase(getText(ic))); break;
-            case -41: performReplace(Util.toAlterCase(getText(ic))); break;
-            case -42: performReplace(Util.camelToSnake(getText(ic))); break;
-            case -43: performReplace(Util.snakeToCamel(getText(ic))); break;
-            case -44: performReplace(Util.sortChars(getText(ic))); break;
-            case -45: performReplace(Util.reverseChars(getText(ic))); break;
-            case -46: performReplace(Util.shuffleChars(getText(ic))); break;
-            case -47: performReplace(Util.doubleChars(getText(ic))); break;
+            case -26: this.sendKey(KeyEvent.KEYCODE_SETTINGS); break;
+            // case -27: this.showEmoticons(); break;
+            case -28: this.clearAll(); break;
+            case -29: this.goToStart(); break;
+            case -30: this.goToEnd(); break;
+            case -31: this.selectNone(); break;
+            case -32: this.selectPrevWord(); break;
+            case -33: this.selectNextWord(); break;
+            case -34: this.commitText(this.getNextLine() + "\n" + this.getPrevLine()); break;
+            case -35: this.commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
+            case -36: this.commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
+            case -37: this.commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
+            case -38: this.performReplace(Util.toUpperCase(this.getText(ic))); break;
+            case -39: this.performReplace(Util.toTitleCase(this.getText(ic))); break;
+            case -40: this.performReplace(Util.toLowerCase(this.getText(ic))); break;
+            case -41: this.performReplace(Util.toAlterCase(this.getText(ic))); break;
+            case -42: this.performReplace(Util.camelToSnake(this.getText(ic))); break;
+            case -43: this.performReplace(Util.snakeToCamel(this.getText(ic))); break;
+            case -44: this.performReplace(Util.sortChars(this.getText(ic))); break;
+            case -45: this.performReplace(Util.reverseChars(this.getText(ic))); break;
+            case -46: this.performReplace(Util.shuffleChars(this.getText(ic))); break;
+            case -47: this.performReplace(Util.doubleChars(this.getText(ic))); break;
             case -71:
-                ere = Util.countChars(getText(ic));
-                performReplace(Util.uniqueChars(getText(ic)));
-                aft = Util.countChars(getText(ic));
-                toastIt(ere + " → " + aft);
+                ere = Util.countChars(this.getText(ic));
+                this.performReplace(Util.uniqueChars(this.getText(ic)));
+                aft = Util.countChars(this.getText(ic));
+                this.toastIt(ere + " → " + aft);
                 break;
-            case -48: performReplace(Util.sortLines(getText(ic))); break;
-            case -49: performReplace(Util.reverseLines(getText(ic))); break;
-            case -50: performReplace(Util.shuffleLines(getText(ic))); break;
-            case -51: performReplace(Util.doubleLines(getText(ic))); break;
+            case -48: this.performReplace(Util.sortLines(this.getText(ic))); break;
+            case -49: this.performReplace(Util.reverseLines(this.getText(ic))); break;
+            case -50: this.performReplace(Util.shuffleLines(this.getText(ic))); break;
+            case -51: this.performReplace(Util.doubleLines(this.getText(ic))); break;
             case -72:
-                ere = Util.countLines(getText(ic));
-                performReplace(Util.uniqueLines(getText(ic)));
-                aft = Util.countLines(getText(ic));
-                toastIt(ere + " → " + aft);
+                ere = Util.countLines(this.getText(ic));
+                this.performReplace(Util.uniqueLines(this.getText(ic)));
+                aft = Util.countLines(this.getText(ic));
+                this.toastIt(ere + " → " + aft);
                 break;
             case -92:
-                String text = getText(ic);
-                toastIt("Chars: " + Util.countChars(text) + "\t\tWords: " + Util.countWords(text) + "\t\tLines: " + Util.countLines(text));
+                String text = this.getText(ic);
+                this.toastIt("Chars: " + Util.countChars(text) + "\t\tWords: " + Util.countWords(text) + "\t\tLines: " + Util.countLines(text));
                 break;
-            case -93: toastIt(Util.unidata(getText(ic))); break;
-            case -52: performReplace(Util.dashesToSpaces(getText(ic))); break;
-            case -53: performReplace(Util.underscoresToSpaces(getText(ic))); break;
-            case -54: performReplace(Util.spacesToDashes(getText(ic))); break;
-            case -55: performReplace(Util.spacesToUnderscores(getText(ic))); break;
-            case -56: performReplace(Util.spacesToLinebreaks(getText(ic))); break;
-            case -57: performReplace(Util.linebreaksToSpaces(getText(ic))); break;
-            case -58: performReplace(Util.spacesToTabs(getText(ic))); break;
-            case -59: performReplace(Util.tabsToSpaces(getText(ic))); break;
-            case -60: performReplace(Util.splitWithLinebreaks(getText(ic))); break;
-            case -61: performReplace(Util.splitWithSpaces(getText(ic))); break;
-            case -62: performReplace(Util.removeSpaces(getText(ic))); break;
-            case -63: performReplace(Util.reduceSpaces(getText(ic))); break;
-            case -64: performReplace(Util.increaseIndentation(getText(ic))); break;
-            case -65: performReplace(Util.decreaseIndentation(getText(ic))); break;
-            case -66: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
-            case -67: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
-            case -68: performReplace(Util.normalize(getText(ic))); break;
-            case -69: performReplace(Util.slug(getText(ic))); break;
+            case -93: this.toastIt(Util.unidata(this.getText(ic))); break;
+            case -52: this.performReplace(Util.dashesToSpaces(this.getText(ic))); break;
+            case -53: this.performReplace(Util.underscoresToSpaces(this.getText(ic))); break;
+            case -54: this.performReplace(Util.spacesToDashes(this.getText(ic))); break;
+            case -55: this.performReplace(Util.spacesToUnderscores(this.getText(ic))); break;
+            case -56: this.performReplace(Util.spacesToLinebreaks(this.getText(ic))); break;
+            case -57: this.performReplace(Util.linebreaksToSpaces(this.getText(ic))); break;
+            case -58: this.performReplace(Util.spacesToTabs(this.getText(ic))); break;
+            case -59: this.performReplace(Util.tabsToSpaces(this.getText(ic))); break;
+            case -60: this.performReplace(Util.splitWithLinebreaks(this.getText(ic))); break;
+            case -61: this.performReplace(Util.splitWithSpaces(this.getText(ic))); break;
+            case -62: this.performReplace(Util.removeSpaces(this.getText(ic))); break;
+            case -63: this.performReplace(Util.reduceSpaces(this.getText(ic))); break;
+            case -64: this.performReplace(Util.increaseIndentation(this.getText(ic))); break;
+            case -65: this.performReplace(Util.decreaseIndentation(this.getText(ic))); break;
+            case -66: this.performReplace(Util.trimEndingWhitespace(this.getText(ic))); break;
+            case -67: this.performReplace(Util.trimTrailingWhitespace(this.getText(ic))); break;
+            case -68: this.performReplace(Util.normalize(this.getText(ic))); break;
+            case -69: this.performReplace(Util.slug(this.getText(ic))); break;
             case -70:
-                if (!isSelecting()) {
-                    sendKey(KeyEvent.KEYCODE_MOVE_END);
-                    commitText(" ");
-                    sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
-                    sendKey(KeyEvent.KEYCODE_MOVE_END);
+                if (!this.isSelecting()) {
+                    this.sendKey(KeyEvent.KEYCODE_MOVE_END);
+                    this.commitText(" ");
+                    this.sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+                    this.sendKey(KeyEvent.KEYCODE_MOVE_END);
                 }
                 else {
-                    performReplace(Util.linebreaksToSpaces(getText(ic)));
+                    this.performReplace(Util.linebreaksToSpaces(this.getText(ic)));
                 }
                 break;
-            case -73: commitText(Util.timemoji()); break;
-            case -74: performContextMenuAction(16908338); break; // undo
-            case -75: performContextMenuAction(16908339); break; // redo
-            case -76: performContextMenuAction(16908337); break; // pasteAsPlainText,
-            case -77: performContextMenuAction(16908323); break; // copyUrl
-            case -78: performContextMenuAction(16908355); break; // autofill
-            case -79: performContextMenuAction(16908330); break; // addToDictionary
-            case -80: performContextMenuAction(16908320); break; // cut
-            case -81: performContextMenuAction(16908321); break; // copy
-            case -82: performContextMenuAction(16908322); break; // paste
-            case -83: performContextMenuAction(16908319); break; // selectAll
-            case -84: performContextMenuAction(16908324); break; // switchInputMethod
-            case -85: performContextMenuAction(16908328); break; // startSelectingText
-            case -86: performContextMenuAction(16908329); break; // stopSelectingText
-            case -87: performContextMenuAction(16908326); break; // keyboardView
-            case -88: performContextMenuAction(16908333); break; // selectTextMode
-            case -89: performContextMenuAction(16908327); break; // closeButton
-            case -90: performContextMenuAction(16908316); break; // extractArea
-            case -91: performContextMenuAction(16908317); break; // candidatesArea
+            case -73: this.commitText(Util.timemoji()); break;
+            case -74: this.performContextMenuAction(16908338); break; // undo
+            case -75: this.performContextMenuAction(16908339); break; // redo
+            case -76: this.performContextMenuAction(16908337); break; // pasteAsPlainText,
+            case -77: this.performContextMenuAction(16908323); break; // copyUrl
+            case -78: this.performContextMenuAction(16908355); break; // autofill
+            case -79: this.performContextMenuAction(16908330); break; // addToDictionary
+            case -80: this.performContextMenuAction(16908320); break; // cut
+            case -81: this.performContextMenuAction(16908321); break; // copy
+            case -82: this.performContextMenuAction(16908322); break; // paste
+            case -83: this.performContextMenuAction(16908319); break; // selectAll
+            case -84: this.performContextMenuAction(16908324); break; // switchInputMethod
+            case -85: this.performContextMenuAction(16908328); break; // startSelectingText
+            case -86: this.performContextMenuAction(16908329); break; // stopSelectingText
+            case -87: this.performContextMenuAction(16908326); break; // keyboardView
+            case -88: this.performContextMenuAction(16908333); break; // selectTextMode
+            case -89: this.performContextMenuAction(16908327); break; // closeButton
+            case -90: this.performContextMenuAction(16908316); break; // extractArea
+            case -91: this.performContextMenuAction(16908317); break; // candidatesArea
             case -94:
-                if (Variables.isBold()) performReplace(Font.unbolden(getText(ic)));
-                else performReplace(Font.bolden(getText(ic)));
+                if (Variables.isBold()) performReplace(Font.unbolden(this.getText(ic)));
+                else this.performReplace(Font.bolden(this.getText(ic)));
                 Variables.toggleBold();
                 break;
             case -95:
-                if (Variables.isItalic()) performReplace(Font.unitalicize(getText(ic)));
-                else performReplace(Font.italicize(getText(ic)));
+                if (Variables.isItalic()) performReplace(Font.unitalicize(this.getText(ic)));
+                else this.performReplace(Font.italicize(this.getText(ic)));
                 Variables.toggleItalic();
                 break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(Font.unemphasize(getText(ic)));
-                else performReplace(Font.emphasize(getText(ic)));
+                if (Variables.isEmphasized()) performReplace(Font.unemphasize(this.getText(ic)));
+                else this.performReplace(Font.emphasize(this.getText(ic)));
                 Variables.toggleEmphasized();
                 break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(Font.underline(getText(ic)));
+                else this.performReplace(Font.underline(this.getText(ic)));
                 break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(Font.underscore(getText(ic)));
+                else this.performReplace(Font.underscore(this.getText(ic)));
                 break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(Font.strikethrough(getText(ic)));
+                else this.performReplace(Font.strikethrough(this.getText(ic)));
                 break;
             case -100:
                 Variables.setAllOff();
-                performReplace(Font.unbolden(getText(ic)));
-                performReplace(Font.unitalicize(getText(ic)));
-                performReplace(Font.unemphasize(getText(ic)));
-                performReplace(Font.unstrikethrough(getText(ic)));
-                performReplace(Font.ununderline(getText(ic)));
-                performReplace(Font.ununderscore(getText(ic)));
+                this.performReplace(Font.unbolden(this.getText(ic)));
+                this.performReplace(Font.unitalicize(this.getText(ic)));
+                this.performReplace(Font.unemphasize(this.getText(ic)));
+                this.performReplace(Font.unstrikethrough(this.getText(ic)));
+                this.performReplace(Font.ununderline(this.getText(ic)));
+                this.performReplace(Font.ununderscore(this.getText(ic)));
                 break;
-            case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
-            case -106: showActivity(Settings.ACTION_SETTINGS); break;
-            case -107: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -108: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
-            case -109: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -110: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -111: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -115: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
-            case -116: showActivity(Settings.ACTION_HOME_SETTINGS); break;
-            case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
-            case -119: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
-            case -120: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
-            case -121: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
-            case -123: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -124: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -125: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
-            case -126: performReplace(Util.convertNumberBase(getText(ic), 2, 10)); break;
-            case -127: performReplace(Util.convertNumberBase(getText(ic), 10, 2)); break;
-            case -128: performReplace(Util.convertNumberBase(getText(ic), 8, 10)); break;
-            case -129: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
-            case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
-            case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
-            case -101: setKeyboard(R.layout.primary); break;
-            case -102: setKeyboard(R.layout.function); break;
-            case -103: setKeyboard(R.layout.macros); break;
-            case -133: setKeyboard(R.layout.hex); break;
-            case -134: setKeyboard(R.layout.emoji); break;
-            case -135: setKeyboard(R.layout.numeric); break;
-            case -136: setKeyboard(R.layout.navigation); break;
-            case -137: setKeyboard(R.layout.secondary); break;
-            case -138: setKeyboard(R.layout.symbol); break;
+            case -104: this.showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -105: this.showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
+            case -106: this.showActivity(Settings.ACTION_SETTINGS); break;
+            case -107: this.showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -108: this.showActivity(Settings.ACTION_WIFI_SETTINGS); break;
+            case -109: this.showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -110: this.showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -111: this.showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -115: this.showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
+            case -116: this.showActivity(Settings.ACTION_HOME_SETTINGS); break;
+            case -118: this.showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
+            case -119: this.showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
+            case -120: this.showActivity(Settings.ACTION_SOUND_SETTINGS); break;
+            case -121: this.showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
+            case -123: this.showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -124: this.showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -125: this.showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -126: this.performReplace(Util.convertNumberBase(this.getText(ic), 2, 10)); break;
+            case -127: this.performReplace(Util.convertNumberBase(this.getText(ic), 10, 2)); break;
+            case -128: this.performReplace(Util.convertNumberBase(this.getText(ic), 8, 10)); break;
+            case -129: this.performReplace(Util.convertNumberBase(this.getText(ic), 10, 8)); break;
+            case -130: this.performReplace(Util.convertNumberBase(this.getText(ic), 16, 10)); break;
+            case -131: this.performReplace(Util.convertNumberBase(this.getText(ic), 10, 16)); break;
+            case -101: this.setKeyboard(R.layout.primary); break;
+            case -102: this.setKeyboard(R.layout.function); break;
+            case -103: this.setKeyboard(R.layout.macros); break;
+            case -133: this.setKeyboard(R.layout.hex); break;
+            case -134: this.setKeyboard(R.layout.emoji); break;
+            case -135: this.setKeyboard(R.layout.numeric); break;
+            case -136: this.setKeyboard(R.layout.navigation); break;
+            case -137: this.setKeyboard(R.layout.secondary); break;
+            case -138: this.setKeyboard(R.layout.symbol); break;
             case -139:
-                setKeyboard(R.layout.unicode);
+                this.setKeyboard(R.layout.unicode);
                 currentKeyboard.title = "Unicode";
             break;
-            case -140: setKeyboard(R.layout.accents); break;
-            case -141: setKeyboard(R.layout.ipa); break;
-            case -142: setKeyboard(R.layout.fancy); break;
-            case -143: setKeyboard(R.layout.function_2); break;
-            case -144: setKeyboard(R.layout.fonts); break;
+            case -140: this.setKeyboard(R.layout.accents); break;
+            case -141: this.setKeyboard(R.layout.ipa); break;
+            case -142: this.setKeyboard(R.layout.fancy); break;
+            case -143: this.setKeyboard(R.layout.function_2); break;
+            case -144: this.setKeyboard(R.layout.fonts); break;
 
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
@@ -1643,34 +1603,34 @@ public class CustomInputMethodService extends InputMethodService
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
-            case -163: performReplace(Util.replaceNbsp(getText(ic))); break;
+            case -163: performReplace(Util.replaceNbsp(this.getText(ic))); break;
             case -164:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
+                this.navigate(KeyEvent.KEYCODE_DPAD_UP);
+                this.navigate(KeyEvent.KEYCODE_DPAD_LEFT);
                 break;
             case -165:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
+                this.navigate(KeyEvent.KEYCODE_DPAD_UP);
+                this.navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
                 break;
             case -166:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
+                this.navigate(KeyEvent.KEYCODE_DPAD_DOWN);
+                this.navigate(KeyEvent.KEYCODE_DPAD_LEFT);
                 break;
             case -167:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
+                this.navigate(KeyEvent.KEYCODE_DPAD_DOWN);
+                this.navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
                 break;
 
             default:
-                if (Variables.isAnyOn()) processKeyCombo(primaryCode);
-                else handleCharacter(primaryCode, keyCodes);
+                if (Variables.isAnyOn()) this.processKeyCombo(primaryCode);
+                else this.handleCharacter(primaryCode, keyCodes);
                 break;
         }
-        redraw();
+        this.redraw();
         try {
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
                 if (isWordSeparator(ic.getTextBeforeCursor(2, 0).toString())) {
-                    setCapsOn(true);
+                    this.setCapsOn(true);
                     firstCaps = true;
                 }
             }
