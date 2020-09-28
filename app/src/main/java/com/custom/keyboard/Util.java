@@ -1040,7 +1040,7 @@ public class Util {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
 
-    public Boolean isAstralCharacter(String ch) {
+    public static boolean isAstralCharacter(String ch) {
         int value = Integer.parseInt(ch, 16);
         char[] codeUnits = Character.toChars(value);
         return codeUnits.length > 1;

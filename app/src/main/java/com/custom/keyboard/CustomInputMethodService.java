@@ -132,12 +132,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
 
-    /**
-     * Called by the framework when your view for creating input needs to
-     * be generated.  This will be called the first time your input method
-     * is displayed, and every time it needs to be re-created such as due to
-     * a configuration change.
-     */
+
     @Override
     public View onCreateInputView() {
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -158,10 +153,7 @@ public class CustomInputMethodService extends InputMethodService
         return kv;
     }
 
-    /**
-     * Called by the framework when your view for showing candidates needs to
-     * be generated, like {@link #onCreateInputView}.
-     */
+
     @Override
     public View onCreateCandidatesView() {
         mCandidateView = new CandidateView(this);
@@ -175,14 +167,7 @@ public class CustomInputMethodService extends InputMethodService
         return mCandidateView;
     }
 
-    /**
-     * This is the main point where we do our initialization of the input method
-     * to begin operating on an application. At this point we have been
-     * bound to the client, and are now receiving all of the detailed information
-     * about the target of our edits.
-     * And we have to reinitialize all we've done to make sure the keyboard matches
-     * the one selected in settings.
-     */
+
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
@@ -217,7 +202,6 @@ public class CustomInputMethodService extends InputMethodService
         capsOnFirst();
         kv.setOnKeyboardActionListener(this);
 
-
         setInputView(kv);
 
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
@@ -232,7 +216,6 @@ public class CustomInputMethodService extends InputMethodService
         kv.setPreviewEnabled(mPreviewOn);
 
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-        // mCompletionOn = sharedPreferences.getBoolean("comp", false);
 
         if (mPredictionOn) {
             setCandidatesViewShown(true);
@@ -450,14 +433,8 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
-        // Clear current composing text and candidates.
-        // mComposing.setLength(0);
-        // updateCandidates();
+        updateCandidates();
 
-        // We only hide the candidates window when finishing input on
-        // a particular editor, to avoid popping the underlying application
-        // up and down if the user is entering text into the bottom of
-        // its window.
         setCandidatesViewShown(false);
 
         Variables.setSelectingOff();
@@ -470,9 +447,6 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(false);
     }
 
-    /**
-     * Deal with the editor reporting movement of its cursor.
-     */
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
@@ -573,11 +547,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    /**
-     * Use this to monitor key events being delivered to the application.
-     * We get first crack at them, and can either resume them or let them
-     * continue to the app.
-     */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return super.onKeyUp(keyCode, event);
@@ -674,11 +643,11 @@ public class CustomInputMethodService extends InputMethodService
         String prevWord = getPrevWord();
         String prevChar = "";
         if (prevWord.length() > 0) {
-             prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
+            prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
         }
 
         boolean isTitleCase = Util.isTitleCase(prevWord);
-        boolean isUpperCase = Util.isUpperCase(prevWord);
+        boolean isUpperCase = Util.isUpperCase(prevWord) && prevWord.length() > 1;
 
         prevWord = prevWord.toLowerCase();
 
@@ -896,10 +865,6 @@ public class CustomInputMethodService extends InputMethodService
         Intent intent = new Intent(id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startIntent(intent);
     }
-
-
-
-
 
     public void showClipboard() {
         try {
