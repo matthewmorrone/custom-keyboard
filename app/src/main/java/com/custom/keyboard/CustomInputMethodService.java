@@ -401,7 +401,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
-        this.updateCandidates();
+        // this.updateCandidates();
 
         this.setCandidatesViewShown(false);
 
@@ -611,7 +611,7 @@ public class CustomInputMethodService extends InputMethodService
         String prevLine = this.getPrevLine();
         String prevWord = this.getPrevWord();
         String prevChar = "";
-        if (prevWord.length() > 0) {
+        if (prevLine.length() > 0 && prevWord.length() > 0) {
             prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
             prevChar = prevChar.substring(0, 1);
 /*
@@ -695,7 +695,7 @@ public class CustomInputMethodService extends InputMethodService
             this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
             this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
         }
-        this.updateCandidates();
+        // this.updateCandidates();
     }
 
     private void handleBackspace() {
@@ -734,7 +734,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         this.updateShiftKeyState(this.getCurrentInputEditorInfo());
 
-        this.updateCandidates();
+        // this.updateCandidates();
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
@@ -790,7 +790,7 @@ public class CustomInputMethodService extends InputMethodService
         this.setCapsOn(false);
 
         this.updateShiftKeyState(this.getCurrentInputEditorInfo());
-        if (Util.isLetter(primaryCode)) this.updateCandidates();
+        // if (Util.isLetter(primaryCode)) this.updateCandidates();
     }
 
     public void hide() {
