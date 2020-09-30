@@ -19,6 +19,7 @@
         <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
     </Row>
     <Row android:keyWidth="16.666%p">
+        <Key android:codes="-73"  android:keyLabel="🕐" />
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-509" android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />
@@ -27,10 +28,8 @@
         <Key android:codes="-512" android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
     </Row>
     <Row android:keyWidth="12.5%p">
-        <Key android:codes="-163" android:keyLabel="nbsp" />
-        <Key android:codes="-73"  android:keyLabel="🕐" />
-        <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"     android:keyLabel="ツ" />
-        <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"            android:keyLabel="ಠ_ಠ" />
+        <!--<Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"     android:keyLabel="ツ" />-->
+        <!--<Key android:codes="0"    android:keyOutputText="ಠ_ಠ"            android:keyLabel="ಠ_ಠ" />-->
         <Key android:codes="0"    android:keyOutputText="https://"        android:keyLabel="https" />
         <Key android:codes="0"    android:keyOutputText="www."            android:keyLabel="www." />
         <Key android:codes="0"    android:keyOutputText="\@gmail"         android:keyLabel="\@gmail" />

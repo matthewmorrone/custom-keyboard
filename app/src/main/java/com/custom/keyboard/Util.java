@@ -989,8 +989,6 @@ public class Util {
         // 0 thru 29, 30 thru 59
         int which = (((hours - 1) * 2) + (minutes / 30)) * 2;
 
-        System.out.println(hours+" "+minutes+" "+which+" "+largeIntToChar(clocks.codePointAt(which)));
-
         return largeIntToChar(clocks.codePointAt(which));
     }
 

@@ -1,12 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen android:title="Editing">
+    <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound" android:title="@string/sound" />
         <SwitchPreference android:defaultValue="false" android:key="vib" android:title="@string/vib" />
         <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Editing">
+        <SwitchPreference android:defaultValue="false" android:key="pred" android:title="@string/prediction" />
+        <SwitchPreference android:defaultValue="false" android:key="auto" android:title="@string/auto" />
         <SwitchPreference android:defaultValue="false" android:key="pairs" android:title="Insert Pairs" />
         <SwitchPreference android:defaultValue="false" android:key="shift" android:title="@string/toggle_case" />
         <SwitchPreference android:defaultValue="false" android:key="caps" android:title="@string/caps" />
-        <SwitchPreference android:defaultValue="false" android:key="pred" android:title="@string/prediction" />
         <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />

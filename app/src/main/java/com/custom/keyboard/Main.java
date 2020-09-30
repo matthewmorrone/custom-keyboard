@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -33,9 +32,6 @@ public class Main extends Activity {
         if (imeManager != null) {
             imeManager.showInputMethodPicker();
         }
-        else {
-            Toast.makeText(this, "Not possible", Toast.LENGTH_LONG).show();
-        }
     }
 
     private void launchHomeScreen() {
@@ -54,48 +50,4 @@ public class Main extends Activity {
             window.setStatusBarColor(getResources().getColor(R.color.black));
         }
     }
-
-    /*
-    public boolean getPresentationShown() {
-        try {
-            return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("presentation", false);
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void setPresentationShown() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("presentation", true).apply();
-    }
-    */
-
-    /*
-    public void showTwitterDialog() {
-        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shown",false)) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.up))
-                .setMessage(getString(R.string.follow))
-                .setPositiveButton("Follow", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/VlathXDA"));
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("No thanks", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("shown",true).apply();
-        }
-    }
-    */
-
-
-
-
 }

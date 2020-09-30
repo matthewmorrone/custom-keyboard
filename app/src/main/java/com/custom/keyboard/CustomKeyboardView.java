@@ -210,6 +210,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
+            if (key.codes[0] == -73)    key.label = Util.timemoji();
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
             if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
@@ -222,7 +223,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
             if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
-
+            // if (key.codes[0] >= -512 && key.codes[0] <= -501) System.out.println(key.text);
 
 
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key);
@@ -260,7 +261,6 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, corner);}}
             if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, corner);}}
             if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, corner);}}
-            if (key.codes[0] == -73) key.label = Util.timemoji();
 
             mPaint.setTextAlign(Paint.Align.CENTER);
 

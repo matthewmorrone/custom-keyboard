@@ -67,7 +67,7 @@ public class CandidateView extends View {
 
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         this.setAlpha(transparency);
-        this.setAutofillHints("a", "b", "c");
+        // this.setAutofillHints("a", "b", "c");
 
         this.setBackgroundColor(r.getColor(R.color.black));
 
@@ -77,7 +77,6 @@ public class CandidateView extends View {
         mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 
         mPaint = new Paint();
-        mPaint.setAlpha(128);
         mPaint.setColor(mColorNormal);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
@@ -130,10 +129,6 @@ public class CandidateView extends View {
         this.setMeasuredDimension(measuredWidth, this.resolveSize(desiredHeight, heightMeasureSpec));
     }
 
-    /**
-     * If the canvas is null, then only touch calculations are performed to pick the target
-     * candidate.
-     */
     @Override
     protected void onDraw(Canvas canvas) {
         if (canvas != null) {
@@ -224,9 +219,11 @@ public class CandidateView extends View {
         return mSuggestions;
     }
 
-    public void clearSuggestions() {
-        this.setSuggestions(new ArrayList<String>(), false, false);
-        clear();
+    public void clear() {
+        mSuggestions = EMPTY_LIST;
+        mTouchX = OUT_OF_BOUNDS;
+        mSelectedIndex = -1;
+        invalidate();
     }
 
     public void setSuggestions(ArrayList<String> suggestions, boolean completions, boolean typedWordValid) {
@@ -237,17 +234,10 @@ public class CandidateView extends View {
         mTypedWordValid = typedWordValid;
         this.scrollTo(0, 0);
         mTargetScrollX = 0;
-        // Compute the total width
+
         this.draw(new Canvas());
         this.invalidate();
         this.requestLayout();
-    }
-
-    public void clear() {
-        mSuggestions = EMPTY_LIST;
-        mTouchX = OUT_OF_BOUNDS;
-        mSelectedIndex = -1;
-        invalidate();
     }
 
     @Override
