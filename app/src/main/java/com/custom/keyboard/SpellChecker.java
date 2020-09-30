@@ -100,8 +100,6 @@ public class SpellChecker {
         strings.remove(word);
         // Collections.sort(strings, byLength);
         strings.add(0, word);
-        System.out.println(strings);
-
         return strings;
     }
 

@@ -611,6 +611,7 @@ public class CustomInputMethodService extends InputMethodService
 
     private void updateCandidates() {
         if (this.mCandidateView == null) {
+            this.setCandidatesViewShown(false);
             return;
         }
 
@@ -677,7 +678,9 @@ public class CustomInputMethodService extends InputMethodService
         spellChecker.addToTrie(word);
         toastIt(word+" added to dictionary");
     }
-
+    public void pickDefaultCandidate() {
+        this.pickSuggestionManually(0);
+    }
     public void pickSuggestionManually(int index) {
         String prevWord = this.getPrevWord();
         ArrayList<String> suggestions = mCandidateView.getSuggestions();
@@ -691,10 +694,6 @@ public class CustomInputMethodService extends InputMethodService
         }
         this.updateShiftKeyState(this.getCurrentInputEditorInfo());
         this.setCandidatesViewShown(false);
-    }
-
-    public void pickDefaultCandidate() {
-        this.pickSuggestionManually(0);
     }
 
     private void handleDelete() {
