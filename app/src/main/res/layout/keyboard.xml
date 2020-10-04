@@ -4,15 +4,15 @@
     android:id="@+id/keyboard"
     android:layout_alignParentBottom="true"
     android:paddingTop="0dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="0dp"
     android:layout_width="match_parent"
-    android:keyPreviewLayout="@layout/preview"
     android:layout_height="wrap_content"
+    android:keyTextColor="@color/white"
+    android:background="@color/black"
     android:keyBackground="@drawable/key_background"
     android:popupLayout="@layout/popup"
     android:keyPreviewOffset="5dp"
-    android:keyTextColor="@color/white"
+    android:keyPreviewLayout="@layout/preview"
     android:shadowColor="@android:color/transparent"
-    android:shadowRadius="0.0"
-    android:background="@color/black">
+    android:shadowRadius="0.0">
 </com.custom.keyboard.CustomKeyboardView>

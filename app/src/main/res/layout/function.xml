@@ -22,7 +22,7 @@
         <Key android:codes="-70" android:keyIcon="@drawable/ic_join_lines" />
         <Key android:codes="-34" android:keyIcon="@drawable/ic_duplicate_lines" />
         <Key android:codes="-92"  android:keyLabel="#?" />
-        <Key android:codes="-93"  android:keyLabel="ℹ" />
+        <Key android:codes="-93"  android:keyIcon="@drawable/ic_info" />
         <Key android:codes="-61"  android:keyLabel="⌤" />
         <Key android:codes="-62"  android:keyLabel="⌅" />
         <Key android:codes="-163" android:keyIcon="@drawable/ic_nbsp" />

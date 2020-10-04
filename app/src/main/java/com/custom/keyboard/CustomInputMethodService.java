@@ -155,7 +155,7 @@ public class CustomInputMethodService extends InputMethodService
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
 
         // mComposing.setLength(0);
-        this.updateCandidates();
+        // this.updateCandidates();
 
         if (!restarting) {
             mMetaState = 0;
@@ -163,7 +163,7 @@ public class CustomInputMethodService extends InputMethodService
 
         kv = (CustomKeyboardView)this.getLayoutInflater().inflate(R.layout.keyboard, null);
 
-        float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
+        float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
 
         this.setInputType();
@@ -196,9 +196,8 @@ public class CustomInputMethodService extends InputMethodService
 
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
 
-        if (mPredictionOn) {
-            this.setCandidatesViewShown(true);
-        }
+        // if (mPredictionOn) this.setCandidatesViewShown(true);
+        
     }
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
@@ -269,6 +268,7 @@ public class CustomInputMethodService extends InputMethodService
         try {
             ic = this.getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+            if (words.length < 1) return "";
             String lastWord = words[words.length - 1];
             return lastWord;
         }
@@ -281,6 +281,7 @@ public class CustomInputMethodService extends InputMethodService
         try {
             ic = this.getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+            if (words.length < 1) return;
             String lastWord = words[words.length - 1];
             int position = this.getSelectionStart() - lastWord.length() - 1;
             if (position < 0) position = 0;
@@ -296,6 +297,7 @@ public class CustomInputMethodService extends InputMethodService
         try {
             ic = this.getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            if (words.length < 1) return "";
             String nextWord = words[0];
             return nextWord;
         }
@@ -309,6 +311,7 @@ public class CustomInputMethodService extends InputMethodService
         try {
             ic = this.getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            if (words.length < 1) return;
             String nextWord = words[0];
             if (words.length > 1) nextWord = words[1];
             int position = this.getSelectionStart() + nextWord.length() + 1;
@@ -535,7 +538,7 @@ public class CustomInputMethodService extends InputMethodService
     private void commitTyped(InputConnection inputConnection) {
         if (this.getPrevWord().length() > 0) {
             this.commitText(getPrevWord());
-            this.updateCandidates();
+            // this.updateCandidates();
         }
     }
 
@@ -610,6 +613,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void updateCandidates() {
+        if (!mPredictionOn) return;
         if (this.mCandidateView == null) {
             this.setCandidatesViewShown(false);
             return;
@@ -628,6 +632,7 @@ public class CustomInputMethodService extends InputMethodService
         prevChar = prevChar.substring(0, 1);
 
         if (!Character.isLetter(prevChar.charAt(0))) {
+            // || prevChar.charAt(0) == '\''
             this.mCandidateView.clear();
             return;
         }
@@ -651,10 +656,11 @@ public class CustomInputMethodService extends InputMethodService
         ArrayList<String> completions = new ArrayList<String>();
         ArrayList<String> suggestions = new ArrayList<String>();
 
-        // suggestions = SpellChecker.getSuggestions(prevWord);
-        // if (suggestions.size() > 0) {
-        //     completions.addAll(suggestions);
-        // }
+
+        suggestions = SpellChecker.getSuggestions(prevWord, 1);
+        if (suggestions.size() > 0) {
+            completions.addAll(suggestions);
+        }
 
         if (isPrefix) {
             completions.addAll(SpellChecker.getCompletions(prevWord));
@@ -669,8 +675,10 @@ public class CustomInputMethodService extends InputMethodService
                 }
             }
         }
+        completions.remove(prevWord);
+        completions.add(prevWord);
         this.mCandidateView.setSuggestions(completions, true, true);
-        this.setCandidatesViewShown(true);
+        if (mPredictionOn) this.setCandidatesViewShown(true);
     }
 
     public void addToDictionary(String word) {
@@ -706,13 +714,13 @@ public class CustomInputMethodService extends InputMethodService
             this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
             this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
         }
-        this.updateCandidates();
+        // this.updateCandidates();
     }
 
     private void handleBackspace() {
         final int length = this.getPrevWord().length();
 
-        if (sharedPreferences.getBoolean("pairs", true)
+        if (sharedPreferences.getBoolean("pairs", false)
             && ic.getTextBeforeCursor(1, 0) != null
             && String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
             && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
@@ -721,11 +729,11 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         if (!this.isSelecting()
+            && sharedPreferences.getBoolean("indent", false)
             && ic.getTextBeforeCursor(4, 0) != null
             && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
-            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")
-            && sharedPreferences.getBoolean("spaces", false)) {
-            ic.deleteSurroundingText((4 - (this.getPrevLine().length() % 4)), 0);
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
+            ic.deleteSurroundingText((4 - (length % 4)), 0);
         }
 
         if (Variables.isAnyOn()) {
@@ -734,6 +742,7 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isCtrl()) this.getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
 
+/*
         else if (length > 0) {
             ic.deleteSurroundingText(1, 0);
         }
@@ -743,9 +752,12 @@ public class CustomInputMethodService extends InputMethodService
         else {
             this.sendKey(KeyEvent.KEYCODE_DEL);
         }
+*/
+
+        this.sendKey(KeyEvent.KEYCODE_DEL);
         this.updateShiftKeyState(this.getCurrentInputEditorInfo());
 
-        this.updateCandidates();
+        
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
@@ -1650,6 +1662,8 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception ignored) {}
+        if (mPredictionOn) this.updateCandidates();
+
     }
 
     private void showInputMethodPicker() {

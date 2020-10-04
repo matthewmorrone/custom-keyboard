@@ -99,12 +99,12 @@ public class SpellChecker {
         }
         strings.remove(word);
         // Collections.sort(strings, byLength);
-        strings.add(0, word);
+        // strings.add(0, word);
         return strings;
     }
 
     public static ArrayList<String> getSuggestions(String word) {
-        return getSuggestions(word, 10);
+        return getSuggestions(word, 1);
     }
 
     public static ArrayList<String> getSuggestions(String word, int limit) {
@@ -134,7 +134,7 @@ public class SpellChecker {
         for(Entry entry : topN) {
             result.add(entry.getWord());
         }
-        Collections.sort(result);
+        // Collections.sort(result);
         // Collections.sort(result, byLength);
         return result;
     }

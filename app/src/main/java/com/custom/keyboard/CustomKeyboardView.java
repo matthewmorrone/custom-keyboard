@@ -21,6 +21,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
     Paint mPaint = new Paint();
+    Canvas canvas;
     Context kcontext;
     SharedPreferences sharedPreferences;
     String selected = "#80FFFFFF";
@@ -30,8 +31,6 @@ public class CustomKeyboardView extends KeyboardView {
     // int bg = sharedPreferences.getInt("bg", -1);
     // String foreground = "#"+Integer.parseInt(Integer.toHexString(fg));
     // String background = "#"+Integer.parseInt(Integer.toHexString(bg));
-
-    Canvas canvas;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,7 +51,7 @@ public class CustomKeyboardView extends KeyboardView {
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == -192
         ||  key.codes[0] == -300
-        ||  key.codes[0] == 10) {
+        ||  key.codes[0] ==   10) {
             return super.onLongPress(key);
         }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
@@ -109,7 +108,7 @@ public class CustomKeyboardView extends KeyboardView {
         }
         canvas.restore();
     }
-
+/*
     public void selectKey(Key key) {
         int theme = Integer.parseInt(Objects.requireNonNull(sharedPreferences.getString("theme", "1")));
         String color = theme % 2 == 1 ? selected : selected;
@@ -120,6 +119,7 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
         canvas.restore();
     }
+*/
 
     public void drawable(Key key, int drawable, int size) {
         int center = key.x+(key.width/2);
@@ -163,7 +163,7 @@ public class CustomKeyboardView extends KeyboardView {
         mPaint.setTextAlign(Paint.Align.CENTER);
 
 
-        int border = 2;  // borders || padding ? 2 : 0;
+        int border = 4;  // borders || padding ? 2 : 0;
         int corner = 16; // corners ? 16 : 0;
 
         for (Key key : keys) {
@@ -171,7 +171,14 @@ public class CustomKeyboardView extends KeyboardView {
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;
             }
-
+            
+            // canvas.save();
+            
+            
+            
+            
+            // canvas.restore();
+            
             // !keyback corners !padding borders
             if (borders) {
                 canvas.save();
@@ -210,7 +217,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-            if (key.codes[0] == -73)    key.label = Util.timemoji();
+            if (key.codes[0] ==  -73)   key.label = Util.timemoji();
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
             if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
@@ -226,16 +233,16 @@ public class CustomKeyboardView extends KeyboardView {
             // if (key.codes[0] >= -512 && key.codes[0] <= -501) System.out.println(key.text);
 
 
-            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key);
+            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, corner);
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
-                    selectKey(key);
+                    selectKey(key, corner);
                 }
                 if (getKeyboard().isShifted()) {
                     drawable(key, R.drawable.ic_shift_lock);
                 }
             }
-            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key);}}
+            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key, corner);}}
 
             if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, corner);}}
             if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, corner);}}

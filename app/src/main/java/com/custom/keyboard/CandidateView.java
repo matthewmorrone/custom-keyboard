@@ -66,7 +66,7 @@ public class CandidateView extends View {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
-        this.setAlpha(transparency);
+        this.setAlpha(transparency); 
         // this.setAutofillHints("a", "b", "c");
 
         this.setBackgroundColor(r.getColor(R.color.black));

@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Custom Keyboard</string>
     <string name="version" translatable="false">Version 0.0.0</string>
-    <string name="caps">Auto capitalization</string>
+    <string name="sound">Sound on Key Press</string>
     <string name="vib">Vibrate on key press</string>
     <string name="borders">Key borders</string>
-    <string name="prediction" translatable="false" >Enable text prediction</string>
+    <string name="suggestions">Enable Suggestions</string>
+    <string name="auto">Enable Autoreplace</string>
+    <string name="caps">Enable Autocapitalization</string>
+    <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="toggle_case">Toggle Selection Case</string>
     <string-array name="theme_keys">
         <item name="1">1</item>
         <item name="2">2</item>
@@ -56,12 +60,10 @@
     <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
-    <string name="word_separators" translatable="false">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="enable">Enable</string>
     <string name="select">Select</string>
     <string name="settings">Settings</string>
     <string name="test">Test your keyboard here</string>
-    <string name="completion">Autocomplete</string>
     <string name="popup_1"></string>
     <string name="popup_2"></string>
     <string name="popup_3"></string>
@@ -72,5 +74,4 @@
     <string name="popup_8"></string>
     <string name="popup_9"></string>
     <string name="popup_0"></string>
-    <string name="toggle_case">Toggle Selection Case</string><string name="sound">Sound on Key Press</string><string name="auto">Enable Autoreplace</string>
 </resources>

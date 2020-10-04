@@ -1,7 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.custom.keyboard">
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" android:required="false" />
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" android:required="false" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" android:required="false" />
+    <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION" android:required="false" />
+    <uses-permission android:name="android.permission.BIND_INPUT_METHOD" android:required="false" />
+    <uses-permission android:name="android.permission.BIND_TEXT_SERVICE" android:required="false" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" android:required="false" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" android:required="false" />
+
+
+
+
     <application android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
