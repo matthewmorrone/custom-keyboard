@@ -9,6 +9,7 @@
     <string name="caps">Enable Autocapitalization</string>
     <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="toggle_case">Toggle Selection Case</string>
+    <string name="number_picker_formatter">%02d</string>
     <string-array name="theme_keys">
         <item name="1">1</item>
         <item name="2">2</item>
