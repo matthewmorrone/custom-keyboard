@@ -30,12 +30,12 @@
     <Row android:keyWidth="12.5%p">
         <!--<Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"     android:keyLabel="ツ" />-->
         <!--<Key android:codes="0"    android:keyOutputText="ಠ_ಠ"            android:keyLabel="ಠ_ಠ" />-->
-        <Key android:codes="0"    android:keyOutputText="https://"        android:keyLabel="https" />
-        <Key android:codes="0"    android:keyOutputText="www."            android:keyLabel="www." />
-        <Key android:codes="0"    android:keyOutputText="\@gmail"         android:keyLabel="\@gmail" />
-        <Key android:codes="0"    android:keyOutputText=".com"            android:keyLabel=".com" />
+        <Key android:keyOutputText="https://"        android:keyLabel="https" />
+        <Key android:keyOutputText="www."            android:keyLabel="www." />
+        <Key android:keyOutputText="\@gmail"         android:keyLabel="\@gmail" />
+        <Key android:keyOutputText=".com"            android:keyLabel=".com" />
     </Row>
-    <Row android:keyWidth="25%p">
+<!--    <Row android:keyWidth="25%p">
         <Key android:codes="-501" android:keyOutputText="@string/k1"      android:keyLabel="@string/k1_label" />
         <Key android:codes="-502" android:keyOutputText="@string/k2"      android:keyLabel="@string/k2_label" />
         <Key android:codes="-503" android:keyOutputText="@string/k3"      android:keyLabel="@string/k3_label" />
@@ -46,12 +46,11 @@
         <Key android:codes="-506" android:keyOutputText="@string/k6"      android:keyLabel="@string/k6_label" />
         <Key android:codes="-507" android:keyOutputText="@string/k7"      android:keyLabel="@string/k7_label" />
         <Key android:codes="-508" android:keyOutputText="@string/k8"      android:keyLabel="@string/k8_label" />
-    </Row>
+    </Row>-->
     <Row>
-        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="10%p" />
-        <Key android:codes="-27"  android:keyIcon="@drawable/ic_emoji"           android:keyWidth="10%p" />
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_abc"             android:keyWidth="10%p" />
-        <Key android:codes="32"   android:keyIcon="@drawable/ic_space"           android:keyWidth="50%p" />
-        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="20%p" />
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings" android:keyWidth="12.5%p" />
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_abc" android:keyWidth="12.5%p" />
+        <Key android:codes="32"   android:keyIcon="@drawable/ic_space" android:keyWidth="50%p" />
+        <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="25%p" />
     </Row>
 </Keyboard>

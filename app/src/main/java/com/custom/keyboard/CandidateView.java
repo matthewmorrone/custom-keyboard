@@ -1,6 +1,7 @@
 package com.custom.keyboard;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +68,6 @@ public class CandidateView extends View {
 
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         this.setAlpha(transparency); 
-        // this.setAutofillHints("a", "b", "c");
 
         this.setBackgroundColor(r.getColor(R.color.black));
 

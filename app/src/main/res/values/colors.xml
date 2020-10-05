@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
 
-    <!-- Screens background color-->
-
-    <!-- dots inactive colors -->
-
-    <!-- dots active colors -->
-
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="dark_grey">#3b3b3b</color>
 </resources>
+
+
+    <!--int white = Color.WHITE;-->
+    <!--int black = Color.BLACK;-->
+    <!--int blue = Color.BLUE;-->
+    <!--int cyan = Color.CYAN;-->
+    <!--int transparent = Color.TRANSPARENT;-->
+    <!--int gray = Color.GRAY;-->
+    <!--int green = Color.GREEN;-->
+    <!--int magenta = Color.MAGENTA;-->
+    <!--int red = Color.RED;-->
+    <!--int yellow = Color.YELLOW;-->
+    <!--int ltgray = Color.LTGRAY;-->
+    <!--int dkgray = Color.DKGRAY;-->
