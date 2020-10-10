@@ -182,6 +182,9 @@ public class CustomInputMethodService extends InputMethodService
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
 
         // if (mPredictionOn) setCandidatesViewShown(true);
+
+
+
         
     }
 
@@ -198,15 +201,16 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     // @TODO: autoadjustment of key width by number of keys in row
-    public void adjustKeys() {
-        Bounds bounds = getBounds(standardKeyboard.getKeys());
-        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(standardKeyboard);
+    public void adjustKeys(CustomKeyboard currentKeyboard) {
+        Bounds bounds = getBounds(currentKeyboard.getKeys());
+        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(currentKeyboard);
         for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
-            if (entry.getValue().size() > 8) {
-                for(Keyboard.Key key : entry.getValue()) {
-                    key.width = bounds.dX / entry.getValue().size();
-                }
+            for(Keyboard.Key key : entry.getValue()) {
+                key.width = bounds.dX / entry.getValue().size();
             }
+            System.out.println();
+            // if (entry.getValue().size() > 8) {
+            // }
         }
         redraw();
     }
@@ -215,7 +219,7 @@ public class CustomInputMethodService extends InputMethodService
         Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
         for (Keyboard.Key key : keyboard.getKeys()) {
             if (!layoutRows.containsKey(key.y)) {
-                // layoutRows.put(key.y, new ArrayList<>());
+                layoutRows.put(key.y, new ArrayList<Keyboard.Key>());
             }
             layoutRows.get(key.y).add(key);
         }
@@ -1588,7 +1592,7 @@ public class CustomInputMethodService extends InputMethodService
                 currentKeyboard.title = "Unicode";
             break;
             case -140: setKeyboard(R.layout.accents); break;
-            // case -141: setKeyboard(R.layout.ipa); break;
+            case -141: setKeyboard(R.layout.ipa); break;
             // case -142: setKeyboard(R.layout.fancy); break;
             // case -143: setKeyboard(R.layout.function_2); break;
             case -144: setKeyboard(R.layout.fonts); break;
