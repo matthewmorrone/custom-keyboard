@@ -54,7 +54,7 @@
     <Row>
         <Key android:codes="-140" android:keyLabel="é" android:keyIcon="@drawable/ic_accent" />
         <Key android:codes="-141" android:keyLabel="ə" android:keyIcon="@drawable/ic_schwa" />
-        <Key android:codes="-144" android:keyIcon="@drawable/ic_fonts" />
+        <Key android:codes="-144" android:keyLabel="𝗲" android:keyIcon="@drawable/ic_fonts" />
         <!--<Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />-->
         <!--<Key android:codes="-136" android:keyIcon="@drawable/ic_nav" />-->
         <!--<Key android:codes="-135" android:keyIcon="@drawable/ic_keypad" />-->
@@ -62,7 +62,7 @@
         <!--<Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />-->
         <!--<Key android:codes="-133" android:keyIcon="@drawable/ic_hexa" />-->
         <!--<Key android:codes="-142" android:keyIcon="@drawable/ic_fancy" />-->
-        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:horizontalGap="60%p" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:horizontalGap="50%p" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"   />
     </Row>
     <Row>
