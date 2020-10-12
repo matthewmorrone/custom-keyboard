@@ -12,7 +12,6 @@
         <SwitchPreference android:defaultValue="false" android:key="caps" android:title="@string/caps" />
         <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <SwitchPreference android:defaultValue="false" android:key="spaceAfterPunct" android:title="Insert Space After Punctuation" />
-
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />
     </PreferenceScreen>
@@ -34,6 +33,7 @@
         <EditTextPreference android:defaultValue="@string/popup_third" android:dialogMessage="" android:dialogTitle="Popup 3" android:key="popup_third" android:summary="@string/popup_third" android:title="Popup 3" />
         <EditTextPreference android:defaultValue="@string/name" android:dialogTitle="Name" android:key="name" android:summary="@string/name" android:title="Name" />
         <EditTextPreference android:defaultValue="@string/email" android:dialogTitle="Email" android:key="email" android:summary="@string/email" android:title="Email" />
+        <EditTextPreference android:title="Password" android:dialogTitle="Password" android:key="password" android:inputType="textPassword" />
         <EditTextPreference android:defaultValue="@string/phone" android:dialogTitle="Phone №" android:key="phone" android:summary="@string/phone" android:title="Phone №" />
         <EditTextPreference android:defaultValue="@string/address" android:dialogTitle="Address" android:key="address" android:summary="@string/address" android:title="Address" />
         <EditTextPreference android:defaultValue="@string/k1" android:dialogTitle="Custom Key 1" android:key="k1" android:summary="@string/k1" android:title="Custom Key 1" />

@@ -231,6 +231,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
             if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
+            if (key.codes[0] == -513)   key.text = sharedPreferences.getString("password", "");
             // if (key.codes[0] >= -512 && key.codes[0] <= -501) System.out.println(key.text);
 
 

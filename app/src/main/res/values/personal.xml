@@ -4,6 +4,7 @@
     <string name="email">matthewmorrone1@gmail.com</string>
     <string name="phone">7177362012</string>
     <string name="address">2217 Concord Circle</string>
+    <string name="password" />
     <string name="k1_label">git clone</string>
     <string name="k1">git clone https://github.com/matthewmorrone/</string>
     <string name="k2_label">git pull</string>

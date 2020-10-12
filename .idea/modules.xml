@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ancillary-keyboard.iml" filepath="$PROJECT_DIR$/.idea/modules/ancillary-keyboard.iml" group="ancillary-keyboard" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ancillary-keyboard-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ancillary-keyboard-app.iml" group="ancillary-keyboard/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/behe-keyboard.iml" filepath="$PROJECT_DIR$/behe-keyboard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/custom-keyboard.iml" filepath="$PROJECT_DIR$/.idea/modules/custom-keyboard.iml" group="custom-keyboard" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/custom-keyboard-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/custom-keyboard-app.iml" group="custom-keyboard/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emoji/emoji.iml" filepath="$PROJECT_DIR$/.idea/modules/emoji/emoji.iml" group="custom-keyboard/emoji" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/custom-keyboard.iml" filepath="$PROJECT_DIR$/.idea/modules/custom-keyboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/custom-keyboard.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/custom-keyboard.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emoji/custom-keyboard.emoji.iml" filepath="$PROJECT_DIR$/.idea/modules/emoji/custom-keyboard.emoji.iml" />
     </modules>
   </component>
 </project>

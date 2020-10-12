@@ -23,18 +23,19 @@
         <Key android:codes="-504" android:keyLabel="@string/k4_label" />
     </Row>
     <Row android:keyWidth="25%p">
-        <Key android:codes="-505" android:keyOutputText="@string/k5"      android:keyLabel="@string/k5_label" />
-        <Key android:codes="-506" android:keyOutputText="@string/k6"      android:keyLabel="@string/k6_label" />
-        <Key android:codes="-507" android:keyOutputText="@string/k7"      android:keyLabel="@string/k7_label" />
-        <Key android:codes="-508" android:keyOutputText="@string/k8"      android:keyLabel="@string/k8_label" />
+        <Key android:codes="-505" android:keyLabel="@string/k5_label" />
+        <Key android:codes="-506" android:keyLabel="@string/k6_label" />
+        <Key android:codes="-507" android:keyLabel="@string/k7_label" />
+        <Key android:codes="-508" android:keyLabel="@string/k8_label" />
     </Row>
-    <Row android:keyWidth="14.28%p">
+    <Row android:keyWidth="11.111%p">
         <Key android:codes="-168" android:keyIcon="@drawable/ic_format_unindent" />
         <Key android:codes="-169" android:keyIcon="@drawable/ic_format_indent" />
-        <Key android:codes="-509" android:keyOutputText="@string/name"    android:keyIcon="@drawable/ic_name" />
-        <Key android:codes="-510" android:keyOutputText="@string/email"   android:keyIcon="@drawable/ic_email" />
-        <Key android:codes="-511" android:keyOutputText="@string/phone"   android:keyIcon="@drawable/ic_phone" />
-        <Key android:codes="-512" android:keyOutputText="@string/address" android:keyIcon="@drawable/ic_address" />
+        <Key android:codes="-509" android:keyIcon="@drawable/ic_name" />
+        <Key android:codes="-510" android:keyIcon="@drawable/ic_email" />
+        <Key android:codes="-511" android:keyIcon="@drawable/ic_phone" />
+        <Key android:codes="-512" android:keyIcon="@drawable/ic_address" />
+        <Key android:codes="-513" android:keyIcon="@drawable/ic_password" />
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-73"  android:keyLabel="🕐" />

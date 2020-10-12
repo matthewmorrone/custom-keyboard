@@ -1434,6 +1434,7 @@ public class CustomInputMethodService extends InputMethodService
             case -510: commitText(getResources().getString(R.string.email)); break;
             case -511: commitText(getResources().getString(R.string.phone)); break;
             case -512: commitText(getResources().getString(R.string.address)); break;
+            case -513: commitText(getResources().getString(R.string.password)); break;
 
 
             case -73: commitText(Util.timemoji()); break;
