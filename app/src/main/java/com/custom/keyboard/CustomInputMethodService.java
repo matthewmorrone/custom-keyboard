@@ -1215,9 +1215,6 @@ int[] hexPasses = new int[] {
         }
         commitText(String.valueOf(code), 1);
 
-
-
-
         firstCaps = false;
         setCapsOn(false);
 
@@ -1238,12 +1235,11 @@ int[] hexPasses = new int[] {
         if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
         if (Util.contains(hexCaptures, primaryCode)) {
             if (hexBuffer.length() > 3) hexBuffer = "";
-            hexBuffer += (char)primaryCode; // Util.largeIntToChar(primaryCode)
+            hexBuffer += Util.largeIntToChar(primaryCode);
         }
         if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
         if (primaryCode == -204) {
-            // Util.largeIntToChar(primaryCode)
-            commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+            commitText(String.valueOf(Util.largeIntToChar(Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")))));
         }
         if (primaryCode == -205) {
             if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
@@ -1251,8 +1247,7 @@ int[] hexPasses = new int[] {
         }
         if (primaryCode == -206) hexBuffer = "0000";
         getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
-        // Util.largeIntToChar(primaryCode)
-        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        getKey(-204).label = String.valueOf(Util.largeIntToChar(Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
     }
 
     public void handleShift() {
@@ -1292,10 +1287,10 @@ int[] hexPasses = new int[] {
 
     private void handleSpace() {
         commitText(" ");
-        // @TODO: use variable for spaces
         mCandidateView.clear();
     }
     public void handleTab() {
+        // @TODO: use variable for spaces
         String spaces = "    ";
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
             int spaceCount = (4 - (getPrevLine().length() % 4));
