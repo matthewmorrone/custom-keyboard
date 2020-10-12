@@ -87,7 +87,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
             theme.setSummary(sharedPreferences.getString("theme", "2"));
-            // theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "2"))));
             background.setSummary(sharedPreferences.getString("background", ""));
             foreground.setSummary(sharedPreferences.getString("foreground", ""));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
@@ -126,7 +125,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
             theme.setSummary(sharedPreferences.getString("theme", "2"));
-            // theme.setSummary(themes.get(Integer.parseInt(sharedPreferences.getString("theme", "2"))));
             background.setSummary(sharedPreferences.getString("background", ""));
             foreground.setSummary(sharedPreferences.getString("foreground", ""));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));

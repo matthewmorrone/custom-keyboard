@@ -64,8 +64,6 @@ public class CustomInputMethodService extends InputMethodService
 
     int MAX = 65536;
 
-    InputConnection ic = getCurrentInputConnection();
-
     SharedPreferences sharedPreferences;
     Toast toast;
 
@@ -227,6 +225,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void clearAll() {
+        InputConnection ic = getCurrentInputConnection();
+
         // sendKey(KeyEvent.KEYCODE_CLEAR);
         ic = getCurrentInputConnection();
         ic.deleteSurroundingText(MAX, MAX);
@@ -243,6 +243,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void sendCustomKey(String key) {
+        InputConnection ic = getCurrentInputConnection();
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext()); // this?
         ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
@@ -254,8 +256,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getPrevWord() {
+        InputConnection ic = getCurrentInputConnection();
         try {
-            ic = getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
             if (words.length < 1) return "";
             String lastWord = words[words.length - 1];
@@ -267,8 +269,8 @@ public class CustomInputMethodService extends InputMethodService
         return "";
     }
     public void selectPrevWord() {
+        InputConnection ic = getCurrentInputConnection();
         try {
-            ic = getCurrentInputConnection();
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
             if (words.length < 1) return;
             String lastWord = words[words.length - 1];
@@ -283,8 +285,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getNextWord() {
+        InputConnection ic = getCurrentInputConnection();
         try {
-            ic = getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
             if (words.length < 1) return "";
             String nextWord = words[0];
@@ -297,8 +299,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void selectNextWord() {
+        InputConnection ic = getCurrentInputConnection();
         try {
-            ic = getCurrentInputConnection();
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
             if (words.length < 1) return;
             String nextWord = words[0];
@@ -313,12 +315,12 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void goToStart() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ic.setSelection(0, 0);
     }
 
     public void goToEnd() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ic.setSelection(
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
@@ -326,7 +328,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void selectNone() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         try {
             int end = getSelectionEnd();
             ic.setSelection(end, end);
@@ -345,12 +347,12 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void selectAll() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
     }
 
     public String getPrevLine() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         CharSequence textBeforeCursor = ic.getTextBeforeCursor(MAX, 0);
         if (textBeforeCursor == null) return "";
         if (textBeforeCursor.length() < 1) return "";
@@ -360,7 +362,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getNextLine() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         CharSequence textAfterCursor = ic.getTextAfterCursor(MAX, 0);
         if (textAfterCursor == null) return "";
         if (textAfterCursor.length() < 1) return "";
@@ -370,10 +372,12 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int getCurrentLine() {
+        InputConnection ic = getCurrentInputConnection();
         return Util.getLines(ic.getTextBeforeCursor(MAX, 0).toString()).length;
     }
 
     public int getLineCount() {
+        InputConnection ic = getCurrentInputConnection();
         return Util.getLines(getAllText(ic)).length;
     }
 
@@ -386,14 +390,14 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int getCursorPosition() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.startOffset + extracted.selectionStart;
     }
 
     public int getStartOffset() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.startOffset;
@@ -497,13 +501,14 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void commitText(String text, int offset) {
+        InputConnection ic = getCurrentInputConnection();
         ic.beginBatchEdit();
         ic.commitText(text, offset);
         ic.endBatchEdit();
     }
 
     public void performReplace(String newText) {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
             int a = getSelectionStart();
@@ -515,11 +520,13 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        System.out.println("onKeyUp"+" "+keyCode);
         return super.onKeyUp(keyCode, event);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        System.out.println("onKeyDown"+" "+keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
@@ -541,15 +548,14 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    @Override
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) {
             return;
         }
         ic.beginBatchEdit();
-        if (getPrevWord().length() > 0) {
-            commitTyped(ic);
-        }
+        ic.commitText(text, 0);
         ic.endBatchEdit();
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
@@ -580,12 +586,16 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(true);
     }
 
-
     public void showVoiceInput() {
         InputMethodManager inputMethodManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {
             inputMethodManager.setInputMethod(getToken(), "com.google.android.googlequicksearchbox/com.google.android.voicesearch.ime.VoiceInputMethodService");
         }
+    }
+
+    private void showInputMethodPicker() {
+        InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+        if (imeManager != null) imeManager.showInputMethodPicker();
     }
 
     public void startIntent(Intent intent) {
@@ -767,19 +777,11 @@ public class CustomInputMethodService extends InputMethodService
         mInputMethodManager.switchToNextInputMethod(getToken(), false /* onlyCurrentIme */);
     }
 
-    private String getWordSeparators() {
-        return mWordSeparators;
-    }
-
-    public boolean isWordSeparator(String s) {
-        return s.contains(". ") || s.contains("? ") || s.contains("! ");
-    }
-
-
     long time = 0;
 
     public void onPress(int primaryCode) {
-        ic = getCurrentInputConnection();
+        System.out.println("onPress: "+primaryCode);
+        InputConnection ic = getCurrentInputConnection();
         time = System.nanoTime() - time;
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
@@ -792,7 +794,9 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onRelease(int primaryCode) {
-        ic = getCurrentInputConnection();
+        System.out.println("onRelease: "+primaryCode);
+
+        InputConnection ic = getCurrentInputConnection();
         time = (System.nanoTime() - time) / 1000000;
 
         if (time > 300) {
@@ -998,27 +1002,27 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void sendKey(int primaryCode) {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, primaryCode));
         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   primaryCode));
     }
 
     public void sendKey(int primaryCode, int times) {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         while (times --> 0) {
             sendKey(primaryCode);
         }
     }
 
     public void sendKeys(@NonNull int[] keys) {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         for (int key : keys) {
             sendKey(key);
         }
     }
 
     public void navigate(int primaryCode) {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
             sendKey(primaryCode, 4);
         }
@@ -1033,6 +1037,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void replaceText(@NonNull String src, String trg) {
+        InputConnection ic = getCurrentInputConnection();
         ic.deleteSurroundingText(src.length(), 0);
         commitText(trg);
     }
@@ -1042,27 +1047,25 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int getSelectionStart() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionStart;
     }
 
     public int getSelectionEnd() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd;
     }
 
     public int getSelectionLength() {
-        ic = getCurrentInputConnection();
+        InputConnection ic = getCurrentInputConnection();
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd - extracted.selectionStart;
     }
-
-
 
     public void setKeyboard(int id) {
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
@@ -1072,7 +1075,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     static String hexBuffer = "";
-int[] hexPasses = new int[] {
+    int[] hexPasses = new int[] {
         // 7,    9
         //     static final ,   10,   32,  33,
         // -1,   -4,   -5,   -7,
@@ -1090,6 +1093,7 @@ int[] hexPasses = new int[] {
     
     
     private void handleDelete() {
+        InputConnection ic = getCurrentInputConnection();
         final int length = getPrevWord().length();
 
         if (sharedPreferences.getBoolean("pairs", false)
@@ -1128,6 +1132,7 @@ int[] hexPasses = new int[] {
     }
 
     private void handleBackspace() {
+        InputConnection ic = getCurrentInputConnection();
         final int length = getPrevWord().length();
 
         if (sharedPreferences.getBoolean("pairs", false)
@@ -1166,6 +1171,9 @@ int[] hexPasses = new int[] {
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
+        InputConnection ic = getCurrentInputConnection();
+        ic.beginBatchEdit();
+
         if (isInputViewShown()) {
             if (kv.isShifted()) {
                 primaryCode = Character.toUpperCase(primaryCode);
@@ -1234,9 +1242,11 @@ int[] hexPasses = new int[] {
             replaceText(getPrevWord(), suggestions.get(0));
         }
 */
+        ic.endBatchEdit();
     }
 
     private void handleUnicode(int primaryCode) {
+        InputConnection ic = getCurrentInputConnection();
         if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
         if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
         if (Util.contains(hexCaptures, primaryCode)) {
@@ -1257,6 +1267,7 @@ int[] hexPasses = new int[] {
     }
 
     public void handleShift() {
+        InputConnection ic = getCurrentInputConnection();
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 &&
             PreferenceManager.getDefaultSharedPreferences(this).getBoolean("shift", false)) {
             String text = ic.getSelectedText(0).toString();
@@ -1296,6 +1307,7 @@ int[] hexPasses = new int[] {
         mCandidateView.clear();
     }
     public void handleTab() {
+        InputConnection ic = getCurrentInputConnection();
         // @TODO: use variable for spaces
         String spaces = "    ";
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
@@ -1342,8 +1354,7 @@ int[] hexPasses = new int[] {
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
                 commitText(Util.getIndentation(getPrevLine()), 0);
                 return;
-            }
-                //  sendKey(66);
+            } //  sendKey(66);
             break;
         }
     }
@@ -1397,21 +1408,39 @@ int[] hexPasses = new int[] {
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
+        System.out.println("onKey: "+primaryCode);
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int ere, aft;
-        System.out.println(primaryCode);
         if (sharedPreferences.getBoolean("sound", false)) playClick(primaryCode);
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
         }
         switch (primaryCode) {
+
+
+            case -501:
+                System.out.println(getResources().getString(R.string.k1));
+                commitText(getResources().getString(R.string.k1));
+                break;
+            case -502: commitText(getResources().getString(R.string.k2)); break;
+            case -503: commitText(getResources().getString(R.string.k3)); break;
+            case -504: commitText(getResources().getString(R.string.k4)); break;
+            case -505: commitText(getResources().getString(R.string.k5)); break;
+            case -506: commitText(getResources().getString(R.string.k6)); break;
+            case -507: commitText(getResources().getString(R.string.k7)); break;
+            case -508: commitText(getResources().getString(R.string.k8)); break;
+            case -509: commitText(getResources().getString(R.string.name)); break;
+            case -510: commitText(getResources().getString(R.string.email)); break;
+            case -511: commitText(getResources().getString(R.string.phone)); break;
+            case -512: commitText(getResources().getString(R.string.address)); break;
+
+
             case -73: commitText(Util.timemoji()); break;
             case -34: commitText(getNextLine() + "\n" + getPrevLine(), 0); break;
             case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
-
             case 142: sendKey(KeyEvent.KEYCODE_F12); break;
             case 141: sendKey(KeyEvent.KEYCODE_F11); break;
             case 140: sendKey(KeyEvent.KEYCODE_F10); break;
@@ -1569,7 +1598,7 @@ int[] hexPasses = new int[] {
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
                 else performReplace(Font.strikethrough(getText(ic)));
-                break;
+            break;
             case -100:
                 Variables.setAllOff();
                 performReplace(Font.unbolden(getText(ic)));
@@ -1578,7 +1607,7 @@ int[] hexPasses = new int[] {
                 performReplace(Font.unstrikethrough(getText(ic)));
                 performReplace(Font.ununderline(getText(ic)));
                 performReplace(Font.ununderscore(getText(ic)));
-                break;
+            break;
             case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: showActivity(Settings.ACTION_SETTINGS); break;
@@ -1617,9 +1646,9 @@ int[] hexPasses = new int[] {
             break;
             case -140: setKeyboard(R.layout.accents); break;
             case -141: setKeyboard(R.layout.ipa); break;
-            // case -142: setKeyboard(R.layout.fancy); break;
-            // case -143: setKeyboard(R.layout.function_2); break;
-            case -144: setKeyboard(R.layout.fonts); break;
+            case -142: setKeyboard(R.layout.fonts); break;
+            // case -143: setKeyboard(R.layout.fancy); break;
+            // case -144: setKeyboard(R.layout.function_2); break;
 
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
@@ -1656,6 +1685,9 @@ int[] hexPasses = new int[] {
                 navigate(KeyEvent.KEYCODE_DPAD_DOWN);
                 navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
                 break;
+            case -168: performReplace(Util.decreaseIndentation(getText(ic))); break;
+            case -169: performReplace(Util.increaseIndentation(getText(ic))); break;
+
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
@@ -1665,7 +1697,10 @@ int[] hexPasses = new int[] {
         redraw();
         try {
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
-                if (isWordSeparator(ic.getTextBeforeCursor(2, 0).toString())) {
+                if (ic.getTextBeforeCursor(2, 0).toString().contains(". ")
+                 || ic.getTextBeforeCursor(2, 0).toString().contains("? ")
+                 || ic.getTextBeforeCursor(2, 0).toString().contains("! ")
+                ) {
                     setCapsOn(true);
                     firstCaps = true;
                 }
@@ -1676,11 +1711,6 @@ int[] hexPasses = new int[] {
 
     }
 
-    private void showInputMethodPicker() {
-        InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-        if (imeManager != null) imeManager.showInputMethodPicker();
-    }
-    
     public short getRowNumber() {
         return rowNumber;
     }

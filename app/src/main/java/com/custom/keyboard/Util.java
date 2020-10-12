@@ -38,7 +38,7 @@ public class Util {
     // general
     public static void noop() {}
     public static boolean contains(String haystack, int primaryCode) {
-        return haystack.contains(largeIntToChar(primaryCode));
+        return haystack.contains(String.valueOf(primaryCode));
     }
     public static boolean contains(String haystack, String needle) {
         return haystack.contains(needle);
@@ -170,11 +170,16 @@ public class Util {
         Matcher m = p.matcher(s);
         return (m.find() && m.group().equals(s));
     }
+    static String mWordSeparators = "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;";
+    public static String getWordSeparators() {
+        return mWordSeparators;
+    }
     public static boolean isWordSeparator(int primaryCode) {
-        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(String.valueOf((char) primaryCode));
+        return mWordSeparators.contains(String.valueOf((char) primaryCode));
     }
     public static boolean isWordSeparator(String text) {
-        return "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;".contains(text);
+        // return text.contains(". ") || text.contains("? ") || text.contains("! ");
+        return mWordSeparators.contains(text);
     }
     public static boolean isWordSeparator(int primaryCode, String delimiters) {
         // Util.largeIntToChar(primaryCode)
