@@ -378,10 +378,10 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public int[] getCursorLocation() {
-        return new int[]{cursorLocationOnLine(), getCurrentLine()};
+        return new int[]{getCursorLocationOnLine(), getCurrentLine()};
     }
 
-    public int cursorLocationOnLine() {
+    public int getCursorLocationOnLine() {
         return getPrevLine().length();
     }
 
@@ -408,7 +408,6 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(false);
 
         Variables.setSelectingOff();
-
 
         currentKeyboard = standardKeyboard;
         if (kv != null) {
@@ -693,130 +692,6 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(false);
     }
 
-    private void handleDelete() {
-        if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON)); }
-            if (Variables.isAlt()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON)); }
-            if (Variables.isCtrl()) { getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON)); }
-        }
-        else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_FORWARD_DEL, 0));
-        }
-        // updateCandidates();
-    }
-
-    private void handleBackspace() {
-        final int length = getPrevWord().length();
-
-        if (sharedPreferences.getBoolean("pairs", false)
-            && ic.getTextBeforeCursor(1, 0) != null
-            && String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
-            && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
-            && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
-            ic.deleteSurroundingText(0, 1);
-        }
-
-        if (!isSelecting()
-            && sharedPreferences.getBoolean("indent", false)
-            && ic.getTextBeforeCursor(4, 0) != null
-            && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
-            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
-            ic.deleteSurroundingText((4 - (length % 4)), 0);
-        }
-
-        if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
-        }
-
-/*
-        else if (length > 0) {
-            ic.deleteSurroundingText(1, 0);
-        }
-        else if (length == 0) {
-            getCurrentInputConnection().commitText("", 0);
-        }
-        else {
-            sendKey(KeyEvent.KEYCODE_DEL);
-        }
-*/
-
-        sendKey(KeyEvent.KEYCODE_DEL);
-        updateShiftKeyState(getCurrentInputEditorInfo());
-
-        
-    }
-
-    private void handleCharacter(int primaryCode, int[] keyCodes) {
-        if (isInputViewShown()) {
-            if (kv.isShifted()) {
-                primaryCode = Character.toUpperCase(primaryCode);
-            }
-        }
-        if (sharedPreferences.getBoolean("pairs", true)) {
-            if (Util.contains("({\"[", primaryCode)) {
-                String code = Util.largeIntToChar(primaryCode);
-                if (code.equals("(")) commitText("()");
-                if (code.equals("[")) commitText("[]");
-                if (code.equals("{")) commitText("{}");
-                if (code.equals("\"")) commitText("\"\"");
-                sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
-                return;
-            }
-        }
-
-        if (Variables.isBold()) { primaryCode = Font.getBold(primaryCode);}
-        if (Variables.isItalic()) { primaryCode = Font.getItalic(primaryCode);}
-        if (Variables.isEmphasized()) { primaryCode = Font.getEmphasized(primaryCode);}
-        // if (Variables.isUnderlined()) { primaryCode = Font.getUnderlined(primaryCode);}
-        // if (Variables.isUnderscored()) { primaryCode = Font.getUnderscored(primaryCode);}
-        // if (Variables.isStrikethrough()) { primaryCode = Font.getStrikethrough(primaryCode);}
-        if (Variables.isBoldSerif()) { primaryCode = Font.toBoldSerif(primaryCode, kv.isShifted());}
-        if (Variables.isItalicSerif()) { primaryCode = Font.toItalicSerif(primaryCode, kv.isShifted());}
-        if (Variables.isBoldItalicSerif()) { primaryCode = Font.toBoldItalicSerif(primaryCode, kv.isShifted());}
-        if (Variables.isScript()) { primaryCode = Font.toScript(primaryCode, kv.isShifted());}
-        if (Variables.isScriptBold()) { primaryCode = Font.toScriptBold(primaryCode, kv.isShifted());}
-        if (Variables.isFraktur()) { primaryCode = Font.toFraktur(primaryCode, kv.isShifted());}
-        if (Variables.isFrakturBold()) { primaryCode = Font.toFrakturBold(primaryCode, kv.isShifted());}
-        if (Variables.isSans()) { primaryCode = Font.toSans(primaryCode, kv.isShifted());}
-        if (Variables.isMonospace()) { primaryCode = Font.toMonospace(primaryCode, kv.isShifted());}
-        if (Variables.isDoublestruck()) { primaryCode = Font.toDoublestruck(primaryCode, kv.isShifted());}
-        if (Variables.isEnsquare()) { primaryCode = Font.ensquare(primaryCode);}
-        if (Variables.isCircularStampLetters()) { primaryCode = Font.toCircularStampLetters(primaryCode);}
-        if (Variables.isRectangularStampLetters()) { primaryCode = Font.toRectangularStampLetters(primaryCode);}
-        if (Variables.isSmallCaps()) { primaryCode = Font.toSmallCaps(primaryCode);}
-        if (Variables.isParentheses()) { primaryCode = Font.toParentheses(primaryCode);}
-        if (Variables.isEncircle()) { primaryCode = Font.encircle(primaryCode);}
-        if (Variables.isReflected()) { primaryCode = Font.toReflected(primaryCode);}
-        if (Variables.isCaps()) { primaryCode = Font.toCaps(primaryCode);}
-
-        char code = (char)primaryCode; // Util.largeIntToChar(primaryCode)
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false) &&
-            Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-            code = Character.toUpperCase(code);
-        }
-        commitText(String.valueOf(code), 1);
-
-
-
-
-        firstCaps = false;
-        setCapsOn(false);
-
-        updateShiftKeyState(getCurrentInputEditorInfo());
-        setCandidatesViewShown(false);
-        if (Util.isLetter(primaryCode)) updateCandidates();
-
-
-        // ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
-        // if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
-        //     System.out.println(suggestions);
-        //     replaceText(getPrevWord(), suggestions.get(0));
-        // }
-    }
-
     public void hide() {
         handleClose();
     }
@@ -922,6 +797,7 @@ public class CustomInputMethodService extends InputMethodService
 
         if (time > 300) {
             switch (primaryCode) {
+                case 32: handleTab(); break;
                 case -12: selectAll(); break;
             }
         }
@@ -1003,18 +879,6 @@ public class CustomInputMethodService extends InputMethodService
             case "21": mDefaultFilter = Themes.sMaterialLiteColorArray; break;
             case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
             default: mDefaultFilter = Themes.sPositiveColorArray; break;
-        }
-    }
-
-    private void handleAction() {
-        EditorInfo curEditor = getCurrentInputEditorInfo();
-        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE); break;
-            case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
-            case EditorInfo.IME_ACTION_NEXT: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT); break;
-            case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
-            case EditorInfo.IME_ACTION_SEND: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND); break;
-            default: break;
         }
     }
 
@@ -1223,25 +1087,149 @@ public class CustomInputMethodService extends InputMethodService
         56, 57, 65,  66,  67,  68, 69, 70,
         97, 98, 99, 100, 101, 102
     };
+    
+    
+    private void handleDelete() {
+        final int length = getPrevWord().length();
 
-    private void handleSpace() {
-        commitText(" ");
-        mCandidateView.clear();
-        // if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaces", true)) {
-        //     int spaceCount = (4 - (getPrevLine().length() % 4));
-        //     if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
-        //         spaceCount = 4;
-        //     }
-        //     commitText("    ".substring(0, spaceCount));
-        //     if (isSelecting()) {
-        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "    ".length());
-        //     }
-        // }
-        // else {
-        //     commitText("\t");
-        //     if (isSelecting()) {
-        //         ic.setSelection(getSelectionStart(), getSelectionEnd() + "\t".length());
-        //     }
+        if (sharedPreferences.getBoolean("pairs", false)
+            && ic.getTextAfterCursor(1, 0) != null
+            && String.valueOf(ic.getTextAfterCursor(1, 0)).length() >= 1
+            && Util.contains("({\"[", String.valueOf(ic.getTextBeforeCursor(1, 0)))
+            && String.valueOf(ic.getTextAfterCursor(1, 0)).equals(String.valueOf(ic.getTextBeforeCursor(1, 0)))) {
+            ic.deleteSurroundingText(1, 0);
+        }
+        else if (!isSelecting()
+            && sharedPreferences.getBoolean("indent", false)
+            && ic.getTextAfterCursor(4, 0) != null
+            && String.valueOf(ic.getTextAfterCursor(4, 0)).length() >= 4
+            && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
+            // ic.deleteSurroundingText(0, (4 - (length % 4)));
+            ic.deleteSurroundingText(0, 4);
+        }
+        else if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));}
+            if (Variables.isAlt()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON));}
+            if (Variables.isCtrl()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON));}
+        }
+        else {
+            sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+        }
+/*
+        else if (length > 0) {
+            ic.deleteSurroundingText(0, 1);
+        }
+        else if (length == 0) {
+            getCurrentInputConnection().commitText("", 0);
+        }
+*/
+        updateShiftKeyState(getCurrentInputEditorInfo());
+        updateCandidates();
+    }
+
+    private void handleBackspace() {
+        final int length = getPrevWord().length();
+
+        if (sharedPreferences.getBoolean("pairs", false)
+            && ic.getTextBeforeCursor(1, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(1, 0)).length() >= 1
+            && Util.contains(")}\"]", String.valueOf(ic.getTextAfterCursor(1, 0)))
+            && String.valueOf(ic.getTextBeforeCursor(1, 0)).equals(String.valueOf(ic.getTextAfterCursor(1, 0)))) {
+            ic.deleteSurroundingText(0, 1);
+        }
+        else if (!isSelecting()
+            && sharedPreferences.getBoolean("indent", false)
+            && ic.getTextBeforeCursor(4, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
+            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
+            // ic.deleteSurroundingText((4 - (length % 4) - 1), 0);
+            ic.deleteSurroundingText(4, 0);
+        }
+        else if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
+        }
+        else {
+            sendKey(KeyEvent.KEYCODE_DEL);
+        }
+/*
+        else if (length > 0) {
+            ic.deleteSurroundingText(1, 0);
+        }
+        else if (length == 0) {
+            getCurrentInputConnection().commitText("", 0);
+        }
+*/
+        updateShiftKeyState(getCurrentInputEditorInfo());
+        updateCandidates();
+    }
+
+    private void handleCharacter(int primaryCode, int[] keyCodes) {
+        if (isInputViewShown()) {
+            if (kv.isShifted()) {
+                primaryCode = Character.toUpperCase(primaryCode);
+            }
+        }
+        if (sharedPreferences.getBoolean("pairs", true)) {
+            if (Util.contains("({\"[", primaryCode)) {
+                String code = Util.largeIntToChar(primaryCode);
+                if (code.equals("(")) commitText("()");
+                if (code.equals("[")) commitText("[]");
+                if (code.equals("{")) commitText("{}");
+                if (code.equals("\"")) commitText("\"\"");
+                sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+                return;
+            }
+        }
+
+        if (Variables.isBold()) { primaryCode = Font.getBold(primaryCode);}
+        if (Variables.isItalic()) { primaryCode = Font.getItalic(primaryCode);}
+        if (Variables.isEmphasized()) { primaryCode = Font.getEmphasized(primaryCode);}
+        // if (Variables.isUnderlined()) { primaryCode = Font.getUnderlined(primaryCode);}
+        // if (Variables.isUnderscored()) { primaryCode = Font.getUnderscored(primaryCode);}
+        // if (Variables.isStrikethrough()) { primaryCode = Font.getStrikethrough(primaryCode);}
+        if (Variables.isBoldSerif()) { primaryCode = Font.toBoldSerif(primaryCode, kv.isShifted());}
+        if (Variables.isItalicSerif()) { primaryCode = Font.toItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isBoldItalicSerif()) { primaryCode = Font.toBoldItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isScript()) { primaryCode = Font.toScript(primaryCode, kv.isShifted());}
+        if (Variables.isScriptBold()) { primaryCode = Font.toScriptBold(primaryCode, kv.isShifted());}
+        if (Variables.isFraktur()) { primaryCode = Font.toFraktur(primaryCode, kv.isShifted());}
+        if (Variables.isFrakturBold()) { primaryCode = Font.toFrakturBold(primaryCode, kv.isShifted());}
+        if (Variables.isSans()) { primaryCode = Font.toSans(primaryCode, kv.isShifted());}
+        if (Variables.isMonospace()) { primaryCode = Font.toMonospace(primaryCode, kv.isShifted());}
+        if (Variables.isDoublestruck()) { primaryCode = Font.toDoublestruck(primaryCode, kv.isShifted());}
+        if (Variables.isEnsquare()) { primaryCode = Font.ensquare(primaryCode);}
+        if (Variables.isCircularStampLetters()) { primaryCode = Font.toCircularStampLetters(primaryCode);}
+        if (Variables.isRectangularStampLetters()) { primaryCode = Font.toRectangularStampLetters(primaryCode);}
+        if (Variables.isSmallCaps()) { primaryCode = Font.toSmallCaps(primaryCode);}
+        if (Variables.isParentheses()) { primaryCode = Font.toParentheses(primaryCode);}
+        if (Variables.isEncircle()) { primaryCode = Font.encircle(primaryCode);}
+        if (Variables.isReflected()) { primaryCode = Font.toReflected(primaryCode);}
+        if (Variables.isCaps()) { primaryCode = Font.toCaps(primaryCode);}
+
+        char code = (char)primaryCode; // Util.largeIntToChar(primaryCode)
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false) &&
+            Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
+            code = Character.toUpperCase(code);
+        }
+        commitText(String.valueOf(code), 1);
+
+
+
+
+        firstCaps = false;
+        setCapsOn(false);
+
+        updateShiftKeyState(getCurrentInputEditorInfo());
+        setCandidatesViewShown(false);
+        if (Util.isLetter(primaryCode)) updateCandidates();
+
+
+        // ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
+        // if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
+        //     System.out.println(suggestions);
+        //     replaceText(getPrevWord(), suggestions.get(0));
         // }
     }
 
@@ -1302,26 +1290,71 @@ public class CustomInputMethodService extends InputMethodService
         redraw();
     }
 
+    private void handleSpace() {
+        commitText(" ");
+        // @TODO: use variable for spaces
+        mCandidateView.clear();
+    }
+    public void handleTab() {
+        String spaces = "    ";
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
+            int spaceCount = (4 - (getPrevLine().length() % 4));
+            if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
+                spaceCount = 4;
+            }
+            commitText(spaces.substring(0, spaceCount), 0);
+        }
+        else {
+            commitText(" ");
+        }
+        if (isSelecting()) {
+            ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length()-1);
+        }
+        mCandidateView.clear();        
+       /* if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
+        }
+        else {
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
+        } */
+    }
     public void handleEnter() {
         // handleAction();
-
         EditorInfo currentEditor = getCurrentInputEditorInfo();
         switch (currentEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
             case EditorInfo.IME_ACTION_GO:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-                break;
+            break;
             case EditorInfo.IME_ACTION_SEARCH:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-                break;
+            break;
             case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NEXT:
             case EditorInfo.IME_ACTION_SEND:
             default:
-                sendKey(66);
-                break;
+            commitText("\n", 0);
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
+                commitText(Util.getIndentation(getPrevLine()), 0);
+                return;
+            }
+                //  sendKey(66);
+            break;
         }
     }
-
+    private void handleAction() {
+        EditorInfo curEditor = getCurrentInputEditorInfo();
+        switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
+            case EditorInfo.IME_ACTION_DONE: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE); break;
+            case EditorInfo.IME_ACTION_GO: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO); break;
+            case EditorInfo.IME_ACTION_NEXT: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT); break;
+            case EditorInfo.IME_ACTION_SEARCH: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH); break;
+            case EditorInfo.IME_ACTION_SEND: getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND); break;
+            default: break;
+        }
+    }
     public void handleCut() {
         if (!isSelecting()) selectLine();
         sendKey(KeyEvent.KEYCODE_CUT);
@@ -1346,18 +1379,6 @@ public class CustomInputMethodService extends InputMethodService
         sendKey(KeyEvent.KEYCODE_ESCAPE);
     }
 
-    public void handleTab() {
-        if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
-        }
-        else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
-        }
-    }
-
     private void playClick(int primaryCode) {
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         switch (primaryCode) {
@@ -1367,7 +1388,7 @@ public class CustomInputMethodService extends InputMethodService
             case Keyboard.KEYCODE_DELETE: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
             default:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
-                break;
+            break;
         }
     }
 
@@ -1383,7 +1404,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         switch (primaryCode) {
             case -73: commitText(Util.timemoji()); break;
-            case -34: commitText(getNextLine() + "\n" + getPrevLine()); break;
+            case -34: commitText(getNextLine() + "\n" + getPrevLine(), 0); break;
             case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
@@ -1456,7 +1477,7 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(Util.uniqueChars(getText(ic)));
                 aft = Util.countChars(getText(ic));
                 toastIt(ere + " → " + aft);
-                break;
+            break;
             case -48: performReplace(Util.sortLines(getText(ic))); break;
             case -49: performReplace(Util.reverseLines(getText(ic))); break;
             case -50: performReplace(Util.shuffleLines(getText(ic))); break;
@@ -1466,11 +1487,11 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(Util.uniqueLines(getText(ic)));
                 aft = Util.countLines(getText(ic));
                 toastIt(ere + " → " + aft);
-                break;
+            break;
             case -92:
                 String text = getText(ic);
                 toastIt("Chars: " + Util.countChars(text) + "\t\tWords: " + Util.countWords(text) + "\t\tLines: " + Util.countLines(text));
-                break;
+            break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -52: performReplace(Util.dashesToSpaces(getText(ic))); break;
             case -53: performReplace(Util.underscoresToSpaces(getText(ic))); break;
@@ -1656,8 +1677,7 @@ public class CustomInputMethodService extends InputMethodService
         InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         if (imeManager != null) imeManager.showInputMethodPicker();
     }
-
-
+    
     public short getRowNumber() {
         return rowNumber;
     }

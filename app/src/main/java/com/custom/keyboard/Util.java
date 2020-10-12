@@ -62,6 +62,17 @@ public class Util {
         }
         return result; // result.toArray(new String[0]);
     }
+    public static ArrayList<Character> asUnicodeCharArray(String text) {
+        ArrayList<Character> result = new ArrayList<>();
+        if (text.length() < 1) return result;
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < text.length();) {
+            int ch = text.codePointAt(i);
+            result.add((char)ch);
+            i += Character.charCount(ch);
+        }
+        return result; // result.toArray(new String[0]);
+    }
     public static CharSequence asCharSequence(String text) {
         Bundle bundle = new Bundle();
         return bundle.getCharSequence(text);
@@ -374,7 +385,7 @@ public class Util {
         }
         StringBuilder converted = new StringBuilder();
         boolean convertNext = true;
-        for (char ch : text.toCharArray()) {
+        for (int ch : asUnicodeCharArray(text)) {
             if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
                 convertNext = true;
             }
