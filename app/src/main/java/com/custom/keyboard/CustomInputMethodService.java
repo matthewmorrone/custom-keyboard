@@ -1215,6 +1215,11 @@ int[] hexPasses = new int[] {
         }
         commitText(String.valueOf(code), 1);
 
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("", false) 
+        && Util.isWordSeparator(String.valueOf(code))) {
+            commitText(" ");
+        }
+
         firstCaps = false;
         setCapsOn(false);
 
@@ -1222,12 +1227,13 @@ int[] hexPasses = new int[] {
         setCandidatesViewShown(false);
         if (Util.isLetter(primaryCode)) updateCandidates();
 
-
-        // ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
-        // if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
-        //     System.out.println(suggestions);
-        //     replaceText(getPrevWord(), suggestions.get(0));
-        // }
+/*
+        ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
+        if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
+            System.out.println(suggestions);
+            replaceText(getPrevWord(), suggestions.get(0));
+        }
+*/
     }
 
     private void handleUnicode(int primaryCode) {
@@ -1306,7 +1312,8 @@ int[] hexPasses = new int[] {
             ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length()-1);
         }
         mCandidateView.clear();        
-       /* if (Variables.isAnyOn()) {
+/*
+        if (Variables.isAnyOn()) {
             if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
             if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
             if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
@@ -1314,7 +1321,8 @@ int[] hexPasses = new int[] {
         else {
             getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
             getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
-        } */
+        }
+*/
     }
     public void handleEnter() {
         // handleAction();
