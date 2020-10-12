@@ -509,13 +509,15 @@ public class CustomInputMethodService extends InputMethodService
 
     public void performReplace(String newText) {
         InputConnection ic = getCurrentInputConnection();
-        ic.requestCursorUpdates(3);
+        //  ic.requestCursorUpdates(3);
+        ic.beginBatchEdit();
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
             int a = getSelectionStart();
             int b = getSelectionStart() + newText.length();
-            commitText(newText);
+            ic.commitText(newText, 0);
             ic.setSelection(a, b);
         }
+        ic.endBatchEdit();
     }
 
     @Override
@@ -1678,38 +1680,39 @@ public class CustomInputMethodService extends InputMethodService
             case -164:
                 navigate(KeyEvent.KEYCODE_DPAD_UP);
                 navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-                break;
+            break;
             case -165:
                 navigate(KeyEvent.KEYCODE_DPAD_UP);
                 navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-                break;
+            break;
             case -166:
                 navigate(KeyEvent.KEYCODE_DPAD_DOWN);
                 navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-                break;
+            break;
             case -167:
                 navigate(KeyEvent.KEYCODE_DPAD_DOWN);
                 navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-                break;
-            case -168: performReplace(Util.decreaseIndentation(getText(ic))); break;
-            case -169: performReplace(Util.increaseIndentation(getText(ic))); break;
+            break;
+            case -168:
+                if (!isSelecting()) selectLine();
+                performReplace(Util.decreaseIndentation(getText(ic)));
+            break;
+            case -169:
+                if (!isSelecting()) selectLine();
+                performReplace(Util.increaseIndentation(getText(ic)));
+            break;
             case -170:
-                if (!isSelecting()) {
-                    selectLine();
-                }
+                if (!isSelecting()) selectLine();
                 performReplace(Util.toggleJavaComment(getText(ic)));
             break;
             case -171:
-                if (!isSelecting()) {
-                    selectLine();
-                }
+                if (!isSelecting()) selectLine();
                 performReplace(Util.toggleHtmlComment(getText(ic)));
             break;
-
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
                 else handleCharacter(primaryCode, keyCodes);
-                break;
+            break;
         }
         redraw();
         try {
