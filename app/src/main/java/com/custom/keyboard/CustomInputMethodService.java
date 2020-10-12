@@ -1479,7 +1479,12 @@ public class CustomInputMethodService extends InputMethodService
             case -17: navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
             case -18: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
             case -19: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
-            case -20: navigate(KeyEvent.KEYCODE_MOVE_HOME); break;
+            case -20:
+                navigate(KeyEvent.KEYCODE_MOVE_HOME);
+                if (String.valueOf(ic.getTextBeforeCursor(1, 0)).contains("\n")) {
+                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT, Util.getIndentation(getNextLine()).length());
+                }
+            break;
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
             case -22: showSettings(); break;
             case -23: showVoiceInput(); break;
@@ -1688,7 +1693,18 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             case -168: performReplace(Util.decreaseIndentation(getText(ic))); break;
             case -169: performReplace(Util.increaseIndentation(getText(ic))); break;
-
+            case -170:
+                if (!isSelecting()) {
+                    selectLine();
+                }
+                performReplace(Util.toggleJavaComment(getText(ic)));
+            break;
+            case -171:
+                if (!isSelecting()) {
+                    selectLine();
+                }
+                performReplace(Util.toggleHtmlComment(getText(ic)));
+            break;
 
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
