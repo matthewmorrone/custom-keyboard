@@ -1072,9 +1072,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     static String hexBuffer = "";
-
-    static final int[] hexPasses = new int[] {
-        // 7,    9,   10,   32,  33,
+int[] hexPasses = new int[] {
+        // 7,    9
+        //     static final ,   10,   32,  33,
         // -1,   -4,   -5,   -7,
         // -8,   -9,  -10,  -11,
         -101, // -102, -103,  -25,
