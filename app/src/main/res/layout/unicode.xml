@@ -2,8 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:keyWidth="12.5%p"
-    android:keyHeight="7%p"
-    >
+    android:keyHeight="7%p">
     <Row android:keyWidth="8.333%p">
         <Key android:codes="-20" android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-21" android:keyIcon="@drawable/ic_double_pointer_right" />

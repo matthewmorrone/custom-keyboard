@@ -15,7 +15,9 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     static final int KEYCODE_LAYOUT_SWITCH = -101;
 
     SharedPreferences sharedPreferences;
+    int xmlLayoutResId = R.layout.primary;
     int order = 1024;
+
 
     String title;
 
@@ -49,6 +51,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     public CustomKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
+        this.xmlLayoutResId = xmlLayoutResId;
     }
 
     public CustomKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
@@ -57,6 +60,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     public CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
         super(context, xmlLayoutResId);
+        this.xmlLayoutResId = xmlLayoutResId;
         // this.key = Util.toLowerCase(title);
         this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
         // this.label = !Util.containsLowerCase(label) ? label : Util.toTitleCase(label);

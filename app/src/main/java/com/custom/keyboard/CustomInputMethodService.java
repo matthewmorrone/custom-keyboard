@@ -180,10 +180,6 @@ public class CustomInputMethodService extends InputMethodService
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
 
         // if (mPredictionOn) setCandidatesViewShown(true);
-
-
-
-        
     }
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
@@ -1708,6 +1704,10 @@ public class CustomInputMethodService extends InputMethodService
             case -171:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleHtmlComment(getText(ic)));
+            break;
+            case -172:
+                if (!isSelecting()) selectLine();
+                performReplace(Util.toggleLineComment(getText(ic)));
             break;
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
