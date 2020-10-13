@@ -19,22 +19,20 @@ import java.util.Objects;
 
 public class CustomKeyboardView extends KeyboardView {
 
+    int currentKeyboardLayout = R.layout.primary;
     Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
     Paint mPaint = new Paint();
     Canvas canvas;
     Context kcontext;
     SharedPreferences sharedPreferences;
-    String selected = "#80FFFFFF";
-    String foreground; // = "#FFFFFFFF";
-    String background; // = "#FF000000";
-    // int fg = sharedPreferences.getInt("fg", -1677216);
-    // int bg = sharedPreferences.getInt("bg", -1);
-    // String foreground = "#"+Integer.parseInt(Integer.toHexString(fg));
-    // String background = "#"+Integer.parseInt(Integer.toHexString(bg));
+    String selected;
+    String foreground;
+    String background;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        selected = "#80FFFFFF";
         foreground = sharedPreferences.getString("fg", "#ffffff");
         background = sharedPreferences.getString("bg", "#000000");
     }
@@ -43,16 +41,10 @@ public class CustomKeyboardView extends KeyboardView {
         return (CustomKeyboard)getKeyboard();
     }
 
-    public void setOnKeyboardActionListener(OnKeyListener onKeyListener) {
-        System.out.println(onKeyListener);
-    }
-
     @Override
     protected boolean onLongPress(Key key) {
-        if (
-            key.codes[0] == -12 ||
-            key.codes[0] == 32
-        ) {
+        if (key.codes[0] == -12
+         || key.codes[0] == 32) {
             return super.onLongPress(key);
         }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
@@ -109,18 +101,6 @@ public class CustomKeyboardView extends KeyboardView {
         }
         canvas.restore();
     }
-/*
-    public void selectKey(Key key) {
-        int theme = Integer.parseInt(Objects.requireNonNull(sharedPreferences.getString("theme", "1")));
-        String color = theme % 2 == 1 ? selected : selected;
-
-        canvas.save();
-        mPaint.setColor(Color.parseColor(color));
-        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-        canvas.restore();
-    }
-*/
 
     public void drawable(Key key, int drawable, int size) {
         int center = key.x+(key.width/2);
@@ -145,7 +125,6 @@ public class CustomKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setTextSize(28);
         mPaint.setColor(Color.parseColor(foreground));
 
         List<Key> keys = getKeyboard().getKeys();
@@ -163,22 +142,18 @@ public class CustomKeyboardView extends KeyboardView {
 
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-
-        int border = 4;  // borders || padding ? 2 : 0;
-        int corner = 16; // corners ? 16 : 0;
+        int border = 4;
+        int corner = 16;
 
         for (Key key : keys) {
+
+            if (key.codes[0] >= 48 && key.codes[0] <= 57
+                && this.getCustomKeyboard().xmlLayoutResId == R.layout.numeric) {
+            }
 
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;
             }
-            
-            // canvas.save();
-            
-            
-            
-            
-            // canvas.restore();
             
             // !keyback corners !padding borders
             if (borders) {
@@ -235,6 +210,7 @@ public class CustomKeyboardView extends KeyboardView {
             // if (key.codes[0] >= -512 && key.codes[0] <= -501) System.out.println(key.text);
 
 
+
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, corner);
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
@@ -283,13 +259,13 @@ public class CustomKeyboardView extends KeyboardView {
                 && sharedPreferences.getBoolean("hints", true)
             ) {
                 canvas.save();
+                mPaint.setTextSize(32);
                 if (key.popupCharacters.length() >= 1 
                 &&   sharedPreferences.getBoolean("hint1", true)
                 &&  !sharedPreferences.getBoolean("hint2", false)
                 &&  !sharedPreferences.getBoolean("hint3", false)
                 &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
-                    mPaint.setTextSize(32);
                     mPaint.setColor(Color.parseColor(foreground));
                     canvas.drawText(((getKeyboard().isShifted())
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
@@ -297,7 +273,6 @@ public class CustomKeyboardView extends KeyboardView {
                 }
 
                 else {
-                    mPaint.setTextSize(28);
                     mPaint.setColor(Color.parseColor(foreground));
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())

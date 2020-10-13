@@ -51,7 +51,18 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:hint="@string/test"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+        android:lines="1" />
+    <EditText
+        android:id="@+id/editNumericText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/test"
+        android:inputType="number"
         android:lines="1" />
 
 <!--    <com.shawnlin.numberpicker.NumberPicker
