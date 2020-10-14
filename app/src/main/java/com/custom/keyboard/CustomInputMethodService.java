@@ -135,7 +135,7 @@ public class CustomInputMethodService extends InputMethodService
         super.onStartInput(attribute, restarting);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        indentWidth = sharedPreferences.getInt("indentWidth", 4);
+        indentWidth = Integer.valueOf(sharedPreferences.getString("indentWidth", "4"));
         indentString = new String(new char[indentWidth]).replace("\0", " ");
 
         // mComposing.setLength(0);
