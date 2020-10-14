@@ -872,17 +872,17 @@ public class CustomInputMethodService extends InputMethodService
             case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
             default: mDefaultFilter = Themes.sPositiveColorArray; break;
         }
-/*
-        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
-        // int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
-        int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
-        int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
+        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putInt("bgcolor", bg);
         editor.putInt("fgcolor", fg);
         editor.apply();
+/*
+        int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
+        int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
 
         Color background = Color.valueOf(bg);
         Color foreground = Color.valueOf(fg);
