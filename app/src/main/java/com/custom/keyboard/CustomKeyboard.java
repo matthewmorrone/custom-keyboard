@@ -25,28 +25,12 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     private Key mSpaceKey;
     private static short rowNumber = 6;
 
-    /**
-     * Stores the current state of the mode change key. Its width will be dynamically updated to
-     * match the region of {@link #mModeChangeKey} when {@link #mModeChangeKey} becomes invisible.
-     */
     private Key mModeChangeKey;
-    /**
-     * Stores the current state of the language switch key (a.k.a. globe key). This should be
-     * <p>
-     * returns true. When this key becomes invisible, its width will be shrunk to zero.
-     */
+
     private Key mLanguageSwitchKey;
-    /**
-     * Stores the size and other information of {@link #mModeChangeKey} when
-     * {@link #mLanguageSwitchKey} is visible. This should be immutable and will be used only as a
-     * reference size when the visibility of {@link #mLanguageSwitchKey} is changed.
-     */
+
     private Key mSavedModeChangeKey;
-    /**
-     * Stores the size and other information of {@link #mLanguageSwitchKey} when it is visible.
-     * This should be immutable and will be used only as a reference size when the visibility of
-     * {@link #mLanguageSwitchKey} is changed.
-     */
+
     private Key mSavedLanguageSwitchKey;
 
     public CustomKeyboard(Context context, int xmlLayoutResId) {

@@ -28,6 +28,7 @@
         <EditTextPreference android:defaultValue="#000000" android:dialogMessage="" android:dialogTitle="Background" android:key="background" android:summary="" android:title="Background" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
+        <EditTextPreference android:defaultValue="@string/custom_keys" android:dialogMessage="" android:dialogTitle="Keys in Custom Layout" android:key="custom_keys" android:summary="@string/custom_keys" android:title="Custom Layout" />
         <EditTextPreference android:defaultValue="@string/popup_first" android:dialogMessage="" android:dialogTitle="Popup 1" android:key="popup_first" android:summary="@string/popup_first" android:title="Popup 1" />
         <EditTextPreference android:defaultValue="@string/popup_second" android:dialogMessage="" android:dialogTitle="Popup 2" android:key="popup_second" android:summary="@string/popup_second" android:title="Popup 2" />
         <EditTextPreference android:defaultValue="@string/popup_third" android:dialogMessage="" android:dialogTitle="Popup 3" android:key="popup_third" android:summary="@string/popup_third" android:title="Popup 3" />

@@ -147,9 +147,9 @@ public class CustomKeyboardView extends KeyboardView {
 
         for (Key key : keys) {
 
-            if (key.codes[0] >= 48 && key.codes[0] <= 57
-                && this.getCustomKeyboard().xmlLayoutResId == R.layout.numeric) {
-            }
+            // if (key.codes[0] >= 48 && key.codes[0] <= 57
+            //     && this.getCustomKeyboard().xmlLayoutResId == R.layout.numeric) {
+            // }
 
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;

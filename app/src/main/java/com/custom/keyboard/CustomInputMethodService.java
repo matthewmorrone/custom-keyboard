@@ -1019,6 +1019,11 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    public void navigate(int primaryCode, int secondaryCode) {
+        navigate(primaryCode);
+        navigate(secondaryCode);
+    }
+
     public void navigate(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
@@ -1063,6 +1068,14 @@ public class CustomInputMethodService extends InputMethodService
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd - extracted.selectionStart;
+    }
+
+    public void setKeyboard(int id, String title) {
+        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
+        currentKeyboard.setRowNumber(getStandardRowNumber());
+        currentKeyboard.title = title;
+        kv.setKeyboard(currentKeyboard);
+        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
     public void setKeyboard(int id) {
@@ -1391,6 +1404,19 @@ public class CustomInputMethodService extends InputMethodService
         sendKey(KeyEvent.KEYCODE_ESCAPE);
     }
 
+    public void joinLines() {
+        InputConnection ic = getCurrentInputConnection();
+        if (!isSelecting()) {
+            sendKey(KeyEvent.KEYCODE_MOVE_END);
+            commitText(" ");
+            sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
+            sendKey(KeyEvent.KEYCODE_MOVE_END);
+        }
+        else {
+            performReplace(Util.linebreaksToSpaces(getText(ic)));
+        }
+    }
+
     private void playClick(int primaryCode) {
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         switch (primaryCode) {
@@ -1404,6 +1430,14 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    // BACK BUTTON - 4
+    // "0" - "9"-> 7 - 16
+    // UP-19, DOWN-20, LEFT-21, RIGHT-22
+    // SELECT (MIDDLE) BUTTON - 23
+    // a - z-> 29 - 54
+    // SHIFT - 59, SPACE - 62, ENTER - 66, BACKSPACE - 67
+    // MENU BUTTON - 82
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         System.out.println("onKey: "+primaryCode);
@@ -1415,12 +1449,7 @@ public class CustomInputMethodService extends InputMethodService
             handleUnicode(primaryCode);
         }
         switch (primaryCode) {
-
-
-            case -501:
-                System.out.println(getResources().getString(R.string.k1));
-                commitText(getResources().getString(R.string.k1));
-                break;
+            case -501: commitText(getResources().getString(R.string.k1)); break;
             case -502: commitText(getResources().getString(R.string.k2)); break;
             case -503: commitText(getResources().getString(R.string.k3)); break;
             case -504: commitText(getResources().getString(R.string.k4)); break;
@@ -1433,8 +1462,6 @@ public class CustomInputMethodService extends InputMethodService
             case -511: commitText(getResources().getString(R.string.phone)); break;
             case -512: commitText(getResources().getString(R.string.address)); break;
             case -513: commitText(getResources().getString(R.string.password)); break;
-
-
             case -73: commitText(Util.timemoji()); break;
             case -34: commitText(getNextLine() + "\n" + getPrevLine(), 0); break;
             case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
@@ -1457,8 +1484,7 @@ public class CustomInputMethodService extends InputMethodService
             case 10: handleEnter(); break;
             case -2:
 
-
-                break;
+            break;
             case -112: handleEsc(); break;
             case -113: handleCtrl(); break;
             case -114: handleAlt(); break;
@@ -1487,9 +1513,7 @@ public class CustomInputMethodService extends InputMethodService
             case -22: showSettings(); break;
             case -23: showVoiceInput(); break;
             case -24: handleClose(); break;
-            case -25:
-                showInputMethodPicker();
-            break;
+            case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
             // case -27: showEmoticons(); break;
             case -28: clearAll(); break;
@@ -1548,15 +1572,7 @@ public class CustomInputMethodService extends InputMethodService
             case -68: performReplace(Util.normalize(getText(ic))); break;
             case -69: performReplace(Util.slug(getText(ic))); break;
             case -70:
-                if (!isSelecting()) {
-                    sendKey(KeyEvent.KEYCODE_MOVE_END);
-                    commitText(" ");
-                    sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
-                    sendKey(KeyEvent.KEYCODE_MOVE_END);
-                }
-                else {
-                    performReplace(Util.linebreaksToSpaces(getText(ic)));
-                }
+                joinLines();
                 break;
             case -74: performContextMenuAction(16908338); break; // undo
             case -75: performContextMenuAction(16908339); break; // redo
@@ -1639,21 +1655,27 @@ public class CustomInputMethodService extends InputMethodService
             case -102: setKeyboard(R.layout.function); break;
             case -103: setKeyboard(R.layout.macros); break;
             case -133: setKeyboard(R.layout.hex); break;
-            // case -134: setKeyboard(R.layout.emoji); break;
-            case -135: setKeyboard(R.layout.numeric); break;
-            case -136: setKeyboard(R.layout.navigation); break;
-            // case -137: setKeyboard(R.layout.secondary); break;
+            case -134: setKeyboard(R.layout.numeric); break;
+            case -135: setKeyboard(R.layout.navigation); break;
+            case -136: setKeyboard(R.layout.fonts); break;
+            case -137: setKeyboard(R.layout.ipa); break;
             case -138: setKeyboard(R.layout.symbol); break;
-            case -139:
-                setKeyboard(R.layout.unicode);
-                currentKeyboard.title = "Unicode";
-            break;
+            case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
             case -140: setKeyboard(R.layout.accents); break;
-            case -141: setKeyboard(R.layout.ipa); break;
-            case -142: setKeyboard(R.layout.fonts); break;
-            // case -143: setKeyboard(R.layout.fancy); break;
-            // case -144: setKeyboard(R.layout.function_2); break;
-
+            case -141:
+                String customKeys = sharedPreferences.getString("custom_keys", "");
+                if (customKeys != "") {
+                    Keyboard customKeyboard = new Keyboard(this, R.layout.custom, customKeys, 10, 0);
+                    // int index = 0;
+                    // for(Keyboard.Key key : customKeyboard.getKeys()) {
+                    //     index++;
+                    // }
+                    kv.setKeyboard(customKeyboard);
+                }
+                break;
+            // case -142: break;
+            // case -143: break;
+            // case -144: break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
             case -147: Variables.toggleBoldItalicSerif(); break;
@@ -1673,22 +1695,10 @@ public class CustomInputMethodService extends InputMethodService
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
             case -163: performReplace(Util.replaceNbsp(getText(ic))); break;
-            case -164:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-            break;
-            case -165:
-                navigate(KeyEvent.KEYCODE_DPAD_UP);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-            break;
-            case -166:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_LEFT);
-            break;
-            case -167:
-                navigate(KeyEvent.KEYCODE_DPAD_DOWN);
-                navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
-            break;
+            case -164: navigate(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -165: navigate(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -168:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.decreaseIndentation(getText(ic)));
