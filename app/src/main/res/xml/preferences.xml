@@ -11,9 +11,16 @@
         <SwitchPreference android:defaultValue="false" android:key="pairs" android:title="Insert Pairs" />
         <SwitchPreference android:defaultValue="false" android:key="shift" android:title="@string/toggle_case" />
         <SwitchPreference android:defaultValue="false" android:key="caps" android:title="@string/caps" />
-        <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <SwitchPreference android:defaultValue="false" android:key="spaceAfterPunct" android:title="Insert Space After Punctuation" />
+        <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
+        <EditTextPreference
+            android:defaultValue="4"
+            android:key="indentWidth"
+            android:title="Tab Size"
+            android:inputType="number"
+            android:digits="12345678"
+            />
         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">

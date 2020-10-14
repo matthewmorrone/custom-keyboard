@@ -30,6 +30,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference address;
     EditTextPreference password;
 
+    EditTextPreference indentWidth;
+
     EditTextPreference k1;
     EditTextPreference k2;
     EditTextPreference k3;

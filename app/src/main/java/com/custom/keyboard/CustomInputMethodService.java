@@ -20,7 +20,6 @@ import android.provider.UserDictionary;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,7 +28,6 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -38,7 +36,6 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -75,6 +72,9 @@ public class CustomInputMethodService extends InputMethodService
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
+
+    private int indentWidth;
+    private String indentString;
 
     private SpellChecker spellChecker;
     // private ArrayList<String> suggestions = new ArrayList<>();
@@ -123,7 +123,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        ViewGroup originalParent = (ViewGroup) kv.getParent();
+        ViewGroup originalParent = (ViewGroup)kv.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 10, 0, 0);
             kv.setPopupParent(originalParent);
@@ -135,6 +135,8 @@ public class CustomInputMethodService extends InputMethodService
         super.onStartInput(attribute, restarting);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        indentWidth = sharedPreferences.getInt("indentWidth", 4);
+        indentString = new String(new char[indentWidth]).replace("\0", " ");
 
         // mComposing.setLength(0);
         // updateCandidates();
@@ -180,7 +182,6 @@ public class CustomInputMethodService extends InputMethodService
         kv.setPreviewEnabled(mPreviewOn);
 
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-
         // if (mPredictionOn) setCandidatesViewShown(true);
     }
 
@@ -224,7 +225,6 @@ public class CustomInputMethodService extends InputMethodService
 
     public void clearAll() {
         InputConnection ic = getCurrentInputConnection();
-
         // sendKey(KeyEvent.KEYCODE_CLEAR);
         ic = getCurrentInputConnection();
         ic.deleteSurroundingText(MAX, MAX);
@@ -494,7 +494,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void commitText(String text) {
-        commitText(text, text.length()-1);
+        commitText(text, 0);
     }
 
     public void commitText(String text, int offset) {
@@ -598,9 +598,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void startIntent(Intent intent) {
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+        if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
     }
 
     public void showSettings() {
@@ -643,16 +641,17 @@ public class CustomInputMethodService extends InputMethodService
         boolean inTrie = SpellChecker.inTrie(prevWord);
         boolean isPrefix = SpellChecker.isPrefix(prevWord);
 
-/*        System.out.println("'"+prevLine+"'");
+/*
+        System.out.println("'"+prevLine+"'");
         System.out.println("'"+prevWord+"'");
         System.out.println("'"+prevChar+"'");
 
         System.out.println("inTrie: "+inTrie);
-        System.out.println("isPrefix: "+isPrefix);*/
+        System.out.println("isPrefix: "+isPrefix);
+*/
 
-        ArrayList<String> completions = new ArrayList<String>();
-        ArrayList<String> suggestions = new ArrayList<String>();
-
+        ArrayList<String> completions = new ArrayList<>();
+        ArrayList<String> suggestions = new ArrayList<>();
 
         suggestions = SpellChecker.getSuggestions(prevWord, 1);
         if (suggestions.size() > 0) {
@@ -762,13 +761,9 @@ public class CustomInputMethodService extends InputMethodService
 
     private IBinder getToken() {
         final Dialog dialog = getWindow();
-        if (dialog == null) {
-            return null;
-        }
+        if (dialog == null) return null;
         final Window window = dialog.getWindow();
-        if (window == null) {
-            return null;
-        }
+        if (window == null) return null;
         return window.getAttributes().token;
     }
 
@@ -785,9 +780,7 @@ public class CustomInputMethodService extends InputMethodService
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
             Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-            if (v != null) {
-                v.vibrate(40);
-            }
+            if (v != null) v.vibrate(40);
         }
     }
 
@@ -982,7 +975,7 @@ public class CustomInputMethodService extends InputMethodService
             case InputType.TYPE_CLASS_DATETIME:
             case InputType.TYPE_CLASS_PHONE:
                 setKeyboard(R.layout.numeric);
-                break;
+            break;
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
@@ -996,7 +989,7 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             default:
                 setKeyboard(R.layout.primary);
-                break;
+            break;
         }
         if (kv != null) {
             kv.setKeyboard(currentKeyboard);
@@ -1065,6 +1058,14 @@ public class CustomInputMethodService extends InputMethodService
         toast.show();
     }
 
+    // BACK BUTTON - 4
+    // "0" - "9"-> 7 - 16
+    // UP-19, DOWN-20, LEFT-21, RIGHT-22
+    // SELECT (MIDDLE) BUTTON - 23
+    // a - z-> 29 - 54
+    // SHIFT - 59, SPACE - 62, ENTER - 66, BACKSPACE - 67
+    // MENU BUTTON - 82
+
     private void sendRawKey(int keyCode) {
         if (keyCode == '\n') {
             sendKey(KeyEvent.KEYCODE_ENTER);
@@ -1114,16 +1115,16 @@ public class CustomInputMethodService extends InputMethodService
 
     public void navigate(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
-        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
-            sendKey(primaryCode, 4);
+        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString)) {
+            sendKey(primaryCode, indentWidth);
         }
-        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
-            sendKey(primaryCode, 4);
+        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString)) {
+            sendKey(primaryCode, indentWidth);
         }
         else {
             if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
             sendKey(primaryCode);
-            if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+            if (Variables.isSelecting()) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_SHIFT_LEFT));
         }
     }
 
@@ -1204,11 +1205,10 @@ public class CustomInputMethodService extends InputMethodService
         }
         else if (!isSelecting()
             && sharedPreferences.getBoolean("indent", false)
-            && ic.getTextAfterCursor(4, 0) != null
-            && String.valueOf(ic.getTextAfterCursor(4, 0)).length() >= 4
-            && String.valueOf(ic.getTextAfterCursor(4, 0)).equals("    ")) {
-            // ic.deleteSurroundingText(0, (4 - (length % 4)));
-            ic.deleteSurroundingText(0, 4);
+            && ic.getTextAfterCursor(indentWidth, 0) != null
+            && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).length() >= indentWidth
+            && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString)) {
+            ic.deleteSurroundingText(0, indentWidth);
         }
         else if (Variables.isAnyOn()) {
             if (Variables.isCtrl() && Variables.isAlt()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));}
@@ -1243,11 +1243,10 @@ public class CustomInputMethodService extends InputMethodService
         }
         else if (!isSelecting()
             && sharedPreferences.getBoolean("indent", false)
-            && ic.getTextBeforeCursor(4, 0) != null
-            && String.valueOf(ic.getTextBeforeCursor(4, 0)).length() >= 4
-            && String.valueOf(ic.getTextBeforeCursor(4, 0)).equals("    ")) {
-            // ic.deleteSurroundingText((4 - (length % 4) - 1), 0);
-            ic.deleteSurroundingText(4, 0);
+            && ic.getTextBeforeCursor(indentWidth, 0) != null
+            && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).length() >= indentWidth
+            && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString)) {
+            ic.deleteSurroundingText(indentWidth, 0);
         }
         else if (Variables.isAnyOn()) {
             if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
@@ -1322,8 +1321,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         commitText(String.valueOf(code), 1);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("", false) 
-        && Util.isWordSeparator(String.valueOf(code))) {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false) && Util.isWordSeparator(String.valueOf(code))) {
             commitText(" ");
         }
 
@@ -1333,7 +1331,6 @@ public class CustomInputMethodService extends InputMethodService
         updateShiftKeyState(getCurrentInputEditorInfo());
         setCandidatesViewShown(false);
         if (Util.isLetter(primaryCode)) updateCandidates();
-
 /*
         ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
         if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
@@ -1408,19 +1405,18 @@ public class CustomInputMethodService extends InputMethodService
     public void handleTab() {
         InputConnection ic = getCurrentInputConnection();
         // @TODO: use variable for spaces
-        String spaces = "    ";
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
-            int spaceCount = (4 - (getPrevLine().length() % 4));
-            if (spaceCount > 0 && spaceCount < 4 && getPrevLine().length() < 4) {
-                spaceCount = 4;
+            int spaceCount = (indentWidth - (getPrevLine().length() % indentWidth));
+            if (spaceCount > 0 && spaceCount < indentWidth && getPrevLine().length() < indentWidth) {
+                spaceCount = indentWidth;
             }
-            commitText(spaces.substring(0, spaceCount), 0);
+            commitText(indentString.substring(0, spaceCount), 0);
         }
         else {
             commitText(" ");
         }
         if (isSelecting()) {
-            ic.setSelection(getSelectionStart(), getSelectionEnd() + spaces.length()-1);
+            ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
         }
         mCandidateView.clear();        
 /*
@@ -1449,11 +1445,11 @@ public class CustomInputMethodService extends InputMethodService
             case EditorInfo.IME_ACTION_NEXT:
             case EditorInfo.IME_ACTION_SEND:
             default:
-            commitText("\n", 0);
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
-                commitText(Util.getIndentation(getPrevLine()), 0);
-                return;
-            } //  sendKey(66);
+                commitText("\n", 0);
+                if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
+                    commitText(Util.getIndentation(getPrevLine()), 0);
+                    return;
+                } //  sendKey(66);
             break;
         }
     }
@@ -1517,14 +1513,6 @@ public class CustomInputMethodService extends InputMethodService
             break;
         }
     }
-
-    // BACK BUTTON - 4
-    // "0" - "9"-> 7 - 16
-    // UP-19, DOWN-20, LEFT-21, RIGHT-22
-    // SELECT (MIDDLE) BUTTON - 23
-    // a - z-> 29 - 54
-    // SHIFT - 59, SPACE - 62, ENTER - 66, BACKSPACE - 67
-    // MENU BUTTON - 82
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
@@ -1638,7 +1626,7 @@ public class CustomInputMethodService extends InputMethodService
             break;
             case -92:
                 String text = getText(ic);
-                toastIt("Chars: " + Util.countChars(text) + "\t\tWords: " + Util.countWords(text) + "\t\tLines: " + Util.countLines(text));
+                toastIt("Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
             break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -52: performReplace(Util.dashesToSpaces(getText(ic))); break;
@@ -1653,15 +1641,21 @@ public class CustomInputMethodService extends InputMethodService
             case -61: performReplace(Util.splitWithSpaces(getText(ic))); break;
             case -62: performReplace(Util.removeSpaces(getText(ic))); break;
             case -63: performReplace(Util.reduceSpaces(getText(ic))); break;
-            case -64: performReplace(Util.increaseIndentation(getText(ic))); break;
-            case -65: performReplace(Util.decreaseIndentation(getText(ic))); break;
+            case -64:
+                if (!isSelecting()) selectLine();
+                performReplace(Util.decreaseIndentation(getText(ic), indentString));
+            break;
+            case -65:
+                if (!isSelecting()) selectLine();
+                performReplace(Util.increaseIndentation(getText(ic), indentString));
+            break;
             case -66: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
             case -67: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
             case -68: performReplace(Util.normalize(getText(ic))); break;
             case -69: performReplace(Util.slug(getText(ic))); break;
             case -70:
                 joinLines();
-                break;
+            break;
             case -74: performContextMenuAction(16908338); break; // undo
             case -75: performContextMenuAction(16908339); break; // redo
             case -76: performContextMenuAction(16908337); break; // pasteAsPlainText,
@@ -1783,18 +1777,10 @@ public class CustomInputMethodService extends InputMethodService
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
             case -163: performReplace(Util.replaceNbsp(getText(ic))); break;
-            case -164: navigate(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_LEFT); break;
-            case -165: navigate(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -168:
-                if (!isSelecting()) selectLine();
-                performReplace(Util.decreaseIndentation(getText(ic)));
-            break;
-            case -169:
-                if (!isSelecting()) selectLine();
-                performReplace(Util.increaseIndentation(getText(ic)));
-            break;
             case -170:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleJavaComment(getText(ic)));

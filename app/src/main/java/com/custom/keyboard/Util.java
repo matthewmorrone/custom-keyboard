@@ -603,19 +603,19 @@ public class Util {
         }
         return "";
     }
-    public static String increaseIndentation(String text) {
+    public static String increaseIndentation(String text, String indentation) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^", "    "));
+            result.add(line.replaceAll("^", indentation));
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
-    public static String decreaseIndentation(String text) {
+    public static String decreaseIndentation(String text, String indentation) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^ {4}", ""));
+            result.add(line.replaceAll("^"+indentation, ""));
         }
         return StringUtils.join(result.toArray(new String[0]), "\n");
     }
