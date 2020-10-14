@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.webkit.URLUtil;
 
@@ -1009,6 +1010,18 @@ public class Util {
     }
 
     // color
+    public static Color invertColor(Color color) {
+        color.red((int)(255-color.red()));
+        color.blue((int)(255-color.blue()));
+        color.green((int)(255-color.green()));
+        return color;
+    }
+    public static int invertColor(int color) {
+        return (0x00FFFFFF - (color | 0xFF000000)) | (color & 0xFF000000);
+    }
+
+
+
     public static String toColor(int r, int g, int b) {
         String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
         String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();

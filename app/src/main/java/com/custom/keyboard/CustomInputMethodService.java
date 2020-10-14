@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -115,9 +116,7 @@ public class CustomInputMethodService extends InputMethodService
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
         Paint mPaint = new Paint();
-        setTheme();
-        ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
-        mPaint.setColorFilter(filterInvert);
+
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         return mCandidateView;
     }
@@ -146,21 +145,24 @@ public class CustomInputMethodService extends InputMethodService
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
-        float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
-
         setInputType();
-        Paint mPaint = new Paint();
-        setTheme();
-        ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(mDefaultFilter);
-        mPaint.setColorFilter(filterInvert);
+        // Paint mPaint = new Paint();
+
+        Paint mPaint = setTheme();
+
+        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        // Color background = Color.valueOf(bg);
+        // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+        // kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+
+        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+
 
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         setCandidatesView(mCandidateView);
 
-        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         currentKeyboard.setRowNumber(getRowNumber());
 
         // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
@@ -202,7 +204,7 @@ public class CustomInputMethodService extends InputMethodService
             for(Keyboard.Key key : entry.getValue()) {
                 key.width = bounds.dX / entry.getValue().size();
             }
-            System.out.println();
+            // System.out.println();
             // if (entry.getValue().size() > 8) {
             // }
         }
@@ -240,7 +242,6 @@ public class CustomInputMethodService extends InputMethodService
 
     public void sendCustomKey(String key) {
         InputConnection ic = getCurrentInputConnection();
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext()); // this?
         ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
@@ -855,9 +856,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
 
-    public void setTheme() {
-        System.out.println("Theme: "+PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1"));
-        switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("theme", "1")) {
+    public Paint setTheme() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        switch (sharedPreferences.getString("theme", "1")) {
             case "1": mDefaultFilter = Themes.sPositiveColorArray; break;
             case "2": mDefaultFilter = Themes.sNegativeColorArray; break;
             case "3": mDefaultFilter = Themes.sBlueWhiteColorArray; break;
@@ -882,6 +883,93 @@ public class CustomInputMethodService extends InputMethodService
             case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
             default: mDefaultFilter = Themes.sPositiveColorArray; break;
         }
+
+        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        // int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
+
+        int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
+        int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
+
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+        editor.putInt("bgcolor", bg);
+        editor.putInt("fgcolor", fg);
+        editor.apply();
+
+        Color background = Color.valueOf(bg);
+        Color foreground = Color.valueOf(fg);
+
+        boolean inverted = sharedPreferences.getBoolean("invert", false);
+        float m = inverted ? -1.0f : 1.0f;
+
+        float[] sCustomColorArray = {
+            m, 0, 0, 0.0f, background.red(),
+            0, m, 0, 0.0f, background.green(),
+            0, 0, m, 0.0f, background.blue(),
+            0, 0, 0, 1.0f, background.alpha()
+        };
+
+        mDefaultFilter = sCustomColorArray;
+
+        ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
+        Paint mPaint = new Paint();
+        mPaint.setColorFilter(colorFilter);
+
+        return mPaint;
+    }
+
+    public void setColors() {
+
+    //     if (background != null) {
+    //         background.setColor(bg);
+    //         if (background.colorView != null) {
+    //             background.colorView.setBackgroundColor(bg);
+    //             background.colorView.invalidate();
+    //         }
+    //         background.callChangeListener(bg);
+    //     }
+    //
+    //     if (foreground != null) {
+    //         foreground.setColor(fg);
+    //         if (foreground.colorView != null) {
+    //             foreground.colorView.setBackgroundColor(fg);
+    //             foreground.colorView.invalidate();
+    //         }
+    //         background.callChangeListener(fg);
+    //     }
+    //
+    //     synchronized(background) {
+    //         background.notify();
+    //     }
+    //     synchronized(foreground) {
+    //         foreground.notify();
+    //     }
+    // }
+
+    //     ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
+    //     Paint mPaint = new Paint();
+    //     mPaint.setColorFilter(colorFilter);
+    //
+    //     System.out.println(Arrays.toString(mDefaultFilter));
+    //     if (inverted) {
+    //         mDefaultFilter[0] = -mDefaultFilter[0];
+    //         mDefaultFilter[6] = -mDefaultFilter[6];
+    //         mDefaultFilter[12] = -mDefaultFilter[12];
+    //     }
+    //     System.out.println(Arrays.toString(mDefaultFilter));
+    //
+    //     // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+    //     if (kv != null) {
+    //         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+    //         kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
+    //
+    //         // if (inverted) {
+    //         //     bgColor.red((int)(255-bgColor.red()));
+    //         //     bgColor.green((int)(255-bgColor.green()));
+    //         //     bgColor.blue((int)(255-bgColor.blue()));
+    //         // }
+    //         // kv.setBackgroundColor(Color.argb(1, bgColor.red(), bgColor.green(), bgColor.blue()));
+    //     }
     }
 
     private void setInputType() {

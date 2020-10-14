@@ -26,15 +26,15 @@ public class CustomKeyboardView extends KeyboardView {
     Context kcontext;
     SharedPreferences sharedPreferences;
     String selected;
-    String foreground;
-    String background;
+    Color foreground;
+    Color background;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         selected = "#80FFFFFF";
-        foreground = sharedPreferences.getString("fg", "#ffffff");
-        background = sharedPreferences.getString("bg", "#000000");
+        foreground = Color.valueOf(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+        background = Color.valueOf(sharedPreferences.getInt("bgcolor", 0xFF000000));
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -125,7 +125,7 @@ public class CustomKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setColor(Color.parseColor(foreground));
+        mPaint.setColor(foreground.toArgb());
 
         List<Key> keys = getKeyboard().getKeys();
 
@@ -160,7 +160,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                 canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                mPaint.setColor(Color.parseColor(foreground));
+                mPaint.setColor(foreground.toArgb());
                 canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
                 canvas.restore();
             }
@@ -169,7 +169,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2));
                 canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
-                mPaint.setColor(Color.parseColor(foreground));
+                mPaint.setColor(foreground.toArgb());
                 canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
                 canvas.restore();
             }
@@ -178,9 +178,9 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.save();
                 canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
                 canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-                mPaint.setColor(Color.parseColor(foreground));
+                mPaint.setColor(foreground.toArgb());
                 canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
-                mPaint.setColor(Color.parseColor(background));
+                mPaint.setColor(foreground.toArgb());
                 canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
                 canvas.restore();
             }
@@ -266,14 +266,14 @@ public class CustomKeyboardView extends KeyboardView {
                 &&  !sharedPreferences.getBoolean("hint3", false)
                 &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
-                    mPaint.setColor(Color.parseColor(foreground));
+                    mPaint.setColor(foreground.toArgb());
                     canvas.drawText(((getKeyboard().isShifted())
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+key.width/2, key.y+36, mPaint);
                 }
 
                 else {
-                    mPaint.setColor(Color.parseColor(foreground));
+                    mPaint.setColor(foreground.toArgb());
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())
                             ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()

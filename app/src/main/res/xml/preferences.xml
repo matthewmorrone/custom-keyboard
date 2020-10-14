@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound" android:title="@string/sound" />
@@ -16,7 +17,6 @@
         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
-        <ListPreference android:defaultValue="2" android:entryValues="@array/theme_keys" android:entries="@array/theme_names" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />
         <com.custom.keyboard.SeekPreference android:defaultValue="100" android:key="transparency" android:title="Transparency" />
         <SwitchPreference android:defaultValue="false" android:key="borders" android:title="Borders" />
@@ -24,8 +24,20 @@
         <SwitchPreference android:defaultValue="false" android:key="corners" android:title="Corners" />
         <SwitchPreference android:defaultValue="false" android:key="keyback" android:title="Background" />
         <SwitchPreference android:defaultValue="false" android:key="space" android:title="Spacebar" />
-        <EditTextPreference android:defaultValue="#ffffff" android:dialogMessage="" android:dialogTitle="Foreground" android:key="foreground" android:summary="" android:title="Foreground" />
-        <EditTextPreference android:defaultValue="#000000" android:dialogMessage="" android:dialogTitle="Background" android:key="background" android:summary="" android:title="Background" />
+        <ListPreference android:defaultValue="1" android:entryValues="@array/theme_keys" android:entries="@array/theme_names" android:key="theme" android:title="Theme" />
+        <com.custom.keyboard.ColorPreference
+            android:key="bgcolor"
+            android:title="Background Color"
+            android:summary="Choose a background color"
+            android:defaultValue="0xFF000000"
+            android:dialogTitle="Choose a background color" />
+        <com.custom.keyboard.ColorPreference
+            android:key="fgcolor"
+            android:title="Foreground Color"
+            android:summary="Choose a font color"
+            android:defaultValue="0xFFFFFFFF"
+            android:dialogTitle="Choose a foreground color" />
+        <!--<SwitchPreference android:defaultValue="false" android:key="invert" android:title="Invert Colors" />-->
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
         <EditTextPreference android:defaultValue="@string/custom_keys" android:dialogMessage="" android:dialogTitle="Keys in Custom Layout" android:key="custom_keys" android:summary="@string/custom_keys" android:title="Custom Layout" />

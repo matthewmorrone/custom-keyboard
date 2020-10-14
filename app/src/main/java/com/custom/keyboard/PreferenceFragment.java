@@ -19,8 +19,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference seps;
 
     ListPreference theme;
-    EditTextPreference foreground;
-    EditTextPreference background;
 
     EditTextPreference popup_first;
     EditTextPreference popup_second;
@@ -40,6 +38,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k6;
     EditTextPreference k7;
     EditTextPreference k8;
+
+    ColorPreference background;
+    ColorPreference foreground;
 
     ArrayList<String> themes = new ArrayList<>();
 
@@ -65,8 +66,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             // for(CharSequence entry : theme.getEntryValues()) {
             //     themes.add(String.valueOf(entry));
             // }
-            foreground = (EditTextPreference)findPreference("foreground");
-            background = (EditTextPreference)findPreference("background");
+            background = (ColorPreference)findPreference("bgcolor");
+            foreground = (ColorPreference)findPreference("fgcolor");
             popup_first = (EditTextPreference)findPreference("popup_first");
             popup_second = (EditTextPreference)findPreference("popup_second");
             popup_third = (EditTextPreference)findPreference("popup_third");
@@ -90,8 +91,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
             theme.setSummary(sharedPreferences.getString("theme", "1"));
-            background.setSummary(sharedPreferences.getString("background", ""));
-            foreground.setSummary(sharedPreferences.getString("foreground", ""));
+
+            background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
+            foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
@@ -126,12 +129,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         catch (Exception e) {
             System.out.println(e);
         }
-
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
             theme.setSummary(sharedPreferences.getString("theme", "1"));
-            background.setSummary(sharedPreferences.getString("background", ""));
-            foreground.setSummary(sharedPreferences.getString("foreground", ""));
+
+            background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
+            foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
