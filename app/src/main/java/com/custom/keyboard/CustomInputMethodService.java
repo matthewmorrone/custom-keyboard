@@ -148,17 +148,15 @@ public class CustomInputMethodService extends InputMethodService
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
         setInputType();
-        // Paint mPaint = new Paint();
 
         Paint mPaint = setTheme();
 
-        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
-        // Color background = Color.valueOf(bg);
-        // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        // kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        Color background = Color.valueOf(bg);
+        float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+        kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-
 
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
@@ -166,8 +164,6 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesView(mCandidateView);
 
         currentKeyboard.setRowNumber(getRowNumber());
-
-        // currentKeyboard.setImeOptions(getResources(), attribute.inputType & InputType.TYPE_MASK_CLASS);
 
         kv.setKeyboard(currentKeyboard);
 
@@ -876,13 +872,12 @@ public class CustomInputMethodService extends InputMethodService
             case "22": mDefaultFilter = Themes.sMaterialDarkColorArray; break;
             default: mDefaultFilter = Themes.sPositiveColorArray; break;
         }
-
+/*
         // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         // int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
         int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
         int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
-
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putInt("bgcolor", bg);
@@ -903,7 +898,7 @@ public class CustomInputMethodService extends InputMethodService
         };
 
         mDefaultFilter = sCustomColorArray;
-
+*/
         ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
         Paint mPaint = new Paint();
         mPaint.setColorFilter(colorFilter);
@@ -1321,7 +1316,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         commitText(String.valueOf(code), 1);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false) && Util.isWordSeparator(String.valueOf(code))) {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaceAfterPunct", false) && Util.isWordSeparator(String.valueOf(code))) {
             commitText(" ");
         }
 

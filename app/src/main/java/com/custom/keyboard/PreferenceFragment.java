@@ -93,10 +93,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
             theme.setSummary(sharedPreferences.getString("theme", "1"));
-
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));

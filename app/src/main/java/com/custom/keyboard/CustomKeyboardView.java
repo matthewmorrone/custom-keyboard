@@ -20,7 +20,7 @@ import java.util.Objects;
 public class CustomKeyboardView extends KeyboardView {
 
     int currentKeyboardLayout = R.layout.primary;
-    Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
+    // Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
     Paint mPaint = new Paint();
     Canvas canvas;
     Context kcontext;
@@ -33,8 +33,6 @@ public class CustomKeyboardView extends KeyboardView {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         selected = "#80FFFFFF";
-        foreground = Color.valueOf(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-        background = Color.valueOf(sharedPreferences.getInt("bgcolor", 0xFF000000));
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -125,6 +123,10 @@ public class CustomKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mPaint.setTextAlign(Paint.Align.CENTER);
+
+        background = Color.valueOf(sharedPreferences.getInt("bgcolor", 0xFF000000));
+        foreground = Color.valueOf(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+        foreground = Color.valueOf(Color.WHITE);
         mPaint.setColor(foreground.toArgb());
 
         List<Key> keys = getKeyboard().getKeys();
@@ -271,7 +273,6 @@ public class CustomKeyboardView extends KeyboardView {
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+key.width/2, key.y+36, mPaint);
                 }
-
                 else {
                     mPaint.setColor(foreground.toArgb());
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {

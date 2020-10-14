@@ -12,8 +12,8 @@
         <SwitchPreference android:defaultValue="false" android:key="shift" android:title="@string/toggle_case" />
         <SwitchPreference android:defaultValue="false" android:key="caps" android:title="@string/caps" />
         <SwitchPreference android:defaultValue="false" android:key="spaceAfterPunct" android:title="Insert Space After Punctuation" />
-        <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
+        <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <EditTextPreference
             android:defaultValue="4"
             android:key="indentWidth"
