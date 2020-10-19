@@ -43,7 +43,7 @@
         <Key android:codes="-206" android:keyIcon="@drawable/ic_close" android:keyWidth="25%p" />
     </Row>
     <Row>
-        <Key android:codes="99" android:keyLabel="c" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="99"  android:keyLabel="c" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="100" android:keyLabel="d" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="101" android:keyLabel="e" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

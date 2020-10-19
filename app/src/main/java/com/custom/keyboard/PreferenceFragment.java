@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -44,8 +45,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     ColorPreference background;
     ColorPreference foreground;
 
-    ArrayList<String> themes = new ArrayList<>();
-
+    String[] themes;
 
     @Override
     public void onCreate(Bundle s) {
@@ -53,6 +53,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         baseContext = getActivity().getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
+        themes = getResources().getStringArray(R.array.theme_names);
+
 
         try {
             addPreferencesFromResource(R.xml.preferences);
@@ -62,12 +64,18 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             System.out.println(e);
         }
 
+        String[] themes = getResources().getStringArray(R.array.theme_names);
+
         try {
             seps = (EditTextPreference)findPreference("seps");
             theme = (ListPreference)findPreference("theme");
-            // for(CharSequence entry : theme.getEntryValues()) {
-            //     themes.add(String.valueOf(entry));
-            // }
+
+            String themeString = sharedPreferences.getString("theme", "1");
+            if (themeString != null) {
+                int themeInt = Integer.parseInt(themeString);
+                theme.setSummary(themes[themeInt]);
+            }
+
             background = (ColorPreference)findPreference("bgcolor");
             foreground = (ColorPreference)findPreference("fgcolor");
             popup_first = (EditTextPreference)findPreference("popup_first");
@@ -78,6 +86,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             phone = (EditTextPreference)findPreference("phone");
             address = (EditTextPreference)findPreference("address");
             password = (EditTextPreference)findPreference("password");
+
             k1 = (EditTextPreference)findPreference("k1");
             k2 = (EditTextPreference)findPreference("k2");
             k3 = (EditTextPreference)findPreference("k3");
@@ -92,7 +101,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            theme.setSummary(sharedPreferences.getString("theme", "1"));
+
+            String themeString = sharedPreferences.getString("theme", "1");
+            if (themeString != null) {
+                int themeInt = Integer.parseInt(themeString);
+                theme.setSummary(themes[themeInt-1]);
+            }
+
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
@@ -102,8 +117,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));
             address.setSummary(sharedPreferences.getString("address", ""));
-            String redaction = new String(new char[sharedPreferences.getString("password", "").length()]).replace("\0", "*");
-            password.setSummary(redaction);
+
+            String pwd = sharedPreferences.getString("password", "");
+            if (pwd != null) {
+                int pwdLen = pwd.length();
+                String redaction = new String(new char[pwdLen]).replace("\0", "*");
+                password.setSummary(redaction);
+            }
+
             k1.setSummary(sharedPreferences.getString("k1", ""));
             k2.setSummary(sharedPreferences.getString("k2", ""));
             k3.setSummary(sharedPreferences.getString("k3", ""));
@@ -131,11 +152,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
-            theme.setSummary(sharedPreferences.getString("theme", "1"));
+
+            String themeString = sharedPreferences.getString("theme", "1");
+            if (themeString != null) {
+                int themeInt = Integer.parseInt(themeString);
+                theme.setSummary(themes[themeInt-1]);
+            }
 
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
@@ -143,8 +168,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             email.setSummary(sharedPreferences.getString("email", ""));
             phone.setSummary(sharedPreferences.getString("phone", ""));
             address.setSummary(sharedPreferences.getString("address", ""));
-            String redaction = new String(new char[Objects.requireNonNull(sharedPreferences.getString("password", "")).length()]).replace("\0", "*");
-            password.setSummary(redaction);
+
+            String pwd = sharedPreferences.getString("password", "");
+            if (pwd != null) {
+                int pwdLen = pwd.length();
+                String redaction = new String(new char[pwdLen]).replace("\0", "*");
+                password.setSummary(redaction);
+            }
+
             k1.setSummary(sharedPreferences.getString("k1", ""));
             k2.setSummary(sharedPreferences.getString("k2", ""));
             k3.setSummary(sharedPreferences.getString("k3", ""));

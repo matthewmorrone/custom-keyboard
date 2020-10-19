@@ -151,10 +151,10 @@ public class CustomInputMethodService extends InputMethodService
 
         Paint mPaint = setTheme();
 
-        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
-        Color background = Color.valueOf(bg);
-        float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        // Color background = Color.valueOf(bg);
+        // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+        // kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
@@ -201,9 +201,7 @@ public class CustomInputMethodService extends InputMethodService
             for(Keyboard.Key key : entry.getValue()) {
                 key.width = bounds.dX / entry.getValue().size();
             }
-            // System.out.println();
-            // if (entry.getValue().size() > 8) {
-            // }
+            // if (entry.getValue().size() > 8) {}
         }
         redraw();
     }
@@ -1169,24 +1167,6 @@ public class CustomInputMethodService extends InputMethodService
         // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
     }
 
-    static String hexBuffer = "";
-    int[] hexPasses = new int[] {
-        // 7,    9
-        //     static final ,   10,   32,  33,
-        // -1,   -4,   -5,   -7,
-        // -8,   -9,  -10,  -11,
-        -101, // -102, -103,  -25,
-        // -26,  -76,  -93, -107,
-        // -108, -109, -110, -111,
-        // -174
-    };
-    static final int[] hexCaptures = new int[] {
-        48, 49, 50,  51,  52,  53, 54, 55,
-        56, 57, 65,  66,  67,  68, 69, 70,
-        97, 98, 99, 100, 101, 102
-    };
-    
-    
     private void handleDelete() {
         InputConnection ic = getCurrentInputConnection();
         final int length = getPrevWord().length();
@@ -1338,25 +1318,31 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
+    static String hexBuffer = "";
+    int[] hexPasses = new int[] {
+    };
+    int[] hexCaptures = new int[] {
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+        97, 98, 99, 100, 101, 102,
+        -201, -202, -203, -204, -205, -206
+    };
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
         if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
         if (Util.contains(hexCaptures, primaryCode)) {
             if (hexBuffer.length() > 3) hexBuffer = "";
-            hexBuffer += Util.largeIntToChar(primaryCode);
+            hexBuffer += (char)primaryCode;
         }
         if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-        if (primaryCode == -204) {
-            commitText(String.valueOf(Util.largeIntToChar(Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")))));
-        }
+        if (primaryCode == -204) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
         if (primaryCode == -205) {
             if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
             else hexBuffer = "0000";
         }
         if (primaryCode == -206) hexBuffer = "0000";
         getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
-        getKey(-204).label = String.valueOf(Util.largeIntToChar(Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
+        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
     }
 
     public void handleShift() {
@@ -1518,7 +1504,8 @@ public class CustomInputMethodService extends InputMethodService
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int ere, aft;
         if (sharedPreferences.getBoolean("sound", false)) playClick(primaryCode);
-        if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode") && !Util.contains(hexPasses, primaryCode)) {
+        if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode")
+            && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
         }
         switch (primaryCode) {
@@ -1745,15 +1732,11 @@ public class CustomInputMethodService extends InputMethodService
                 String customKeys = sharedPreferences.getString("custom_keys", "");
                 if (customKeys != "") {
                     Keyboard customKeyboard = new Keyboard(this, R.layout.custom, customKeys, 10, 0);
-                    // int index = 0;
-                    // for(Keyboard.Key key : customKeyboard.getKeys()) {
-                    //     index++;
-                    // }
                     kv.setKeyboard(customKeyboard);
                 }
                 break;
-            // case -142: break;
-            // case -143: break;
+            case -142: break;
+            case -143: setKeyboard(R.layout.calc, "Calculator"); break;
             // case -144: break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;

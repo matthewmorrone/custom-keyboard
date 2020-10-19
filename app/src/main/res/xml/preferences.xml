@@ -41,7 +41,7 @@
         <com.custom.keyboard.ColorPreference
             android:key="fgcolor"
             android:title="Foreground Color"
-            android:summary="Choose a font color"
+            android:summary="Choose a foreground color"
             android:defaultValue="0xFFFFFFFF"
             android:dialogTitle="Choose a foreground color" />
         <!--<SwitchPreference android:defaultValue="false" android:key="invert" android:title="Invert Colors" />-->
