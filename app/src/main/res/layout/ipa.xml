@@ -39,7 +39,7 @@
         <Key android:codes="117" android:keyLabel="u" android:popupCharacters="ʊɯʉᵘᵚᶶᶷᶸ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="105" android:keyLabel="i" android:popupCharacters="ıɪɩɨɿʅᶤᶥᶦᶧ" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="111" android:keyLabel="o" android:popupCharacters="ɔœøɵɶᵒᵓꟹ" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="112" android:keyLabel="p" android:popupCharacters="ȹƥᵖᵠ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="112" android:keyLabel="p" android:popupCharacters="ȹƥɸᵖᵠ" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
         <Key android:codes="97"  android:keyLabel="a" android:popupCharacters="ɑɐɒʌæᶏᶐᴀᵃᵄᵅᶺᶛ" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />

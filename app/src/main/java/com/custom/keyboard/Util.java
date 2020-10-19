@@ -596,9 +596,9 @@ public class Util {
         Matcher m = p.matcher(line);
         if (m.find()) {
             line = line.replaceAll(regex, "$1");
-            if (line.length() % 4 != 0) {
+            /*if (line.length() % 4 != 0) {
                 line += " ";
-            }
+            }*/
             return line;
         }
         return "";

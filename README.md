@@ -22,6 +22,19 @@ https://customkeyboarddetails.blogspot.com/2019/02/available-resources-for-andro
 + use system languages
 + actions on keyboard and key gestures
 
++ borders around keys
++ unicode data display
++ typing and deleting underscore and strikethrough
++ add hyphens and apostrophes to predictions
++ foreground and background settings
++ add words to dictionary
++ popup_first popup_second popup_third
++ adjust function layout key widths 
++ reimplement emoji
++ fix indentation 
++ add words to dictionary get stored in setting 
++ fix macros
+
 ## OpenBoard Settings ##
 + cursor movement on space key drag
 + contact name suggestions

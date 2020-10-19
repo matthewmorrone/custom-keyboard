@@ -257,9 +257,9 @@ public class CustomInputMethodService extends InputMethodService
             return lastWord;
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            return "";
         }
-        return "";
+        // return "";
     }
     public void selectPrevWord() {
         InputConnection ic = getCurrentInputConnection();
@@ -273,7 +273,7 @@ public class CustomInputMethodService extends InputMethodService
             else ic.setSelection(position, position);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            //  toastIt(e.toString());
         }
     }
 
@@ -286,9 +286,9 @@ public class CustomInputMethodService extends InputMethodService
             return nextWord;
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            return "";
         }
-        return "";
+        // return "";
     }
 
     public void selectNextWord() {
@@ -303,7 +303,7 @@ public class CustomInputMethodService extends InputMethodService
             else ic.setSelection(position, position);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            //  toastIt(e.toString());
         }
     }
 
@@ -1316,9 +1316,11 @@ public class CustomInputMethodService extends InputMethodService
         }
         commitText(String.valueOf(code), 1);
 
+/*
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("spaceAfterPunct", false) && Util.isWordSeparator(String.valueOf(code))) {
             commitText(" ");
         }
+*/
 
         firstCaps = false;
         setCapsOn(false);
