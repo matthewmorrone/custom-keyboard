@@ -1267,49 +1267,28 @@ public class Util {
 
         return text;
     }
-    public static String evalScript(String text) {
+    public static String evalScript(String text) throws ScriptException {
         text = sanitize(text);
 
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("js");
-        try {
-            if (engine != null) {
-                Object result = engine.eval(text);
-                if (result != null) {
-                    text = result.toString();
+        if (engine != null) {
+            Object result = engine.eval(text);
+            if (result != null) {
+                text = result.toString();
 
-                    if (checkInteger(Double.parseDouble(text))) {
-                        int resultInt = (int)Double.parseDouble(text);
-                        return String.valueOf(resultInt);
-                    }
+                if (checkInteger(Double.parseDouble(text))) {
+                    int resultInt = (int)Double.parseDouble(text);
+                    return String.valueOf(resultInt);
                 }
             }
-        }
-        catch (ScriptException e) {
-
         }
         return text;
     }
     public static boolean checkInteger(double variable) {
         return (variable == Math.floor(variable)) && !Double.isInfinite(variable);
     }
-    public static String evaluate(String text) {
-        text = sanitize(text);
 
-        double result = eval(text);
-        if (checkInteger(result)) {
-            int resultInt = (int)result;
-            return String.valueOf(resultInt);
-        }
-        return String.valueOf(result);
-    }
-    public static double factorial(double number) {
-        double result = 1;
-        for (int factor = 2; factor <= number; factor++) {
-            result *= factor;
-        }
-        return result;
-    }
     public static double eval(final String str) {
         return new Object() {
             int pos = -1, ch;
@@ -1401,5 +1380,21 @@ public class Util {
             }
         }.parse();
     }
+    public static double factorial(double number) {
+        double result = 1;
+        for (int factor = 2; factor <= number; factor++) {
+            result *= factor;
+        }
+        return result;
+    }
+    public static String evaluate(String text) {
+        text = sanitize(text);
 
+        double result = eval(text);
+        if (checkInteger(result)) {
+            int resultInt = (int)result;
+            return String.valueOf(resultInt);
+        }
+        return String.valueOf(result);
+    }
 }
