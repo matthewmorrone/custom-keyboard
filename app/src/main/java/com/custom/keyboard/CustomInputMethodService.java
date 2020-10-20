@@ -1345,7 +1345,7 @@ public class CustomInputMethodService extends InputMethodService
                 try {
                     calcBuffer = Util.evalScript(calcBuffer);
                 }
-                catch (ScriptException e) {
+                catch (Exception e) {
                     toastIt(e);
                 }
                 break;

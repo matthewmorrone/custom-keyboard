@@ -1267,21 +1267,17 @@ public class Util {
 
         return text;
     }
-    public static String evalScript(String text) throws ScriptException {
+    public static String evalScript(String text) throws Exception {
         text = sanitize(text);
 
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("js");
-        if (engine != null) {
-            Object result = engine.eval(text);
-            if (result != null) {
-                text = result.toString();
+        Object result = engine.eval(text);
+        text = result.toString();
 
-                if (checkInteger(Double.parseDouble(text))) {
-                    int resultInt = (int)Double.parseDouble(text);
-                    return String.valueOf(resultInt);
-                }
-            }
+        if (checkInteger(Double.parseDouble(text))) {
+            int resultInt = (int)Double.parseDouble(text);
+            return String.valueOf(resultInt);
         }
         return text;
     }
