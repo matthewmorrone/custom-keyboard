@@ -41,6 +41,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener {
 
@@ -1318,13 +1323,41 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
+    static String calcBuffer = "";
+    int[] calcPasses = new int[] {
+        -22, -101, 32, 10
+    };
+    int[] calcCaptures = new int[] {
+        -200, -201, -5, 37, 43, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 61, 94, 215, 247,
+    };
+    int[] calcOperators = new int[] {
+        43, 45, 215, 37, 247, 94
+    };
+    private void handleCalc(int primaryCode) {
+        switch(primaryCode) {
+            case -204: calcBuffer += "tan"; break;
+            case -203: calcBuffer += "cos"; break;
+            case -202: calcBuffer += "sin"; break;
+            case -201: calcBuffer = ""; break;
+            case -200: commitText(calcBuffer); break;
+            case -5: calcBuffer = calcBuffer.substring(0, calcBuffer.length()-1); break;
+            case 61: calcBuffer = Util.evalScript(calcBuffer); break;
+            default:
+                if (Util.contains(calcOperators, primaryCode)) calcBuffer += " ";
+                calcBuffer += (char)primaryCode;
+                if (Util.contains(calcOperators, primaryCode)) calcBuffer += " ";
+            break;
+        }
+        getKey(-200).label = calcBuffer;
+        redraw();
+    }
+
     static String hexBuffer = "";
     int[] hexPasses = new int[] {
+        -22, -101, 32, 10,
     };
     int[] hexCaptures = new int[] {
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
-        97, 98, 99, 100, 101, 102,
-        -201, -202, -203, -204, -205, -206
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, -201, -202, -203, -204, -205, -206
     };
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
@@ -1343,6 +1376,7 @@ public class CustomInputMethodService extends InputMethodService
         if (primaryCode == -206) hexBuffer = "0000";
         getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
         getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        redraw();
     }
 
     public void handleShift() {
@@ -1507,7 +1541,14 @@ public class CustomInputMethodService extends InputMethodService
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode")
             && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
+            return;
         }
+        if (currentKeyboard.title != null && currentKeyboard.title.equals("Calculator")
+            && !Util.contains(calcPasses, primaryCode)) {
+            handleCalc(primaryCode);
+            return;
+        }
+
         switch (primaryCode) {
             case -501: commitText(getResources().getString(R.string.k1)); break;
             case -502: commitText(getResources().getString(R.string.k2)); break;

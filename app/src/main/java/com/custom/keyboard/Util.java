@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.webkit.URLUtil;
 
+import androidx.core.math.MathUtils;
+
 import java.net.URL;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
@@ -33,6 +35,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 public class Util {
 
@@ -1247,4 +1253,153 @@ public class Util {
     public String getMethodName(int depth) {
         return new Throwable().getStackTrace()[depth].getMethodName();
     }
+    public static String sanitize(String text) {
+        text = text.replaceAll("×", "*");
+        text = text.replaceAll("÷", "/");
+        text = text.replaceAll("√", "Math.sqrt");
+        text = text.replaceAll("∛", "Math.cbrt");
+        // text = text.replaceAll("∜", "Math.pow(_, .25)");
+        text = text.replaceAll("π", "Math.PI");
+        text = text.replaceAll("ℯ", "Math.E");
+
+        text = text.replaceAll("\\[", "(");
+        text = text.replaceAll("\\]", ")");
+
+        return text;
+    }
+    public static String evalScript(String text) {
+        text = sanitize(text);
+
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("js");
+        try {
+            if (engine != null) {
+                Object result = engine.eval(text);
+                if (result != null) {
+                    text = result.toString();
+
+                    if (checkInteger(Double.parseDouble(text))) {
+                        int resultInt = (int)Double.parseDouble(text);
+                        return String.valueOf(resultInt);
+                    }
+                }
+            }
+        }
+        catch (ScriptException e) {
+
+        }
+        return text;
+    }
+    public static boolean checkInteger(double variable) {
+        return (variable == Math.floor(variable)) && !Double.isInfinite(variable);
+    }
+    public static String evaluate(String text) {
+        text = sanitize(text);
+
+        double result = eval(text);
+        if (checkInteger(result)) {
+            int resultInt = (int)result;
+            return String.valueOf(resultInt);
+        }
+        return String.valueOf(result);
+    }
+    public static double factorial(double number) {
+        double result = 1;
+        for (int factor = 2; factor <= number; factor++) {
+            result *= factor;
+        }
+        return result;
+    }
+    public static double eval(final String str) {
+        return new Object() {
+            int pos = -1, ch;
+
+            void nextChar() {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
+
+            boolean eat(int charToEat) {
+                while (ch == ' ') nextChar();
+                if (ch == charToEat) {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse() {
+                nextChar();
+                double x = parseExpression();
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                return x;
+            }
+
+            // Grammar:
+            // expression = term | expression `+` term | expression `-` term
+            // term = factor | term `*` factor | term `/` factor
+            // factor = `+` factor | `-` factor | `(` expression `)`
+            //        | number | functionName factor | factor `^` factor
+
+            double parseExpression() {
+                double x = parseTerm();
+                for (;;) {
+                    if      (eat('+')) x += parseTerm(); // addition
+                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else return x;
+                }
+            }
+
+            double parseTerm() {
+                double x = parseFactor();
+                for (;;) {
+                    if      (eat('*')) x *= parseFactor(); // multiplication
+                    else if (eat('/')) x /= parseFactor(); // division
+                    else return x;
+                }
+            }
+
+            double parseFactor() {
+                if (eat('+')) return parseFactor(); // unary plus
+                if (eat('-')) return -parseFactor(); // unary minus
+                if (eat('~')) return Math.round(parseFactor()); // unary minus
+                if (eat('!')) return factorial(parseFactor()); // unary minus
+
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) { // parentheses
+                    x = parseExpression();
+                    eat(')');
+                }
+                if (eat('|')) { // absolute value
+                    x = Math.abs(parseExpression());
+                    eat('|');
+                }
+                else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                    while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                }
+                else if (ch >= 'a' && ch <= 'z') { // functions
+                    while (ch >= 'a' && ch <= 'z') nextChar();
+                    String func = str.substring(startPos, this.pos);
+                    x = parseFactor();
+                    switch (func) {
+                        case "sqrt": x = Math.sqrt(x); break;
+                        case "sin": x = Math.sin(Math.toRadians(x)); break;
+                        case "cos": x = Math.cos(Math.toRadians(x)); break;
+                        case "tan": x = Math.tan(Math.toRadians(x)); break;
+                        default: throw new RuntimeException("Unknown function: " + func);
+                    }
+                }
+                else {
+                    throw new RuntimeException("Unexpected: " + (char)ch);
+                }
+
+                if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+                if (eat('%')) x = x % parseFactor(); // modulus
+
+                return x;
+            }
+        }.parse();
+    }
+
 }
