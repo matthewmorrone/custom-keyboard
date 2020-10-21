@@ -145,8 +145,8 @@ public class CustomKeyboardView extends KeyboardView {
 
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-        int border = 4;
-        int corner = 16;
+        int border = 0;
+        int corner = 0;
 
         for (Key key : keys) {
 
