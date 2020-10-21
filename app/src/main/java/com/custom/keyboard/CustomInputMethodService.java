@@ -1340,7 +1340,7 @@ public class CustomInputMethodService extends InputMethodService
             case -202: calcBuffer += "sin"; break;
             case -201: calcBuffer = ""; break;
             case -200: commitText(calcBuffer); break;
-            case -5: calcBuffer = calcBuffer.substring(0, calcBuffer.length()-1); break;
+            case -5: if (calcBuffer.length() > 0) calcBuffer = calcBuffer.substring(0, calcBuffer.length()-1); break;
             case 61:
                 try {
                     calcBuffer = Util.evalScript(calcBuffer);

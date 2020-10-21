@@ -220,7 +220,7 @@ public class Util {
         if (text.length() < 1) return "";
 
         if (Character.isHighSurrogate(text.charAt(0))
-            ||  Character.isLowSurrogate(text.charAt(0))) {
+        ||  Character.isLowSurrogate(text.charAt(0))) {
             return unidata((int)text.codePointAt(0));
         }
 
@@ -229,8 +229,12 @@ public class Util {
     }
     public static String unidata(int primaryCode) {
         // Util.largeIntToChar(primaryCode)
-        return toTitleCase(Character.getName(primaryCode))+"\n"+
-            primaryCode+"\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
+        return 
+toTitleCase(Character.getName(primaryCode))
++"\n"+
+primaryCode
++"\t0x"+
+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         /*
         return ""+
             toTitleCase(Character.getName(primaryCode))+
@@ -391,26 +395,22 @@ public class Util {
     public static String toLowerCase(String text) {
         return text.toLowerCase();
     }
-    public static String toTitleCase(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
+    public static String toTitleCase(String input) {
+        input = toLowerCase(input);
+        StringBuilder titleCase = new StringBuilder(input.length());
+        boolean nextTitleCase = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } 
+            else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+            titleCase.append(c);
         }
-        StringBuilder converted = new StringBuilder();
-        boolean convertNext = true;
-        for (int ch : asUnicodeCharArray(text)) {
-            if (Character.isSpaceChar(ch) || String.valueOf(ch).equals("\n")) {
-                convertNext = true;
-            }
-            else if (convertNext) {
-                ch = Character.toTitleCase(ch);
-                convertNext = false;
-            }
-            else {
-                ch = Character.toLowerCase(ch);
-            }
-            converted.append(ch);
-        }
-        return converted.toString();
+        return titleCase.toString();
     }
     public static String toUpperCase(String text) {
         return text.toUpperCase();
