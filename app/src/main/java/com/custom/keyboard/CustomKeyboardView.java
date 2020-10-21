@@ -1,8 +1,10 @@
 package com.custom.keyboard;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -15,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
 import java.util.List;
-import java.util.Objects;
 
 public class CustomKeyboardView extends KeyboardView {
 
@@ -25,6 +26,7 @@ public class CustomKeyboardView extends KeyboardView {
     Canvas canvas;
     Context kcontext;
     SharedPreferences sharedPreferences;
+
     String selected;
     Color foreground;
     Color background;
@@ -86,7 +88,7 @@ public class CustomKeyboardView extends KeyboardView {
     }
 
     public void selectKey(Key key, int corner) {
-        int theme = Integer.parseInt(Objects.requireNonNull(sharedPreferences.getString("theme", "1")));
+        int theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
         String color = theme % 2 == 1 ? selected : selected;
 
         canvas.save();
@@ -125,10 +127,8 @@ public class CustomKeyboardView extends KeyboardView {
         super.onDraw(canvas);
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-        background = Color.valueOf(sharedPreferences.getInt("bgcolor", 0xFF000000));
-        foreground = Color.valueOf(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-        foreground = Color.valueOf(Color.WHITE);
-        mPaint.setColor(foreground.toArgb());
+        background = Color.valueOf(sharedPreferences.getInt("bgcolor", Color.BLACK));
+        foreground = Color.valueOf(sharedPreferences.getInt("fgcolor", Color.WHITE));
 
         List<Key> keys = getKeyboard().getKeys();
 
@@ -137,64 +137,49 @@ public class CustomKeyboardView extends KeyboardView {
 
         this.canvas = canvas;
 
-        boolean borders = sharedPreferences.getBoolean("borders", false);
-        boolean padding = sharedPreferences.getBoolean("padding", false);
-        boolean corners = sharedPreferences.getBoolean("corners", false);
-        boolean keyback = sharedPreferences.getBoolean("keyback", false);
-        boolean space = sharedPreferences.getBoolean("space", false);
-
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-        int border = 0;
-        int corner = 0;
+        int borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
+        int paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("paddingWidth", "0"), "0"));
+        int borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderRadius", "0"), "0"));
+
+        /*
+        LayerDrawable layerDrawable = (LayerDrawable)getResources().getDrawable(R.drawable.normal);
+        GradientDrawable gradientDrawable = (GradientDrawable)layerDrawable.findDrawableByLayerId(R.id.keyPressDrawable);
+        gradientDrawable.setCornerRadius(borderRadius);
+        this.setBackgroundDrawable(gradientDrawable);
+        */
+
+        // GradientDrawable shape = new GradientDrawable();
+        // shape.setShape(GradientDrawable.RECTANGLE);
+        // shape.setColor(Color.BLACK);
+        // shape.setStroke(borderWidth, Color.WHITE);
+        // this.setBackgroundDrawable(shape);
 
         for (Key key : keys) {
-
-            // if (key.codes[0] >= 48 && key.codes[0] <= 57
-            //     && this.getCustomKeyboard().xmlLayoutResId == R.layout.numeric) {
-            // }
 
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;
             }
-            
-            // !keyback corners !padding borders
-            if (borders) {
-                canvas.save();
-                canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                canvas.clipOutRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                mPaint.setColor(foreground.toArgb());
-                canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-                canvas.restore();
+
+            canvas.save();
+            mPaint.setColor(Color.parseColor(selected));
+            if (borderWidth > 0) {
+                // @TODO: how to clipOutRoundedRect?
+                canvas.clipOutRect(key.x+paddingWidth+borderWidth, key.y+paddingWidth+borderWidth, key.x+key.width-paddingWidth-borderWidth, key.y+key.height-paddingWidth-borderWidth);
             }
-            // !keyback !corners padding borders
-            if (padding) {
-                canvas.save();
-                canvas.clipRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2));
-                canvas.clipOutRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4));
-                mPaint.setColor(foreground.toArgb());
-                canvas.drawRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), mPaint);
-                canvas.restore();
-            }
-            // !keyback corners padding borders
-            if (corners) {
-                canvas.save();
-                canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-                canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-                mPaint.setColor(foreground.toArgb());
-                canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
-                mPaint.setColor(foreground.toArgb());
-                canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
-                canvas.restore();
-            }
-            // keyback corners padding !borders
-            if (keyback) {
-                canvas.save();
-                canvas.clipRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border);
-                mPaint.setColor(Color.parseColor(selected));
-                canvas.drawRoundRect(key.x+border, key.y+border, key.x+key.width-border, key.y+key.height-border, corner, corner, mPaint);
-                canvas.restore();
-            }
+            canvas.drawRoundRect(key.x+paddingWidth, key.y+paddingWidth, key.x+key.width-paddingWidth, key.y+key.height-paddingWidth, borderRadius, borderRadius, mPaint);
+            canvas.restore();
+
+            /*
+            canvas.save();
+            canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+            // canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
+            mPaint.setColor(Color.parseColor(selected));
+            canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
+            // canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
+            canvas.restore();
+            */
 
             if (key.codes[0] ==  -73)   key.label = Util.timemoji();
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
@@ -210,45 +195,42 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
             if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
             if (key.codes[0] == -513)   key.text = sharedPreferences.getString("password", "");
-            // if (key.codes[0] >= -512 && key.codes[0] <= -501) System.out.println(key.text);
 
-
-
-            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, corner);
+            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);
             if (key.codes[0] == -1) {
                 if (Variables.isShift()) {
-                    selectKey(key, corner);
+                    selectKey(key, borderRadius);
                 }
                 if (getKeyboard().isShifted()) {
                     drawable(key, R.drawable.ic_shift_lock);
                 }
             }
-            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key, corner);}}
+            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
 
-            if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, corner);}}
-            if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, corner);}}
-            if (key.codes[0] == -96) {if (Variables.isEmphasized()) {selectKey(key, corner);}}
-            if (key.codes[0] == -97) {if (Variables.isUnderlined()) {selectKey(key, corner);}}
-            if (key.codes[0] == -98) {if (Variables.isUnderscored()) {selectKey(key, corner);}}
-            if (key.codes[0] == -99) {if (Variables.isStrikethrough()) {selectKey(key, corner);}}
-            if (key.codes[0] == -145) {if (Variables.isBoldSerif()) {selectKey(key, corner);}}
-            if (key.codes[0] == -146) {if (Variables.isItalicSerif()) {selectKey(key, corner);}}
-            if (key.codes[0] == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, corner);}}
-            if (key.codes[0] == -148) {if (Variables.isScript()) {selectKey(key, corner);}}
-            if (key.codes[0] == -149) {if (Variables.isScriptBold()) {selectKey(key, corner);}}
-            if (key.codes[0] == -150) {if (Variables.isFraktur()) {selectKey(key, corner);}}
-            if (key.codes[0] == -151) {if (Variables.isFrakturBold()) {selectKey(key, corner);}}
-            if (key.codes[0] == -152) {if (Variables.isSans()) {selectKey(key, corner);}}
-            if (key.codes[0] == -153) {if (Variables.isMonospace()) {selectKey(key, corner);}}
-            if (key.codes[0] == -154) {if (Variables.isDoublestruck()) {selectKey(key, corner);}}
-            if (key.codes[0] == -155) {if (Variables.isEnsquare()) {selectKey(key, corner);}}
-            if (key.codes[0] == -156) {if (Variables.isCircularStampLetters()) {selectKey(key, corner);}}
-            if (key.codes[0] == -157) {if (Variables.isRectangularStampLetters()) {selectKey(key, corner);}}
-            if (key.codes[0] == -158) {if (Variables.isSmallCaps()) {selectKey(key, corner);}}
-            if (key.codes[0] == -159) {if (Variables.isParentheses()) {selectKey(key, corner);}}
-            if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, corner);}}
-            if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, corner);}}
-            if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, corner);}}
+            if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -96) {if (Variables.isEmphasized()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -97) {if (Variables.isUnderlined()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -98) {if (Variables.isUnderscored()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -99) {if (Variables.isStrikethrough()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -145) {if (Variables.isBoldSerif()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -146) {if (Variables.isItalicSerif()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -148) {if (Variables.isScript()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -149) {if (Variables.isScriptBold()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -150) {if (Variables.isFraktur()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -151) {if (Variables.isFrakturBold()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -152) {if (Variables.isSans()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -153) {if (Variables.isMonospace()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -154) {if (Variables.isDoublestruck()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -155) {if (Variables.isEnsquare()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -156) {if (Variables.isCircularStampLetters()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -157) {if (Variables.isRectangularStampLetters()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -158) {if (Variables.isSmallCaps()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -159) {if (Variables.isParentheses()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, borderRadius);}}
+            if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, borderRadius);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
 

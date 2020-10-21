@@ -11,6 +11,7 @@ import android.webkit.URLUtil;
 
 import androidx.core.math.MathUtils;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -1041,6 +1043,30 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
         return "#" + as + rs + gs + bs;
     }
+    public static Color stringToColor(String value) {
+        if (value == null) {
+            return Color.valueOf(Color.BLACK);
+        }
+        try {
+            // get color by hex or octal value
+            return Color.valueOf(Color.parseColor(value));
+        }
+        catch (NumberFormatException nfe) {
+            // if we can't decode lets try to get it by name
+            try {
+                // try to get a color by name using reflection
+                final Field f = Color.class.getField(value);
+                return (Color)f.get(null);
+            }
+            catch (Exception ce) {
+                // if we can't get any color return black
+                return Color.valueOf(Color.BLACK);
+            }
+        }
+    }
+    public static String colorToString(Color color) {
+        return String.format("#%08X", color.toArgb());
+    }
     public static int[] fromColor(String color) {
         color = color.toUpperCase();
         String as, rs, gs, bs;
@@ -1284,7 +1310,9 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
     public static boolean checkInteger(double variable) {
         return (variable == Math.floor(variable)) && !Double.isInfinite(variable);
     }
-
+    public static <T> T orNull(T value, T defaultValue) {
+        return Optional.ofNullable(value).orElse(defaultValue);
+    }
     public static double eval(final String str) {
         return new Object() {
             int pos = -1, ch;

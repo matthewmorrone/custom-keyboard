@@ -877,6 +877,18 @@ public class CustomInputMethodService extends InputMethodService
             default: mDefaultFilter = Themes.sPositiveColorArray; break;
         }
 
+        boolean inverted = sharedPreferences.getBoolean("invert", false);
+        float m = inverted ? -1.0f : 1.0f;
+
+        float[] sCustomColorArray = {
+            m, 0, 0, 0.0f, mDefaultFilter[4],
+            0, m, 0, 0.0f, mDefaultFilter[9],
+            0, 0, m, 0.0f, mDefaultFilter[14],
+            0, 0, 0, 1.0f, 1
+        };
+
+        mDefaultFilter = sCustomColorArray;
+
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
@@ -884,25 +896,17 @@ public class CustomInputMethodService extends InputMethodService
         editor.putInt("bgcolor", bg);
         editor.putInt("fgcolor", fg);
         editor.apply();
-/*
+
+        /*
         int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
         int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
 
         Color background = Color.valueOf(bg);
         Color foreground = Color.valueOf(fg);
 
-        boolean inverted = sharedPreferences.getBoolean("invert", false);
-        float m = inverted ? -1.0f : 1.0f;
 
-        float[] sCustomColorArray = {
-            m, 0, 0, 0.0f, background.red(),
-            0, m, 0, 0.0f, background.green(),
-            0, 0, m, 0.0f, background.blue(),
-            0, 0, 0, 1.0f, background.alpha()
-        };
+        */
 
-        mDefaultFilter = sCustomColorArray;
-*/
         ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
         Paint mPaint = new Paint();
         mPaint.setColorFilter(colorFilter);
@@ -1247,6 +1251,10 @@ public class CustomInputMethodService extends InputMethodService
 */
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
+    }
+
+    public static <T> T nullOr(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
