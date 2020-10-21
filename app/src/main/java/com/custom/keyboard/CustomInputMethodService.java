@@ -794,6 +794,7 @@ public class CustomInputMethodService extends InputMethodService
             switch (primaryCode) {
                 case 32: handleTab(); break;
                 case -12: selectAll(); break;
+                case -200: clipboardToBuffer(getText(ic)); break;
             }
         }
     }
@@ -1323,6 +1324,12 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
+
+    public void clipboardToBuffer(String text) {
+        System.out.println(text);
+        calcBuffer = text;
+        redraw();
+    }
     static String calcBuffer = "";
     int[] calcPasses = new int[] {
         -22, -101, 32, 10
@@ -1334,7 +1341,9 @@ public class CustomInputMethodService extends InputMethodService
         43, 45, 215, 37, 247, 94
     };
     private void handleCalc(int primaryCode) {
+        InputConnection ic = getCurrentInputConnection();
         switch(primaryCode) {
+            case -205: clipboardToBuffer(getText(ic)); break;
             case -204: calcBuffer += "tan"; break;
             case -203: calcBuffer += "cos"; break;
             case -202: calcBuffer += "sin"; break;

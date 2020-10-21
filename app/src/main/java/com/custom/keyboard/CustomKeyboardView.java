@@ -42,6 +42,7 @@ public class CustomKeyboardView extends KeyboardView {
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == -12
+         || key.codes[0] == -200
          || key.codes[0] == 32) {
             return super.onLongPress(key);
         }
