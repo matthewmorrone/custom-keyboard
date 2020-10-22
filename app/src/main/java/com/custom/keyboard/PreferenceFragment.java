@@ -55,7 +55,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         themes = getResources().getStringArray(R.array.theme_names);
 
-
         try {
             addPreferencesFromResource(R.xml.preferences);
             PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
@@ -138,7 +137,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             e.printStackTrace();
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
     }
 
     @Override

@@ -1120,10 +1120,10 @@ public class CustomInputMethodService extends InputMethodService
 
     public void navigate(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
-        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString)) {
+        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString) && sharedPreferences.getBoolean("indent", false)) {
             sendKey(primaryCode, indentWidth);
         }
-        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString)) {
+        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString) && sharedPreferences.getBoolean("indent", false)) {
             sendKey(primaryCode, indentWidth);
         }
         else {
@@ -1508,11 +1508,11 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    Set<String> clipboardHistory = new HashSet<>();
+    HashSet<String> clipboardHistory = new HashSet<>();
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        clipboardHistory = new HashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
+        clipboardHistory = new HashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
         if (getText(ic).isEmpty()) return;
         clipboardHistory.add(getText(ic));
         sharedPreferences.edit().putStringSet("clipboardHistory", clipboardHistory).apply();
@@ -1750,12 +1750,12 @@ public class CustomInputMethodService extends InputMethodService
                 if (Variables.isBold()) performReplace(Font.unbolden(getText(ic)));
                 else performReplace(Font.bolden(getText(ic)));
                 Variables.toggleBold();
-                break;
+            break;
             case -95:
                 if (Variables.isItalic()) performReplace(Font.unitalicize(getText(ic)));
                 else performReplace(Font.italicize(getText(ic)));
                 Variables.toggleItalic();
-                break;
+            break;
             case -96:
                 if (Variables.isEmphasized()) performReplace(Font.unemphasize(getText(ic)));
                 else performReplace(Font.emphasize(getText(ic)));

@@ -189,7 +189,7 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.codes[0] ==  -73)   key.label = Util.timemoji();
 
-            Set<String> clipboardHistory = new HashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
+            HashSet<String> clipboardHistory = new HashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
             List<String> clipboardHistoryList = new ArrayList<>(clipboardHistory);
 
 
