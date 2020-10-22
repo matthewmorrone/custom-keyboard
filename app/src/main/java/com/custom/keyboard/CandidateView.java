@@ -29,7 +29,7 @@ public class CandidateView extends View {
     private Rect mBgPadding;
 
     private static final int MAX_SUGGESTIONS = 32;
-    private static final int SCROLL_PIXELS = 20;
+    private static final int SCROLL_PIXELS = 0; // 20;
 
     private int[] mWordWidth = new int[MAX_SUGGESTIONS];
     private int[] mWordX = new int[MAX_SUGGESTIONS];
@@ -74,7 +74,7 @@ public class CandidateView extends View {
         mColorNormal = r.getColor(R.color.white);
         mColorRecommended = r.getColor(R.color.white);
         mColorOther = r.getColor(R.color.white);
-        mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
+        mVerticalPadding = 0; //r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 
         mPaint = new Paint();
         mPaint.setColor(mColorNormal);

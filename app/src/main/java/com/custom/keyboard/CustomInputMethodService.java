@@ -156,10 +156,10 @@ public class CustomInputMethodService extends InputMethodService
 
         Paint mPaint = setTheme();
 
-        // int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
-        // Color background = Color.valueOf(bg);
-        // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        // kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+        Color background = Color.valueOf(bg);
+        float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+        kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
@@ -1876,6 +1876,6 @@ public class CustomInputMethodService extends InputMethodService
         //   0 → 0.5
         //  50 → 1.0
         // 100 → 1.5
-        return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50) + 50)/100;
+        return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50)) / 100;
     }
 }
