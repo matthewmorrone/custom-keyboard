@@ -31,6 +31,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference address;
     EditTextPreference password;
 
+    SeekPreference height;
+    SeekPreference transparency;
+
     EditTextPreference indentWidth;
 
     EditTextPreference k1;
@@ -68,14 +71,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         try {
             seps = (EditTextPreference)findPreference("seps");
+            height = (SeekPreference)findPreference("height");
+            transparency = (SeekPreference)findPreference("transparency");
             theme = (ListPreference)findPreference("theme");
-
-            String themeString = sharedPreferences.getString("theme", "1");
-            if (themeString != null) {
-                int themeInt = Integer.parseInt(themeString);
-                theme.setSummary(themes[themeInt]);
-            }
-
             background = (ColorPreference)findPreference("bgcolor");
             foreground = (ColorPreference)findPreference("fgcolor");
             popup_first = (EditTextPreference)findPreference("popup_first");
@@ -101,6 +99,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
+
+            height.setValue(sharedPreferences.getInt("height", 100));
+            transparency.setValue(sharedPreferences.getInt("transparency", 100));
 
             String themeString = sharedPreferences.getString("theme", "1");
             if (themeString != null) {
@@ -152,6 +153,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         try {
             seps.setSummary(sharedPreferences.getString("seps", ""));
+
+            height.setValue(sharedPreferences.getInt("height", 100));
+            transparency.setValue(sharedPreferences.getInt("transparency", 100));
 
             String themeString = sharedPreferences.getString("theme", "1");
             if (themeString != null) {
