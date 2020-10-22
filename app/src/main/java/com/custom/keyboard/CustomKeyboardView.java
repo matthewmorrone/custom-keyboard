@@ -16,7 +16,10 @@ import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CustomKeyboardView extends KeyboardView {
 
@@ -185,6 +188,21 @@ public class CustomKeyboardView extends KeyboardView {
             */
 
             if (key.codes[0] ==  -73)   key.label = Util.timemoji();
+
+            Set<String> clipboardHistory = new HashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
+            List<String> clipboardHistoryList = new ArrayList<>(clipboardHistory);
+
+
+            if (key.codes[0] == -300 && clipboardHistoryList.size() > 0) key.label = clipboardHistoryList.get(0);
+            if (key.codes[0] == -301 && clipboardHistoryList.size() > 1) key.label = clipboardHistoryList.get(1);
+            if (key.codes[0] == -302 && clipboardHistoryList.size() > 2) key.label = clipboardHistoryList.get(2);
+            if (key.codes[0] == -303 && clipboardHistoryList.size() > 3) key.label = clipboardHistoryList.get(3);
+            if (key.codes[0] == -304 && clipboardHistoryList.size() > 4) key.label = clipboardHistoryList.get(4);
+            if (key.codes[0] == -305 && clipboardHistoryList.size() > 5) key.label = clipboardHistoryList.get(5);
+            if (key.codes[0] == -306 && clipboardHistoryList.size() > 6) key.label = clipboardHistoryList.get(6);
+            if (key.codes[0] == -307 && clipboardHistoryList.size() > 7) key.label = clipboardHistoryList.get(7);
+
+
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
             if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");

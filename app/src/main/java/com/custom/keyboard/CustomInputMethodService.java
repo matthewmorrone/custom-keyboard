@@ -36,9 +36,11 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.script.ScriptEngine;
@@ -1505,12 +1507,24 @@ public class CustomInputMethodService extends InputMethodService
             default: break;
         }
     }
+
+    Set<String> clipboardHistory = new HashSet<>();
+    public void saveToClipboardHistory() {
+        InputConnection ic = getCurrentInputConnection();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        clipboardHistory = new HashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
+        if (getText(ic).isEmpty()) return;
+        clipboardHistory.add(getText(ic));
+        sharedPreferences.edit().putStringSet("clipboardHistory", clipboardHistory).apply();
+    }
     public void handleCut() {
         if (!isSelecting()) selectLine();
+        saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_CUT);
     }
     public void handleCopy() {
         if (!isSelecting()) selectLine();
+        saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_COPY);
     }
     public void handlePaste() {
@@ -1574,6 +1588,15 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         switch (primaryCode) {
+            case -300: commitText(String.valueOf(getKey(-300).label)); break;
+            case -301: commitText(String.valueOf(getKey(-301).label)); break;
+            case -302: commitText(String.valueOf(getKey(-302).label)); break;
+            case -303: commitText(String.valueOf(getKey(-303).label)); break;
+            case -304: commitText(String.valueOf(getKey(-304).label)); break;
+            case -305: commitText(String.valueOf(getKey(-305).label)); break;
+            case -306: commitText(String.valueOf(getKey(-306).label)); break;
+            case -307: commitText(String.valueOf(getKey(-307).label)); break;
+
             case -501: commitText(getResources().getString(R.string.k1)); break;
             case -502: commitText(getResources().getString(R.string.k2)); break;
             case -503: commitText(getResources().getString(R.string.k3)); break;
@@ -1802,7 +1825,7 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             case -142: break;
             case -143: setKeyboard(R.layout.calc, "Calculator"); break;
-            // case -144: break;
+            case -144: setKeyboard(R.layout.clipboard); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
             case -147: Variables.toggleBoldItalicSerif(); break;

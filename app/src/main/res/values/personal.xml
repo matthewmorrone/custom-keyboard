@@ -10,7 +10,7 @@
     <string name="k2_label">git pull</string>
     <string name="k2">git pull</string>
     <string name="k3_label">git add</string>
-    <string name="k3">git add --all</string>
+    <string name="k3">git add .</string>
     <string name="k4_label">git commit</string>
     <string name="k4">git commit -m \u0022autocommit\u0022</string>
     <string name="k5_label">git push</string>
