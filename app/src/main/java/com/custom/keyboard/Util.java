@@ -1421,4 +1421,10 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         }
         return String.valueOf(result);
     }
+
+    public static int round(int n, int m) {
+        int a = (n / m) * m; // Smaller multiple
+        int b = a + m;       // Larger multiple
+        return (n - a > b - n)? b : a; // Return of closest of two
+    }
 }

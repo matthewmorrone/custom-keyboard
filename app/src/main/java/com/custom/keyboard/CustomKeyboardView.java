@@ -162,14 +162,17 @@ public class CustomKeyboardView extends KeyboardView {
                 key.repeatable = true;
             }
 
-            canvas.save();
-            mPaint.setColor(Color.parseColor(selected));
-            if (borderWidth > 0) {
-                // @TODO: how to clipOutRoundedRect?
-                canvas.clipOutRect(key.x+paddingWidth+borderWidth, key.y+paddingWidth+borderWidth, key.x+key.width-paddingWidth-borderWidth, key.y+key.height-paddingWidth-borderWidth);
+            if (borderRadius > 0 || borderWidth > 0 || paddingWidth > 0) {
+                canvas.save();
+                mPaint.setColor(Color.parseColor(selected));
+                if (borderWidth > 0) {
+                    // @TODO: how to clipOutRoundedRect?
+                    canvas.clipOutRect(key.x+paddingWidth+borderWidth, key.y+paddingWidth+borderWidth, key.x+key.width-paddingWidth-borderWidth, key.y+key.height-paddingWidth-borderWidth);
+                }
+                canvas.drawRoundRect(key.x+paddingWidth, key.y+paddingWidth, key.x+key.width-paddingWidth, key.y+key.height-paddingWidth, borderRadius, borderRadius, mPaint);
+                canvas.restore();
             }
-            canvas.drawRoundRect(key.x+paddingWidth, key.y+paddingWidth, key.x+key.width-paddingWidth, key.y+key.height-paddingWidth, borderRadius, borderRadius, mPaint);
-            canvas.restore();
+
 
             /*
             canvas.save();

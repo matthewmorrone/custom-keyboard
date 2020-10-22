@@ -1,14 +1,10 @@
-### to do ###
-https://developer.android.com/guide/topics/text/creating-input-method.html#java
-https://customkeyboarddetails.blogspot.com/2019/02/available-resources-for-android.html
-
-### things I know how to do ###
-+ indentation
-+ fonts
-
 ### things to put in ###
 =======
++ manual implementation of clipboard history
++ redo keyboard layout without deprecated api
 + wider selection of emoji
++ reimplement emoji
++ implement min, max, step, original value in seekbarpreference
 + number input/slider combined for specification of keypress delay
 + custom key settings' popups should contain three inputs: one to change the label, and one to change the value, and one to change its longpress value
 + color selection/input to change key text, background, borders
@@ -21,17 +17,13 @@ https://customkeyboarddetails.blogspot.com/2019/02/available-resources-for-andro
 + close popup on blur
 + use system languages
 + actions on keyboard and key gestures
-
-+ borders around keys
 + unicode data display
 + typing and deleting underscore and strikethrough
 + add hyphens and apostrophes to predictions
-+ foreground and background settings
 + add words to dictionary
 + popup_first popup_second popup_third
 + adjust function layout key widths 
-+ reimplement emoji
-+ fix indentation 
++ fix indentation
 + add words to dictionary get stored in setting 
 + fix macros
 

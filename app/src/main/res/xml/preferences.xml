@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound" android:title="@string/sound" />
         <SwitchPreference android:defaultValue="false" android:key="vib" android:title="@string/vib" />
@@ -14,18 +15,18 @@
         <SwitchPreference android:defaultValue="false" android:key="spaceAfterPunct" android:title="Insert Space After Punctuation" />
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
         <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
-        <EditTextPreference
-            android:defaultValue="4"
-            android:key="indentWidth"
-            android:title="Tab Size"
-            android:inputType="number"
-            android:digits="1234567890"
-            />
+        <EditTextPreference android:defaultValue="4" android:key="indentWidth" android:title="Tab Size" android:inputType="number" android:digits="1234567890" />
         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
-        <com.custom.keyboard.SeekPreference android:defaultValue="50" android:key="height" android:title="Key Height" />
-        <com.custom.keyboard.SeekPreference android:defaultValue="100" android:key="transparency" android:title="Transparency" />
+        <com.custom.keyboard.SeekPreference android:key="height" android:title="Key Height"
+            app:min="50"
+            app:max="150"
+            app:value="100"
+            />
+        <com.custom.keyboard.SeekPreference android:key="transparency" android:title="Transparency"
+            app:value="100"
+            />
         <EditTextPreference android:defaultValue="0" android:key="borderWidth" android:title="Border Width" android:inputType="number" android:digits="1234567890" />
         <EditTextPreference android:defaultValue="0" android:key="paddingWidth" android:title="Padding Width" android:inputType="number" android:digits="1234567890" />
         <EditTextPreference android:defaultValue="0" android:key="borderRadius" android:title="Border Radius" android:inputType="number" android:digits="1234567890" />
