@@ -8,10 +8,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     Context baseContext;

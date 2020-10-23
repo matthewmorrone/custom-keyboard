@@ -1169,14 +1169,14 @@ public class CustomInputMethodService extends InputMethodService
         currentKeyboard.setRowNumber(getStandardRowNumber());
         currentKeyboard.title = title;
         kv.setKeyboard(currentKeyboard);
-        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+        redraw();
     }
 
     public void setKeyboard(int id) {
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
         currentKeyboard.setRowNumber(getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
-        // kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
+        redraw();
     }
 
     private void handleDelete() {
@@ -1588,7 +1588,6 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         switch (primaryCode) {
-            case -300: commitText(String.valueOf(getKey(-300).label)); break;
             case -301: commitText(String.valueOf(getKey(-301).label)); break;
             case -302: commitText(String.valueOf(getKey(-302).label)); break;
             case -303: commitText(String.valueOf(getKey(-303).label)); break;
@@ -1596,6 +1595,15 @@ public class CustomInputMethodService extends InputMethodService
             case -305: commitText(String.valueOf(getKey(-305).label)); break;
             case -306: commitText(String.valueOf(getKey(-306).label)); break;
             case -307: commitText(String.valueOf(getKey(-307).label)); break;
+            case -308: commitText(String.valueOf(getKey(-308).label)); break;
+            case -309: commitText(String.valueOf(getKey(-309).label)); break;
+            case -310: commitText(String.valueOf(getKey(-310).label)); break;
+            case -311: commitText(String.valueOf(getKey(-311).label)); break;
+            case -312: commitText(String.valueOf(getKey(-312).label)); break;
+            case -313: commitText(String.valueOf(getKey(-313).label)); break;
+            case -314: commitText(String.valueOf(getKey(-314).label)); break;
+            case -315: commitText(String.valueOf(getKey(-315).label)); break;
+            case -316: commitText(String.valueOf(getKey(-316).label)); break;
 
             case -501: commitText(getResources().getString(R.string.k1)); break;
             case -502: commitText(getResources().getString(R.string.k2)); break;

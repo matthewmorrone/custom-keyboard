@@ -193,14 +193,22 @@ public class CustomKeyboardView extends KeyboardView {
             List<String> clipboardHistoryList = new ArrayList<>(clipboardHistory);
 
 
-            if (key.codes[0] == -300 && clipboardHistoryList.size() > 0) key.label = clipboardHistoryList.get(0);
-            if (key.codes[0] == -301 && clipboardHistoryList.size() > 1) key.label = clipboardHistoryList.get(1);
-            if (key.codes[0] == -302 && clipboardHistoryList.size() > 2) key.label = clipboardHistoryList.get(2);
-            if (key.codes[0] == -303 && clipboardHistoryList.size() > 3) key.label = clipboardHistoryList.get(3);
-            if (key.codes[0] == -304 && clipboardHistoryList.size() > 4) key.label = clipboardHistoryList.get(4);
-            if (key.codes[0] == -305 && clipboardHistoryList.size() > 5) key.label = clipboardHistoryList.get(5);
-            if (key.codes[0] == -306 && clipboardHistoryList.size() > 6) key.label = clipboardHistoryList.get(6);
-            if (key.codes[0] == -307 && clipboardHistoryList.size() > 7) key.label = clipboardHistoryList.get(7);
+            if (key.codes[0] == -301 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get(1);
+            if (key.codes[0] == -302 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get(2);
+            if (key.codes[0] == -303 && clipboardHistoryList.size() >  3) key.label = clipboardHistoryList.get(3);
+            if (key.codes[0] == -304 && clipboardHistoryList.size() >  4) key.label = clipboardHistoryList.get(4);
+            if (key.codes[0] == -305 && clipboardHistoryList.size() >  5) key.label = clipboardHistoryList.get(5);
+            if (key.codes[0] == -306 && clipboardHistoryList.size() >  6) key.label = clipboardHistoryList.get(6);
+            if (key.codes[0] == -307 && clipboardHistoryList.size() >  7) key.label = clipboardHistoryList.get(7);
+            if (key.codes[0] == -308 && clipboardHistoryList.size() >  8) key.label = clipboardHistoryList.get(8);
+            if (key.codes[0] == -309 && clipboardHistoryList.size() >  9) key.label = clipboardHistoryList.get(9);
+            if (key.codes[0] == -310 && clipboardHistoryList.size() > 10) key.label = clipboardHistoryList.get(10);
+            if (key.codes[0] == -311 && clipboardHistoryList.size() > 11) key.label = clipboardHistoryList.get(11);
+            if (key.codes[0] == -312 && clipboardHistoryList.size() > 12) key.label = clipboardHistoryList.get(12);
+            if (key.codes[0] == -313 && clipboardHistoryList.size() > 13) key.label = clipboardHistoryList.get(13);
+            if (key.codes[0] == -314 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
+            if (key.codes[0] == -315 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
+            if (key.codes[0] == -316 && clipboardHistoryList.size() > 16) key.label = clipboardHistoryList.get(16);
 
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");

@@ -16,29 +16,37 @@
         <Key android:codes="-12" android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-300" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-301" />
+        <Key android:codes="-302" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-301" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-303" />
+        <Key android:codes="-304" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-302" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-305" />
+        <Key android:codes="-306" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-303" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-307" />
+        <Key android:codes="-308" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-304" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-309" />
+        <Key android:codes="-3010" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-305" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-3011" />
+        <Key android:codes="-3012" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-306" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-3013" />
+        <Key android:codes="-3014" />
     </Row>
-    <Row android:keyHeight="3.5%p" android:keyWidth="100%p">
-        <Key android:codes="-307" android:keyLabel="" />
+    <Row android:keyHeight="3.5%p" android:keyWidth="50%p">
+        <Key android:codes="-3015" />
+        <Key android:codes="-3016" />
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="12.5%p" />
