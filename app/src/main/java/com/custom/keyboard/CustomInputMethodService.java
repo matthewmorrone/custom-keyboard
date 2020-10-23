@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -1509,6 +1510,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     HashSet<String> clipboardHistory = new HashSet<>();
+
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1588,22 +1590,22 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         switch (primaryCode) {
-            case -301: commitText(String.valueOf(getKey(-301).label)); break;
-            case -302: commitText(String.valueOf(getKey(-302).label)); break;
-            case -303: commitText(String.valueOf(getKey(-303).label)); break;
-            case -304: commitText(String.valueOf(getKey(-304).label)); break;
-            case -305: commitText(String.valueOf(getKey(-305).label)); break;
-            case -306: commitText(String.valueOf(getKey(-306).label)); break;
-            case -307: commitText(String.valueOf(getKey(-307).label)); break;
-            case -308: commitText(String.valueOf(getKey(-308).label)); break;
-            case -309: commitText(String.valueOf(getKey(-309).label)); break;
-            case -310: commitText(String.valueOf(getKey(-310).label)); break;
-            case -311: commitText(String.valueOf(getKey(-311).label)); break;
-            case -312: commitText(String.valueOf(getKey(-312).label)); break;
-            case -313: commitText(String.valueOf(getKey(-313).label)); break;
-            case -314: commitText(String.valueOf(getKey(-314).label)); break;
-            case -315: commitText(String.valueOf(getKey(-315).label)); break;
-            case -316: commitText(String.valueOf(getKey(-316).label)); break;
+            case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
+            case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
+            case -303: commitText(String.valueOf(Util.orNull(getKey(-303).label, ""))); break;
+            case -304: commitText(String.valueOf(Util.orNull(getKey(-304).label, ""))); break;
+            case -305: commitText(String.valueOf(Util.orNull(getKey(-305).label, ""))); break;
+            case -306: commitText(String.valueOf(Util.orNull(getKey(-306).label, ""))); break;
+            case -307: commitText(String.valueOf(Util.orNull(getKey(-307).label, ""))); break;
+            case -308: commitText(String.valueOf(Util.orNull(getKey(-308).label, ""))); break;
+            case -309: commitText(String.valueOf(Util.orNull(getKey(-309).label, ""))); break;
+            case -310: commitText(String.valueOf(Util.orNull(getKey(-310).label, ""))); break;
+            case -311: commitText(String.valueOf(Util.orNull(getKey(-311).label, ""))); break;
+            case -312: commitText(String.valueOf(Util.orNull(getKey(-312).label, ""))); break;
+            case -313: commitText(String.valueOf(Util.orNull(getKey(-313).label, ""))); break;
+            case -314: commitText(String.valueOf(Util.orNull(getKey(-314).label, ""))); break;
+            case -315: commitText(String.valueOf(Util.orNull(getKey(-315).label, ""))); break;
+            case -316: commitText(String.valueOf(Util.orNull(getKey(-316).label, ""))); break;
 
             case -501: commitText(getResources().getString(R.string.k1)); break;
             case -502: commitText(getResources().getString(R.string.k2)); break;
