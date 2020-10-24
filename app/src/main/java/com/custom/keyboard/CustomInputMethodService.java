@@ -12,6 +12,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.*;
@@ -1577,7 +1578,19 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int ere, aft;
-        if (sharedPreferences.getBoolean("sound", false)) playClick(primaryCode);
+        if (sharedPreferences.getBoolean("sound", false)) {
+            if (currentKeyboard.title != null && currentKeyboard.title.equals("IPA")) {
+                if (sharedPreferences.getBoolean("ipa", false)) {
+                    Sounds.playIPA(getBaseContext(), primaryCode);
+                }
+                if (sharedPreferences.getBoolean("ipaDesc", false)) {
+                    toastIt("/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
+                }
+            }
+            else {
+                playClick(primaryCode);
+            }
+        }
         if (currentKeyboard.title != null && currentKeyboard.title.equals("Unicode")
             && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
@@ -1822,7 +1835,7 @@ public class CustomInputMethodService extends InputMethodService
             case -134: setKeyboard(R.layout.numeric); break;
             case -135: setKeyboard(R.layout.navigation); break;
             case -136: setKeyboard(R.layout.fonts); break;
-            case -137: setKeyboard(R.layout.ipa); break;
+            case -137: setKeyboard(R.layout.ipa, "IPA"); break;
             case -138: setKeyboard(R.layout.symbol); break;
             case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
             case -140: setKeyboard(R.layout.accents); break;
