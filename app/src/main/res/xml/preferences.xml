@@ -9,7 +9,7 @@
         <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
-        <SwitchPreference android:defaultValue="false" android:key="suggestions" android:title="@string/suggestions" />
+        <SwitchPreference android:defaultValue="false" android:key="pred" android:title="@string/pred" />
         <SwitchPreference android:defaultValue="false" android:key="auto" android:title="@string/auto" />
         <SwitchPreference android:defaultValue="false" android:key="pairs" android:title="Insert Pairs" />
         <SwitchPreference android:defaultValue="false" android:key="shift" android:title="@string/toggle_case" />

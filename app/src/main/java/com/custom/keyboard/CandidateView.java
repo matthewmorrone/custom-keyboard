@@ -23,32 +23,32 @@ public class CandidateView extends View {
     private ArrayList<String> mSuggestions;
     private int mSelectedIndex;
     private int mTouchX = OUT_OF_BOUNDS;
-    private Drawable mSelectionHighlight;
+    private final Drawable mSelectionHighlight;
     private boolean mTypedWordValid;
 
     private Rect mBgPadding;
 
     private static final int MAX_SUGGESTIONS = 32;
-    private static final int SCROLL_PIXELS = 0; // 20;
+    private static final int SCROLL_PIXELS = 20;
 
-    private int[] mWordWidth = new int[MAX_SUGGESTIONS];
-    private int[] mWordX = new int[MAX_SUGGESTIONS];
+    private final int[] mWordWidth = new int[MAX_SUGGESTIONS];
+    private final int[] mWordX = new int[MAX_SUGGESTIONS];
 
     private static final int X_GAP = 60;
 
     private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
-    private int mColorNormal;
-    private int mColorRecommended;
-    private int mColorOther;
-    private int mVerticalPadding;
-    private Paint mPaint;
+    private final int mColorNormal;
+    private final int mColorRecommended;
+    private final int mColorOther;
+    private final int mVerticalPadding;
+    private final Paint mPaint;
     private boolean mScrolled;
     private int mTargetScrollX;
 
     private int mTotalWidth;
 
-    private GestureDetector mGestureDetector;
+    private final GestureDetector mGestureDetector;
 
     public CandidateView(Context context) {
         super(context);
@@ -69,12 +69,17 @@ public class CandidateView extends View {
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         this.setAlpha(transparency); 
 
-        this.setBackgroundColor(r.getColor(R.color.black));
+        // this.setBackgroundColor(r.getColor(R.color.black));
 
-        mColorNormal = r.getColor(R.color.white);
-        mColorRecommended = r.getColor(R.color.white);
-        mColorOther = r.getColor(R.color.white);
-        mVerticalPadding = 0; //r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
+        int background = sharedPreferences.getInt("bgcolor", Color.BLACK);
+        int foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
+
+        this.setBackgroundColor(background);
+
+        mColorNormal = foreground;
+        mColorRecommended = foreground;
+        mColorOther = foreground;
+        mVerticalPadding = r.getDimensionPixelSize(R.dimen.candidate_vertical_padding);
 
         mPaint = new Paint();
         mPaint.setColor(mColorNormal);
@@ -115,18 +120,20 @@ public class CandidateView extends View {
         return mTotalWidth;
     }
 
+    Rect padding = new Rect();
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measuredWidth = resolveSize(50, widthMeasureSpec);
 
-        // Get the desired height of the icon menu view (last row of items does
-        // not have a divider below)
-        Rect padding = new Rect();
+        // Get the desired height of the icon menu view (last row of items does not have a divider below)
+
+        // Rect padding = new Rect();
         mSelectionHighlight.getPadding(padding);
         final int desiredHeight = ((int)mPaint.getTextSize()) + mVerticalPadding + padding.top + padding.bottom;
 
         // Maximum possible width and desired height
-        this.setMeasuredDimension(measuredWidth, this.resolveSize(desiredHeight, heightMeasureSpec));
+        this.setMeasuredDimension(measuredWidth, resolveSize(desiredHeight, heightMeasureSpec));
     }
 
     @Override
@@ -255,7 +262,7 @@ public class CandidateView extends View {
             case MotionEvent.ACTION_DOWN:
                 mScrolled = false;
                 this.invalidate();
-                break;
+            break;
             case MotionEvent.ACTION_MOVE:
                 if (y <= 0) {
                     if (mSelectedIndex >= 0) {
@@ -264,7 +271,7 @@ public class CandidateView extends View {
                     }
                 }
                 this.invalidate();
-                break;
+            break;
             case MotionEvent.ACTION_UP:
                 if (!mScrolled) {
                     if (mSelectedIndex >= 0) {
@@ -274,7 +281,7 @@ public class CandidateView extends View {
                 mSelectedIndex = -1;
                 this.removeHighlight();
                 this.requestLayout();
-                break;
+            break;
         }
         return true;
     }

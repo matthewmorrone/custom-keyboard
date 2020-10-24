@@ -51,6 +51,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:hint="@string/test"
+        android:text="she sells seashells by the seashore"
         android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
         android:lines="1" />
 

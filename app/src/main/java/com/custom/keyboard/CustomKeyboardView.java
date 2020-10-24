@@ -16,6 +16,7 @@ import android.inputmethodservice.Keyboard.Key;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import androidx.annotation.RequiresApi;
 
@@ -46,11 +47,12 @@ public class CustomKeyboardView extends KeyboardView {
         return (CustomKeyboard)getKeyboard();
     }
 
+
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == -12
-         || key.codes[0] == -200
-         || key.codes[0] == 32) {
+         || key.codes[0] == -200/*
+         || key.codes[0] == 32*/) {
             return super.onLongPress(key);
         }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
