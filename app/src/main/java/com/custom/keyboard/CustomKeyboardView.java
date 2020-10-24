@@ -129,7 +129,6 @@ public class CustomKeyboardView extends KeyboardView {
 
     int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);

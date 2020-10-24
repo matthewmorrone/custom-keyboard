@@ -2,7 +2,7 @@ package com.custom.keyboard;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;>
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -191,7 +191,7 @@ public class CustomInputMethodService extends InputMethodService
         kv.setPreviewEnabled(mPreviewOn);
 
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-        if (mPredictionOn) setCandidatesViewShown(true);
+        if (mPredictionOn) {setCandidatesViewShown(true);}
     }
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
@@ -413,7 +413,7 @@ public class CustomInputMethodService extends InputMethodService
 
         updateCandidates();
 
-        setCandidatesViewShown(true);
+        setCandidatesViewShown(false);
 
         Variables.setSelectingOff();
 
@@ -711,11 +711,11 @@ public class CustomInputMethodService extends InputMethodService
             playClick(32);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        // setCandidatesViewShown(false);
+        setCandidatesViewShown(false);
     }
 
     public void hide() {
-        handleClose();
+        handleClose(); 
     }
 
     private void handleClose() {
