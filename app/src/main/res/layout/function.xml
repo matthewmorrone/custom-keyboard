@@ -52,16 +52,17 @@
         <Key android:codes="-72"  android:keyIcon="@drawable/ic_unique_lines" />
     </Row>
     <Row android:keyWidth="7.27%p">
-        <Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />
+
         <Key android:codes="-133" android:keyIcon="@drawable/ic_hexa" />
         <Key android:codes="-134" android:keyIcon="@drawable/ic_keypad" />
+        <Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />
+        <Key android:codes="-143" android:keyIcon="@drawable/ic_calc" />
+        <Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />
         <Key android:codes="-135" android:keyIcon="@drawable/ic_nav" />
         <Key android:codes="-137" android:keyIcon="@drawable/ic_schwa" />
         <Key android:codes="-136" android:keyIcon="@drawable/ic_font" />
         <Key android:codes="-138" android:keyIcon="@drawable/ic_punctuation" />
-        <Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />
         <Key android:codes="-140" android:keyIcon="@drawable/ic_accent" />
-        <Key android:codes="-143" android:keyIcon="@drawable/ic_calc" />
         <Key android:codes="-144" android:keyIcon="@drawable/ic_clipboard" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete" android:keyWidth="10%p" />

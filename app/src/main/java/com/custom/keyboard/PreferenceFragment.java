@@ -31,6 +31,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     SeekPreference transparency;
 
     EditTextPreference indentWidth;
+    EditTextPreference borderWidth;
+    EditTextPreference paddingWidth;
+    EditTextPreference borderRadius;
 
     EditTextPreference k1;
     EditTextPreference k2;
@@ -69,6 +72,12 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             height = (SeekPreference)findPreference("height");
             transparency = (SeekPreference)findPreference("transparency");
             theme = (ListPreference)findPreference("theme");
+            
+            indentWidth = (EditTextPreference)findPreference("indentWidth");
+            borderWidth = (EditTextPreference)findPreference("borderWidth");
+            paddingWidth = (EditTextPreference)findPreference("paddingWidth");
+            borderRadius = (EditTextPreference)findPreference("borderRadius");
+
             background = (ColorPreference)findPreference("bgcolor");
             foreground = (ColorPreference)findPreference("fgcolor");
             popup_first = (EditTextPreference)findPreference("popup_first");
@@ -103,7 +112,12 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 int themeInt = Integer.parseInt(themeString);
                 theme.setSummary(themes[themeInt-1]);
             }
-
+            
+            indentWidth.setSummary(sharedPreferences.getString("indentWidth", ""));
+            borderWidth.setSummary(sharedPreferences.getString("borderWidth", ""));
+            paddingWidth.setSummary(sharedPreferences.getString("paddingWidth", ""));
+            borderRadius.setSummary(sharedPreferences.getString("borderRadius", ""));
+            
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
@@ -157,6 +171,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 theme.setSummary(themes[themeInt-1]);
             }
 
+            indentWidth.setSummary(sharedPreferences.getString("indentWidth", ""));
+            borderWidth.setSummary(sharedPreferences.getString("borderWidth", ""));
+            paddingWidth.setSummary(sharedPreferences.getString("paddingWidth", ""));
+            borderRadius.setSummary(sharedPreferences.getString("borderRadius", ""));
+            
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));

@@ -2,7 +2,7 @@ package com.custom.keyboard;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.Intent;>
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
