@@ -4,6 +4,68 @@ import android.graphics.Color;
 
 class Themes {
 
+    /*
+    int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
+    int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
+
+    Color background = Color.valueOf(bg);
+    Color foreground = Color.valueOf(fg);
+
+
+    */
+
+
+    //     if (background != null) {
+    //         background.setColor(bg);
+    //         if (background.colorView != null) {
+    //             background.colorView.setBackgroundColor(bg);
+    //             background.colorView.invalidate();
+    //         }
+    //         background.callChangeListener(bg);
+    //     }
+    //
+    //     if (foreground != null) {
+    //         foreground.setColor(fg);
+    //         if (foreground.colorView != null) {
+    //             foreground.colorView.setBackgroundColor(fg);
+    //             foreground.colorView.invalidate();
+    //         }
+    //         background.callChangeListener(fg);
+    //     }
+    //
+    //     synchronized(background) {
+    //         background.notify();
+    //     }
+    //     synchronized(foreground) {
+    //         foreground.notify();
+    //     }
+    // }
+
+    //     ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
+    //     Paint mPaint = new Paint();
+    //     mPaint.setColorFilter(colorFilter);
+    //
+    //     System.out.println(Arrays.toString(mDefaultFilter));
+    //     if (inverted) {
+    //         mDefaultFilter[0] = -mDefaultFilter[0];
+    //         mDefaultFilter[6] = -mDefaultFilter[6];
+    //         mDefaultFilter[12] = -mDefaultFilter[12];
+    //     }
+    //     System.out.println(Arrays.toString(mDefaultFilter));
+    //
+    //     // float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+    //     if (kv != null) {
+    //         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
+    //         kv.setBackgroundColor(Color.argb(transparency, 0, 0, 0));
+    //
+    //         // if (inverted) {
+    //         //     bgColor.red((int)(255-bgColor.red()));
+    //         //     bgColor.green((int)(255-bgColor.green()));
+    //         //     bgColor.blue((int)(255-bgColor.blue()));
+    //         // }
+    //         // kv.setBackgroundColor(Color.argb(1, bgColor.red(), bgColor.green(), bgColor.blue()));
+    //     }
+
     // public static float[] invertColorMatrix(float[] colorArray) {
     //     colorArray[ 0] = -colorArray[ 0];
     //     colorArray[ 6] = -colorArray[ 6];

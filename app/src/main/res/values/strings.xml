@@ -4,7 +4,7 @@
     <string name="sound">Sound on Key Press</string>
     <string name="vib">Vibrate on key press</string>
     <string name="borders">Key borders</string>
-    <string name="suggestions">Enable Suggestions</string>
+    <string name="pred">Enable Suggestions</string>
     <string name="auto">Enable Autoreplace</string>
     <string name="caps">Enable Autocapitalization</string>
     <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>

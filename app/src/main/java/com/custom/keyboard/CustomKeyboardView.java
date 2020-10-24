@@ -13,13 +13,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class CustomKeyboardView extends KeyboardView {
 
@@ -44,11 +47,12 @@ public class CustomKeyboardView extends KeyboardView {
         return (CustomKeyboard)getKeyboard();
     }
 
+
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == -12
-         || key.codes[0] == -200
-         || key.codes[0] == 32) {
+         || key.codes[0] == -200/*
+         || key.codes[0] == 32*/) {
             return super.onLongPress(key);
         }
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
@@ -125,6 +129,7 @@ public class CustomKeyboardView extends KeyboardView {
 
     int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -158,6 +163,13 @@ public class CustomKeyboardView extends KeyboardView {
         // shape.setColor(Color.BLACK);
         // shape.setStroke(borderWidth, Color.WHITE);
         // this.setBackgroundDrawable(shape);
+
+        LayerDrawable pressDrawable = (LayerDrawable)getResources().getDrawable(R.drawable.press);
+        GradientDrawable gradientDrawable = (GradientDrawable)pressDrawable.findDrawableByLayerId(R.id.keyPressDrawable);
+        gradientDrawable.setCornerRadius(borderRadius);
+        // gradientDrawable.setPadding(paddingWidth, paddingWidth, paddingWidth, paddingWidth);
+        gradientDrawable.setStroke(borderWidth, Color.parseColor(selected));
+        // this.setBackgroundDrawable(gradientDrawable);
 
         for (Key key : keys) {
 
