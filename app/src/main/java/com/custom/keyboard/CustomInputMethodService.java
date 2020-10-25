@@ -21,6 +21,7 @@ import android.provider.UserDictionary;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -33,6 +34,10 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.custom.keyboard.emojicon.EmojiconGridView;
+import com.custom.keyboard.emojicon.EmojiconsPopup;
+import com.custom.keyboard.emojicon.emoji.Emojicon;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -89,6 +94,9 @@ public class CustomInputMethodService extends InputMethodService
     // private ArrayList<String> suggestions = new ArrayList<>();
 
     boolean debug = false;
+
+    private EmojiconsPopup popupWindow = null;
+
 
     @Override
     public void onCreate() {
@@ -259,10 +267,36 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
+    public String getCurrentWord() {
+        InputConnection ic = getCurrentInputConnection();
+/*
+        int start = getCursorPosition()-getPrevWord().length();
+        int ender = getCursorPosition()+getNextWord().length();
+
+        ic.requestCursorUpdates(0);
+        ic.setComposingRegion(start, ender);
+        ic.requestCursorUpdates(3);
+*/
+
+/*
+        String[] prevWords = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b");
+        String[] nextWords = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b");
+        String prevWord = prevWords[prevWords.length-1];
+        String nextWord = nextWords[0];
+
+        if (prevWord.equals(" ")) return nextWord;
+        if (nextWord.equals(" ")) return prevWord;
+*/
+        // @TODO: if at word boundary, should return the word it's actually touching:
+        // "one| two" should return one, "one |two" should return two
+        return getPrevWord()+getNextWord();
+    }
+
     public String getPrevWord() {
         InputConnection ic = getCurrentInputConnection();
         try {
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
+            // System.out.println(Arrays.toString(words));
             if (words.length < 1) return "";
             String lastWord = words[words.length - 1];
             return lastWord;
@@ -272,6 +306,23 @@ public class CustomInputMethodService extends InputMethodService
         }
         // return "";
     }
+
+    public String getNextWord() {
+        InputConnection ic = getCurrentInputConnection();
+        try {
+            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            words = Arrays.copyOfRange(words, 1, words.length-1);
+            System.out.println(Arrays.toString(words));
+            if (words.length < 1) return "";
+            String nextWord = words[0];
+            return nextWord;
+        }
+        catch (Exception e) {
+            return "";
+        }
+        // return "";
+    }
+
     public void selectPrevWord() {
         InputConnection ic = getCurrentInputConnection();
         try {
@@ -288,24 +339,11 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    public String getNextWord() {
-        InputConnection ic = getCurrentInputConnection();
-        try {
-            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
-            if (words.length < 1) return "";
-            String nextWord = words[0];
-            return nextWord;
-        }
-        catch (Exception e) {
-            return "";
-        }
-        // return "";
-    }
-
     public void selectNextWord() {
         InputConnection ic = getCurrentInputConnection();
         try {
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
+            words = Arrays.copyOfRange(words, 1, words.length-1);
             if (words.length < 1) return;
             String nextWord = words[0];
             if (words.length > 1) nextWord = words[1];
@@ -487,6 +525,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
+        System.out.println(getCurrentWord());
         updateCandidates(getCurrentWord());
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
@@ -496,18 +535,6 @@ public class CustomInputMethodService extends InputMethodService
                 ic.finishComposingText();
             }
         }
-    }
-
-    public String getCurrentWord() {
-        // int start = getCursorPosition()-getPrevWord().length();
-        // int ender = getCursorPosition()+getNextWord().length();
-        //
-        // InputConnection ic = getCurrentInputConnection();
-        // // ic.requestCursorUpdates(0);
-        // // ic.setComposingRegion(start, ender);
-        // // ic.requestCursorUpdates(3);
-        //
-        return getPrevWord()+getNextWord();
     }
 
     public void redraw() {
@@ -666,6 +693,7 @@ public class CustomInputMethodService extends InputMethodService
         ArrayList<String> completions = new ArrayList<>();
         ArrayList<String> suggestions = new ArrayList<>();
 
+        if (word.equals("")) return;
         suggestions = SpellChecker.getSuggestions(word, 1);
         if (suggestions.size() > 0) {
             completions.addAll(suggestions);
@@ -1637,7 +1665,7 @@ public class CustomInputMethodService extends InputMethodService
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            // case -27: showEmoticons(); break;
+            case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1855,6 +1883,46 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception ignored) {}
         updateCandidates();
 
+    }
+
+    public void showEmoticons() {
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        if (layoutInflater != null) {
+            View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
+            popupWindow = new EmojiconsPopup(popupView, this);
+            popupWindow.setSizeForSoftKeyboard();
+            popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+            // If the text keyboard closes, also dismiss the emoji popup
+            popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+                @Override
+                public void onKeyboardOpen(int keyboardHeight) { }
+
+                @Override
+                public void onKeyboardClose() {
+                    if (popupWindow.isShowing()) popupWindow.dismiss();
+                }
+            });
+            popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+                @Override
+                public void onEmojiconClicked(Emojicon emojicon) {
+                    // mComposing.append(emojicon.getEmoji());
+                    // commitTyped(getCurrentInputConnection());
+                    commitText(emojicon.getEmoji());
+                }
+            });
+            popupWindow.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+                @Override
+                public void onEmojiconBackspaceClicked(View v) {
+                    KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                    handleBackspace();
+                }
+            });
+        }
+    }
+
+    public void closeEmoticons() {
+        if (popupWindow != null) popupWindow.dismiss();
     }
 
     public short getRowNumber() {
