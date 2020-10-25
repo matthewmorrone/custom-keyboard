@@ -1,5 +1,6 @@
 package com.custom.keyboard;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +26,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import android.view.WindowManager.LayoutParams;
 
 import androidx.annotation.NonNull;
 
@@ -132,23 +137,29 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateCandidatesView() {
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
-        setTheme();
-        Paint mPaint = new Paint();
+        // System.out.println("onCreateCandidatesView");
 
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+        //
+        // setTheme();
+        // Paint mPaint = new Paint();
+        //
+        // mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+
+        if (mCandidateView == null) {
+            mCandidateView = new CandidateView(this);
+            mCandidateView.setService(this);
+        }
         return mCandidateView;
     }
 
-    @Override
-    public void onStartInputView(EditorInfo info, boolean restarting) {
-        ViewGroup originalParent = (ViewGroup)kv.getParent();
-        if (originalParent != null) {
-            originalParent.setPadding(0, 0, 0, 0);
-            kv.setPopupParent(originalParent);
-        }
-    }
+    // @Override
+    // public void onStartInputView(EditorInfo info, boolean restarting) {
+    //     ViewGroup originalParent = (ViewGroup)kv.getParent();
+    //     if (originalParent != null) {
+    //         originalParent.setPadding(0, 0, 0, 0);
+    //         kv.setPopupParent(originalParent);
+    //     }
+    // }
 
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
@@ -167,8 +178,8 @@ public class CustomInputMethodService extends InputMethodService
             mMetaState = 0;
         }
 
-
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+
 
         setInputType();
 
@@ -178,11 +189,6 @@ public class CustomInputMethodService extends InputMethodService
         kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-        setCandidatesView(mCandidateView);
 
         currentKeyboard.setRowNumber(getRowNumber());
 
@@ -198,8 +204,43 @@ public class CustomInputMethodService extends InputMethodService
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
+
+
+        mCandidateView = new CandidateView(this);
+        mCandidateView.setService(this);
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+        if (isKeyboardVisible()) setCandidatesView(mCandidateView);
+
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-        if (mPredictionOn) {setCandidatesViewShown(true);}
+        if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
+
+        // LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        // mCandidateView.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    public void onComputeInsets(InputMethodService.Insets outInsets) {
+        super.onComputeInsets(outInsets);
+        if (!isFullscreenMode()) {
+            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        }
+    }
+
+    public boolean isKeyboardVisible() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        System.out.println(imm.isAcceptingText()+" "+imm.isActive());
+        return imm.isAcceptingText();
+    }
+
+    @Override
+    public void onWindowShown() {
+        super.onWindowShown();
+    }
+
+    @Override
+    public void onWindowHidden() {
+        super.onWindowHidden();
+        setCandidatesViewShown(false);
     }
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
@@ -746,11 +787,29 @@ public class CustomInputMethodService extends InputMethodService
         handleClose(); 
     }
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        // Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        // If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     private void handleClose() {
         commitTyped(getCurrentInputConnection());
         setCandidatesViewShown(false);
         requestHideSelf(0);
         kv.closing();
+
+
     }
 
 
@@ -1886,13 +1945,15 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void showEmoticons() {
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
             popupWindow = new EmojiconsPopup(popupView, this);
             popupWindow.setSizeForSoftKeyboard();
-            popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+
             // If the text keyboard closes, also dismiss the emoji popup
             popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
@@ -1906,8 +1967,6 @@ public class CustomInputMethodService extends InputMethodService
             popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
                 @Override
                 public void onEmojiconClicked(Emojicon emojicon) {
-                    // mComposing.append(emojicon.getEmoji());
-                    // commitTyped(getCurrentInputConnection());
                     commitText(emojicon.getEmoji());
                 }
             });

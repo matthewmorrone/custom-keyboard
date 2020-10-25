@@ -210,5 +210,5 @@ public class People {
         Emojicon.fromCodePoint(0x1f4ac),
         Emojicon.fromCodePoint(0x1f463),
         Emojicon.fromCodePoint(0x1f4ad),
-        };
+    };
 }

@@ -233,5 +233,5 @@ public class Symbols {
         Emojicon.fromCodePoint(0x1f537),
         Emojicon.fromCodePoint(0x1f538),
         Emojicon.fromCodePoint(0x1f539),
-        };
+    };
 }

@@ -251,5 +251,5 @@ public class Objects {
         Emojicon.fromCodePoint(0x1f346),
         Emojicon.fromCodePoint(0x1f345),
         Emojicon.fromCodePoint(0x1f33d),
-        };
+    };
 }

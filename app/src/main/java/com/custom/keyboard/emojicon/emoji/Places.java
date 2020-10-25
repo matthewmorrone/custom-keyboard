@@ -122,5 +122,5 @@ public class Places {
         Emojicon.fromChars("\ud83c\uddee\ud83c\uddf9"),
         Emojicon.fromChars("\ud83c\uddf7\ud83c\uddfa"),
         Emojicon.fromChars("\ud83c\uddec\ud83c\udde7"),
-        };
+    };
 }

@@ -137,5 +137,5 @@ public class Nature {
         Emojicon.fromCodePoint(0x1f301),
         Emojicon.fromCodePoint(0x1f308),
         Emojicon.fromCodePoint(0x1f30a),
-        };
+    };
 }
