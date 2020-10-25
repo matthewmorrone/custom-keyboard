@@ -58,13 +58,13 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
     private View[] mEmojiTabs;
     private PagerAdapter mEmojisAdapter;
     private EmojiconRecentsManager mRecentsManager;
-    private int keyBoardHeight = 0;
+    private int keyboardHeight = 0;
     private Boolean pendingOpen = false;
     private Boolean isOpened = false;
     OnEmojiconClickedListener onEmojiconClickedListener;
     OnEmojiconBackspaceClickedListener onEmojiconBackspaceClickedListener;
     OnSoftKeyboardOpenCloseListener onSoftKeyboardOpenCloseListener;
-    View rootView;
+    public View rootView;
     Context mContext;
 
     private ViewPager emojisPager;
@@ -165,11 +165,11 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
                     heightDifference -= mContext.getResources().getDimensionPixelSize(resourceId);
                 }
                 if (heightDifference > 100) {
-                    keyBoardHeight = heightDifference;
-                    setSize(LayoutParams.MATCH_PARENT, keyBoardHeight);
+                    keyboardHeight = heightDifference;
+                    setSize(LayoutParams.MATCH_PARENT, keyboardHeight);
                     if (isOpened == false) {
 	                    if (onSoftKeyboardOpenCloseListener != null) {
-		                    onSoftKeyboardOpenCloseListener.onKeyboardOpen(keyBoardHeight);
+		                    onSoftKeyboardOpenCloseListener.onKeyboardOpen(keyboardHeight);
 	                    }
                     }
                     isOpened = true;

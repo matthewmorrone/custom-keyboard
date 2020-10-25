@@ -734,9 +734,8 @@ public class CustomInputMethodService extends InputMethodService
         ArrayList<String> completions = new ArrayList<>();
         ArrayList<String> suggestions = new ArrayList<>();
 
-        if (word.equals("")) return;
         suggestions = SpellChecker.getSuggestions(word, 1);
-        if (suggestions.size() > 0) {
+        if (suggestions.size() > 1) {
             completions.addAll(suggestions);
         }
 
@@ -1238,15 +1237,15 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isAlt()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON));}
             if (Variables.isCtrl()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON));}
         }
-        else {
-            sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
-        }
-/*
         else if (length > 0) {
-            ic.deleteSurroundingText(0, 1);
+            ic.deleteSurroundingText(0, Character.isSurrogate(ic.getTextAfterCursor(1, 0).charAt(0)) ? 2 : 1);
         }
         else if (length == 0) {
             getCurrentInputConnection().commitText("", 0);
+        }
+/*
+        else {
+            sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
         }
 */
         updateShiftKeyState(getCurrentInputEditorInfo());
@@ -1277,7 +1276,7 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
         else if (length > 0) {
-            ic.deleteSurroundingText(1, 0);
+            ic.deleteSurroundingText(Character.isSurrogate(ic.getTextBeforeCursor(1, 0).charAt(0)) ? 2 : 1, 0);
         }
         else if (length == 0) {
             getCurrentInputConnection().commitText("", 0);
@@ -1948,20 +1947,35 @@ public class CustomInputMethodService extends InputMethodService
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
+            setCandidatesViewShown(false);
+            // setCandidatesViewShown(popupWindow != null);
+
+            boolean wasCandOn = sharedPreferences.getBoolean("pred", false);
+
             popupWindow = new EmojiconsPopup(popupView, this);
             popupWindow.setSizeForSoftKeyboard();
 
             popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setHeight(kv.getHeight());
             popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+
+            popupWindow.rootView.setHorizontalFadingEdgeEnabled(true);
+            popupWindow.rootView.setHorizontalScrollBarEnabled(false);
+            popupWindow.rootView.setVerticalScrollBarEnabled(false);
+
+            sharedPreferences.edit().putBoolean("pred", false).apply();
 
             // If the text keyboard closes, also dismiss the emoji popup
             popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
-                public void onKeyboardOpen(int keyboardHeight) { }
+                public void onKeyboardOpen(int keyboardHeight) {
+                    setCandidatesViewShown(false);
+                }
 
                 @Override
                 public void onKeyboardClose() {
                     if (popupWindow.isShowing()) popupWindow.dismiss();
+                    sharedPreferences.edit().putBoolean("pred", wasCandOn).apply();
                 }
             });
             popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
