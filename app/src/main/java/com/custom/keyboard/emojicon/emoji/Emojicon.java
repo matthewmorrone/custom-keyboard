@@ -17,10 +17,6 @@
 package com.custom.keyboard.emojicon.emoji;
 
 import java.io.Serializable;
-
-/**
- * @author Hieu Rocker (rockerhieu@gmail.com)
- */
 public class Emojicon implements Serializable {
     private static final long serialVersionUID = 1L;
     private String emoji;
@@ -34,17 +30,21 @@ public class Emojicon implements Serializable {
         return emoji;
     }
 
-    public static Emojicon fromChar(char ch) {
+    public static Emojicon fromCodePoints(int ...codePoints) {
         Emojicon emoji = new Emojicon();
-        emoji.emoji = Character.toString(ch);
+        StringBuilder chars = new StringBuilder();
+        for(int ch : codePoints) {
+            chars.append("\\u").append(Integer.toHexString(ch));
+        }
+        emoji.emoji = String.valueOf(chars);
         return emoji;
     }
 
-    public static Emojicon fromChars(String chars) {
-        Emojicon emoji = new Emojicon();
-        emoji.emoji = chars;
-        return emoji;
-    }
+    // public static Emojicon fromChars(String chars) {
+    //     Emojicon emoji = new Emojicon();
+    //     emoji.emoji = chars;
+    //     return emoji;
+    // }
 
     public Emojicon(String emoji) {
         this.emoji = emoji;
@@ -66,7 +66,7 @@ public class Emojicon implements Serializable {
 
     public static final String newString(int codePoint) {
         if (Character.charCount(codePoint) == 1) {
-            return String.valueOf(codePoint);
+            return String.valueOf((char)codePoint);
         }
         else {
             return new String(Character.toChars(codePoint));

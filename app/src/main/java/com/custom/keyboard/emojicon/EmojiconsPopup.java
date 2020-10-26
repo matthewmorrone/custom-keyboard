@@ -39,12 +39,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
 import com.custom.keyboard.emojicon.EmojiconGridView.OnEmojiconClickedListener;
+import com.custom.keyboard.emojicon.emoji.Activities;
 import com.custom.keyboard.emojicon.emoji.Emojicon;
+import com.custom.keyboard.emojicon.emoji.Flags;
+import com.custom.keyboard.emojicon.emoji.FoodAndDrink;
 import com.custom.keyboard.emojicon.emoji.Nature;
 import com.custom.keyboard.emojicon.emoji.Objects;
 import com.custom.keyboard.emojicon.emoji.People;
 import com.custom.keyboard.emojicon.emoji.Places;
 import com.custom.keyboard.emojicon.emoji.Symbols;
+import com.vanniktech.emoji.google.category.FoodAndDrinkCategory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -220,15 +224,28 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
         emojisPager = (ViewPager)view.findViewById(R.id.emojis_pager);
         emojisPager.setOnPageChangeListener(this);
         EmojiconRecents recents = this;
-        mEmojisAdapter = new EmojisPagerAdapter(Arrays.asList(new EmojiconRecentsGridView(mContext, null, null, this), new EmojiconGridView(mContext, People.DATA, recents, this), new EmojiconGridView(mContext, Nature.DATA, recents, this), new EmojiconGridView(mContext, Objects.DATA, recents, this), new EmojiconGridView(mContext, Places.DATA, recents, this), new EmojiconGridView(mContext, Symbols.DATA, recents, this)));
+        mEmojisAdapter = new EmojisPagerAdapter(Arrays.asList(
+            new EmojiconRecentsGridView(mContext, null, null, this),
+            new EmojiconGridView(mContext, People.DATA, recents, this),
+            new EmojiconGridView(mContext, Nature.DATA, recents, this),
+            new EmojiconGridView(mContext, FoodAndDrink.DATA, recents, this),
+            new EmojiconGridView(mContext, Places.DATA, recents, this),
+            new EmojiconGridView(mContext, Activities.DATA, recents, this),
+            new EmojiconGridView(mContext, Objects.DATA, recents, this),
+            new EmojiconGridView(mContext, Symbols.DATA, recents, this),
+            new EmojiconGridView(mContext, Flags.DATA, recents, this)
+        ));
         emojisPager.setAdapter(mEmojisAdapter);
-        mEmojiTabs = new View[6];
+        mEmojiTabs = new View[9];
         mEmojiTabs[0] = view.findViewById(R.id.emojis_tab_0_recents);
         mEmojiTabs[1] = view.findViewById(R.id.emojis_tab_1_people);
         mEmojiTabs[2] = view.findViewById(R.id.emojis_tab_2_nature);
-        mEmojiTabs[3] = view.findViewById(R.id.emojis_tab_3_objects);
-        mEmojiTabs[4] = view.findViewById(R.id.emojis_tab_4_cars);
-        mEmojiTabs[5] = view.findViewById(R.id.emojis_tab_5_punctuation);
+        mEmojiTabs[3] = view.findViewById(R.id.emojis_tab_3_food_and_drink);
+        mEmojiTabs[4] = view.findViewById(R.id.emojis_tab_4_places);
+        mEmojiTabs[5] = view.findViewById(R.id.emojis_tab_5_activities);
+        mEmojiTabs[6] = view.findViewById(R.id.emojis_tab_6_objects);
+        mEmojiTabs[7] = view.findViewById(R.id.emojis_tab_7_symbols);
+        mEmojiTabs[8] = view.findViewById(R.id.emojis_tab_8_flags);
         for (int i = 0; i < mEmojiTabs.length; i++) {
             final int position = i;
             mEmojiTabs[i].setOnClickListener(new OnClickListener() {
@@ -239,7 +256,6 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
             });
         }
         view.findViewById(R.id.emojis_backspace).setOnTouchListener(new RepeatListener(1000, 50, new OnClickListener() {
-
             @Override
             public void onClick(View v) {
 	            if (onEmojiconBackspaceClickedListener != null) {
@@ -280,7 +296,6 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
         fragment.addRecentEmoji(context, emojicon);
     }
 
-
     @Override
     public void onPageScrolled(int i, float v, int i2) {
     }
@@ -297,6 +312,9 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
             case 3:
             case 4:
             case 5:
+            case 6:
+            case 7:
+            case 8:
                 if (mEmojiTabLastSelectedIndex >= 0 && mEmojiTabLastSelectedIndex < mEmojiTabs.length) {
                     mEmojiTabs[mEmojiTabLastSelectedIndex].setSelected(false);
                 }
@@ -332,7 +350,6 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
         public int getCount() {
             return views.size();
         }
-
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
@@ -426,7 +443,6 @@ public class EmojiconsPopup extends PopupWindow implements ViewPager.OnPageChang
 
     public interface OnSoftKeyboardOpenCloseListener {
         void onKeyboardOpen(int keyBoardHeight);
-
         void onKeyboardClose();
     }
 }
