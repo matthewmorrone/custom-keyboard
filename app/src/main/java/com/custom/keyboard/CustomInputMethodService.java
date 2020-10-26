@@ -807,14 +807,6 @@ public class CustomInputMethodService extends InputMethodService
         setCandidatesViewShown(false);
         requestHideSelf(0);
         kv.closing();
-
-
-    }
-
-
-    static void print(@NonNull Object... a) {
-        for (Object i : a) System.out.print(i + " ");
-        System.out.println();
     }
 
     public int getGravity() {
@@ -1096,6 +1088,10 @@ public class CustomInputMethodService extends InputMethodService
         if (toast != null) toast.cancel();
         toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
         toast.show();
+    }
+    static void print(@NonNull Object... a) {
+        for (Object i : a) System.out.print(i + " ");
+        System.out.println();
     }
 
     // BACK BUTTON - 4

@@ -22,10 +22,6 @@ import android.widget.GridView;
 import com.custom.keyboard.R;
 import com.custom.keyboard.emojicon.emoji.Emojicon;
 
-/**
- * @author Daniele Ricci
- * @author Ankush Sachdeva (sankush@yahoo.co.in)
- */
 public class EmojiconRecentsGridView extends EmojiconGridView implements EmojiconRecents {
     EmojiAdapter mAdapter;
 

@@ -20,9 +20,6 @@ import android.content.Context;
 
 import com.custom.keyboard.emojicon.emoji.Emojicon;
 
-/**
- * @author Daniele Ricci
- */
 public interface EmojiconRecents {
     public void addRecentEmoji(Context context, Emojicon emojicon);
 }

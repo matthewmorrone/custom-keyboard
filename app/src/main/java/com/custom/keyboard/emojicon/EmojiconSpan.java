@@ -19,10 +19,6 @@ package com.custom.keyboard.emojicon;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
-
-/**
- * @author Hieu Rocker (rockerhieu@gmail.com)
- */
 class EmojiconSpan extends DynamicDrawableSpan {
     private final Context mContext;
     private final int mResourceId;
