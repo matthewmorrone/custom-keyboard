@@ -779,7 +779,7 @@ public class CustomInputMethodService extends InputMethodService
             playClick(32);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        setCandidatesViewShown(false);
+        // setCandidatesViewShown(false);
     }
 
     public void hide() {
@@ -1341,7 +1341,7 @@ public class CustomInputMethodService extends InputMethodService
             Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
             code = Character.toUpperCase(code);
         }
-        commitText(String.valueOf(code), 1);
+        commitText(String.valueOf(code), 0);
 
         firstCaps = false;
         setCapsOn(false);
@@ -1911,11 +1911,11 @@ public class CustomInputMethodService extends InputMethodService
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -170:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.toggleJavaComment(getText(ic)));
+                performReplace(Util.toggleHtmlComment(getText(ic)));
             break;
             case -171:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.toggleHtmlComment(getText(ic)));
+                performReplace(Util.toggleJavaComment(getText(ic)));
             break;
             case -172:
                 if (!isSelecting()) selectLine();
@@ -1969,13 +1969,13 @@ public class CustomInputMethodService extends InputMethodService
             popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
                 public void onKeyboardOpen(int keyboardHeight) {
-                    setCandidatesViewShown(false);
+
                 }
 
                 @Override
                 public void onKeyboardClose() {
                     if (popupWindow.isShowing()) popupWindow.dismiss();
-                    sharedPreferences.edit().putBoolean("pred", wasCandOn).apply();
+                    // sharedPreferences.edit().putBoolean("pred", wasCandOn).apply();
                 }
             });
             popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
