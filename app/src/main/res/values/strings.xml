@@ -76,4 +76,8 @@
     <string name="popup_9"></string>
     <string name="popup_0"></string>
     <string name="custom_keys">AEIORUWYÆŒ</string>
+    <string name="close">❌</string>
+    <string name="find">find…</string>
+    <string name="replace">replace…</string>
+    <string name="go">🔍</string>
 </resources>

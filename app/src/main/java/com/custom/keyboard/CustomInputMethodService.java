@@ -13,7 +13,6 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.*;
@@ -26,21 +25,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
+import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import android.view.WindowManager.LayoutParams;
-
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.custom.keyboard.emojicon.EmojiconGridView;
 import com.custom.keyboard.emojicon.EmojiconsPopup;
@@ -54,12 +53,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 
 public class CustomInputMethodService extends InputMethodService
@@ -102,8 +96,8 @@ public class CustomInputMethodService extends InputMethodService
 
     boolean debug = false;
 
-    private EmojiconsPopup popupWindow = null;
-
+    private PopupWindow popupWindow = null;
+    private EmojiconsPopup emojiconsPopup = null;
 
     @Override
     public void onCreate() {
@@ -135,20 +129,6 @@ public class CustomInputMethodService extends InputMethodService
         kv.setOnKeyboardActionListener(this);
         kv.setKeyboard(standardKeyboard);
         return kv;
-    }
-
-    public View displayFindMenu() {
-        LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View wordbar = li.inflate(R.layout.wordbar, null);
-        LinearLayout ll = (LinearLayout)wordbar.findViewById(R.id.wordsLayout);
-        Button btn = (Button)wordbar.findViewById(R.id.button1);
-        // btn.setOnClickListener(this);
-        mCandidateView = new CandidateView(this);
-        mCandidateView.setService(this);
-        setCandidatesViewShown(true);
-        mCandidateView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-        ll.addView(mCandidateView);
-        return wordbar;
     }
 
     @Override
@@ -305,7 +285,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getAllText(@NonNull InputConnection ic) {
-        return ic.getTextBeforeCursor(MAX, 0).toString() + ic.getTextAfterCursor(MAX, 0).toString();
+        return Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString() + Util.orNull(ic.getTextAfterCursor(MAX, 0), "").toString();
     }
 
     public void sendCustomKey(String key) {
@@ -578,7 +558,6 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
-        System.out.println(getCurrentWord());
         updateCandidates(getCurrentWord());
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
@@ -1954,6 +1933,74 @@ public class CustomInputMethodService extends InputMethodService
 
     }
 
+    public void displayFindMenu() {
+        InputConnection ic = getCurrentInputConnection();
+        String val = Util.orNull(String.valueOf(ic.getTextBeforeCursor(MAX, 0)), "")+Util.orNull(String.valueOf(ic.getTextAfterCursor(MAX, 0)), "");
+
+
+        EditorInfo ei = this.getCurrentInputEditorInfo();
+        InputBinding ib = this.getCurrentInputBinding();
+        int fieldId = ei.fieldId;
+        int pid = ib.getPid();
+        int uid = ib.getUid();
+        toastIt(val+" "+fieldId+" "+pid+" "+uid);
+
+        LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (li != null) {
+            View wordbar = li.inflate(R.layout.wordbar, null);
+            ConstraintLayout ll = (ConstraintLayout)wordbar.findViewById(R.id.wordsLayout);
+            EditText findEditText = (EditText)wordbar.findViewById(R.id.find);
+            EditText replEditText = (EditText)wordbar.findViewById(R.id.repl);
+            TextView go = (TextView)wordbar.findViewById(R.id.go);
+            TextView close = (TextView)wordbar.findViewById(R.id.close);
+
+            popupWindow = new PopupWindow(wordbar, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.black));
+            popupWindow.showAtLocation(kv.getRootView(), Gravity.TOP, 0, getKey(32).height);
+
+
+
+            // popupWindow.setFocusable();
+
+            go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String subject = val;
+                    String find = findEditText.getText().toString();
+                    String repl = replEditText.getText().toString();
+                    String result = subject.replace(find, repl);
+                    toastIt(result);
+                    ic.commitText(result, 0);
+
+
+                    // toastIt(find.getText()+" → "+repl.getText()+" "+ic.getSelectedText(0));
+                    // if (getSelectionLength() == 0) {
+                    //     selectAll();
+                    // }
+                    // clearAll();
+                    // commitText(getText(ic).replace(find.getText(), repl.getText()));
+                    // toastIt(getText(ic).replace(find.getText(), repl.getText()));
+                    // performReplace(getText(ic).replace(find.getText(), repl.getText()));
+                }
+            });
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (popupWindow.isShowing()) popupWindow.dismiss();
+                }
+            });
+
+            // btn.setOnClickListener(this);
+
+            // ll.addView(mCandidateView);
+
+            // mCandidateView = new CandidateView(this);
+            // mCandidateView.setService(this);
+            // setCandidatesViewShown(true);
+            // mCandidateView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        }
+    }
+
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -1963,21 +2010,21 @@ public class CustomInputMethodService extends InputMethodService
 
             boolean wasCandOn = sharedPreferences.getBoolean("pred", false);
 
-            popupWindow = new EmojiconsPopup(popupView, this);
-            popupWindow.setSizeForSoftKeyboard();
+            emojiconsPopup = new EmojiconsPopup(popupView, this);
+            emojiconsPopup.setSizeForSoftKeyboard();
 
-            popupWindow.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.setHeight(kv.getHeight());
-            popupWindow.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+            emojiconsPopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            emojiconsPopup.setHeight(kv.getHeight());
+            emojiconsPopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
 
-            popupWindow.rootView.setHorizontalFadingEdgeEnabled(true);
-            popupWindow.rootView.setHorizontalScrollBarEnabled(false);
-            popupWindow.rootView.setVerticalScrollBarEnabled(false);
+            emojiconsPopup.rootView.setHorizontalFadingEdgeEnabled(true);
+            emojiconsPopup.rootView.setHorizontalScrollBarEnabled(false);
+            emojiconsPopup.rootView.setVerticalScrollBarEnabled(false);
 
             sharedPreferences.edit().putBoolean("pred", false).apply();
 
             // If the text keyboard closes, also dismiss the emoji popup
-            popupWindow.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+            emojiconsPopup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
                 public void onKeyboardOpen(int keyboardHeight) {
 
@@ -1985,20 +2032,19 @@ public class CustomInputMethodService extends InputMethodService
 
                 @Override
                 public void onKeyboardClose() {
-                    if (popupWindow.isShowing()) popupWindow.dismiss();
-                    // sharedPreferences.edit().putBoolean("pred", wasCandOn).apply();
+                    if (emojiconsPopup.isShowing()) emojiconsPopup.dismiss();
                 }
             });
-            popupWindow.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+            emojiconsPopup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
                 @Override
                 public void onEmojiconClicked(Emojicon emojicon) {
                     commitText(emojicon.getEmoji());
                 }
             });
-            popupWindow.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+            emojiconsPopup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
                 @Override
                 public void onEmojiconBackspaceClicked(View v) {
-                    KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                    // KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
                     handleBackspace();
                 }
             });
@@ -2006,7 +2052,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void closeEmoticons() {
-        if (popupWindow != null) popupWindow.dismiss();
+        if (emojiconsPopup != null) emojiconsPopup.dismiss();
     }
 
     public short getRowNumber() {
