@@ -16,6 +16,7 @@
 
 package com.custom.keyboard.emojicon;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -23,9 +24,7 @@ import android.widget.EditText;
 
 import com.custom.keyboard.R;
 
-/**
- * @author Hieu Rocker (rockerhieu@gmail.com).
- */
+@SuppressLint("AppCompatCustomView")
 public class EmojiconEditText extends EditText {
     private int mEmojiconSize;
 
@@ -56,9 +55,6 @@ public class EmojiconEditText extends EditText {
         EmojiconHandler.addEmojis(getContext(), getText(), mEmojiconSize);
     }
 
-    /**
-     * Set the size of emojicon in pixels.
-     */
     public void setEmojiconSize(int pixels) {
         mEmojiconSize = pixels;
     }

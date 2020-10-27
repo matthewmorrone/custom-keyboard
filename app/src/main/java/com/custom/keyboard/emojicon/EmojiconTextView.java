@@ -25,9 +25,6 @@ import android.widget.TextView;
 
 import com.custom.keyboard.R;
 
-/**
- * @author Hieu Rocker (rockerhieu@gmail.com).
- */
 @SuppressLint("AppCompatCustomView")
 public class EmojiconTextView extends TextView {
     private int mEmojiconSize;
@@ -70,9 +67,6 @@ public class EmojiconTextView extends TextView {
         super.setText(builder, type);
     }
 
-    /**
-     * Set the size of emojicon in pixels.
-     */
     public void setEmojiconSize(int pixels) {
         mEmojiconSize = pixels;
     }

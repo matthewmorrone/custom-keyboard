@@ -29,9 +29,6 @@ import com.custom.keyboard.emojicon.emoji.Emojicon;
 
 import java.util.List;
 
-/**
- * @author Ankush Sachdeva (sankush@yahoo.co.in)
- */
 class EmojiAdapter extends ArrayAdapter<Emojicon> {
     OnEmojiconClickedListener emojiClickListener;
 

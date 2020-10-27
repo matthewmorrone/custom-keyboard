@@ -32,7 +32,9 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -135,21 +137,31 @@ public class CustomInputMethodService extends InputMethodService
         return kv;
     }
 
+    public View displayFindMenu() {
+        LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View wordbar = li.inflate(R.layout.wordbar, null);
+        LinearLayout ll = (LinearLayout)wordbar.findViewById(R.id.wordsLayout);
+        Button btn = (Button)wordbar.findViewById(R.id.button1);
+        // btn.setOnClickListener(this);
+        mCandidateView = new CandidateView(this);
+        mCandidateView.setService(this);
+        setCandidatesViewShown(true);
+        mCandidateView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        ll.addView(mCandidateView);
+        return wordbar;
+    }
+
     @Override
     public View onCreateCandidatesView() {
-        // System.out.println("onCreateCandidatesView");
-
-        //
-        // setTheme();
-        // Paint mPaint = new Paint();
-        //
-        // mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
-
+        setTheme();
+        Paint mPaint = new Paint();
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         if (mCandidateView == null) {
             mCandidateView = new CandidateView(this);
             mCandidateView.setService(this);
         }
         return mCandidateView;
+        // return displayFindMenu();
     }
 
     // @Override
@@ -1866,7 +1878,7 @@ public class CustomInputMethodService extends InputMethodService
             case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
             case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
             case -101: setKeyboard(R.layout.primary); break;
-            case -102: setKeyboard(R.layout.function); break;
+            case -102: setKeyboard(R.layout.menu); break;
             case -103: setKeyboard(R.layout.macros); break;
             case -133: setKeyboard(R.layout.hex); break;
             case -134: setKeyboard(R.layout.numeric); break;
@@ -1883,7 +1895,7 @@ public class CustomInputMethodService extends InputMethodService
                     kv.setKeyboard(customKeyboard);
                 }
                 break;
-            case -142: break;
+            case -142: setKeyboard(R.layout.function); break;
             case -143: setKeyboard(R.layout.calc, "Calculator"); break;
             case -144: setKeyboard(R.layout.clipboard); break;
             case -145: Variables.toggleBoldSerif(); break;
@@ -1920,6 +1932,9 @@ public class CustomInputMethodService extends InputMethodService
             case -172:
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleLineComment(getText(ic)));
+            break;
+            case -173:
+                displayFindMenu();
             break;
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
