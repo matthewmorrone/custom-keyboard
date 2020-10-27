@@ -23,11 +23,6 @@ import com.custom.keyboard.emojicon.emoji.Emojicon;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-
-/**
- * @author Daniele Ricci
- */
 public class EmojiconRecentsManager extends ArrayList<Emojicon> {
 
     private static final String PREFERENCE_NAME = "emojicon";
