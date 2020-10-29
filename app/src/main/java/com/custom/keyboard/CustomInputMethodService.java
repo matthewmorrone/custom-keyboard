@@ -2,13 +2,16 @@ package com.custom.keyboard;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -19,36 +22,45 @@ import android.preference.*;
 import android.provider.Settings;
 import android.provider.UserDictionary;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+
+
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputConnectionWrapper;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.custom.keyboard.emojicon.EmojiconGridView;
-import com.custom.keyboard.emojicon.EmojiconsPopup;
-import com.custom.keyboard.emojicon.emoji.Emojicon;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +109,8 @@ public class CustomInputMethodService extends InputMethodService
     boolean debug = false;
 
     private PopupWindow popupWindow = null;
-    private EmojiconsPopup emojiconsPopup = null;
+    // private EmojiconsPopup emojiconsPopup = null;
+
 
     @Override
     public void onCreate() {
@@ -218,12 +231,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    public boolean isKeyboardVisible() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        System.out.println(imm.isAcceptingText()+" "+imm.isActive());
-        return imm.isAcceptingText();
-    }
-
     @Override
     public void onWindowShown() {
         super.onWindowShown();
@@ -232,8 +239,26 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onWindowHidden() {
         super.onWindowHidden();
-        setCandidatesViewShown(false);
+        // netCandidatesViewShown(false);
     }
+
+    public boolean isKeyboardVisible() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isAcceptingText();
+    }
+
+    // @Override
+    // public void onWindowShown() {
+    //     super.onWindowShown();
+    // }
+    //
+    // @Override
+    // public void onWindowHidden() {
+    //     super.onWindowHidden();
+    //     setCandidatesViewShown(false);
+    // }
+
+
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, maxX = 0, maxY = 0;
@@ -1203,7 +1228,7 @@ public class CustomInputMethodService extends InputMethodService
 
     private void handleDelete() {
         InputConnection ic = getCurrentInputConnection();
-        final int length = getPrevWord().length();
+        final int length = getSelectionLength();
 
         if (sharedPreferences.getBoolean("pairs", false)
             && ic.getTextAfterCursor(1, 0) != null
@@ -1225,23 +1250,21 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isCtrl()) {getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON));}
         }
         else if (length > 0) {
-            ic.deleteSurroundingText(0, Character.isSurrogate(ic.getTextAfterCursor(1, 0).charAt(0)) ? 2 : 1);
-        }
-        else if (length == 0) {
             getCurrentInputConnection().commitText("", 0);
         }
-/*
+        else if (length == 0) {
+            ic.deleteSurroundingText(0, Character.isSurrogate(ic.getTextAfterCursor(1, 0).charAt(0)) ? 2 : 1);
+        }
         else {
             sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
         }
-*/
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
     }
 
     private void handleBackspace() {
         InputConnection ic = getCurrentInputConnection();
-        final int length = getPrevWord().length();
+        final int length = getSelectionLength();
 
         if (sharedPreferences.getBoolean("pairs", false)
             && ic.getTextBeforeCursor(1, 0) != null
@@ -1262,17 +1285,15 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
             if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
-        else if (length > 0) {
+        else if (length == 0) {
             ic.deleteSurroundingText(Character.isSurrogate(ic.getTextBeforeCursor(1, 0).charAt(0)) ? 2 : 1, 0);
         }
-        else if (length == 0) {
+        else if (length > 0) {
             getCurrentInputConnection().commitText("", 0);
         }
-/*
         else {
             sendKey(KeyEvent.KEYCODE_DEL);
         }
-*/
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
     }
@@ -1344,7 +1365,6 @@ public class CustomInputMethodService extends InputMethodService
 */
         ic.endBatchEdit();
     }
-
 
     public void clipboardToBuffer(String text) {
         if (debug) System.out.println(text);
@@ -1532,12 +1552,12 @@ public class CustomInputMethodService extends InputMethodService
     }
     public void handleCut() {
         if (!isSelecting()) selectLine();
-        saveToClipboardHistory();
+        // saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_CUT);
     }
     public void handleCopy() {
         if (!isSelecting()) selectLine();
-        saveToClipboardHistory();
+        // saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_COPY);
     }
     public void handlePaste() {
@@ -1710,7 +1730,7 @@ public class CustomInputMethodService extends InputMethodService
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            case -27: showEmoticons(); break;
+            // case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1934,53 +1954,72 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void displayFindMenu() {
-        InputConnection ic = getCurrentInputConnection();
-        String val = Util.orNull(String.valueOf(ic.getTextBeforeCursor(MAX, 0)), "")+Util.orNull(String.valueOf(ic.getTextAfterCursor(MAX, 0)), "");
+        final InputConnection ic = getCurrentInputConnection();
+        final CustomInputConnection cic = new CustomInputConnection(ic, false);
+        // if (getSelectionLength() == 0) selectAll();
 
-
-        EditorInfo ei = this.getCurrentInputEditorInfo();
-        InputBinding ib = this.getCurrentInputBinding();
-        int fieldId = ei.fieldId;
-        int pid = ib.getPid();
-        int uid = ib.getUid();
-        toastIt(val+" "+fieldId+" "+pid+" "+uid);
+        String val = "";
+        if (getSelectionLength() == 0) {
+            val = Util.orNull(String.valueOf(ic.getTextBeforeCursor(MAX, 0)), "")
+                + Util.orNull(String.valueOf(ic.getTextAfterCursor(MAX, 0)), "");
+        }
+        else {
+            val = (String)ic.getSelectedText(0);
+        }
 
         LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (li != null) {
+
             View wordbar = li.inflate(R.layout.wordbar, null);
+
+
             ConstraintLayout ll = (ConstraintLayout)wordbar.findViewById(R.id.wordsLayout);
-            EditText findEditText = (EditText)wordbar.findViewById(R.id.find);
-            EditText replEditText = (EditText)wordbar.findViewById(R.id.repl);
-            TextView go = (TextView)wordbar.findViewById(R.id.go);
-            TextView close = (TextView)wordbar.findViewById(R.id.close);
+            final EditText findEditText = (EditText)wordbar.findViewById(R.id.find);
+            final EditText replEditText = (EditText)wordbar.findViewById(R.id.repl);
+            final TextView go = (TextView)wordbar.findViewById(R.id.go);
+            final TextView close = (TextView)wordbar.findViewById(R.id.close);
 
             popupWindow = new PopupWindow(wordbar, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
             popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.black));
-            popupWindow.showAtLocation(kv.getRootView(), Gravity.TOP, 0, getKey(32).height);
+            // popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+            // popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            // popupWindow.setFocusable(true);
+            // popupWindow.setTouchable(true);
+            // popupWindow.setOutsideTouchable(false);
 
+            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
 
+                }
+            });
+            // popupWindow.showAsDropDown(kv);
+            popupWindow.showAtLocation(kv.getRootView(), Gravity.TOP, 0, -getKey(32).height);
 
-            // popupWindow.setFocusable();
-
+            final String finalVal = val;
             go.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String subject = val;
+
+                    // System.out.println("TextView: "+view);
+                    // System.out.println("ConstraintLayout: "+view.getParent());
+                    // System.out.println("PopupWindow: "+view.getParent().getParent());
+                    // System.out.println("ViewRootImpl: "+view.getParent().getParent().getParent().;
+
+                    String subject = finalVal;
                     String find = findEditText.getText().toString();
                     String repl = replEditText.getText().toString();
                     String result = subject.replace(find, repl);
-                    toastIt(result);
-                    ic.commitText(result, 0);
 
+                    performReplace(result);
+                    cic.commitText(result, 0); // performReplace(result);
+                    cic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, EditorInfo.IME_ACTION_SEND, 0, 0));
 
-                    // toastIt(find.getText()+" → "+repl.getText()+" "+ic.getSelectedText(0));
-                    // if (getSelectionLength() == 0) {
-                    //     selectAll();
-                    // }
-                    // clearAll();
-                    // commitText(getText(ic).replace(find.getText(), repl.getText()));
-                    // toastIt(getText(ic).replace(find.getText(), repl.getText()));
-                    // performReplace(getText(ic).replace(find.getText(), repl.getText()));
+                    HashMap<String, String> cursorData = new HashMap<>();
+                    cursorData.put("oldText", subject);
+                    cursorData.put("newText", result);
+                    sendMessageToActivity("FindReplace", cursorData);
+
                 }
             });
             close.setOnClickListener(new View.OnClickListener() {
@@ -1990,16 +2029,18 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
 
-            // btn.setOnClickListener(this);
-
-            // ll.addView(mCandidateView);
-
-            // mCandidateView = new CandidateView(this);
-            // mCandidateView.setService(this);
-            // setCandidatesViewShown(true);
-            // mCandidateView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
         }
     }
+
+    private void sendMessageToActivity(String destination, HashMap<String, String> data) {
+        Intent intent = new Intent(destination);
+        for (Map.Entry<String,String> datum : data.entrySet()) {
+            intent.putExtra(datum.getKey(), datum.getValue()); // data.getOrDefault("", "")
+        }
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
+
+    /*
 
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -2054,6 +2095,10 @@ public class CustomInputMethodService extends InputMethodService
     public void closeEmoticons() {
         if (emojiconsPopup != null) emojiconsPopup.dismiss();
     }
+
+
+    */
+
 
     public short getRowNumber() {
         return rowNumber;

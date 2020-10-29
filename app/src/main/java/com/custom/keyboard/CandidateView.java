@@ -123,14 +123,12 @@ public class CandidateView extends View {
         mService = listener;
     }
 
-
-
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        System.out.println("onDetachedFromWindow");
-        this.setVisibility(View.GONE);
-    }
+    // @Override
+    // public void onDetachedFromWindow() {
+    //     super.onDetachedFromWindow();
+    //     System.out.println("onDetachedFromWindow");
+    //     this.setVisibility(View.GONE);
+    // }
 
 
     @Override

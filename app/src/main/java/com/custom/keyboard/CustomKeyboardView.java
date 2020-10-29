@@ -199,9 +199,9 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.codes[0] ==  -73)   key.label = Util.timemoji();
 
+/*
             HashSet<String> clipboardHistory = new HashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
             List<String> clipboardHistoryList = new ArrayList<>(clipboardHistory);
-
 
             if (key.codes[0] == -301 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get(1);
             if (key.codes[0] == -302 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get(2);
@@ -219,7 +219,7 @@ public class CustomKeyboardView extends KeyboardView {
             if (key.codes[0] == -314 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
             if (key.codes[0] == -315 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
             if (key.codes[0] == -316 && clipboardHistoryList.size() > 16) key.label = clipboardHistoryList.get(16);
-
+*/
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");

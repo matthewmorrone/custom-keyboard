@@ -278,6 +278,11 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
                */
 
     }
+/*
+    public String getCharType(byte ch)} {
+        return "";
+    }
+*/
     public static String getCharType(byte ch) {
         switch (ch) {
             case 8:      return "Mc";
