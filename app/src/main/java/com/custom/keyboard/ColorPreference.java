@@ -42,7 +42,7 @@ public class ColorPreference extends DialogPreference {
         attribute = attrs.getAttributeValue(1);
 
         // set the layout so we can see the preview color
-        setWidgetLayoutResource(R.layout.prefcolor);
+        setWidgetLayoutResource(R.layout.pref_color);
 
         // figure out what the current color is
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -68,7 +68,7 @@ public class ColorPreference extends DialogPreference {
 
         // setup the view
         LayoutInflater factory = LayoutInflater.from(getContext());
-        final View colorView = factory.inflate(R.layout.colorchooser, null);
+        final View colorView = factory.inflate(R.layout.color_chooser, null);
 
         // set the background to the current color
         final View myView = colorView.findViewById(R.id.currentcolor);
@@ -103,7 +103,7 @@ public class ColorPreference extends DialogPreference {
 
         // setup the view
         LayoutInflater factory = LayoutInflater.from(getContext());
-        final View colorView = factory.inflate(R.layout.colorchooser, null);
+        final View colorView = factory.inflate(R.layout.color_chooser, null);
         final ImageView colormap = colorView.findViewById(R.id.colormap);
 
         // set the background to the current color

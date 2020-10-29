@@ -17,41 +17,48 @@ import java.util.ArrayList;
 
 public class CandidateView extends View {
 
-    private static final int OUT_OF_BOUNDS = -1;
+    private static int OUT_OF_BOUNDS = -1;
 
     private CustomInputMethodService mService;
     private ArrayList<String> mSuggestions;
     private int mSelectedIndex;
     private int mTouchX = OUT_OF_BOUNDS;
-    private final Drawable mSelectionHighlight;
+    private Drawable mSelectionHighlight;
     private boolean mTypedWordValid;
 
     private Rect mBgPadding;
 
-    private static final int MAX_SUGGESTIONS = 32;
-    private static final int SCROLL_PIXELS = 20;
+    private static int MAX_SUGGESTIONS = 32;
+    private static int SCROLL_PIXELS = 20;
 
-    private final int[] mWordWidth = new int[MAX_SUGGESTIONS];
-    private final int[] mWordX = new int[MAX_SUGGESTIONS];
+    private int[] mWordWidth = new int[MAX_SUGGESTIONS];
+    private int[] mWordX = new int[MAX_SUGGESTIONS];
 
-    private static final int X_GAP = 60;
+    private static int X_GAP = 60;
 
-    private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
+    private static ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
-    private final int mColorNormal;
-    private final int mColorRecommended;
-    private final int mColorOther;
-    private final int mVerticalPadding;
-    private final Paint mPaint;
+    private int mColorNormal;
+    private int mColorRecommended;
+    private int mColorOther;
+    private int mVerticalPadding;
+    private Paint mPaint;
     private boolean mScrolled;
     private int mTargetScrollX;
 
     private int mTotalWidth;
 
-    private final GestureDetector mGestureDetector;
+    private GestureDetector mGestureDetector;
 
     public CandidateView(Context context) {
         super(context);
+
+        // if (!mService.isKeyboardVisible() && this.getVisibility() == VISIBLE) {
+        //     System.out.println(mService.isKeyboardVisible());
+        //     System.out.println(this.getVisibility());
+        //     this.setVisibility(GONE);
+        // }
+
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
         mSelectionHighlight.setState(new int[] {
             android.R.attr.state_enabled,
@@ -67,9 +74,7 @@ public class CandidateView extends View {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
-        this.setAlpha(transparency); 
-
-        // this.setBackgroundColor(r.getColor(R.color.black));
+        this.setAlpha(transparency);
 
         int background = sharedPreferences.getInt("bgcolor", Color.BLACK);
         int foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
@@ -111,9 +116,20 @@ public class CandidateView extends View {
         this.setVerticalScrollBarEnabled(false);
     }
 
+    public CustomInputMethodService getService() {
+        return mService;
+    }
     public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
+
+    // @Override
+    // public void onDetachedFromWindow() {
+    //     super.onDetachedFromWindow();
+    //     System.out.println("onDetachedFromWindow");
+    //     this.setVisibility(View.GONE);
+    // }
+
 
     @Override
     public int computeHorizontalScrollRange() {
@@ -137,7 +153,13 @@ public class CandidateView extends View {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
+
         if (canvas != null) {
             super.onDraw(canvas);
         }

@@ -1,7 +1,10 @@
 package com.custom.keyboard;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -9,14 +12,34 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class Main extends Activity {
+
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activate);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        editText = findViewById(R.id.editText);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
     }
+
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // @TODO: implement ability to limit to selected text
+            String oldText = intent.getStringExtra("oldText");
+            String newText = intent.getStringExtra("newText");
+            editText.setText(newText);
+        }
+    };
 
     public void settings(View v) {
         Intent intent = new Intent(this, Preference.class);

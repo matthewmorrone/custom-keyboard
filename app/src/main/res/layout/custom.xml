@@ -1,7 +1,7 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:keyWidth="10%p">
+          android:keyWidth="10%p"
           android:keyHeight="7%p">
     <Row>
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:horizontalGap="80%p" />
