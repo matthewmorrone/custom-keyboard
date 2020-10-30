@@ -1365,11 +1365,11 @@ public class CustomInputMethodService extends InputMethodService
     }
     static String calcBuffer = "";
     int[] calcPasses = new int[] {
-        -22, -101, 32, 10
+        -101, -22, -12, 32, 10,  
     };
     int[] calcCaptures = new int[] {
         -200, -201, -202, -203, -204, -205
-        -5, -7, -8, -9, -10, -11, -12,
+        -5, -7, -8, -9, -10, -11, 
         37, 43, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 61, 94, 215, 247,
     };
     int[] calcOperators = new int[] {
@@ -1386,27 +1386,28 @@ public class CustomInputMethodService extends InputMethodService
             case -200: commitText(calcBuffer); break;
             case -5: if (calcBuffer.length() > 0) calcBuffer = calcBuffer.substring(0, calcBuffer.length()-1); break;
             case 61:
-
+                String sanitized = Util.sanitize(calcBuffer);
+                String scriptResult = "";
+                String parserResult = "";
                 try {
-                    String sanitized = Util.sanitize(calcBuffer);
-                    String scriptResult = Util.evalScript(sanitized);
-                    String parserResult = String.valueOf(Util.evalParser(sanitized));
-                    // text = text.replaceAll("\\^", "**");
-                    // text = text.replaceAll("\\*\\*", "^");
-                    System.out.println(calcBuffer);
-                    System.out.println(sanitized);
-                    System.out.println(scriptResult);
-                    System.out.println(parserResult);
-
-                    if (!sanitized.equals(scriptResult) && sanitized.indexOf("^") == -1) {
-                        calcBuffer = scriptResult;
-                    }
-                    else {
-                        calcBuffer = parserResult;
-                    }
+                    scriptResult = Util.evalScript(sanitized);
                 }
                 catch (Exception e) {
+                    toastIt(scriptResult+"\n"+e);
                     e.printStackTrace();
+                }
+                try {
+                    parserResult = String.valueOf(Util.evalParser(sanitized));
+                }
+                catch (Exception e) {
+                    toastIt(parserResult+"\n"+e);
+                    e.printStackTrace();
+                }
+                if (!sanitized.equals(scriptResult) && sanitized.indexOf("^") == -1) {
+                    calcBuffer = scriptResult;
+                }
+                else {
+                    calcBuffer = parserResult;
                 }
 
                 break;
