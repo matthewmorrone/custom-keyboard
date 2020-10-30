@@ -24,23 +24,22 @@
     </Row>
     <Row android:keyWidth="25%p">
         <Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />
+        <Key android:codes="-174" android:keyIcon="@drawable/ic_coding" />
         <Key android:codes="-135" android:keyIcon="@drawable/ic_nav" />
         <Key android:codes="-137" android:keyIcon="@drawable/ic_schwa" />
-        <Key android:codes="-136" android:keyIcon="@drawable/ic_font" />
     </Row>
     <Row android:keyWidth="25%p">
+        <Key android:codes="-136" android:keyIcon="@drawable/ic_font" />
         <Key android:codes="-138" android:keyIcon="@drawable/ic_punctuation" />
         <Key android:codes="-140" android:keyIcon="@drawable/ic_accent" />
         <Key android:codes="-144" android:keyIcon="@drawable/ic_clipboard" />
-        <Key android:codes="-142" android:keyIcon="@drawable/ic_function" />
     </Row>
     <Row android:keyWidth="25%p">
+        <Key android:codes="-142" android:keyIcon="@drawable/ic_function" />
         <Key android:codes="-173" android:keyIcon="@drawable/ic_find" />
         <Key android:codes="-27"  android:keyIcon="@drawable/ic_emoji" />
-
-
-        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:horizontalGap="30%p"/>
-        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete" android:keyWidth="10%p" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="12.5%p" />
+        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="12.5%p" />
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="12.5%p" />

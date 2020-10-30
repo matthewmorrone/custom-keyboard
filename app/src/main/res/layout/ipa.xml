@@ -34,8 +34,8 @@
     <Row>
         <Key android:codes="9676" android:keyLabel="◌" android:popupCharacters="→" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="47"   android:keyLabel="/" android:popupCharacters="()[]{}" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="720"  android:keyLabel="ː" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="721"  android:keyLabel="ˑ" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="720"  android:keyLabel="ː" android:popupCharacters="ˑ" android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="778"  android:keyLabel="̊" android:popupCharacters="̥̪̺͓͆" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="-93"  android:keyIcon="@drawable/ic_info" />
         <Key android:codes="741"  android:keyLabel="˥" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="742"  android:keyLabel="˦" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />

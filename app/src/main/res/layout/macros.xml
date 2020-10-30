@@ -28,28 +28,23 @@
         <Key android:codes="-507" android:keyLabel="@string/k7_label" />
         <Key android:codes="-508" android:keyLabel="@string/k8_label" />
     </Row>
-    <Row android:keyWidth="10%p">
-        <Key android:codes="-168" android:keyIcon="@drawable/ic_format_unindent" />
-        <Key android:codes="-169" android:keyIcon="@drawable/ic_format_indent" />
-        <Key android:codes="-170" android:keyLabel="&lt;\!--" />
-        <Key android:codes="-171" android:keyLabel="/*" />
-        <Key android:codes="-172" android:keyLabel="//" />
+    <Row android:keyWidth="11.11%p">
         <Key android:codes="-509" android:keyIcon="@drawable/ic_name" />
         <Key android:codes="-510" android:keyIcon="@drawable/ic_email" />
         <Key android:codes="-511" android:keyIcon="@drawable/ic_phone" />
         <Key android:codes="-512" android:keyIcon="@drawable/ic_address" />
         <Key android:codes="-513" android:keyIcon="@drawable/ic_password" />
+        <Key android:keyOutputText="https://"    android:keyLabel="https" />
+        <Key android:keyOutputText="www."        android:keyLabel="www." />
+        <Key android:keyOutputText="\@gmail"     android:keyLabel="\@gmail" />
+        <Key android:keyOutputText=".com"        android:keyLabel=".com" />
     </Row>
-    <Row android:keyWidth="8.88%p">
+    <Row android:keyWidth="10%p">
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-73"  android:keyLabel="🕐" />
         <Key android:keyOutputText="¯\\_(ツ)_/¯"  android:keyLabel="ツ" />
         <Key android:keyOutputText="ಠ_ಠ"         android:keyLabel="ಠ_ಠ" />
-        <Key android:keyOutputText="https://"    android:keyLabel="https" />
-        <Key android:keyOutputText="www."        android:keyLabel="www." />
-        <Key android:keyOutputText="\@gmail"     android:keyLabel="\@gmail" />
-        <Key android:keyOutputText=".com"        android:keyLabel=".com" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" />
     </Row>
