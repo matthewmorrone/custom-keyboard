@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.webkit.URLUtil;
 
 import java.lang.reflect.Field;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1529,5 +1531,47 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         int a = (n / m) * m; // Smaller multiple
         int b = a + m;       // Larger multiple
         return (n - a > b - n)? b : a; // Return of closest of two
+    }
+    public static int pxFromDp(Context context, int dp) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (px / density);
+    }
+
+    private static int dpFromPx(Context context, int px) {
+        float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context.getResources().getDisplayMetrics());
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dp / density);
+    }
+    public static int evalRPN(String tokens) {
+        // tokens = tokens.replace(" ", "");
+        return evalRPN(tokens.split(" "));
+    }
+    public static int evalRPN(String[] tokens) {
+        int returnValue = 0;
+        String operators = "+-*/^%&|<>";
+        Stack<String> stack = new Stack<String>();
+        for (String t : tokens) {
+            if (!operators.contains(t)) stack.push(t);
+            else {
+                int a = Integer.parseInt(stack.pop());
+                int b = Integer.parseInt(stack.pop());
+                int index = operators.indexOf(t);
+                switch(index) {
+                    case 0: stack.push(String.valueOf(a + b)); break;
+                    case 1: stack.push(String.valueOf(b - a)); break;
+                    case 2: stack.push(String.valueOf(a * b)); break;
+                    case 3: stack.push(String.valueOf(b / a)); break;
+                    case 4: stack.push(String.valueOf(Math.pow(a, b))); break;
+                    case 5: stack.push(String.valueOf(a % b)); break;
+                    case 6: stack.push(String.valueOf(a & b)); break;
+                    case 7: stack.push(String.valueOf(a | b)); break;
+                    case 8: stack.push(String.valueOf(a << b)); break;
+                    case 9: stack.push(String.valueOf(a >> b)); break;
+                }
+            }
+        }
+        returnValue = Integer.parseInt(stack.pop());
+        return returnValue;
     }
 }

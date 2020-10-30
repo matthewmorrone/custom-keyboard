@@ -45,6 +45,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mariuszgromada.math.mxparser.Constant;
+import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +55,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Stack;
 import java.util.TreeMap;
 
 
@@ -1364,59 +1367,76 @@ public class CustomInputMethodService extends InputMethodService
         redraw();
     }
     static String calcBuffer = "";
-    int[] calcPasses = new int[] {
-        -101, -22, -12, 32, 10,  
-    };
-    int[] calcCaptures = new int[] {
-        -200, -201, -202, -203, -204, -205
-        -5, -7, -8, -9, -10, -11, 
-        37, 43, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 61, 94, 215, 247,
-    };
-    int[] calcOperators = new int[] {
-        43, 45, 215, 37, 247, 94
-    };
+    Stack<String> calcBufferHistory = new Stack<String>();
+    int[] calcPasses = new int[] {-101, -22, -12, 10,};
+    int[] calcCaptures = new int[] {-200, -201, -202, -203, -204, -205, -206, -207, -208, -209,
+                                    -5, -7, -8, -9, -10, -11, 32, 37, 43, 45, 46, 48, 49, 50, 51,
+                                    52, 53, 54, 55, 56, 57, 61, 94, 215, 247,};
+    int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94};
     private void handleCalc(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
+        String sanitized = "", scriptResult = "", parserResult = "";
         switch(primaryCode) {
-            case -205: clipboardToBuffer(getText(ic)); break;
-            case -204: calcBuffer += "tan"; break;
-            case -203: calcBuffer += "cos"; break;
-            case -202: calcBuffer += "sin"; break;
-            case -201: calcBuffer = ""; break;
             case -200: commitText(calcBuffer); break;
-            case -5: if (calcBuffer.length() > 0) calcBuffer = calcBuffer.substring(0, calcBuffer.length()-1); break;
+            case -209:
+                calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop();
+            break;
+            case -205: clipboardToBuffer(getText(ic)); calcBufferHistory.push(calcBuffer); break;
+            case -204: calcBuffer += "tan"; calcBufferHistory.push(calcBuffer); break;
+            case -203: calcBuffer += "cos"; calcBufferHistory.push(calcBuffer); break;
+            case -202: calcBuffer += "sin"; calcBufferHistory.push(calcBuffer); break;
+            case -201: calcBuffer = ""; break;
+            case -5:
+                if (calcBuffer.length() > 0) {
+                    calcBuffer = calcBuffer.substring(0, calcBuffer.length() - 1);
+                }
+                calcBufferHistory.push(calcBuffer);
+            break;
             case 61:
-                String sanitized = Util.sanitize(calcBuffer);
-                String scriptResult = "";
-                String parserResult = "";
-                try {
-                    scriptResult = Util.evalScript(sanitized);
-                }
-                catch (Exception e) {
-                    toastIt(scriptResult+"\n"+e);
-                    e.printStackTrace();
-                }
+                sanitized = Util.sanitize(calcBuffer);
                 try {
                     parserResult = String.valueOf(Util.evalParser(sanitized));
                 }
                 catch (Exception e) {
                     toastIt(parserResult+"\n"+e);
-                    e.printStackTrace();
                 }
-                if (!sanitized.equals(scriptResult) && sanitized.indexOf("^") == -1) {
-                    calcBuffer = scriptResult;
+                calcBuffer = parserResult;
+                calcBufferHistory.push(calcBuffer);
+            break;
+            case -206:
+                sanitized = Util.sanitize(calcBuffer);
+                try {
+                    scriptResult = Util.evalScript(sanitized);
                 }
-                else {
-                    calcBuffer = parserResult;
+                catch (Exception e) {
+                    toastIt(scriptResult+"\n"+e);
                 }
-
-                break;
+                calcBuffer = scriptResult;
+                calcBufferHistory.push(calcBuffer);
+            break;
+            case -207:
+                Constant tau = new Constant("tau = 2*pi");
+                Expression e = new Expression(calcBuffer);
+                calcBuffer = String.valueOf(e.calculate());
+                calcBufferHistory.push(calcBuffer);
+            break;
+            case -208:
+                calcBuffer = String.valueOf(Util.evalRPN(calcBuffer));
+                calcBufferHistory.push(calcBuffer);
+            break;
+            case 32:
+                calcBuffer += " ";
+                calcBufferHistory.push(calcBuffer);
+            break;
             default:
                 if (Util.contains(calcOperators, primaryCode)) calcBuffer += " ";
                 calcBuffer += (char)primaryCode;
                 if (Util.contains(calcOperators, primaryCode)) calcBuffer += " ";
+                calcBufferHistory.push(calcBuffer);
             break;
         }
+        // calcBufferHistory.push(calcBuffer);
+        System.out.println(calcBufferHistory);
         getKey(-200).label = calcBuffer;
         redraw();
     }
