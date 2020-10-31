@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.fonts.Font;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -2129,8 +2128,8 @@ public class CustomInputMethodService extends InputMethodService
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    String renderable = emoticon.isRenderable() ? "✓" : "✗";
-                    toastIt(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon())+" "+renderable);
+                    // String renderable = emoticon.isRenderable() ? "✓" : "✗";
+                    toastIt(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon()));
                     commitText(emoticon.getEmoticon());
                 }
             });
