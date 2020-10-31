@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.webkit.URLUtil;
@@ -218,71 +219,32 @@ public class Util {
         }
         return map;
     }
+
     public static String unidata(String text) {
         if (text.length() < 1) return "";
-
-        if (Character.isHighSurrogate(text.charAt(0))
-        ||  Character.isLowSurrogate(text.charAt(0))) {
-            return unidata((int)text.codePointAt(0));
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i < text.length(); i++) {
+            result.append(unidata((int)text.codePointAt(i))).append("\n");
         }
+        return result.toString();
 
-        // Util.largeIntToChar(primaryCode)
-        return unidata((int)text.charAt(0));
+
+        // if (Character.isHighSurrogate(text.charAt(0))
+        // ||  Character.isLowSurrogate(text.charAt(0))) {
+        //     return unidata((int)text.codePointAt(0));
+        // }
+        //
+        // // Util.largeIntToChar(primaryCode)
+        // return unidata((int)text.charAt(0));
     }
     public static String unidata(int primaryCode) {
-        // Util.largeIntToChar(primaryCode)
-        return 
-toTitleCase(Character.getName(primaryCode))
-+"\n"+
-primaryCode
-+"\t0x"+
-padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
-        /*
-        return ""+
-            toTitleCase(Character.getName(primaryCode))+
-            "\n"+
-            primaryCode+
-            "\t0x"+padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim()+
-            ""+
-
-               ""+toTitleCase(underscoresToSpaces(Character.UnicodeBlock.of(primaryCode).toString()))+"\n"+
-               ""+toTitleCase(underscoresToSpaces(getCharacterType((byte)Character.getType(primaryCode))))+"\n"+
-               (Character.isUpperCase(primaryCode) ? "Uppercase " : "") +
-               (Character.isTitleCase(primaryCode) ? "Titlecase " : "") +
-               (Character.isLowerCase(primaryCode) ? "Lowercase " : "") +
-               "Upper: " + Character.toUpperCase(primaryCode)+", " +
-               "Title: " + Character.toTitleCase(primaryCode)+", " +
-               "Lower: " + Character.toLowerCase(primaryCode)+", " +
-               (Character.isLetter(primaryCode) ? "Letter, " : "") +
-               (Character.isDigit(primaryCode) ? "Digit, " : "") +
-               (Character.isSpaceChar(primaryCode) ? "Space Char, " : "") +
-               (Character.isWhitespace(primaryCode) ? "Whitespace, " : "") +
-               (Character.isAlphabetic(primaryCode) ? "Alphabetic, " : "") +
-               (Character.isBmpCodePoint(primaryCode) ? "Bmp Code Point, " : "") +
-               (Character.isDefined(primaryCode) ? "Defined, " : "") +
-               (Character.isIdentifierIgnorable(primaryCode) ? "Identifier Ignorable, " : "") +
-               (Character.isIdeographic(primaryCode) ? "Ideographic, " : "") +
-               (Character.isISOControl(primaryCode) ? "ISO Control, " : "") +
-               (Character.isJavaIdentifierPart(primaryCode) ? "Java Identifier Part, " : "") +
-               (Character.isJavaIdentifierStart(primaryCode) ? "Java Identifier Start, " : "") +
-               (Character.isMirrored(primaryCode) ? "Mirrored, " : "") +
-               (Character.isSupplementaryCodePoint(primaryCode) ? "Supplementary Code Point, " : "") +
-               (Character.isUnicodeIdentifierPart(primaryCode) ? "Unicode Identifier Part, " : "") +
-               (Character.isUnicodeIdentifierStart(primaryCode) ? "Unicode Identifier Start, " : "") +
-               (Character.isValidCodePoint(primaryCode) ? "ValidCodePoint, " : "") +
-               "Value " + Character.getNumericValue(primaryCode)+", " +
-               "Direction " + Character.getDirectionality(primaryCode)+""+
-
-               ""
-               ;
-               */
-
+        return toTitleCase(Util.orNull(Character.getName(primaryCode), ""))
+            +"\t"+
+            primaryCode
+            +"\t0x"+
+            padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
     }
-/*
-    public String getCharType(byte ch)} {
-        return "";
-    }
-*/
+
     public static String getCharType(byte ch) {
         switch (ch) {
             case 8:      return "Mc";
@@ -1151,7 +1113,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnbold((ch)))));
+            result.add(new String(Character.toChars(FontVariants.getUnbold((ch)))));
             i += Character.charCount(ch);
         }
         return StringUtils.join(result.toArray(new String[0]), "");
@@ -1161,7 +1123,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int ch : chars) {
-            result.add(new String(Character.toChars(Font.getBold((int)ch))));
+            result.add(new String(Character.toChars(FontVariants.getBold((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -1172,7 +1134,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnitalic((ch)))));
+            result.add(new String(Character.toChars(FontVariants.getUnitalic((ch)))));
             i += Character.charCount(ch);
         }
         return StringUtils.join(result.toArray(new String[0]), "");
@@ -1182,7 +1144,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
-            result.add(new String(Character.toChars(Font.getItalic((int)ch))));
+            result.add(new String(Character.toChars(FontVariants.getItalic((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }
@@ -1193,7 +1155,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(Font.getUnemphasized((ch)))));
+            result.add(new String(Character.toChars(FontVariants.getUnemphasized((ch)))));
             i += Character.charCount(ch);
         }
         return StringUtils.join(result.toArray(new String[0]), "");
@@ -1203,7 +1165,7 @@ padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
-            result.add(new String(Character.toChars(Font.getEmphasized((int)ch))));
+            result.add(new String(Character.toChars(FontVariants.getEmphasized((int)ch))));
         }
         return StringUtils.join(result.toArray(new String[0]), "");
     }

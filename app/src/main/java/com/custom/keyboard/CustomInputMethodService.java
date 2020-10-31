@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.fonts.Font;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -43,6 +45,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.custom.keyboard.emoticon.Emoticon;
+import com.custom.keyboard.emoticon.EmoticonGridView;
+import com.custom.keyboard.emoticon.EmoticonPopup;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mariuszgromada.math.mxparser.Constant;
@@ -100,7 +106,7 @@ public class CustomInputMethodService extends InputMethodService
     boolean debug = false;
 
     private PopupWindow popupWindow = null;
-    // private EmojiconsPopup emojiconsPopup = null;
+    private EmoticonPopup emoticonPopup = null;
 
 
     @Override
@@ -538,9 +544,9 @@ public class CustomInputMethodService extends InputMethodService
             System.out.println(e);
         }
         try {
-            boolean isBold = Font.isBold(prevChar) || Font.isBold(nextChar);
-            boolean isItalic = Font.isItalic(prevChar) || Font.isItalic(nextChar);
-            boolean isEmphasized = Font.isEmphasized(prevChar) || Font.isEmphasized(nextChar);
+            boolean isBold = FontVariants.isBold(prevChar) || FontVariants.isBold(nextChar);
+            boolean isItalic = FontVariants.isItalic(prevChar) || FontVariants.isItalic(nextChar);
+            boolean isEmphasized = FontVariants.isEmphasized(prevChar) || FontVariants.isEmphasized(nextChar);
 
             if (isBold) {
                 Variables.setAllOff();
@@ -1314,30 +1320,30 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
 
-        if (Variables.isBold()) { primaryCode = Font.getBold(primaryCode);}
-        if (Variables.isItalic()) { primaryCode = Font.getItalic(primaryCode);}
-        if (Variables.isEmphasized()) { primaryCode = Font.getEmphasized(primaryCode);}
+        if (Variables.isBold()) { primaryCode = FontVariants.getBold(primaryCode);}
+        if (Variables.isItalic()) { primaryCode = FontVariants.getItalic(primaryCode);}
+        if (Variables.isEmphasized()) { primaryCode = FontVariants.getEmphasized(primaryCode);}
         // if (Variables.isUnderlined()) { primaryCode = Font.getUnderlined(primaryCode);}
         // if (Variables.isUnderscored()) { primaryCode = Font.getUnderscored(primaryCode);}
         // if (Variables.isStrikethrough()) { primaryCode = Font.getStrikethrough(primaryCode);}
-        if (Variables.isBoldSerif()) { primaryCode = Font.toBoldSerif(primaryCode, kv.isShifted());}
-        if (Variables.isItalicSerif()) { primaryCode = Font.toItalicSerif(primaryCode, kv.isShifted());}
-        if (Variables.isBoldItalicSerif()) { primaryCode = Font.toBoldItalicSerif(primaryCode, kv.isShifted());}
-        if (Variables.isScript()) { primaryCode = Font.toScript(primaryCode, kv.isShifted());}
-        if (Variables.isScriptBold()) { primaryCode = Font.toScriptBold(primaryCode, kv.isShifted());}
-        if (Variables.isFraktur()) { primaryCode = Font.toFraktur(primaryCode, kv.isShifted());}
-        if (Variables.isFrakturBold()) { primaryCode = Font.toFrakturBold(primaryCode, kv.isShifted());}
-        if (Variables.isSans()) { primaryCode = Font.toSans(primaryCode, kv.isShifted());}
-        if (Variables.isMonospace()) { primaryCode = Font.toMonospace(primaryCode, kv.isShifted());}
-        if (Variables.isDoublestruck()) { primaryCode = Font.toDoublestruck(primaryCode, kv.isShifted());}
-        if (Variables.isEnsquare()) { primaryCode = Font.ensquare(primaryCode);}
-        if (Variables.isCircularStampLetters()) { primaryCode = Font.toCircularStampLetters(primaryCode);}
-        if (Variables.isRectangularStampLetters()) { primaryCode = Font.toRectangularStampLetters(primaryCode);}
-        if (Variables.isSmallCaps()) { primaryCode = Font.toSmallCaps(primaryCode);}
-        if (Variables.isParentheses()) { primaryCode = Font.toParentheses(primaryCode);}
-        if (Variables.isEncircle()) { primaryCode = Font.encircle(primaryCode);}
-        if (Variables.isReflected()) { primaryCode = Font.toReflected(primaryCode);}
-        if (Variables.isCaps()) { primaryCode = Font.toCaps(primaryCode);}
+        if (Variables.isBoldSerif()) { primaryCode = FontVariants.toBoldSerif(primaryCode, kv.isShifted());}
+        if (Variables.isItalicSerif()) { primaryCode = FontVariants.toItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isBoldItalicSerif()) { primaryCode = FontVariants.toBoldItalicSerif(primaryCode, kv.isShifted());}
+        if (Variables.isScript()) { primaryCode = FontVariants.toScript(primaryCode, kv.isShifted());}
+        if (Variables.isScriptBold()) { primaryCode = FontVariants.toScriptBold(primaryCode, kv.isShifted());}
+        if (Variables.isFraktur()) { primaryCode = FontVariants.toFraktur(primaryCode, kv.isShifted());}
+        if (Variables.isFrakturBold()) { primaryCode = FontVariants.toFrakturBold(primaryCode, kv.isShifted());}
+        if (Variables.isSans()) { primaryCode = FontVariants.toSans(primaryCode, kv.isShifted());}
+        if (Variables.isMonospace()) { primaryCode = FontVariants.toMonospace(primaryCode, kv.isShifted());}
+        if (Variables.isDoublestruck()) { primaryCode = FontVariants.toDoublestruck(primaryCode, kv.isShifted());}
+        if (Variables.isEnsquare()) { primaryCode = FontVariants.ensquare(primaryCode);}
+        if (Variables.isCircularStampLetters()) { primaryCode = FontVariants.toCircularStampLetters(primaryCode);}
+        if (Variables.isRectangularStampLetters()) { primaryCode = FontVariants.toRectangularStampLetters(primaryCode);}
+        if (Variables.isSmallCaps()) { primaryCode = FontVariants.toSmallCaps(primaryCode);}
+        if (Variables.isParentheses()) { primaryCode = FontVariants.toParentheses(primaryCode);}
+        if (Variables.isEncircle()) { primaryCode = FontVariants.encircle(primaryCode);}
+        if (Variables.isReflected()) { primaryCode = FontVariants.toReflected(primaryCode);}
+        if (Variables.isCaps()) { primaryCode = FontVariants.toCaps(primaryCode);}
 
         char code = (char)primaryCode; // Util.largeIntToChar(primaryCode)
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false) &&
@@ -1621,7 +1627,10 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    private void playClick(int primaryCode) {
+    public void playClick() {
+        playClick(0);
+    }
+    public void playClick(int primaryCode) {
         if (!sharedPreferences.getBoolean("sound", false)) {
             return;
         }
@@ -1632,9 +1641,7 @@ public class CustomInputMethodService extends InputMethodService
             case 10: am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN); break;
             case -5:
             case -7: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
-            default:
-                am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
-            break;
+            default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD); break;
         }
     }
 
@@ -1720,7 +1727,7 @@ public class CustomInputMethodService extends InputMethodService
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            // case -27: showEmoticons(); break;
+            case -27: showEmoticons(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1809,40 +1816,40 @@ public class CustomInputMethodService extends InputMethodService
                 break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -94:
-                if (Variables.isBold()) performReplace(Font.unbolden(getText(ic)));
-                else performReplace(Font.bolden(getText(ic)));
+                if (Variables.isBold()) performReplace(FontVariants.unbolden(getText(ic)));
+                else performReplace(FontVariants.bolden(getText(ic)));
                 Variables.toggleBold();
             break;
             case -95:
-                if (Variables.isItalic()) performReplace(Font.unitalicize(getText(ic)));
-                else performReplace(Font.italicize(getText(ic)));
+                if (Variables.isItalic()) performReplace(FontVariants.unitalicize(getText(ic)));
+                else performReplace(FontVariants.italicize(getText(ic)));
                 Variables.toggleItalic();
             break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(Font.unemphasize(getText(ic)));
-                else performReplace(Font.emphasize(getText(ic)));
+                if (Variables.isEmphasized()) performReplace(FontVariants.unemphasize(getText(ic)));
+                else performReplace(FontVariants.emphasize(getText(ic)));
                 Variables.toggleEmphasized();
             break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(Font.underline(getText(ic)));
+                else performReplace(FontVariants.underline(getText(ic)));
             break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(Font.underscore(getText(ic)));
+                else performReplace(FontVariants.underscore(getText(ic)));
             break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(Font.strikethrough(getText(ic)));
+                else performReplace(FontVariants.strikethrough(getText(ic)));
             break;
             case -100:
                 Variables.setAllOff();
-                performReplace(Font.unbolden(getText(ic)));
-                performReplace(Font.unitalicize(getText(ic)));
-                performReplace(Font.unemphasize(getText(ic)));
-                performReplace(Font.unstrikethrough(getText(ic)));
-                performReplace(Font.ununderline(getText(ic)));
-                performReplace(Font.ununderscore(getText(ic)));
+                performReplace(FontVariants.unbolden(getText(ic)));
+                performReplace(FontVariants.unitalicize(getText(ic)));
+                performReplace(FontVariants.unemphasize(getText(ic)));
+                performReplace(FontVariants.unstrikethrough(getText(ic)));
+                performReplace(FontVariants.ununderline(getText(ic)));
+                performReplace(FontVariants.ununderscore(getText(ic)));
             break;
             case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
@@ -2071,52 +2078,66 @@ public class CustomInputMethodService extends InputMethodService
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
-    /*
 
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
-            View popupView = layoutInflater.inflate(R.layout.emoji_listview_layout, null);
-            setCandidatesViewShown(false);
-            // setCandidatesViewShown(popupWindow != null);
+            View popupView = layoutInflater.inflate(R.layout.emoticon_listview_layout, null);
+            setCandidatesViewShown(false); // setCandidatesViewShown(popupWindow != null);
 
             boolean wasCandOn = sharedPreferences.getBoolean("pred", false);
 
-            emojiconsPopup = new EmojiconsPopup(popupView, this);
-            emojiconsPopup.setSizeForSoftKeyboard();
+            emoticonPopup = new EmoticonPopup(popupView, this);
+            emoticonPopup.setSizeForSoftKeyboard();
 
-            emojiconsPopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            emojiconsPopup.setHeight(kv.getHeight());
-            emojiconsPopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+            emoticonPopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            emoticonPopup.setHeight(kv.getHeight());
+            emoticonPopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
 
-            emojiconsPopup.rootView.setHorizontalFadingEdgeEnabled(true);
-            emojiconsPopup.rootView.setHorizontalScrollBarEnabled(false);
-            emojiconsPopup.rootView.setVerticalScrollBarEnabled(false);
+            emoticonPopup.rootView.setHorizontalFadingEdgeEnabled(true);
+            emoticonPopup.rootView.setHorizontalScrollBarEnabled(false);
+            emoticonPopup.rootView.setVerticalScrollBarEnabled(false);
 
-            sharedPreferences.edit().putBoolean("pred", false).apply();
+            // sharedPreferences.edit().putBoolean("pred", false).apply();
 
             // If the text keyboard closes, also dismiss the emoji popup
-            emojiconsPopup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+            emoticonPopup.setOnSoftKeyboardOpenCloseListener(new EmoticonPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
                 public void onKeyboardOpen(int keyboardHeight) {
-
+                    playClick();
                 }
 
                 @Override
                 public void onKeyboardClose() {
-                    if (emojiconsPopup.isShowing()) emojiconsPopup.dismiss();
+                    closeEmoticons();
+                    playClick();
                 }
             });
-            emojiconsPopup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+            emoticonPopup.setOnEmoticonCloseClickedListener(new EmoticonPopup.OnEmoticonCloseClickedListener() {
                 @Override
-                public void onEmojiconClicked(Emojicon emojicon) {
-                    commitText(emojicon.getEmoji());
+                public void onEmoticonCloseClicked(View v) {
+                    playClick();
                 }
             });
-            emojiconsPopup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+            emoticonPopup.setOnEmoticonTabClickedListener(new EmoticonPopup.OnEmoticonTabClickedListener() {
                 @Override
-                public void onEmojiconBackspaceClicked(View v) {
-                    // KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                public void onEmoticonTabClicked(View v) {
+                    playClick();
+                }
+            });
+            emoticonPopup.setOnEmoticonClickedListener(new EmoticonGridView.OnEmoticonClickedListener() {
+                @Override
+                public void onEmoticonClicked(Emoticon emoticon) {
+                    playClick();
+                    String renderable = emoticon.isRenderable() ? "✓" : "✗";
+                    toastIt(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon())+" "+renderable);
+                    commitText(emoticon.getEmoticon());
+                }
+            });
+            emoticonPopup.setOnEmoticonBackspaceClickedListener(new EmoticonPopup.OnEmoticonBackspaceClickedListener() {
+                @Override
+                public void onEmoticonBackspaceClicked(View v) {
+                    playClick(-7);
                     handleBackspace();
                 }
             });
@@ -2124,11 +2145,11 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void closeEmoticons() {
-        if (emojiconsPopup != null) emojiconsPopup.dismiss();
+        playClick();
+        if (emoticonPopup != null) emoticonPopup.dismiss();
     }
 
 
-    */
 
 
     public short getRowNumber() {

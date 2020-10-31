@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
-public class Font {
+public class FontVariants {
 
 
     static boolean isBold(int primaryCode) {
