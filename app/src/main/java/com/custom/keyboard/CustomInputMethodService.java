@@ -1379,7 +1379,7 @@ public class CustomInputMethodService extends InputMethodService
     int[] calcCaptures = new int[] {-200, -201, -202, -203, -204, -205, -206, -207, -208, -209,
                                     -5, -7, -8, -9, -10, -11, 32, 37, 43, 45, 46, 48, 49, 50, 51,
                                     52, 53, 54, 55, 56, 57, 61, 94, 215, 247,};
-    int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94};
+    int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94, 61};
     private void handleCalc(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String sanitized = "", scriptResult = "", parserResult = "";
@@ -1389,9 +1389,6 @@ public class CustomInputMethodService extends InputMethodService
                 calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop();
             break;
             case -205: clipboardToBuffer(getText(ic)); calcBufferHistory.push(calcBuffer); break;
-            case -204: calcBuffer += "tan"; calcBufferHistory.push(calcBuffer); break;
-            case -203: calcBuffer += "cos"; calcBufferHistory.push(calcBuffer); break;
-            case -202: calcBuffer += "sin"; calcBufferHistory.push(calcBuffer); break;
             case -201: calcBuffer = ""; break;
             case -5:
                 if (calcBuffer.length() > 0) {
@@ -1399,10 +1396,17 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 calcBufferHistory.push(calcBuffer);
             break;
-            case 61:
-                sanitized = Util.sanitize(calcBuffer);
+            case -204:
                 try {
-                    parserResult = String.valueOf(Util.evalParser(sanitized));
+                    sanitized = Util.sanitize(calcBuffer);
+                    double result = Util.evalParser(sanitized);
+                    if (Util.checkInteger(result)) {
+                        int resultInt = (int)result;
+                        parserResult = String.valueOf(resultInt);
+                    }
+                    else {
+                        parserResult = String.valueOf(result);
+                    }
                 }
                 catch (Exception e) {
                     toastIt(parserResult+"\n"+e);
@@ -1422,13 +1426,15 @@ public class CustomInputMethodService extends InputMethodService
                 calcBufferHistory.push(calcBuffer);
             break;
             case -207:
-                Constant tau = new Constant("tau = 2*pi");
-                Expression e = new Expression(calcBuffer);
-                calcBuffer = String.valueOf(e.calculate());
-                calcBufferHistory.push(calcBuffer);
-            break;
-            case -208:
-                calcBuffer = String.valueOf(Util.evalRPN(calcBuffer));
+                Expression e = new Expression(Util.sanitize(calcBuffer));
+                double result = e.calculate();
+                if (Util.checkInteger(result)) {
+                    int resultInt = (int)result;
+                    calcBuffer = String.valueOf(resultInt);
+                }
+                else {
+                    calcBuffer = String.valueOf(result);
+                }
                 calcBufferHistory.push(calcBuffer);
             break;
             case 32:
@@ -1450,28 +1456,58 @@ public class CustomInputMethodService extends InputMethodService
 
     static String hexBuffer = "";
     int[] hexPasses = new int[] {
-        -22, -101, 32, 10,
+        -101, -23, -22, -20, -21, -13, -14, -15, -16, -12, -11, -10, -9, -7, -5, -8, 10, 32
     };
     int[] hexCaptures = new int[] {
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, -201, -202, -203, -204, -205, -206
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+        97, 98, 99, 100, 101, 102,
+        -201, -202, -203, -204, -205, -206
     };
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
-        if (primaryCode == -201) performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
-        if (primaryCode == -202) performReplace(Util.convertFromNumberToUnicode(getText(ic)));
+        String paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+
+        if (primaryCode == -201) {
+            performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
+            return;
+        }
+        if (primaryCode == -202) {
+            performReplace(Util.convertFromNumberToUnicode(getText(ic)));
+            return;
+        }
+        if (primaryCode == -203) {
+            commitText(paddedHexBuffer);
+            return;
+        }
+        if (primaryCode == -204) {
+            commitText(String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer)));
+            return;
+        }
+        if (primaryCode == -205) {
+            if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
+            else hexBuffer = "0000";
+            paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+            getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
+            getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
+            redraw();
+            return;
+        }
+        if (primaryCode == -206) {
+            hexBuffer = "0000";
+            paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+            getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
+            getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
+            redraw();
+            return;
+        }
+
         if (Util.contains(hexCaptures, primaryCode)) {
             if (hexBuffer.length() > 3) hexBuffer = "";
             hexBuffer += (char)primaryCode;
         }
-        if (primaryCode == -203) commitText(StringUtils.leftPad(hexBuffer, 4, "0"));
-        if (primaryCode == -204) commitText(String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0"))));
-        if (primaryCode == -205) {
-            if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
-            else hexBuffer = "0000";
-        }
-        if (primaryCode == -206) hexBuffer = "0000";
-        getKey(-203).label = hexBuffer.equals("0000") ? "" : StringUtils.leftPad(hexBuffer, 4, "0");
-        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(hexBuffer, 4, "0")));
+        paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+        getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
+        getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
         redraw();
     }
 

@@ -222,20 +222,18 @@ public class Util {
 
     public static String unidata(String text) {
         if (text.length() < 1) return "";
-        StringBuilder result = new StringBuilder();
-        for(int i = 0; i < text.length(); i++) {
-            result.append(unidata((int)text.codePointAt(i))).append("\n");
-        }
-        return result.toString();
+        // StringBuilder result = new StringBuilder();
+        // for(int i = 0; i < text.length(); i++) {
+        //     result.append(unidata((int)text.codePointAt(i))).append("\n");
+        // }
+        // return result.toString();
 
 
         // if (Character.isHighSurrogate(text.charAt(0))
         // ||  Character.isLowSurrogate(text.charAt(0))) {
         //     return unidata((int)text.codePointAt(0));
         // }
-        //
-        // // Util.largeIntToChar(primaryCode)
-        // return unidata((int)text.charAt(0));
+        return unidata((int)text.charAt(0));
     }
     public static String unidata(int primaryCode) {
         return toTitleCase(Util.orNull(Character.getName(primaryCode), ""))
@@ -1247,6 +1245,7 @@ public class Util {
         return new Throwable().getStackTrace()[depth].getMethodName();
     }
     public static String sanitize(String text) {
+        text = text.replaceAll("–", "-");
         text = text.replaceAll("×", "*");
         text = text.replaceAll("÷", "/");
         text = text.replaceAll("π", "Math.PI");
@@ -1478,17 +1477,6 @@ public class Util {
     public static double radToDeg(double radians) {
         return radians / (Math.PI / 180);
     };
-    public static String evaluate(String text) {
-        text = sanitize(text);
-
-        double result = evalParser(text);
-        if (checkInteger(result)) {
-            int resultInt = (int)result;
-            return String.valueOf(resultInt);
-        }
-        return String.valueOf(result);
-    }
-
     public static int round(int n, int m) {
         int a = (n / m) * m; // Smaller multiple
         int b = a + m;       // Larger multiple

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.inputmethodservice.KeyboardView;
 
 import android.content.Context;
@@ -13,15 +12,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
-import androidx.annotation.RequiresApi;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
@@ -273,6 +266,7 @@ public class CustomKeyboardView extends KeyboardView {
 
             mPaint.setTextAlign(Paint.Align.CENTER);
 
+            if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Calculator")) continue;
 
             if (key.popupCharacters != null
                 && key.codes != null
