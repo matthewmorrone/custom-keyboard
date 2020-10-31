@@ -1086,6 +1086,8 @@ public class CustomInputMethodService extends InputMethodService
         toastIt(e.toString());
     }
     public void toastIt(String ...args) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        if (!sharedPreferences.getBoolean("debug", false)) return;
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();

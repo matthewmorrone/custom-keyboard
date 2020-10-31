@@ -7,6 +7,7 @@
         <SwitchPreference android:defaultValue="false" android:key="ipaDesc" android:title="Show IPA Info" />
         <SwitchPreference android:defaultValue="false" android:key="vib" android:title="@string/vib" />
         <SwitchPreference android:defaultValue="false" android:key="preview" android:title="Show Key Previews" />
+        <SwitchPreference android:defaultValue="false" android:key="debug" android:title="Debug" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
         <SwitchPreference android:defaultValue="false" android:key="pred" android:title="@string/pred" />
