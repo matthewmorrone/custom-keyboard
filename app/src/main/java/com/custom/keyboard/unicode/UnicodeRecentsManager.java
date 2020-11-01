@@ -1,4 +1,4 @@
-package com.custom.keyboard.emoticon;
+package com.custom.keyboard.unicode;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,27 +6,27 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class EmoticonRecentsManager extends ArrayList<Emoticon> {
+public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
-    private static final String PREFERENCE_NAME = "emoticon";
-    private static final String PREF_RECENTS = "recent_emoticons";
+    private static final String PREFERENCE_NAME = "unicode";
+    private static final String PREF_RECENTS = "recent_unicode";
     private static final String PREF_PAGE = "recent_page";
 
     private static final Object LOCK = new Object();
-    private static EmoticonRecentsManager sInstance;
+    private static UnicodeRecentsManager sInstance;
 
     private Context mContext;
 
-    private EmoticonRecentsManager(Context context) {
+    private UnicodeRecentsManager(Context context) {
         mContext = context.getApplicationContext();
         loadRecents();
     }
 
-    public static EmoticonRecentsManager getInstance(Context context) {
+    public static UnicodeRecentsManager getInstance(Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {
                 if (sInstance == null) {
-                    sInstance = new EmoticonRecentsManager(context);
+                    sInstance = new UnicodeRecentsManager(context);
                 }
             }
         }
@@ -41,8 +41,8 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
         getPreferences().edit().putInt(PREF_PAGE, page).commit();
     }
 
-    public void push(Emoticon object) {
-        // FIXME totally inefficient way of adding the emoticon to the adapter
+    public void push(Unicode object) {
+        // FIXME totally inefficient way of adding the emoji to the adapter
         // TODO this should be probably replaced by a deque
         if (contains(object)) {
             super.remove(object);
@@ -51,13 +51,13 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
     }
 
     @Override
-    public boolean add(Emoticon object) {
+    public boolean add(Unicode object) {
         boolean ret = super.add(object);
         return ret;
     }
 
     @Override
-    public void add(int index, Emoticon object) {
+    public void add(int index, Unicode object) {
         super.add(index, object);
     }
 
@@ -77,7 +77,7 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
         StringTokenizer tokenizer = new StringTokenizer(str, "~");
         while (tokenizer.hasMoreTokens()) {
             try {
-                add(new Emoticon(tokenizer.nextToken()));
+                add(new Unicode(tokenizer.nextToken()));
             }
             catch (NumberFormatException e) {
                 // ignored
@@ -89,8 +89,8 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
         StringBuilder str = new StringBuilder();
         int c = size();
         for (int i = 0; i < c; i++) {
-            Emoticon e = get(i);
-            str.append(e.getEmoticon());
+            Unicode e = get(i);
+            str.append(e.getUnicode());
             if (i < (c - 1)) {
                 str.append('~');
             }

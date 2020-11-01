@@ -164,6 +164,8 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public void changeKeyHeight(double height_modifier) {
+        System.out.println("changeKeyHeight: "+height_modifier);
+
         int height = 0;
         for (Keyboard.Key key : getKeys()) {
             key.height *= height_modifier;

@@ -2186,9 +2186,6 @@ public class CustomInputMethodService extends InputMethodService
         if (emoticonPopup != null) emoticonPopup.dismiss();
     }
 
-
-
-
     public short getRowNumber() {
         return rowNumber;
     }
@@ -2202,9 +2199,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public double getHeightKeyModifier() {
-        //   0 → 0.5
-        //  50 → 1.0
-        // 100 → 1.5
-        return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 50)) / 100;
+        return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 100)) / 100;
     }
 }

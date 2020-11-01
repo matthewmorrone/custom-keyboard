@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black">
+    <LinearLayout
+        android:id="@+id/unicode_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/unicode_keyboard_image"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription=""
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_0_recents"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_menu_recent_history"
+            android:contentDescription=""
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_1_people"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_menu_more"
+            android:contentDescription=""
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_backspace"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@android:drawable/ic_delete"
+            android:contentDescription=""
+            />
+    </LinearLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/unicode_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/unicode_tab"
+        android:layout_alignParentBottom="true" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/unicode_tab"
+        android:background="#8f8f8f" />
+</RelativeLayout>

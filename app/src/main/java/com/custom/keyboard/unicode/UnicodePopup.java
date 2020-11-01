@@ -1,10 +1,9 @@
-
-
-package com.custom.keyboard.emoticon;
+package com.custom.keyboard.unicode;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -24,31 +23,31 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonClickedListener;
-import com.custom.keyboard.emoticon.categories.EmoticonCategories;
+import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeClickedListener;
+import com.custom.keyboard.unicode.UnicodeCategories;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChangeListener, EmoticonRecents {
-    private int mEmoticonTabLastSelectedIndex = -1;
-    private View[] mEmoticonTabs;
-    private PagerAdapter mEmoticonsAdapter;
-    private EmoticonRecentsManager mRecentsManager;
+public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeListener, UnicodeRecents {
+    private int mUnicodeTabLastSelectedIndex = -1;
+    private View[] mUnicodeTabs;
+    private PagerAdapter mUunicodeAdapter;
+    private UnicodeRecentsManager mRecentsManager;
     private int keyboardHeight = 0;
     private Boolean pendingOpen = false;
     private Boolean isOpened = false;
-    OnEmoticonCloseClickedListener onEmoticonCloseClickedListener;
-    OnEmoticonTabClickedListener onEmoticonTabClickedListener;
-    OnEmoticonClickedListener onEmoticonClickedListener;
-    OnEmoticonBackspaceClickedListener onEmoticonBackspaceClickedListener;
+    OnUnicodeCloseClickedListener onUnicodeCloseClickedListener;
+    OnUnicodeTabClickedListener onUnicodeTabClickedListener;
+    OnUnicodeClickedListener onUnicodeClickedListener;
+    OnUnicodeBackspaceClickedListener onUnicodeBackspaceClickedListener;
     OnSoftKeyboardOpenCloseListener onSoftKeyboardOpenCloseListener;
     public View rootView;
     Context mContext;
 
-    private ViewPager emoticonsPager;
+    private ViewPager unicodePager;
 
-    public EmoticonPopup(View rootView, Context mContext) {
+    public UnicodePopup(View rootView, Context mContext) {
         super(mContext);
         this.mContext = mContext;
         this.rootView = rootView;
@@ -63,20 +62,20 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
         this.onSoftKeyboardOpenCloseListener = listener;
     }
 
-    public void setOnEmoticonCloseClickedListener(OnEmoticonCloseClickedListener listener) {
-        this.onEmoticonCloseClickedListener = listener;
+    public void setOnUnicodeCloseClickedListener(OnUnicodeCloseClickedListener listener) {
+        this.onUnicodeCloseClickedListener = listener;
     }
 
-    public void setOnEmoticonTabClickedListener(OnEmoticonTabClickedListener listener) {
-        this.onEmoticonTabClickedListener = listener;
+    public void setOnUnicodeTabClickedListener(OnUnicodeTabClickedListener listener) {
+        this.onUnicodeTabClickedListener = listener;
     }
 
-    public void setOnEmoticonClickedListener(OnEmoticonClickedListener listener) {
-        this.onEmoticonClickedListener = listener;
+    public void setOnUnicodeClickedListener(OnUnicodeClickedListener listener) {
+        this.onUnicodeClickedListener = listener;
     }
 
-    public void setOnEmoticonBackspaceClickedListener(OnEmoticonBackspaceClickedListener listener) {
-        this.onEmoticonBackspaceClickedListener = listener;
+    public void setOnUnicodeBackspaceClickedListener(OnUnicodeBackspaceClickedListener listener) {
+        this.onUnicodeBackspaceClickedListener = listener;
     }
 
     public void showAtBottom() {
@@ -99,7 +98,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
     @Override
     public void dismiss() {
         super.dismiss();
-        EmoticonRecentsManager.getInstance(mContext).saveRecents();
+        UnicodeRecentsManager.getInstance(mContext).saveRecents();
     }
 
     public void setSizeForSoftKeyboard() {
@@ -158,66 +157,53 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
 
     private View createCustomView() {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.emoticon_popup, null, false);
-        emoticonsPager = (ViewPager)view.findViewById(R.id.emoticons_pager);
-        emoticonsPager.setOnPageChangeListener(this);
-        EmoticonRecents recents = this;
-        mEmoticonsAdapter = new EmoticonsPagerAdapter(Arrays.asList(
-            new EmoticonRecentsGridView(mContext, null, null, this),
-            new EmoticonGridView(mContext, EmoticonCategories.People, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Nature, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.FoodAndDrink, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Places, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Activities, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Objects, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Symbols, recents, this),
-            new EmoticonGridView(mContext, EmoticonCategories.Flags, recents, this)
+        View view = inflater.inflate(R.layout.unicode, null, false);
+        unicodePager = (ViewPager)view.findViewById(R.id.unicode_pager);
+        unicodePager.setOnPageChangeListener(this);
+        UnicodeRecents recents = this;
+        mUunicodeAdapter = new UunicodePagerAdapter(Arrays.asList(
+            new UnicodeRecentsGridView(mContext, null, null, this),
+            new UnicodeGridView(mContext, UnicodeCategories.Data1, recents, this),
+            new UnicodeGridView(mContext, UnicodeCategories.Data2, recents, this)
         ));
-        emoticonsPager.setAdapter(mEmoticonsAdapter);
-        mEmoticonTabs = new View[9];
-        mEmoticonTabs[0] = view.findViewById(R.id.emoticons_tab_0_recents);
-        mEmoticonTabs[1] = view.findViewById(R.id.emoticons_tab_1_people);
-        mEmoticonTabs[2] = view.findViewById(R.id.emoticons_tab_2_nature);
-        mEmoticonTabs[3] = view.findViewById(R.id.emoticons_tab_3_food_and_drink);
-        mEmoticonTabs[4] = view.findViewById(R.id.emoticons_tab_4_places);
-        mEmoticonTabs[5] = view.findViewById(R.id.emoticons_tab_5_activities);
-        mEmoticonTabs[6] = view.findViewById(R.id.emoticons_tab_6_objects);
-        mEmoticonTabs[7] = view.findViewById(R.id.emoticons_tab_7_symbols);
-        mEmoticonTabs[8] = view.findViewById(R.id.emoticons_tab_8_flags);
-        for (int i = 0; i < mEmoticonTabs.length; i++) {
+        unicodePager.setAdapter(mUunicodeAdapter);
+        mUnicodeTabs = new View[9];
+        mUnicodeTabs[0] = view.findViewById(R.id.unicode_tab_0_recents);
+        mUnicodeTabs[1] = view.findViewById(R.id.unicode_tab_1_people);
+        for (int i = 0; i < mUnicodeTabs.length; i++) {
             final int position = i;
-            mEmoticonTabs[i].setOnClickListener(new OnClickListener() {
+            mUnicodeTabs[i].setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onEmoticonTabClickedListener != null) {
-                        onEmoticonTabClickedListener.onEmoticonTabClicked(v);
+                    if (onUnicodeTabClickedListener != null) {
+                        onUnicodeTabClickedListener.onUnicodeTabClicked(v);
                     }
-                    emoticonsPager.setCurrentItem(position);
+                    unicodePager.setCurrentItem(position);
                 }
             });
         }
-        view.findViewById(R.id.emoticons_backspace).setOnTouchListener(new RepeatListener(1000, 50, new OnClickListener() {
+        view.findViewById(R.id.unicode_backspace).setOnTouchListener(new RepeatListener(1000, 50, new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onEmoticonBackspaceClickedListener != null) {
-                    onEmoticonBackspaceClickedListener.onEmoticonBackspaceClicked(v);
+                if (onUnicodeBackspaceClickedListener != null) {
+                    onUnicodeBackspaceClickedListener.onUnicodeBackspaceClicked(v);
                 }
             }
         }));
 
-        // Hide Emoticons with keyboard icon.
-        view.findViewById(R.id.emoticons_keyboard_image).setOnClickListener(new OnClickListener() {
+        // Hide Uunicode with keyboard icon.
+        view.findViewById(R.id.unicode_keyboard_image).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onEmoticonCloseClickedListener != null) {
-                    onEmoticonCloseClickedListener.onEmoticonCloseClicked(v);
+                if (onUnicodeCloseClickedListener != null) {
+                    onUnicodeCloseClickedListener.onUnicodeCloseClicked(v);
                 }
                 dismiss();
             }
         });
 
         // get last selected page
-        mRecentsManager = EmoticonRecentsManager.getInstance(view.getContext());
+        mRecentsManager = UnicodeRecentsManager.getInstance(view.getContext());
         int page = mRecentsManager.getRecentPage();
         // last page was recents, check if there are recents to use
         // if none was found, go to page 1
@@ -229,15 +215,15 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
             onPageSelected(page);
         }
         else {
-            emoticonsPager.setCurrentItem(page, false);
+            unicodePager.setCurrentItem(page, false);
         }
         return view;
     }
 
     @Override
-    public void addRecentEmoticon(Context context, Emoticon emoticon) {
-        EmoticonRecentsGridView fragment = ((EmoticonsPagerAdapter)emoticonsPager.getAdapter()).getRecentFragment();
-        fragment.addRecentEmoticon(context, emoticon);
+    public void addRecentUnicode(Context context, Unicode unicode) {
+        UnicodeRecentsGridView fragment = ((UunicodePagerAdapter)unicodePager.getAdapter()).getRecentFragment();
+        fragment.addRecentUnicode(context, unicode);
     }
 
     @Override
@@ -246,7 +232,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int i) {
-        if (mEmoticonTabLastSelectedIndex == i) {
+        if (mUnicodeTabLastSelectedIndex == i) {
             return;
         }
         switch (i) {
@@ -259,11 +245,11 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
             case 6:
             case 7:
             case 8:
-                if (mEmoticonTabLastSelectedIndex >= 0 && mEmoticonTabLastSelectedIndex < mEmoticonTabs.length) {
-                    mEmoticonTabs[mEmoticonTabLastSelectedIndex].setSelected(false);
+                if (mUnicodeTabLastSelectedIndex >= 0 && mUnicodeTabLastSelectedIndex < mUnicodeTabs.length) {
+                    mUnicodeTabs[mUnicodeTabLastSelectedIndex].setSelected(false);
                 }
-                mEmoticonTabs[i].setSelected(true);
-                mEmoticonTabLastSelectedIndex = i;
+                mUnicodeTabs[i].setSelected(true);
+                mUnicodeTabLastSelectedIndex = i;
                 mRecentsManager.setRecentPage(i);
                 break;
         }
@@ -273,19 +259,19 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int i) {
     }
 
-    private static class EmoticonsPagerAdapter extends PagerAdapter {
-        private List<EmoticonGridView> views;
+    private static class UunicodePagerAdapter extends PagerAdapter {
+        private List<UnicodeGridView> views;
 
-        public EmoticonRecentsGridView getRecentFragment() {
-            for (EmoticonGridView it : views) {
-                if (it instanceof EmoticonRecentsGridView) {
-                    return (EmoticonRecentsGridView)it;
+        public UnicodeRecentsGridView getRecentFragment() {
+            for (UnicodeGridView it : views) {
+                if (it instanceof UnicodeRecentsGridView) {
+                    return (UnicodeRecentsGridView)it;
                 }
             }
             return null;
         }
 
-        public EmoticonsPagerAdapter(List<EmoticonGridView> views) {
+        public UunicodePagerAdapter(List<UnicodeGridView> views) {
             super();
             this.views = views;
         }
@@ -369,16 +355,16 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
         }
     }
 
-    public interface OnEmoticonCloseClickedListener {
-        void onEmoticonCloseClicked(View v);
+    public interface OnUnicodeCloseClickedListener {
+        void onUnicodeCloseClicked(View v);
     }
 
-    public interface OnEmoticonTabClickedListener {
-        void onEmoticonTabClicked(View v);
+    public interface OnUnicodeTabClickedListener {
+        void onUnicodeTabClicked(View v);
     }
 
-    public interface OnEmoticonBackspaceClickedListener {
-        void onEmoticonBackspaceClicked(View v);
+    public interface OnUnicodeBackspaceClickedListener {
+        void onUnicodeBackspaceClicked(View v);
     }
 
     public interface OnSoftKeyboardOpenCloseListener {

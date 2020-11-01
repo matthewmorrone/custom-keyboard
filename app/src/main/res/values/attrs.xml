@@ -19,4 +19,17 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+        <declare-styleable name="Unicode">
+        <attr name="unicodeSize" format="dimension" />
+        <attr name="unicodeTextStart" format="integer" />
+        <attr name="unicodeTextLength" format="integer" />
+    </declare-styleable>
+    <style name="unicodeDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>
