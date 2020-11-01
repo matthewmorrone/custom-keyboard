@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -34,6 +35,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference borderWidth;
     EditTextPreference paddingWidth;
     EditTextPreference borderRadius;
+
+    Preference resetEmoticonHistory;
+    Preference resetUnicodeHistory;
 
     EditTextPreference k1;
     EditTextPreference k2;
@@ -88,6 +92,28 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             phone = (EditTextPreference)findPreference("phone");
             address = (EditTextPreference)findPreference("address");
             password = (EditTextPreference)findPreference("password");
+
+            resetEmoticonHistory = findPreference("resetEmoticonHistory");
+            resetEmoticonHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    System.out.println(preference);
+                    System.out.println(sharedPreferences.getString("recent_emoticons", ""));
+                    sharedPreferences.edit().putString("recent_emoticons", "").apply();
+                    return true;
+                }
+            });
+
+            resetUnicodeHistory = findPreference("resetUnicodeHistory");
+            resetUnicodeHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    System.out.println(preference);
+                    System.out.println(sharedPreferences.getString("recent_unicode", ""));
+                    sharedPreferences.edit().putString("recent_unicode", "").apply();
+                    return true;
+                }
+            });
 
             k1 = (EditTextPreference)findPreference("k1");
             k2 = (EditTextPreference)findPreference("k2");

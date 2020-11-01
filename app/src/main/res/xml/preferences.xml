@@ -34,6 +34,8 @@
         <SwitchPreference android:defaultValue="false" android:key="invert" android:title="Invert Colors" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
+        <!--<Preference android:title="Reset Emoticon History" android:key="resetEmoticonHistory" />-->
+        <!--<Preference android:title="Reset Unicode History" android:key="resetUnicodeHistory" />-->
         <EditTextPreference android:defaultValue="@string/custom_keys" android:dialogMessage="" android:dialogTitle="Keys in Custom Layout" android:key="custom_keys" android:summary="@string/custom_keys" android:title="Custom Layout" />
         <EditTextPreference android:defaultValue="@string/popup_first" android:dialogMessage="" android:dialogTitle="Popup 1" android:key="popup_first" android:summary="@string/popup_first" android:title="Popup 1" />
         <EditTextPreference android:defaultValue="@string/popup_second" android:dialogMessage="" android:dialogTitle="Popup 2" android:key="popup_second" android:summary="@string/popup_second" android:title="Popup 2" />

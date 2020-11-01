@@ -706,7 +706,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void showSettings() {
-        Intent intent = new Intent(getApplicationContext(), Preference.class);
+        Intent intent = new Intent(getApplicationContext(), PreferenceActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startIntent(intent);
     }

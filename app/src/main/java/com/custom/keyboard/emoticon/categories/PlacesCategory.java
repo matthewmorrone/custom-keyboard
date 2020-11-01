@@ -3,9 +3,7 @@ package com.custom.keyboard.emoticon.categories;
 import com.custom.keyboard.emoticon.Emoticon;
 
 public class PlacesCategory {
-
     public static final Emoticon[] Data = new Emoticon[] {
-
         Emoticon.fromCodePoints(0x1f30d),
         Emoticon.fromCodePoints(0x1f30e),
         Emoticon.fromCodePoints(0x1f30f),
@@ -48,7 +46,7 @@ public class PlacesCategory {
         Emoticon.fromCodePoints(0x1f5fd),
         Emoticon.fromCodePoints(0x26ea),
         Emoticon.fromCodePoints(0x1f54c),
-        Emoticon.fromCodePoints(0x1f6d5),
+        // Emoticon.fromCodePoints(0x1f6d5),
         Emoticon.fromCodePoints(0x1f54d),
         Emoticon.fromCodePoints(0x26e9, 0xfe0f),
         Emoticon.fromCodePoints(0x1f54b),
@@ -99,9 +97,9 @@ public class PlacesCategory {
         Emoticon.fromCodePoints(0x1f3ce, 0xfe0f),
         Emoticon.fromCodePoints(0x1f3cd, 0xfe0f),
         Emoticon.fromCodePoints(0x1f6f5),
-        Emoticon.fromCodePoints(0x1f9bd),
-        Emoticon.fromCodePoints(0x1f9bc),
-        Emoticon.fromCodePoints(0x1f6fa),
+        // Emoticon.fromCodePoints(0x1f9bd),
+        // Emoticon.fromCodePoints(0x1f9bc),
+        // Emoticon.fromCodePoints(0x1f6fa),
         Emoticon.fromCodePoints(0x1f6b2),
         Emoticon.fromCodePoints(0x1f6f4),
         Emoticon.fromCodePoints(0x1f6f9),
@@ -127,7 +125,7 @@ public class PlacesCategory {
         Emoticon.fromCodePoints(0x1f6e9, 0xfe0f),
         Emoticon.fromCodePoints(0x1f6eb),
         Emoticon.fromCodePoints(0x1f6ec),
-        Emoticon.fromCodePoints(0x1fa82),
+        // Emoticon.fromCodePoints(0x1fa82),
         Emoticon.fromCodePoints(0x1f4ba),
         Emoticon.fromCodePoints(0x1f681),
         Emoticon.fromCodePoints(0x1f69f),
@@ -185,7 +183,7 @@ public class PlacesCategory {
         Emoticon.fromCodePoints(0x2600, 0xfe0f),
         Emoticon.fromCodePoints(0x1f31d),
         Emoticon.fromCodePoints(0x1f31e),
-        Emoticon.fromCodePoints(0x1fa90),
+        // Emoticon.fromCodePoints(0x1fa90),
         Emoticon.fromCodePoints(0x2b50),
         Emoticon.fromCodePoints(0x2b50, 0xfe0f),
         Emoticon.fromCodePoints(0x1f31f),

@@ -33,7 +33,7 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
         if (v == null) {
             v = View.inflate(getContext(), R.layout.unicode_item, null);
             ViewHolder holder = new ViewHolder();
-            holder.icon = (TextView)v.findViewById(R.id.unicode_icon);
+            holder.icon = v.findViewById(R.id.unicode_icon);
             v.setTag(holder);
         }
         Unicode unicode = getItem(position);

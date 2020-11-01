@@ -3,6 +3,8 @@ package com.custom.keyboard.unicode;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 

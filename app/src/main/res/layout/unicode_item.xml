@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:emoticon="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <com.custom.keyboard.unicode.UnicodeTextView
@@ -15,5 +14,4 @@
         android:textColor="@color/white"
         android:textSize="32sp"
         />
-        <!--unicode:unicodeSize="60dip"-->
 </FrameLayout>

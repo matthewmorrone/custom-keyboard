@@ -21,12 +21,12 @@ public class UnicodeGridView {
         mUnicodePopup = unicodePopup;
         rootView = inflater.inflate(R.layout.unicode_grid, null);
         setRecents(recents);
-        GridView gridView = (GridView)rootView.findViewById(R.id.Unicode_GridView);
+        GridView gridView = rootView.findViewById(R.id.Unicode_GridView);
         if (unicode == null) {
             mData = UnicodeData.getData();
         }
         else {
-            Object[] o = (Object[])unicode;
+            Object[] o = unicode;
             mData = Arrays.asList(o).toArray(new Unicode[o.length]);
         }
         UnicodeAdapter mAdapter = new UnicodeAdapter(rootView.getContext(), mData);

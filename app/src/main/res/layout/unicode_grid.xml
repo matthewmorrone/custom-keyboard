@@ -3,16 +3,14 @@
           android:id="@+id/Unicode_GridView"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:background="@android:color/black"
+          android:background="@android:color/transparent"
           android:cacheColorHint="@android:color/transparent"
           android:columnWidth="40dip"
           android:numColumns="16"
-           />
-    <!--android:foreground="@android:color/white"-->
+          />
 
-    <!---->
+    <!--android:foreground="@android:color/white"-->
     <!--android:scrollbars="vertical"-->
-    <!---->
     <!--android:paddingVertical="10dp"-->
     <!--android:horizontalSpacing="0dip"-->
     <!--android:verticalSpacing="0dip"-->

@@ -89,7 +89,7 @@ public class PeopleCategory {
         Emoticon.fromCodePoints(0x1f613),
         Emoticon.fromCodePoints(0x1f629),
         Emoticon.fromCodePoints(0x1f62b),
-        Emoticon.fromCodePoints(0x1f971),
+        // Emoticon.fromCodePoints(0x1f971),
         Emoticon.fromCodePoints(0x1f624),
         Emoticon.fromCodePoints(0x1f621),
         Emoticon.fromCodePoints(0x1f620),
@@ -136,9 +136,9 @@ public class PeopleCategory {
         Emoticon.fromCodePoints(0x1f49a),
         Emoticon.fromCodePoints(0x1f499),
         Emoticon.fromCodePoints(0x1f49c),
-        Emoticon.fromCodePoints(0x1f90e),
+        // Emoticon.fromCodePoints(0x1f90e),
         Emoticon.fromCodePoints(0x1f5a4),
-        Emoticon.fromCodePoints(0x1f90d),
+        // Emoticon.fromCodePoints(0x1f90d),
         Emoticon.fromCodePoints(0x1f4af),
         Emoticon.fromCodePoints(0x1f4a2),
         Emoticon.fromCodePoints(0x1f4a5),
@@ -195,7 +195,7 @@ public class PeopleCategory {
         // Emoticon.fromCodePoints(0x1f44c, 0x1f3fe),
         // Emoticon.fromCodePoints(0x1f44c, 0x1f3ff),
 
-        Emoticon.fromCodePoints(0x1f90f),
+        // Emoticon.fromCodePoints(0x1f90f),
         // Emoticon.fromCodePoints(0x1f90f, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f90f, 0x1f3fc),
         // Emoticon.fromCodePoints(0x1f90f, 0x1f3fd),
@@ -385,8 +385,8 @@ public class PeopleCategory {
         // Emoticon.fromCodePoints(0x1f4aa, 0x1f3fe),
         // Emoticon.fromCodePoints(0x1f4aa, 0x1f3ff),
 
-        Emoticon.fromCodePoints(0x1f9be),
-        Emoticon.fromCodePoints(0x1f9bf),
+        // Emoticon.fromCodePoints(0x1f9be),
+        // Emoticon.fromCodePoints(0x1f9bf),
         Emoticon.fromCodePoints(0x1f9b5),
         // Emoticon.fromCodePoints(0x1f9b5, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f9b5, 0x1f3fc),
@@ -408,7 +408,7 @@ public class PeopleCategory {
         // Emoticon.fromCodePoints(0x1f442, 0x1f3fe),
         // Emoticon.fromCodePoints(0x1f442, 0x1f3ff),
 
-        Emoticon.fromCodePoints(0x1f9bb),
+        // Emoticon.fromCodePoints(0x1f9bb),
         // Emoticon.fromCodePoints(0x1f9bb, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f9bb, 0x1f3fc),
         // Emoticon.fromCodePoints(0x1f9bb, 0x1f3fd),
@@ -709,7 +709,7 @@ public class PeopleCategory {
         // // Emoticon.fromCodePoints(0x1f64b, 0x1f3fe, 0x200d, 0x2640, 0xfe0f),
         // // Emoticon.fromCodePoints(0x1f64b, 0x1f3ff, 0x200d, 0x2640, 0xfe0f),
 
-        Emoticon.fromCodePoints(0x1f9cf),
+        // Emoticon.fromCodePoints(0x1f9cf),
         // Emoticon.fromCodePoints(0x1f9cf, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f9cf, 0x1f3fc),
         // Emoticon.fromCodePoints(0x1f9cf, 0x1f3fd),
@@ -1415,7 +1415,7 @@ public class PeopleCategory {
         // // Emoticon.fromCodePoints(0x1f6b6, 0x1f3fe, 0x200d, 0x2640, 0xfe0f),
         // // Emoticon.fromCodePoints(0x1f6b6, 0x1f3ff, 0x200d, 0x2640, 0xfe0f),
 
-        Emoticon.fromCodePoints(0x1f9cd),
+        // Emoticon.fromCodePoints(0x1f9cd),
         // Emoticon.fromCodePoints(0x1f9cd, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f9cd, 0x1f3fc),
         // Emoticon.fromCodePoints(0x1f9cd, 0x1f3fd),
@@ -1436,7 +1436,7 @@ public class PeopleCategory {
         // // Emoticon.fromCodePoints(0x1f9cd, 0x1f3fe, 0x200d, 0x2640, 0xfe0f),
         // // Emoticon.fromCodePoints(0x1f9cd, 0x1f3ff, 0x200d, 0x2640, 0xfe0f),
 
-        Emoticon.fromCodePoints(0x1f9ce),
+        // Emoticon.fromCodePoints(0x1f9ce),
         // Emoticon.fromCodePoints(0x1f9ce, 0x1f3fb),
         // Emoticon.fromCodePoints(0x1f9ce, 0x1f3fc),
         // Emoticon.fromCodePoints(0x1f9ce, 0x1f3fd),
@@ -2011,9 +2011,9 @@ public class PeopleCategory {
 
 
 
-        Emoticon.fromCodePoints(0xfe0f),
-        Emoticon.fromCodePoints(0x2642),
-        Emoticon.fromCodePoints(0x2640),
+        // Emoticon.fromCodePoints(0xfe0f),
+        // Emoticon.fromCodePoints(0x2642),
+        // Emoticon.fromCodePoints(0x2640),
         Emoticon.fromCodePoints(0x1f3fb),
         Emoticon.fromCodePoints(0x1f3fc),
         Emoticon.fromCodePoints(0x1f3fd),

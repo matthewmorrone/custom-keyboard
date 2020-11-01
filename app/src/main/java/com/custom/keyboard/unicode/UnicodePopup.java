@@ -2,10 +2,12 @@ package com.custom.keyboard.unicode;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -161,9 +163,8 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         Unicode[] unicodeData3 = UnicodeData.getCount(4096, 2048);
         Unicode[] unicodeData4 = UnicodeData.getCount(6144, 2048);
 
-
         View view = inflater.inflate(R.layout.unicode_popup, null, false);
-        unicodePager = (ViewPager)view.findViewById(R.id.unicode_pager);
+        unicodePager = view.findViewById(R.id.unicode_pager);
         unicodePager.setOnPageChangeListener(this);
         UnicodeRecents recents = this;
         mUnicodeAdapter = new UnicodePagerAdapter(Arrays.asList(
@@ -184,9 +185,9 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             final int position = i;
             mUnicodeTabs[i].setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     if (onUnicodeTabClickedListener != null) {
-                        onUnicodeTabClickedListener.onUnicodeTabClicked(v);
+                        onUnicodeTabClickedListener.onUnicodeTabClicked(view);
                     }
                     unicodePager.setCurrentItem(position);
                 }
@@ -194,9 +195,9 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         }
         view.findViewById(R.id.unicode_backspace).setOnTouchListener(new RepeatListener(1000, 50, new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (onUnicodeBackspaceClickedListener != null) {
-                    onUnicodeBackspaceClickedListener.onUnicodeBackspaceClicked(v);
+                    onUnicodeBackspaceClickedListener.onUnicodeBackspaceClicked(view);
                 }
             }
         }));
@@ -204,9 +205,9 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         // Hide Unicode with keyboard icon.
         view.findViewById(R.id.unicode_keyboard_image).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (onUnicodeCloseClickedListener != null) {
-                    onUnicodeCloseClickedListener.onUnicodeCloseClicked(v);
+                    onUnicodeCloseClickedListener.onUnicodeCloseClicked(view);
                 }
                 dismiss();
             }
@@ -238,10 +239,17 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
 
     @Override
     public void onPageScrolled(int i, float v, int i2) {
+        System.out.println("onPageScrolled: "+i+" "+v+" "+i2);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        System.out.println("onPageScrollStateChanged: "+i);
     }
 
     @Override
     public void onPageSelected(int i) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         if (mUnicodeTabLastSelectedIndex == i) {
             return;
         }
@@ -261,12 +269,9 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
                 mUnicodeTabs[i].setSelected(true);
                 mUnicodeTabLastSelectedIndex = i;
                 mRecentsManager.setRecentPage(i);
+                mUnicodeTabs[i].scrollTo(0, sharedPreferences.getInt("scroll_location", 0));
                 break;
         }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
     }
 
     private static class UnicodePagerAdapter extends PagerAdapter {

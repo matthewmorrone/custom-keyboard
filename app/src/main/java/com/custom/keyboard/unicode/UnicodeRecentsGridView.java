@@ -1,6 +1,7 @@
 package com.custom.keyboard.unicode;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.GridView;
 
 import com.custom.keyboard.R;
@@ -20,9 +21,11 @@ public class UnicodeRecentsGridView extends UnicodeGridView implements UnicodeRe
                 }
             }
         });
-        GridView gridView = (GridView)rootView.findViewById(R.id.Unicode_GridView);
+        GridView gridView = rootView.findViewById(R.id.Unicode_GridView);
         gridView.setAdapter(mAdapter);
     }
+
+
 
     @Override
     public void addRecentUnicode(Context context, Unicode unicode) {

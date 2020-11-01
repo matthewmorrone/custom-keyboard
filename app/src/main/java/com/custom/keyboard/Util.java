@@ -228,12 +228,11 @@ public class Util {
         // }
         // return result.toString();
 
-
-        // if (Character.isHighSurrogate(text.charAt(0))
-        // ||  Character.isLowSurrogate(text.charAt(0))) {
-        //     return unidata((int)text.codePointAt(0));
-        // }
-        return unidata((int)text.charAt(0));
+        if (Character.isHighSurrogate(text.charAt(0))
+        ||  Character.isLowSurrogate(text.charAt(0))) {
+            return unidata(text.codePointAt(0));
+        }
+        return unidata(text.charAt(0));
     }
     public static String unidata(int primaryCode) {
         return toTitleCase(Util.orNull(Character.getName(primaryCode), ""))
