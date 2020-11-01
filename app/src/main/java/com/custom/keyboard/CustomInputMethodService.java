@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -48,9 +47,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.custom.keyboard.emoticon.Emoticon;
 import com.custom.keyboard.emoticon.EmoticonGridView;
 import com.custom.keyboard.emoticon.EmoticonPopup;
+import com.custom.keyboard.unicode.Unicode;
+import com.custom.keyboard.unicode.UnicodeGridView;
+import com.custom.keyboard.unicode.UnicodePopup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class CustomInputMethodService extends InputMethodService
     boolean debug = false;
 
     private PopupWindow popupWindow = null;
+    private UnicodePopup unicodePopup = null;
     private EmoticonPopup emoticonPopup = null;
 
 
@@ -1765,6 +1767,7 @@ public class CustomInputMethodService extends InputMethodService
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
             case -27: showEmoticons(); break;
+            case -175: showUnicodePopup(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1925,6 +1928,7 @@ public class CustomInputMethodService extends InputMethodService
             case -137: setKeyboard(R.layout.ipa, "IPA"); break;
             case -138: setKeyboard(R.layout.symbol); break;
             case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
+
             case -140: setKeyboard(R.layout.accents); break;
             case -141:
                 String customKeys = sharedPreferences.getString("custom_keys", "");
@@ -1977,6 +1981,7 @@ public class CustomInputMethodService extends InputMethodService
             case -173:
                 displayFindMenu();
             break;
+
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
             case -303: commitText(String.valueOf(Util.orNull(getKey(-303).label, ""))); break;
@@ -2115,11 +2120,69 @@ public class CustomInputMethodService extends InputMethodService
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
+    public void showUnicodePopup() {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        if (layoutInflater != null) {
+            View popupView = layoutInflater.inflate(R.layout.unicode_listview, null);
+
+            unicodePopup = new UnicodePopup(popupView, this);
+
+            unicodePopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            unicodePopup.setHeight(kv.getHeight());
+            unicodePopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+
+            unicodePopup.rootView.setHorizontalFadingEdgeEnabled(true);
+            unicodePopup.rootView.setHorizontalScrollBarEnabled(false);
+            unicodePopup.rootView.setVerticalScrollBarEnabled(false);
+
+
+            unicodePopup.setOnSoftKeyboardOpenCloseListener(new UnicodePopup.OnSoftKeyboardOpenCloseListener() {
+                @Override
+                public void onKeyboardOpen(int keyboardHeight) {
+                    playClick();
+                }
+
+                @Override
+                public void onKeyboardClose() {
+                    closeUnicode();
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeCloseClickedListener(new UnicodePopup.OnUnicodeCloseClickedListener() {
+                @Override
+                public void onUnicodeCloseClicked(View v) {
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeTabClickedListener(new UnicodePopup.OnUnicodeTabClickedListener() {
+                @Override
+                public void onUnicodeTabClicked(View v) {
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeClickedListener(new UnicodeGridView.OnUnicodeClickedListener() {
+                @Override
+                public void onUnicodeClicked(Unicode unicode) {
+                    playClick();
+                    // String renderable = unicode.isRenderable() ? "✓" : "✗";
+                    toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
+                    commitText(unicode.getUnicode());
+                }
+            });
+            unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {
+                @Override
+                public void onUnicodeBackspaceClicked(View v) {
+                    playClick(-7);
+                    handleBackspace();
+                }
+            });
+        }
+    }
 
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
-            View popupView = layoutInflater.inflate(R.layout.emoticon_listview_layout, null);
+            View popupView = layoutInflater.inflate(R.layout.emoticon_listview, null);
             setCandidatesViewShown(false); // setCandidatesViewShown(popupWindow != null);
 
             boolean wasCandOn = sharedPreferences.getBoolean("pred", false);
@@ -2135,9 +2198,6 @@ public class CustomInputMethodService extends InputMethodService
             emoticonPopup.rootView.setHorizontalScrollBarEnabled(false);
             emoticonPopup.rootView.setVerticalScrollBarEnabled(false);
 
-            // sharedPreferences.edit().putBoolean("pred", false).apply();
-
-            // If the text keyboard closes, also dismiss the emoji popup
             emoticonPopup.setOnSoftKeyboardOpenCloseListener(new EmoticonPopup.OnSoftKeyboardOpenCloseListener() {
                 @Override
                 public void onKeyboardOpen(int keyboardHeight) {
@@ -2179,6 +2239,11 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
         }
+    }
+
+    public void closeUnicode() {
+        playClick();
+        if (unicodePopup != null) unicodePopup.dismiss();
     }
 
     public void closeEmoticons() {

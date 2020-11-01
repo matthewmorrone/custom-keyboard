@@ -3,11 +3,16 @@
           android:id="@+id/Unicode_GridView"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:background="@android:color/transparent"
+          android:background="@android:color/black"
           android:cacheColorHint="@android:color/transparent"
           android:columnWidth="40dip"
-          android:horizontalSpacing="0dip"
-          android:numColumns="8"
-          android:scrollbars="vertical"
-          android:verticalSpacing="0dip" />
-    <!--android:numColumns="auto_fit"-->
+          android:numColumns="16"
+           />
+    <!--android:foreground="@android:color/white"-->
+
+    <!---->
+    <!--android:scrollbars="vertical"-->
+    <!---->
+    <!--android:paddingVertical="10dp"-->
+    <!--android:horizontalSpacing="0dip"-->
+    <!--android:verticalSpacing="0dip"-->

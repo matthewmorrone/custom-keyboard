@@ -3,7 +3,6 @@ package com.custom.keyboard.unicode;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -24,7 +23,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeClickedListener;
-import com.custom.keyboard.unicode.UnicodeCategories;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.List;
 public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeListener, UnicodeRecents {
     private int mUnicodeTabLastSelectedIndex = -1;
     private View[] mUnicodeTabs;
-    private PagerAdapter mUunicodeAdapter;
+    private PagerAdapter mUnicodeAdapter;
     private UnicodeRecentsManager mRecentsManager;
     private int keyboardHeight = 0;
     private Boolean pendingOpen = false;
@@ -157,19 +155,31 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
 
     private View createCustomView() {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.unicode, null, false);
+
+        Unicode[] unicodeData1 = UnicodeData.getCount(   0, 2048);
+        Unicode[] unicodeData2 = UnicodeData.getCount(2048, 2048);
+        Unicode[] unicodeData3 = UnicodeData.getCount(4096, 2048);
+        Unicode[] unicodeData4 = UnicodeData.getCount(6144, 2048);
+
+
+        View view = inflater.inflate(R.layout.unicode_popup, null, false);
         unicodePager = (ViewPager)view.findViewById(R.id.unicode_pager);
         unicodePager.setOnPageChangeListener(this);
         UnicodeRecents recents = this;
-        mUunicodeAdapter = new UunicodePagerAdapter(Arrays.asList(
+        mUnicodeAdapter = new UnicodePagerAdapter(Arrays.asList(
             new UnicodeRecentsGridView(mContext, null, null, this),
-            new UnicodeGridView(mContext, UnicodeCategories.Data1, recents, this),
-            new UnicodeGridView(mContext, UnicodeCategories.Data2, recents, this)
+            new UnicodeGridView(mContext, unicodeData1, recents, this),
+            new UnicodeGridView(mContext, unicodeData2, recents, this),
+            new UnicodeGridView(mContext, unicodeData3, recents, this),
+            new UnicodeGridView(mContext, unicodeData4, recents, this)
         ));
-        unicodePager.setAdapter(mUunicodeAdapter);
-        mUnicodeTabs = new View[9];
-        mUnicodeTabs[0] = view.findViewById(R.id.unicode_tab_0_recents);
-        mUnicodeTabs[1] = view.findViewById(R.id.unicode_tab_1_people);
+        unicodePager.setAdapter(mUnicodeAdapter);
+        mUnicodeTabs = new View[5];
+        mUnicodeTabs[0] = view.findViewById(R.id.unicode_tab_0);
+        mUnicodeTabs[1] = view.findViewById(R.id.unicode_tab_1);
+        mUnicodeTabs[2] = view.findViewById(R.id.unicode_tab_2);
+        mUnicodeTabs[3] = view.findViewById(R.id.unicode_tab_3);
+        mUnicodeTabs[4] = view.findViewById(R.id.unicode_tab_4);
         for (int i = 0; i < mUnicodeTabs.length; i++) {
             final int position = i;
             mUnicodeTabs[i].setOnClickListener(new OnClickListener() {
@@ -191,7 +201,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             }
         }));
 
-        // Hide Uunicode with keyboard icon.
+        // Hide Unicode with keyboard icon.
         view.findViewById(R.id.unicode_keyboard_image).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +232,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
 
     @Override
     public void addRecentUnicode(Context context, Unicode unicode) {
-        UnicodeRecentsGridView fragment = ((UunicodePagerAdapter)unicodePager.getAdapter()).getRecentFragment();
+        UnicodeRecentsGridView fragment = ((UnicodePagerAdapter)unicodePager.getAdapter()).getRecentFragment();
         fragment.addRecentUnicode(context, unicode);
     }
 
@@ -259,7 +269,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
     public void onPageScrollStateChanged(int i) {
     }
 
-    private static class UunicodePagerAdapter extends PagerAdapter {
+    private static class UnicodePagerAdapter extends PagerAdapter {
         private List<UnicodeGridView> views;
 
         public UnicodeRecentsGridView getRecentFragment() {
@@ -271,7 +281,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             return null;
         }
 
-        public UunicodePagerAdapter(List<UnicodeGridView> views) {
+        public UnicodePagerAdapter(List<UnicodeGridView> views) {
             super();
             this.views = views;
         }

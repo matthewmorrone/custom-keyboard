@@ -1,5 +1,0 @@
-<com.custom.keyboard.unicode.UnicodeTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
-                                             xmlns:unicode="http://schemas.android.com/apk/res-auto"
-                                             unicode:unicodeSize="64sp" />

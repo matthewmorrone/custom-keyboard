@@ -19,45 +19,69 @@
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription=""
             />
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="#888888" />
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
-            android:id="@+id/unicode_tab_0_recents"
+            android:id="@+id/unicode_tab_0"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@android:drawable/ic_menu_recent_history"
+            android:src="@drawable/ic_recent"
             android:contentDescription=""
             />
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="#888888" />
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
-            android:id="@+id/unicode_tab_1_people"
+            android:id="@+id/unicode_tab_1"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
-            android:src="@android:drawable/ic_menu_more"
+            android:src="@drawable/ic_grid"
             android:contentDescription=""
             />
-        <View
-            android:layout_width="1px"
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_2"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_grid"
+            android:contentDescription=""
+            />
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_3"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_grid"
+            android:contentDescription=""
+            />
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_4"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_grid"
+            android:contentDescription=""
+            />
+        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
             android:id="@+id/unicode_backspace"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/ic_backspace"
             android:contentDescription=""
             />
     </LinearLayout>

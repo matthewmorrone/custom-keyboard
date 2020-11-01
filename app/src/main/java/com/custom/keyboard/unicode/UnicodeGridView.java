@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.unicode.UnicodeCategories;
 
 import java.util.Arrays;
 
@@ -24,7 +23,7 @@ public class UnicodeGridView {
         setRecents(recents);
         GridView gridView = (GridView)rootView.findViewById(R.id.Unicode_GridView);
         if (unicode == null) {
-            mData = UnicodeCategories.Data1;
+            mData = UnicodeData.getData();
         }
         else {
             Object[] o = (Object[])unicode;
