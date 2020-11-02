@@ -33,7 +33,7 @@ class EmoticonAdapter extends ArrayAdapter<Emoticon> {
         if (v == null) {
             v = View.inflate(getContext(), R.layout.emoticon_item, null);
             ViewHolder holder = new ViewHolder();
-            holder.icon = (TextView)v.findViewById(R.id.emoticon_icon);
+            holder.icon = v.findViewById(R.id.emoticon_icon);
             v.setTag(holder);
         }
         Emoticon emoticon = getItem(position);

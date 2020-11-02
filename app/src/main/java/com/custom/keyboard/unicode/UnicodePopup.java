@@ -56,6 +56,8 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         //default size
         setSize((int)mContext.getResources().getDimension(R.dimen.keyboard_height), LayoutParams.MATCH_PARENT);
+
+
     }
 
     public void setOnSoftKeyboardOpenCloseListener(OnSoftKeyboardOpenCloseListener listener) {

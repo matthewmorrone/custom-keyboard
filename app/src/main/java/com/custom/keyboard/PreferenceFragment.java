@@ -8,6 +8,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.widget.EditText;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -36,6 +37,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference paddingWidth;
     EditTextPreference borderRadius;
 
+    ColorPreference background;
+    ColorPreference foreground;
+    ColorPreference borderColor;
+
+    EditTextPreference textSize;
+    EditTextPreference emoticonFontSize;
+    EditTextPreference unicodeFontSize;
+
     Preference resetEmoticonHistory;
     Preference resetUnicodeHistory;
 
@@ -47,9 +56,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference k6;
     EditTextPreference k7;
     EditTextPreference k8;
-
-    ColorPreference background;
-    ColorPreference foreground;
 
     String[] themes;
 
@@ -82,8 +88,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             paddingWidth = (EditTextPreference)findPreference("paddingWidth");
             borderRadius = (EditTextPreference)findPreference("borderRadius");
 
+            textSize = (EditTextPreference)findPreference("textSize");
+            emoticonFontSize = (EditTextPreference)findPreference("emoticonFontSize");
+            unicodeFontSize = (EditTextPreference)findPreference("unicodeFontSize");
+
             background = (ColorPreference)findPreference("bgcolor");
             foreground = (ColorPreference)findPreference("fgcolor");
+            borderColor = (ColorPreference)findPreference("bdcolor");
+
             popup_first = (EditTextPreference)findPreference("popup_first");
             popup_second = (EditTextPreference)findPreference("popup_second");
             popup_third = (EditTextPreference)findPreference("popup_third");
@@ -143,9 +155,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             borderWidth.setSummary(sharedPreferences.getString("borderWidth", ""));
             paddingWidth.setSummary(sharedPreferences.getString("paddingWidth", ""));
             borderRadius.setSummary(sharedPreferences.getString("borderRadius", ""));
-            
+
+            textSize.setSummary(sharedPreferences.getString("textSize", "56"));
+            emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
+            unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
+
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+            borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
+
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
@@ -201,9 +219,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             borderWidth.setSummary(sharedPreferences.getString("borderWidth", ""));
             paddingWidth.setSummary(sharedPreferences.getString("paddingWidth", ""));
             borderRadius.setSummary(sharedPreferences.getString("borderRadius", ""));
+
+            textSize.setSummary(sharedPreferences.getString("textSize", "56"));
+            emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
+            unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
             
             background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
             foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+            borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
+
             popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
             popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
             popup_third.setSummary(sharedPreferences.getString("popup_third", ""));

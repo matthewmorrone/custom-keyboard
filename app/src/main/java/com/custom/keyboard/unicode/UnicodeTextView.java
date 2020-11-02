@@ -2,12 +2,15 @@ package com.custom.keyboard.unicode;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.custom.keyboard.R;
+import com.custom.keyboard.Util;
 
 @SuppressLint("AppCompatCustomView")
 public class UnicodeTextView extends TextView {
@@ -30,7 +33,11 @@ public class UnicodeTextView extends TextView {
         init(attrs);
     }
 
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicodeTextSize", "24"), "24"));
+
     private void init(AttributeSet attrs) {
+
         if (attrs == null) {
             mUnicodeSize = (int)getTextSize();
         }
@@ -41,13 +48,14 @@ public class UnicodeTextView extends TextView {
             mTextLength = a.getInteger(R.styleable.Unicode_unicodeTextLength, -1);
             a.recycle();
         }
+        this.setTextSize(textSize);
         setText(getText());
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        // UnicodeHandler.addUunicode(getContext(), builder, mUnicodeSize, mTextStart, mTextLength);
+        // UnicodeHandler.addUnicode(getContext(), builder, mUnicodeSize, mTextStart, mTextLength);
         super.setText(builder, type);
     }
 

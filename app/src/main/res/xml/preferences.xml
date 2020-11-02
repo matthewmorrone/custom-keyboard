@@ -15,7 +15,6 @@
         <SwitchPreference android:defaultValue="false" android:key="pairs" android:title="Insert Pairs" />
         <SwitchPreference android:defaultValue="false" android:key="shift" android:title="@string/toggle_case" />
         <SwitchPreference android:defaultValue="false" android:key="caps" android:title="@string/caps" />
-        <!--<SwitchPreference android:defaultValue="false" android:key="spaceAfterPunct" android:title="Insert Space After Punctuation" />-->
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
         <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <EditTextPreference android:defaultValue="4" android:key="indentWidth" android:title="Tab Size" android:inputType="number" android:digits="1234567890" />
@@ -24,13 +23,19 @@
     <PreferenceScreen android:title="Appearance">
         <com.custom.keyboard.SeekPreference android:key="height" android:title="Key Height" app:min="50" app:max="150" app:value="100" />
         <com.custom.keyboard.SeekPreference android:key="transparency" android:title="Transparency" app:value="100" />
-        <EditTextPreference android:defaultValue="0" android:key="borderWidth" android:title="Border Width" android:inputType="number" android:digits="1234567890" />
+        <EditTextPreference android:defaultValue="0" android:key="borderWidth"  android:title="Border Width"  android:inputType="number" android:digits="1234567890" />
         <EditTextPreference android:defaultValue="0" android:key="paddingWidth" android:title="Padding Width" android:inputType="number" android:digits="1234567890" />
         <EditTextPreference android:defaultValue="0" android:key="borderRadius" android:title="Border Radius" android:inputType="number" android:digits="1234567890" />
+
+        <!--<EditTextPreference android:defaultValue="56" android:key="textSize" android:title="Text Size" android:inputType="number" android:digits="1234567890" />-->
+        <!--<EditTextPreference android:defaultValue="24" android:key="emoticonFontSize" android:title="Emoticon Font Size" android:inputType="number" android:digits="1234567890" />-->
+        <!--<EditTextPreference android:defaultValue="24" android:key="unicodeFontSize"  android:title="Unicode Font Size"  android:inputType="number" android:digits="1234567890" />-->
+
         <SwitchPreference android:defaultValue="false" android:key="space" android:title="Spacebar" />
         <ListPreference android:defaultValue="1" android:entryValues="@array/theme_keys" android:entries="@array/theme_names" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.ColorPreference android:key="bgcolor" android:title="Background Color" android:summary="Choose a background color" android:defaultValue="0xFF000000" android:dialogTitle="Choose a background color" />
-        <com.custom.keyboard.ColorPreference android:key="fgcolor" android:title="Foreground Color" android:summary="Choose a foreground color" android:defaultValue="0xFFFFFFFF" android:dialogTitle="Choose a foreground color" />
+        <com.custom.keyboard.ColorPreference android:key="fgcolor" android:title="Text Color" android:summary="Choose a text color" android:defaultValue="0xFFFFFFFF" android:dialogTitle="Choose a text color" />
+        <!--<com.custom.keyboard.ColorPreference android:key="bdcolor" android:title="Border Color" android:summary="Choose a border color" android:defaultValue="0xFF000000" android:dialogTitle="Choose a border color" />-->
         <SwitchPreference android:defaultValue="false" android:key="invert" android:title="Invert Colors" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">

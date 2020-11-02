@@ -2,12 +2,15 @@ package com.custom.keyboard.emoticon;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.custom.keyboard.R;
+import com.custom.keyboard.Util;
 
 @SuppressLint("AppCompatCustomView")
 public class EmoticonTextView extends TextView {
@@ -30,6 +33,9 @@ public class EmoticonTextView extends TextView {
         init(attrs);
     }
 
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("emoticonTextSize", "24"), "24"));
+
     private void init(AttributeSet attrs) {
         if (attrs == null) {
             mEmoticonSize = (int)getTextSize();
@@ -41,13 +47,13 @@ public class EmoticonTextView extends TextView {
             mTextLength = a.getInteger(R.styleable.Emoticon_emoticonTextLength, -1);
             a.recycle();
         }
+        this.setTextSize(textSize);
         setText(getText());
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        // EmoticonHandler.addEmoticons(getContext(), builder, mEmoticonSize, mTextStart, mTextLength);
         super.setText(builder, type);
     }
 

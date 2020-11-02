@@ -81,7 +81,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
-        Key key = new LatinKey(res, parent, x, y, parser);
+        Key key = new CustomKey(res, parent, x, y, parser);
         if (key.codes[0] == 10) {
             mEnterKey = key;
         }
@@ -90,11 +90,11 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         }
         else if (key.codes[0] == Keyboard.KEYCODE_MODE_CHANGE) {
             mModeChangeKey = key;
-            mSavedModeChangeKey = new LatinKey(res, parent, x, y, parser);
+            mSavedModeChangeKey = new CustomKey(res, parent, x, y, parser);
         }
         else if (key.codes[0] == CustomKeyboard.KEYCODE_LAYOUT_SWITCH) {
             mLanguageSwitchKey = key;
-            mSavedLanguageSwitchKey = new LatinKey(res, parent, x, y, parser);
+            mSavedLanguageSwitchKey = new CustomKey(res, parent, x, y, parser);
         }
         return key;
     }
@@ -133,23 +133,23 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
             case EditorInfo.IME_ACTION_GO:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_go, null);
-                break;
+            break;
             case EditorInfo.IME_ACTION_NEXT:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_next, null);
-                break;
+            break;
             case EditorInfo.IME_ACTION_SEARCH:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_find, null);
-                break;
+            break;
             case EditorInfo.IME_ACTION_SEND:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_send, null);
-                break;
+            break;
             default:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_enter, null);
-                break;
+            break;
         }
     }
 
@@ -164,8 +164,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     }
 
     public void changeKeyHeight(double height_modifier) {
-        System.out.println("changeKeyHeight: "+height_modifier);
-
         int height = 0;
         for (Keyboard.Key key : getKeys()) {
             key.height *= height_modifier;
@@ -191,20 +189,4 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     public void setKeyHeight(int height) {
         super.setKeyHeight(height);
     }
-
-    static class LatinKey extends Keyboard.Key {
-        public LatinKey(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
-            super(res, parent, x, y, parser);
-        }
-
-        /**
-         * Overriding this method so that we can reduce the target area for the key that
-         * closes the keyboard.
-         */
-        @Override
-        public boolean isInside(int x, int y) {
-            return super.isInside(x, codes[0] == KEYCODE_CANCEL ? y - 10 : y);
-        }
-    }
-
 }

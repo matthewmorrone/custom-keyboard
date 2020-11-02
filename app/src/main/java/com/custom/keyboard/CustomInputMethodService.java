@@ -120,6 +120,7 @@ public class CustomInputMethodService extends InputMethodService
         toast = new Toast(getBaseContext());
 
         spellChecker = new SpellChecker(getApplicationContext(), true);
+
     }
 
     @Override
@@ -155,14 +156,16 @@ public class CustomInputMethodService extends InputMethodService
         // return displayFindMenu();
     }
 
-    // @Override
-    // public void onStartInputView(EditorInfo info, boolean restarting) {
-    //     ViewGroup originalParent = (ViewGroup)kv.getParent();
-    //     if (originalParent != null) {
-    //         originalParent.setPadding(0, 0, 0, 0);
-    //         kv.setPopupParent(originalParent);
-    //     }
-    // }
+    @Override
+    public void onStartInputView(EditorInfo info, boolean restarting) {
+        ViewGroup originalParent = (ViewGroup)kv.getParent();
+        if (originalParent != null) {
+            originalParent.setPadding(0, 0, 0, 0);
+            kv.setPopupParent(originalParent);
+        }
+
+
+    }
 
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
@@ -219,6 +222,8 @@ public class CustomInputMethodService extends InputMethodService
 
         // LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         // mCandidateView.setLayoutParams(layoutParams);
+
+        // kv.setBackgroundResource(R.drawable.background);
     }
 
     @Override
@@ -996,13 +1001,13 @@ public class CustomInputMethodService extends InputMethodService
 
         mDefaultFilter = sCustomColorArray;
 
-        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
+/*        int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putInt("bgcolor", bg);
         editor.putInt("fgcolor", fg);
-        editor.apply();
+        editor.apply();*/
 
         ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(mDefaultFilter);
         Paint mPaint = new Paint();
@@ -2018,7 +2023,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
         try {
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("caps", false)) {
+            if (sharedPreferences.getBoolean("caps", false)) {
                 if (ic.getTextBeforeCursor(2, 0).toString().contains(". ")
                  || ic.getTextBeforeCursor(2, 0).toString().contains("? ")
                  || ic.getTextBeforeCursor(2, 0).toString().contains("! ")
@@ -2120,65 +2125,6 @@ public class CustomInputMethodService extends InputMethodService
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
-    public void showUnicodePopup() {
-        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        if (layoutInflater != null) {
-            View popupView = layoutInflater.inflate(R.layout.unicode_listview, null);
-
-            unicodePopup = new UnicodePopup(popupView, this);
-
-            unicodePopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            unicodePopup.setHeight(kv.getHeight());
-            unicodePopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
-
-            unicodePopup.rootView.setHorizontalFadingEdgeEnabled(true);
-            unicodePopup.rootView.setHorizontalScrollBarEnabled(false);
-            unicodePopup.rootView.setVerticalScrollBarEnabled(false);
-
-
-            unicodePopup.setOnSoftKeyboardOpenCloseListener(new UnicodePopup.OnSoftKeyboardOpenCloseListener() {
-                @Override
-                public void onKeyboardOpen(int keyboardHeight) {
-                    playClick();
-                }
-
-                @Override
-                public void onKeyboardClose() {
-                    closeUnicode();
-                    playClick();
-                }
-            });
-            unicodePopup.setOnUnicodeCloseClickedListener(new UnicodePopup.OnUnicodeCloseClickedListener() {
-                @Override
-                public void onUnicodeCloseClicked(View v) {
-                    playClick();
-                }
-            });
-            unicodePopup.setOnUnicodeTabClickedListener(new UnicodePopup.OnUnicodeTabClickedListener() {
-                @Override
-                public void onUnicodeTabClicked(View v) {
-                    playClick();
-                }
-            });
-            unicodePopup.setOnUnicodeClickedListener(new UnicodeGridView.OnUnicodeClickedListener() {
-                @Override
-                public void onUnicodeClicked(Unicode unicode) {
-                    playClick();
-                    // String renderable = unicode.isRenderable() ? "✓" : "✗";
-                    toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
-                    commitText(unicode.getUnicode());
-                }
-            });
-            unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {
-                @Override
-                public void onUnicodeBackspaceClicked(View v) {
-                    playClick(-7);
-                    handleBackspace();
-                }
-            });
-        }
-    }
-
     public void showEmoticons() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -2241,14 +2187,73 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    public void closeUnicode() {
-        playClick();
-        if (unicodePopup != null) unicodePopup.dismiss();
+
+    public void showUnicodePopup() {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        if (layoutInflater != null) {
+            View popupView = layoutInflater.inflate(R.layout.unicode_listview, null);
+
+            unicodePopup = new UnicodePopup(popupView, this);
+
+            unicodePopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            unicodePopup.setHeight(kv.getHeight());
+            unicodePopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
+
+            unicodePopup.rootView.setHorizontalFadingEdgeEnabled(true);
+            unicodePopup.rootView.setHorizontalScrollBarEnabled(false);
+            unicodePopup.rootView.setVerticalScrollBarEnabled(false);
+
+            unicodePopup.setOnSoftKeyboardOpenCloseListener(new UnicodePopup.OnSoftKeyboardOpenCloseListener() {
+                @Override
+                public void onKeyboardOpen(int keyboardHeight) {
+                    playClick();
+                }
+
+                @Override
+                public void onKeyboardClose() {
+                    closeUnicode();
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeCloseClickedListener(new UnicodePopup.OnUnicodeCloseClickedListener() {
+                @Override
+                public void onUnicodeCloseClicked(View v) {
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeTabClickedListener(new UnicodePopup.OnUnicodeTabClickedListener() {
+                @Override
+                public void onUnicodeTabClicked(View v) {
+                    playClick();
+                }
+            });
+            unicodePopup.setOnUnicodeClickedListener(new UnicodeGridView.OnUnicodeClickedListener() {
+                @Override
+                public void onUnicodeClicked(Unicode unicode) {
+                    playClick();
+                    // String renderable = unicode.isRenderable() ? "✓" : "✗";
+                    toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
+                    commitText(unicode.getUnicode());
+                }
+            });
+            unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {
+                @Override
+                public void onUnicodeBackspaceClicked(View v) {
+                    playClick(-7);
+                    handleBackspace();
+                }
+            });
+        }
     }
 
     public void closeEmoticons() {
         playClick();
         if (emoticonPopup != null) emoticonPopup.dismiss();
+    }
+
+    public void closeUnicode() {
+        playClick();
+        if (unicodePopup != null) unicodePopup.dismiss();
     }
 
     public short getRowNumber() {
