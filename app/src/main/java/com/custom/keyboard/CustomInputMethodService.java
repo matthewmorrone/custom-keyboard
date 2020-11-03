@@ -1599,17 +1599,17 @@ public class CustomInputMethodService extends InputMethodService
     }
 */
 
-    LinkedHashSet<String> clipboardHistory = new LinkedHashSet<>();
+    LinkedHashSet<String> clipboardHistory = new LinkedHashSet<String>();
 
     public void clearClipboardHistory() {
         clipboardHistory.clear();
-        sharedPreferences.edit().putStringSet("clipboardHistory", new HashSet<>()).apply();
+        sharedPreferences.edit().putStringSet("clipboardHistory", new HashSet<String>()).apply();
         redraw();
     }
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        clipboardHistory = new LinkedHashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
+        clipboardHistory = new LinkedHashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
         if (getText(ic).isEmpty()) return;
         clipboardHistory.add(getText(ic));
         if (clipboardHistory.size() > 16) {
