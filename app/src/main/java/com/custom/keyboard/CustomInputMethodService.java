@@ -152,11 +152,11 @@ public class CustomInputMethodService extends InputMethodService
     public View onCreateCandidatesView() {
         setTheme();
         Paint mPaint = new Paint();
-        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         if (mCandidateView == null) {
             mCandidateView = new CandidateView(this);
             mCandidateView.setService(this);
         }
+        mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         return mCandidateView;
     }
 
@@ -679,7 +679,7 @@ public class CustomInputMethodService extends InputMethodService
     private void updateCandidates() {
         if (!mPredictionOn) return;
         if (mCandidateView == null) return;
-        if (emoticonPopup.isShowing()) return;
+        if (emoticonPopup != null && emoticonPopup.isShowing()) return;
 
         String prevLine = getPrevLine();
         String prevWord = getPrevWord();
@@ -702,7 +702,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void updateCandidates(String word) {
-        if (emoticonPopup.isShowing()) return;
+        if (emoticonPopup != null && emoticonPopup.isShowing()) return;
 
         if (word.trim().equals("")) return;
 
