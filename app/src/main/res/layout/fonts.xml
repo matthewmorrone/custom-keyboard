@@ -16,15 +16,15 @@
         <Key android:codes="-12" android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
     </Row>
-    <Row>
+    <Row android:keyWidth="16.667%p">
         <Key android:codes="-38" android:keyLabel="𝖠𝖠" android:keyIcon="@drawable/ic_format_uppercase" />
         <Key android:codes="-39" android:keyLabel="𝖠𝖺" android:keyIcon="@drawable/ic_format_titlecase" />
         <Key android:codes="-40" android:keyLabel="𝖺𝖺" android:keyIcon="@drawable/ic_format_lowercase" />
         <Key android:codes="-41" android:keyLabel="𝖺𝖠" android:keyIcon="@drawable/ic_format_altercase" />
-        <Key android:codes="-58" android:keyLabel="🐍" android:keyIcon="@drawable/ic_snake" />
-        <Key android:codes="-59" android:keyLabel="🐪" android:keyIcon="@drawable/ic_camel" />
+        <Key android:codes="-58" android:keyIcon="@drawable/ic_snake" />
+        <Key android:codes="-59" android:keyIcon="@drawable/ic_camel" />
     </Row>
-    <Row>
+    <Row android:keyWidth="14.28%p">
         <Key android:codes="-100" android:keyLabel="⎚" android:keyIcon="@drawable/ic_format_eraser" />
         <Key android:codes="-94" android:keyLabel="𝗔𝗮" />
         <Key android:codes="-95" android:keyLabel="𝘈𝘢" />
