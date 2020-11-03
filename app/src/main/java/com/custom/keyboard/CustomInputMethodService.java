@@ -83,8 +83,8 @@ public class CustomInputMethodService extends InputMethodService
     private String mWordSeparators;
 
     private boolean firstCaps = false;
-    private boolean isSymbols = false;
-    private boolean shiftSim = false;
+    // private boolean isSymbols = false;
+    // private boolean shiftSim = false;
 
     private float[] mDefaultFilter;
     long shift_pressed = 0;
@@ -315,7 +315,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getCurrentWord() {
-        InputConnection ic = getCurrentInputConnection();
         // @TODO: if at word boundary, should return the word it's actually touching:
         // "one| two" should return one, "one |two" should return two
         return getPrevWord()+getNextWord();
@@ -711,7 +710,7 @@ public class CustomInputMethodService extends InputMethodService
 
         word = word.toLowerCase();
 
-        boolean inTrie = SpellChecker.inTrie(word);
+        // boolean inTrie = SpellChecker.inTrie(word);
         boolean isPrefix = SpellChecker.isPrefix(word);
 
         ArrayList<String> results = new ArrayList<>();
@@ -721,7 +720,7 @@ public class CustomInputMethodService extends InputMethodService
         results.addAll(common);
 
 
-        ArrayList<String> completions = new ArrayList<>();
+        // ArrayList<String> completions = new ArrayList<>();
         // ArrayList<String> suggestions = new ArrayList<>();
 
         if (isPrefix) {
@@ -858,7 +857,7 @@ public class CustomInputMethodService extends InputMethodService
 
     public void onPress(int primaryCode) {
         if (debug) System.out.println("onPress: "+primaryCode);
-        InputConnection ic = getCurrentInputConnection();
+        // InputConnection ic = getCurrentInputConnection();
         time = System.nanoTime() - time;
 
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
@@ -899,7 +898,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private int getHardKeyCode(int keycode) {
-        PopupWindow p = new PopupWindow();
+        // PopupWindow p = new PopupWindow();
         char code = (char)keycode;
         switch (String.valueOf(code)) {
             case "a": return KeyEvent.KEYCODE_A;
@@ -1019,6 +1018,7 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+/*
     private void checkToggleCapsLock() {
         long now = System.currentTimeMillis();
         if (mLastShiftTime + 300 > now) {
@@ -1029,6 +1029,7 @@ public class CustomInputMethodService extends InputMethodService
             mLastShiftTime = now;
         }
     }
+*/
 
     private void setCapsOn(boolean on) {
         if (Variables.isShift()) kv.getKeyboard().setShifted(true);
@@ -1095,6 +1096,7 @@ public class CustomInputMethodService extends InputMethodService
     // SHIFT - 59, SPACE - 62, ENTER - 66, BACKSPACE - 67
     // MENU BUTTON - 82
 
+/*
     private void sendRawKey(int keyCode) {
         if (keyCode == '\n') {
             sendKey(KeyEvent.KEYCODE_ENTER);
@@ -1108,6 +1110,7 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
     }
+*/
 
     public Keyboard.Key getKey(int primaryCode) {
         if (currentKeyboard == null) return null;
@@ -1124,14 +1127,14 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void sendKey(int primaryCode, int times) {
-        InputConnection ic = getCurrentInputConnection();
+        // InputConnection ic = getCurrentInputConnection();
         while (times --> 0) {
             sendKey(primaryCode);
         }
     }
 
     public void sendKeys(@NonNull int[] keys) {
-        InputConnection ic = getCurrentInputConnection();
+        // InputConnection ic = getCurrentInputConnection();
         for (int key : keys) {
             sendKey(key);
         }
@@ -1580,6 +1583,8 @@ public class CustomInputMethodService extends InputMethodService
             break;
         }
     }
+
+/*
     private void handleAction() {
         EditorInfo curEditor = getCurrentInputEditorInfo();
         switch (curEditor.imeOptions & EditorInfo.IME_MASK_ACTION) {
@@ -1591,6 +1596,7 @@ public class CustomInputMethodService extends InputMethodService
             default: break;
         }
     }
+*/
 
     LinkedHashSet<String> clipboardHistory = new LinkedHashSet<>();
 

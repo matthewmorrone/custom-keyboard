@@ -109,7 +109,7 @@ public class Trie {
         }
 
         Set<Character> kset = node.children.keySet();
-        Iterator itr = kset.iterator();
+        Iterator<Character> itr = kset.iterator();
         ArrayList<Character> aloc = new ArrayList<>();
 
         while(itr.hasNext()) {

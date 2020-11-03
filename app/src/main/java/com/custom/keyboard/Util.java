@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
-import android.graphics.Paint;
+// import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.webkit.URLUtil;
@@ -64,7 +64,7 @@ public class Util {
     public static ArrayList<Integer> asUnicodeArray(String text) {
         ArrayList<Integer> result = new ArrayList<>();
         if (text.length() < 1) return result;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
             result.add(ch);
@@ -75,7 +75,7 @@ public class Util {
     public static ArrayList<Character> asUnicodeCharArray(String text) {
         ArrayList<Character> result = new ArrayList<>();
         if (text.length() < 1) return result;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
             result.add((char)ch);
@@ -1106,7 +1106,7 @@ public class Util {
 
     public static String unbolden(String text) {
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
@@ -1127,7 +1127,7 @@ public class Util {
 
     public static String unitalicize(String text) {
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
@@ -1148,7 +1148,7 @@ public class Util {
 
     public static String unemphasize(String text) {
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
@@ -1481,17 +1481,19 @@ public class Util {
         int b = a + m;       // Larger multiple
         return (n - a > b - n)? b : a; // Return of closest of two
     }
+
+/*
     public static int pxFromDp(Context context, int dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
         float density = context.getResources().getDisplayMetrics().density;
         return (int) (px / density);
     }
-
     private static int dpFromPx(Context context, int px) {
         float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context.getResources().getDisplayMetrics());
         float density = context.getResources().getDisplayMetrics().density;
         return (int) (dp / density);
     }
+*/
     public static int evalRPN(String tokens) {
         // tokens = tokens.replace(" ", "");
         return evalRPN(tokens.split(" "));

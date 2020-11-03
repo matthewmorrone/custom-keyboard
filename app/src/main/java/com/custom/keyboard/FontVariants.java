@@ -104,7 +104,7 @@ public class FontVariants {
     public static String unbolden(String text) {
         // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
@@ -150,7 +150,7 @@ public class FontVariants {
     public static String unemphasize(String text) {
         // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
+        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);

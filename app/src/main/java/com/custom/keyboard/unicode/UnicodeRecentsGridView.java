@@ -1,7 +1,7 @@
 package com.custom.keyboard.unicode;
 
 import android.content.Context;
-import android.view.View;
+// import android.view.View;
 import android.widget.GridView;
 
 import com.custom.keyboard.R;

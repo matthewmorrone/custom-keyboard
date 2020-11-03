@@ -1,6 +1,6 @@
 package com.custom.keyboard;
 
-import android.graphics.Color;
+// import android.graphics.Color;
 
 class Themes {
 

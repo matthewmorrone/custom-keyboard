@@ -2,14 +2,14 @@ package com.custom.keyboard.emoticon;
 
 import android.graphics.Paint;
 
-import com.custom.keyboard.Util;
+// import com.custom.keyboard.Util;
 
 import java.io.Serializable;
 
 public class Emoticon implements Serializable {
     private static final long serialVersionUID = 1L;
     private String emoticon;
-    private static boolean renderable;
+    // private static boolean renderable;
 
     private Emoticon() {
     }
