@@ -147,35 +147,6 @@ public class CustomInputMethodService extends InputMethodService
         return kv;
     }
 
-    // Custom method to generate one or multi side border for a view
-    protected LayerDrawable getBorders(int bgColor, int borderColor,
-                                       int left, int top, int right, int bottom){
-        // Initialize new color drawables
-        ColorDrawable borderColorDrawable = new ColorDrawable(borderColor);
-        ColorDrawable backgroundColorDrawable = new ColorDrawable(bgColor);
-
-        // Initialize a new array of drawable objects
-        Drawable[] drawables = new Drawable[]{
-            borderColorDrawable,
-            backgroundColorDrawable
-        };
-
-        // Initialize a new layer drawable instance from drawables array
-        LayerDrawable layerDrawable = new LayerDrawable(drawables);
-
-        // Set padding for background color layer
-        layerDrawable.setLayerInset(
-            1, // Index of the drawable to adjust [background color layer]
-            left, // Number of pixels to add to the left bound [left border]
-            top, // Number of pixels to add to the top bound [top border]
-            right, // Number of pixels to add to the right bound [right border]
-            bottom // Number of pixels to add to the bottom bound [bottom border]
-        );
-
-        // Finally, return the one or more sided bordered background drawable
-        return layerDrawable;
-    }
-
     @Override
     public View onCreateCandidatesView() {
         setTheme();
@@ -185,8 +156,6 @@ public class CustomInputMethodService extends InputMethodService
             mCandidateView = new CandidateView(this);
             mCandidateView.setService(this);
         }
-        // mCandidateView.setBackground(getResources().getDrawable(R.drawable.candidate_background));
-        // mCandidateView.setBackground(getBorders(0x000000, 0xffffff, 0, 2, 0, 2));
         return mCandidateView;
     }
 
@@ -710,6 +679,7 @@ public class CustomInputMethodService extends InputMethodService
     private void updateCandidates() {
         if (!mPredictionOn) return;
         if (mCandidateView == null) return;
+        if (emoticonPopup.isShowing()) return;
 
         String prevLine = getPrevLine();
         String prevWord = getPrevWord();
@@ -732,6 +702,10 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void updateCandidates(String word) {
+        if (emoticonPopup.isShowing()) return;
+
+        if (word.trim().equals("")) return;
+
         boolean isTitleCase = Util.isTitleCase(word);
         boolean isUpperCase = Util.isUpperCase(word) && word.length() > 1;
 
@@ -1363,13 +1337,11 @@ public class CustomInputMethodService extends InputMethodService
 
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
-/*
-        ArrayList<String> suggestions = SpellChecker.getSuggestions(getPrevWord());
+        ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
         if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
-            System.out.println(suggestions);
             replaceText(getPrevWord(), suggestions.get(0));
         }
-*/
+
         ic.endBatchEdit();
     }
 

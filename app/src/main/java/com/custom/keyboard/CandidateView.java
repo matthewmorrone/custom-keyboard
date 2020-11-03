@@ -38,6 +38,8 @@ public class CandidateView extends View {
 
     private static ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
+    private int background;
+    private int foreground;
     private int mColorNormal;
     private int mColorRecommended;
     private int mColorOther;
@@ -70,8 +72,8 @@ public class CandidateView extends View {
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         this.setAlpha(transparency);
 
-        int background = sharedPreferences.getInt("bgcolor", Color.BLACK);
-        int foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
+        background = sharedPreferences.getInt("bgcolor", Color.BLACK);
+        foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
 
         this.setBackgroundColor(background);
 
@@ -171,6 +173,15 @@ public class CandidateView extends View {
         final boolean typedWordValid = mTypedWordValid;
         final int y = (int)(((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
 
+
+        /*
+        if (canvas != null) {
+            canvas.drawLine(0, 0, getWidth(), 0, paint);
+            canvas.drawLine(0, getHeight(), getWidth(), getHeight(), paint);
+        }
+        */
+
+
         for (int i = 0; i < count; i++) {
             String suggestion = mSuggestions.get(i);
             float textWidth = paint.measureText(suggestion);
@@ -197,6 +208,7 @@ public class CandidateView extends View {
                 else if (i != 0) {
                     paint.setColor(mColorOther);
                 }
+
                 canvas.drawText(suggestion, x + X_GAP, y, paint);
                 paint.setColor(mColorOther);
                 canvas.drawLine(x + wordWidth + 0.5f, bgPadding.top, x + wordWidth + 0.5f, height + 1, paint);
