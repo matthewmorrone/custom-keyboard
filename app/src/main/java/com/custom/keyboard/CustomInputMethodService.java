@@ -1341,9 +1341,12 @@ public class CustomInputMethodService extends InputMethodService
 
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
-        ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
-        if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
-            replaceText(getPrevWord(), suggestions.get(0));
+        if (primaryCode == 32) {
+toastIt(getPrevWord());
+            ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
+            if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
+                replaceText(getPrevWord(), suggestions.get(0));
+            }
         }
 
         ic.endBatchEdit();

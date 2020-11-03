@@ -160,10 +160,11 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
     private View createCustomView() {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        Unicode[] unicodeData1 = UnicodeData.getCount(   0, 2048);
-        Unicode[] unicodeData2 = UnicodeData.getCount(2048, 2048);
-        Unicode[] unicodeData3 = UnicodeData.getCount(4096, 2048);
-        Unicode[] unicodeData4 = UnicodeData.getCount(6144, 2048);
+        int size = 16384;
+        Unicode[] unicodeData1 = UnicodeData.getCount(size*0, size);
+        Unicode[] unicodeData2 = UnicodeData.getCount(size*1, size);
+        Unicode[] unicodeData3 = UnicodeData.getCount(size*2, size);
+        Unicode[] unicodeData4 = UnicodeData.getCount(size*3, size);
 
         View view = inflater.inflate(R.layout.unicode_popup, null, false);
         unicodePager = view.findViewById(R.id.unicode_pager);

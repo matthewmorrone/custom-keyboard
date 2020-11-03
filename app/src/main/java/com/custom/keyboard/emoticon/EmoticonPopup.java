@@ -261,6 +261,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
             case 6:
             case 7:
             case 8:
+            case 9:
                 if (mEmoticonTabLastSelectedIndex >= 0 && mEmoticonTabLastSelectedIndex < mEmoticonTabs.length) {
                     mEmoticonTabs[mEmoticonTabLastSelectedIndex].setSelected(false);
                 }
