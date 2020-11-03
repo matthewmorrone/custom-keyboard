@@ -42,23 +42,25 @@ public class Variables {
         else { cursorStart = -1; }
     }
 
+    static boolean temp;
+
     private static boolean IS_BOLD = false;
     static boolean isBold() { return IS_BOLD; }
     static void setBoldOn() { IS_BOLD = true;}
     static void setBoldOff() { IS_BOLD = false;}
-    static void toggleBold() { setAllOff(); IS_BOLD = !IS_BOLD; }
+    static void toggleBold() { temp = IS_BOLD; setAllOff(); IS_BOLD = !temp;}
 
     private static boolean IS_ITALIC = false;
     static boolean isItalic() { return IS_ITALIC; }
     static void setItalicOn() {IS_ITALIC = true;}
     static void setItalicOff() {IS_ITALIC = false;}
-    static void toggleItalic() { setAllOff(); IS_ITALIC = !IS_ITALIC; }
+    static void toggleItalic() {temp = IS_ITALIC; setAllOff(); IS_ITALIC = !temp;}
 
     private static boolean IS_EMPHASIZED = false;
     static boolean isEmphasized() { return IS_EMPHASIZED; }
     static void setEmphasizedOn() {IS_EMPHASIZED = true;}
     static void setEmphasizedOff() {IS_EMPHASIZED = false;}
-    static void toggleEmphasized() { setAllOff(); IS_EMPHASIZED = !IS_EMPHASIZED; }
+    static void toggleEmphasized() {temp = IS_EMPHASIZED; setAllOff(); IS_EMPHASIZED = !temp;}
 
     private static boolean IS_STRIKETHROUGH = false;
     static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
@@ -122,27 +124,29 @@ public class Variables {
     public static boolean isReflected() {return IS_REFLECTED;}
     public static boolean isRectangularStampLetters() {return IS_RECTANGULAR_STAMP_LETTERS;}
 
-    public static void toggleBoldSerif() {setAllOff(); IS_BOLD_SERIF = !IS_BOLD_SERIF;}
-    public static void toggleItalicSerif() {setAllOff(); IS_ITALIC_SERIF = !IS_ITALIC_SERIF;}
-    public static void toggleBoldItalicSerif() {setAllOff(); IS_BOLD_ITALIC_SERIF = !IS_BOLD_ITALIC_SERIF;}
-    public static void toggleSans() {setAllOff(); IS_SANS = !IS_SANS;}
-    public static void toggleBoldSans() {setAllOff(); IS_BOLD_SANS = !IS_BOLD_SANS;}
-    public static void toggleItalicSans() {setAllOff(); IS_ITALIC_SANS = !IS_ITALIC_SANS;}
-    public static void toggleBoldItalicSans() {setAllOff(); IS_BOLD_ITALIC_SANS = !IS_BOLD_ITALIC_SANS;}
-    public static void toggleScript() {setAllOff(); IS_SCRIPT = !IS_SCRIPT;}
-    public static void toggleScriptBold() {setAllOff(); IS_SCRIPT_BOLD = !IS_SCRIPT_BOLD;}
-    public static void toggleFraktur() {setAllOff(); IS_FRAKTUR = !IS_FRAKTUR;}
-    public static void toggleFrakturBold() {setAllOff(); IS_FRAKTUR_BOLD = !IS_FRAKTUR_BOLD;}
-    public static void toggleMonospace() {setAllOff(); IS_MONOSPACE = !IS_MONOSPACE;}
-    public static void toggleDoublestruck() {setAllOff(); IS_DOUBLESTRUCK = !IS_DOUBLESTRUCK;}
-    public static void toggleCaps() {setAllOff(); IS_CAPS = !IS_CAPS;}
-    public static void toggleParentheses() {setAllOff(); IS_PARENTHESES = !IS_PARENTHESES;}
-    public static void toggleEncircle() {setAllOff(); IS_ENCIRCLED = !IS_ENCIRCLED;}
-    public static void toggleSmallCaps() {setAllOff(); IS_SMALL_CAPS = !IS_SMALL_CAPS;}
-    public static void toggleEnsquare() {setAllOff(); IS_ENSQUARED = !IS_ENSQUARED;}
-    public static void toggleCircularStampLetters() {setAllOff(); IS_CIRCULAR_STAMP_LETTERS = !IS_CIRCULAR_STAMP_LETTERS;}
-    public static void toggleReflected() {setAllOff(); IS_REFLECTED = !IS_REFLECTED;}
-    public static void toggleRectangularStampLetters() {setAllOff(); IS_RECTANGULAR_STAMP_LETTERS = !IS_RECTANGULAR_STAMP_LETTERS;}
+
+
+    public static void toggleBoldSerif() {temp = IS_BOLD_SERIF; setAllOff(); IS_BOLD_SERIF = !temp;}
+    public static void toggleItalicSerif() {temp = IS_ITALIC_SERIF; setAllOff(); IS_ITALIC_SERIF = !temp;}
+    public static void toggleBoldItalicSerif() {temp = IS_BOLD_ITALIC_SERIF; setAllOff(); IS_BOLD_ITALIC_SERIF = !temp;}
+    public static void toggleSans() {temp = IS_SANS; setAllOff(); IS_SANS = !temp;}
+    public static void toggleBoldSans() {temp = IS_BOLD_SANS; setAllOff(); IS_BOLD_SANS = !temp;}
+    public static void toggleItalicSans() {temp = IS_ITALIC_SANS; setAllOff(); IS_ITALIC_SANS = !temp;}
+    public static void toggleBoldItalicSans() {temp = IS_BOLD_ITALIC_SANS; setAllOff(); IS_BOLD_ITALIC_SANS = !temp;}
+    public static void toggleScript() {temp = IS_SCRIPT; setAllOff(); IS_SCRIPT = !temp;}
+    public static void toggleScriptBold() {temp = IS_SCRIPT_BOLD; setAllOff(); IS_SCRIPT_BOLD = !temp;}
+    public static void toggleFraktur() {temp = IS_FRAKTUR; setAllOff(); IS_FRAKTUR = !temp;}
+    public static void toggleFrakturBold() {temp = IS_FRAKTUR_BOLD; setAllOff(); IS_FRAKTUR_BOLD = !temp;}
+    public static void toggleMonospace() {temp = IS_MONOSPACE; setAllOff(); IS_MONOSPACE = !temp;}
+    public static void toggleDoublestruck() {temp = IS_DOUBLESTRUCK; setAllOff(); IS_DOUBLESTRUCK = !temp;}
+    public static void toggleCaps() {temp = IS_CAPS; setAllOff(); IS_CAPS = !temp;}
+    public static void toggleParentheses() {temp = IS_PARENTHESES; setAllOff(); IS_PARENTHESES = !temp;}
+    public static void toggleEncircle() {temp = IS_ENCIRCLED; setAllOff(); IS_ENCIRCLED = !temp;}
+    public static void toggleSmallCaps() {temp = IS_SMALL_CAPS; setAllOff(); IS_SMALL_CAPS = !temp;}
+    public static void toggleEnsquare() {temp = IS_ENSQUARED; setAllOff(); IS_ENSQUARED = !temp;}
+    public static void toggleCircularStampLetters() {temp = IS_CIRCULAR_STAMP_LETTERS; setAllOff(); IS_CIRCULAR_STAMP_LETTERS = !temp;}
+    public static void toggleReflected() {temp = IS_REFLECTED; setAllOff(); IS_REFLECTED = !temp;}
+    public static void toggleRectangularStampLetters() {temp = IS_RECTANGULAR_STAMP_LETTERS; setAllOff(); IS_RECTANGULAR_STAMP_LETTERS = !temp;}
 
 
 

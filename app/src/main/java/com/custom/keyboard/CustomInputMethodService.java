@@ -118,6 +118,7 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
+        System.out.println("onCreate");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         mWordSeparators = getResources().getString(R.string.word_separators);
@@ -130,6 +131,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onInitializeInterface() {
+        System.out.println("onInitializeInterface");
         if (standardKeyboard != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
@@ -142,6 +144,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateInputView() {
+        System.out.println("onCreateInputView");
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         kv.setOnKeyboardActionListener(this);
         kv.setKeyboard(standardKeyboard);
@@ -150,6 +153,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateCandidatesView() {
+        System.out.println("onCreateCandidatesView");
         setTheme();
         Paint mPaint = new Paint();
         if (mCandidateView == null) {
@@ -162,18 +166,18 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
+        System.out.println("onStartInputView");
         ViewGroup originalParent = (ViewGroup)kv.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 0, 0, 0);
             kv.setPopupParent(originalParent);
         }
-
-
     }
 
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        System.out.println("onStartInput");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         indentWidth = Integer.valueOf(sharedPreferences.getString("indentWidth", "4"));
@@ -711,7 +715,7 @@ public class CustomInputMethodService extends InputMethodService
 
         word = word.toLowerCase();
 
-        // boolean inTrie = SpellChecker.inTrie(word);
+        boolean inTrie = SpellChecker.inTrie(word);
         boolean isPrefix = SpellChecker.isPrefix(word);
 
         ArrayList<String> results = new ArrayList<>();
@@ -719,10 +723,6 @@ public class CustomInputMethodService extends InputMethodService
 
         ArrayList<String> common = SpellChecker.getCommon(word);
         results.addAll(common);
-
-
-        // ArrayList<String> completions = new ArrayList<>();
-        // ArrayList<String> suggestions = new ArrayList<>();
 
         if (isPrefix) {
             results.addAll(SpellChecker.getCompletions(word));
@@ -736,13 +736,7 @@ public class CustomInputMethodService extends InputMethodService
                     results.set(i, Util.toTitleCase(results.get(i)));
                 }
             }
-            System.out.println(results);
         }
-        // completions.remove(word);
-        // completions.add(0, word);
-
-
-
         if (mPredictionOn) setCandidatesViewShown(true);
         mCandidateView.setSuggestions(results, true, true);
     }
@@ -1283,6 +1277,45 @@ public class CustomInputMethodService extends InputMethodService
         updateCandidates();
     }
 
+    private void handleSpace() {
+        commitText(" ");
+        // mCandidateView.clear();
+        updateCandidates();
+        toastIt(getPrevWord());
+        ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
+        if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
+            replaceText(getPrevWord(), suggestions.get(0));
+        }
+    }
+    public void handleTab() {
+        InputConnection ic = getCurrentInputConnection();
+        // @TODO: use variable for spaces
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
+            int spaceCount = (indentWidth - (getPrevLine().length() % indentWidth));
+            if (spaceCount > 0 && spaceCount < indentWidth && getPrevLine().length() < indentWidth) {
+                spaceCount = indentWidth;
+            }
+            commitText(indentString.substring(0, spaceCount), 0);
+        }
+        else {
+            commitText(" ");
+        }
+        if (isSelecting()) {
+            ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
+        }
+        mCandidateView.clear();
+/*
+        if (Variables.isAnyOn()) {
+            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
+        }
+        else {
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
+            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
+        }
+*/
+    }
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         ic.beginBatchEdit();
@@ -1341,13 +1374,14 @@ public class CustomInputMethodService extends InputMethodService
 
         updateShiftKeyState(getCurrentInputEditorInfo());
         updateCandidates();
-        if (primaryCode == 32) {
-toastIt(getPrevWord());
+
+/*        if (primaryCode == 32) {
+            toastIt(getPrevWord());
             ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
             if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
                 replaceText(getPrevWord(), suggestions.get(0));
             }
-        }
+        }*/
 
         ic.endBatchEdit();
     }
@@ -1440,7 +1474,9 @@ toastIt(getPrevWord());
 
     static String hexBuffer = "";
     int[] hexPasses = new int[] {
-        -101, -23, -22, -20, -21, -13, -14, -15, -16, -12, -11, -10, -9, -7, -5, -8, 10, 32
+        -175, -101, -23, -22, -20, -21, -13, -14, -15, -16, -12, -11, -10, -9, -7, -5, -8, 10, 32,
+        -126, -127, -128, -129, -130, -131
+
     };
     int[] hexCaptures = new int[] {
         48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
@@ -1450,6 +1486,9 @@ toastIt(getPrevWord());
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+        if (primaryCode == -175) {
+            showUnicodePopup();
+        }
 
         if (primaryCode == -201) {
             performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
@@ -1529,41 +1568,6 @@ toastIt(getPrevWord());
             }
         }
         redraw();
-    }
-
-    private void handleSpace() {
-        commitText(" ");
-        // mCandidateView.clear();
-        updateCandidates();
-    }
-    public void handleTab() {
-        InputConnection ic = getCurrentInputConnection();
-        // @TODO: use variable for spaces
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {
-            int spaceCount = (indentWidth - (getPrevLine().length() % indentWidth));
-            if (spaceCount > 0 && spaceCount < indentWidth && getPrevLine().length() < indentWidth) {
-                spaceCount = indentWidth;
-            }
-            commitText(indentString.substring(0, spaceCount), 0);
-        }
-        else {
-            commitText(" ");
-        }
-        if (isSelecting()) {
-            ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
-        }
-        mCandidateView.clear();        
-/*
-        if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt())  getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0, KeyEvent.META_CTRL_ON));
-        }
-        else {
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB, 0));
-            getCurrentInputConnection().sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   KeyEvent.KEYCODE_TAB, 0));
-        }
-*/
     }
     public void handleEnter() {
         // handleAction();
@@ -1916,14 +1920,13 @@ toastIt(getPrevWord());
             case -101: setKeyboard(R.layout.primary); break;
             case -102: setKeyboard(R.layout.menu); break;
             case -103: setKeyboard(R.layout.macros); break;
-            case -133: setKeyboard(R.layout.hex); break;
+            // case -133: break;
             case -134: setKeyboard(R.layout.numeric); break;
             case -135: setKeyboard(R.layout.navigation); break;
             case -136: setKeyboard(R.layout.fonts); break;
             case -137: setKeyboard(R.layout.ipa, "IPA"); break;
             case -138: setKeyboard(R.layout.symbol); break;
             case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
-
             case -140: setKeyboard(R.layout.accents); break;
             case -141:
                 String customKeys = sharedPreferences.getString("custom_keys", "");

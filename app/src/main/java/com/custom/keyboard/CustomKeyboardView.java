@@ -16,6 +16,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,7 @@ public class CustomKeyboardView extends KeyboardView {
     }
 
     public ArrayList<String> getClipboardHistory() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
         LinkedHashSet<String> clipboardHistory = new LinkedHashSet<String>(Util.orNull(sharedPreferences.getStringSet("clipboardHistory", new LinkedHashSet<String>()), new LinkedHashSet<String>()));
         ArrayList<String> result = new ArrayList<String>(clipboardHistory);
         Collections.reverse(result);
@@ -84,6 +86,9 @@ public class CustomKeyboardView extends KeyboardView {
                 getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
                 return true;
             }
+        }
+        if (key.popupCharacters.length() > 8) {
+            key.popupResId = R.layout.popup_template;
         }
         return super.onLongPress(key);
     }
@@ -122,6 +127,12 @@ public class CustomKeyboardView extends KeyboardView {
         invalidateDrawable(key.icon);
 
         canvas.restore();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent me) {
+        return super.onTouchEvent(me);
+
     }
 
     public void drawable(Key key, int drawable) {

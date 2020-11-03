@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
-// import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.webkit.URLUtil;
 
 import java.lang.reflect.Field;
@@ -27,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -47,6 +46,16 @@ public class Util {
 
     // general
     public static void noop() {}
+
+
+    public static <T> boolean notNull(T value) {
+        return (value != null);
+    }
+    public static <T> T orNull(T value, T defaultValue) {
+        return Optional.ofNullable(value).orElse(defaultValue);
+    }
+
+
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(String.valueOf(primaryCode));
     }
@@ -1466,9 +1475,6 @@ public class Util {
 
     public static boolean checkInteger(double variable) {
         return (variable == Math.floor(variable)) && !Double.isInfinite(variable);
-    }
-    public static <T> T orNull(T value, T defaultValue) {
-        return Optional.ofNullable(value).orElse(defaultValue);
     }
     public static double degToRad(double degrees) {
         return degrees * (Math.PI / 180);
