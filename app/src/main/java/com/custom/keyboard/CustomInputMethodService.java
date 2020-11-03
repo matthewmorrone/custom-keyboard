@@ -66,6 +66,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
@@ -1602,13 +1603,13 @@ public class CustomInputMethodService extends InputMethodService
 
     public void clearClipboardHistory() {
         clipboardHistory.clear();
-        sharedPreferences.edit().putStringSet("clipboardHistory", new LinkedHashSet<>()).apply();
+        sharedPreferences.edit().putStringSet("clipboardHistory", new HashSet<>()).apply();
         redraw();
     }
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        clipboardHistory = new LinkedHashSet<>(sharedPreferences.getStringSet("clipboardHistory", new LinkedHashSet<>()));
+        clipboardHistory = new LinkedHashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<>()));
         if (getText(ic).isEmpty()) return;
         clipboardHistory.add(getText(ic));
         if (clipboardHistory.size() > 16) {
