@@ -41,7 +41,7 @@ public class CustomKeyboardView extends KeyboardView {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         textSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("textSize", "48"), "48"));
         theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
-        selected = Color.parseColor("#FF000000");
+        selected = Color.parseColor("#80FFFFFF");
         borderColor = sharedPreferences.getInt("bdcolor", Color.WHITE);
         background = sharedPreferences.getInt("bgcolor", Color.BLACK);
         foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);

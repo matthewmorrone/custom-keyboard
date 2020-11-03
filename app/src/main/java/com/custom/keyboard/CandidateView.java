@@ -44,6 +44,8 @@ public class CandidateView extends View {
     private int mColorRecommended;
     private int mColorOther;
     private int mVerticalPadding;
+    private int borderWidth;
+    private int selected = Color.parseColor("#80FFFFFF");
     private Paint mPaint;
     private boolean mScrolled;
     private int mTargetScrollX;
@@ -75,6 +77,8 @@ public class CandidateView extends View {
         background = sharedPreferences.getInt("bgcolor", Color.BLACK);
         foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
 
+        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
+
         this.setBackgroundColor(background);
 
         mColorNormal = foreground;
@@ -86,7 +90,7 @@ public class CandidateView extends View {
         mPaint.setColor(mColorNormal);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(r.getDimensionPixelSize(R.dimen.candidate_font_height));
-        mPaint.setStrokeWidth(5);
+        mPaint.setStrokeWidth(borderWidth);
 
         mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -173,14 +177,12 @@ public class CandidateView extends View {
         final boolean typedWordValid = mTypedWordValid;
         final int y = (int)(((height - mPaint.getTextSize()) / 2) - mPaint.ascent());
 
-
         /*
         if (canvas != null) {
             canvas.drawLine(0, 0, getWidth(), 0, paint);
             canvas.drawLine(0, getHeight(), getWidth(), getHeight(), paint);
         }
         */
-
 
         for (int i = 0; i < count; i++) {
             String suggestion = mSuggestions.get(i);
@@ -210,7 +212,7 @@ public class CandidateView extends View {
                 }
 
                 canvas.drawText(suggestion, x + X_GAP, y, paint);
-                paint.setColor(mColorOther);
+                paint.setColor(selected);
                 canvas.drawLine(x + wordWidth + 0.5f, bgPadding.top, x + wordWidth + 0.5f, height + 1, paint);
                 paint.setFakeBoldText(false);
             }
