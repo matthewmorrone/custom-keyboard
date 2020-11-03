@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="candidate_font_height">20sp</dimen>
-    <dimen name="candidate_vertical_padding">20sp</dimen>
+    <dimen name="candidate_font_height">16sp</dimen>
+    <dimen name="candidate_vertical_padding">16sp</dimen>
     <dimen name="text_size">20sp</dimen>
     <dimen name="selected_text_size">20sp</dimen>
     <dimen name="keyboard_height">250dp</dimen>

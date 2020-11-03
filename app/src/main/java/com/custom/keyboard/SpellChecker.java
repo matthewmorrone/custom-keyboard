@@ -89,7 +89,7 @@ public class SpellChecker {
         trie.wordsFinderTraversal(tn, 0);
         ArrayList<TrieNode> result = trie.termini;
 
-        Collections.sort(result, comparator);
+        result.sort(comparator);
         if (result.size() > limit) {
             result = new ArrayList<>(result.subList(0, limit));
         }
@@ -98,13 +98,21 @@ public class SpellChecker {
             strings.add(trieNode.getWord());
         }
         strings.remove(word);
-        // Collections.sort(strings, byLength);
-        // strings.add(0, word);
+        // strings.sort(byLength);
         return strings;
     }
 
     public static ArrayList<String> getSuggestions(String word) {
         return getSuggestions(word, 1);
+    }
+
+    public static ArrayList<String> getCommon(String word) {
+        word = word.trim();
+        ArrayList<String> result = new ArrayList<>();
+        if (typos.get(word) != null) {
+            result.add(typos.get(word));
+        }
+        return result;
     }
 
     public static ArrayList<String> getSuggestions(String word, int limit) {
@@ -134,8 +142,6 @@ public class SpellChecker {
         for(Entry entry : topN) {
             result.add(entry.getWord());
         }
-        // Collections.sort(result);
-        // Collections.sort(result, byLength);
         return result;
     }
     

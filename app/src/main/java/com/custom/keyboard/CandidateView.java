@@ -34,7 +34,7 @@ public class CandidateView extends View {
     private int[] mWordWidth = new int[MAX_SUGGESTIONS];
     private int[] mWordX = new int[MAX_SUGGESTIONS];
 
-    private static int X_GAP = 60;
+    private static int X_GAP = 50;
 
     private static ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
@@ -52,12 +52,6 @@ public class CandidateView extends View {
 
     public CandidateView(Context context) {
         super(context);
-
-        // if (!mService.isKeyboardVisible() && this.getVisibility() == VISIBLE) {
-        //     System.out.println(mService.isKeyboardVisible());
-        //     System.out.println(this.getVisibility());
-        //     this.setVisibility(GONE);
-        // }
 
         mSelectionHighlight = context.getResources().getDrawable(android.R.drawable.list_selector_background);
         mSelectionHighlight.setState(new int[] {
@@ -122,14 +116,6 @@ public class CandidateView extends View {
     public void setService(CustomInputMethodService listener) {
         mService = listener;
     }
-
-    // @Override
-    // public void onDetachedFromWindow() {
-    //     super.onDetachedFromWindow();
-    //     System.out.println("onDetachedFromWindow");
-    //     this.setVisibility(View.GONE);
-    // }
-
 
     @Override
     public int computeHorizontalScrollRange() {

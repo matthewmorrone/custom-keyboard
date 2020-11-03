@@ -3,6 +3,7 @@ package com.custom.keyboard.emoticon.categories;
 import com.custom.keyboard.emoticon.Emoticon;
 
 public class EmoticonCategories {
+    public static final Emoticon[] Default = DefaultCategory.Data;
     public static final Emoticon[] People = PeopleCategory.Data;
     public static final Emoticon[] Nature = NatureCategory.Data;
     public static final Emoticon[] FoodAndDrink = FoodAndDrinkCategory.Data;

@@ -164,6 +164,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
         EmoticonRecents recents = this;
         mEmoticonsAdapter = new EmoticonsPagerAdapter(Arrays.asList(
             new EmoticonRecentsGridView(mContext, null, null, this),
+            new EmoticonGridView(mContext, EmoticonCategories.Default, recents, this),
             new EmoticonGridView(mContext, EmoticonCategories.People, recents, this),
             new EmoticonGridView(mContext, EmoticonCategories.Nature, recents, this),
             new EmoticonGridView(mContext, EmoticonCategories.FoodAndDrink, recents, this),
@@ -174,16 +175,17 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
             new EmoticonGridView(mContext, EmoticonCategories.Flags, recents, this)
         ));
         emoticonsPager.setAdapter(mEmoticonsAdapter);
-        mEmoticonTabs = new View[9];
+        mEmoticonTabs = new View[10];
         mEmoticonTabs[0] = view.findViewById(R.id.emoticons_tab_0_recents);
-        mEmoticonTabs[1] = view.findViewById(R.id.emoticons_tab_1_people);
-        mEmoticonTabs[2] = view.findViewById(R.id.emoticons_tab_2_nature);
-        mEmoticonTabs[3] = view.findViewById(R.id.emoticons_tab_3_food_and_drink);
-        mEmoticonTabs[4] = view.findViewById(R.id.emoticons_tab_4_places);
-        mEmoticonTabs[5] = view.findViewById(R.id.emoticons_tab_5_activities);
-        mEmoticonTabs[6] = view.findViewById(R.id.emoticons_tab_6_objects);
-        mEmoticonTabs[7] = view.findViewById(R.id.emoticons_tab_7_symbols);
-        mEmoticonTabs[8] = view.findViewById(R.id.emoticons_tab_8_flags);
+        mEmoticonTabs[1] = view.findViewById(R.id.emoticons_tab_1_default);
+        mEmoticonTabs[2] = view.findViewById(R.id.emoticons_tab_2_people);
+        mEmoticonTabs[3] = view.findViewById(R.id.emoticons_tab_3_nature);
+        mEmoticonTabs[4] = view.findViewById(R.id.emoticons_tab_4_food_and_drink);
+        mEmoticonTabs[5] = view.findViewById(R.id.emoticons_tab_5_places);
+        mEmoticonTabs[6] = view.findViewById(R.id.emoticons_tab_6_activities);
+        mEmoticonTabs[7] = view.findViewById(R.id.emoticons_tab_7_objects);
+        mEmoticonTabs[8] = view.findViewById(R.id.emoticons_tab_8_symbols);
+        mEmoticonTabs[9] = view.findViewById(R.id.emoticons_tab_9_flags);
         for (int i = 0; i < mEmoticonTabs.length; i++) {
             final int position = i;
             mEmoticonTabs[i].setOnClickListener(new OnClickListener() {

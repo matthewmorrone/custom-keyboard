@@ -21,8 +21,8 @@
         <Key android:codes="-39" android:keyLabel="𝖠𝖺" android:keyIcon="@drawable/ic_format_titlecase" />
         <Key android:codes="-40" android:keyLabel="𝖺𝖺" android:keyIcon="@drawable/ic_format_lowercase" />
         <Key android:codes="-41" android:keyLabel="𝖺𝖠" android:keyIcon="@drawable/ic_format_altercase" />
-        <Key android:codes="-58" android:keyLabel="🐍" android:keyIcon="@drawable/ic_snake" />
-        <Key android:codes="-59" android:keyLabel="🐪" android:keyIcon="@drawable/ic_camel" />
+        <Key android:codes="-58" android:keyIcon="@drawable/ic_snake" />
+        <Key android:codes="-59" android:keyIcon="@drawable/ic_camel" />
     </Row>
     <Row>
         <Key android:codes="-100" android:keyLabel="⎚" android:keyIcon="@drawable/ic_format_eraser" />

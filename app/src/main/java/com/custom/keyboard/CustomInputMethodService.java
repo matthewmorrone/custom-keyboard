@@ -9,6 +9,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -58,6 +61,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -101,7 +106,6 @@ public class CustomInputMethodService extends InputMethodService
     private String indentString;
 
     private SpellChecker spellChecker;
-    // private ArrayList<String> suggestions = new ArrayList<>();
 
     boolean debug = false;
 
@@ -143,6 +147,35 @@ public class CustomInputMethodService extends InputMethodService
         return kv;
     }
 
+    // Custom method to generate one or multi side border for a view
+    protected LayerDrawable getBorders(int bgColor, int borderColor,
+                                       int left, int top, int right, int bottom){
+        // Initialize new color drawables
+        ColorDrawable borderColorDrawable = new ColorDrawable(borderColor);
+        ColorDrawable backgroundColorDrawable = new ColorDrawable(bgColor);
+
+        // Initialize a new array of drawable objects
+        Drawable[] drawables = new Drawable[]{
+            borderColorDrawable,
+            backgroundColorDrawable
+        };
+
+        // Initialize a new layer drawable instance from drawables array
+        LayerDrawable layerDrawable = new LayerDrawable(drawables);
+
+        // Set padding for background color layer
+        layerDrawable.setLayerInset(
+            1, // Index of the drawable to adjust [background color layer]
+            left, // Number of pixels to add to the left bound [left border]
+            top, // Number of pixels to add to the top bound [top border]
+            right, // Number of pixels to add to the right bound [right border]
+            bottom // Number of pixels to add to the bottom bound [bottom border]
+        );
+
+        // Finally, return the one or more sided bordered background drawable
+        return layerDrawable;
+    }
+
     @Override
     public View onCreateCandidatesView() {
         setTheme();
@@ -152,8 +185,9 @@ public class CustomInputMethodService extends InputMethodService
             mCandidateView = new CandidateView(this);
             mCandidateView.setService(this);
         }
+        // mCandidateView.setBackground(getResources().getDrawable(R.drawable.candidate_background));
+        // mCandidateView.setBackground(getBorders(0x000000, 0xffffff, 0, 2, 0, 2));
         return mCandidateView;
-        // return displayFindMenu();
     }
 
     @Override
@@ -220,9 +254,6 @@ public class CustomInputMethodService extends InputMethodService
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        // LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        // mCandidateView.setLayoutParams(layoutParams);
-
         // kv.setBackgroundResource(R.drawable.background);
     }
 
@@ -242,26 +273,12 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onWindowHidden() {
         super.onWindowHidden();
-        // netCandidatesViewShown(false);
     }
 
     public boolean isKeyboardVisible() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         return imm.isAcceptingText();
     }
-
-    // @Override
-    // public void onWindowShown() {
-    //     super.onWindowShown();
-    // }
-    //
-    // @Override
-    // public void onWindowHidden() {
-    //     super.onWindowHidden();
-    //     setCandidatesViewShown(false);
-    // }
-
-
 
     public Bounds getBounds(@NonNull List<Keyboard.Key> keys) {
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, maxX = 0, maxY = 0;
@@ -283,7 +300,6 @@ public class CustomInputMethodService extends InputMethodService
             for(Keyboard.Key key : entry.getValue()) {
                 key.width = bounds.dX / entry.getValue().size();
             }
-            // if (entry.getValue().size() > 8) {}
         }
         redraw();
     }
@@ -300,8 +316,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void clearAll() {
-        InputConnection ic = getCurrentInputConnection();
         // sendKey(KeyEvent.KEYCODE_CLEAR);
+        InputConnection ic = getCurrentInputConnection();
         ic = getCurrentInputConnection();
         ic.deleteSurroundingText(MAX, MAX);
     }
@@ -313,7 +329,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public String getAllText(@NonNull InputConnection ic) {
-        return Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString() + Util.orNull(ic.getTextAfterCursor(MAX, 0), "").toString();
+        return Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString()
+             + Util.orNull(ic.getTextAfterCursor(MAX, 0),  "").toString();
     }
 
     public void sendCustomKey(String key) {
@@ -330,24 +347,6 @@ public class CustomInputMethodService extends InputMethodService
 
     public String getCurrentWord() {
         InputConnection ic = getCurrentInputConnection();
-/*
-        int start = getCursorPosition()-getPrevWord().length();
-        int ender = getCursorPosition()+getNextWord().length();
-
-        ic.requestCursorUpdates(0);
-        ic.setComposingRegion(start, ender);
-        ic.requestCursorUpdates(3);
-*/
-
-/*
-        String[] prevWords = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b");
-        String[] nextWords = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b");
-        String prevWord = prevWords[prevWords.length-1];
-        String nextWord = nextWords[0];
-
-        if (prevWord.equals(" ")) return nextWord;
-        if (nextWord.equals(" ")) return prevWord;
-*/
         // @TODO: if at word boundary, should return the word it's actually touching:
         // "one| two" should return one, "one |two" should return two
         return getPrevWord()+getNextWord();
@@ -357,7 +356,6 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         try {
             String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ");
-            // System.out.println(Arrays.toString(words));
             if (words.length < 1) return "";
             String lastWord = words[words.length - 1];
             return lastWord;
@@ -365,7 +363,6 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             return "";
         }
-        // return "";
     }
 
     public String getNextWord() {
@@ -381,7 +378,6 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             return "";
         }
-        // return "";
     }
 
     public void selectPrevWord() {
@@ -395,9 +391,7 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
             else ic.setSelection(position, position);
         }
-        catch (Exception e) {
-            //  toastIt(e.toString());
-        }
+        catch (Exception e) {}
     }
 
     public void selectNextWord() {
@@ -412,9 +406,7 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
             else ic.setSelection(position, position);
         }
-        catch (Exception e) {
-            //  toastIt(e.toString());
-        }
+        catch (Exception e) {}
     }
 
     public void goToStart() {
@@ -615,7 +607,6 @@ public class CustomInputMethodService extends InputMethodService
 
     public void performReplace(String newText) {
         InputConnection ic = getCurrentInputConnection();
-        //  ic.requestCursorUpdates(3);
         ic.beginBatchEdit();
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
             int a = getSelectionStart();
@@ -733,7 +724,6 @@ public class CustomInputMethodService extends InputMethodService
         prevChar = prevChar.substring(0, 1);
 
         if (!Character.isLetter(prevChar.charAt(0))) {
-            // || prevChar.charAt(0) == '\''
             mCandidateView.clear();
             return;
         }
@@ -750,31 +740,37 @@ public class CustomInputMethodService extends InputMethodService
         boolean inTrie = SpellChecker.inTrie(word);
         boolean isPrefix = SpellChecker.isPrefix(word);
 
-        ArrayList<String> completions = new ArrayList<>();
-        ArrayList<String> suggestions = new ArrayList<>();
+        ArrayList<String> results = new ArrayList<>();
+        results.add(word);
 
-        suggestions = SpellChecker.getSuggestions(word, 1);
-        if (suggestions.size() > 1) {
-            completions.addAll(suggestions);
-        }
+        ArrayList<String> common = SpellChecker.getCommon(word);
+        results.addAll(common);
+
+
+        ArrayList<String> completions = new ArrayList<>();
+        // ArrayList<String> suggestions = new ArrayList<>();
 
         if (isPrefix) {
-            completions.addAll(SpellChecker.getCompletions(word));
+            results.addAll(SpellChecker.getCompletions(word));
             if (isUpperCase) {
-                for(int i = 0; i < completions.size(); i++) {
-                    completions.set(i, Util.toUpperCase(completions.get(i)));
+                for(int i = 0; i < results.size(); i++) {
+                    results.set(i, Util.toUpperCase(results.get(i)));
                 }
             }
             else if (isTitleCase) {
-                for(int i = 0; i < completions.size(); i++) {
-                    completions.set(i, Util.toTitleCase(completions.get(i)));
+                for(int i = 0; i < results.size(); i++) {
+                    results.set(i, Util.toTitleCase(results.get(i)));
                 }
             }
+            System.out.println(results);
         }
-        completions.remove(word);
-        completions.add(word);
-        mCandidateView.setSuggestions(completions, true, true);
+        // completions.remove(word);
+        // completions.add(0, word);
+
+
+
         if (mPredictionOn) setCandidatesViewShown(true);
+        mCandidateView.setSuggestions(results, true, true);
     }
 
     public void addToDictionary(String word) {
@@ -796,9 +792,11 @@ public class CustomInputMethodService extends InputMethodService
                 mCandidateView.clear();
             }
             playClick(32);
+            if (index == 0 && !SpellChecker.inTrie(prevWord)) {
+                addToDictionary(prevWord);
+            }
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        // setCandidatesViewShown(false);
     }
 
     public void hide() {
@@ -1622,24 +1620,34 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    HashSet<String> clipboardHistory = new HashSet<>();
+    LinkedHashSet<String> clipboardHistory = new LinkedHashSet<>();
 
+    public void clearClipboardHistory() {
+        clipboardHistory.clear();
+        sharedPreferences.edit().putStringSet("clipboardHistory", new LinkedHashSet<>()).apply();
+        redraw();
+    }
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        clipboardHistory = new HashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
+        clipboardHistory = new LinkedHashSet<>(sharedPreferences.getStringSet("clipboardHistory", new LinkedHashSet<>()));
         if (getText(ic).isEmpty()) return;
         clipboardHistory.add(getText(ic));
+        if (clipboardHistory.size() > 16) {
+            Iterator<String> iterator = clipboardHistory.iterator();
+            String item = iterator.next();
+            clipboardHistory.remove(item);
+        }
         sharedPreferences.edit().putStringSet("clipboardHistory", clipboardHistory).apply();
     }
     public void handleCut() {
         if (!isSelecting()) selectLine();
-        // saveToClipboardHistory();
+        saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_CUT);
     }
     public void handleCopy() {
         if (!isSelecting()) selectLine();
-        // saveToClipboardHistory();
+        saveToClipboardHistory();
         sendKey(KeyEvent.KEYCODE_COPY);
     }
     public void handlePaste() {
@@ -1944,7 +1952,7 @@ public class CustomInputMethodService extends InputMethodService
             break;
             case -142: setKeyboard(R.layout.function); break;
             case -143: setKeyboard(R.layout.calc, "Calculator"); break;
-            case -144: setKeyboard(R.layout.clipboard); break;
+            case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
             case -174: setKeyboard(R.layout.coding); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
@@ -1987,6 +1995,7 @@ public class CustomInputMethodService extends InputMethodService
                 displayFindMenu();
             break;
 
+            case -300: clearClipboardHistory(); break;
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
             case -303: commitText(String.valueOf(Util.orNull(getKey(-303).label, ""))); break;

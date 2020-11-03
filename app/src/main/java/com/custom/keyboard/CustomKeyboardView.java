@@ -18,55 +18,59 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
-
-    int currentKeyboardLayout = R.layout.primary;
-    // Drawable mTransparent = new ColorDrawable(Color.TRANSPARENT);
     Paint mPaint = new Paint();
     Canvas canvas;
     Context kcontext;
     SharedPreferences sharedPreferences;
 
-    int textSize;
-    int theme;
-    Color selected;
-    int selectedInt;
-    Color borderColor;
-    int borderColorInt;
-    Color foreground;
-    int foregroundInt;
-    Color background;
-    int backgroundInt;
+    int currentKeyboardLayout = R.layout.primary;
+    int textSize, theme, selected, borderColor, foreground, background, borderWidth, paddingWidth, borderRadius;
+
+    int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
+    Paint paint = new Paint();
+    Rect textBounds = new Rect();
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         textSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("textSize", "48"), "48"));
-        selectedInt = Color.parseColor("#FF000000");
-        selected = Color.valueOf(selectedInt);
         theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
-        borderColorInt = sharedPreferences.getInt("bdcolor", Color.WHITE);
-        borderColor = Color.valueOf(borderColorInt);
-        backgroundInt = sharedPreferences.getInt("bgcolor", Color.BLACK);
-        background = Color.valueOf(backgroundInt);
-        foregroundInt = sharedPreferences.getInt("fgcolor", Color.WHITE);
-        foreground = Color.valueOf(foregroundInt);
+        selected = Color.parseColor("#FF000000");
+        borderColor = sharedPreferences.getInt("bdcolor", Color.WHITE);
+        background = sharedPreferences.getInt("bgcolor", Color.BLACK);
+        foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
+
+        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
+        paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("paddingWidth", "0"), "0"));
+        borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderRadius", "0"), "0"));
     }
 
     public CustomKeyboard getCustomKeyboard() {
         return (CustomKeyboard)getKeyboard();
     }
 
+    public ArrayList<String> getClipboardHistory() {
+        LinkedHashSet<String> clipboardHistory = new LinkedHashSet<String>(Util.orNull(sharedPreferences.getStringSet("clipboardHistory", new LinkedHashSet<String>()), new LinkedHashSet<String>()));
+        ArrayList<String> result = new ArrayList<String>(clipboardHistory);
+        Collections.reverse(result);
+        return result;
+    }
+
     @Override
     protected boolean onLongPress(Key key) {
+/*
         if (key.codes[0] == -12
-         || key.codes[0] == -200/*
-         || key.codes[0] == 32*/) {
+         || key.codes[0] == -200*//*
+         || key.codes[0] == 32*//*) {
             return super.onLongPress(key);
         }
+*/
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
             return true;
@@ -89,6 +93,37 @@ public class CustomKeyboardView extends KeyboardView {
         drawable.draw(canvas);
     }
 
+    public void selectKey(Key key, int corner) {
+        canvas.save();
+        mPaint.setColor(selected);
+        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+        if (corner > 0) {
+            canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
+        }
+        else {
+            canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
+        }
+        canvas.restore();
+    }
+
+    public void drawable(Key key) {
+        int center = key.x+(key.width/2);
+        int middle = key.y+(key.height/2);
+        int left   = center-(key.width/4);
+        int top    = middle-(key.height/4);
+        int right  = center+(key.width/4);
+        int bottom = middle+(key.height/4);
+
+        canvas.save();
+
+        key.icon.setBounds(left, top, right, bottom);
+        key.icon.setColorFilter(foreground, PorterDuff.Mode.SRC_ATOP);
+        key.icon.draw(canvas);
+        invalidateDrawable(key.icon);
+
+        canvas.restore();
+    }
+
     public void drawable(Key key, int drawable) {
         int center = key.x+(key.width/2);
         int middle = key.y+(key.height/2);
@@ -102,62 +137,10 @@ public class CustomKeyboardView extends KeyboardView {
         Drawable dr = getResources().getDrawable(drawable, null);
         dr.setBounds(left, top, right, bottom);
         dr.draw(canvas);
-
-        canvas.restore();
-    }
-
-    public void selectKey(Key key, int corner) {
-        canvas.save();
-        mPaint.setColor(selectedInt);
-        canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        if (corner > 0) {
-            canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
-        }
-        else {
-            canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-        }
-        canvas.restore();
-    }
-
-    public void drawable(Key key, Drawable drawable, int size, int color) {
-        int center = key.x+(key.width/2);
-        int middle = key.y+(key.height/2);
-        int left   = center-size;
-        int top    = middle-size;
-        int right  = center+size;
-        int bottom = middle+size;
-
-        canvas.save();
-
-        drawable.setBounds(left, top, right, bottom);
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        drawable.draw(canvas);
         invalidateDrawable(key.icon);
 
         canvas.restore();
     }
-
-    public void drawable(Key key, int drawable, int size) {
-        int center = key.x+(key.width/2);
-        int middle = key.y+(key.height/2);
-        int left   = center-size;
-        int top    = middle-size;
-        int right  = center+size;
-        int bottom = middle+size;
-
-        canvas.save();
-
-        Drawable dr = getResources().getDrawable(drawable, null);
-        dr.setBounds(left, top, right, bottom);
-        dr.draw(canvas);
-
-        canvas.restore();
-    }
-
-    int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
-    Paint paint = new Paint();
-    Rect textBounds = new Rect();
-
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -173,43 +156,48 @@ public class CustomKeyboardView extends KeyboardView {
 
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-        int borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
-        int paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("paddingWidth", "0"), "0"));
-        int borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderRadius", "0"), "0"));
-
         LayerDrawable pressDrawable = (LayerDrawable)getResources().getDrawable(R.drawable.press);
         GradientDrawable gradientDrawable = (GradientDrawable)pressDrawable.findDrawableByLayerId(R.id.keyPressDrawable);
         gradientDrawable.setCornerRadius(borderRadius);
-        gradientDrawable.setStroke(borderWidth, selectedInt);
+        gradientDrawable.setStroke(borderWidth, selected);
+
+        ArrayList<String> clipboardHistoryList = getClipboardHistory();
+        // if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) { }
 
         for (Key key : keys) {
-
-            /*
-            mPaint.setColor(borderColorInt);
+/*
+            mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-            mPaint.setColor(backgroundInt);
+            mPaint.setColor(background);
             canvas.drawRect(key.x+borderWidth, key.y+borderWidth, key.x+key.width-borderWidth, key.y+key.height-borderWidth, mPaint);
 
             if (key.label != null) {
-                mPaint.setColor(foregroundInt);
+                mPaint.setColor(foreground);
                 mPaint.setTextSize(textSize);
                 mPaint.setTextAlign(Paint.Align.CENTER);
                 mPaint.getTextBounds(key.label.toString(), 0, key.label.toString().length(), textBounds);
                 canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (13 * (key.height / 16)), mPaint);
             }
             else if (key.icon != null) {
-                drawable(key, key.icon, textSize/2, foregroundInt);
+                drawable(key);
             }
-            */
-
-
+*/
+/*
+            canvas.save();
+            canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
+            // canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
+            mPaint.setColor(Color.parseColor(selected));
+            canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
+            // canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
+            canvas.restore();
+*/
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;
             }
 
             if (borderRadius > 0 || borderWidth > 0 || paddingWidth > 0) {
                 canvas.save();
-                mPaint.setColor(selectedInt);
+                mPaint.setColor(selected);
                 if (borderWidth > 0) {
                     // @TODO: how to clipOutRoundedRect?
                     canvas.clipOutRect(key.x+paddingWidth+borderWidth, key.y+paddingWidth+borderWidth, key.x+key.width-paddingWidth-borderWidth, key.y+key.height-paddingWidth-borderWidth);
@@ -218,38 +206,25 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-
-            /*
-            canvas.save();
-            canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-            // canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
-            mPaint.setColor(Color.parseColor(selected));
-            canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
-            // canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
-            canvas.restore();
-            */
-
             if (key.codes[0] ==  -73)   key.label = Util.timemoji();
-
-            HashSet<String> clipboardHistory = new HashSet<>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
-            List<String> clipboardHistoryList = new ArrayList<>(clipboardHistory);
-
-            if (key.codes[0] == -301 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get(1);
-            if (key.codes[0] == -302 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get(2);
-            if (key.codes[0] == -303 && clipboardHistoryList.size() >  3) key.label = clipboardHistoryList.get(3);
-            if (key.codes[0] == -304 && clipboardHistoryList.size() >  4) key.label = clipboardHistoryList.get(4);
-            if (key.codes[0] == -305 && clipboardHistoryList.size() >  5) key.label = clipboardHistoryList.get(5);
-            if (key.codes[0] == -306 && clipboardHistoryList.size() >  6) key.label = clipboardHistoryList.get(6);
-            if (key.codes[0] == -307 && clipboardHistoryList.size() >  7) key.label = clipboardHistoryList.get(7);
-            if (key.codes[0] == -308 && clipboardHistoryList.size() >  8) key.label = clipboardHistoryList.get(8);
-            if (key.codes[0] == -309 && clipboardHistoryList.size() >  9) key.label = clipboardHistoryList.get(9);
-            if (key.codes[0] == -310 && clipboardHistoryList.size() > 10) key.label = clipboardHistoryList.get(10);
-            if (key.codes[0] == -311 && clipboardHistoryList.size() > 11) key.label = clipboardHistoryList.get(11);
-            if (key.codes[0] == -312 && clipboardHistoryList.size() > 12) key.label = clipboardHistoryList.get(12);
-            if (key.codes[0] == -313 && clipboardHistoryList.size() > 13) key.label = clipboardHistoryList.get(13);
-            if (key.codes[0] == -314 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
-            if (key.codes[0] == -315 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
-            if (key.codes[0] == -316 && clipboardHistoryList.size() > 16) key.label = clipboardHistoryList.get(16);
+            if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) {
+                if (key.codes[0] == -301 && clipboardHistoryList.size() >  0) key.label = clipboardHistoryList.get( 0);
+                if (key.codes[0] == -302 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get( 1);
+                if (key.codes[0] == -303 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get( 2);
+                if (key.codes[0] == -304 && clipboardHistoryList.size() >  3) key.label = clipboardHistoryList.get( 3);
+                if (key.codes[0] == -305 && clipboardHistoryList.size() >  4) key.label = clipboardHistoryList.get( 4);
+                if (key.codes[0] == -306 && clipboardHistoryList.size() >  5) key.label = clipboardHistoryList.get( 5);
+                if (key.codes[0] == -307 && clipboardHistoryList.size() >  6) key.label = clipboardHistoryList.get( 6);
+                if (key.codes[0] == -308 && clipboardHistoryList.size() >  7) key.label = clipboardHistoryList.get( 7);
+                if (key.codes[0] == -309 && clipboardHistoryList.size() >  8) key.label = clipboardHistoryList.get( 8);
+                if (key.codes[0] == -310 && clipboardHistoryList.size() >  9) key.label = clipboardHistoryList.get( 9);
+                if (key.codes[0] == -311 && clipboardHistoryList.size() > 10) key.label = clipboardHistoryList.get(10);
+                if (key.codes[0] == -312 && clipboardHistoryList.size() > 11) key.label = clipboardHistoryList.get(11);
+                if (key.codes[0] == -313 && clipboardHistoryList.size() > 12) key.label = clipboardHistoryList.get(12);
+                if (key.codes[0] == -314 && clipboardHistoryList.size() > 13) key.label = clipboardHistoryList.get(13);
+                if (key.codes[0] == -315 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
+                if (key.codes[0] == -316 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
+            }
 
             if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
             if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
@@ -267,12 +242,8 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);
             if (key.codes[0] == -1) {
-                if (Variables.isShift()) {
-                    selectKey(key, borderRadius);
-                }
-                if (getKeyboard().isShifted()) {
-                    drawable(key, R.drawable.ic_shift_lock);
-                }
+                if (Variables.isShift()) selectKey(key, borderRadius);
+                if (getKeyboard().isShifted()) drawable(key, R.drawable.ic_shift_lock);
             }
             if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
 
@@ -321,13 +292,13 @@ public class CustomKeyboardView extends KeyboardView {
                 &&  !sharedPreferences.getBoolean("hint3", false)
                 &&  !sharedPreferences.getBoolean("hint4", false)
                 ) {
-                    mPaint.setColor(foreground.toArgb());
+                    mPaint.setColor(foreground);
                     canvas.drawText(((getKeyboard().isShifted())
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
                         : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+key.width/2, key.y+36, mPaint);
                 }
                 else {
-                    mPaint.setColor(foreground.toArgb());
+                    mPaint.setColor(foreground);
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())
                             ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
