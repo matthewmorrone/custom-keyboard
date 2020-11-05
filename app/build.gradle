@@ -30,13 +30,23 @@ android {
             outputFileName = "custom-keyboard.apk"
         }
     }
+    packagingOptions {
+        exclude 'org/languagetool/resource/uk'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.apache.commons:commons-lang3:3.8.1'
-//    implementation 'com.vanniktech:emoji-google:0.7.0'
-//    implementation 'com.shawnlin:number-picker:2.4.10'
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'io.apisense:rhino-android:1.0'
     //noinspection GradleDependency

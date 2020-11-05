@@ -9,25 +9,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Vibrator;
-import android.preference.*;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
-
-
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -36,15 +32,18 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.view.textservice.SentenceSuggestionsInfo;
+import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SuggestionsInfo;
+import android.view.textservice.TextInfo;
+import android.view.textservice.TextServicesManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.emoticon.Emoticon;
@@ -66,13 +65,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
+// import org.languagetool.JLanguageTool;
+// import org.languagetool.language.AmericanEnglish;
+// import org.languagetool.rules.RuleMatch;
+
 
 public class CustomInputMethodService extends InputMethodService
-    implements KeyboardView.OnKeyboardActionListener {
+    implements KeyboardView.OnKeyboardActionListener,
+               SpellCheckerSession.SpellCheckerSessionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
 
@@ -114,6 +117,9 @@ public class CustomInputMethodService extends InputMethodService
     private UnicodePopup unicodePopup = null;
     private EmoticonPopup emoticonPopup = null;
 
+    TextServicesManager tsm;
+    SpellCheckerSession session;
+
 
     @Override
     public void onCreate() {
@@ -126,6 +132,9 @@ public class CustomInputMethodService extends InputMethodService
         toast = new Toast(getBaseContext());
 
         spellChecker = new SpellChecker(getApplicationContext(), true);
+
+        tsm = (TextServicesManager) getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
+        session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
     }
 
@@ -186,6 +195,7 @@ public class CustomInputMethodService extends InputMethodService
         Paint mPaint = setTheme();
 
         // mComposing.setLength(0);
+        System.out.println("onStartInput");
         updateCandidates();
 
         if (!restarting) {
@@ -475,6 +485,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
+        System.out.println("onFinishInput");
         updateCandidates();
 
         setCandidatesViewShown(false);
@@ -551,7 +562,8 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
-        updateCandidates(getCurrentWord());
+        // System.out.println("onUpdateSelection");
+        updateCandidates(); //getCurrentWord());
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             InputConnection ic = getCurrentInputConnection();
@@ -605,6 +617,7 @@ public class CustomInputMethodService extends InputMethodService
     private void commitTyped(InputConnection inputConnection) {
         if (getPrevWord().length() > 0) {
             commitText(getPrevWord());
+            System.out.println("commitTyped");
             updateCandidates();
         }
     }
@@ -632,8 +645,7 @@ public class CustomInputMethodService extends InputMethodService
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    @Override
-    public void swipeLeft() {
+    public void moveLeftOneWord() {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         String prevWord = getPrevWord();
@@ -641,11 +653,20 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     @Override
-    public void swipeRight() {
+    public void swipeLeft() {
+        moveLeftOneWord();
+    }
+
+    public void moveRightOneWord() {
         InputConnection ic = getCurrentInputConnection();
         ic.requestCursorUpdates(3);
         String nextWord = getNextWord();
         ic.setSelection(getSelectionEnd()+nextWord.length(), getSelectionEnd()+nextWord.length());
+    }
+
+    @Override
+    public void swipeRight() {
+        moveRightOneWord();
     }
 
     @Override
@@ -680,7 +701,83 @@ public class CustomInputMethodService extends InputMethodService
         startIntent(intent);
     }
 
+    @Override
+    public void onGetSuggestions(SuggestionsInfo[] results) {
+
+    }
+
+    public static void show(String [][] arr) {
+        for (String[] ar : arr) {
+            if (ar == null) continue;
+            for (String a: ar) {
+                System.out.print(" " + a);
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] sentenceSuggestionsInfos) {
+        // for (SentenceSuggestionsInfo sentenceSuggestionsInfo : sentenceSuggestionsInfos) {
+        //     for (int i = 0; i < sentenceSuggestionsInfo.getSuggestionsCount(); i++) {
+        //         for (int k = 0; k < sentenceSuggestionsInfo.getSuggestionsInfoAt(i).getSuggestionsCount(); k++) {
+        //             results.append(sentenceSuggestionsInfo.getSuggestionsInfoAt(i).getSuggestionAt(k)).append(",");
+        //         }
+        //         // result.append("\n");
+        //     }
+        // }
+        final StringBuffer sb = new StringBuffer("");
+        for (SentenceSuggestionsInfo result : sentenceSuggestionsInfos) {
+            int n = result.getSuggestionsCount();
+            for (int i = 0; i < n; i++) {
+                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+                if ((result.getSuggestionsInfoAt(i).getSuggestionsAttributes() & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) != SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) {
+                    continue;
+                }
+                for (int k = 0; k < m; k++) {
+                    sb.append(result.getSuggestionsInfoAt(i).getSuggestionAt(k)).append(",");
+                }
+                sb.append("\n");
+            }
+        }
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            public void run() {
+                String[] wordInfos = sb.toString().split("\n");
+                String prevWordInfos = wordInfos[wordInfos.length-1];
+                String prevWord = getPrevWord();
+                boolean isTitleCase = Util.isTitleCase(prevWord);
+                boolean isUpperCase = Util.isUpperCase(prevWord) && prevWord.length() > 1;
+                prevWord = prevWord.toLowerCase();
+
+                ArrayList<String> results = new ArrayList<String>();
+                results.add(prevWord);
+                for(String s : prevWordInfos.toString().split(",")) {
+                    if (s.isEmpty() || s.trim().isEmpty()) continue;
+                    results.add(s);
+                }
+
+                if (isUpperCase) {
+                    for(int i = 0; i < results.size(); i++) {
+                        results.set(i, Util.toUpperCase(results.get(i)));
+                    }
+                }
+                else if (isTitleCase) {
+                    for(int i = 0; i < results.size(); i++) {
+                        results.set(i, Util.toTitleCase(results.get(i)));
+                    }
+                }
+
+                mCandidateView.setSuggestions(results, true, true);
+            }
+        });
+    }
+
+    private void fetchSuggestionsFor(String input) {
+        if (!input.isEmpty()) session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+    }
+
     private void updateCandidates() {
+
         if (!mPredictionOn) return;
         if (mCandidateView == null) return;
         if (emoticonPopup != null && emoticonPopup.isShowing()) return;
@@ -689,6 +786,7 @@ public class CustomInputMethodService extends InputMethodService
         String prevWord = getPrevWord();
         String prevChar = "";
 
+        if (prevWord.trim().equals("")) return;
         if (prevLine.length() == 0 && prevWord.length() == 0) {
             mCandidateView.clear();
             return;
@@ -702,43 +800,24 @@ public class CustomInputMethodService extends InputMethodService
             return;
         }
 
-        updateCandidates(prevWord);
-    }
+        if (mPredictionOn) setCandidatesViewShown(true);
+        fetchSuggestionsFor(prevWord);
 
-    private void updateCandidates(String word) {
-        if (emoticonPopup != null && emoticonPopup.isShowing()) return;
-
-        if (word.trim().equals("")) return;
-
-        boolean isTitleCase = Util.isTitleCase(word);
-        boolean isUpperCase = Util.isUpperCase(word) && word.length() > 1;
-
-        word = word.toLowerCase();
-
-        boolean inTrie = SpellChecker.inTrie(word);
-        boolean isPrefix = SpellChecker.isPrefix(word);
+        if (true) return;
+/*
+        prevWord = prevWord.toLowerCase();
+        boolean inTrie = SpellChecker.inTrie(prevWord);
+        boolean isPrefix = SpellChecker.isPrefix(prevWord);
 
         ArrayList<String> results = new ArrayList<>();
-        results.add(word);
+        results.add(prevWord);
 
-        ArrayList<String> common = SpellChecker.getCommon(word);
+        ArrayList<String> common = SpellChecker.getCommon(prevWord);
         results.addAll(common);
-
         if (isPrefix) {
-            results.addAll(SpellChecker.getCompletions(word));
-            if (isUpperCase) {
-                for(int i = 0; i < results.size(); i++) {
-                    results.set(i, Util.toUpperCase(results.get(i)));
-                }
-            }
-            else if (isTitleCase) {
-                for(int i = 0; i < results.size(); i++) {
-                    results.set(i, Util.toTitleCase(results.get(i)));
-                }
-            }
+            results.addAll(SpellChecker.getCompletions(prevWord));
         }
-        if (mPredictionOn) setCandidatesViewShown(true);
-        mCandidateView.setSuggestions(results, true, true);
+*/
     }
 
     public void addToDictionary(String word) {
@@ -1236,6 +1315,8 @@ public class CustomInputMethodService extends InputMethodService
             sendKey(KeyEvent.KEYCODE_FORWARD_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
+
+        System.out.println("handleDelete");
         updateCandidates();
     }
 
@@ -1274,6 +1355,7 @@ public class CustomInputMethodService extends InputMethodService
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
+        System.out.println("handleBackspace");
         updateCandidates();
     }
 
@@ -1281,7 +1363,6 @@ public class CustomInputMethodService extends InputMethodService
         commitText(" ");
         // mCandidateView.clear();
         updateCandidates();
-        toastIt(getPrevWord());
         ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
         if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
             replaceText(getPrevWord(), suggestions.get(0));
@@ -1373,6 +1454,7 @@ public class CustomInputMethodService extends InputMethodService
         setCapsOn(false);
 
         updateShiftKeyState(getCurrentInputEditorInfo());
+        System.out.println("handleCharacter");
         updateCandidates();
 
 /*        if (primaryCode == 32) {
@@ -1920,7 +2002,7 @@ public class CustomInputMethodService extends InputMethodService
             case -101: setKeyboard(R.layout.primary); break;
             case -102: setKeyboard(R.layout.menu); break;
             case -103: setKeyboard(R.layout.macros); break;
-            // case -133: break;
+            case -133: setKeyboard(R.layout.domain); break;
             case -134: setKeyboard(R.layout.numeric); break;
             case -135: setKeyboard(R.layout.navigation); break;
             case -136: setKeyboard(R.layout.fonts); break;
@@ -1979,6 +2061,8 @@ public class CustomInputMethodService extends InputMethodService
             case -173:
                 displayFindMenu();
             break;
+            case -176: moveLeftOneWord(); break;
+            case -177: moveRightOneWord(); break;
 
             case -300: clearClipboardHistory(); break;
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
@@ -2028,7 +2112,8 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception ignored) {}
-        updateCandidates();
+        // System.out.println("onKey");
+        // updateCandidates();
 
     }
 

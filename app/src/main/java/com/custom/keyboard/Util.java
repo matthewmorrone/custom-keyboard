@@ -54,6 +54,14 @@ public class Util {
     public static <T> T orNull(T value, T defaultValue) {
         return Optional.ofNullable(value).orElse(defaultValue);
     }
+    public static String[][] to2Darray(String source, String outerdelim, String innerdelim) {
+        String[][] result = new String[source.replaceAll("[^" + outerdelim + "]", "").length() + 1][];
+        int count = 0;
+        for (String line : source.split ("[" + outerdelim + "]")) {
+            result [count++] = line.split(innerdelim);
+        }
+        return result;
+    }
 
 
     public static boolean contains(String haystack, int primaryCode) {
