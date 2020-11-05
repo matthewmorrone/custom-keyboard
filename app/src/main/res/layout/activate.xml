@@ -58,6 +58,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+            <ScrollView
+                android:id="@+id/errorScroll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:fillViewport="true">
+                <TextView
+                    android:id="@+id/errorOutput"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </ScrollView>
         <TextView
             android:id="@+id/versionView"
             android:layout_width="wrap_content"

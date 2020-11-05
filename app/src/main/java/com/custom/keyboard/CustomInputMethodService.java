@@ -56,6 +56,8 @@ import com.custom.keyboard.unicode.UnicodePopup;
 import org.apache.commons.lang3.StringUtils;
 import org.mariuszgromada.math.mxparser.Expression;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -67,6 +69,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 // import org.languagetool.JLanguageTool;
 // import org.languagetool.language.AmericanEnglish;
@@ -124,7 +129,7 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("onCreate");
+        if (debug) System.out.println("onCreate");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         mWordSeparators = getResources().getString(R.string.word_separators);
@@ -140,7 +145,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onInitializeInterface() {
-        System.out.println("onInitializeInterface");
+        if (debug) System.out.println("onInitializeInterface");
         if (standardKeyboard != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
@@ -153,7 +158,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateInputView() {
-        System.out.println("onCreateInputView");
+        if (debug) System.out.println("onCreateInputView");
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         kv.setOnKeyboardActionListener(this);
         kv.setKeyboard(standardKeyboard);
@@ -162,7 +167,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateCandidatesView() {
-        System.out.println("onCreateCandidatesView");
+        if (debug) System.out.println("onCreateCandidatesView");
         setTheme();
         Paint mPaint = new Paint();
         if (mCandidateView == null) {
@@ -175,7 +180,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        System.out.println("onStartInputView");
+        if (debug) System.out.println("onStartInputView");
         ViewGroup originalParent = (ViewGroup)kv.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 0, 0, 0);
@@ -186,7 +191,7 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-        System.out.println("onStartInput");
+        if (debug) System.out.println("onStartInput");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         indentWidth = Integer.valueOf(sharedPreferences.getString("indentWidth", "4"));
@@ -195,7 +200,6 @@ public class CustomInputMethodService extends InputMethodService
         Paint mPaint = setTheme();
 
         // mComposing.setLength(0);
-        System.out.println("onStartInput");
         updateCandidates();
 
         if (!restarting) {
@@ -353,7 +357,7 @@ public class CustomInputMethodService extends InputMethodService
         try {
             String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ");
             words = Arrays.copyOfRange(words, 1, words.length-1);
-            System.out.println(Arrays.toString(words));
+            if (debug) System.out.println(Arrays.toString(words));
             if (words.length < 1) return "";
             String nextWord = words[0];
             return nextWord;
@@ -485,7 +489,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
-        System.out.println("onFinishInput");
+        if (debug) System.out.println("onFinishInput");
         updateCandidates();
 
         setCandidatesViewShown(false);
@@ -511,7 +515,7 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception e) {
-            System.out.println(e);
+            if (debug) System.out.println(e);
         }
 
         String nextLine = getNextLine();
@@ -523,7 +527,7 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception e) {
-            System.out.println(e);
+            if (debug) System.out.println(e);
         }
         try {
             boolean isBold = FontVariants.isBold(prevChar) || FontVariants.isBold(nextChar);
@@ -547,7 +551,7 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception e) {
-            System.out.println(e);
+            if (debug) System.out.println(e);
         }
         if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
@@ -562,7 +566,6 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
-        // System.out.println("onUpdateSelection");
         updateCandidates(); //getCurrentWord());
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
@@ -615,9 +618,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void commitTyped(InputConnection inputConnection) {
+        if (debug) System.out.println("commitTyped");
         if (getPrevWord().length() > 0) {
             commitText(getPrevWord());
-            System.out.println("commitTyped");
             updateCandidates();
         }
     }
@@ -771,13 +774,20 @@ public class CustomInputMethodService extends InputMethodService
             }
         });
     }
-
     private void fetchSuggestionsFor(String input) {
         if (session == null) {
             session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
         }
         if(session != null && !input.isEmpty()) {
-            session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+            try {
+                session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+            }
+            catch(Exception e) {
+                HashMap<String, String> cursorData = new HashMap<>();
+                cursorData.put("exception", e.toString());
+                cursorData.put("message", e.getMessage());
+                sendMessageToActivity("DebugHelper", cursorData);
+            }
         }
     }
 
@@ -1326,7 +1336,6 @@ public class CustomInputMethodService extends InputMethodService
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
 
-        System.out.println("handleDelete");
         updateCandidates();
     }
 
@@ -1365,7 +1374,6 @@ public class CustomInputMethodService extends InputMethodService
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        System.out.println("handleBackspace");
         updateCandidates();
     }
 
@@ -1464,7 +1472,6 @@ public class CustomInputMethodService extends InputMethodService
         setCapsOn(false);
 
         updateShiftKeyState(getCurrentInputEditorInfo());
-        System.out.println("handleCharacter");
         updateCandidates();
 
 /*        if (primaryCode == 32) {
@@ -1559,7 +1566,7 @@ public class CustomInputMethodService extends InputMethodService
             break;
         }
         // calcBufferHistory.push(calcBuffer);
-        System.out.println(calcBufferHistory);
+        if (debug) System.out.println(calcBufferHistory);
         getKey(-200).label = calcBuffer;
         redraw();
     }
@@ -2122,7 +2129,6 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         catch (Exception ignored) {}
-        // System.out.println("onKey");
         // updateCandidates();
 
     }

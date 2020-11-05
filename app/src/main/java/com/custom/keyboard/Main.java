@@ -13,12 +13,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class Main extends Activity {
 
     EditText editText;
+    TextView errorOutput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +29,34 @@ public class Main extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
+        // requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
+
         editText = findViewById(R.id.editText);
+        errorOutput = findViewById(R.id.errorOutput);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
     }
 
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // @TODO: implement ability to limit to selected text
-            String oldText = intent.getStringExtra("oldText");
-            String newText = intent.getStringExtra("newText");
-            editText.setText(newText);
+            if (Util.orNull(intent.getAction(), "").equals("FindReplace")) {
+                // @TODO: implement ability to limit to selected text
+                String oldText = Util.orNull(intent.getStringExtra("oldText"), "");
+                String newText = Util.orNull(intent.getStringExtra("newText"), "");
+                editText.setText(newText);
+            }
+            if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
+                errorOutput.setText("");
+                if (intent.hasExtra("exception")) {
+                    errorOutput.setText(errorOutput.getText()+"exception: "+intent.getStringExtra("output"));
+                }
+                if (intent.hasExtra("message")) {
+                    errorOutput.setText(errorOutput.getText()+"\nmessage: "+intent.getStringExtra("output"));
+                }
+            }
+
+
         }
     };
 
