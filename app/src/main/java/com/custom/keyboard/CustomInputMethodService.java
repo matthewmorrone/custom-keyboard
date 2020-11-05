@@ -133,7 +133,7 @@ public class CustomInputMethodService extends InputMethodService
 
         spellChecker = new SpellChecker(getApplicationContext(), true);
 
-        tsm = (TextServicesManager) getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
+        tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
         session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
     }
@@ -773,7 +773,12 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void fetchSuggestionsFor(String input) {
-        if (!input.isEmpty()) session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+        if (session == null) {
+            session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
+        }
+        if(session != null && !input.isEmpty()) {
+            session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+        }
     }
 
     private void updateCandidates() {
