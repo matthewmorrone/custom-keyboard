@@ -801,7 +801,12 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         if (mPredictionOn) setCandidatesViewShown(true);
-        fetchSuggestionsFor(prevWord);
+        try {
+            fetchSuggestionsFor(prevWord);
+        }
+        catch(Exception e) {
+            toastIt(e);
+        }
 
         if (true) return;
 /*
