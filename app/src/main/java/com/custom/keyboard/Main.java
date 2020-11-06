@@ -52,11 +52,9 @@ public class Main extends Activity {
             if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
                 // errorOutput.setText("");
                 if (intent.hasExtra("data")) {
-                    errorOutput.setText(errorOutput.getText()+"\n"+intent.getStringExtra("data"));
+                    errorOutput.setText(intent.getStringExtra("data")+""+errorOutput.getText());
                 }
             }
-
-
         }
     };
 

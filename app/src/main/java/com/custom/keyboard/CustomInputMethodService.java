@@ -129,7 +129,6 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
-        if (debug) System.out.println("onCreate");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         mWordSeparators = getResources().getString(R.string.word_separators);
@@ -145,7 +144,6 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onInitializeInterface() {
-        if (debug) System.out.println("onInitializeInterface");
         if (standardKeyboard != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) {
@@ -158,7 +156,6 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateInputView() {
-        if (debug) System.out.println("onCreateInputView");
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         kv.setOnKeyboardActionListener(this);
         kv.setKeyboard(standardKeyboard);
@@ -167,7 +164,6 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public View onCreateCandidatesView() {
-        if (debug) System.out.println("onCreateCandidatesView");
         setTheme();
         Paint mPaint = new Paint();
         if (mCandidateView == null) {
@@ -180,7 +176,6 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        if (debug) System.out.println("onStartInputView");
         ViewGroup originalParent = (ViewGroup)kv.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 0, 0, 0);
@@ -191,7 +186,6 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-        if (debug) System.out.println("onStartInput");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         indentWidth = Integer.valueOf(sharedPreferences.getString("indentWidth", "4"));
@@ -207,7 +201,6 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-
 
         setInputType();
 
@@ -232,7 +225,7 @@ public class CustomInputMethodService extends InputMethodService
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
-
+        debug = sharedPreferences.getBoolean("debug", false);
 
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
@@ -718,6 +711,11 @@ public class CustomInputMethodService extends InputMethodService
             System.out.println();
         }
     }
+    private void sendDataToActivity(String output) {
+        HashMap<String, String> cursorData = new HashMap<>();
+        cursorData.put("data", output);
+        sendMessageToActivity("DebugHelper", cursorData);
+    }
 
     @Override
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] sentenceSuggestionsInfos) {
@@ -743,6 +741,7 @@ public class CustomInputMethodService extends InputMethodService
                 sb.append("\n");
             }
         }
+        sendDataToActivity(sb.toString());
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = sb.toString().split("\n");
@@ -775,17 +774,12 @@ public class CustomInputMethodService extends InputMethodService
             }
         });
     }
-    private void sendDataToActivity(String output) {
-        HashMap<String, String> cursorData = new HashMap<>();
-        cursorData.put("data", output);
-        sendMessageToActivity("DebugHelper", cursorData);
-    }
+
     private void fetchSuggestionsFor(String input) {
         if (session == null) {
             session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
         }
-        sendDataToActivity(input);
-        if(session != null && !input.isEmpty()) {
+        if(!input.isEmpty()) {
             try {
                 session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
@@ -1493,7 +1487,7 @@ public class CustomInputMethodService extends InputMethodService
     int[] calcPasses = new int[] {-101, -22, -12, 10,};
     int[] calcCaptures = new int[] {-200, -201, -202, -203, -204, -205, -206, -207, -208, -209,
                                     -5, -7, -8, -9, -10, -11, 32, 37, 43, 45, 46, 48, 49, 50, 51,
-                                    52, 53, 54, 55, 56, 57, 61, 94, 215, 247,};
+                                    52, 53, 54, 55, 56, 57, 61, 94, 215, 247};
     int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94, 61};
     private void handleCalc(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
