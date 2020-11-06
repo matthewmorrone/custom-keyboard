@@ -125,7 +125,6 @@ public class CustomInputMethodService extends InputMethodService
     TextServicesManager tsm;
     SpellCheckerSession session;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -139,7 +138,6 @@ public class CustomInputMethodService extends InputMethodService
 
         tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
         session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
-
     }
 
     @Override
@@ -2297,9 +2295,40 @@ public class CustomInputMethodService extends InputMethodService
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    // String renderable = emoticon.isRenderable() ? "✓" : "✗";
-                    toastIt(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon()));
+                    toastIt(emoticon.getEmoticon()+"\t\t"+Util.unidata(emoticon.getEmoticon()));
                     commitText(emoticon.getEmoticon());
+                }
+            });
+            emoticonPopup.setOnEmoticonLongClickedListener(new EmoticonGridView.OnEmoticonLongClickedListener() {
+                @Override
+                public void onEmoticonLongClicked(Emoticon emoticon) {
+                    playClick();
+                    int tab = emoticonPopup.getCurrentTab();
+                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String emoticonFavorites = new String(sharedPreferences.getString("emoticon_favorites", ""));
+                    if (tab == 0) {
+                        emoticonPopup.removeRecentEmoticon(getBaseContext(), emoticon);
+                        toastIt(emoticon.getEmoticon()+" removed from emoticon recents");
+                    }
+                    else if (tab == 10) {
+                        StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
+                        if (emoticonFavorites.indexOf(emoticon.getEmoticon()) > -1) {
+                            sb.deleteCharAt(emoticonFavorites.indexOf(emoticon.getEmoticon()));
+                        }
+                        emoticonFavorites = sb.toString();
+                        sharedPreferences.edit().putString("emoticon_favorites", emoticonFavorites).apply();
+                        toastIt(emoticon.getEmoticon()+" removed from emoticon favorites");
+                    }
+                    else {
+                        StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
+                        if (emoticonFavorites.indexOf(emoticon.getEmoticon()) > -1) {
+                            sb.deleteCharAt(emoticonFavorites.indexOf(emoticon.getEmoticon()));
+                        }
+                        sb.append(emoticon.getEmoticon());
+                        emoticonFavorites = new String(sb.toString());
+                        sharedPreferences.edit().putString("emoticon_favorites", new String(emoticonFavorites)).apply();
+                        toastIt(emoticon.getEmoticon()+" added to emoticon favorites");
+                    }
                 }
             });
             emoticonPopup.setOnEmoticonBackspaceClickedListener(new EmoticonPopup.OnEmoticonBackspaceClickedListener() {
@@ -2319,7 +2348,6 @@ public class CustomInputMethodService extends InputMethodService
             View popupView = layoutInflater.inflate(R.layout.unicode_listview, null);
 
             unicodePopup = new UnicodePopup(popupView, this);
-
 
             unicodePopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             unicodePopup.setHeight(kv.getHeight());
@@ -2364,30 +2392,31 @@ public class CustomInputMethodService extends InputMethodService
             unicodePopup.setOnUnicodeLongClickedListener(new UnicodeGridView.OnUnicodeLongClickedListener() {
                 @Override
                 public void onUnicodeLongClicked(Unicode unicode) {
+                    playClick();
                     int tab = unicodePopup.getCurrentTab();
                     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    String favorites = sharedPreferences.getString("favorites", "");
+                    String unicodeFavorites = sharedPreferences.getString("unicode_favorites", "");
                     if (tab == 0) {
-                        StringBuilder sb = new StringBuilder(favorites);
-                        if (favorites.indexOf(unicode.getUnicode()) > -1) {
-                            sb.deleteCharAt(favorites.indexOf(unicode.getUnicode()));
+                        StringBuilder sb = new StringBuilder(unicodeFavorites);
+                        if (unicodeFavorites.indexOf(unicode.getUnicode()) > -1) {
+                            sb.deleteCharAt(unicodeFavorites.indexOf(unicode.getUnicode()));
                         }
                         sb.append(unicode.getUnicode());
-                        favorites = sb.toString();
-                        sharedPreferences.edit().putString("favorites", favorites).apply();
-                        toastIt(unicode.getUnicode()+" added to favorites");
+                        unicodeFavorites = sb.toString();
+                        sharedPreferences.edit().putString("favorites", unicodeFavorites).apply();
+                        toastIt(unicode.getUnicode()+" added to unicode favorites");
                     }
                     if (tab == 1) {
                         unicodePopup.removeRecentUnicode(getBaseContext(), unicode);
-                        toastIt(unicode.getUnicode()+" removed from recents");
+                        toastIt(unicode.getUnicode()+" removed from unicode recents");
                     }
                     if (tab == 2) {
-                        StringBuilder sb = new StringBuilder(favorites);
-                        if (favorites.indexOf(unicode.getUnicode()) > -1) {
-                            sb.deleteCharAt(favorites.indexOf(unicode.getUnicode()));
+                        StringBuilder sb = new StringBuilder(unicodeFavorites);
+                        if (unicodeFavorites.indexOf(unicode.getUnicode()) > -1) {
+                            sb.deleteCharAt(unicodeFavorites.indexOf(unicode.getUnicode()));
                         }
-                        favorites = sb.toString();
-                        sharedPreferences.edit().putString("favorites", favorites).apply();
+                        unicodeFavorites = sb.toString();
+                        sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
                         toastIt(unicode.getUnicode()+" removed from favorites");
                     }
                 }

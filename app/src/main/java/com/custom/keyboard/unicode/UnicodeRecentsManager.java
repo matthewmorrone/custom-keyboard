@@ -2,8 +2,7 @@ package com.custom.keyboard.unicode;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-// import androidx.preference.PreferenceManager;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -36,11 +35,11 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
     }
 
     public int getRecentPage() {
-        return getPreferences().getInt(PREF_RECENTS_PAGE, 0);
+        return getSharedPreferences().getInt(PREF_RECENTS_PAGE, 0);
     }
 
     public void setRecentPage(int page) {
-        getPreferences().edit().putInt(PREF_RECENTS_PAGE, page).apply();
+        getSharedPreferences().edit().putInt(PREF_RECENTS_PAGE, page).apply();
     }
 
     public void push(Unicode object) {
@@ -67,20 +66,21 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
         return ret;
     }
 
-    private SharedPreferences getPreferences() {
-        return mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+    private SharedPreferences getSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return sharedPreferences;
     }
 
     private void loadRecents() {
-        SharedPreferences prefs = getPreferences();
-        String str = prefs.getString(PREF_RECENTS, "");
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        String str = sharedPreferences.getString(PREF_RECENTS, "");
         StringTokenizer tokenizer = new StringTokenizer(str, "~");
         while (tokenizer.hasMoreTokens()) {
             try {
                 add(new Unicode(tokenizer.nextToken()));
             }
-            catch (NumberFormatException e) {
-                // ignored
+            catch (NumberFormatException ignored) {
+
             }
         }
     }
@@ -95,8 +95,7 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
                 str.append('~');
             }
         }
-        SharedPreferences prefs = getPreferences();
+        SharedPreferences prefs = getSharedPreferences();
         prefs.edit().putString(PREF_RECENTS, str.toString()).apply();
     }
-
 }

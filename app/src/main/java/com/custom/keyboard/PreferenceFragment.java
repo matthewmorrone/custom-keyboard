@@ -18,38 +18,33 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference seps;
 
     ListPreference theme;
+    SeekPreference height;
+    SeekPreference transparency;
+    EditTextPreference indentWidth;
+    EditTextPreference borderWidth;
+    EditTextPreference paddingWidth;
+    EditTextPreference borderRadius;
+    EditTextPreference textSize;
+    EditTextPreference emoticonFontSize;
+    EditTextPreference unicodeFontSize;
+    ColorPreference background;
+    ColorPreference foreground;
+    ColorPreference borderColor;
 
+    Preference resetEmoticonHistory;
+    Preference resetUnicodeHistory;
+    EditTextPreference emoticonRecents;
+    EditTextPreference unicodeRecents;
+    EditTextPreference emoticonFavorites;
+    EditTextPreference unicodeFavorites;
     EditTextPreference popup_first;
     EditTextPreference popup_second;
     EditTextPreference popup_third;
-
     EditTextPreference name;
     EditTextPreference email;
     EditTextPreference phone;
     EditTextPreference address;
     EditTextPreference password;
-
-    SeekPreference height;
-    SeekPreference transparency;
-
-    EditTextPreference indentWidth;
-    EditTextPreference borderWidth;
-    EditTextPreference paddingWidth;
-    EditTextPreference borderRadius;
-
-    ColorPreference background;
-    ColorPreference foreground;
-    ColorPreference borderColor;
-
-    EditTextPreference textSize;
-    EditTextPreference emoticonFontSize;
-    EditTextPreference unicodeFontSize;
-
-    EditTextPreference unicodeFavorites;
-
-    Preference resetEmoticonHistory;
-    Preference resetUnicodeHistory;
-
     EditTextPreference k1;
     EditTextPreference k2;
     EditTextPreference k3;
@@ -80,7 +75,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         theme = (ListPreference)findPreference("theme");
 
         indentWidth = (EditTextPreference)findPreference("indentWidth");
-        // borderWidth = (EditTextPreference)findPreference("borderWidth");
+        borderWidth = (EditTextPreference)findPreference("borderWidth");
         paddingWidth = (EditTextPreference)findPreference("paddingWidth");
         borderRadius = (EditTextPreference)findPreference("borderRadius");
 
@@ -88,7 +83,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         emoticonFontSize = (EditTextPreference)findPreference("emoticonFontSize");
         unicodeFontSize = (EditTextPreference)findPreference("unicodeFontSize");
 
-        unicodeFavorites = (EditTextPreference)findPreference("unicodeFavorites");
+        emoticonRecents = (EditTextPreference)findPreference("emoticon_recents");
+        unicodeRecents = (EditTextPreference)findPreference("unicode_recents");
+        emoticonFavorites = (EditTextPreference)findPreference("emoticon_favorites");
+        unicodeFavorites = (EditTextPreference)findPreference("unicode_favorites");
 
         background = (ColorPreference)findPreference("bgcolor");
         foreground = (ColorPreference)findPreference("fgcolor");
@@ -108,8 +106,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             resetEmoticonHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    System.out.println(preference);
-                    System.out.println(sharedPreferences.getString("recent_emoticons", ""));
                     sharedPreferences.edit().putString("recent_emoticons", "").apply();
                     return true;
                 }
@@ -121,8 +117,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             resetUnicodeHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    System.out.println(preference);
-                    System.out.println(sharedPreferences.getString("recent_unicode", ""));
                     sharedPreferences.edit().putString("recent_unicode", "").apply();
                     return true;
                 }
@@ -137,7 +131,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k6 = (EditTextPreference)findPreference("k6");
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
-
 
         if (seps != null) seps.setSummary(sharedPreferences.getString("seps", ""));
 
@@ -158,8 +151,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
 
-        System.out.println(sharedPreferences.getString("favorites", ""));
-        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("favorites", ""));
+        if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
+        if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
+        if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
+        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
 
         if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
         if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
@@ -217,7 +212,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
 
-        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("favorites", ""));
+        if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
+        if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
+        if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
+        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
 
         if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
         if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));

@@ -41,7 +41,10 @@
     <PreferenceScreen android:title="Custom Keys">
         <Preference android:title="Reset Emoticon History" android:key="resetEmoticonHistory" />
         <Preference android:title="Reset Unicode History"  android:key="resetUnicodeHistory" />
-        <EditTextPreference android:defaultValue="" android:dialogMessage="" android:dialogTitle="Unicode Favorites" android:key="favorites" android:summary="" android:title="Unicode Favorites" />
+        <EditTextPreference android:defaultValue="" android:dialogMessage="" android:dialogTitle="Emoticon Recents" android:key="emoticon_recents" android:summary="" android:title="Emoticon Recents" />
+        <EditTextPreference android:defaultValue="" android:dialogMessage="" android:dialogTitle="Unicode Recents" android:key="unicode_recents" android:summary="" android:title="Unicode Recents" />
+        <EditTextPreference android:defaultValue="" android:dialogMessage="" android:dialogTitle="Emoticon Favorites" android:key="emoticon_favorites" android:summary="" android:title="Emoticon Favorites" />
+        <EditTextPreference android:defaultValue="" android:dialogMessage="" android:dialogTitle="Unicode Favorites"  android:key="unicode_favorites"  android:summary="" android:title="Unicode Favorites" />
         <EditTextPreference android:defaultValue="@string/custom_keys" android:dialogMessage="" android:dialogTitle="Keys in Custom Layout" android:key="custom_keys" android:summary="@string/custom_keys" android:title="Custom Layout" />
         <!--<EditTextPreference android:defaultValue="@string/popup_first" android:dialogMessage="" android:dialogTitle="Popup 1" android:key="popup_first" android:summary="@string/popup_first" android:title="Popup 1" />-->
         <!--<EditTextPreference android:defaultValue="@string/popup_second" android:dialogMessage="" android:dialogTitle="Popup 2" android:key="popup_second" android:summary="@string/popup_second" android:title="Popup 2" />-->

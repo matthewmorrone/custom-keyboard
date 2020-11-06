@@ -79,5 +79,17 @@
     <string name="close">❌</string>
     <string name="find">find…</string>
     <string name="replace">replace…</string>
-    <string name="go">🔍</string><string name="ic_emoticons_people_category">Emoticons People Category</string><string name="ic_emoticons_nature_category">Emoticons Nature Category</string><string name="ic_emoticons_food_and_drink_category">Emoticons Food and Drink Category</string><string name="ic_emoticons_places_category">Emoticons Places Category</string><string name="emoticons_activities_category">Emoticons Activities Category</string><string name="emoticons_objects_category">Emoticons Objects Category</string><string name="emoticons_symbols_category">Emoticons Symbols Category</string><string name="emoticons_flags_category">Emoticons Flags Category</string><string name="emoticons_backspace">Emoticons Backspace</string><string name="close_keyboard">Close Keyboard</string><string name="emoticons_recent_category">Emoticons Recent Category</string><string name="emoticons_default_category">Emoticons Default Category</string>
+    <string name="go">🔍</string>
+    <string name="ic_emoticons_people_category">Emoticons People Category</string>
+    <string name="ic_emoticons_nature_category">Emoticons Nature Category</string>
+    <string name="ic_emoticons_food_and_drink_category">Emoticons Food and Drink Category</string>
+    <string name="ic_emoticons_places_category">Emoticons Places Category</string>
+    <string name="emoticons_activities_category">Emoticons Activities Category</string>
+    <string name="emoticons_objects_category">Emoticons Objects Category</string>
+    <string name="emoticons_symbols_category">Emoticons Symbols Category</string>
+    <string name="emoticons_flags_category">Emoticons Flags Category</string>
+    <string name="emoticons_backspace">Emoticons Backspace</string>
+    <string name="close_keyboard">Close Keyboard</string>
+    <string name="emoticons_recent_category">Emoticons Recent Category</string>
+    <string name="emoticons_default_category">Emoticons Default Category</string><string name="emoticons_favorites_category">Emoticons Favorites Category</string>
 </resources>

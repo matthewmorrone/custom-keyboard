@@ -253,9 +253,9 @@ public class Util {
     }
     public static String unidata(int primaryCode) {
         return toTitleCase(Util.orNull(Character.getName(primaryCode), ""))
-            +"\t"+
+            +"\t\t"+
             primaryCode
-            +"\t0x"+
+            +"\t\t0x"+
             padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
     }
 

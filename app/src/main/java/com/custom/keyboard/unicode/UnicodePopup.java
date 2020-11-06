@@ -173,7 +173,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         Unicode[] unicodeData = UnicodeData.getCount(0, size);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        Unicode[] unicodeFavorites = UnicodeData.stringToUnicodes(Util.orNull(sharedPreferences.getString("favorites", ""), ""));
+        Unicode[] unicodeFavorites = UnicodeData.stringToUnicodes(Util.orNull(sharedPreferences.getString("unicode_favorites", ""), ""));
 
         View view = inflater.inflate(R.layout.unicode_popup, null, false);
         unicodePager = view.findViewById(R.id.unicode_pager);

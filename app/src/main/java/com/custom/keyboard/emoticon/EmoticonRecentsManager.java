@@ -2,6 +2,7 @@ package com.custom.keyboard.emoticon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -34,11 +35,11 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
     }
 
     public int getRecentPage() {
-        return getPreferences().getInt(PREF_PAGE, 0);
+        return getSharedPreferences().getInt(PREF_PAGE, 0);
     }
 
     public void setRecentPage(int page) {
-        getPreferences().edit().putInt(PREF_PAGE, page).commit();
+        getSharedPreferences().edit().putInt(PREF_PAGE, page).apply();
     }
 
     public void push(Emoticon object) {
@@ -67,13 +68,14 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
         return ret;
     }
 
-    private SharedPreferences getPreferences() {
-        return mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+    private SharedPreferences getSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return sharedPreferences;
     }
 
     private void loadRecents() {
-        SharedPreferences prefs = getPreferences();
-        String str = prefs.getString(PREF_RECENTS, "");
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        String str = sharedPreferences.getString(PREF_RECENTS, "");
         StringTokenizer tokenizer = new StringTokenizer(str, "~");
         while (tokenizer.hasMoreTokens()) {
             try {
@@ -95,8 +97,8 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
                 str.append('~');
             }
         }
-        SharedPreferences prefs = getPreferences();
-        prefs.edit().putString(PREF_RECENTS, str.toString()).commit();
+        SharedPreferences prefs = getSharedPreferences();
+        prefs.edit().putString(PREF_RECENTS, str.toString()).apply();
     }
 
 }

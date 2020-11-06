@@ -3,6 +3,7 @@ package com.custom.keyboard.unicode;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
                 unicodeClickedListener.onUnicodeClicked(getItem(position));
             }
         });
-        holder.icon.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.icon.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 unicodeLongClickedListener.onUnicodeLongClicked(getItem(position));

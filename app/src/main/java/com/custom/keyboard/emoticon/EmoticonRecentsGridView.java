@@ -6,6 +6,8 @@ import android.content.Context;
 import android.widget.GridView;
 
 import com.custom.keyboard.R;
+import com.custom.keyboard.unicode.Unicode;
+import com.custom.keyboard.unicode.UnicodeRecentsManager;
 
 public class EmoticonRecentsGridView extends EmoticonGridView implements EmoticonRecents {
     EmoticonAdapter mAdapter;
@@ -22,6 +24,14 @@ public class EmoticonRecentsGridView extends EmoticonGridView implements Emotico
                 }
             }
         });
+        mAdapter.setEmoticonLongClickedListener(new OnEmoticonLongClickedListener() {
+            @Override
+            public void onEmoticonLongClicked(Emoticon emoticon) {
+                if (mEmoticonPopup.onEmoticonLongClickedListener != null) {
+                    mEmoticonPopup.onEmoticonLongClickedListener.onEmoticonLongClicked(emoticon);
+                }
+            }
+        });
         GridView gridView = (GridView)rootView.findViewById(R.id.Emoticon_GridView);
         gridView.setAdapter(mAdapter);
     }
@@ -31,10 +41,14 @@ public class EmoticonRecentsGridView extends EmoticonGridView implements Emotico
         EmoticonRecentsManager recents = EmoticonRecentsManager.getInstance(context);
         recents.push(emoticon);
 
-        // notify dataset changed
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
+        if (mAdapter != null) mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void removeRecentEmoticon(Context context, Emoticon emoticon) {
+        EmoticonRecentsManager recents = EmoticonRecentsManager.getInstance(context);
+        recents.remove(emoticon);
+
+        if (mAdapter != null) mAdapter.notifyDataSetChanged();
+    }
 }

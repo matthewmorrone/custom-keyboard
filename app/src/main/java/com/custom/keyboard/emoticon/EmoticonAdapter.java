@@ -3,17 +3,20 @@ package com.custom.keyboard.emoticon;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.custom.keyboard.R;
 import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonClickedListener;
+import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonLongClickedListener;
 
 import java.util.List;
 
 class EmoticonAdapter extends ArrayAdapter<Emoticon> {
     OnEmoticonClickedListener emoticonClickedListener;
+    OnEmoticonLongClickedListener emoticonLongClickedListener;
 
     public EmoticonAdapter(Context context, List<Emoticon> data) {
         super(context, R.layout.emoticon_item, data);
@@ -25,6 +28,10 @@ class EmoticonAdapter extends ArrayAdapter<Emoticon> {
 
     public void setEmoticonClickedListener(OnEmoticonClickedListener listener) {
         this.emoticonClickedListener = listener;
+    }
+
+    public void setEmoticonLongClickedListener(OnEmoticonLongClickedListener listener) {
+        this.emoticonLongClickedListener = listener;
     }
 
     @Override
@@ -43,6 +50,13 @@ class EmoticonAdapter extends ArrayAdapter<Emoticon> {
             @Override
             public void onClick(View v) {
                 emoticonClickedListener.onEmoticonClicked(getItem(position));
+            }
+        });
+        holder.icon.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                emoticonLongClickedListener.onEmoticonLongClicked(getItem(position));
+                return true;
             }
         });
         return v;

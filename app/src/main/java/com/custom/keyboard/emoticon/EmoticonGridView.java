@@ -42,6 +42,14 @@ public class EmoticonGridView {
                 }
             }
         });
+        mAdapter.setEmoticonLongClickedListener(new OnEmoticonLongClickedListener() {
+            @Override
+            public void onEmoticonLongClicked(Emoticon emoticon) {
+                if (mEmoticonPopup.onEmoticonLongClickedListener != null) {
+                    mEmoticonPopup.onEmoticonLongClickedListener.onEmoticonLongClicked(emoticon);
+                }
+            }
+        });
         gridView.setAdapter(mAdapter);
     }
 
@@ -51,6 +59,10 @@ public class EmoticonGridView {
 
     public interface OnEmoticonClickedListener {
         void onEmoticonClicked(Emoticon emoticon);
+    }
+
+    public interface OnEmoticonLongClickedListener {
+        void onEmoticonLongClicked(Emoticon emoticon);
     }
 
 }

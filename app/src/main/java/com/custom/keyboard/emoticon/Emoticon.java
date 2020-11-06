@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Emoticon implements Serializable {
     private static final long serialVersionUID = 1L;
     private String emoticon;
-    // private static boolean renderable;
 
     private Emoticon() {
     }
