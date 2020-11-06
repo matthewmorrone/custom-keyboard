@@ -45,6 +45,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference emoticonFontSize;
     EditTextPreference unicodeFontSize;
 
+    EditTextPreference unicodeFavorites;
+
     Preference resetEmoticonHistory;
     Preference resetUnicodeHistory;
 
@@ -85,6 +87,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         textSize = (EditTextPreference)findPreference("textSize");
         emoticonFontSize = (EditTextPreference)findPreference("emoticonFontSize");
         unicodeFontSize = (EditTextPreference)findPreference("unicodeFontSize");
+
+        unicodeFavorites = (EditTextPreference)findPreference("unicodeFavorites");
 
         background = (ColorPreference)findPreference("bgcolor");
         foreground = (ColorPreference)findPreference("fgcolor");
@@ -154,6 +158,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
 
+        System.out.println(sharedPreferences.getString("favorites", ""));
+        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("favorites", ""));
+
         if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
         if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
         if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
@@ -209,6 +216,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (textSize != null) textSize.setSummary(sharedPreferences.getString("textSize", "56"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
+
+        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("favorites", ""));
 
         if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
         if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
