@@ -138,7 +138,7 @@ public class CustomInputMethodService extends InputMethodService
         spellChecker = new SpellChecker(getApplicationContext(), true);
 
         tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
-        session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
+        session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
 
     }
 
