@@ -2320,6 +2320,7 @@ public class CustomInputMethodService extends InputMethodService
 
             unicodePopup = new UnicodePopup(popupView, this);
 
+
             unicodePopup.setSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             unicodePopup.setHeight(kv.getHeight());
             unicodePopup.showAtLocation(kv.getRootView(), Gravity.BOTTOM, 0, 0);
@@ -2356,9 +2357,39 @@ public class CustomInputMethodService extends InputMethodService
                 @Override
                 public void onUnicodeClicked(Unicode unicode) {
                     playClick();
-                    // String renderable = unicode.isRenderable() ? "✓" : "✗";
                     toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
+                }
+            });
+            unicodePopup.setOnUnicodeLongClickedListener(new UnicodeGridView.OnUnicodeLongClickedListener() {
+                @Override
+                public void onUnicodeLongClicked(Unicode unicode) {
+                    int tab = unicodePopup.getCurrentTab();
+                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String favorites = sharedPreferences.getString("favorites", "");
+                    if (tab == 0) {
+                        StringBuilder sb = new StringBuilder(favorites);
+                        if (favorites.indexOf(unicode.getUnicode()) > -1) {
+                            sb.deleteCharAt(favorites.indexOf(unicode.getUnicode()));
+                        }
+                        sb.append(unicode.getUnicode());
+                        favorites = sb.toString();
+                        sharedPreferences.edit().putString("favorites", favorites).apply();
+                        toastIt(unicode.getUnicode()+" added to favorites");
+                    }
+                    if (tab == 1) {
+                        unicodePopup.removeRecentUnicode(getBaseContext(), unicode);
+                        toastIt(unicode.getUnicode()+" removed from recents");
+                    }
+                    if (tab == 2) {
+                        StringBuilder sb = new StringBuilder(favorites);
+                        if (favorites.indexOf(unicode.getUnicode()) > -1) {
+                            sb.deleteCharAt(favorites.indexOf(unicode.getUnicode()));
+                        }
+                        favorites = sb.toString();
+                        sharedPreferences.edit().putString("favorites", favorites).apply();
+                        toastIt(unicode.getUnicode()+" removed from favorites");
+                    }
                 }
             });
             unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {

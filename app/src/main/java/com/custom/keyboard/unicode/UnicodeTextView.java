@@ -34,10 +34,9 @@ public class UnicodeTextView extends TextView {
     }
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicodeTextSize", "24"), "24"));
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicodeTextSize", "20"), "20"));
 
     private void init(AttributeSet attrs) {
-
         if (attrs == null) {
             mUnicodeSize = (int)getTextSize();
         }
@@ -55,7 +54,6 @@ public class UnicodeTextView extends TextView {
     @Override
     public void setText(CharSequence text, BufferType type) {
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        // UnicodeHandler.addUnicode(getContext(), builder, mUnicodeSize, mTextStart, mTextLength);
         super.setText(builder, type);
     }
 

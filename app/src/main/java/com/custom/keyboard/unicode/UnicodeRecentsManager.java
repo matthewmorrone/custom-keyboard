@@ -12,7 +12,7 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
     private static final String PREFERENCE_NAME = "unicode";
     private static final String PREF_RECENTS = "recent_unicode";
-    private static final String PREF_PAGE = "recent_page";
+    private static final String PREF_RECENTS_PAGE = "recent_page";
 
     private static final Object LOCK = new Object();
     private static UnicodeRecentsManager sInstance;
@@ -36,16 +36,14 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
     }
 
     public int getRecentPage() {
-        return getPreferences().getInt(PREF_PAGE, 0);
+        return getPreferences().getInt(PREF_RECENTS_PAGE, 0);
     }
 
     public void setRecentPage(int page) {
-        getPreferences().edit().putInt(PREF_PAGE, page).commit();
+        getPreferences().edit().putInt(PREF_RECENTS_PAGE, page).apply();
     }
 
     public void push(Unicode object) {
-        // FIXME totally inefficient way of adding the emoji to the adapter
-        // TODO this should be probably replaced by a deque
         if (contains(object)) {
             super.remove(object);
         }
@@ -98,7 +96,7 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
             }
         }
         SharedPreferences prefs = getPreferences();
-        prefs.edit().putString(PREF_RECENTS, str.toString()).commit();
+        prefs.edit().putString(PREF_RECENTS, str.toString()).apply();
     }
 
 }

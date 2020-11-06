@@ -50,7 +50,9 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp">
             <LinearLayout
+
                 android:id="@+id/errorLayout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -63,7 +65,7 @@
                     android:layout_height="200dp"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"

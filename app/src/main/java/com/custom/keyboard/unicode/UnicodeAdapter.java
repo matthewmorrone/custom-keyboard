@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import com.custom.keyboard.R;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeClickedListener;
+import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeLongClickedListener;
 
 import java.util.List;
 
 class UnicodeAdapter extends ArrayAdapter<Unicode> {
     OnUnicodeClickedListener unicodeClickedListener;
+    OnUnicodeLongClickedListener unicodeLongClickedListener;
 
     public UnicodeAdapter(Context context, List<Unicode> data) {
         super(context, R.layout.unicode_item, data);
@@ -27,6 +29,10 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
         this.unicodeClickedListener = listener;
     }
 
+    public void setUnicodeLongClickedListener(OnUnicodeLongClickedListener listener) {
+        this.unicodeLongClickedListener = listener;
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
@@ -38,11 +44,20 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
         }
         Unicode unicode = getItem(position);
         ViewHolder holder = (ViewHolder)v.getTag();
-        holder.icon.setText(unicode.getUnicode());
+        if (unicode != null) {
+            holder.icon.setText(unicode.getUnicode());
+        }
         holder.icon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 unicodeClickedListener.onUnicodeClicked(getItem(position));
+            }
+        });
+        holder.icon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                unicodeLongClickedListener.onUnicodeLongClicked(getItem(position));
+                return true;
             }
         });
         return v;

@@ -18,9 +18,9 @@
     </Row>
     <Row android:keyWidth="25%p">
         <Key android:codes="-134" android:keyIcon="@drawable/ic_keypad" />
-        <Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />
         <Key android:codes="-143" android:keyIcon="@drawable/ic_calc" />
         <Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />
+        <Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />
     </Row>
     <Row android:keyWidth="25%p">
         <Key android:codes="-174" android:keyIcon="@drawable/ic_coding" />

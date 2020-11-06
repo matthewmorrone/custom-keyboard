@@ -1,7 +1,17 @@
 package com.custom.keyboard.unicode;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 public class UnicodeData {
     static int defaultMax = (int)Math.pow(2, 10);
+    public static Unicode[] stringToUnicodes(String input) {
+        Unicode[] data = new Unicode[input.length()];
+        for(int i = 0; i < input.length(); i++) {
+            data[i] = Unicode.fromCodePoint(input.charAt(i));
+        }
+        return data;
+    }
     public static Unicode[] getData() {
         Unicode[] data = new Unicode[defaultMax];
         for(int i = 0; i < defaultMax; i++) {

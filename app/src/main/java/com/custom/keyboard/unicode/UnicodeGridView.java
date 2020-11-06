@@ -41,6 +41,14 @@ public class UnicodeGridView {
                 }
             }
         });
+        mAdapter.setUnicodeLongClickedListener(new OnUnicodeLongClickedListener() {
+            @Override
+            public void onUnicodeLongClicked(Unicode unicode) {
+                if (mUnicodePopup.onUnicodeLongClickedListener != null) {
+                    mUnicodePopup.onUnicodeLongClickedListener.onUnicodeLongClicked(unicode);
+                }
+            }
+        });
         gridView.setAdapter(mAdapter);
     }
 
@@ -52,4 +60,7 @@ public class UnicodeGridView {
         void onUnicodeClicked(Unicode unicode);
     }
 
+    public interface OnUnicodeLongClickedListener {
+        void onUnicodeLongClicked(Unicode unicode);
+    }
 }

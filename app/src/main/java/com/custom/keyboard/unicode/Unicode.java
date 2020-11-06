@@ -2,14 +2,11 @@ package com.custom.keyboard.unicode;
 
 import android.graphics.Paint;
 
-// import com.custom.keyboard.Util;
-
 import java.io.Serializable;
 
 public class Unicode implements Serializable {
     private static final long serialVersionUID = 1L;
     private String unicode;
-    // private static boolean renderable;
 
     private Unicode() {
     }
