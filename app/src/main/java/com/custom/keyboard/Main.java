@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -21,6 +22,7 @@ public class Main extends Activity {
 
     EditText editText;
     TextView errorOutput;
+    LinearLayout errorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class Main extends Activity {
 
         editText = findViewById(R.id.editText);
         errorOutput = findViewById(R.id.errorOutput);
+        errorLayout = findViewById(R.id.errorLayout);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
     }
@@ -47,12 +50,9 @@ public class Main extends Activity {
                 editText.setText(newText);
             }
             if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
-                errorOutput.setText("");
-                if (intent.hasExtra("exception")) {
-                    errorOutput.setText(errorOutput.getText()+"exception: "+intent.getStringExtra("output"));
-                }
-                if (intent.hasExtra("message")) {
-                    errorOutput.setText(errorOutput.getText()+"\nmessage: "+intent.getStringExtra("output"));
+                // errorOutput.setText("");
+                if (intent.hasExtra("data")) {
+                    errorOutput.setText(errorOutput.getText()+"\n"+intent.getStringExtra("data"));
                 }
             }
 
@@ -90,6 +90,15 @@ public class Main extends Activity {
         }
         else {
             window.setStatusBarColor(getResources().getColor(R.color.black));
+        }
+    }
+
+    public void toggleDetails(View view) {
+        if (errorLayout.getVisibility() == View.VISIBLE) {
+            errorLayout.setVisibility(View.GONE);
+        }
+        else {
+            errorLayout.setVisibility(View.VISIBLE);
         }
     }
 }

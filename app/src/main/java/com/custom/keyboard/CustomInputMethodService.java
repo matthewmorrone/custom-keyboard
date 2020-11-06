@@ -489,7 +489,6 @@ public class CustomInputMethodService extends InputMethodService
     public void onFinishInput() {
         super.onFinishInput();
 
-        if (debug) System.out.println("onFinishInput");
         updateCandidates();
 
         setCandidatesViewShown(false);
@@ -566,6 +565,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
+        System.out.println("onUpdateSelection");
         updateCandidates(); //getCurrentWord());
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
@@ -618,9 +618,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void commitTyped(InputConnection inputConnection) {
-        if (debug) System.out.println("commitTyped");
         if (getPrevWord().length() > 0) {
             commitText(getPrevWord());
+            System.out.println("commitTyped");
             updateCandidates();
         }
     }
@@ -746,6 +746,7 @@ public class CustomInputMethodService extends InputMethodService
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = sb.toString().split("\n");
+                if (wordInfos.length < 1) return;
                 String prevWordInfos = wordInfos[wordInfos.length-1];
                 String prevWord = getPrevWord();
                 boolean isTitleCase = Util.isTitleCase(prevWord);
@@ -774,19 +775,22 @@ public class CustomInputMethodService extends InputMethodService
             }
         });
     }
+    private void sendDataToActivity(String output) {
+        HashMap<String, String> cursorData = new HashMap<>();
+        cursorData.put("data", output);
+        sendMessageToActivity("DebugHelper", cursorData);
+    }
     private void fetchSuggestionsFor(String input) {
         if (session == null) {
             session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
         }
+        sendDataToActivity(input);
         if(session != null && !input.isEmpty()) {
             try {
                 session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
             catch(Exception e) {
-                HashMap<String, String> cursorData = new HashMap<>();
-                cursorData.put("exception", e.toString());
-                cursorData.put("message", e.getMessage());
-                sendMessageToActivity("DebugHelper", cursorData);
+                sendDataToActivity(e.toString());
             }
         }
     }
@@ -799,14 +803,17 @@ public class CustomInputMethodService extends InputMethodService
 
         String prevLine = getPrevLine();
         String prevWord = getPrevWord();
-        String prevChar = "";
-
-        if (prevWord.trim().equals("")) return;
+        if (prevWord.trim().equals("")) {
+            mCandidateView.clear();
+            return;
+        }
         if (prevLine.length() == 0 && prevWord.length() == 0) {
             mCandidateView.clear();
             return;
         }
 
+
+        String prevChar = "";
         prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
         prevChar = prevChar.substring(0, 1);
 
@@ -820,10 +827,8 @@ public class CustomInputMethodService extends InputMethodService
             fetchSuggestionsFor(prevWord);
         }
         catch(Exception e) {
-            toastIt(e);
+            sendDataToActivity(e.toString());
         }
-
-        if (true) return;
 /*
         prevWord = prevWord.toLowerCase();
         boolean inTrie = SpellChecker.inTrie(prevWord);
@@ -1472,15 +1477,8 @@ public class CustomInputMethodService extends InputMethodService
         setCapsOn(false);
 
         updateShiftKeyState(getCurrentInputEditorInfo());
-        updateCandidates();
-
-/*        if (primaryCode == 32) {
-            toastIt(getPrevWord());
-            ArrayList<String> suggestions = SpellChecker.getCommon(getPrevWord());
-            if (suggestions.size() > 0 && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto", false)) {
-                replaceText(getPrevWord(), suggestions.get(0));
-            }
-        }*/
+        // System.out.println("handleCharacter");
+        // updateCandidates();
 
         ic.endBatchEdit();
     }
@@ -1835,10 +1833,11 @@ public class CustomInputMethodService extends InputMethodService
             case 32: handleSpace(); break;
             case 10: handleEnter(); break;
             case -1: handleShift(); break;
-            case -2:
-
-            break;
+            case -2: break;
+            case -3: break;
+            case -4: break;
             case -5: handleBackspace(); break;
+            case -6: break;
             case -7: handleDelete(); break;
             case -8: handleCut(); break;
             case -9: handleCopy(); break;
@@ -1865,7 +1864,6 @@ public class CustomInputMethodService extends InputMethodService
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
             case -27: showEmoticons(); break;
-            case -175: showUnicodePopup(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -1951,7 +1949,7 @@ public class CustomInputMethodService extends InputMethodService
             case -92:
                 String text = getText(ic);
                 toastIt("Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
-                break;
+            break;
             case -93: toastIt(Util.unidata(getText(ic))); break;
             case -94:
                 if (Variables.isBold()) performReplace(FontVariants.unbolden(getText(ic)));
@@ -1989,6 +1987,9 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(FontVariants.ununderline(getText(ic)));
                 performReplace(FontVariants.ununderscore(getText(ic)));
             break;
+            case -101: setKeyboard(R.layout.primary); break;
+            case -102: setKeyboard(R.layout.menu); break;
+            case -103: setKeyboard(R.layout.macros); break;
             case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: showActivity(Settings.ACTION_SETTINGS); break;
@@ -2002,6 +2003,7 @@ public class CustomInputMethodService extends InputMethodService
             case -114: handleAlt(); break;
             case -115: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
             case -116: showActivity(Settings.ACTION_HOME_SETTINGS); break;
+            case -117: break;
             case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
             case -119: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
             case -120: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
@@ -2016,9 +2018,7 @@ public class CustomInputMethodService extends InputMethodService
             case -129: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
             case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
             case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
-            case -101: setKeyboard(R.layout.primary); break;
-            case -102: setKeyboard(R.layout.menu); break;
-            case -103: setKeyboard(R.layout.macros); break;
+            case -132: break;
             case -133: setKeyboard(R.layout.domain); break;
             case -134: setKeyboard(R.layout.numeric); break;
             case -135: setKeyboard(R.layout.navigation); break;
@@ -2037,7 +2037,6 @@ public class CustomInputMethodService extends InputMethodService
             case -142: setKeyboard(R.layout.function); break;
             case -143: setKeyboard(R.layout.calc, "Calculator"); break;
             case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
-            case -174: setKeyboard(R.layout.coding); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
             case -147: Variables.toggleBoldItalicSerif(); break;
@@ -2078,8 +2077,45 @@ public class CustomInputMethodService extends InputMethodService
             case -173:
                 displayFindMenu();
             break;
+            case -174: setKeyboard(R.layout.coding); break;
+            case -175: showUnicodePopup(); break;
             case -176: moveLeftOneWord(); break;
             case -177: moveRightOneWord(); break;
+            case -178: showClipboard(); break;
+            case -179: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
+            case -180: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -181: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
+            case -182: showActivity(Settings.ACTION_SETTINGS); break;
+            case -183: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -184: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
+            case -185: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -186: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
+            case -189: break;
+            case -190: break;
+            case -191: break;
+            case -192: showActivity(Settings.ACTION_HOME_SETTINGS); break;
+            case -193: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break;
+            case -194: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
+            case -195: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
+            case -196: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
+            case -197: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -198: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -199: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+
+            /*
+            case -200: break;
+            case -201: break;
+            case -202: break;
+            case -203: break;
+            case -204: break;
+            case -205: break;
+            case -206: break;
+            case -207: break;
+            case -208: break;
+            case -209: break;
+            */
 
             case -300: clearClipboardHistory(); break;
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
