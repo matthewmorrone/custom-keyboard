@@ -18,7 +18,9 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -40,16 +42,16 @@ public class CustomKeyboardView extends KeyboardView {
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        textSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("textSize", "48"), "48"));
+        textSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("text_size", "48"), "48"));
         theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
         selected = Color.parseColor("#80FFFFFF");
-        borderColor = sharedPreferences.getInt("bdcolor", Color.WHITE);
-        background = sharedPreferences.getInt("bgcolor", Color.BLACK);
-        foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
+        borderColor = sharedPreferences.getInt("border_color", Color.WHITE);
+        background = sharedPreferences.getInt("background_color", Color.BLACK);
+        foreground = sharedPreferences.getInt("foreground_color", Color.WHITE);
 
-        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
-        paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("paddingWidth", "0"), "0"));
-        borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderRadius", "0"), "0"));
+        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_width", "0"), "0"));
+        paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("padding_width", "0"), "0"));
+        borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_radius", "0"), "0"));
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -58,21 +60,22 @@ public class CustomKeyboardView extends KeyboardView {
 
     public ArrayList<String> getClipboardHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
-        LinkedHashSet<String> clipboardHistory = new LinkedHashSet<String>(Util.orNull(sharedPreferences.getStringSet("clipboardHistory", new LinkedHashSet<String>()), new LinkedHashSet<String>()));
-        ArrayList<String> result = new ArrayList<String>(clipboardHistory);
-        Collections.reverse(result);
-        return result;
+        String clipboardHistory = Util.orNull(sharedPreferences.getString("clipboard_history", ""), "");
+        ArrayList<String> clipboardHistoryArray = new ArrayList<String>(Util.deserialize(clipboardHistory));
+        Collections.reverse(clipboardHistoryArray);
+        return clipboardHistoryArray;
     }
 
     @Override
     protected boolean onLongPress(Key key) {
-
         if (key.codes[0] == -2
+         || key.codes[0] == -5
+         || key.codes[0] == -7
          || key.codes[0] == -12
          || key.codes[0] == -15
          || key.codes[0] == -16
          || key.codes[0] == -200) {
-            return false; // super.onLongPress(key);
+            return false;
         }
 
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
@@ -134,7 +137,6 @@ public class CustomKeyboardView extends KeyboardView {
     @Override
     public boolean onTouchEvent(MotionEvent me) {
         return super.onTouchEvent(me);
-
     }
 
     public void drawable(Key key, int drawable) {

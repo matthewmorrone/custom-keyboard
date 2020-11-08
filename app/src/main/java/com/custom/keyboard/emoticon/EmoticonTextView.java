@@ -34,7 +34,7 @@ public class EmoticonTextView extends TextView {
     }
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("emoticonTextSize", "24"), "24"));
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("emoticon_text_size", "24"), "24"));
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {

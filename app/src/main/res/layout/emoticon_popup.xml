@@ -59,7 +59,7 @@
             android:background="@null"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_people_category"
-            android:contentDescription="@string/ic_emoticons_people_category"
+            android:contentDescription="@string/emoticons_people_category"
             />
         <View
             android:layout_width="1px"
@@ -73,7 +73,7 @@
             android:background="@null"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_nature_category"
-            android:contentDescription="@string/ic_emoticons_nature_category"
+            android:contentDescription="@string/emoticons_nature_category"
             />
         <View
             android:layout_width="1px"
@@ -87,7 +87,7 @@
             android:background="@null"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_food_and_drink_category"
-            android:contentDescription="@string/ic_emoticons_food_and_drink_category"
+            android:contentDescription="@string/emoticons_food_and_drink_category"
             />
         <View
             android:layout_width="1px"
@@ -101,7 +101,7 @@
             android:background="@null"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_places_category"
-            android:contentDescription="@string/ic_emoticons_places_category"
+            android:contentDescription="@string/emoticons_places_category"
             />
         <View
             android:layout_width="1px"

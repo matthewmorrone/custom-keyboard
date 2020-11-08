@@ -51,8 +51,8 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
     @Override
     public boolean add(Unicode object) {
-        boolean ret = super.add(object);
-        return ret;
+        boolean result = super.add(object);
+        return result;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
     @Override
     public boolean remove(Object object) {
-        boolean ret = super.remove(object);
-        return ret;
+        boolean result = super.remove(object);
+        return result;
     }
 
     private SharedPreferences getSharedPreferences() {
@@ -73,8 +73,8 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
     private void loadRecents() {
         SharedPreferences sharedPreferences = getSharedPreferences();
-        String str = sharedPreferences.getString(PREF_RECENTS, "");
-        StringTokenizer tokenizer = new StringTokenizer(str, "~");
+        String string = sharedPreferences.getString(PREF_RECENTS, "");
+        StringTokenizer tokenizer = new StringTokenizer(string, "~");
         while (tokenizer.hasMoreTokens()) {
             try {
                 add(new Unicode(tokenizer.nextToken()));
@@ -86,16 +86,16 @@ public class UnicodeRecentsManager extends ArrayList<Unicode> {
     }
 
     public void saveRecents() {
-        StringBuilder str = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         int c = size();
         for (int i = 0; i < c; i++) {
             Unicode e = get(i);
-            str.append(e.getUnicode());
+            sb.append(e.getUnicode());
             if (i < (c - 1)) {
-                str.append('~');
+                sb.append('~');
             }
         }
-        SharedPreferences prefs = getSharedPreferences();
-        prefs.edit().putString(PREF_RECENTS, str.toString()).apply();
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        sharedPreferences.edit().putString(PREF_RECENTS, sb.toString()).apply();
     }
 }

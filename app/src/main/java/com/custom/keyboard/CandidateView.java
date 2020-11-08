@@ -74,8 +74,8 @@ public class CandidateView extends View {
         float transparency = sharedPreferences.getInt("transparency", 0) / 100f;
         this.setAlpha(transparency);
 
-        background = sharedPreferences.getInt("bgcolor", Color.BLACK);
-        foreground = sharedPreferences.getInt("fgcolor", Color.WHITE);
+        background = sharedPreferences.getInt("background_color", Color.BLACK);
+        foreground = sharedPreferences.getInt("foreground_color", Color.WHITE);
 
         borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
 

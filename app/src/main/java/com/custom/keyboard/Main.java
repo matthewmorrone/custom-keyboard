@@ -40,6 +40,14 @@ public class Main extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        // LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
+        // LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
+    }
+
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -50,10 +58,15 @@ public class Main extends Activity {
                 editText.setText(newText);
             }
             if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
-                // errorOutput.setText("");
+                if (intent.hasExtra("clear")) {
+                    errorOutput.setText("");
+                }
                 if (intent.hasExtra("data")) {
                     errorLayout.setVisibility(View.VISIBLE);
-                    errorOutput.setText(intent.getStringExtra("data")+""+errorOutput.getText());
+                    if (errorOutput.getText().length() > 0) {
+                        errorOutput.setText(errorOutput.getText()+"\n");
+                    }
+                    errorOutput.setText(errorOutput.getText()+intent.getStringExtra("data"));
                 }
             }
         }

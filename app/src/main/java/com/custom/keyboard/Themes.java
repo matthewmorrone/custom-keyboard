@@ -5,8 +5,8 @@ package com.custom.keyboard;
 class Themes {
 
     /*
-    int bg = sharedPreferences.getInt("bgcolor", 0xFF000000);
-    int fg = sharedPreferences.getInt("fgcolor", 0xFFFFFFFF);
+    int bg = sharedPreferences.getInt(background_color, 0xFF000000);
+    int fg = sharedPreferences.getInt(foreground_color, 0xFFFFFFFF);
 
     Color background = Color.valueOf(bg);
     Color foreground = Color.valueOf(fg);

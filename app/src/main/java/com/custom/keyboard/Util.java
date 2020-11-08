@@ -9,8 +9,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.webkit.URLUtil;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -37,15 +43,37 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class Util {
 
     // general
     public static void noop() {}
+
+    static String readFile(String path) {
+        return readFile(path, StandardCharsets.US_ASCII);
+    }
+
+    static String readFile(String path, Charset encoding) {
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(path));
+            return new String(encoded, encoding);
+        }
+        catch(IOException ignored) {}
+        return "";
+    }
 
 
     public static <T> boolean notNull(T value) {
@@ -63,6 +91,27 @@ public class Util {
         return result;
     }
 
+    public static String serialize(List<String> dataList) {
+        StringBuilder xmlBuilder = new StringBuilder("<root>");
+        dataList.forEach((data) -> {
+            xmlBuilder.append("<data>").append(data).append("</data>");
+        });
+        return xmlBuilder.append("</root>").toString();
+    }
+
+    public static List<String> deserialize(String xml) {
+        final List<String> dataList = new ArrayList<>();
+        try {
+            final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xml.getBytes()));
+            final XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile("//data/text()");
+            final NodeList nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                dataList.add(nodeList.item(i).getNodeValue());
+            }
+        }
+        catch (SAXException | ParserConfigurationException | IOException | XPathExpressionException ignored) {}
+        return dataList;
+    }
 
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(String.valueOf(primaryCode));
@@ -1010,8 +1059,6 @@ public class Util {
         return (0x00FFFFFF - (color | 0xFF000000)) | (color & 0xFF000000);
     }
 
-
-
     public static String toColor(int r, int g, int b) {
         String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
         String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
@@ -1225,7 +1272,7 @@ public class Util {
             className = Util.class.getName();
         }
         try {
-            className = className.split(".")[0];
+            className = className.split("\\.")[0];
         }
         catch (Exception ignored) {}
         return className;

@@ -34,7 +34,7 @@ public class UnicodeTextView extends TextView {
     }
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicodeTextSize", "20"), "20"));
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicode_text_size", "24"), "24"));
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {

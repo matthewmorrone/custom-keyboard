@@ -56,27 +56,14 @@ import com.custom.keyboard.unicode.UnicodePopup;
 import org.apache.commons.lang3.StringUtils;
 import org.mariuszgromada.math.mxparser.Expression;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
-
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-// import org.languagetool.JLanguageTool;
-// import org.languagetool.language.AmericanEnglish;
-// import org.languagetool.rules.RuleMatch;
-
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
@@ -186,8 +173,11 @@ public class CustomInputMethodService extends InputMethodService
         super.onStartInput(attribute, restarting);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        indentWidth = Integer.valueOf(sharedPreferences.getString("indentWidth", "4"));
-        indentString = new String(new char[indentWidth]).replace("\0", " ");
+        if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
+            indentWidth = Integer.valueOf(sharedPreferences.getString("indent_width", "4"));
+            indentString = new String(new char[indentWidth]).replace("\0", " ");
+
+        }
 
         Paint mPaint = setTheme();
 
@@ -301,7 +291,7 @@ public class CustomInputMethodService extends InputMethodService
         ic.deleteSurroundingText(MAX, MAX);
     }
 
-    public String getText(@NonNull InputConnection ic) {
+    public String getSelectedText(@NonNull InputConnection ic) {
         CharSequence text = ic.getSelectedText(0);
         if (text == null) return "";
         return (String) text;
@@ -329,62 +319,112 @@ public class CustomInputMethodService extends InputMethodService
         // "one| two" should return one, "one |two" should return two
         return getPrevWord()+getNextWord();
     }
-
     public String getPrevWord() {
         InputConnection ic = getCurrentInputConnection();
-        try {
-            String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ", -1); // mWordSeparators);
-            if (words.length < 1) return "";
-            String lastWord = words[words.length - 1];
-            return lastWord;
-        }
-        catch (Exception e) {
-            return "";
-        }
+        String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b", -1); // mWordSeparators);
+        if (words.length < 1) return "";
+        String prevWord = words[words.length - 1];
+        if (words.length > 1 && prevWord.equals("")) prevWord = words[words.length - 2];
+        return prevWord;
     }
-
     public String getNextWord() {
         InputConnection ic = getCurrentInputConnection();
-        try {
-            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ", -1); // mWordSeparators);
-            // words = Arrays.copyOfRange(words, 1, words.length-1);
-            // if (debug) System.out.println(Arrays.toString(words));
-            if (words.length < 1) return "";
-            String nextWord = words[0];
-            return nextWord;
-        }
-        catch (Exception e) {
-            return "";
-        }
+        String[] words = ic.getTextAfterCursor(MAX, 0).toString().split("\\b", -1); // mWordSeparators);
+        if (words.length < 1) return "";
+        String nextWord = words[0];
+        if (words.length > 1 && nextWord.equals("")) nextWord = words[1];
+        return nextWord;
     }
-
     public void selectPrevWord() {
-        InputConnection ic = getCurrentInputConnection();
-        try {
-            String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split(" ", -1); // mWordSeparators);
-            if (words.length < 1) return;
-            String lastWord = words[words.length - 1];
-            int position = getSelectionStart() - lastWord.length() - 1;
-            if (position < 0) position = 0;
-            if (Variables.isSelecting()) ic.setSelection(position, Variables.cursorStart);
-            else ic.setSelection(position, position);
+        String prevWord = getPrevWord();
+        if (!isSelecting()) Variables.setSelectingOn(getSelectionStart());
+        int times = prevWord.length();
+        while (times --> 1) {
+            navigate(KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        catch (Exception e) {}
+    }
+    public void selectNextWord() {
+        String nextWord = getNextWord();
+        if (!isSelecting()) Variables.setSelectingOn(getSelectionStart());
+        int times = nextWord.length();
+        while (times --> 1) {
+            navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
+        }
     }
 
-    public void selectNextWord() {
-        InputConnection ic = getCurrentInputConnection();
-        try {
-            String[] words = ic.getTextAfterCursor(MAX, 0).toString().split(" ", -1); // mWordSeparators);
-            words = Arrays.copyOfRange(words, 1, words.length-1);
-            if (words.length < 1) return;
-            String nextWord = words[0];
-            if (words.length > 1) nextWord = words[1];
-            int position = getSelectionStart() + nextWord.length() + 1;
-            if (Variables.isSelecting()) ic.setSelection(Variables.cursorStart, position);
-            else ic.setSelection(position, position);
+    public void moveLeftOneWord() {
+        String prevWord = getPrevWord();
+        int times = prevWord.length();
+        while (times --> 1) {
+            navigate(KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        catch (Exception e) {}
+    }
+    public void moveRightOneWord() {
+        String nextWord = getNextWord();
+        int times = nextWord.length();
+        while (times --> 1) {
+            navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
+        }
+    }
+
+    @Override
+    public boolean onKeyUp(int primaryCode, KeyEvent event) {
+        return super.onKeyUp(primaryCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int primaryCode, KeyEvent event) {
+        return super.onKeyDown(primaryCode, event);
+    }
+
+    long time = 0;
+
+    String prevBuffer = "";
+    String nextBuffer = "";
+
+    public void onPress(int primaryCode) {
+        prevBuffer = getPrevWord();
+        nextBuffer = getNextWord();
+        time = System.nanoTime() - time;
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
+            Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
+            if (v != null) v.vibrate(40);
+        }
+    }
+
+    @Override
+    public void onRelease(int primaryCode) {
+        InputConnection ic = getCurrentInputConnection();
+        time = (System.nanoTime() - time) / 1000000;
+        if (time > 300) {
+            toastIt(primaryCode);
+            switch (primaryCode) {
+                case -2: showClipboard(); break;
+                case -5: deletePrevWord(); break;
+                case -7: deleteNextWord(); break;
+                case -12: selectAll(); break;
+                case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
+                case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+                case -200: clipboardToBuffer(getSelectedText(ic)); break;
+            }
+        }
+    }
+
+    public void deletePrevWord() {
+        String prevWord = prevBuffer;
+        System.out.println(prevWord+" "+prevWord.length());
+        int times = prevWord.length();
+        while (times --> 1) {
+            handleBackspace();
+        }
+    }
+    public void deleteNextWord() {
+        String nextWord = nextBuffer; // getNextWord();
+        System.out.println(nextWord+" "+nextWord.length());
+        int times = nextWord.length();
+        while (times --> 1) {
+            handleDelete();
+        }
     }
 
     public void goToStart() {
@@ -408,7 +448,7 @@ public class CustomInputMethodService extends InputMethodService
             Variables.setSelectingOff();
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            toastIt(e);
         }
     }
 
@@ -454,12 +494,16 @@ public class CustomInputMethodService extends InputMethodService
         return Util.getLines(getAllText(ic)).length;
     }
 
-    public int[] getCursorLocation() {
+    public int[] getCursorCoordinates() {
         return new int[]{getCursorLocationOnLine(), getCurrentLine()};
     }
 
     public int getCursorLocationOnLine() {
         return getPrevLine().length();
+    }
+
+    public int getCursorLocation() {
+        return getSelectionStart();
     }
 
     public int getCursorPosition() {
@@ -596,22 +640,9 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyUp"+" "+keyCode);
-        return super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyDown"+" "+keyCode);
-        return super.onKeyDown(keyCode, event);
-    }
-
     private void commitTyped(InputConnection inputConnection) {
         if (getPrevWord().length() > 0) {
             commitText(getPrevWord());
-            System.out.println("commitTyped");
             updateCandidates();
         }
     }
@@ -639,28 +670,14 @@ public class CustomInputMethodService extends InputMethodService
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    public void moveLeftOneWord() {
-        InputConnection ic = getCurrentInputConnection();
-        ic.requestCursorUpdates(3);
-        String prevWord = getPrevWord();
-        ic.setSelection(getSelectionStart()-prevWord.length(), getSelectionStart()-prevWord.length());
-    }
-
     @Override
     public void swipeLeft() {
-        moveLeftOneWord();
-    }
-
-    public void moveRightOneWord() {
-        InputConnection ic = getCurrentInputConnection();
-        ic.requestCursorUpdates(3);
-        String nextWord = getNextWord();
-        ic.setSelection(getSelectionEnd()+nextWord.length(), getSelectionEnd()+nextWord.length());
+        selectPrevWord();
     }
 
     @Override
     public void swipeRight() {
-        moveRightOneWord();
+        selectNextWord();
     }
 
     @Override
@@ -709,9 +726,14 @@ public class CustomInputMethodService extends InputMethodService
             System.out.println();
         }
     }
-    private void sendDataToActivity(String output) {
+    private void sendDataToErrorOutput(String output) {
         HashMap<String, String> cursorData = new HashMap<>();
         cursorData.put("data", output);
+        sendMessageToActivity("DebugHelper", cursorData);
+    }
+    private void clearErrorOutput() {
+        HashMap<String, String> cursorData = new HashMap<>();
+        cursorData.put("clear", "");
         sendMessageToActivity("DebugHelper", cursorData);
     }
 
@@ -739,7 +761,7 @@ public class CustomInputMethodService extends InputMethodService
                 sb.append("\n");
             }
         }
-        sendDataToActivity(sb.toString());
+        sendDataToErrorOutput(sb.toString());
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = sb.toString().split("\n");
@@ -782,7 +804,7 @@ public class CustomInputMethodService extends InputMethodService
                 session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
             catch(Exception e) {
-                sendDataToActivity(e.toString());
+                sendDataToErrorOutput(e.toString());
             }
         }
     }
@@ -819,7 +841,7 @@ public class CustomInputMethodService extends InputMethodService
             fetchSuggestionsFor(prevWord);
         }
         catch(Exception e) {
-            sendDataToActivity(e.toString());
+            toastIt(e);
         }
 /*
         prevWord = prevWord.toLowerCase();
@@ -928,7 +950,7 @@ public class CustomInputMethodService extends InputMethodService
             startIntent(intent);
         }
         catch (Exception e) {
-            toastIt(e.toString());
+            toastIt(e);
         }
     }
 
@@ -942,36 +964,6 @@ public class CustomInputMethodService extends InputMethodService
 
     private void handleLanguageSwitch() {
         mInputMethodManager.switchToNextInputMethod(getToken(), false /* onlyCurrentIme */);
-    }
-
-    long time = 0;
-
-    public void onPress(int primaryCode) {
-        if (debug) System.out.println("onPress: "+primaryCode);
-        // InputConnection ic = getCurrentInputConnection();
-        time = System.nanoTime() - time;
-
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
-            Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-            if (v != null) v.vibrate(40);
-        }
-    }
-
-    @Override
-    public void onRelease(int primaryCode) {
-        toastIt(primaryCode);
-        InputConnection ic = getCurrentInputConnection();
-        time = (System.nanoTime() - time) / 1000000;
-
-        if (time > 300) {
-            switch (primaryCode) {
-                // case -2: handleTab(); break;
-                case -12: selectAll(); break;
-case -15: moveLeftOneWord(); break;
-case -16: moveRightOneWord(); break;
-                case -200: clipboardToBuffer(getText(ic)); break;
-            }
-        }
     }
 
     private void sendKeyEvent(int keyCode, int metaState) {
@@ -1069,8 +1061,8 @@ case -16: moveRightOneWord(); break;
         int fg = (int)Long.parseLong(Themes.extractForegroundColor(mDefaultFilter), 16);
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-        editor.putInt("bgcolor", bg);
-        editor.putInt("fgcolor", fg);
+        editor.putInt(background_color, bg);
+        editor.putInt(foreground_color, fg);
         editor.apply();
 */
 
@@ -1160,8 +1152,6 @@ case -16: moveRightOneWord(); break;
         toastIt(e.toString());
     }
     public void toastIt(String ...args) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        if (!sharedPreferences.getBoolean("debug", false)) return;
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
@@ -1173,6 +1163,11 @@ case -16: moveRightOneWord(); break;
         else {
             text = args[0];
         }
+
+        // sendDataToErrorOutput(text);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        if (!sharedPreferences.getBoolean("debug", false)) return;
         if (toast != null) toast.cancel();
         toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
         toast.show();
@@ -1498,7 +1493,7 @@ case -16: moveRightOneWord(); break;
             case -209:
                 calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop();
             break;
-            case -205: clipboardToBuffer(getText(ic)); calcBufferHistory.push(calcBuffer); break;
+            case -205: clipboardToBuffer(getSelectedText(ic)); calcBufferHistory.push(calcBuffer); break;
             case -201: calcBuffer = ""; break;
             case -5:
                 if (calcBuffer.length() > 0) {
@@ -1583,11 +1578,11 @@ case -16: moveRightOneWord(); break;
         }
 
         if (primaryCode == -201) {
-            performReplace(Util.convertFromUnicodeToNumber(getText(ic)));
+            performReplace(Util.convertFromUnicodeToNumber(getSelectedText(ic)));
             return;
         }
         if (primaryCode == -202) {
-            performReplace(Util.convertFromNumberToUnicode(getText(ic)));
+            performReplace(Util.convertFromNumberToUnicode(getSelectedText(ic)));
             return;
         }
         if (primaryCode == -203) {
@@ -1698,25 +1693,32 @@ case -16: moveRightOneWord(); break;
     }
 */
 
-    LinkedHashSet<String> clipboardHistory = new LinkedHashSet<String>();
+    String clipboardHistory = new String();
 
     public void clearClipboardHistory() {
-        clipboardHistory.clear();
-        sharedPreferences.edit().putStringSet("clipboardHistory", new HashSet<String>()).apply();
+        clipboardHistory = "";
+        sharedPreferences.edit().putString("clipboard_history", clipboardHistory).apply();
         redraw();
     }
     public void saveToClipboardHistory() {
         InputConnection ic = getCurrentInputConnection();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        clipboardHistory = new LinkedHashSet<String>(sharedPreferences.getStringSet("clipboardHistory", new HashSet<String>()));
-        if (getText(ic).isEmpty()) return;
-        clipboardHistory.add(getText(ic));
-        if (clipboardHistory.size() > 16) {
-            Iterator<String> iterator = clipboardHistory.iterator();
-            String item = iterator.next();
-            clipboardHistory.remove(item);
+
+        clipboardHistory = sharedPreferences.getString("clipboard_history", "");
+        ArrayList<String> clipboardHistoryArray = new ArrayList<String>(Util.deserialize(clipboardHistory));
+
+        if (getSelectedText(ic).isEmpty()) return;
+
+        clipboardHistoryArray.add(getSelectedText(ic));
+
+        if (clipboardHistoryArray.size() > 16) {
+            clipboardHistoryArray = new ArrayList<String>(clipboardHistoryArray.subList(1, clipboardHistoryArray.size()));
         }
-        sharedPreferences.edit().putStringSet("clipboardHistory", clipboardHistory).apply();
+
+        clipboardHistoryArray.removeAll(Arrays.asList("", null));
+
+        clipboardHistory = Util.serialize(clipboardHistoryArray);
+        sharedPreferences.edit().putString("clipboard_history", clipboardHistory).apply();
     }
     public void handleCut() {
         if (!isSelecting()) selectLine();
@@ -1753,7 +1755,7 @@ case -16: moveRightOneWord(); break;
             sendKey(KeyEvent.KEYCODE_MOVE_END);
         }
         else {
-            performReplace(Util.linebreaksToSpaces(getText(ic)));
+            performReplace(Util.linebreaksToSpaces(getSelectedText(ic)));
         }
     }
 
@@ -1786,7 +1788,7 @@ case -16: moveRightOneWord(); break;
         if (primaryCode > 0
             && currentKeyboard.title != null
             && currentKeyboard.title.equals("IPA")
-            && sharedPreferences.getBoolean("ipaDesc", false)
+            && sharedPreferences.getBoolean("ipa_desc", false)
             && Sounds.getIPA(primaryCode) != -1) {
             toastIt("/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
         }
@@ -1869,55 +1871,55 @@ case -16: moveRightOneWord(); break;
             case -35: commitText(Util.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(Util.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(Util.nowAsLong() + " " + Util.nowAsInt()); break;
-            case -38: performReplace(Util.toUpperCase(getText(ic))); break;
-            case -39: performReplace(Util.toTitleCase(getText(ic))); break;
-            case -40: performReplace(Util.toLowerCase(getText(ic))); break;
-            case -41: performReplace(Util.toAlterCase(getText(ic))); break;
-            case -42: performReplace(Util.camelToSnake(getText(ic))); break;
-            case -43: performReplace(Util.snakeToCamel(getText(ic))); break;
-            case -44: performReplace(Util.sortChars(getText(ic))); break;
-            case -45: performReplace(Util.reverseChars(getText(ic))); break;
-            case -46: performReplace(Util.shuffleChars(getText(ic))); break;
-            case -47: performReplace(Util.doubleChars(getText(ic))); break;
-            case -48: performReplace(Util.sortLines(getText(ic))); break;
-            case -49: performReplace(Util.reverseLines(getText(ic))); break;
-            case -50: performReplace(Util.shuffleLines(getText(ic))); break;
-            case -51: performReplace(Util.doubleLines(getText(ic))); break;
-            case -52: performReplace(Util.dashesToSpaces(getText(ic))); break;
-            case -53: performReplace(Util.underscoresToSpaces(getText(ic))); break;
-            case -54: performReplace(Util.spacesToDashes(getText(ic))); break;
-            case -55: performReplace(Util.spacesToUnderscores(getText(ic))); break;
-            case -56: performReplace(Util.spacesToLinebreaks(getText(ic))); break;
-            case -57: performReplace(Util.linebreaksToSpaces(getText(ic))); break;
-            case -58: performReplace(Util.spacesToTabs(getText(ic))); break;
-            case -59: performReplace(Util.tabsToSpaces(getText(ic))); break;
-            case -60: performReplace(Util.splitWithLinebreaks(getText(ic))); break;
-            case -61: performReplace(Util.splitWithSpaces(getText(ic))); break;
-            case -62: performReplace(Util.removeSpaces(getText(ic))); break;
-            case -63: performReplace(Util.reduceSpaces(getText(ic))); break;
+            case -38: performReplace(Util.toUpperCase(getSelectedText(ic))); break;
+            case -39: performReplace(Util.toTitleCase(getSelectedText(ic))); break;
+            case -40: performReplace(Util.toLowerCase(getSelectedText(ic))); break;
+            case -41: performReplace(Util.toAlterCase(getSelectedText(ic))); break;
+            case -42: performReplace(Util.camelToSnake(getSelectedText(ic))); break;
+            case -43: performReplace(Util.snakeToCamel(getSelectedText(ic))); break;
+            case -44: performReplace(Util.sortChars(getSelectedText(ic))); break;
+            case -45: performReplace(Util.reverseChars(getSelectedText(ic))); break;
+            case -46: performReplace(Util.shuffleChars(getSelectedText(ic))); break;
+            case -47: performReplace(Util.doubleChars(getSelectedText(ic))); break;
+            case -48: performReplace(Util.sortLines(getSelectedText(ic))); break;
+            case -49: performReplace(Util.reverseLines(getSelectedText(ic))); break;
+            case -50: performReplace(Util.shuffleLines(getSelectedText(ic))); break;
+            case -51: performReplace(Util.doubleLines(getSelectedText(ic))); break;
+            case -52: performReplace(Util.dashesToSpaces(getSelectedText(ic))); break;
+            case -53: performReplace(Util.underscoresToSpaces(getSelectedText(ic))); break;
+            case -54: performReplace(Util.spacesToDashes(getSelectedText(ic))); break;
+            case -55: performReplace(Util.spacesToUnderscores(getSelectedText(ic))); break;
+            case -56: performReplace(Util.spacesToLinebreaks(getSelectedText(ic))); break;
+            case -57: performReplace(Util.linebreaksToSpaces(getSelectedText(ic))); break;
+            case -58: performReplace(Util.spacesToTabs(getSelectedText(ic))); break;
+            case -59: performReplace(Util.tabsToSpaces(getSelectedText(ic))); break;
+            case -60: performReplace(Util.splitWithLinebreaks(getSelectedText(ic))); break;
+            case -61: performReplace(Util.splitWithSpaces(getSelectedText(ic))); break;
+            case -62: performReplace(Util.removeSpaces(getSelectedText(ic))); break;
+            case -63: performReplace(Util.reduceSpaces(getSelectedText(ic))); break;
             case -64:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.decreaseIndentation(getText(ic), indentString));
+                performReplace(Util.decreaseIndentation(getSelectedText(ic), indentString));
             break;
             case -65:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.increaseIndentation(getText(ic), indentString));
+                performReplace(Util.increaseIndentation(getSelectedText(ic), indentString));
             break;
-            case -66: performReplace(Util.trimEndingWhitespace(getText(ic))); break;
-            case -67: performReplace(Util.trimTrailingWhitespace(getText(ic))); break;
-            case -68: performReplace(Util.normalize(getText(ic))); break;
-            case -69: performReplace(Util.slug(getText(ic))); break;
+            case -66: performReplace(Util.trimEndingWhitespace(getSelectedText(ic))); break;
+            case -67: performReplace(Util.trimTrailingWhitespace(getSelectedText(ic))); break;
+            case -68: performReplace(Util.normalize(getSelectedText(ic))); break;
+            case -69: performReplace(Util.slug(getSelectedText(ic))); break;
             case -70: joinLines(); break;
             case -71:
-                ere = Util.countChars(getText(ic));
-                performReplace(Util.uniqueChars(getText(ic)));
-                aft = Util.countChars(getText(ic));
+                ere = Util.countChars(getSelectedText(ic));
+                performReplace(Util.uniqueChars(getSelectedText(ic)));
+                aft = Util.countChars(getSelectedText(ic));
                 toastIt(ere + " → " + aft);
             break;
             case -72:
-                ere = Util.countLines(getText(ic));
-                performReplace(Util.uniqueLines(getText(ic)));
-                aft = Util.countLines(getText(ic));
+                ere = Util.countLines(getSelectedText(ic));
+                performReplace(Util.uniqueLines(getSelectedText(ic)));
+                aft = Util.countLines(getSelectedText(ic));
                 toastIt(ere + " → " + aft);
             break;
             case -73: commitText(Util.timemoji()); break;
@@ -1940,45 +1942,45 @@ case -16: moveRightOneWord(); break;
             case -90: performContextMenuAction(16908316); break; // extractArea
             case -91: performContextMenuAction(16908317); break; // candidatesArea
             case -92:
-                String text = getText(ic);
+                String text = getSelectedText(ic);
                 toastIt("Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
             break;
-            case -93: toastIt(Util.unidata(getText(ic))); break;
+            case -93: toastIt(Util.unidata(getSelectedText(ic))); break;
             case -94:
-                if (Variables.isBold()) performReplace(FontVariants.unbolden(getText(ic)));
-                else performReplace(FontVariants.bolden(getText(ic)));
+                if (Variables.isBold()) performReplace(FontVariants.unbolden(getSelectedText(ic)));
+                else performReplace(FontVariants.bolden(getSelectedText(ic)));
                 Variables.toggleBold();
             break;
             case -95:
-                if (Variables.isItalic()) performReplace(FontVariants.unitalicize(getText(ic)));
-                else performReplace(FontVariants.italicize(getText(ic)));
+                if (Variables.isItalic()) performReplace(FontVariants.unitalicize(getSelectedText(ic)));
+                else performReplace(FontVariants.italicize(getSelectedText(ic)));
                 Variables.toggleItalic();
             break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(FontVariants.unemphasize(getText(ic)));
-                else performReplace(FontVariants.emphasize(getText(ic)));
+                if (Variables.isEmphasized()) performReplace(FontVariants.unemphasize(getSelectedText(ic)));
+                else performReplace(FontVariants.emphasize(getSelectedText(ic)));
                 Variables.toggleEmphasized();
             break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(FontVariants.underline(getText(ic)));
+                else performReplace(FontVariants.underline(getSelectedText(ic)));
             break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(FontVariants.underscore(getText(ic)));
+                else performReplace(FontVariants.underscore(getSelectedText(ic)));
             break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(FontVariants.strikethrough(getText(ic)));
+                else performReplace(FontVariants.strikethrough(getSelectedText(ic)));
             break;
             case -100:
                 Variables.setAllOff();
-                performReplace(FontVariants.unbolden(getText(ic)));
-                performReplace(FontVariants.unitalicize(getText(ic)));
-                performReplace(FontVariants.unemphasize(getText(ic)));
-                performReplace(FontVariants.unstrikethrough(getText(ic)));
-                performReplace(FontVariants.ununderline(getText(ic)));
-                performReplace(FontVariants.ununderscore(getText(ic)));
+                performReplace(FontVariants.unbolden(getSelectedText(ic)));
+                performReplace(FontVariants.unitalicize(getSelectedText(ic)));
+                performReplace(FontVariants.unemphasize(getSelectedText(ic)));
+                performReplace(FontVariants.unstrikethrough(getSelectedText(ic)));
+                performReplace(FontVariants.ununderline(getSelectedText(ic)));
+                performReplace(FontVariants.ununderscore(getSelectedText(ic)));
             break;
             case -101: setKeyboard(R.layout.primary); break;
             case -102: setKeyboard(R.layout.menu); break;
@@ -2005,12 +2007,12 @@ case -16: moveRightOneWord(); break;
             case -123: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
             case -124: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
             case -125: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
-            case -126: performReplace(Util.convertNumberBase(getText(ic), 2, 10)); break;
-            case -127: performReplace(Util.convertNumberBase(getText(ic), 10, 2)); break;
-            case -128: performReplace(Util.convertNumberBase(getText(ic), 8, 10)); break;
-            case -129: performReplace(Util.convertNumberBase(getText(ic), 10, 8)); break;
-            case -130: performReplace(Util.convertNumberBase(getText(ic), 16, 10)); break;
-            case -131: performReplace(Util.convertNumberBase(getText(ic), 10, 16)); break;
+            case -126: performReplace(Util.convertNumberBase(getSelectedText(ic), 2, 10)); break;
+            case -127: performReplace(Util.convertNumberBase(getSelectedText(ic), 10, 2)); break;
+            case -128: performReplace(Util.convertNumberBase(getSelectedText(ic), 8, 10)); break;
+            case -129: performReplace(Util.convertNumberBase(getSelectedText(ic), 10, 8)); break;
+            case -130: performReplace(Util.convertNumberBase(getSelectedText(ic), 16, 10)); break;
+            case -131: performReplace(Util.convertNumberBase(getSelectedText(ic), 10, 16)); break;
             case -132: break;
             case -133: setKeyboard(R.layout.domain); break;
             case -134: setKeyboard(R.layout.numeric); break;
@@ -2048,7 +2050,7 @@ case -16: moveRightOneWord(); break;
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
-            case -163: performReplace(Util.replaceNbsp(getText(ic))); break;
+            case -163: performReplace(Util.replaceNbsp(getSelectedText(ic))); break;
             case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
@@ -2057,15 +2059,15 @@ case -16: moveRightOneWord(); break;
             case -169: break;
             case -170:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.toggleHtmlComment(getText(ic)));
+                performReplace(Util.toggleHtmlComment(getSelectedText(ic)));
             break;
             case -171:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.toggleJavaComment(getText(ic)));
+                performReplace(Util.toggleJavaComment(getSelectedText(ic)));
             break;
             case -172:
                 if (!isSelecting()) selectLine();
-                performReplace(Util.toggleLineComment(getText(ic)));
+                performReplace(Util.toggleLineComment(getSelectedText(ic)));
             break;
             case -173:
                 displayFindMenu();
@@ -2127,19 +2129,19 @@ case -16: moveRightOneWord(); break;
             case -314: commitText(String.valueOf(Util.orNull(getKey(-314).label, ""))); break;
             case -315: commitText(String.valueOf(Util.orNull(getKey(-315).label, ""))); break;
             case -316: commitText(String.valueOf(Util.orNull(getKey(-316).label, ""))); break;
-            case -501: commitText(getResources().getString(R.string.k1)); break;
-            case -502: commitText(getResources().getString(R.string.k2)); break;
-            case -503: commitText(getResources().getString(R.string.k3)); break;
-            case -504: commitText(getResources().getString(R.string.k4)); break;
-            case -505: commitText(getResources().getString(R.string.k5)); break;
-            case -506: commitText(getResources().getString(R.string.k6)); break;
-            case -507: commitText(getResources().getString(R.string.k7)); break;
-            case -508: commitText(getResources().getString(R.string.k8)); break;
-            case -509: commitText(getResources().getString(R.string.name)); break;
-            case -510: commitText(getResources().getString(R.string.email)); break;
-            case -511: commitText(getResources().getString(R.string.phone)); break;
-            case -512: commitText(getResources().getString(R.string.address)); break;
-            case -513: commitText(getResources().getString(R.string.password)); break;
+            case -501: commitText(getResources().getString(R.string.k1_value)); break;
+            case -502: commitText(getResources().getString(R.string.k2_value)); break;
+            case -503: commitText(getResources().getString(R.string.k3_value)); break;
+            case -504: commitText(getResources().getString(R.string.k4_value)); break;
+            case -505: commitText(getResources().getString(R.string.k5_value)); break;
+            case -506: commitText(getResources().getString(R.string.k6_value)); break;
+            case -507: commitText(getResources().getString(R.string.k7_value)); break;
+            case -508: commitText(getResources().getString(R.string.k8_value)); break;
+            case -509: commitText(getResources().getString(R.string.name_value)); break;
+            case -510: commitText(getResources().getString(R.string.email_value)); break;
+            case -511: commitText(getResources().getString(R.string.phone_value)); break;
+            case -512: commitText(getResources().getString(R.string.address_value)); break;
+            case -513: commitText(getResources().getString(R.string.password_value)); break;
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
                 else handleCharacter(primaryCode, keyCodes);
@@ -2291,7 +2293,7 @@ case -16: moveRightOneWord(); break;
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    toastIt(emoticon.getEmoticon()+"\t\t"+Util.unidata(emoticon.getEmoticon()));
+                    toastIt(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon()));
                     commitText(emoticon.getEmoticon());
                 }
             });
