@@ -18,7 +18,7 @@
         <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indentation Helper" />
         <SwitchPreference android:defaultValue="false" android:key="tabs" android:title="Indent with Tabs" />
         <EditTextPreference android:defaultValue="4" android:key="indentWidth" android:title="Tab Size" android:inputType="number" android:digits="1234567890" />
-        <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" />
+<!--         <EditTextPreference android:defaultValue="@string/word_separators" android:dialogMessage="" android:dialogTitle="Word Separators" android:key="seps" android:summary="@string/word_separators" android:title="Word Separators" /> -->
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <com.custom.keyboard.SeekPreference android:key="height" android:title="Key Height" app:min="50" app:max="150" app:value="100" />

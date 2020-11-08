@@ -50,7 +50,6 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp">
             <LinearLayout
-
                 android:id="@+id/errorLayout"
                 android:visibility="gone"
                 android:layout_width="match_parent"
@@ -86,7 +85,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:hint="@string/test"
-            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+            android:inputType="textMultiLine"
             android:lines="3"
             android:text="" />
         <RelativeLayout

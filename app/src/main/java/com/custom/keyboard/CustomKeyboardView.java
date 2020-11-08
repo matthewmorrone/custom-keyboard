@@ -66,19 +66,21 @@ public class CustomKeyboardView extends KeyboardView {
 
     @Override
     protected boolean onLongPress(Key key) {
-/*
-        if (key.codes[0] == -12
-         || key.codes[0] == -200*//*
-         || key.codes[0] == 32*//*) {
-            return super.onLongPress(key);
+
+        if (key.codes[0] == -2
+         || key.codes[0] == -12
+         || key.codes[0] == -15
+         || key.codes[0] == -16
+         || key.codes[0] == -200) {
+            return false; // super.onLongPress(key);
         }
-*/
+
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
             getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
             return true;
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-            getOnKeyboardActionListener().onKey(key.codes[0], null);
+            // getOnKeyboardActionListener().onKey(key.codes[0], null);
             return true;
         }
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
@@ -202,10 +204,11 @@ public class CustomKeyboardView extends KeyboardView {
             // canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
             canvas.restore();
 */
+/*
             if (Util.contains(repeatable, key.codes[0])) {
                 key.repeatable = true;
             }
-
+*/
             if (borderRadius > 0 || borderWidth > 0 || paddingWidth > 0) {
                 canvas.save();
                 mPaint.setColor(selected);

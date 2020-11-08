@@ -52,6 +52,7 @@ public class Main extends Activity {
             if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
                 // errorOutput.setText("");
                 if (intent.hasExtra("data")) {
+                    errorLayout.setVisibility(View.VISIBLE);
                     errorOutput.setText(intent.getStringExtra("data")+""+errorOutput.getText());
                 }
             }

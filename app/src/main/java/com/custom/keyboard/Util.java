@@ -197,6 +197,7 @@ public class Util {
         Matcher m = p.matcher(s);
         return (m.find() && m.group().equals(s));
     }
+/*
     static String mWordSeparators = "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;";
     public static String getWordSeparators() {
         return mWordSeparators;
@@ -215,7 +216,7 @@ public class Util {
     public static boolean isWordSeparator(String text, String delimiters) {
         return delimiters.contains(text);
     }
-
+*/
     // info
     public static HashMap<Character, Integer> getCharacterFrequencies(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
@@ -421,7 +422,7 @@ public class Util {
         return text.codePointCount(0, text.length());
     }
     public static int countWords(String text) {
-        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]").length;
+        return text.split(" ").length;
     }
     public static int countLines(String text) {
         return text.split("\r\n|\r|\n").length;
@@ -431,7 +432,7 @@ public class Util {
         // return text.split("(?!^)");
     }
     public static String[] getWords(String text) {
-        return text.split("[\\u0009.,;:!?\\n()\\[\\]*&@{}/<>_+=|\"]");
+        return text.split(" ");
     }
     public static String[] getLines(String text) {
         return text.split("\r\n|\r|\n");

@@ -37,9 +37,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference unicodeRecents;
     EditTextPreference emoticonFavorites;
     EditTextPreference unicodeFavorites;
-    EditTextPreference popup_first;
-    EditTextPreference popup_second;
-    EditTextPreference popup_third;
+    EditTextPreference customKeys;
+    EditTextPreference popupFirst;
+    EditTextPreference popupSecond;
+    EditTextPreference popupThird;
     EditTextPreference name;
     EditTextPreference email;
     EditTextPreference phone;
@@ -82,19 +83,18 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         textSize = (EditTextPreference)findPreference("textSize");
         emoticonFontSize = (EditTextPreference)findPreference("emoticonFontSize");
         unicodeFontSize = (EditTextPreference)findPreference("unicodeFontSize");
+        background = (ColorPreference)findPreference("bgcolor");
+        foreground = (ColorPreference)findPreference("fgcolor");
+        borderColor = (ColorPreference)findPreference("bdcolor");
 
         emoticonRecents = (EditTextPreference)findPreference("emoticon_recents");
         unicodeRecents = (EditTextPreference)findPreference("unicode_recents");
         emoticonFavorites = (EditTextPreference)findPreference("emoticon_favorites");
         unicodeFavorites = (EditTextPreference)findPreference("unicode_favorites");
-
-        background = (ColorPreference)findPreference("bgcolor");
-        foreground = (ColorPreference)findPreference("fgcolor");
-        borderColor = (ColorPreference)findPreference("bdcolor");
-
-        popup_first = (EditTextPreference)findPreference("popup_first");
-        popup_second = (EditTextPreference)findPreference("popup_second");
-        popup_third = (EditTextPreference)findPreference("popup_third");
+        customKeys = (EditTextPreference)findPreference("custom_keys");
+        popupFirst = (EditTextPreference)findPreference("popup_first");
+        popupSecond = (EditTextPreference)findPreference("popup_second");
+        popupThird = (EditTextPreference)findPreference("popup_third");
         name = (EditTextPreference)findPreference("name");
         email = (EditTextPreference)findPreference("email");
         phone = (EditTextPreference)findPreference("phone");
@@ -146,23 +146,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("borderWidth", ""));
         if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("paddingWidth", ""));
         if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("borderRadius", ""));
-
         if (textSize != null) textSize.setSummary(sharedPreferences.getString("textSize", "56"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
+        if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
+        if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+        if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
 
         if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
         if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
         if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
         if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
+        if (customKeys != null) customKeys.setSummary(sharedPreferences.getString("custom_keys", ""));
 
-        if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
-        if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-        if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
-
-        if (popup_first != null) popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
-        if (popup_second != null) popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
-        if (popup_third != null) popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
+        if (popupFirst != null) popupFirst.setSummary(sharedPreferences.getString("popup_first", ""));
+        if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
+        if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
         if (name != null) name.setSummary(sharedPreferences.getString("title", ""));
         if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
         if (phone != null) phone.setSummary(sharedPreferences.getString("phone", ""));
@@ -211,19 +210,20 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (textSize != null) textSize.setSummary(sharedPreferences.getString("textSize", "56"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticonFontSize", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicodeFontSize", "24"));
+        if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
+        if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
+        if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
 
         if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
         if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
         if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
         if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
+        if (customKeys != null) customKeys.setSummary(sharedPreferences.getString("custom_keys", ""));
 
-        if (background != null) background.setColor(sharedPreferences.getInt("bgcolor", 0xFF000000));
-        if (foreground != null) foreground.setColor(sharedPreferences.getInt("fgcolor", 0xFFFFFFFF));
-        if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("bdcolor", 0xFF000000));
 
-        if (popup_first != null) popup_first.setSummary(sharedPreferences.getString("popup_first", ""));
-        if (popup_second != null) popup_second.setSummary(sharedPreferences.getString("popup_second", ""));
-        if (popup_third != null) popup_third.setSummary(sharedPreferences.getString("popup_third", ""));
+        if (popupFirst != null) popupFirst.setSummary(sharedPreferences.getString("popup_first", ""));
+        if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
+        if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
         if (name != null) name.setSummary(sharedPreferences.getString("title", ""));
         if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
         if (phone != null) phone.setSummary(sharedPreferences.getString("phone", ""));
