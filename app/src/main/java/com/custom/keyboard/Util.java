@@ -93,9 +93,9 @@ public class Util {
 
     public static String serialize(List<String> dataList) {
         StringBuilder xmlBuilder = new StringBuilder("<root>");
-        dataList.forEach((data) -> {
+        for (String data : dataList) {
             xmlBuilder.append("<data>").append(data).append("</data>");
-        });
+        }
         return xmlBuilder.append("</root>").toString();
     }
 

@@ -134,7 +134,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         String[] themes = getResources().getStringArray(R.array.theme_names);
 
-        wordSeparators = (EditTextPreference)findPreference("wordSeparators");
+        wordSeparators = (EditTextPreference)findPreference("word_separators");
         height = (SeekPreference)findPreference("height");
         transparency = (SeekPreference)findPreference("transparency");
         theme = (ListPreference)findPreference("theme");
@@ -144,7 +144,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         paddingWidth = (EditTextPreference)findPreference("padding_width");
         borderRadius = (EditTextPreference)findPreference("border_radius");
 
-        textSize = (EditTextPreference)findPreference("textSize");
+        textSize = (EditTextPreference)findPreference("text_size");
         emoticonFontSize = (EditTextPreference)findPreference("emoticon_font_size");
         unicodeFontSize = (EditTextPreference)findPreference("unicode_font_size");
         background = (ColorPreference)findPreference("background_color");
