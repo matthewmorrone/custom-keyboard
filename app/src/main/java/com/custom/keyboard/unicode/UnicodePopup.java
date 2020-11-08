@@ -170,7 +170,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int size = 65536;
-        Unicode[] unicodeData = UnicodeData.getCount(0, size);
+        Unicode[] unicodeData = UnicodeData.getCount(size, size);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         Unicode[] unicodeFavorites = UnicodeData.stringToUnicodes(Util.orNull(sharedPreferences.getString("unicode_favorites", ""), ""));

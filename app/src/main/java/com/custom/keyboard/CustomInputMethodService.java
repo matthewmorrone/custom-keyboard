@@ -53,7 +53,7 @@ import com.custom.keyboard.unicode.Unicode;
 import com.custom.keyboard.unicode.UnicodeGridView;
 import com.custom.keyboard.unicode.UnicodePopup;
 
-import org.apache.commons.lang3.StringUtils;
+// import org.apache.commons.lang3.StringUtils;
 import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.ArrayList;
@@ -1572,7 +1572,7 @@ public class CustomInputMethodService extends InputMethodService
     };
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
-        String paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+        String paddedHexBuffer = Util.padLeft(hexBuffer, 4, "0");
         if (primaryCode == -175) {
             showUnicodePopup();
         }
@@ -1596,7 +1596,7 @@ public class CustomInputMethodService extends InputMethodService
         if (primaryCode == -205) {
             if (hexBuffer.length() > 0) hexBuffer = hexBuffer.substring(0, hexBuffer.length() - 1);
             else hexBuffer = "0000";
-            paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+            paddedHexBuffer = Util.padLeft(hexBuffer, 4, "0");
             getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
             getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
             redraw();
@@ -1604,7 +1604,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         if (primaryCode == -206) {
             hexBuffer = "0000";
-            paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+            paddedHexBuffer = Util.padLeft(hexBuffer, 4, "0");
             getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
             getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
             redraw();
@@ -1615,7 +1615,7 @@ public class CustomInputMethodService extends InputMethodService
             if (hexBuffer.length() > 3) hexBuffer = "";
             hexBuffer += (char)primaryCode;
         }
-        paddedHexBuffer = StringUtils.leftPad(hexBuffer, 4, "0");
+        paddedHexBuffer = Util.padLeft(hexBuffer, 4, "0");
         getKey(-203).label = hexBuffer.equals("0000") ? "" : paddedHexBuffer;
         getKey(-204).label = String.valueOf((char)(int)Integer.decode("0x" + paddedHexBuffer));
         redraw();
