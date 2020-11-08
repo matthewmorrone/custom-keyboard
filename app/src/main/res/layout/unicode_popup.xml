@@ -20,9 +20,10 @@
             android:scaleType="center"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             />
-        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <View android:id="@+id/unicode_tab_grid"
+            android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
-            android:id="@+id/unicode_tab_grid"
+            android:id="@+id/unicode_tab_grid_button"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -30,9 +31,10 @@
             android:scaleType="center"
             android:src="@drawable/ic_unicode_grid_category"
             />
-        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <View android:id="@+id/unicode_tab_recent"
+            android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
-            android:id="@+id/unicode_tab_recents"
+            android:id="@+id/unicode_tab_recent_button"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,15 +42,28 @@
             android:scaleType="center"
             android:src="@drawable/ic_unicode_recent_category"
             />
-        <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <View android:id="@+id/unicode_tab_favorite"
+            android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
         <ImageButton
-            android:id="@+id/unicode_tab_favorites"
+            android:id="@+id/unicode_tab_favorite_button"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="center"
             android:src="@drawable/ic_unicode_favorite_category"
+            android:contentDescription=""
+            />
+        <View android:id="@+id/unicode_tab_list"
+            android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />
+        <ImageButton
+            android:id="@+id/unicode_tab_list_button"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_unicode_list_category"
             android:contentDescription=""
             />
         <View android:layout_width="1px" android:layout_height="match_parent" android:background="#888888" />

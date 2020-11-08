@@ -28,7 +28,7 @@ public class UnicodeRecentsGridView extends UnicodeGridView implements UnicodeRe
                 }
             }
         });
-        GridView gridView = rootView.findViewById(R.id.Unicode_GridView);
+        GridView gridView = rootView.findViewById(R.id.unicode_grid_view);
         gridView.setAdapter(mAdapter);
     }
 

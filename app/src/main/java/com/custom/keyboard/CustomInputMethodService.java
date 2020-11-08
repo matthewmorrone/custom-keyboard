@@ -2342,7 +2342,7 @@ public class CustomInputMethodService extends InputMethodService
     public void showUnicodePopup() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
-            View popupView = layoutInflater.inflate(R.layout.unicode_listview, null);
+            View popupView = layoutInflater.inflate(R.layout.unicode_list_view, null);
 
             unicodePopup = new UnicodePopup(popupView, this);
 
@@ -2381,6 +2381,12 @@ public class CustomInputMethodService extends InputMethodService
             unicodePopup.setOnUnicodeClickedListener(new UnicodeGridView.OnUnicodeClickedListener() {
                 @Override
                 public void onUnicodeClicked(Unicode unicode) {
+                    int tab = unicodePopup.getCurrentTab();
+                    if (tab == 3) {
+                        unicodePopup.setPage(0);
+                        unicodePopup.scrollTo(unicode.codePoint/*+(16*6)*/, true);
+                        return;
+                    }
                     playClick();
                     toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());

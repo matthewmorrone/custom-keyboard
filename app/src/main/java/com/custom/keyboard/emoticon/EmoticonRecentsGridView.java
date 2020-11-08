@@ -6,8 +6,6 @@ import android.content.Context;
 import android.widget.GridView;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.unicode.Unicode;
-import com.custom.keyboard.unicode.UnicodeRecentsManager;
 
 public class EmoticonRecentsGridView extends EmoticonGridView implements EmoticonRecents {
     EmoticonAdapter mAdapter;
@@ -32,7 +30,7 @@ public class EmoticonRecentsGridView extends EmoticonGridView implements Emotico
                 }
             }
         });
-        GridView gridView = (GridView)rootView.findViewById(R.id.Emoticon_GridView);
+        GridView gridView = (GridView)rootView.findViewById(R.id.emoticon_grid_view);
         gridView.setAdapter(mAdapter);
     }
 

@@ -22,7 +22,7 @@ public class EmoticonGridView {
         mEmoticonPopup = emoticonPopup;
         rootView = inflater.inflate(R.layout.emoticon_grid, null);
         setRecents(recents);
-        GridView gridView = (GridView)rootView.findViewById(R.id.Emoticon_GridView);
+        GridView gridView = (GridView)rootView.findViewById(R.id.emoticon_grid_view);
         if (emoticons == null) {
             mData = EmoticonCategories.People;
         }

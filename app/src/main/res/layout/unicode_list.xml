@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/unicode_grid_view"
+          android:id="@+id/unicode_list_view"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:background="@android:color/transparent"
           android:cacheColorHint="@android:color/transparent"
-          android:columnWidth="40dip"
-          android:numColumns="16"
+          android:columnWidth="500dp"
+          android:numColumns="1"
           />
 
     <!--android:foreground="@android:color/white"-->

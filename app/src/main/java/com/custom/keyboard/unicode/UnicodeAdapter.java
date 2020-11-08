@@ -1,6 +1,8 @@
 package com.custom.keyboard.unicode;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -26,11 +28,11 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
         super(context, R.layout.unicode_item, data);
     }
 
-    public void setUnicodeClickedListener(OnUnicodeClickedListener listener) {
+    public void setUnicodeClickedListener(UnicodeGridView.OnUnicodeClickedListener listener) {
         this.unicodeClickedListener = listener;
     }
 
-    public void setUnicodeLongClickedListener(OnUnicodeLongClickedListener listener) {
+    public void setUnicodeLongClickedListener(UnicodeGridView.OnUnicodeLongClickedListener listener) {
         this.unicodeLongClickedListener = listener;
     }
 
@@ -46,7 +48,17 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
         Unicode unicode = getItem(position);
         ViewHolder holder = (ViewHolder)v.getTag();
         if (unicode != null) {
-            holder.icon.setText(unicode.getUnicode());
+            if (unicode.description != null && !unicode.description.isEmpty()) {
+                holder.icon.setText(unicode.description);
+                holder.icon.setWidth(parent.getWidth());
+                holder.icon.setGravity(Gravity.LEFT);
+                holder.icon.setTextSize(20);
+                holder.icon.setEllipsize(TextUtils.TruncateAt.END);
+                holder.icon.setSingleLine();
+            }
+            else {
+                holder.icon.setText(unicode.getUnicode());
+            }
         }
         holder.icon.setOnClickListener(new OnClickListener() {
             @Override

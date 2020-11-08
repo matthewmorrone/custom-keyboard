@@ -14,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -29,13 +31,20 @@ import com.custom.keyboard.Util;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeClickedListener;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeLongClickedListener;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeListener, UnicodeRecents {
     private int mUnicodeTabLastSelectedIndex = -1;
-    private View[] mUnicodeTabs;
-    private PagerAdapter mUnicodeAdapter;
+    public View[] mUnicodeTabs;
+    public PagerAdapter mUnicodeAdapter;
     private UnicodeRecentsManager mRecentsManager;
     private int keyboardHeight = 0;
     private Boolean pendingOpen = false;
@@ -166,11 +175,54 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         setHeight(height);
     }
 
+    private SortedMap<String, String> getUnicodeBlockMap(Context context, int id) {
+        SortedMap<String, String> unicodeBlockMap = new TreeMap<>(new Comparator<String>() {
+            @Override
+            public int compare(String u1, String u2) {
+                return Integer.compare((int)Long.parseLong(u1, 16), (int)Long.parseLong(u2, 16));
+            }
+        });
+        InputStream inputStream = context.getResources().openRawResource(id);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        String string;
+        try {
+            String[] pair;
+            while ((string = bufferedReader.readLine()) != null) {
+                pair = string.split("\t");
+                if (pair.length > 1 && unicodeBlockMap.get(pair[0]) == null) {
+                    unicodeBlockMap.put(pair[0], pair[1]);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return unicodeBlockMap;
+    }
+
+    private Unicode[] getUnicodeBlocks(SortedMap<String, String> unicodeBlockMap) {
+        Unicode[] result = new Unicode[unicodeBlockMap.size()];
+        int i = 0;
+        for (Map.Entry<String,String> entry : unicodeBlockMap.entrySet()) {
+            result[i++] = Unicode.fromCodePoint((int)Long.parseLong(entry.getKey(), 16), entry.getValue());
+        }
+        return result;
+    }
+
+    SortedMap<String, String> unicodeBlockMap;
+    Unicode[] unicodeBlocks;
+    UnicodeGridView[] mUnicodeGridViews;
+
     private View createCustomView() {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int size = 65536;
-        Unicode[] unicodeData = UnicodeData.getCount(size, size);
+        Unicode[] unicodeData = UnicodeData.getCount(0, size);
+
+        int i = 0;
+        unicodeBlockMap = getUnicodeBlockMap(mContext, R.raw.unidata);
+        unicodeBlocks = getUnicodeBlocks(unicodeBlockMap);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         Unicode[] unicodeFavorites = UnicodeData.stringToUnicodes(Util.orNull(sharedPreferences.getString("unicode_favorites", ""), ""));
@@ -179,17 +231,27 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         unicodePager = view.findViewById(R.id.unicode_pager);
         unicodePager.setOnPageChangeListener(this);
         UnicodeRecents recents = this;
+
+        mUnicodeGridViews = new UnicodeGridView[4];
+        mUnicodeGridViews[0] = new UnicodeGridView(mContext, unicodeData, recents, this);
+        mUnicodeGridViews[1] = new UnicodeRecentsGridView(mContext, null, null, this);
+        mUnicodeGridViews[2] = new UnicodeGridView(mContext, unicodeFavorites, recents, this);
+        mUnicodeGridViews[3] = new UnicodeGridView(mContext, unicodeBlocks, recents, this);
+
         mUnicodeAdapter = new UnicodePagerAdapter(Arrays.asList(
-            new UnicodeGridView(mContext, unicodeData, recents, this),
-            new UnicodeRecentsGridView(mContext, null, null, this),
-            new UnicodeGridView(mContext, unicodeFavorites, recents, this)
+            mUnicodeGridViews[0],
+            mUnicodeGridViews[1],
+            mUnicodeGridViews[2],
+            mUnicodeGridViews[3]
         ));
         unicodePager.setAdapter(mUnicodeAdapter);
-        mUnicodeTabs = new View[3];
-        mUnicodeTabs[0] = view.findViewById(R.id.unicode_tab_grid);
-        mUnicodeTabs[1] = view.findViewById(R.id.unicode_tab_recents);
-        mUnicodeTabs[2] = view.findViewById(R.id.unicode_tab_favorites);
-        for (int i = 0; i < mUnicodeTabs.length; i++) {
+
+        mUnicodeTabs = new View[4];
+        mUnicodeTabs[0] = view.findViewById(R.id.unicode_tab_grid_button);
+        mUnicodeTabs[1] = view.findViewById(R.id.unicode_tab_recent_button);
+        mUnicodeTabs[2] = view.findViewById(R.id.unicode_tab_favorite_button);
+        mUnicodeTabs[3] = view.findViewById(R.id.unicode_tab_list_button);
+        for (i = 0; i < mUnicodeTabs.length; i++) {
             final int position = i;
             mUnicodeTabs[i].setOnClickListener(new OnClickListener() {
                 @Override
@@ -220,6 +282,11 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             }
         });
 
+        GridView gridView = (GridView)mUnicodeGridViews[3].rootView;
+        gridView.setColumnWidth(rootView.getWidth());
+        gridView.setNumColumns(1);
+        gridView.setGravity(Gravity.LEFT);
+
         mRecentsManager = UnicodeRecentsManager.getInstance(view.getContext());
         int page = mRecentsManager.getRecentPage();
 
@@ -230,6 +297,21 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             unicodePager.setCurrentItem(page, false);
         }
         return view;
+    }
+
+    public void scrollTo(int position) {
+        scrollTo(position, false);
+    }
+
+    public void scrollTo(int position, boolean smooth) {
+        if (smooth) {
+            GridView gridView = (GridView)mUnicodeGridViews[0].rootView;
+            gridView.smoothScrollToPosition(position);
+        }
+        else {
+            View view = mUnicodeGridViews[0].rootView;
+            view.scrollTo(0, position);
+        }
     }
 
     @Override
@@ -251,6 +333,15 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
     public void onPageScrollStateChanged(int i) {
     }
 
+    public void setPage(int page) {
+        unicodePager.setCurrentItem(page);
+        mUnicodeTabs[page].setSelected(true);
+        mUnicodeTabLastSelectedIndex = page;
+        mRecentsManager.setRecentPage(page);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mUnicodeTabs[page].scrollTo(0, sharedPreferences.getInt("scroll_location", 0));
+    }
+
     @Override
     public void onPageSelected(int i) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -259,6 +350,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             case 0:
             case 1:
             case 2:
+            case 3:
                 if (mUnicodeTabLastSelectedIndex >= 0 && mUnicodeTabLastSelectedIndex < mUnicodeTabs.length) {
                     mUnicodeTabs[mUnicodeTabLastSelectedIndex].setSelected(false);
                 }

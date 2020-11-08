@@ -21,7 +21,7 @@ public class UnicodeGridView {
         mUnicodePopup = unicodePopup;
         rootView = inflater.inflate(R.layout.unicode_grid, null);
         setRecents(recents);
-        GridView gridView = rootView.findViewById(R.id.Unicode_GridView);
+        GridView gridView = rootView.findViewById(R.id.unicode_grid_view);
         if (unicode == null) {
             mData = UnicodeData.getData();
         }
@@ -51,7 +51,6 @@ public class UnicodeGridView {
         });
         gridView.setAdapter(mAdapter);
     }
-
     private void setRecents(UnicodeRecents recents) {
         mRecents = recents;
     }
