@@ -397,7 +397,6 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
-            toastIt(primaryCode);
             switch (primaryCode) {
                 case -2: showClipboard(); break;
                 case -5: deletePrevWord(); break;
