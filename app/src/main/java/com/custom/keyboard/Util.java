@@ -456,12 +456,10 @@ public class Util {
         array = text.toCharArray();
 
         for (int i = 0; i < array.length; i += 1) {
-            if (array[i] == ' ') {
-                i++;
-                continue;
-            }
-            if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
-            if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);
+            // if (array[i] == ' ') i++;
+            
+            if (i % 2 == seed) array[i] = Character.toLowerCase(array[i]);
+            if (i % 2 != seed) array[i] = Character.toUpperCase(array[i]);
         }
 
         text = new String(array);
