@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -24,9 +26,11 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
@@ -38,6 +42,8 @@ import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -398,6 +404,7 @@ public class CustomInputMethodService extends InputMethodService
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
             switch (primaryCode) {
+                // case -299: break;
                 case -2: showClipboard(); break;
                 case -5: deletePrevWord(); break;
                 case -7: deleteNextWord(); break;
@@ -2106,6 +2113,11 @@ public class CustomInputMethodService extends InputMethodService
             case -209: break;
             */
 
+            case -299:
+                // System.out.println("popupKeyboard");
+                // commitText(".com");
+                popupKeyboard(getKey(-299));
+            break;
             case -300: clearClipboardHistory(); break;
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
@@ -2152,6 +2164,50 @@ public class CustomInputMethodService extends InputMethodService
                 firstCaps = true;
             }
         }
+    }
+
+
+    public void popupKeyboard(Keyboard.Key nextTo) {
+        View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.tld, new FrameLayout(getBaseContext()));
+        // PopupWindow popup = new PopupWindow(getBaseContext());
+        PopupWindow popup = new PopupWindow(
+            // LayoutInflater.from(getBaseContext()).inflate(R.layout.tld, new FrameLayout(getBaseContext())),
+            view,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            true
+        );
+        // popup.setContentView(view);
+        // popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        // popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.showAtLocation(kv, Gravity.NO_GRAVITY, nextTo.x, nextTo.y);
+
+        // popup.setOutsideTouchable(true);
+        // popup.setFocusable(true);
+        // popup.setBackgroundDrawable(new BitmapDrawable());
+        // popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // popup.setBackgroundDrawable(getResources().getDrawable(R.color.background));
+
+        popup.getContentView().findViewById(R.id.closeButton).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popup.dismiss();
+                return false;
+            }
+        });
+        ViewGroup vg = (ViewGroup)popup.getContentView().findViewById(R.id.tldPopup);
+        for(int i = 0; i < vg.getChildCount()-1; i++) {
+            TextView tv = (TextView)vg.getChildAt(i);
+            tv.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    commitText(tv.getText().toString());
+                    return false;
+                }
+            });
+        }
+
+
     }
 
     public void displayFindMenu() {

@@ -25,7 +25,7 @@ import java.util.List;
 public class CustomKeyboardView extends KeyboardView {
     Paint mPaint = new Paint();
     Canvas canvas;
-    Context kcontext;
+    Context mContext;
     SharedPreferences sharedPreferences;
 
     int currentKeyboardLayout = R.layout.primary;
@@ -57,7 +57,7 @@ public class CustomKeyboardView extends KeyboardView {
     }
 
     public ArrayList<String> getClipboardHistory() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String clipboardHistory = Util.orNull(sharedPreferences.getString("clipboard_history", ""), "");
         ArrayList<String> clipboardHistoryArray = new ArrayList<String>(Util.deserialize(clipboardHistory));
         Collections.reverse(clipboardHistoryArray);
@@ -72,7 +72,9 @@ public class CustomKeyboardView extends KeyboardView {
          || key.codes[0] == -12
          || key.codes[0] == -15
          || key.codes[0] == -16
-         || key.codes[0] == -200) {
+         || key.codes[0] == -200
+         || key.codes[0] == -299
+        ) {
             return false;
         }
 
@@ -108,7 +110,6 @@ public class CustomKeyboardView extends KeyboardView {
         }
         canvas.restore();
     }
-
 
     public void drawable(Key key) {
         int center = key.x+(key.width/2);
@@ -158,8 +159,8 @@ public class CustomKeyboardView extends KeyboardView {
 
         List<Key> keys = getKeyboard().getKeys();
 
-        kcontext = getContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(kcontext);
+        mContext = getContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         this.canvas = canvas;
 

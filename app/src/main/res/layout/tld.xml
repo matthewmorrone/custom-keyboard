@@ -1,10 +1,22 @@
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-    <Row>
-        <Key android:codes="0" android:keyOutputText=".com" android:keyLabel=".com" android:keyIcon="@drawable/ic_com" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText=".org" android:keyLabel=".org" android:keyIcon="@drawable/ic_org" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText=".gov" android:keyLabel=".gov" android:keyIcon="@drawable/ic_gov" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-        <Key android:codes="0" android:keyOutputText=".io"  android:keyLabel=".io"  android:keyIcon="@drawable/ic_io"  android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
-    </Row>
-</Keyboard>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/translucent"
+
+            android:id="@+id/tldPopup"
+            android:layout_margin="5dp"
+            android:textSize="22sp">
+    <TextView android:text=".com" android:textColor="@color/black" android:layout_margin="5dp" android:gravity="center" android:layout_width="wrap_content" android:layout_height="match_parent" />
+    <TextView android:text=".org" android:textColor="@color/black" android:layout_margin="5dp" android:gravity="center" android:layout_width="wrap_content" android:layout_height="match_parent" />
+    <TextView android:text=".gov" android:textColor="@color/black" android:layout_margin="5dp" android:gravity="center" android:layout_width="wrap_content" android:layout_height="match_parent" />
+    <TextView android:text=".io"  android:textColor="@color/black" android:layout_margin="5dp" android:gravity="center" android:layout_width="wrap_content" android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/closeButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="✕"
+        />
+</GridLayout>
