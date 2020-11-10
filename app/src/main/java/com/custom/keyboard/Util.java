@@ -452,11 +452,13 @@ public class Util {
         char[] array = new char[]{};
 
         int seed = generateRandomInt(0, 1);
+        text = text.toLowerCase();
         array = text.toCharArray();
 
-        for (int i = seed; i < array.length - seed; i += 2) {
+        for (int i = 0; i < array.length; i += 1) {
             if (array[i] == ' ') {
                 i++;
+                continue;
             }
             if (i % 2 == 0) array[i] = Character.toLowerCase(array[i]);
             if (i % 2 == 1) array[i] = Character.toUpperCase(array[i]);

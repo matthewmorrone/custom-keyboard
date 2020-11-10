@@ -175,6 +175,7 @@ public class CustomKeyboardView extends KeyboardView {
 
 
         for (Key key : keys) {
+/*
             mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
             mPaint.setColor(background);
@@ -190,6 +191,7 @@ public class CustomKeyboardView extends KeyboardView {
             else if (key.icon != null) {
                 drawable(key);
             }
+*/
 /*
             canvas.save();
             canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
