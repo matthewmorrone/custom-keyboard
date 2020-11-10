@@ -24,6 +24,6 @@
         android:textAlignment="center"
         android:gravity="center"
         android:background="@color/translucent"
-        android:text="☒"
+        android:text="☓"
         />
 </GridLayout>

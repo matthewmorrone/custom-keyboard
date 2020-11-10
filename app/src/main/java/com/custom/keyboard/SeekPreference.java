@@ -98,19 +98,19 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
         if (!fromUser) {
             return;
         }
-        setValue(Util.round(progress, getStep()));
+        setValue(Calculator.round(progress, getStep()));
         mValue.setText(String.valueOf(getValue()));
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        setValue(Util.round(seekBar.getProgress(), getStep()));
+        setValue(Calculator.round(seekBar.getProgress(), getStep()));
         mValue.setText(String.valueOf(getValue()));
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        setValue(Util.round(seekBar.getProgress(), getStep()));
+        setValue(Calculator.round(seekBar.getProgress(), getStep()));
         mValue.setText(String.valueOf(getValue()));
     }
 

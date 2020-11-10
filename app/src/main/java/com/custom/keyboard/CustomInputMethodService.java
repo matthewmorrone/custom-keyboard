@@ -1502,9 +1502,9 @@ public class CustomInputMethodService extends InputMethodService
             break;
             case -204:
                 try {
-                    sanitized = Util.sanitize(calcBuffer);
-                    double result = Util.evalParser(sanitized);
-                    if (Util.checkInteger(result)) {
+                    sanitized = Calculator.sanitize(calcBuffer);
+                    double result = Calculator.evalParser(sanitized);
+                    if (Calculator.checkInteger(result)) {
                         int resultInt = (int)result;
                         parserResult = String.valueOf(resultInt);
                     }
@@ -1519,9 +1519,9 @@ public class CustomInputMethodService extends InputMethodService
                 calcBufferHistory.push(calcBuffer);
             break;
             case -206:
-                sanitized = Util.sanitize(calcBuffer);
+                sanitized = Calculator.sanitize(calcBuffer);
                 try {
-                    scriptResult = Util.evalScript(sanitized);
+                    scriptResult = Calculator.evalScript(sanitized);
                 }
                 catch (Exception e) {
                     toastIt(scriptResult+"\n"+e);
@@ -1530,9 +1530,9 @@ public class CustomInputMethodService extends InputMethodService
                 calcBufferHistory.push(calcBuffer);
             break;
             case -207:
-                Expression e = new Expression(Util.sanitize(calcBuffer));
+                Expression e = new Expression(Calculator.sanitize(calcBuffer));
                 double result = e.calculate();
-                if (Util.checkInteger(result)) {
+                if (Calculator.checkInteger(result)) {
                     int resultInt = (int)result;
                     calcBuffer = String.valueOf(resultInt);
                 }
@@ -2406,7 +2406,7 @@ public class CustomInputMethodService extends InputMethodService
                         }
                         sb.append(unicode.getUnicode());
                         unicodeFavorites = sb.toString();
-                        sharedPreferences.edit().putString("favorites", unicodeFavorites).apply();
+                        sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
                         toastIt(unicode.getUnicode()+" added to unicode favorites");
                     }
                     if (tab == 1) {

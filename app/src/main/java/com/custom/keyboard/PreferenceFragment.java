@@ -278,7 +278,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             resetUnicodeHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    resetAllPreferences();
+                    resetUnicodeHistory();
                     return true;
                 }
             });

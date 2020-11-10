@@ -56,11 +56,11 @@
         <EditTextPreference android:key="k8" android:title="@string/k8_title" android:dialogTitle="@string/k8_title" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:defaultValue="true" android:key="hints" android:title="@string/hints" />
-        <SwitchPreference android:defaultValue="true" android:dependency="hints" android:key="hint1" android:title="@string/hint1" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint2" android:title="@string/hint2" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint3" android:title="@string/hint3" />
-        <SwitchPreference android:defaultValue="false" android:dependency="hints" android:key="hint4" android:title="@string/hint4" />
+        <SwitchPreference android:defaultValue="true"  android:key="hints" android:title="@string/hints" />
+        <SwitchPreference android:defaultValue="true"  android:key="hint1" android:title="@string/hint1" android:dependency="hints" />
+        <SwitchPreference android:defaultValue="false" android:key="hint2" android:title="@string/hint2" android:dependency="hints" />
+        <SwitchPreference android:defaultValue="false" android:key="hint3" android:title="@string/hint3" android:dependency="hints" />
+        <SwitchPreference android:defaultValue="false" android:key="hint4" android:title="@string/hint4" android:dependency="hints" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
         <SwitchPreference android:key="debug" android:defaultValue="true" android:title="@string/debug" />

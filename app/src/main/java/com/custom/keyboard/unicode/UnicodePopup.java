@@ -218,7 +218,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int size = 65536;
-        Unicode[] unicodeData = UnicodeData.getCount(0, size);
+        Unicode[] unicodeData = UnicodeData.getCount(0, size*2);
 
         int i = 0;
         unicodeBlockMap = getUnicodeBlockMap(mContext, R.raw.unidata);
