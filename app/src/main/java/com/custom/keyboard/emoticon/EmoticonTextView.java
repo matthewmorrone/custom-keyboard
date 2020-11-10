@@ -34,17 +34,19 @@ public class EmoticonTextView extends TextView {
     }
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("emoticon_text_size", "24"), "24"));
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("emoticon_font_size", "24"), "24"));
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
             mEmoticonSize = (int)getTextSize();
         }
         else {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Emoticon);
-            mEmoticonSize = (int)a.getDimension(R.styleable.Emoticon_emoticonSize, getTextSize());
-            mTextStart = a.getInteger(R.styleable.Emoticon_emoticonTextStart, 0);
-            mTextLength = a.getInteger(R.styleable.Emoticon_emoticonTextLength, -1);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.emoticon);
+            // mEmoticonSize = (int)a.getDimension(R.styleable.emoticon_emoticonSize, getTextSize());
+            mEmoticonSize = (int)textSize;
+            System.out.println(mEmoticonSize);
+            mTextStart = a.getInteger(R.styleable.emoticon_emoticonTextStart, 0);
+            mTextLength = a.getInteger(R.styleable.emoticon_emoticonTextLength, -1);
             a.recycle();
         }
         this.setTextSize(textSize);

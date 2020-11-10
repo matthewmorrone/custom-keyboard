@@ -18,12 +18,8 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
@@ -33,7 +29,8 @@ public class CustomKeyboardView extends KeyboardView {
     SharedPreferences sharedPreferences;
 
     int currentKeyboardLayout = R.layout.primary;
-    int textSize, theme, selected, borderColor, foreground, background, borderWidth, paddingWidth, borderRadius;
+    int fontSize, hintFontSize, borderWidth, paddingWidth, borderRadius;
+    int theme, selected, borderColor, foreground, background;
 
     int[] repeatable = new int[] {-13, -14, -15, -16, -5, -7};
     Paint paint = new Paint();
@@ -42,7 +39,8 @@ public class CustomKeyboardView extends KeyboardView {
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        textSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("text_size", "48"), "48"));
+        fontSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("font_size", "48"), "48"));
+        hintFontSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("hint_font_size", "32"), "32"));
         theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
         selected = Color.parseColor("#80FFFFFF");
         borderColor = sharedPreferences.getInt("border_color", Color.WHITE);
@@ -98,11 +96,6 @@ public class CustomKeyboardView extends KeyboardView {
         return super.onLongPress(key);
     }
 
-    public void drawKey(Drawable drawable, Key key) {
-        drawable.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-        drawable.draw(canvas);
-    }
-
     public void selectKey(Key key, int corner) {
         canvas.save();
         mPaint.setColor(selected);
@@ -116,12 +109,13 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.restore();
     }
 
+
     public void drawable(Key key) {
         int center = key.x+(key.width/2);
         int middle = key.y+(key.height/2);
-        int left   = center-(key.width/4);
+        int left   = center-(key.height/4);
         int top    = middle-(key.height/4);
-        int right  = center+(key.width/4);
+        int right  = center+(key.height/4);
         int bottom = middle+(key.height/4);
 
         canvas.save();
@@ -177,10 +171,10 @@ public class CustomKeyboardView extends KeyboardView {
         gradientDrawable.setStroke(borderWidth, selected);
 
         ArrayList<String> clipboardHistoryList = getClipboardHistory();
-        // if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) { }
+
+
 
         for (Key key : keys) {
-/*
             mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
             mPaint.setColor(background);
@@ -188,7 +182,7 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.label != null) {
                 mPaint.setColor(foreground);
-                mPaint.setTextSize(textSize);
+                mPaint.setTextSize(fontSize);
                 mPaint.setTextAlign(Paint.Align.CENTER);
                 mPaint.getTextBounds(key.label.toString(), 0, key.label.toString().length(), textBounds);
                 canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (13 * (key.height / 16)), mPaint);
@@ -196,7 +190,6 @@ public class CustomKeyboardView extends KeyboardView {
             else if (key.icon != null) {
                 drawable(key);
             }
-*/
 /*
             canvas.save();
             canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
@@ -222,7 +215,7 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-            if (key.codes[0] ==  -73)   key.label = Util.timemoji();
+            if (key.codes[0] == -73)   key.label = Util.timemoji();
             if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) {
                 if (key.codes[0] == -301 && clipboardHistoryList.size() >  0) key.label = clipboardHistoryList.get( 0);
                 if (key.codes[0] == -302 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get( 1);
@@ -301,12 +294,12 @@ public class CustomKeyboardView extends KeyboardView {
                 && sharedPreferences.getBoolean("hints", true)
             ) {
                 canvas.save();
-                mPaint.setTextSize(32);
-                if (key.popupCharacters.length() >= 1 
-                &&   sharedPreferences.getBoolean("hint1", true)
-                &&  !sharedPreferences.getBoolean("hint2", false)
-                &&  !sharedPreferences.getBoolean("hint3", false)
-                &&  !sharedPreferences.getBoolean("hint4", false)
+                mPaint.setTextSize(hintFontSize);
+                if (key.popupCharacters.length() >= 1
+                &&  sharedPreferences.getBoolean("hint1", true)
+                && !sharedPreferences.getBoolean("hint2", false)
+                && !sharedPreferences.getBoolean("hint3", false)
+                && !sharedPreferences.getBoolean("hint4", false)
                 ) {
                     mPaint.setColor(foreground);
                     canvas.drawText(((getKeyboard().isShifted())

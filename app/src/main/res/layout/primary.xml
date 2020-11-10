@@ -41,7 +41,8 @@
         <Key android:codes="112" android:keyLabel="p" android:popupCharacters="}" android:popupKeyboard="@layout/popup_template" />
     </Row>
     <Row>
-        <Key android:codes="97"  android:keyLabel="a" android:popupCharacters="→" android:popupKeyboard="@layout/popup_template" android:horizontalGap="5%p" />
+        <Key android:codes="0"   android:keyWidth="5%" />
+        <Key android:codes="97"  android:keyLabel="a" android:popupCharacters="→" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="115" android:keyLabel="s" android:popupCharacters="=" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="100" android:keyLabel="d" android:popupCharacters="+" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="102" android:keyLabel="f" android:popupCharacters=":" android:popupKeyboard="@layout/popup_template" />
@@ -50,6 +51,7 @@
         <Key android:codes="106" android:keyLabel="j" android:popupCharacters=";" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="107" android:keyLabel="k" android:popupCharacters="," android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="108" android:keyLabel="l" android:popupCharacters="." android:popupKeyboard="@layout/popup_template" />
+        <Key android:codes="0"   android:keyWidth="5%" />
     </Row>
     <Row>
         <Key android:codes="-1"  android:keyIcon="@drawable/ic_shift" />

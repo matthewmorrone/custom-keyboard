@@ -15,7 +15,7 @@
                  android:label="@string/app_name"
                  android:roundIcon="@mipmap/ic_launcher"
                  android:supportsRtl="true">
-        <activity android:name="com.custom.keyboard.Main" android:label="@string/app_name">
+        <activity android:name="com.custom.keyboard.MainActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

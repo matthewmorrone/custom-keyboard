@@ -88,7 +88,8 @@
     <string name="border_width">Border Width</string>
     <string name="padding_width">Padding Width</string>
     <string name="border_radius">Border Radius</string>
-    <string name="text_size">Text Size</string>
+    <string name="font_size">Text Size</string>
+    <string name="hint_font_size">Hint Text Size</string>
     <string name="emoticon_font_size">Emoticon Font Size</string>
     <string name="unicode_font_size">Unicode Font Size</string>
     <string name="reset_clipboard_history">Reset Clipboard History</string>

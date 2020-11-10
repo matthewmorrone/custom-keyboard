@@ -34,17 +34,19 @@ public class UnicodeTextView extends TextView {
     }
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicode_text_size", "24"), "24"));
+    float textSize = Float.parseFloat(Util.orNull(sharedPreferences.getString("unicode_font_size", "24"), "24"));
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
             mUnicodeSize = (int)getTextSize();
         }
         else {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Unicode);
-            mUnicodeSize = (int)a.getDimension(R.styleable.Unicode_unicodeSize, getTextSize());
-            mTextStart = a.getInteger(R.styleable.Unicode_unicodeTextStart, 0);
-            mTextLength = a.getInteger(R.styleable.Unicode_unicodeTextLength, -1);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.unicode);
+            // mUnicodeSize = (int)a.getDimension(R.styleable.unicode_unicodeTextSize, getTextSize());
+            mUnicodeSize = (int)textSize;
+            System.out.println(mUnicodeSize);
+            mTextStart = a.getInteger(R.styleable.unicode_unicodeTextStart, 0);
+            mTextLength = a.getInteger(R.styleable.unicode_unicodeTextLength, -1);
             a.recycle();
         }
         this.setTextSize(textSize);

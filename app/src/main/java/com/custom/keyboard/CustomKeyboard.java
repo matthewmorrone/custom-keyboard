@@ -77,8 +77,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         return this.title.compareTo(kb.title);
     }
 
-    
-
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
         Key key = new CustomKey(res, parent, x, y, parser);

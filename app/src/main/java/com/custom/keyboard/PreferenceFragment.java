@@ -10,7 +10,11 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+import java.io.File;
+
+public class PreferenceFragment
+    extends android.preference.PreferenceFragment
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     Context baseContext;
     SharedPreferences sharedPreferences;
@@ -24,7 +28,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     EditTextPreference borderWidth;
     EditTextPreference paddingWidth;
     EditTextPreference borderRadius;
-    EditTextPreference textSize;
+    EditTextPreference fontSize;
+    EditTextPreference hintFontSize;
     EditTextPreference emoticonFontSize;
     EditTextPreference unicodeFontSize;
     ColorPreference background;
@@ -105,18 +110,16 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void resetAllPreferences() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().clear().apply();
-        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
-/*
         String dir = "shared_prefs";
         File root = baseContext.getFilesDir().getParentFile();
         String path = new File(root, dir).getPath();
         String[] sharedPreferencesFileNames = new File(root, dir).list();
         for (String fileName : sharedPreferencesFileNames) {
             String filePath = path+"/"+fileName;
-            // baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
+            baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
         }
-        // baseContext.deleteSharedPreferences("shared_prefs");
-*/
+        baseContext.deleteSharedPreferences("shared_prefs");
+        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         toastIt("All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
@@ -144,7 +147,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         paddingWidth = (EditTextPreference)findPreference("padding_width");
         borderRadius = (EditTextPreference)findPreference("border_radius");
 
-        textSize = (EditTextPreference)findPreference("text_size");
+        fontSize = (EditTextPreference)findPreference("font_size");
+        hintFontSize = (EditTextPreference)findPreference("hint_font_size");
         emoticonFontSize = (EditTextPreference)findPreference("emoticon_font_size");
         unicodeFontSize = (EditTextPreference)findPreference("unicode_font_size");
         background = (ColorPreference)findPreference("background_color");
@@ -179,7 +183,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
-
         if (wordSeparators != null) wordSeparators.setText(sharedPreferences.getString("word_separators", ""));
         if (wordSeparators != null) wordSeparators.setSummary(sharedPreferences.getString("word_separators", ""));
 
@@ -201,8 +204,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("padding_width", ""));
         if (borderRadius != null) borderRadius.setText(sharedPreferences.getString("border_radius", ""));
         if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
-        if (textSize != null) textSize.setText(sharedPreferences.getString("text_size", "48"));
-        if (textSize != null) textSize.setSummary(sharedPreferences.getString("text_size", "48"));
+        if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
+        if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "48"));
         if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
@@ -331,8 +336,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("padding_width", ""));
         if (borderRadius != null) borderRadius.setText(sharedPreferences.getString("border_radius", ""));
         if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
-        if (textSize != null) textSize.setText(sharedPreferences.getString("text_size", "48"));
-        if (textSize != null) textSize.setSummary(sharedPreferences.getString("text_size", "48"));
+        if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
+        if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "48"));
         if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));

@@ -6,9 +6,8 @@
           android:background="@android:color/transparent"
           android:cacheColorHint="@android:color/transparent"
           android:columnWidth="40dip"
+          android:horizontalSpacing="0dip"
           android:numColumns="8"
-    />
+          android:verticalSpacing="0dip" />
     <!--android:scrollbars="vertical"-->
-    <!--android:verticalSpacing="0dip"-->
-    <!--android:horizontalSpacing="0dip"-->
     <!--android:numColumns="auto_fit"-->

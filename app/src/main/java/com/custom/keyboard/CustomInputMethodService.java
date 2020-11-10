@@ -131,9 +131,7 @@ public class CustomInputMethodService extends InputMethodService
     public void onInitializeInterface() {
         if (standardKeyboard != null) {
             int displayWidth = getMaxWidth();
-            if (displayWidth == mLastDisplayWidth) {
-                return;
-            }
+            if (displayWidth == mLastDisplayWidth) return;
             mLastDisplayWidth = displayWidth;
         }
         standardKeyboard = new CustomKeyboard(this, R.layout.primary);
@@ -176,12 +174,10 @@ public class CustomInputMethodService extends InputMethodService
         if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
             indentWidth = Integer.valueOf(sharedPreferences.getString("indent_width", "4"));
             indentString = new String(new char[indentWidth]).replace("\0", " ");
-
         }
 
         Paint mPaint = setTheme();
 
-        // mComposing.setLength(0);
         updateCandidates();
 
         if (!restarting) {
@@ -190,12 +186,16 @@ public class CustomInputMethodService extends InputMethodService
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
+
         setInputType();
 
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         Color background = Color.valueOf(bg);
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+
+        int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "24"));
+        mPaint.setTextSize(fontSize);
 
         kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
@@ -321,7 +321,7 @@ public class CustomInputMethodService extends InputMethodService
     }
     public String getPrevWord() {
         InputConnection ic = getCurrentInputConnection();
-        String[] words = ic.getTextBeforeCursor(MAX, 0).toString().split("\\b", -1); // mWordSeparators);
+        String[] words = Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString().split("\\b", -1); // mWordSeparators);
         if (words.length < 1) return "";
         String prevWord = words[words.length - 1];
         if (words.length > 1 && prevWord.equals("")) prevWord = words[words.length - 2];
@@ -329,7 +329,7 @@ public class CustomInputMethodService extends InputMethodService
     }
     public String getNextWord() {
         InputConnection ic = getCurrentInputConnection();
-        String[] words = ic.getTextAfterCursor(MAX, 0).toString().split("\\b", -1); // mWordSeparators);
+        String[] words = Util.orNull(ic.getTextAfterCursor(MAX, 0), "").toString().split("\\b", -1); // mWordSeparators);
         if (words.length < 1) return "";
         String nextWord = words[0];
         if (words.length > 1 && nextWord.equals("")) nextWord = words[1];
@@ -755,9 +755,9 @@ public class CustomInputMethodService extends InputMethodService
                     continue;
                 }
                 for (int k = 0; k < m; k++) {
-                    sb.append(result.getSuggestionsInfoAt(i).getSuggestionAt(k)).append(",");
+                    sb.append(result.getSuggestionsInfoAt(i).getSuggestionAt(k));
+                    if (k < m-1) sb.append(",");
                 }
-                sb.append("\n");
             }
         }
         sendDataToErrorOutput(sb.toString());
@@ -816,20 +816,15 @@ public class CustomInputMethodService extends InputMethodService
 
         String prevLine = getPrevLine();
         String prevWord = getPrevWord();
-        if (prevWord.trim().equals("")) {
+
+        if (prevWord.trim().equals("")
+            || prevLine.length() == 0
+            || prevWord.length() == 0) {
             mCandidateView.clear();
             return;
         }
-        if (prevLine.length() == 0 && prevWord.length() == 0) {
-            mCandidateView.clear();
-            return;
-        }
 
-
-        String prevChar = "";
-        prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1));
-        prevChar = prevChar.substring(0, 1);
-
+        String prevChar = String.valueOf(prevLine.charAt(prevLine.length()-1)).substring(0, 1);
         if (!Character.isLetter(prevChar.charAt(0))) {
             mCandidateView.clear();
             return;

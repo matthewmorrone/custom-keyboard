@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
     <com.custom.keyboard.emoticon.EmoticonTextView
-        android:layout_gravity="center"
         android:id="@+id/emoticon_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="32sp"
         />
 </FrameLayout>

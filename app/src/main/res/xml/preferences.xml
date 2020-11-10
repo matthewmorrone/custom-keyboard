@@ -18,19 +18,20 @@
         <EditTextPreference android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="@string/indent_width" android:dialogTitle="@string/indent_width" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
-        <com.custom.keyboard.SeekPreference android:key="height" android:title="@string/key_height" app:max="150" app:min="50" app:value="100" />
+        <com.custom.keyboard.SeekPreference android:key="height"       android:title="@string/key_height"       app:max="150" app:min="50" app:value="100" />
         <com.custom.keyboard.SeekPreference android:key="transparency" android:title="@string/key_transparency" app:value="100" />
-        <EditTextPreference android:defaultValue="0" android:digits="1234567890" android:inputType="number" android:key="border_width" android:title="@string/border_width" android:dialogTitle="@string/border_width" />
-        <EditTextPreference android:defaultValue="0" android:digits="1234567890" android:inputType="number" android:key="padding_width" android:title="@string/padding_width" android:dialogTitle="@string/padding_width" />
-        <EditTextPreference android:defaultValue="0" android:digits="1234567890" android:inputType="number" android:key="border_radius" android:title="@string/border_radius" android:dialogTitle="@string/border_radius" />
-        <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="text_size" android:title="@string/text_size" android:dialogTitle="@string/text_size" />
+        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="border_width"       android:title="@string/border_width"       android:dialogTitle="@string/border_width" />
+        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="padding_width"      android:title="@string/padding_width"      android:dialogTitle="@string/padding_width" />
+        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="border_radius"      android:title="@string/border_radius"      android:dialogTitle="@string/border_radius" />
+        <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="font_size"          android:title="@string/font_size"          android:dialogTitle="@string/font_size" />
+        <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="hint_font_size"     android:title="@string/hint_font_size"     android:dialogTitle="@string/hint_font_size" />
         <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="@string/emoticon_font_size" android:dialogTitle="@string/emoticon_font_size" />
-        <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size" android:title="@string/unicode_font_size" android:dialogTitle="@string/unicode_font_size" />
+        <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size"  android:title="@string/unicode_font_size"  android:dialogTitle="@string/unicode_font_size" />
         <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="@string/spacebar" />
         <ListPreference android:defaultValue="1" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="@string/theme_title" android:dialogTitle="@string/theme_title" />
         <com.custom.keyboard.ColorPreference android:key="background_color" android:title="Background Color" />
         <com.custom.keyboard.ColorPreference android:key="foreground_color" android:title="Text Color" />
-        <com.custom.keyboard.ColorPreference android:key="border_color" android:title="Border Color" />
+        <com.custom.keyboard.ColorPreference android:key="border_color"     android:title="Border Color" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
         <EditTextPreference android:key="emoticon_recents" android:title="@string/emoticon_recents" />

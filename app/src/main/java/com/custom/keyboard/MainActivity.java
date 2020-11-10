@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 
     EditText editText;
     TextView errorOutput;
@@ -27,7 +27,7 @@ public class Main extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activate);
+        setContentView(R.layout.main);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 

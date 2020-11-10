@@ -15,176 +15,188 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/close_keyboard"
             android:scaleType="center"
             android:src="@drawable/ic_action_keyboard"
-            android:contentDescription="@string/close_keyboard"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_0_recents"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_recent_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_recent_category"
-            android:contentDescription="@string/emoticons_recent_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_1_default"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_default_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_default_category"
-            android:contentDescription="@string/emoticons_default_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_2_people"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_people_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_people_category"
-            android:contentDescription="@string/emoticons_people_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_3_nature"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_nature_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_nature_category"
-            android:contentDescription="@string/emoticons_nature_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_4_food_and_drink"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_food_and_drink_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_food_and_drink_category"
-            android:contentDescription="@string/emoticons_food_and_drink_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_5_places"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_places_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_places_category"
-            android:contentDescription="@string/emoticons_places_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_6_activities"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_activities_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_activities_category"
-            android:contentDescription="@string/emoticons_activities_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_7_objects"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_objects_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_objects_category"
-            android:contentDescription="@string/emoticons_objects_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_8_symbols"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_symbols_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_symbols_category"
-            android:contentDescription="@string/emoticons_symbols_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_9_flags"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_flags_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_flags_category"
-            android:contentDescription="@string/emoticons_flags_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_tab_favorites"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/emoticons_favorites_category"
             android:scaleType="center"
             android:src="@drawable/ic_emoticons_favorites_category"
-            android:contentDescription="@string/emoticons_favorites_category"
             />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#888888" />
+            android:background="#888888"
+            />
         <ImageButton
             android:id="@+id/emoticons_backspace"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/ic_backspace"
             android:contentDescription="@string/emoticons_backspace"
+            android:src="@drawable/ic_backspace"
             />
     </LinearLayout>
     <androidx.viewpager.widget.ViewPager
@@ -192,10 +204,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/emoticons_tab"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@id/emoticons_tab"
-        android:background="#8f8f8f" />
+        android:background="#8f8f8f"
+        />
 </RelativeLayout>
