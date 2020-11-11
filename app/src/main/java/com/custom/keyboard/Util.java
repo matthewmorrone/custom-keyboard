@@ -1,12 +1,8 @@
 package com.custom.keyboard;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
 
 import java.io.ByteArrayInputStream;
@@ -31,11 +27,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,9 +41,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
@@ -230,19 +221,14 @@ public class Util {
         }
         return "http".equals(url.getProtocol());
     }
+    public static boolean isPhoneNumber(String s) {
+        return PhoneNumberUtils.isGlobalPhoneNumber(s);
+    }
+    public static String formatPhoneNumber(String unformattedNumber) {
+        return PhoneNumberUtils.formatNumber(unformattedNumber);
+    }
     public static boolean isValidPhoneNumber(String s) {
-        // The given argument to compile() method
-        // is regular expression. With the help of
-        // regular expression we can validate mobile
-        // number.
-        // 1) Begins with 0 or 91
-        // 2) Then contains 7 or 8 or 9.
-        // 3) Then contains 9 digits
         Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
-
-        // Pattern class contains matcher() method
-        // to find matching between given number
-        // and regular expression
         Matcher m = p.matcher(s);
         return (m.find() && m.group().equals(s));
     }
@@ -1160,15 +1146,6 @@ public class Util {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
 
-    // low level stuff
-    public static boolean isIntentAvailable(Context ctx, Intent intent) {
-        final PackageManager mgr = ctx.getPackageManager();
-        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
-    }
-
-
-
     public static String unbolden(String text) {
         if (text.length() < 1) return text;
         // char[] chars = text.toCharArray();
@@ -1242,26 +1219,7 @@ public class Util {
         }
         return text.replaceAll("(.)", "$1̶");
     }
-    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
 
-        PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
-
-        if (resolveInfo.size() != 1) {
-            return null;
-        }
-
-        ResolveInfo serviceInfo = resolveInfo.get(0);
-        String packageName = serviceInfo.serviceInfo.packageName;
-        String className = serviceInfo.serviceInfo.name;
-        ComponentName component = new ComponentName(packageName, className);
-
-        Intent explicitIntent = new Intent(implicitIntent);
-
-        explicitIntent.setComponent(component);
-
-        return explicitIntent;
-    }
     public static String getClassName() {
         Class<?> enclosingClass = Util.class.getEnclosingClass();
         String className;

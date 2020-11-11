@@ -1,16 +1,36 @@
 package com.custom.keyboard;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class PreferenceFragment
     extends android.preference.PreferenceFragment
@@ -58,6 +78,7 @@ public class PreferenceFragment
     EditTextPreference k7;
     EditTextPreference k8;
 
+    Preference exportPreferences;
     Preference resetClipboardHistory;
     Preference resetEmoticonHistory;
     Preference resetUnicodeHistory;
@@ -107,21 +128,103 @@ public class PreferenceFragment
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
-    public void resetAllPreferences() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
-        sharedPreferences.edit().clear().apply();
-        String dir = "shared_prefs";
+
+    private static void copyFile(File src, File dest) throws IOException {
+        Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
+    }
+
+    public void exportPreferences() {
+
+        DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
+
+        String sourcePathString = "/data/user/0/com.custom.keyboard/shared_prefs/com.custom.keyboard_preferences.xml";
+        File sourceFile = new File(sourcePathString);
+        String sourceContents = Util.readFile(sourcePathString);
+        Path sourcePath = Paths.get(sourceFile.getName());
+
+        File targetFile = baseContext.getExternalFilesDir(null);
+        String targetPathString = targetFile.getPath();
+        Path targetPath = Paths.get(targetFile.getName());
+
+        try {
+            copyFile(sourceFile, targetFile);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*
+        long fileId = downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain", file.getAbsolutePath(), file.length(), true);
+
+        System.out.println(downloadManager.getUriForDownloadedFile(fileId));
+
+        File file2 = new File(baseContext.getExternalFilesDir(null), "settings.xml");
+        Path path = Paths.get(file2.getName());
+        try {
+            if (file2.createNewFile()) {
+                System.out.println("made");
+                Files.write(path, Collections.singleton(sourceContents));
+            }
+            else {
+                System.out.println("fail");
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(file2.getAbsolutePath());
+        */
+
+        /*
         File root = baseContext.getFilesDir().getParentFile();
-        String path = new File(root, dir).getPath();
+        String dir = "shared_prefs";
+        String fileName = "com.custom.keyboard_preferences.xml";
+        File file = new File(root, dir);
+        String path = file.getPath()+"/"+fileName;
+        */
+
+        /*
+        DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
+        downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain", file.getAbsolutePath(), file.length(), true);
+        */
+
+        /*
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File dir = new File("//sdcard//Download//");
+        File file = new File(dir, fileName);
+        downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain",file.getAbsolutePath(),file.length(),true);
+        */
+
+        /*
         String[] sharedPreferencesFileNames = new File(root, dir).list();
         for (String fileName : sharedPreferencesFileNames) {
             String filePath = path+"/"+fileName;
-            baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
+            System.out.println(filePath);
         }
-        baseContext.deleteSharedPreferences("shared_prefs");
-        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+        */
+    }
+
+    public void resetAllPreferences() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
+        sharedPreferences.edit().clear().apply();
+        File root = baseContext.getFilesDir().getParentFile();
+        String dir = "shared_prefs";
+        String path = new File(root, dir).getPath();
+        String[] sharedPreferencesFileNames = new File(root, dir).list();
+        // for (String fileName : sharedPreferencesFileNames) {
+        //     String filePath = path+"/"+fileName;
+        //     baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
+        // }
+        // baseContext.deleteSharedPreferences("shared_prefs");
+        setDefaultPreferences();
         toastIt("All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");
+    }
+
+    public void setDefaultPreferences() {
+        sharedPreferences.edit().clear().apply();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
+        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
     }
 
     @Override
@@ -169,6 +272,7 @@ public class PreferenceFragment
         address = (EditTextPreference)findPreference("address");
         password = (EditTextPreference)findPreference("password");
 
+        exportPreferences = findPreference("export_preferences");
         resetClipboardHistory = findPreference("reset_clipboard_history");
         resetEmoticonHistory = findPreference("reset_emoticon_history");
         resetUnicodeHistory = findPreference("reset_unicode_history");
@@ -270,6 +374,15 @@ public class PreferenceFragment
         if (k8 != null) k8.setText(sharedPreferences.getString("k8", ""));
         if (k8 != null) k8.setSummary(sharedPreferences.getString("k8", ""));
 
+        if (exportPreferences != null) {
+            exportPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    exportPreferences();
+                    return true;
+                }
+            });
+        }
         if (resetClipboardHistory != null) {
             resetClipboardHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

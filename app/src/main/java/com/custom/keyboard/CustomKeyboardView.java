@@ -64,17 +64,13 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
+    int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299,
+                           -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
+
     @Override
     protected boolean onLongPress(Key key) {
-        if (key.codes[0] == -2
-         || key.codes[0] == -5
-         || key.codes[0] == -7
-         || key.codes[0] == -12
-         || key.codes[0] == -15
-         || key.codes[0] == -16
-         || key.codes[0] == -200
-         || key.codes[0] == -299
-        ) {
+        System.out.println("onLongPress: "+key.codes[0]);
+        if (Util.contains(longPressKeys, key.codes[0])) {
             return false;
         }
 
@@ -83,7 +79,6 @@ public class CustomKeyboardView extends KeyboardView {
             return true;
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-            // getOnKeyboardActionListener().onKey(key.codes[0], null);
             return true;
         }
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
@@ -238,19 +233,19 @@ public class CustomKeyboardView extends KeyboardView {
                 if (key.codes[0] == -316 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
             }
 
-            if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
-            if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
-            if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
-            if (key.codes[0] == -504)   key.text = sharedPreferences.getString("k4", "");
-            if (key.codes[0] == -505)   key.text = sharedPreferences.getString("k5", "");
-            if (key.codes[0] == -506)   key.text = sharedPreferences.getString("k6", "");
-            if (key.codes[0] == -507)   key.text = sharedPreferences.getString("k7", "");
-            if (key.codes[0] == -508)   key.text = sharedPreferences.getString("k8", "");
-            if (key.codes[0] == -509)   key.text = sharedPreferences.getString("name", "");
-            if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
-            if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
-            if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
-            if (key.codes[0] == -513)   key.text = sharedPreferences.getString("password", "");
+            if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1_label", "");
+            if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2_label", "");
+            if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3_label", "");
+            if (key.codes[0] == -504)   key.text = sharedPreferences.getString("k4_label", "");
+            if (key.codes[0] == -505)   key.text = sharedPreferences.getString("k5_label", "");
+            if (key.codes[0] == -506)   key.text = sharedPreferences.getString("k6_label", "");
+            if (key.codes[0] == -507)   key.text = sharedPreferences.getString("k7_label", "");
+            if (key.codes[0] == -508)   key.text = sharedPreferences.getString("k8_label", "");
+            if (key.codes[0] == -509)   key.text = sharedPreferences.getString("name_label", "");
+            if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email_label", "");
+            if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone_label", "");
+            if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address_label", "");
+            if (key.codes[0] == -513)   key.text = sharedPreferences.getString("password_label", "");
 
             if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);
             if (key.codes[0] == -1) {

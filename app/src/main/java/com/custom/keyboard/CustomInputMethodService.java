@@ -1,20 +1,23 @@
 package com.custom.keyboard;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.PixelFormat;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -43,7 +46,7 @@ import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListPopupWindow;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +62,6 @@ import com.custom.keyboard.unicode.Unicode;
 import com.custom.keyboard.unicode.UnicodeGridView;
 import com.custom.keyboard.unicode.UnicodePopup;
 
-// import org.apache.commons.lang3.StringUtils;
 import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.ArrayList;
@@ -70,6 +72,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
@@ -85,8 +89,6 @@ public class CustomInputMethodService extends InputMethodService
     private String mWordSeparators;
 
     private boolean firstCaps = false;
-    // private boolean isSymbols = false;
-    // private boolean shiftSim = false;
 
     private float[] mDefaultFilter;
     long shift_pressed = 0;
@@ -219,7 +221,7 @@ public class CustomInputMethodService extends InputMethodService
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
-        debug = sharedPreferences.getBoolean("debug", false);
+        // debug = sharedPreferences.getBoolean("debug", false);
 
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
@@ -375,11 +377,13 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public boolean onKeyUp(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyUp: "+primaryCode);
         return super.onKeyUp(primaryCode, event);
     }
 
     @Override
     public boolean onKeyDown(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyDown: "+primaryCode);
         return super.onKeyDown(primaryCode, event);
     }
 
@@ -389,6 +393,25 @@ public class CustomInputMethodService extends InputMethodService
     String nextBuffer = "";
 
     public void onPress(int primaryCode) {
+        if (debug) System.out.println("onPress: "+primaryCode);
+
+        /*
+        switch(primaryCode) {
+            case -501: showMacroDialog(primaryCode); break;
+            case -502: showMacroDialog(primaryCode); break;
+            case -503: showMacroDialog(primaryCode); break;
+            case -504: showMacroDialog(primaryCode); break;
+            case -505: showMacroDialog(primaryCode); break;
+            case -506: showMacroDialog(primaryCode); break;
+            case -507: showMacroDialog(primaryCode); break;
+            case -508: showMacroDialog(primaryCode); break;
+            case -509: showMacroDialog(primaryCode); break;
+            case -510: showMacroDialog(primaryCode); break;
+            case -511: showMacroDialog(primaryCode); break;
+            case -512: showMacroDialog(primaryCode); break;
+            case -513: showMacroDialog(primaryCode); break;
+        }
+        */
         prevBuffer = getPrevWord();
         nextBuffer = getNextWord();
         time = System.nanoTime() - time;
@@ -400,12 +423,13 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onRelease(int primaryCode) {
+        if (debug) System.out.println("onRelease: "+primaryCode);
         InputConnection ic = getCurrentInputConnection();
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
             switch (primaryCode) {
                 // case -299: break;
-                case -2: showClipboard(); break;
+                case -2: Intents.showClipboard(getBaseContext()); break;
                 case -5: deletePrevWord(); break;
                 case -7: deleteNextWord(); break;
                 case -12: selectAll(); break;
@@ -606,8 +630,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
 
-        System.out.println("onUpdateSelection");
-        updateCandidates(); //getCurrentWord());
+        updateCandidates();
 
         if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
             InputConnection ic = getCurrentInputConnection();
@@ -706,16 +729,6 @@ public class CustomInputMethodService extends InputMethodService
     private void showInputMethodPicker() {
         InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         if (imeManager != null) imeManager.showInputMethodPicker();
-    }
-
-    public void startIntent(Intent intent) {
-        if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
-    }
-
-    public void showSettings() {
-        Intent intent = new Intent(getApplicationContext(), PreferenceActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
     }
 
     @Override
@@ -937,22 +950,6 @@ public class CustomInputMethodService extends InputMethodService
     public void performContextMenuAction(int id) {
         InputConnection ic = getCurrentInputConnection();
         ic.performContextMenuAction(id);
-    }
-
-    public void showActivity(String id) {
-        Intent intent = new Intent(id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startIntent(intent);
-    }
-
-    public void showClipboard() {
-        try {
-            Intent intent = new Intent("com.samsung.android.ClipboardUIService");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startIntent(intent);
-        }
-        catch (Exception e) {
-            toastIt(e);
-        }
     }
 
     private IBinder getToken() {
@@ -1856,7 +1853,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
             break;
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
-            case -22: showSettings(); break;
+            case -22: Intents.showSettings(getBaseContext()); break;
             case -23: showVoiceInput(); break;
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
@@ -1986,28 +1983,28 @@ public class CustomInputMethodService extends InputMethodService
             case -101: setKeyboard(R.layout.primary); break;
             case -102: setKeyboard(R.layout.menu); break;
             case -103: setKeyboard(R.layout.macros); break;
-            case -104: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -105: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
-            case -106: showActivity(Settings.ACTION_SETTINGS); break;
-            case -107: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -108: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
-            case -109: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -110: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -111: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -112: handleEsc(); break;
-            case -113: handleCtrl(); break;
-            case -114: handleAlt(); break;
-            case -115: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
-            case -116: showActivity(Settings.ACTION_HOME_SETTINGS); break;
-            case -117: break;
-            case -118: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
-            case -119: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
-            case -120: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
-            case -121: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
-            case -122: handleTab(); break;
-            case -123: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -124: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -125: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -104: Intents.showActivity(getBaseContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -105: Intents.showActivity(getBaseContext(), Settings.ACTION_LOCALE_SETTINGS); break;
+            case -106: Intents.showActivity(getBaseContext(), Settings.ACTION_SETTINGS); break;
+            case -107: Intents.showActivity(getBaseContext(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -108: Intents.showActivity(getBaseContext(), Settings.ACTION_WIFI_SETTINGS); break;
+            case -109: Intents.showActivity(getBaseContext(), Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -110: Intents.showActivity(getBaseContext(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -111: Intents.showActivity(getBaseContext(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -112: Intents.showActivity(getBaseContext(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
+            case -113: Intents.showActivity(getBaseContext(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
+            case -114: Intents.showActivity(getBaseContext(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
+            case -115: Intents.showActivity(getBaseContext(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
+            case -116: Intents.showActivity(getBaseContext(), Settings.ACTION_SOUND_SETTINGS);   break;
+            case -117: Intents.showActivity(getBaseContext(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
+            case -118: Intents.showActivity(getBaseContext(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -119: Intents.showActivity(getBaseContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -120: Intents.showActivity(getBaseContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -121: Intents.showClipboard(getBaseContext()); break;
+            case -122: break;
+            case -123: break;
+            case -124: break;
+            case -125: break;
             case -126: performReplace(Util.convertNumberBase(getSelectedText(ic), 2, 10)); break;
             case -127: performReplace(Util.convertNumberBase(getSelectedText(ic), 10, 2)); break;
             case -128: performReplace(Util.convertNumberBase(getSelectedText(ic), 8, 10)); break;
@@ -2070,35 +2067,33 @@ public class CustomInputMethodService extends InputMethodService
                 if (!isSelecting()) selectLine();
                 performReplace(Util.toggleLineComment(getSelectedText(ic)));
             break;
-            case -173:
-                displayFindMenu();
-            break;
+            case -173: displayFindMenu(); break;
             case -174: setKeyboard(R.layout.coding); break;
             case -175: showUnicodePopup(); break;
             case -176: moveLeftOneWord(); break;
             case -177: moveRightOneWord(); break;
-            case -178: showClipboard(); break;
-            case -179: showActivity(Settings.ACTION_INPUT_METHOD_SETTINGS); break;
-            case -180: showActivity(Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -181: showActivity(Settings.ACTION_LOCALE_SETTINGS); break;
-            case -182: showActivity(Settings.ACTION_SETTINGS); break;
-            case -183: showActivity(Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -184: showActivity(Settings.ACTION_WIFI_SETTINGS); break;
-            case -185: showActivity(Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -186: showActivity(Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -187: showActivity(Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -188: showActivity(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break;
+            case -178: Intents.dialPhone(getBaseContext(), getSelectedText(ic)); break;
+            case -179: Intents.openWebpage(getBaseContext(), getSelectedText(ic)); break;
+            case -180: Intents.searchWeb(getBaseContext(), getSelectedText(ic)); break;
+            case -181: Intents.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
+            case -182: break;
+            case -183: break;
+            case -184: break;
+            case -185: break;
+            case -186: break;
+            case -187: break;
+            case -188: break;
             case -189: break;
             case -190: break;
             case -191: break;
-            case -192: showActivity(Settings.ACTION_HOME_SETTINGS); break;
-            case -193: showActivity(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS); break;
-            case -194: showActivity(Settings.ACTION_AIRPLANE_MODE_SETTINGS); break;
-            case -195: showActivity(Settings.ACTION_SOUND_SETTINGS); break;
-            case -196: showActivity(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS); break;
-            case -197: showActivity(Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -198: showActivity(Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -199: showActivity(Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -192: break;
+            case -193: break;
+            case -194: break;
+            case -195: break;
+            case -196: break;
+            case -197: break;
+            case -198: break;
+            case -199: break;
 
             /*
             case -200: break;
@@ -2113,11 +2108,7 @@ public class CustomInputMethodService extends InputMethodService
             case -209: break;
             */
 
-            case -299:
-                // System.out.println("popupKeyboard");
-                // commitText(".com");
-                popupKeyboard(getKey(-299));
-            break;
+            // case -299: popupKeyboard(getKey(-299)); break;
             case -300: clearClipboardHistory(); break;
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
@@ -2165,7 +2156,6 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
     }
-
 
     public void popupKeyboard(Keyboard.Key nextTo) {
         View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.tld, new FrameLayout(getBaseContext()));
@@ -2389,7 +2379,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-
     public void showUnicodePopup() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
@@ -2509,5 +2498,75 @@ public class CustomInputMethodService extends InputMethodService
 
     public double getHeightKeyModifier() {
         return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 100)) / 100;
+    }
+
+
+
+    public void showMacroDialog(int primaryCode) {
+        System.out.println("showMacroDialog");
+
+        if (!Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            Intents.startIntent(getBaseContext(), intent);
+            return;
+        }
+
+        WindowManager windowManager = (WindowManager)getSystemService(WINDOW_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.wordbar, null);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
+            PixelFormat.OPAQUE);
+
+        params.gravity = Gravity.TOP | Gravity.CENTER;
+        // params.x = 0;
+        // params.y = 0;
+        windowManager.addView(view, params);
+
+        /*
+        EditText editText = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT);
+        editText.setLayoutParams(lp);
+
+        AlertDialog alert = new AlertDialog.Builder(this)
+            .setTitle("Title")
+            .setMessage("Message")
+            .setView(editText)
+            .setIcon(R.drawable.ic_macro)
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String string = editText.getText().toString();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com/"));
+                    startActivity(intent);
+                }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).show();
+        */
+        /*
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            public void run() {
+                alert.show();
+            }
+        });
+        */
+        /*
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alert.show();
+            }
+        }, 100);
+        */
     }
 }

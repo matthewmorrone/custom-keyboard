@@ -34,17 +34,17 @@
         <Key android:codes="-511" android:keyIcon="@drawable/ic_phone" />
         <Key android:codes="-512" android:keyIcon="@drawable/ic_address" />
         <Key android:codes="-513" android:keyIcon="@drawable/ic_password" />
-        <Key android:keyOutputText="https://"    android:keyLabel="https" />
-        <Key android:keyOutputText="www."        android:keyLabel="www." />
-        <Key android:keyOutputText="\@gmail"     android:keyLabel="\@gmail" />
-        <Key android:keyOutputText=".com"        android:keyLabel=".com" />
+        <Key android:codes="0"    android:keyOutputText="https://"    android:keyLabel="https" />
+        <Key android:codes="0"    android:keyOutputText="www."        android:keyLabel="www." />
+        <Key android:codes="0"    android:keyOutputText="\@gmail"     android:keyLabel="\@gmail" />
+        <Key android:codes="0"    android:keyOutputText=".com"        android:keyLabel=".com" />
     </Row>
     <Row android:keyWidth="16%p">
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-73"  android:keyLabel="🕐" />
-        <Key android:keyOutputText="¯\\_(ツ)_/¯"  android:keyLabel="ツ" />
-        <Key android:keyOutputText="ಠ_ಠ"         android:keyLabel="ಠ_ಠ" />
+        <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"  android:keyLabel="ツ" />
+        <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"         android:keyLabel="ಠ_ಠ" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" />
     </Row>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    <string name="popup_first">-_…</string>
+    <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
     <string name="popup_1"></string>
@@ -35,5 +35,5 @@
     <string name="k7_label">git status</string>
     <string name="k7_value">git status -s</string>
     <string name="k8_label">mm</string>
-    <string name="k8_value">matthewmorrone</string>-->
+    <string name="k8_value">matthewmorrone</string>
 </resources>

@@ -1,16 +1,18 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.custom.keyboard">
-    <uses-permission android:name="android.permission.VIBRATE" android:required="false" />
-    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" android:required="false" />
-    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" android:required="false" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.custom.keyboard"
+          android:installLocation="preferExternal">
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" android:required="false" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" android:required="false" />
-
-    <!-- android:fullBackupContent="true" -->
-    <!-- android:fullBackupOnly="true" -->
-    <!-- android:defaultToDeviceProtectedStorage="true" -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application android:allowBackup="true"
+                 android:defaultToDeviceProtectedStorage="true"
+                 android:fullBackupContent="true"
+                 android:fullBackupOnly="true"
                  android:icon="@mipmap/ic_launcher"
                  android:label="@string/app_name"
                  android:roundIcon="@mipmap/ic_launcher"
