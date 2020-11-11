@@ -1,5 +1,33 @@
-### things to put in ###
+### stuff ###
 =======
++ setting for vibration intensity
++ fix spellcheck
++ fix autocorrect
++ fix pair insertion
++ title case to selection case toggle setting
++ fix auto caps
++ fix indentation helper
++ fix border radius
++ fix theme
++ theme tutorial
++ fix emoticon/unicode recents/f̶a̶v̶o̶r̶i̶t̶e̶s̶
++ custom layout
++ name summary
++ add more math functions to calculator
++ display macros
++ ellipsize macros
++ press and hold macros to set them
++ fix indentation buttons
++ comment togglers delete line if selection off
++ fix navigation chevrons
++ font toggles acting funny
++ fonts turn off after one key press
++ alter case doesn't quite work right
++ font modes for typing
++ selection while typing
++ fix tld popup
++ find/replace dialog
++ if there are too many entries in a keys popup, it doesn't render properly
 + manual implementation of clipboard history
 + redo keyboard layout without deprecated api
 + wider selection of emoji
@@ -26,13 +54,6 @@
 + fix indentation
 + add words to dictionary get stored in setting 
 + fix macros
-
-## OpenBoard Settings ##
-+ cursor movement on space key drag
-+ contact name suggestions
-+ multiline popup
-+ close popup on blur
-+ use system languages
 + Press and hold suggestion bar for more
 + Voice input key in suggestion row
 + Language Switch Key toggle
@@ -40,35 +61,22 @@
 + Keypress vibration duration
 + Keypress sound volume
 + Key long press delay
-+ Show app icon
 + Space bar trackpad
 + Delete swipe
 + Auto-capitalization
 + Double-space period
 + Vibrate on keypress
-+ Sound on keypress
-+ Popup on keypress
-+ Voice input key
-
-### spellcheck/autocomplete ###
 + reimplement
 + include contact names
 + learn new words
 + adding entries on the fly
 + autoreplace toggleable from keyboard predictions 
 + autocomplete capitalization
-
-### clipboard ###
-+ show clipboard contents after cut/copy
-+ page containing clipboard history
 + choice of fifo or filo for clipboard history
-+ button to access recent clipboard entries
 + instead of getting rid of last clipboard entry, send that one indefinitely
 + append clipboard contents to file on cut or copy
-
-### customization ###
-+ font color, background, border from settings
-+ settings for numbers, colors, popupchars
++ include tags ffs
++ script for autoreinstall
 + press and hold custom keys to change them
 + macro customization
 + add and remove keys
@@ -81,8 +89,6 @@
 + runtime modification/generation of layouts
 + generate keyboard programmatically
 + key codes and labels customizable
-
-### functionality ###
 + create a popup with two inputs that allows arbitrary search and replace
 + press and hold to delete all space up to line end (while prev char is space)
 + move cursor and select text by dragging the space key
@@ -92,27 +98,7 @@
 + delete autoinsertions by pressing once
 + swipe on spacebar + left and right swipe on spacebar
 + slideable bar
-
-### under the hood ###
-+ include tags ffs
-+ script for autoreinstall
-+ convenience method for setting checks
-+ manually reimplement cut/copy/paste
-
-### bugs ###
-+ label size issue for high surrogates
-+ bug when autoshift
-+ wordfore only works for next word
-+ linenext and linelast probably don't work
-+ if there are too many entries in a keys popup, it doesn't render properly
-
-### layouts ###
-+ unicode input from exhaustive table
 + tabs on symbols page 
-+ swiping, scrollable/swipeable areas
-
-### nice to haves ###
-+ password buttons
 + language detection
 + edittext popup for temporary stuff
 + change enter icon depending on input type
@@ -133,7 +119,6 @@
 + layout of popup
 + make popup keys repeatable
 + release on popup for choice
-
 
 ##### Settings #####
 + system settings enable keyboard
@@ -164,6 +149,3 @@
     + repeatable
     + toggle, states
     + popup choices
-    + height width offset
-    + swipe left right up down
-

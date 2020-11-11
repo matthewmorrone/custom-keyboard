@@ -2160,7 +2160,7 @@ public class CustomInputMethodService extends InputMethodService
     public void popupKeyboard(Keyboard.Key nextTo) {
         View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.tld, new FrameLayout(getBaseContext()));
         // PopupWindow popup = new PopupWindow(getBaseContext());
-        PopupWindow popup = new PopupWindow(
+        final PopupWindow popup = new PopupWindow(
             // LayoutInflater.from(getBaseContext()).inflate(R.layout.tld, new FrameLayout(getBaseContext())),
             view,
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -2187,7 +2187,7 @@ public class CustomInputMethodService extends InputMethodService
         });
         ViewGroup vg = (ViewGroup)popup.getContentView().findViewById(R.id.tldPopup);
         for(int i = 0; i < vg.getChildCount()-1; i++) {
-            TextView tv = (TextView)vg.getChildAt(i);
+            final TextView tv = (TextView)vg.getChildAt(i);
             tv.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
