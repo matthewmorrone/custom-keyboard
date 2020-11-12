@@ -194,7 +194,6 @@ public class CustomInputMethodService extends InputMethodService
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
-
         setInputType();
 
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);

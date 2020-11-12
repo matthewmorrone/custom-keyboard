@@ -77,7 +77,7 @@ public class CandidateView extends View {
         background = sharedPreferences.getInt("background_color", Color.BLACK);
         foreground = sharedPreferences.getInt("foreground_color", Color.WHITE);
 
-        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("borderWidth", "0"), "0"));
+        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_width", "0"), "0"));
 
         this.setBackgroundColor(background);
 

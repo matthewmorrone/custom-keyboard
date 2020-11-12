@@ -96,8 +96,8 @@ public class ColorPreference extends DialogPreference {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             // set it back to original
             public void onClick(DialogInterface dialog, int whichButton) {
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-                color = sharedPref.getInt(attribute, defcolor);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                color = sharedPreferences.getInt(attribute, defcolor);
             }
         });
 

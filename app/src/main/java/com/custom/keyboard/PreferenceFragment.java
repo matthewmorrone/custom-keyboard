@@ -112,7 +112,7 @@ public class PreferenceFragment
 
     public void toastIt(String ...args) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
-        if (!sharedPreferences.getBoolean("debug", false)) return;
+        // if (!sharedPreferences.getBoolean("debug", false)) return;
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
@@ -127,32 +127,6 @@ public class PreferenceFragment
         if (toast != null) toast.cancel();
         toast = Toast.makeText(baseContext, text, Toast.LENGTH_LONG);
         toast.show();
-    }
-
-    private static void copyFile(File src, File dst) throws IOException {
-        // Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
-        try (FileChannel in = new FileInputStream(src).getChannel();
-             FileChannel out = new FileOutputStream(dst).getChannel()) {
-            in.transferTo(0, in.size(), out);
-        }
-        catch (Exception ignored) {}
-    }
-
-    public String getPath(Uri uri) {
-        String path = null;
-        String[] projection = {MediaStore.Files.FileColumns.DATA};
-        Cursor cursor = baseContext.getContentResolver().query(uri, projection, null, null, null);
-
-        if (cursor == null) {
-            path = uri.getPath();
-        }
-        else {
-            cursor.moveToFirst();
-            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
-            path = cursor.getString(column_index);
-            cursor.close();
-        }
-        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
     }
 
     public void resetClipboardHistory() {
@@ -231,10 +205,13 @@ public class PreferenceFragment
                         break;
                     }
                     editor.apply();
+
                 }
+                toastIt("Preferences Imported!");
             }
             catch (IOException e) {
                 e.printStackTrace();
+                toastIt("Preferences not imported");
             }
             finally {
                 if (reader != null) {
@@ -260,22 +237,19 @@ public class PreferenceFragment
         File sourceFile = new File(sourcePathString);
         String sourceFileName = sourceFile.getName();
         String sourceContents = Util.readFile(sourcePathString);
-        // Path sourcePath = Paths.get(sourceFile.getName());
 
         String targetPathString = baseContext.getExternalFilesDir(null)./*getParentFile().*/getPath() + "/" + settingsFileName;
-        // String targetPathString = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)+"/"+settingsFileName;
         File targetFile = new File(targetPathString);
         String targetFileName = targetFile.getName();
-        // Path targetPath = Paths.get(targetFile.getName());
 
         System.out.println(sourcePathString);
         System.out.println(targetPathString);
 
         long fileId = downloadManager.addCompletedDownload(sourceFileName, sourceFileName, true, "text/plain", targetFile.getAbsolutePath(), sourceContents.length(), true);
-        // System.out.println(downloadManager.getUriForDownloadedFile(fileId).getPath());
         toastIt("saved to "+targetFile.getPath());
 
         /*
+        // System.out.println(downloadManager.getUriForDownloadedFile(fileId).getPath());
         Uri uri = Uri.parse(sourcePathString);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, targetFileName);
@@ -292,7 +266,7 @@ public class PreferenceFragment
             e.printStackTrace();
         }
         try {
-            copyFile(sourceFile, targetFile);
+            Util.copyFile(sourceFile, targetFile);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -306,11 +280,14 @@ public class PreferenceFragment
         String dir = "shared_prefs";
         String path = new File(root, dir).getPath();
         String[] sharedPreferencesFileNames = new File(root, dir).list();
-        // for (String fileName : sharedPreferencesFileNames) {
-        //     String filePath = path+"/"+fileName;
-        //     baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
-        // }
-        // baseContext.deleteSharedPreferences("shared_prefs");
+
+        /*
+        for (String fileName : sharedPreferencesFileNames) {
+            String filePath = path+"/"+fileName;
+            baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
+        }
+        baseContext.deleteSharedPreferences("shared_prefs");
+        */
         setDefaultPreferences();
         toastIt("All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");

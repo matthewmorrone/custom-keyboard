@@ -1,7 +1,11 @@
 package com.custom.keyboard;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
 
@@ -18,10 +22,14 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -56,8 +64,6 @@ import javax.xml.xpath.XPathFactory;
 
 public class Util {
 
-    // general
-    public static void noop() {}
     public static Document toXmlDocument(String str) {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -71,35 +77,31 @@ public class Util {
         }
         return document;
     }
-    public void parseXml(String xml) {
-        String result = "";
-        try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            XmlPullParser xpp = factory.newPullParser();
+    public static void copyFile(File src, File dst) throws IOException {
+        // Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
+        try (FileChannel in = new FileInputStream(src).getChannel();
+             FileChannel out = new FileOutputStream(dst).getChannel()) {
+            in.transferTo(0, in.size(), out);
+        }
+        catch (Exception ignored) {}
+    }
 
-            xpp.setInput(new StringReader(xml));
-            int eventType = xpp.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_DOCUMENT) {
-                    System.out.println("Start document");
-                }
-                else if (eventType == XmlPullParser.START_TAG) {
-                    System.out.println("Start tag " + xpp.getName());
-                }
-                else if (eventType == XmlPullParser.END_TAG) {
-                    System.out.println("End tag " + xpp.getName());
-                }
-                else if (eventType == XmlPullParser.TEXT) {
-                    System.out.println("Text " + xpp.getText()); // here you get the text from xml
-                }
-                eventType = xpp.next();
-            }
-            System.out.println("End document");
+    public String getPath(Context context, Uri uri) {
+        String path = null;
+        String[] projection = {
+            MediaStore.Files.FileColumns.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor == null) {
+            path = uri.getPath();
         }
-        catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
+        else {
+            cursor.moveToFirst();
+            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
+            path = cursor.getString(column_index);
+            cursor.close();
         }
+        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
     }
 
     static String readFile(String path) {
@@ -115,6 +117,8 @@ public class Util {
         return "";
     }
 
+    // general
+    public static void noop() {}
 
     public static <T> boolean notNull(T value) {
         return (value != null);
