@@ -1,6 +1,5 @@
 package com.custom.keyboard;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,8 +19,45 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class Intents {
 
+    public static boolean isIntentAvailable(Context ctx, Intent intent) {
+        final PackageManager mgr = ctx.getPackageManager();
+        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
+    }
+
+    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
+
+        if (resolveInfo.size() != 1) return null;
+
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        String packageName = serviceInfo.serviceInfo.packageName;
+        String className = serviceInfo.serviceInfo.name;
+        ComponentName component = new ComponentName(packageName, className);
+
+        Intent explicitIntent = new Intent(implicitIntent);
+
+        explicitIntent.setComponent(component);
+
+        return explicitIntent;
+    }
+
+    public static void startIntent(Context context, Intent intent) {
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    public static void showActivity(Context context, String id) {
+        Intent intent = new Intent(id).setFlags(FLAG_ACTIVITY_NEW_TASK);
+        startIntent(context, intent);
+    }
+
     public static void dialPhone(Context context, String phoneNumber) {
         if (!Util.isValidPhoneNumber(phoneNumber)) {
+            Util.toastIt(context, phoneNumber+" is not a valid phone number.");
             return;
         }
         Intent intent = new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phoneNumber));
@@ -29,14 +65,72 @@ public class Intents {
     }
 
     public static void openWebpage(Context context, String url) {
+        if (!Util.isValidUrl(url)) url = "https://"+url;
+        if (!Util.isValidUrl(url)) {
+            Util.toastIt(context, url+" is not a valid URL.");
+            return;
+        }
         Uri webpage = Uri.parse(url);
+        Util.toastIt(context, "Opening "+url+" in browser…");
         Intent intent = new Intent(Intent.ACTION_VIEW).setData(webpage);
         startIntent(context, intent);
     }
 
     public static void searchWeb(Context context, String query) {
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, query);
+        Util.toastIt(context, "Searching for: "+query);
         startIntent(context, intent);
+    }
+
+    public static void showMap(Context context, Uri geoLocation) {
+        System.out.println("showMap");
+        Intent intent = new Intent(Intent.ACTION_VIEW).setData(geoLocation);
+        startIntent(context, intent);
+    }
+
+    public static void showLocationFromAddress(Context context, String address) {
+        // Util.toastIt(context, address);
+        System.out.println("showLocationFromAddress");
+        Uri location = Uri.parse("geo:0,0?q=" + Util.encodeUrl(address));
+        showMap(context, location);
+    }
+
+    public static void showLocationFromAddress(Context context, String address, int zoom) {
+        System.out.println("showLocationFromAddress zoom");
+        address = Util.encodeUrl(address);
+        Uri location = Uri.parse("geo:0,0?q=" + address + "?z=" + zoom);
+        showMap(context, location);
+    }
+
+
+    public static void showClipboard(Context context) {
+        Intent intent = new Intent("com.samsung.android.ClipboardUIService");
+        startIntent(context, intent);
+    }
+
+    public static void showSettings(Context context) {
+        Intent intent = new Intent(context, PreferenceActivity.class);
+        startIntent(context, intent);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public static void showLocationFromCoordinates(Context context, double latitude, double longitude) {
+        Uri location = Uri.parse("geo:" + latitude + "," + longitude + "?z=14");
+        showMap(context, location);
+    }
+
+    public static void showLocationFromCoordinates(Context context, double latitude, double longitude, int zoom) {
+        Uri location = Uri.parse("geo:" + latitude + "," + longitude + "?z=" + zoom);
+        showMap(context, location);
     }
 
     public static void createAlarm(Context context, String message) {
@@ -63,33 +157,6 @@ public class Intents {
     public static void startTimer(Context context) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER).putExtra(AlarmClock.EXTRA_MESSAGE, "Timer").putExtra(AlarmClock.EXTRA_LENGTH, 60).putExtra(AlarmClock.EXTRA_SKIP_UI, true);
         startIntent(context, intent);
-    }
-
-    public static void showMap(Context context, Uri geoLocation) {
-        Intent intent = new Intent(Intent.ACTION_VIEW).setData(geoLocation);
-        startIntent(context, intent);
-    }
-
-    public static void showLocationFromAddress(Context context, String address) {
-        address = Util.encodeUrl(address);
-        Uri location = Uri.parse("geo:0,0?q=" + address);
-        showMap(context, location);
-    }
-
-    public static void showLocationFromAddress(Context context, String address, int zoom) {
-        address = Util.encodeUrl(address);
-        Uri location = Uri.parse("geo:0,0?q=" + address + "?z=" + zoom);
-        showMap(context, location);
-    }
-
-    public static void showLocationFromCoordinates(Context context, double latitude, double longitude) {
-        Uri location = Uri.parse("geo:" + latitude + "," + longitude + "?z=14");
-        showMap(context, location);
-    }
-
-    public static void showLocationFromCoordinates(Context context, double latitude, double longitude, int zoom) {
-        Uri location = Uri.parse("geo:" + latitude + "," + longitude + "?z=" + zoom);
-        showMap(context, location);
     }
 
     public static void addCalendarEvent(Context context, String title) {
@@ -155,58 +222,5 @@ public class Intents {
         startIntent(context, intent);
     }
 
-
-
-
-    public static boolean isIntentAvailable(Context ctx, Intent intent) {
-        final PackageManager mgr = ctx.getPackageManager();
-        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
-    }
-
-    public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
-
-        PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
-
-        if (resolveInfo.size() != 1) {
-            return null;
-        }
-
-        ResolveInfo serviceInfo = resolveInfo.get(0);
-        String packageName = serviceInfo.serviceInfo.packageName;
-        String className = serviceInfo.serviceInfo.name;
-        ComponentName component = new ComponentName(packageName, className);
-
-        Intent explicitIntent = new Intent(implicitIntent);
-
-        explicitIntent.setComponent(component);
-
-        return explicitIntent;
-    }
-
-    public static void showClipboard(Context context) {
-        Intent intent = new Intent("com.samsung.android.ClipboardUIService");
-        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-        Intents.startIntent(context, intent);
-    }
-
-    public static void showSettings(Context context) {
-        Intent intent = new Intent(context, Preference.class);
-        // Intent intent = new Intent(context, PreferenceActivity.class);
-        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-        startIntent(context, intent);
-    }
-
-    public static void showActivity(Context context, String id) {
-        Intent intent = new Intent(id).setFlags(FLAG_ACTIVITY_NEW_TASK);
-        Intents.startIntent(context, intent);
-    }
-
-    public static void startIntent(Context context, Intent intent) {
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
-        }
-    }
 
 }

@@ -55,7 +55,7 @@
         <Key android:codes="-178" android:keyIcon="@drawable/ic_phone" />
         <Key android:codes="-179" android:keyIcon="@drawable/ic_webpage" />
         <Key android:codes="-180" android:keyIcon="@drawable/ic_web_search" />
-        <Key android:codes="-191" android:keyIcon="@drawable/ic_map_search" />
+        <Key android:codes="-181" android:keyIcon="@drawable/ic_map_search" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:horizontalGap="40%" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete" android:keyWidth="10%p" />
     </Row>

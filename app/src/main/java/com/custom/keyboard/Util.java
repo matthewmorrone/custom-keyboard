@@ -1,13 +1,18 @@
 package com.custom.keyboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -63,6 +68,14 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 public class Util {
+
+    public static void toastIt(Context context, String input) {
+        Toast.makeText(context, input, Toast.LENGTH_LONG).show();
+    }
+    static void print(@NonNull Object... a) {
+        for (Object i : a) System.out.print(i + " ");
+        System.out.println();
+    }
 
     public static Document toXmlDocument(String str) {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
