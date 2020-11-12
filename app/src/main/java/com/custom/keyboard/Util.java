@@ -5,8 +5,21 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -33,14 +46,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
@@ -52,6 +58,49 @@ public class Util {
 
     // general
     public static void noop() {}
+    public static Document toXmlDocument(String str) {
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder;
+        Document document = null;
+        try {
+            docBuilder = docBuilderFactory.newDocumentBuilder();
+            document = docBuilder.parse(new InputSource(new StringReader(str)));
+        }
+        catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
+        return document;
+    }
+    public void parseXml(String xml) {
+        String result = "";
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+
+            xpp.setInput(new StringReader(xml));
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_DOCUMENT) {
+                    System.out.println("Start document");
+                }
+                else if (eventType == XmlPullParser.START_TAG) {
+                    System.out.println("Start tag " + xpp.getName());
+                }
+                else if (eventType == XmlPullParser.END_TAG) {
+                    System.out.println("End tag " + xpp.getName());
+                }
+                else if (eventType == XmlPullParser.TEXT) {
+                    System.out.println("Text " + xpp.getText()); // here you get the text from xml
+                }
+                eventType = xpp.next();
+            }
+            System.out.println("End document");
+        }
+        catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     static String readFile(String path) {
         return readFile(path, StandardCharsets.US_ASCII);

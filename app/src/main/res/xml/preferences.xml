@@ -65,6 +65,7 @@
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
         <SwitchPreference android:key="debug" android:defaultValue="true" android:title="@string/debug" />
+        <Preference android:key="import_preferences" android:title="@string/import_preferences" />
         <Preference android:key="export_preferences" android:title="@string/export_preferences" />
         <EditTextPreference android:key="word_separators" android:title="@string/word_separators_title" android:dialogTitle="@string/word_separators_title" />
         <Preference android:key="reset_clipboard_history" android:title="@string/reset_clipboard_history" />

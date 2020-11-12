@@ -1,10 +1,12 @@
 package com.custom.keyboard;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +14,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
@@ -19,23 +22,34 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+@SuppressWarnings("DuplicateBranchesInSwitch")
 public class PreferenceFragment
     extends android.preference.PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,6 +96,7 @@ public class PreferenceFragment
     EditTextPreference k7;
     EditTextPreference k8;
 
+    Preference importPreferences;
     Preference exportPreferences;
     Preference resetClipboardHistory;
     Preference resetEmoticonHistory;
@@ -91,6 +106,9 @@ public class PreferenceFragment
     String[] themes;
 
     Toast toast;
+
+    private static final int CHOOSE_FILE_REQUEST_CODE = 8777;
+    private static final int PICK_FILE_RESULT_CODE = 8778;
 
     public void toastIt(String ...args) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
@@ -109,6 +127,32 @@ public class PreferenceFragment
         if (toast != null) toast.cancel();
         toast = Toast.makeText(baseContext, text, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    private static void copyFile(File src, File dst) throws IOException {
+        // Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
+        try (FileChannel in = new FileInputStream(src).getChannel();
+             FileChannel out = new FileOutputStream(dst).getChannel()) {
+            in.transferTo(0, in.size(), out);
+        }
+        catch (Exception ignored) {}
+    }
+
+    public String getPath(Uri uri) {
+        String path = null;
+        String[] projection = {MediaStore.Files.FileColumns.DATA};
+        Cursor cursor = baseContext.getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor == null) {
+            path = uri.getPath();
+        }
+        else {
+            cursor.moveToFirst();
+            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
+            path = cursor.getString(column_index);
+            cursor.close();
+        }
+        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
     }
 
     public void resetClipboardHistory() {
@@ -132,9 +176,77 @@ public class PreferenceFragment
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
+    public void importPreferences() {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("*/*"); // "text/xml"
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+        startActivityForResult(chooseFile, PICK_FILE_RESULT_CODE);
+    }
 
-    private static void copyFile(File src, File dest) throws IOException {
-        Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
+            Uri content_describer = data.getData();
+            BufferedReader reader = null;
+            try {
+                InputStream in = baseContext.getContentResolver().openInputStream(content_describer);
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null){
+                    builder.append(line);
+                }
+                Document xml = Util.toXmlDocument(builder.toString());
+                Node map = xml.getElementsByTagName("map").item(0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                for(Node n : XmlUtil.asList(map.getChildNodes())) {
+
+                    String nodeName = n.getNodeName();
+                    String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
+                    String nodeTextContent = n.getTextContent().trim();
+
+                    String nodeAttrName = (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null)
+                        ? n.getAttributes().getNamedItem("name").getNodeValue() : "[]";
+
+                    String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null)
+                        ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
+
+                    switch(n.getNodeName()) {
+                        case "int":
+                            editor.putInt(nodeAttrName, Integer.parseInt(nodeAttrValue));
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
+                        break;
+                        case "string":
+                            editor.putString(nodeAttrName, nodeAttrValue);
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeTextContent);
+                        break;
+                        case "boolean":
+                            editor.putBoolean(nodeAttrName, Boolean.parseBoolean(nodeAttrValue));
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
+                        break;
+                        case "#text":
+
+                        break;
+                    }
+                    editor.apply();
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     public void exportPreferences() {
@@ -255,6 +367,7 @@ public class PreferenceFragment
         address = (EditTextPreference)findPreference("address");
         password = (EditTextPreference)findPreference("password");
 
+        importPreferences = findPreference("import_preferences");
         exportPreferences = findPreference("export_preferences");
         resetClipboardHistory = findPreference("reset_clipboard_history");
         resetEmoticonHistory = findPreference("reset_emoticon_history");
@@ -357,6 +470,15 @@ public class PreferenceFragment
         if (k8 != null) k8.setText(sharedPreferences.getString("k8", ""));
         if (k8 != null) k8.setSummary(sharedPreferences.getString("k8", ""));
 
+        if (importPreferences != null) {
+            importPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    importPreferences();
+                    return true;
+                }
+            });
+        }
         if (exportPreferences != null) {
             exportPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
