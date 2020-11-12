@@ -13,6 +13,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.webkit.CookieManager;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -26,10 +28,12 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class PreferenceFragment
@@ -137,71 +141,50 @@ public class PreferenceFragment
 
         DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
 
-        String sourcePathString = "/data/user/0/com.custom.keyboard/shared_prefs/com.custom.keyboard_preferences.xml";
+        String settingsFileName = "com.custom.keyboard_preferences.xml";
+        String sharedPreferencesDir = "shared_prefs";
+
+        String sourcePathString = baseContext.getFilesDir().getParentFile().getPath() + "/" + sharedPreferencesDir + "/" + settingsFileName;
         File sourceFile = new File(sourcePathString);
+        String sourceFileName = sourceFile.getName();
         String sourceContents = Util.readFile(sourcePathString);
-        Path sourcePath = Paths.get(sourceFile.getName());
+        // Path sourcePath = Paths.get(sourceFile.getName());
 
-        File targetFile = baseContext.getExternalFilesDir(null);
-        String targetPathString = targetFile.getPath();
-        Path targetPath = Paths.get(targetFile.getName());
+        String targetPathString = baseContext.getExternalFilesDir(null)./*getParentFile().*/getPath() + "/" + settingsFileName;
+        // String targetPathString = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)+"/"+settingsFileName;
+        File targetFile = new File(targetPathString);
+        String targetFileName = targetFile.getName();
+        // Path targetPath = Paths.get(targetFile.getName());
 
+        System.out.println(sourcePathString);
+        System.out.println(targetPathString);
+
+        long fileId = downloadManager.addCompletedDownload(sourceFileName, sourceFileName, true, "text/plain", targetFile.getAbsolutePath(), sourceContents.length(), true);
+        // System.out.println(downloadManager.getUriForDownloadedFile(fileId).getPath());
+        toastIt("saved to "+targetFile.getPath());
+
+        /*
+        Uri uri = Uri.parse(sourcePathString);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, targetFileName);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); // to notify when download is complete
+        request.allowScanningByMediaScanner();// if you want to be available from media players
+        DownloadManager manager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+        */
+
+        try {
+            if (targetFile.exists()) targetFile.delete();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             copyFile(sourceFile, targetFile);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        long fileId = downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain", file.getAbsolutePath(), file.length(), true);
-
-        System.out.println(downloadManager.getUriForDownloadedFile(fileId));
-
-        File file2 = new File(baseContext.getExternalFilesDir(null), "settings.xml");
-        Path path = Paths.get(file2.getName());
-        try {
-            if (file2.createNewFile()) {
-                System.out.println("made");
-                Files.write(path, Collections.singleton(sourceContents));
-            }
-            else {
-                System.out.println("fail");
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(file2.getAbsolutePath());
-        */
-
-        /*
-        File root = baseContext.getFilesDir().getParentFile();
-        String dir = "shared_prefs";
-        String fileName = "com.custom.keyboard_preferences.xml";
-        File file = new File(root, dir);
-        String path = file.getPath()+"/"+fileName;
-        */
-
-        /*
-        DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
-        downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain", file.getAbsolutePath(), file.length(), true);
-        */
-
-        /*
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File dir = new File("//sdcard//Download//");
-        File file = new File(dir, fileName);
-        downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain",file.getAbsolutePath(),file.length(),true);
-        */
-
-        /*
-        String[] sharedPreferencesFileNames = new File(root, dir).list();
-        for (String fileName : sharedPreferencesFileNames) {
-            String filePath = path+"/"+fileName;
-            System.out.println(filePath);
-        }
-        */
     }
 
     public void resetAllPreferences() {

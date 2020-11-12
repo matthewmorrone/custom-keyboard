@@ -35,14 +35,10 @@ public class MainActivity extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        // requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
-
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         }, 1);
-
-        // ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
         editText = findViewById(R.id.editText);
         errorOutput = findViewById(R.id.errorOutput);
