@@ -30,7 +30,7 @@ public class ChatHeadService extends Service {
         chatHead = new ImageView(this);
         chatHead.setImageResource(R.drawable.ic_abc);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_PHONE,

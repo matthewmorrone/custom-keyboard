@@ -347,7 +347,7 @@ public class CustomInputMethodService extends InputMethodService
         String prevWord = getPrevWord();
         if (!isSelecting()) Variables.setSelectingOn(getSelectionStart());
         int times = prevWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_LEFT);
         }
     }
@@ -355,7 +355,7 @@ public class CustomInputMethodService extends InputMethodService
         String nextWord = getNextWord();
         if (!isSelecting()) Variables.setSelectingOn(getSelectionStart());
         int times = nextWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
         }
     }
@@ -363,14 +363,14 @@ public class CustomInputMethodService extends InputMethodService
     public void moveLeftOneWord() {
         String prevWord = getPrevWord();
         int times = prevWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_LEFT);
         }
     }
     public void moveRightOneWord() {
         String nextWord = getNextWord();
         int times = nextWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
         }
     }
@@ -430,8 +430,8 @@ public class CustomInputMethodService extends InputMethodService
             switch (primaryCode) {
                 // case -299: break;
                 case -2: Intents.showClipboard(getBaseContext()); break;
-                case -5: deletePrevWord(); break;
-                case -7: deleteNextWord(); break;
+                // case -5: deletePrevWord(); break;
+                // case -7: deleteNextWord(); break;
                 case -12: selectAll(); break;
                 case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
                 case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
