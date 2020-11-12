@@ -117,8 +117,10 @@ public class CustomInputMethodService extends InputMethodService
     private UnicodePopup unicodePopup = null;
     private EmoticonPopup emoticonPopup = null;
 
-    TextServicesManager tsm;
-    SpellCheckerSession session;
+    // TextServicesManager tsm;
+    // SpellCheckerSession session;
+
+    private SpellCheckerSession mScs;
 
     @Override
     public void onCreate() {
@@ -131,8 +133,11 @@ public class CustomInputMethodService extends InputMethodService
 
         spellChecker = new SpellChecker(getApplicationContext(), true);
 
-        tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
-        session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
+        // tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
+        // session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
+
+        final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        mScs = tsm.newSpellCheckerSession(null, null, this, true);
     }
 
     @Override
@@ -779,6 +784,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
             }
         }
+
         sendDataToErrorOutput(sb.toString());
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
@@ -814,12 +820,9 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void fetchSuggestionsFor(String input) {
-        if (session == null) {
-            session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
-        }
         if(!input.isEmpty()) {
             try {
-                session.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
             catch(Exception e) {
                 sendDataToErrorOutput(e.toString());
@@ -873,6 +876,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void addToDictionary(String word) {
+        if (word.trim().isEmpty()) return;
         UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
         spellChecker.addToTrie(word);
         toastIt(word+" added to dictionary");
