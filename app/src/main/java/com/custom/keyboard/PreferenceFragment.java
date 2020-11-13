@@ -1,5 +1,6 @@
 package com.custom.keyboard;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -17,6 +18,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

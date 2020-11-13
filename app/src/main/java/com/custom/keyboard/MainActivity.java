@@ -20,8 +20,6 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import org.mozilla.javascript.tools.jsc.Main;
-
 public class MainActivity extends Activity {
 
     EditText editText;
@@ -35,11 +33,6 @@ public class MainActivity extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        }, 1);
-
         editText = findViewById(R.id.editText);
         errorOutput = findViewById(R.id.errorOutput);
         errorLayout = findViewById(R.id.errorLayout);
@@ -51,8 +44,6 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        // LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
-        // LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
     }
 
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -69,6 +60,9 @@ public class MainActivity extends Activity {
                     errorOutput.setText("");
                 }
                 if (intent.hasExtra("data")) {
+                    if (intent.getStringExtra("data").trim().isEmpty()) {
+                        return;
+                    }
                     errorLayout.setVisibility(View.VISIBLE);
                     if (errorOutput.getText().length() > 0) {
                         errorOutput.setText(errorOutput.getText()+"\n");
