@@ -833,21 +833,36 @@ View.OnLongClickListener, View.OnKeyListener,
     }
 
     private void displaySuggestions(final String suggestions) {
+
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = suggestions.toString().split("\n");
-                if (wordInfos.length < 1) return;
-                String prevWordInfos = wordInfos[wordInfos.length-1];
                 String prevWord = getPrevWord();
+                String prevWordInfos = wordInfos[wordInfos.length-1];
                 boolean isTitleCase = Util.isTitleCase(prevWord);
                 boolean isUpperCase = Util.isUpperCase(prevWord) && prevWord.length() > 1;
                 prevWord = prevWord.toLowerCase();
-
                 ArrayList<String> results = new ArrayList<String>();
-                results.add(prevWord);
-                for(String s : prevWordInfos.toString().split(",")) {
-                    if (s.isEmpty() || s.trim().isEmpty()) continue;
-                    results.add(s);
+
+                if (wordInfos.length < 1) {
+                    // boolean inTrie = SpellChecker.inTrie(prevWord);
+                    boolean isPrefix = SpellChecker.isPrefix(prevWord);
+
+                    results.add(prevWord);
+
+                    ArrayList<String> common = SpellChecker.getCommon(prevWord);
+                    results.addAll(common);
+                    if (isPrefix) {
+                        results.addAll(SpellChecker.getCompletions(prevWord));
+                    }
+                }
+                else {
+                    results.add(prevWord);
+                    for(String s : prevWordInfos.toString().split(",")) {
+                        if (s.isEmpty() || s.trim().isEmpty()) continue;
+                        results.add(s);
+                    }
                 }
 
                 if (isUpperCase) {
@@ -908,20 +923,6 @@ View.OnLongClickListener, View.OnKeyListener,
         catch(Exception e) {
             sendDataToErrorOutput(e.toString());
         }
-/*
-        prevWord = prevWord.toLowerCase();
-        boolean inTrie = SpellChecker.inTrie(prevWord);
-        boolean isPrefix = SpellChecker.isPrefix(prevWord);
-
-        ArrayList<String> results = new ArrayList<>();
-        results.add(prevWord);
-
-        ArrayList<String> common = SpellChecker.getCommon(prevWord);
-        results.addAll(common);
-        if (isPrefix) {
-            results.addAll(SpellChecker.getCompletions(prevWord));
-        }
-*/
     }
 
     public void addToDictionary(String word) {
