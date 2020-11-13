@@ -141,14 +141,6 @@ public class CustomInputMethodService extends InputMethodService
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         try {
-            mScs = tsm.newSpellCheckerSession(null, null, this, true);
-            String mScsStr = mScs.toString();
-            sendDataToErrorOutput("mScs: "+mScsStr);
-        }
-        catch(Exception e) {
-            sendDataToErrorOutput("e: "+e);
-        }
-        try {
             mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
             String mScsStr = mScs.toString();
             sendDataToErrorOutput("mScs: "+mScsStr);

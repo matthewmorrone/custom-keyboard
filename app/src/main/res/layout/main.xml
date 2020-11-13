@@ -64,6 +64,9 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/black"
+                    android:ellipsize="none"
+                    android:hyphenationFrequency="full"
+                    android:justificationMode="none"
                     />
             </LinearLayout>
             <TextView
@@ -85,7 +88,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:hint="@string/test"
-            android:inputType="textMultiLine"
+            android:breakStrategy="high_quality"
             android:lines="3"
             android:text="" />
         <RelativeLayout
