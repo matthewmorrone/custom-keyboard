@@ -1,14 +1,10 @@
 package com.custom.keyboard;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
@@ -19,7 +15,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -27,7 +22,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
-import android.service.textservice.SpellCheckerService;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -50,7 +44,6 @@ import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,47 +74,43 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
-View.OnLongClickListener, View.OnKeyListener,
                SpellCheckerSession.SpellCheckerSessionListener {
 
-    static final boolean PROCESS_HARD_KEYS = true;
-
-    private boolean mCapsLock;
-    private int mLastDisplayWidth;
-    private long mLastShiftTime;
-    private long mMetaState;
-
-    private String mWordSeparators;
-
-    private boolean firstCaps = false;
-
-    private float[] mDefaultFilter;
-    long shift_pressed = 0;
-
-    int MAX = 65536;
+    boolean debug = false;
 
     SharedPreferences sharedPreferences;
     Toast toast;
 
+    // private int mLastDisplayWidth;
+    // private boolean mCapsLock;
+    // private long mLastShiftTime;
+    // private long mMetaState;
+
+    private String mWordSeparators;
+
+    long shiftPressed = 0;
+    private boolean firstCaps = false;
+
+    int MAX = 65536;
     private short rowNumber = 6;
+
+    private float[] mDefaultFilter;
+
     private CustomKeyboardView kv;
     private CandidateView mCandidateView;
-    private boolean mPredictionOn;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
     private CustomKeyboard standardKeyboard;
 
+    private boolean mPredictionOn;
     private int indentWidth;
     private String indentString;
-
-    private SpellChecker spellChecker;
-
-    boolean debug = false;
 
     private PopupWindow popupWindow = null;
     private UnicodePopup unicodePopup = null;
     private EmoticonPopup emoticonPopup = null;
 
+    private SpellChecker spellChecker;
     private SpellCheckerSession mScs;
 
     @Override
@@ -129,14 +118,12 @@ View.OnLongClickListener, View.OnKeyListener,
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
-        mWordSeparators = getResources().getString(R.string.word_separators);
-
         toast = new Toast(getBaseContext());
 
         spellChecker = new SpellChecker(getApplicationContext(), true);
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
-        mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
+        mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
         /*
         PackageManager pm = getPackageManager();
@@ -157,11 +144,13 @@ View.OnLongClickListener, View.OnKeyListener,
 
     @Override
     public void onInitializeInterface() {
+        /*
         if (standardKeyboard != null) {
             int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth) return;
             mLastDisplayWidth = displayWidth;
         }
+        */
         standardKeyboard = new CustomKeyboard(this, R.layout.primary);
     }
 
@@ -214,12 +203,11 @@ View.OnLongClickListener, View.OnKeyListener,
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
         // debug = sharedPreferences.getBoolean("debug", false);
 
-
-
+        mWordSeparators = sharedPreferences.getString("word_separators", getResources().getString(R.string.word_separators));
 
         updateCandidates();
 
-        if (!restarting) mMetaState = 0;
+        // if (!restarting) mMetaState = 0;
 
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         setInputType();
@@ -246,7 +234,7 @@ View.OnLongClickListener, View.OnKeyListener,
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
         // kv.setBackgroundResource(Themes.randomBackground());
-        // System.out.println(currentKeyboard.getMinWidth()+"x"+currentKeyboard.getHeight());
+        // System.out.println(Arrays.toString(currentKeyboard.getDimensions()));
 
         /*
         kv.setOnTouchListener(new View.OnTouchListener() {
@@ -277,54 +265,6 @@ View.OnLongClickListener, View.OnKeyListener,
     String prevBuffer = "";
     String nextBuffer = "";
 
-
-
-    @Override
-    public boolean onLongClick(View v) {
-        return false;
-    }
-
-
-    public void onLongPress(int primaryCode) {
-        /*if (debug) */System.out.println("CustomInputMethodService.onLongPress "+primaryCode);
-        InputConnection ic = getCurrentInputConnection();
-        switch (primaryCode) {
-            // case -299: break;
-            case -2: Intents.showClipboard(getBaseContext()); break;
-            // case -5: deletePrevWord(); break;
-            // case -7: deleteNextWord(); break;
-            case -12: selectAll(); break;
-            case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
-            case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
-            case -200: clipboardToBuffer(getSelectedText(ic)); break;
-        }
-    }
-
-    @Override
-    public void onDisplayCompletions(CompletionInfo[] completions) {
-        super.onDisplayCompletions(completions);
-    }
-
-    @Override
-    public boolean onKeyMultiple(int keyCode, int count, KeyEvent event) {
-        return super.onKeyMultiple(keyCode, count, event);
-    }
-
-    @Override
-    public KeyEvent.DispatcherState getKeyDispatcherState() {
-        return super.getKeyDispatcherState();
-    }
-
-    @Override
-    public void setTheme(int theme) {
-        super.setTheme(theme);
-    }
-
-    @Override
-    public boolean onKeyLongPress(int primaryCode, KeyEvent event) {
-        return super.onKeyLongPress(primaryCode, event);
-    }
-
     @Override
     public void onPress(int primaryCode) {
         if (debug) System.out.println("onPress: "+primaryCode);
@@ -341,15 +281,18 @@ View.OnLongClickListener, View.OnKeyListener,
     public void onRelease(int primaryCode) {
         if (debug) System.out.println("onRelease: "+primaryCode);
         time = (System.nanoTime() - time) / 1000000;
-        if (time > 300) {}
-    }
-
-
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        System.out.println("onKey "+" "+v+" "+keyCode+" "+event);
-        return false;
+        if (time > 300) {
+            InputConnection ic = getCurrentInputConnection();
+            switch (primaryCode) {
+                case -2: handleTab(); break;
+                // case -5: deletePrevWord(); break;
+                // case -7: deleteNextWord(); break;
+                case -12: selectAll(); break;
+                case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
+                case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+                case -200: clipboardToBuffer(getSelectedText(ic)); break;
+            }
+        }
     }
 
     @Override
@@ -756,7 +699,7 @@ View.OnLongClickListener, View.OnKeyListener,
             if (ei != null && ei.inputType != InputType.TYPE_NULL) {
                 caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
             }
-            kv.setShifted(mCapsLock || caps != 0);
+            kv.setShifted(/*mCapsLock || */caps != 0);
         }
     }
 
@@ -1698,7 +1641,7 @@ View.OnLongClickListener, View.OnKeyListener,
             ic.setSelection(a, b);
         }
         else {
-            if (shift_pressed + 200 > System.currentTimeMillis()) {
+            if (shiftPressed + 200 > System.currentTimeMillis()) {
                 Variables.setShiftOn();
                 setCapsOn(true);
             }
@@ -1711,7 +1654,7 @@ View.OnLongClickListener, View.OnKeyListener,
                     firstCaps = !firstCaps;
                 }
                 setCapsOn(firstCaps);
-                shift_pressed = System.currentTimeMillis();
+                shiftPressed = System.currentTimeMillis();
             }
         }
         redraw();

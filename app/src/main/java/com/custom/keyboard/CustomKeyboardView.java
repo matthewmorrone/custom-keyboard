@@ -16,9 +16,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputConnection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,9 +38,6 @@ public class CustomKeyboardView extends KeyboardView {
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-
-
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         fontSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("font_size", "48"), "48"));
@@ -76,7 +70,6 @@ public class CustomKeyboardView extends KeyboardView {
 
     @Override
     protected boolean onLongPress(Key key) {
-        // System.out.println("CustomKeyboardView.onLongPress: "+key.codes[0]);
         if (Util.contains(longPressKeys, key.codes[0])) {
             return false;
         }
@@ -93,13 +86,11 @@ public class CustomKeyboardView extends KeyboardView {
                 return true;
             }
         }
-
         /*
         if (key.popupCharacters.length() > 8) {
             key.popupResId = R.layout.popup_template;
         }
         */
-
         return super.onLongPress(key);
     }
 

@@ -18,7 +18,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     int xmlLayoutResId = R.layout.primary;
     int order = 1024;
 
-
     String title;
 
     private Key mEnterKey;
@@ -40,6 +39,11 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     public CustomKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
         super(context, layoutTemplateResId, characters, columns, horizontalPadding);
+
+    }
+
+    public int[] getDimensions() {
+        return new int[]{this.getMinWidth(), this.getHeight()};
     }
 
     public CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {

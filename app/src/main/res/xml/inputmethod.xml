@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<spell-checker xmlns:android="http://schemas.android.com/apk/res/android"
-               android:label="@string/subtype_generic"
-               android:icon="@drawable/ic_ime"
-               android:settingsActivity="com.example.SpellCheckerSettingsActivity">
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+              android:icon="@drawable/ic_ime"
+              android:settingsActivity="com.custom.keyboard.PreferenceActivity"
+              android:supportsSwitchingToNextInputMethod="true">
     <subtype
         android:name="@string/subtype_generic"
         android:icon="@drawable/ic_ime"
@@ -11,4 +11,4 @@
         android:imeSubtypeMode="keyboard"
         android:label="@string/subtype_generic"
         android:subtypeLocale="en" />
-</spell-checker>
+</input-method>
