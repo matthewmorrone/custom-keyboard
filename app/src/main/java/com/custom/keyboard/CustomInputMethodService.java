@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
@@ -25,6 +27,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.UserDictionary;
+import android.service.textservice.SpellCheckerService;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -131,18 +134,26 @@ public class CustomInputMethodService extends InputMethodService
 
         toast = new Toast(getBaseContext());
 
-        spellChecker = new SpellChecker(getApplicationContext(), true);
+        // spellChecker = new SpellChecker(getApplicationContext(), true);
 
         // tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
         // session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, null, this, true);
-        sendDataToErrorOutput(mScs.toString());
+        String mScsStr = mScs.toString();
+        sendDataToErrorOutput("mScs: "+mScsStr);
         mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
-        sendDataToErrorOutput(mScs.toString());
+        mScsStr = mScs.toString();
+        sendDataToErrorOutput("mScs: "+mScsStr);
 
+        PackageManager pm = getPackageManager();
+        Intent spell = new Intent(SpellCheckerService.SERVICE_INTERFACE);
+        ResolveInfo info = pm.resolveService(spell, 0);
 
+        System.out.println("pm: "+pm);
+        System.out.println("spell: "+spell);
+        System.out.println("info: "+info);
     }
 
     @Override
