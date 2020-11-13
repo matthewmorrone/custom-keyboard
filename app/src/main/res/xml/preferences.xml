@@ -24,7 +24,7 @@
         <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="padding_width"      android:title="@string/padding_width"      android:dialogTitle="@string/padding_width" />
         <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="border_radius"      android:title="@string/border_radius"      android:dialogTitle="@string/border_radius" />
         <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="font_size"          android:title="@string/font_size"          android:dialogTitle="@string/font_size" />
-        <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="hint_font_size"     android:title="@string/hint_font_size"     android:dialogTitle="@string/hint_font_size" />
+        <EditTextPreference android:defaultValue="32" android:digits="1234567890" android:inputType="number" android:key="hint_font_size"     android:title="@string/hint_font_size"     android:dialogTitle="@string/hint_font_size" />
         <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="@string/emoticon_font_size" android:dialogTitle="@string/emoticon_font_size" />
         <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size"  android:title="@string/unicode_font_size"  android:dialogTitle="@string/unicode_font_size" />
         <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="@string/spacebar" />

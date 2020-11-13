@@ -383,8 +383,8 @@ public class PreferenceFragment
         if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
         if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
         if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
-        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "48"));
-        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "32"));
+        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "32"));
         if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
@@ -533,8 +533,8 @@ public class PreferenceFragment
         if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
         if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
         if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
-        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "48"));
-        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "48"));
+        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "32"));
+        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "32"));
         if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
