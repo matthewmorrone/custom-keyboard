@@ -140,20 +140,30 @@ public class CustomInputMethodService extends InputMethodService
         // session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
-        mScs = tsm.newSpellCheckerSession(null, null, this, true);
-        String mScsStr = mScs.toString();
-        sendDataToErrorOutput("mScs: "+mScsStr);
-        mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
-        mScsStr = mScs.toString();
-        sendDataToErrorOutput("mScs: "+mScsStr);
+        try {
+            mScs = tsm.newSpellCheckerSession(null, null, this, true);
+            String mScsStr = mScs.toString();
+            sendDataToErrorOutput("mScs: "+mScsStr);
+        }
+        catch(Exception e) {
+            sendDataToErrorOutput("e: "+e);
+        }
+        try {
+            mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
+            String mScsStr = mScs.toString();
+            sendDataToErrorOutput("mScs: "+mScsStr);
+        }
+        catch(Exception e) {
+            sendDataToErrorOutput("e: "+e);
+        }
 
         PackageManager pm = getPackageManager();
         Intent spell = new Intent(SpellCheckerService.SERVICE_INTERFACE);
         ResolveInfo info = pm.resolveService(spell, 0);
 
-        System.out.println("pm: "+pm);
-        System.out.println("spell: "+spell);
-        System.out.println("info: "+info);
+        sendDataToErrorOutput("pm: "+pm);
+        sendDataToErrorOutput("spell: "+spell);
+        sendDataToErrorOutput("info: "+info);
     }
 
     @Override
