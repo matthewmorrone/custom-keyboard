@@ -642,7 +642,7 @@ View.OnLongClickListener, View.OnKeyListener,
             Variables.setSelectingOff();
         }
         catch (Exception e) {
-            toastIt(e);
+            sendDataToErrorOutput(e.toString());
         }
     }
 
@@ -832,7 +832,7 @@ View.OnLongClickListener, View.OnKeyListener,
         displaySuggestions(sb.toString());
     }
 
-    private void displaySuggestions(String suggestions) {
+    private void displaySuggestions(final String suggestions) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = suggestions.toString().split("\n");
@@ -906,7 +906,7 @@ View.OnLongClickListener, View.OnKeyListener,
             fetchSuggestionsFor(prevWord);
         }
         catch(Exception e) {
-            toastIt(e);
+            sendDataToErrorOutput(e.toString());
         }
 /*
         prevWord = prevWord.toLowerCase();
@@ -1349,6 +1349,8 @@ View.OnLongClickListener, View.OnKeyListener,
         InputConnection ic = getCurrentInputConnection();
         final int length = getSelectionLength();
 
+        ic.beginBatchEdit();
+
         if (sharedPreferences.getBoolean("pairs", false)
             && ic.getTextAfterCursor(1, 0) != null
             && String.valueOf(ic.getTextAfterCursor(1, 0)).length() >= 1
@@ -1381,12 +1383,16 @@ View.OnLongClickListener, View.OnKeyListener,
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
 
-        updateCandidates();
+        // updateCandidates();
+
+        ic.endBatchEdit();
     }
 
     private void handleBackspace() {
         InputConnection ic = getCurrentInputConnection();
         final int length = getSelectionLength();
+
+        ic.beginBatchEdit();
 
         if (sharedPreferences.getBoolean("pairs", false)
             && ic.getTextBeforeCursor(1, 0) != null
@@ -1419,7 +1425,10 @@ View.OnLongClickListener, View.OnKeyListener,
             sendKey(KeyEvent.KEYCODE_DEL);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        updateCandidates();
+
+        // updateCandidates();
+
+        ic.endBatchEdit();
     }
 
     private void handleSpace() {
@@ -1564,7 +1573,7 @@ View.OnLongClickListener, View.OnKeyListener,
                     }
                 }
                 catch (Exception e) {
-                    toastIt(parserResult+"\n"+e);
+                    sendDataToErrorOutput(parserResult+"\n"+e);
                 }
                 calcBuffer = parserResult;
                 calcBufferHistory.push(calcBuffer);
@@ -1575,7 +1584,7 @@ View.OnLongClickListener, View.OnKeyListener,
                     scriptResult = Calculator.evalScript(sanitized);
                 }
                 catch (Exception e) {
-                    toastIt(scriptResult+"\n"+e);
+                    sendDataToErrorOutput(scriptResult+"\n"+e);
                 }
                 calcBuffer = scriptResult;
                 calcBufferHistory.push(calcBuffer);
