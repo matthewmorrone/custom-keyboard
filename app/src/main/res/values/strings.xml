@@ -152,4 +152,5 @@
     <string name="popup_third_title">Popup 3</string>
     <string name="import_preferences">Import Settings File</string>
     <string name="export_preferences">Export Settings File</string>
+    <string name="choose_image_background">Choose Image Background</string>
 </resources>

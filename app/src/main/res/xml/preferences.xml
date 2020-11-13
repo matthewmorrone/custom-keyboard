@@ -32,6 +32,8 @@
         <com.custom.keyboard.ColorPreference android:key="background_color" android:title="Background Color" />
         <com.custom.keyboard.ColorPreference android:key="foreground_color" android:title="Text Color" />
         <com.custom.keyboard.ColorPreference android:key="border_color"     android:title="Border Color" />
+        <Preference android:key="choose_image_background" android:title="@string/choose_image_background" />
+
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
         <EditTextPreference android:key="emoticon_recents" android:title="@string/emoticon_recents" />
