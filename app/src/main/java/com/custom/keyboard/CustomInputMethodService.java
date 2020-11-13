@@ -206,6 +206,9 @@ public class CustomInputMethodService extends InputMethodService
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
+        kv.setBackgroundResource(R.drawable.background_2);
+
+
         int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "24"));
         mPaint.setTextSize(fontSize);
 

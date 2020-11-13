@@ -1,26 +1,22 @@
 package com.custom.keyboard;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.webkit.CookieManager;
-import android.webkit.URLUtil;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -34,22 +30,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.net.URISyntaxException;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-@SuppressWarnings("DuplicateBranchesInSwitch")
 public class PreferenceFragment
     extends android.preference.PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -73,6 +58,8 @@ public class PreferenceFragment
     ColorPreference background;
     ColorPreference foreground;
     ColorPreference borderColor;
+    Preference chooseImageBackground;
+
 
     EditTextPreference emoticonRecents;
     EditTextPreference unicodeRecents;
@@ -109,6 +96,8 @@ public class PreferenceFragment
 
     private static final int CHOOSE_FILE_REQUEST_CODE = 8777;
     private static final int PICK_FILE_RESULT_CODE = 8778;
+    private static final int PICK_IMAGE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public void toastIt(String ...args) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
@@ -127,6 +116,13 @@ public class PreferenceFragment
         if (toast != null) toast.cancel();
         toast = Toast.makeText(baseContext, text, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    public void chooseImageBackground() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
 
     public void resetClipboardHistory() {
@@ -161,6 +157,34 @@ public class PreferenceFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("onActivityResult");
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+
+            System.out.println(data);
+
+            Uri pickedImage = data.getData();
+            // Let's read picked image path using content resolver
+            String[] filePath = { MediaStore.Images.Media.DATA };
+            Cursor cursor = baseContext.getContentResolver().query(pickedImage, filePath, null, null, null);
+            cursor.moveToFirst();
+            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+
+            // Do something with the bitmap
+
+            new ImageSaver(baseContext)
+                .setFileName("background.jpg")
+                .setDirectoryName("background")
+                .save(bitmap);
+
+            cursor.close();
+        }
+
         if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
             Uri content_describer = data.getData();
             BufferedReader reader = null;
@@ -329,6 +353,7 @@ public class PreferenceFragment
         background = (ColorPreference)findPreference("background_color");
         foreground = (ColorPreference)findPreference("foreground_color");
         borderColor = (ColorPreference)findPreference("border_color");
+        chooseImageBackground = (Preference)findPreference("choose_image_background");
 
         emoticonRecents = (EditTextPreference)findPreference("emoticon_recents");
         unicodeRecents = (EditTextPreference)findPreference("unicode_recents");
@@ -497,6 +522,15 @@ public class PreferenceFragment
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     resetAllPreferences();
+                    return true;
+                }
+            });
+        }
+        if (chooseImageBackground != null) {
+            chooseImageBackground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    chooseImageBackground();
                     return true;
                 }
             });
