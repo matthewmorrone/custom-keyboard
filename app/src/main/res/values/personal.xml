@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="popup_first">-_…</string>
     <string name="popup_second">\u0009\'\u0022\\/</string>
     <string name="popup_third">.,?!;:</string>
@@ -14,26 +13,42 @@
     <string name="popup_8"></string>
     <string name="popup_9"></string>
     <string name="popup_0"></string>
-    <string name="custom_keys">AEIORUWYÆŒ</string>
+    <string name="custom_keys"></string>
     <string name="name">Matthew Morrone</string>
     <string name="email">matthewmorrone1@gmail.com</string>
-    <string name="phone">Phone №</string>
+    <string name="phone">7177362012</string>
     <string name="address">2217 Concord Circle</string>
     <string name="password" />
-    <string name="k1_label">git clone</string>
-    <string name="k1_value">git clone https://github.com/matthewmorrone/</string>
-    <string name="k2_label">git pull</string>
-    <string name="k2_value">git pull</string>
-    <string name="k3_label">git add</string>
-    <string name="k3_value">git add .</string>
-    <string name="k4_label">git commit</string>
-    <string name="k4_value">git commit -m \u0022autocommit\u0022</string>
-    <string name="k5_label">git push</string>
-    <string name="k5_value">git push</string>
-    <string name="k6_label">git diff</string>
-    <string name="k6_value">git diff</string>
-    <string name="k7_label">git status</string>
-    <string name="k7_value">git status -s</string>
-    <string name="k8_label">mm</string>
-    <string name="k8_value">matthewmorrone</string>
+    <string name="k1">git clone https://github.com/matthewmorrone/</string>
+    <!--<string name="k1_title">Custom Key 1</string>-->
+    <!--<string name="k1_label">git clone</string>-->
+    <!--<string name="k1_value">git clone https://github.com/matthewmorrone/</string>-->
+    <string name="k2">git pull</string>
+    <!--<string name="k2_title">Custom Key 2</string>-->
+    <!--<string name="k2_label">git pull</string>-->
+    <!--<string name="k2_value">git pull</string>-->
+    <string name="k3">git add .</string>
+    <!--<string name="k3_title">Custom Key 3</string>-->
+    <!--<string name="k3_label">git add</string>-->
+    <!--<string name="k3_value">git add .</string>-->
+    <string name="k4">git commit -m \u0022autocommit\u0022</string>
+    <!--<string name="k4_title">Custom Key 4</string>-->
+    <!--<string name="k4_label">git commit</string>-->
+    <!--<string name="k4_value">git commit -m \u0022autocommit\u0022</string>-->
+    <string name="k5">git push</string>
+    <!--<string name="k5_title">Custom Key 5</string>-->
+    <!--<string name="k5_label">git push</string>-->
+    <!--<string name="k5_value">git push</string>-->
+    <string name="k6">git diff</string>
+    <!--<string name="k6_title">Custom Key 6</string>-->
+    <!--<string name="k6_label">git diff</string>-->
+    <!--<string name="k6_value">git diff</string>-->
+    <string name="k7">git status -s</string>
+    <!--<string name="k7_title">Custom Key 7</string>-->
+    <!--<string name="k7_label">git status</string>-->
+    <!--<string name="k7_value">git status -s</string>-->
+    <string name="k8">matthewmorrone</string>
+    <!--<string name="k8_title">Custom Key 8</string>-->
+    <!--<string name="k8_label">mm</string>-->
+    <!--<string name="k8_value">matthewmorrone</string>-->
 </resources>

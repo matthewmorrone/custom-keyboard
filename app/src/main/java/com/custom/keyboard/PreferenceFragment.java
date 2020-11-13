@@ -1,9 +1,7 @@
 package com.custom.keyboard;
 
-import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,24 +14,16 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -62,7 +52,6 @@ public class PreferenceFragment
     ColorPreference foreground;
     ColorPreference borderColor;
     Preference chooseImageBackground;
-
 
     EditTextPreference emoticonRecents;
     EditTextPreference unicodeRecents;
@@ -157,102 +146,6 @@ public class PreferenceFragment
         startActivityForResult(chooseFile, PICK_FILE_RESULT_CODE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        System.out.println("onActivityResult");
-
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-
-            System.out.println(data);
-
-            Uri pickedImage = data.getData();
-            // Let's read picked image path using content resolver
-            String[] filePath = { MediaStore.Images.Media.DATA };
-            Cursor cursor = baseContext.getContentResolver().query(pickedImage, filePath, null, null, null);
-            cursor.moveToFirst();
-            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
-
-            // Do something with the bitmap
-
-            new ImageSaver(baseContext)
-                .setFileName("background.jpg")
-                .setDirectoryName("background")
-                .save(bitmap);
-
-            cursor.close();
-        }
-
-        if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
-            Uri content_describer = data.getData();
-            BufferedReader reader = null;
-            try {
-                InputStream in = baseContext.getContentResolver().openInputStream(content_describer);
-                reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null){
-                    builder.append(line);
-                }
-                Document xml = Util.toXmlDocument(builder.toString());
-                Node map = xml.getElementsByTagName("map").item(0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                for(Node n : XmlUtil.asList(map.getChildNodes())) {
-
-                    String nodeName = n.getNodeName();
-                    String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
-                    String nodeTextContent = n.getTextContent().trim();
-
-                    String nodeAttrName = (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null)
-                        ? n.getAttributes().getNamedItem("name").getNodeValue() : "[]";
-
-                    String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null)
-                        ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
-
-                    switch(n.getNodeName()) {
-                        case "int":
-                            editor.putInt(nodeAttrName, Integer.parseInt(nodeAttrValue));
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
-                        break;
-                        case "string":
-                            editor.putString(nodeAttrName, nodeAttrValue);
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeTextContent);
-                        break;
-                        case "boolean":
-                            editor.putBoolean(nodeAttrName, Boolean.parseBoolean(nodeAttrValue));
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
-                        break;
-                        case "#text":
-
-                        break;
-                    }
-                    editor.apply();
-
-                }
-                toastIt("Preferences Imported!");
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                toastIt("Preferences not imported");
-            }
-            finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
     public void exportPreferences() {
 
         DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
@@ -324,6 +217,102 @@ public class PreferenceFragment
         sharedPreferences.edit().clear().apply();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("onActivityResult");
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+
+            System.out.println(data);
+
+            Uri pickedImage = data.getData();
+            // Let's read picked image path using content resolver
+            String[] filePath = { MediaStore.Images.Media.DATA };
+            Cursor cursor = baseContext.getContentResolver().query(pickedImage, filePath, null, null, null);
+            cursor.moveToFirst();
+            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+
+            // Do something with the bitmap
+
+            new ImageSaver(baseContext)
+                .setFileName("background.jpg")
+                .setDirectoryName("background")
+                .save(bitmap);
+
+            cursor.close();
+        }
+
+        if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
+            Uri content_describer = data.getData();
+            BufferedReader reader = null;
+            try {
+                InputStream in = baseContext.getContentResolver().openInputStream(content_describer);
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null){
+                    builder.append(line);
+                }
+                Document xml = Util.toXmlDocument(builder.toString());
+                Node map = xml.getElementsByTagName("map").item(0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                for(Node n : XmlUtil.asList(map.getChildNodes())) {
+
+                    String nodeName = n.getNodeName();
+                    String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
+                    String nodeTextContent = n.getTextContent().trim();
+
+                    String nodeAttrName = (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null)
+                                          ? n.getAttributes().getNamedItem("name").getNodeValue() : "[]";
+
+                    String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null)
+                                           ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
+
+                    switch(n.getNodeName()) {
+                        case "int":
+                            editor.putInt(nodeAttrName, Integer.parseInt(nodeAttrValue));
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
+                            break;
+                        case "string":
+                            editor.putString(nodeAttrName, nodeAttrValue);
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeTextContent);
+                            break;
+                        case "boolean":
+                            editor.putBoolean(nodeAttrName, Boolean.parseBoolean(nodeAttrValue));
+                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
+                            break;
+                        case "#text":
+
+                            break;
+                    }
+                    editor.apply();
+
+                }
+                toastIt("Preferences Imported!");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                toastIt("Preferences not imported");
+            }
+            finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     @Override
