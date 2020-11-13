@@ -206,7 +206,7 @@ public class CustomInputMethodService extends InputMethodService
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
         kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
 
-        kv.setBackgroundResource(R.drawable.background_2);
+        kv.setBackgroundResource(R.drawable.background_3);
 
 
         int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "24"));
@@ -238,7 +238,29 @@ public class CustomInputMethodService extends InputMethodService
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        // kv.setBackgroundResource(R.drawable.background);
+        /*
+        int backgroundImage = Util.choose(new int[] {
+            R.drawable.background_1,
+            R.drawable.background_2,
+            R.drawable.background_3,
+            R.drawable.background_4,
+            R.drawable.background_5,
+            R.drawable.background_6,
+            R.drawable.background_7,
+            R.drawable.background_8,
+            R.drawable.background_9,
+            R.drawable.background_10,
+            R.drawable.background_11,
+            R.drawable.background_12,
+            R.drawable.background_13,
+            R.drawable.background_14,
+            R.drawable.background_15,
+            R.drawable.background_16
+        });
+        kv.setBackgroundResource(backgroundImage);
+        */
+
+        // System.out.println(currentKeyboard.getMinWidth()+"x"+currentKeyboard.getHeight());
     }
 
     @Override

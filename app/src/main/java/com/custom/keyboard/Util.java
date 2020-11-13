@@ -69,6 +69,15 @@ import javax.xml.xpath.XPathFactory;
 
 public class Util {
 
+
+
+
+    public static int choose(int[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+    }
+
+
     public static void toastIt(Context context, String input) {
         Toast.makeText(context, input, Toast.LENGTH_LONG).show();
     }
