@@ -51,6 +51,10 @@ public class CustomKeyboardView extends KeyboardView {
         borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_width", "0"), "0"));
         paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("padding_width", "0"), "0"));
         borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_radius", "0"), "0"));
+
+        this.setClipToOutline(true);
+        this.setFitsSystemWindows(true);
+        // this.textBounds
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -165,6 +169,7 @@ public class CustomKeyboardView extends KeyboardView {
         ArrayList<String> clipboardHistoryList = getClipboardHistory();
 
         for (Key key : keys) {
+            int primaryCode = key.codes[0];
 /*
             mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
@@ -192,7 +197,7 @@ public class CustomKeyboardView extends KeyboardView {
             canvas.restore();
 */
 /*
-            if (Util.contains(repeatable, key.codes[0])) {
+            if (Util.contains(repeatable, primaryCode)) {
                 key.repeatable = true;
             }
 */
@@ -207,71 +212,89 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.restore();
             }
 
-            if (key.codes[0] == -73)   key.label = Util.timemoji();
+            if (primaryCode == -73)   key.label = Util.timemoji();
             if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) {
-                if (key.codes[0] == -301 && clipboardHistoryList.size() >  0) key.label = clipboardHistoryList.get( 0);
-                if (key.codes[0] == -302 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get( 1);
-                if (key.codes[0] == -303 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get( 2);
-                if (key.codes[0] == -304 && clipboardHistoryList.size() >  3) key.label = clipboardHistoryList.get( 3);
-                if (key.codes[0] == -305 && clipboardHistoryList.size() >  4) key.label = clipboardHistoryList.get( 4);
-                if (key.codes[0] == -306 && clipboardHistoryList.size() >  5) key.label = clipboardHistoryList.get( 5);
-                if (key.codes[0] == -307 && clipboardHistoryList.size() >  6) key.label = clipboardHistoryList.get( 6);
-                if (key.codes[0] == -308 && clipboardHistoryList.size() >  7) key.label = clipboardHistoryList.get( 7);
-                if (key.codes[0] == -309 && clipboardHistoryList.size() >  8) key.label = clipboardHistoryList.get( 8);
-                if (key.codes[0] == -310 && clipboardHistoryList.size() >  9) key.label = clipboardHistoryList.get( 9);
-                if (key.codes[0] == -311 && clipboardHistoryList.size() > 10) key.label = clipboardHistoryList.get(10);
-                if (key.codes[0] == -312 && clipboardHistoryList.size() > 11) key.label = clipboardHistoryList.get(11);
-                if (key.codes[0] == -313 && clipboardHistoryList.size() > 12) key.label = clipboardHistoryList.get(12);
-                if (key.codes[0] == -314 && clipboardHistoryList.size() > 13) key.label = clipboardHistoryList.get(13);
-                if (key.codes[0] == -315 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
-                if (key.codes[0] == -316 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
+                if (primaryCode == -301 && clipboardHistoryList.size() >  0) key.label = clipboardHistoryList.get( 0);
+                if (primaryCode == -302 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get( 1);
+                if (primaryCode == -303 && clipboardHistoryList.size() >  2) key.label = clipboardHistoryList.get( 2);
+                if (primaryCode == -304 && clipboardHistoryList.size() >  3) key.label = clipboardHistoryList.get( 3);
+                if (primaryCode == -305 && clipboardHistoryList.size() >  4) key.label = clipboardHistoryList.get( 4);
+                if (primaryCode == -306 && clipboardHistoryList.size() >  5) key.label = clipboardHistoryList.get( 5);
+                if (primaryCode == -307 && clipboardHistoryList.size() >  6) key.label = clipboardHistoryList.get( 6);
+                if (primaryCode == -308 && clipboardHistoryList.size() >  7) key.label = clipboardHistoryList.get( 7);
+                if (primaryCode == -309 && clipboardHistoryList.size() >  8) key.label = clipboardHistoryList.get( 8);
+                if (primaryCode == -310 && clipboardHistoryList.size() >  9) key.label = clipboardHistoryList.get( 9);
+                if (primaryCode == -311 && clipboardHistoryList.size() > 10) key.label = clipboardHistoryList.get(10);
+                if (primaryCode == -312 && clipboardHistoryList.size() > 11) key.label = clipboardHistoryList.get(11);
+                if (primaryCode == -313 && clipboardHistoryList.size() > 12) key.label = clipboardHistoryList.get(12);
+                if (primaryCode == -314 && clipboardHistoryList.size() > 13) key.label = clipboardHistoryList.get(13);
+                if (primaryCode == -315 && clipboardHistoryList.size() > 14) key.label = clipboardHistoryList.get(14);
+                if (primaryCode == -316 && clipboardHistoryList.size() > 15) key.label = clipboardHistoryList.get(15);
             }
 
-            if (key.codes[0] == -501)   key.text = sharedPreferences.getString("k1", "");
-            if (key.codes[0] == -502)   key.text = sharedPreferences.getString("k2", "");
-            if (key.codes[0] == -503)   key.text = sharedPreferences.getString("k3", "");
-            if (key.codes[0] == -504)   key.text = sharedPreferences.getString("k4", "");
-            if (key.codes[0] == -505)   key.text = sharedPreferences.getString("k5", "");
-            if (key.codes[0] == -506)   key.text = sharedPreferences.getString("k6", "");
-            if (key.codes[0] == -507)   key.text = sharedPreferences.getString("k7", "");
-            if (key.codes[0] == -508)   key.text = sharedPreferences.getString("k8", "");
-            if (key.codes[0] == -509)   key.text = sharedPreferences.getString("name", "");
-            if (key.codes[0] == -510)   key.text = sharedPreferences.getString("email", "");
-            if (key.codes[0] == -511)   key.text = sharedPreferences.getString("phone", "");
-            if (key.codes[0] == -512)   key.text = sharedPreferences.getString("address", "");
-            if (key.codes[0] == -513)   key.text = sharedPreferences.getString("password", "");
+            if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Macros")) {
+                if (primaryCode == -501) key.text = sharedPreferences.getString("k1", sharedPreferences.getString("k1", getResources().getString(R.string.k1)));
+                if (primaryCode == -502) key.text = sharedPreferences.getString("k2", sharedPreferences.getString("k2", getResources().getString(R.string.k2)));
+                if (primaryCode == -503) key.text = sharedPreferences.getString("k3", sharedPreferences.getString("k3", getResources().getString(R.string.k3)));
+                if (primaryCode == -504) key.text = sharedPreferences.getString("k4", sharedPreferences.getString("k4", getResources().getString(R.string.k4)));
+                if (primaryCode == -505) key.text = sharedPreferences.getString("k5", sharedPreferences.getString("k5", getResources().getString(R.string.k5)));
+                if (primaryCode == -506) key.text = sharedPreferences.getString("k6", sharedPreferences.getString("k6", getResources().getString(R.string.k6)));
+                if (primaryCode == -507) key.text = sharedPreferences.getString("k7", sharedPreferences.getString("k7", getResources().getString(R.string.k7)));
+                if (primaryCode == -508) key.text = sharedPreferences.getString("k8", sharedPreferences.getString("k8", getResources().getString(R.string.k8)));
+                if (primaryCode == -509) key.text = sharedPreferences.getString("name", sharedPreferences.getString("name", getResources().getString(R.string.name)));
+                if (primaryCode == -510) key.text = sharedPreferences.getString("email", sharedPreferences.getString("email", getResources().getString(R.string.email)));
+                if (primaryCode == -511) key.text = sharedPreferences.getString("phone", sharedPreferences.getString("phone", getResources().getString(R.string.phone)));
+                if (primaryCode == -512) key.text = sharedPreferences.getString("address", sharedPreferences.getString("address", getResources().getString(R.string.address)));
+                if (primaryCode == -513) key.text = sharedPreferences.getString("password", sharedPreferences.getString("password", getResources().getString(R.string.password)));
 
-            if (key.codes[0] == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);
-            if (key.codes[0] == -1) {
+                if (primaryCode > -501 || primaryCode < -508) continue;
+
+
+                if (key.icon == null) key.label = key.text;
+                String text = Util.orNull(key.label, "").toString();
+                int containingWidth = key.width;
+                Rect bounds = new Rect();
+                mPaint.getTextBounds(text, 0, text.length(), bounds);
+                int boundsWidth = bounds.width();
+
+                System.out.println(primaryCode+" "+containingWidth+" "+boundsWidth+" "+text);
+
+                if (boundsWidth > containingWidth - 40) key.label = Util.safeSubstring(key.text.toString(), 0, 15);
+
+                // System.out.println("text: "+key.text);
+            }
+
+            if (primaryCode == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);
+            if (primaryCode == -1) {
                 if (Variables.isShift()) selectKey(key, borderRadius);
                 if (getKeyboard().isShifted()) drawable(key, R.drawable.ic_shift_lock);
             }
-            if (key.codes[0] == -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
 
-            if (key.codes[0] == -94) {if (Variables.isBold()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -95) {if (Variables.isItalic()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -96) {if (Variables.isEmphasized()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -97) {if (Variables.isUnderlined()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -98) {if (Variables.isUnderscored()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -99) {if (Variables.isStrikethrough()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -145) {if (Variables.isBoldSerif()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -146) {if (Variables.isItalicSerif()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -148) {if (Variables.isScript()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -149) {if (Variables.isScriptBold()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -150) {if (Variables.isFraktur()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -151) {if (Variables.isFrakturBold()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -152) {if (Variables.isSans()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -153) {if (Variables.isMonospace()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -154) {if (Variables.isDoublestruck()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -155) {if (Variables.isEnsquare()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -156) {if (Variables.isCircularStampLetters()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -157) {if (Variables.isRectangularStampLetters()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -158) {if (Variables.isSmallCaps()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -159) {if (Variables.isParentheses()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -160) {if (Variables.isEncircle()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -161) {if (Variables.isReflected()) {selectKey(key, borderRadius);}}
-            if (key.codes[0] == -162) {if (Variables.isCaps()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -94) {if (Variables.isBold()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -95) {if (Variables.isItalic()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -96) {if (Variables.isEmphasized()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -97) {if (Variables.isUnderlined()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -98) {if (Variables.isUnderscored()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -99) {if (Variables.isStrikethrough()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -145) {if (Variables.isBoldSerif()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -146) {if (Variables.isItalicSerif()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -148) {if (Variables.isScript()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -149) {if (Variables.isScriptBold()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -150) {if (Variables.isFraktur()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -151) {if (Variables.isFrakturBold()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -152) {if (Variables.isSans()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -153) {if (Variables.isMonospace()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -154) {if (Variables.isDoublestruck()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -155) {if (Variables.isEnsquare()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -156) {if (Variables.isCircularStampLetters()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -157) {if (Variables.isRectangularStampLetters()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -158) {if (Variables.isSmallCaps()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -159) {if (Variables.isParentheses()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -160) {if (Variables.isEncircle()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -161) {if (Variables.isReflected()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -162) {if (Variables.isCaps()) {selectKey(key, borderRadius);}}
 
             mPaint.setTextAlign(Paint.Align.CENTER);
 
@@ -279,10 +302,10 @@ public class CustomKeyboardView extends KeyboardView {
 
             if (key.popupCharacters != null
                 && key.codes != null
-                && key.codes[0] != -1
-                && key.codes[0] !=  7
-                && key.codes[0] != 10
-                && key.codes[0] != 32
+                && primaryCode != -1
+                && primaryCode !=  7
+                && primaryCode != 10
+                && primaryCode != 32
                 && sharedPreferences.getBoolean("hints", true)
             ) {
                 canvas.save();

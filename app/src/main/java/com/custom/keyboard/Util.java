@@ -69,7 +69,9 @@ import javax.xml.xpath.XPathFactory;
 
 public class Util {
 
-
+    public static String safeSubstring(String text, int beginIndex, int endIndex) {
+        return text.substring(beginIndex, Math.min(endIndex, text.length()));
+    }
 
     public static void show2Darray(String [][] arr) {
         for (String[] ar : arr) {

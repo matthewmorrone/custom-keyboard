@@ -17,16 +17,16 @@
         <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
     </Row>
     <Row android:keyWidth="25%p">
-        <Key android:codes="-501" android:keyLabel="@string/k1_label" />
-        <Key android:codes="-502" android:keyLabel="@string/k2_label" />
-        <Key android:codes="-503" android:keyLabel="@string/k3_label" />
-        <Key android:codes="-504" android:keyLabel="@string/k4_label" />
+        <Key android:codes="-501" android:keyLabel="@string/k1" />
+        <Key android:codes="-502" android:keyLabel="@string/k2" />
+        <Key android:codes="-503" android:keyLabel="@string/k3" />
+        <Key android:codes="-504" android:keyLabel="@string/k4" />
     </Row>
     <Row android:keyWidth="25%p">
-        <Key android:codes="-505" android:keyLabel="@string/k5_label" />
-        <Key android:codes="-506" android:keyLabel="@string/k6_label" />
-        <Key android:codes="-507" android:keyLabel="@string/k7_label" />
-        <Key android:codes="-508" android:keyLabel="@string/k8_label" />
+        <Key android:codes="-505" android:keyLabel="@string/k5" />
+        <Key android:codes="-506" android:keyLabel="@string/k6" />
+        <Key android:codes="-507" android:keyLabel="@string/k7" />
+        <Key android:codes="-508" android:keyLabel="@string/k8" />
     </Row>
     <Row android:keyWidth="11.11%p">
         <Key android:codes="-509" android:keyIcon="@drawable/ic_name" />

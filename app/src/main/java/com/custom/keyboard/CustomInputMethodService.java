@@ -1076,21 +1076,21 @@ public class CustomInputMethodService extends InputMethodService
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
             case InputType.TYPE_CLASS_PHONE:
-                setKeyboard(R.layout.numeric);
+                setKeyboard(R.layout.numeric, "Numeric");
             break;
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
-                    setKeyboard(R.layout.domain);
+                    setKeyboard(R.layout.domain, "Domain");
                 }
                 else {
-                    setKeyboard(R.layout.primary);
+                    setKeyboard(R.layout.primary, "Primary");
                 }
                 break;
             default:
-                setKeyboard(R.layout.primary);
+                setKeyboard(R.layout.primary, "Primary");
             break;
         }
         if (kv != null) {
@@ -1278,13 +1278,6 @@ public class CustomInputMethodService extends InputMethodService
         currentKeyboard = new CustomKeyboard(getBaseContext(), id);
         currentKeyboard.setRowNumber(getStandardRowNumber());
         currentKeyboard.title = title;
-        kv.setKeyboard(currentKeyboard);
-        redraw();
-    }
-
-    public void setKeyboard(int id) {
-        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
-        currentKeyboard.setRowNumber(getStandardRowNumber());
         kv.setKeyboard(currentKeyboard);
         redraw();
     }
@@ -1985,9 +1978,9 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(FontVariants.ununderline(getSelectedText(ic)));
                 performReplace(FontVariants.ununderscore(getSelectedText(ic)));
             break;
-            case -101: setKeyboard(R.layout.primary); break;
-            case -102: setKeyboard(R.layout.menu); break;
-            case -103: setKeyboard(R.layout.macros); break;
+            case -101: setKeyboard(R.layout.primary, "Primary"); break;
+            case -102: setKeyboard(R.layout.menu, "Menu"); break;
+            case -103: setKeyboard(R.layout.macros, "Macros"); break;
             case -104: Intents.showActivity(getBaseContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: Intents.showActivity(getBaseContext(), Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: Intents.showActivity(getBaseContext(), Settings.ACTION_SETTINGS); break;
@@ -2017,14 +2010,14 @@ public class CustomInputMethodService extends InputMethodService
             case -130: performReplace(Util.convertNumberBase(getSelectedText(ic), 16, 10)); break;
             case -131: performReplace(Util.convertNumberBase(getSelectedText(ic), 10, 16)); break;
             case -132: break;
-            case -133: setKeyboard(R.layout.domain); break;
-            case -134: setKeyboard(R.layout.numeric); break;
-            case -135: setKeyboard(R.layout.navigation); break;
-            case -136: setKeyboard(R.layout.fonts); break;
+            case -133: setKeyboard(R.layout.domain, "Domain"); break;
+            case -134: setKeyboard(R.layout.numeric, "Numeric"); break;
+            case -135: setKeyboard(R.layout.navigation, "Navigation"); break;
+            case -136: setKeyboard(R.layout.fonts, "Fonts"); break;
             case -137: setKeyboard(R.layout.ipa, "IPA"); break;
-            case -138: setKeyboard(R.layout.symbol); break;
+            case -138: setKeyboard(R.layout.symbol, "Symbol"); break;
             case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
-            case -140: setKeyboard(R.layout.accents); break;
+            case -140: setKeyboard(R.layout.accents, "Accents"); break;
             case -141:
                 String customKeys = sharedPreferences.getString("custom_keys", "");
                 if (customKeys != "") {
@@ -2032,8 +2025,8 @@ public class CustomInputMethodService extends InputMethodService
                     kv.setKeyboard(customKeyboard);
                 }
             break;
-            case -142: setKeyboard(R.layout.function); break;
-            case -143: setKeyboard(R.layout.calc, "Calculator"); break;
+            case -142: setKeyboard(R.layout.function, "Function"); break;
+            case -143: setKeyboard(R.layout.calc, "Calc"); break;
             case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
@@ -2073,7 +2066,7 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(Util.toggleLineComment(getSelectedText(ic)));
             break;
             case -173: displayFindMenu(); break;
-            case -174: setKeyboard(R.layout.coding); break;
+            case -174: setKeyboard(R.layout.coding, "Coding"); break;
             case -175: showUnicodePopup(); break;
             case -176: moveLeftOneWord(); break;
             case -177: moveRightOneWord(); break;
@@ -2113,8 +2106,10 @@ public class CustomInputMethodService extends InputMethodService
             case -209: break;
             */
 
+
             // case -299: popupKeyboard(getKey(-299)); break;
             case -300: clearClipboardHistory(); break;
+
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
             case -303: commitText(String.valueOf(Util.orNull(getKey(-303).label, ""))); break;
@@ -2131,19 +2126,21 @@ public class CustomInputMethodService extends InputMethodService
             case -314: commitText(String.valueOf(Util.orNull(getKey(-314).label, ""))); break;
             case -315: commitText(String.valueOf(Util.orNull(getKey(-315).label, ""))); break;
             case -316: commitText(String.valueOf(Util.orNull(getKey(-316).label, ""))); break;
-            case -501: commitText(getResources().getString(R.string.k1_value)); break;
-            case -502: commitText(getResources().getString(R.string.k2_value)); break;
-            case -503: commitText(getResources().getString(R.string.k3_value)); break;
-            case -504: commitText(getResources().getString(R.string.k4_value)); break;
-            case -505: commitText(getResources().getString(R.string.k5_value)); break;
-            case -506: commitText(getResources().getString(R.string.k6_value)); break;
-            case -507: commitText(getResources().getString(R.string.k7_value)); break;
-            case -508: commitText(getResources().getString(R.string.k8_value)); break;
-            case -509: commitText(getResources().getString(R.string.name_value)); break;
-            case -510: commitText(getResources().getString(R.string.email_value)); break;
-            case -511: commitText(getResources().getString(R.string.phone_value)); break;
-            case -512: commitText(getResources().getString(R.string.address_value)); break;
-            case -513: commitText(getResources().getString(R.string.password_value)); break;
+
+            case -501: commitText(sharedPreferences.getString("k1", getResources().getString(R.string.k1))); break;
+            case -502: commitText(sharedPreferences.getString("k2", getResources().getString(R.string.k2))); break;
+            case -503: commitText(sharedPreferences.getString("k3", getResources().getString(R.string.k3))); break;
+            case -504: commitText(sharedPreferences.getString("k4", getResources().getString(R.string.k4))); break;
+            case -505: commitText(sharedPreferences.getString("k5", getResources().getString(R.string.k5))); break;
+            case -506: commitText(sharedPreferences.getString("k6", getResources().getString(R.string.k6))); break;
+            case -507: commitText(sharedPreferences.getString("k7", getResources().getString(R.string.k7))); break;
+            case -508: commitText(sharedPreferences.getString("k8", getResources().getString(R.string.k8))); break;
+            case -509: commitText(sharedPreferences.getString("name", getResources().getString(R.string.name))); break;
+            case -510: commitText(sharedPreferences.getString("email", getResources().getString(R.string.email))); break;
+            case -511: commitText(sharedPreferences.getString("phone", getResources().getString(R.string.phone))); break;
+            case -512: commitText(sharedPreferences.getString("address", getResources().getString(R.string.address))); break;
+            case -513: commitText(sharedPreferences.getString("password", getResources().getString(R.string.password))); break;
+
             default:
                 if (Variables.isAnyOn()) processKeyCombo(primaryCode);
                 else handleCharacter(primaryCode, keyCodes);

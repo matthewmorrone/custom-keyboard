@@ -28,7 +28,7 @@
         <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="@string/emoticon_font_size" android:dialogTitle="@string/emoticon_font_size" />
         <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size"  android:title="@string/unicode_font_size"  android:dialogTitle="@string/unicode_font_size" />
         <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="@string/spacebar" />
-        <ListPreference android:defaultValue="1" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="@string/theme_title" android:dialogTitle="@string/theme_title" />
+        <ListPreference android:defaultValue="1" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" android:dialogTitle="Theme" />
         <com.custom.keyboard.ColorPreference android:key="background_color" android:title="Background Color" />
         <com.custom.keyboard.ColorPreference android:key="foreground_color" android:title="Text Color" />
         <com.custom.keyboard.ColorPreference android:key="border_color"     android:title="Border Color" />
@@ -40,23 +40,23 @@
         <EditTextPreference android:key="unicode_recents" android:title="@string/unicode_recents" />
         <EditTextPreference android:key="emoticon_favorites" android:title="@string/emoticon_favorites" />
         <EditTextPreference android:key="unicode_favorites" android:title="@string/unicode_favorites" />
-        <EditTextPreference android:key="custom_keys" android:title="@string/custom_keys_title" />
-        <EditTextPreference android:key="popup_first" android:title="@string/popup_first_title" />
-        <EditTextPreference android:key="popup_second" android:title="@string/popup_second_title" />
-        <EditTextPreference android:key="popup_third" android:title="@string/popup_third_title" />
-        <EditTextPreference android:key="name" android:title="@string/name_title" android:dialogTitle="@string/name_title" />
-        <EditTextPreference android:key="email" android:title="@string/email_title" android:dialogTitle="@string/email_title" android:inputType="textPassword" />
-        <EditTextPreference android:key="password" android:title="@string/password_title" android:dialogTitle="@string/password_title" />
-        <EditTextPreference android:key="phone" android:title="@string/phone_title" android:dialogTitle="@string/phone_title" />
-        <EditTextPreference android:key="address" android:title="@string/address_title" android:dialogTitle="@string/address_title" />
-        <EditTextPreference android:key="k1" android:title="@string/k1_title" android:dialogTitle="@string/k1_title" />
-        <EditTextPreference android:key="k2" android:title="@string/k2_title" android:dialogTitle="@string/k2_title" />
-        <EditTextPreference android:key="k3" android:title="@string/k3_title" android:dialogTitle="@string/k3_title" />
-        <EditTextPreference android:key="k4" android:title="@string/k4_title" android:dialogTitle="@string/k4_title" />
-        <EditTextPreference android:key="k5" android:title="@string/k5_title" android:dialogTitle="@string/k5_title" />
-        <EditTextPreference android:key="k6" android:title="@string/k6_title" android:dialogTitle="@string/k6_title" />
-        <EditTextPreference android:key="k7" android:title="@string/k7_title" android:dialogTitle="@string/k7_title" />
-        <EditTextPreference android:key="k8" android:title="@string/k8_title" android:dialogTitle="@string/k8_title" />
+        <EditTextPreference android:key="custom_keys" android:title="@string/custom_keys" />
+        <EditTextPreference android:key="popup_first" android:title="@string/popup_first" />
+        <EditTextPreference android:key="popup_second" android:title="@string/popup_second" />
+        <EditTextPreference android:key="popup_third" android:title="@string/popup_third" />
+        <EditTextPreference android:key="name" android:title="@string/name" android:dialogTitle="@string/name" />
+        <EditTextPreference android:key="email" android:title="@string/email" android:dialogTitle="@string/email" android:inputType="textPassword" />
+        <EditTextPreference android:key="password" android:title="@string/password" android:dialogTitle="@string/password" />
+        <EditTextPreference android:key="phone" android:title="@string/phone" android:dialogTitle="@string/phone" />
+        <EditTextPreference android:key="address" android:title="@string/address" android:dialogTitle="@string/address" />
+        <EditTextPreference android:key="k1" android:defaultValue="@string/k1" android:title="Custom Key 1" android:dialogTitle="Custom Key 1" />
+        <EditTextPreference android:key="k2" android:defaultValue="@string/k2" android:title="Custom Key 2" android:dialogTitle="Custom Key 2" />
+        <EditTextPreference android:key="k3" android:defaultValue="@string/k3" android:title="Custom Key 3" android:dialogTitle="Custom Key 3" />
+        <EditTextPreference android:key="k4" android:defaultValue="@string/k4" android:title="Custom Key 4" android:dialogTitle="Custom Key 4" />
+        <EditTextPreference android:key="k5" android:defaultValue="@string/k5" android:title="Custom Key 5" android:dialogTitle="Custom Key 5" />
+        <EditTextPreference android:key="k6" android:defaultValue="@string/k6" android:title="Custom Key 6" android:dialogTitle="Custom Key 6" />
+        <EditTextPreference android:key="k7" android:defaultValue="@string/k7" android:title="Custom Key 7" android:dialogTitle="Custom Key 7" />
+        <EditTextPreference android:key="k8" android:defaultValue="@string/k8" android:title="Custom Key 8" android:dialogTitle="Custom Key 8" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
         <SwitchPreference android:defaultValue="true"  android:key="hints" android:title="@string/hints" />
@@ -69,7 +69,7 @@
         <SwitchPreference android:key="debug" android:defaultValue="true" android:title="@string/debug" />
         <Preference android:key="import_preferences" android:title="@string/import_preferences" />
         <Preference android:key="export_preferences" android:title="@string/export_preferences" />
-        <EditTextPreference android:key="word_separators" android:title="@string/word_separators_title" android:dialogTitle="@string/word_separators_title" />
+        <EditTextPreference android:key="word_separators" android:title="@string/word_separators" android:dialogTitle="@string/word_separators" />
         <Preference android:key="reset_clipboard_history" android:title="@string/reset_clipboard_history" />
         <Preference android:key="reset_emoticon_history" android:title="@string/reset_emoticon_history" />
         <Preference android:key="reset_unicode_history" android:title="@string/reset_unicode_history" />
