@@ -84,6 +84,29 @@ class Themes {
     //     return "0xff"+Integer.toString(color, 16);
     // }
     //
+
+
+    public static int randomBackground() {
+        return Util.choose(new int[] {
+            R.drawable.background_1,
+            R.drawable.background_2,
+            R.drawable.background_3,
+            R.drawable.background_4,
+            R.drawable.background_5,
+            R.drawable.background_6,
+            R.drawable.background_7,
+            R.drawable.background_8,
+            R.drawable.background_9,
+            R.drawable.background_10,
+            R.drawable.background_11,
+            R.drawable.background_12,
+            R.drawable.background_13,
+            R.drawable.background_14,
+            R.drawable.background_15,
+            R.drawable.background_16
+        });
+    }
+
     public static String extractBackgroundColor(float[] colorArray) {
         float[] argbF = {colorArray[19]*255, colorArray[4], colorArray[9], colorArray[14]};
         int[] argbI = {(int)argbF[0], (int)argbF[1], (int)argbF[2], (int)argbF[3]};

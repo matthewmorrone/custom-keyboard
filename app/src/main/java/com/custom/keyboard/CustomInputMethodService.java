@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
@@ -80,6 +81,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
+View.OnLongClickListener, View.OnKeyListener,
                SpellCheckerSession.SpellCheckerSessionListener {
 
     static final boolean PROCESS_HARD_KEYS = true;
@@ -120,9 +122,6 @@ public class CustomInputMethodService extends InputMethodService
     private UnicodePopup unicodePopup = null;
     private EmoticonPopup emoticonPopup = null;
 
-    // TextServicesManager tsm;
-    // SpellCheckerSession session;
-
     private SpellCheckerSession mScs;
 
     @Override
@@ -134,28 +133,26 @@ public class CustomInputMethodService extends InputMethodService
 
         toast = new Toast(getBaseContext());
 
-        // spellChecker = new SpellChecker(getApplicationContext(), true);
-
-        // tsm = (TextServicesManager)getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
-        // session = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
+        spellChecker = new SpellChecker(getApplicationContext(), true);
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
-        try {
-            mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
-            String mScsStr = mScs.toString();
-            sendDataToErrorOutput("mScs: "+mScsStr);
-        }
-        catch(Exception e) {
-            sendDataToErrorOutput("e: "+e);
-        }
+        mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, false);
 
+        /*
         PackageManager pm = getPackageManager();
         Intent spell = new Intent(SpellCheckerService.SERVICE_INTERFACE);
         ResolveInfo info = pm.resolveService(spell, 0);
 
-        sendDataToErrorOutput("pm: "+pm);
         sendDataToErrorOutput("spell: "+spell);
         sendDataToErrorOutput("info: "+info);
+
+        if (info == null) {
+            sendDataToErrorOutput("no spell checker found");
+        }
+        else {
+            sendDataToErrorOutput("found spell checker " + info.serviceInfo.name + " in package " + info.serviceInfo.packageName);
+        }
+        */
     }
 
     @Override
@@ -209,73 +206,225 @@ public class CustomInputMethodService extends InputMethodService
 
         Paint mPaint = setTheme();
 
-        updateCandidates();
-
-        if (!restarting) {
-            mMetaState = 0;
-        }
-
-        kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-
-        setInputType();
-
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         Color background = Color.valueOf(bg);
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+        int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "48"));
+        boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
+        mPredictionOn = sharedPreferences.getBoolean("pred", false);
+        // debug = sharedPreferences.getBoolean("debug", false);
 
-        int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "24"));
-        mPaint.setTextSize(fontSize);
 
-        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
 
-        currentKeyboard.setRowNumber(getRowNumber());
 
-        kv.setKeyboard(currentKeyboard);
+        updateCandidates();
 
+        if (!restarting) mMetaState = 0;
+
+        kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        setInputType();
         capsOnFirst();
+
+        kv.setBackgroundColor(Color.argb(transparency, background.red(), background.green(), background.blue()));
+        mPaint.setTextSize(fontSize);
+        kv.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         kv.setOnKeyboardActionListener(this);
 
-        setInputView(kv);
-
         kv.getCustomKeyboard().changeKeyHeight(getHeightKeyModifier());
-
-        boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         kv.setPreviewEnabled(mPreviewOn);
 
-        // debug = sharedPreferences.getBoolean("debug", false);
+        currentKeyboard.setRowNumber(getRowNumber());
+        kv.setKeyboard(currentKeyboard);
+
+        setInputView(kv);
 
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
         mCandidateView.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         if (isKeyboardVisible()) setCandidatesView(mCandidateView);
 
-        mPredictionOn = sharedPreferences.getBoolean("pred", false);
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        /*
-        int backgroundImage = Util.choose(new int[] {
-            R.drawable.background_1,
-            R.drawable.background_2,
-            R.drawable.background_3,
-            R.drawable.background_4,
-            R.drawable.background_5,
-            R.drawable.background_6,
-            R.drawable.background_7,
-            R.drawable.background_8,
-            R.drawable.background_9,
-            R.drawable.background_10,
-            R.drawable.background_11,
-            R.drawable.background_12,
-            R.drawable.background_13,
-            R.drawable.background_14,
-            R.drawable.background_15,
-            R.drawable.background_16
-        });
-        kv.setBackgroundResource(backgroundImage);
-        */
-
+        // kv.setBackgroundResource(Themes.randomBackground());
         // System.out.println(currentKeyboard.getMinWidth()+"x"+currentKeyboard.getHeight());
+
+        /*
+        kv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println("onTouch"+" "+v+" "+event);
+                return false;
+            }
+        });
+        */
+    }
+
+
+    @Override
+    public boolean onKeyUp(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyUp: "+primaryCode);
+        return super.onKeyUp(primaryCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyDown: "+primaryCode);
+        return super.onKeyDown(primaryCode, event);
+    }
+
+    long time = 0;
+
+    String prevBuffer = "";
+    String nextBuffer = "";
+
+
+
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
+    }
+
+
+    public void onLongPress(int primaryCode) {
+        /*if (debug) */System.out.println("CustomInputMethodService.onLongPress "+primaryCode);
+        InputConnection ic = getCurrentInputConnection();
+        switch (primaryCode) {
+            // case -299: break;
+            case -2: Intents.showClipboard(getBaseContext()); break;
+            // case -5: deletePrevWord(); break;
+            // case -7: deleteNextWord(); break;
+            case -12: selectAll(); break;
+            case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
+            case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+            case -200: clipboardToBuffer(getSelectedText(ic)); break;
+        }
+    }
+
+    @Override
+    public void onDisplayCompletions(CompletionInfo[] completions) {
+        super.onDisplayCompletions(completions);
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int count, KeyEvent event) {
+        return super.onKeyMultiple(keyCode, count, event);
+    }
+
+    @Override
+    public KeyEvent.DispatcherState getKeyDispatcherState() {
+        return super.getKeyDispatcherState();
+    }
+
+    @Override
+    public void setTheme(int theme) {
+        super.setTheme(theme);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int primaryCode, KeyEvent event) {
+        return super.onKeyLongPress(primaryCode, event);
+    }
+
+    @Override
+    public void onPress(int primaryCode) {
+        if (debug) System.out.println("onPress: "+primaryCode);
+        prevBuffer = getPrevWord();
+        nextBuffer = getNextWord();
+        time = System.nanoTime() - time;
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
+            Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
+            if (v != null) v.vibrate(40);
+        }
+    }
+
+    @Override
+    public void onRelease(int primaryCode) {
+        if (debug) System.out.println("onRelease: "+primaryCode);
+        time = (System.nanoTime() - time) / 1000000;
+        if (time > 300) {}
+    }
+
+
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        System.out.println("onKey "+" "+v+" "+keyCode+" "+event);
+        return false;
+    }
+
+    @Override
+    public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
+
+        String prevLine = getPrevLine();
+        int prevChar = 0;
+        try {
+            if (prevLine != null && prevLine.length() > 0) {
+                ArrayList<Integer> prevChars = Util.asUnicodeArray(prevLine);
+                prevChar = prevChars.get(prevChars.size() - 1);
+            }
+        }
+        catch (Exception e) {
+            if (debug) System.out.println(e);
+        }
+
+        String nextLine = getNextLine();
+        int nextChar = 0;
+        try {
+            if (nextLine != null && nextLine.length() > 0) {
+                ArrayList<Integer> nextChars = Util.asUnicodeArray(nextLine);
+                nextChar = nextChars.get(0);
+            }
+        }
+        catch (Exception e) {
+            if (debug) System.out.println(e);
+        }
+        try {
+            boolean isBold = FontVariants.isBold(prevChar) || FontVariants.isBold(nextChar);
+            boolean isItalic = FontVariants.isItalic(prevChar) || FontVariants.isItalic(nextChar);
+            boolean isEmphasized = FontVariants.isEmphasized(prevChar) || FontVariants.isEmphasized(nextChar);
+
+            if (isBold) {
+                Variables.setAllOff();
+                Variables.setBoldOn();
+            }
+            else if (isItalic) {
+                Variables.setAllOff();
+                Variables.setItalicOn();
+            }
+            else if (isEmphasized) {
+                Variables.setAllOff();
+                Variables.setEmphasizedOn();
+            }
+            else {
+                Variables.setAllOff();
+            }
+        }
+        catch (Exception e) {
+            if (debug) System.out.println(e);
+        }
+        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
+            && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
+            if (Variables.isShift()) {
+                Variables.setShiftOff();
+                firstCaps = false;
+            }
+            else {
+                firstCaps = !firstCaps;
+            }
+            setCapsOn(firstCaps);
+        }
+        redraw();
+
+        updateCandidates();
+
+        if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
+            InputConnection ic = getCurrentInputConnection();
+
+            if (ic != null) {
+                ic.finishComposingText();
+            }
+        }
     }
 
     @Override
@@ -294,6 +443,42 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onWindowHidden() {
         super.onWindowHidden();
+    }
+
+    @Override
+    public void swipeLeft() {
+        selectPrevWord();
+    }
+
+    @Override
+    public void swipeRight() {
+        selectNextWord();
+    }
+
+    @Override
+    public void swipeDown() {
+        setCandidatesViewShown(false);
+    }
+
+    @Override
+    public void swipeUp() {
+        setCandidatesViewShown(true);
+    }
+
+    @Override
+    public void onFinishInput() {
+        super.onFinishInput();
+
+        updateCandidates();
+
+        setCandidatesViewShown(false);
+
+        Variables.setSelectingOff();
+
+        currentKeyboard = standardKeyboard;
+        if (kv != null) {
+            kv.closing();
+        }
     }
 
     public boolean isKeyboardVisible() {
@@ -419,71 +604,6 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
-    @Override
-    public boolean onKeyUp(int primaryCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyUp: "+primaryCode);
-        return super.onKeyUp(primaryCode, event);
-    }
-
-    @Override
-    public boolean onKeyDown(int primaryCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyDown: "+primaryCode);
-        return super.onKeyDown(primaryCode, event);
-    }
-
-    long time = 0;
-
-    String prevBuffer = "";
-    String nextBuffer = "";
-
-    public void onPress(int primaryCode) {
-        if (debug) System.out.println("onPress: "+primaryCode);
-
-        /*
-        switch(primaryCode) {
-            case -501: showMacroDialog(primaryCode); break;
-            case -502: showMacroDialog(primaryCode); break;
-            case -503: showMacroDialog(primaryCode); break;
-            case -504: showMacroDialog(primaryCode); break;
-            case -505: showMacroDialog(primaryCode); break;
-            case -506: showMacroDialog(primaryCode); break;
-            case -507: showMacroDialog(primaryCode); break;
-            case -508: showMacroDialog(primaryCode); break;
-            case -509: showMacroDialog(primaryCode); break;
-            case -510: showMacroDialog(primaryCode); break;
-            case -511: showMacroDialog(primaryCode); break;
-            case -512: showMacroDialog(primaryCode); break;
-            case -513: showMacroDialog(primaryCode); break;
-        }
-        */
-        prevBuffer = getPrevWord();
-        nextBuffer = getNextWord();
-        time = System.nanoTime() - time;
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
-            Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-            if (v != null) v.vibrate(40);
-        }
-    }
-
-    @Override
-    public void onRelease(int primaryCode) {
-        if (debug) System.out.println("onRelease: "+primaryCode);
-        InputConnection ic = getCurrentInputConnection();
-        time = (System.nanoTime() - time) / 1000000;
-        if (time > 300) {
-            switch (primaryCode) {
-                // case -299: break;
-                case -2: Intents.showClipboard(getBaseContext()); break;
-                // case -5: deletePrevWord(); break;
-                // case -7: deleteNextWord(); break;
-                case -12: selectAll(); break;
-                case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
-                case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
-                case -200: clipboardToBuffer(getSelectedText(ic)); break;
-            }
-        }
-    }
-
     public void deletePrevWord() {
         String prevWord = prevBuffer;
         System.out.println(prevWord+" "+prevWord.length());
@@ -594,97 +714,6 @@ public class CustomInputMethodService extends InputMethodService
         return extracted.startOffset;
     }
 
-    @Override
-    public void onFinishInput() {
-        super.onFinishInput();
-
-        updateCandidates();
-
-        setCandidatesViewShown(false);
-
-        Variables.setSelectingOff();
-
-        currentKeyboard = standardKeyboard;
-        if (kv != null) {
-            kv.closing();
-        }
-    }
-
-    @Override
-    public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
-        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
-
-        String prevLine = getPrevLine();
-        int prevChar = 0;
-        try {
-            if (prevLine != null && prevLine.length() > 0) {
-                ArrayList<Integer> prevChars = Util.asUnicodeArray(prevLine);
-                prevChar = prevChars.get(prevChars.size() - 1);
-            }
-        }
-        catch (Exception e) {
-            if (debug) System.out.println(e);
-        }
-
-        String nextLine = getNextLine();
-        int nextChar = 0;
-        try {
-            if (nextLine != null && nextLine.length() > 0) {
-                ArrayList<Integer> nextChars = Util.asUnicodeArray(nextLine);
-                nextChar = nextChars.get(0);
-            }
-        }
-        catch (Exception e) {
-            if (debug) System.out.println(e);
-        }
-        try {
-            boolean isBold = FontVariants.isBold(prevChar) || FontVariants.isBold(nextChar);
-            boolean isItalic = FontVariants.isItalic(prevChar) || FontVariants.isItalic(nextChar);
-            boolean isEmphasized = FontVariants.isEmphasized(prevChar) || FontVariants.isEmphasized(nextChar);
-
-            if (isBold) {
-                Variables.setAllOff();
-                Variables.setBoldOn();
-            }
-            else if (isItalic) {
-                Variables.setAllOff();
-                Variables.setItalicOn();
-            }
-            else if (isEmphasized) {
-                Variables.setAllOff();
-                Variables.setEmphasizedOn();
-            }
-            else {
-                Variables.setAllOff();
-            }
-        }
-        catch (Exception e) {
-            if (debug) System.out.println(e);
-        }
-        if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
-            && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("caps", false)) {
-            if (Variables.isShift()) {
-                Variables.setShiftOff();
-                firstCaps = false;
-            }
-            else {
-                firstCaps = !firstCaps;
-            }
-            setCapsOn(firstCaps);
-        }
-        redraw();
-
-        updateCandidates();
-
-        if ((newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
-            InputConnection ic = getCurrentInputConnection();
-
-            if (ic != null) {
-                ic.finishComposingText();
-            }
-        }
-    }
-
     public void redraw() {
         kv.invalidateAllKeys();
         kv.draw(new Canvas());
@@ -743,26 +772,6 @@ public class CustomInputMethodService extends InputMethodService
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
-    @Override
-    public void swipeLeft() {
-        selectPrevWord();
-    }
-
-    @Override
-    public void swipeRight() {
-        selectNextWord();
-    }
-
-    @Override
-    public void swipeDown() {
-        setCandidatesViewShown(false);
-    }
-
-    @Override
-    public void swipeUp() {
-        setCandidatesViewShown(true);
-    }
-
     public void showVoiceInput() {
         InputMethodManager inputMethodManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {
@@ -775,20 +784,6 @@ public class CustomInputMethodService extends InputMethodService
         if (imeManager != null) imeManager.showInputMethodPicker();
     }
 
-    @Override
-    public void onGetSuggestions(SuggestionsInfo[] results) {
-
-    }
-
-    public static void show(String [][] arr) {
-        for (String[] ar : arr) {
-            if (ar == null) continue;
-            for (String a: ar) {
-                System.out.print(" " + a);
-            }
-            System.out.println();
-        }
-    }
     private void sendDataToErrorOutput(String output) {
         HashMap<String, String> cursorData = new HashMap<>();
         cursorData.put("data", output);
@@ -801,15 +796,24 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     @Override
+    public void onGetSuggestions(SuggestionsInfo[] suggestionsInfos) {
+        final StringBuffer sb = new StringBuffer("");
+        for(SuggestionsInfo suggestionsInfo : suggestionsInfos) {
+            int n = suggestionsInfo.getSuggestionsCount();
+            for (int i = 0; i < n; i++) {
+                if ((suggestionsInfo.getSuggestionsAttributes() & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) != SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) {
+                    continue;
+                }
+                sb.append(suggestionsInfo.getSuggestionAt(i));
+                if (i < n-1) sb.append(",");
+            }
+        }
+        sendDataToErrorOutput(sb.toString());
+        displaySuggestions(sb.toString());
+    }
+
+    @Override
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] sentenceSuggestionsInfos) {
-        // for (SentenceSuggestionsInfo sentenceSuggestionsInfo : sentenceSuggestionsInfos) {
-        //     for (int i = 0; i < sentenceSuggestionsInfo.getSuggestionsCount(); i++) {
-        //         for (int k = 0; k < sentenceSuggestionsInfo.getSuggestionsInfoAt(i).getSuggestionsCount(); k++) {
-        //             results.append(sentenceSuggestionsInfo.getSuggestionsInfoAt(i).getSuggestionAt(k)).append(",");
-        //         }
-        //         // result.append("\n");
-        //     }
-        // }
         final StringBuffer sb = new StringBuffer("");
         for (SentenceSuggestionsInfo result : sentenceSuggestionsInfos) {
             int n = result.getSuggestionsCount();
@@ -824,11 +828,14 @@ public class CustomInputMethodService extends InputMethodService
                 }
             }
         }
-
         sendDataToErrorOutput(sb.toString());
+        displaySuggestions(sb.toString());
+    }
+
+    private void displaySuggestions(String suggestions) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
-                String[] wordInfos = sb.toString().split("\n");
+                String[] wordInfos = suggestions.toString().split("\n");
                 if (wordInfos.length < 1) return;
                 String prevWordInfos = wordInfos[wordInfos.length-1];
                 String prevWord = getPrevWord();
@@ -860,9 +867,11 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void fetchSuggestionsFor(String input) {
+        sendDataToErrorOutput(input);
         if(!input.isEmpty()) {
             try {
-                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+                mScs.getSuggestions(new TextInfo(input), 5);
+                // mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
             catch(Exception e) {
                 sendDataToErrorOutput(e.toString());

@@ -71,6 +71,16 @@ public class Util {
 
 
 
+    public static void show2Darray(String [][] arr) {
+        for (String[] ar : arr) {
+            if (ar == null) continue;
+            for (String a: ar) {
+                System.out.print(" " + a);
+            }
+            System.out.println();
+        }
+    }
+
 
     public static int choose(int[] array) {
         int rnd = new Random().nextInt(array.length);

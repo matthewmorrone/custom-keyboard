@@ -1,6 +1,7 @@
 package com.custom.keyboard;
 
 import android.app.Service;
+import android.content.Context;
 import android.service.textservice.SpellCheckerService;
 import android.view.textservice.SentenceSuggestionsInfo;
 import android.view.textservice.SuggestionsInfo;
@@ -16,12 +17,22 @@ public class CustomSpellCheckerService extends SpellCheckerService {
     }
 
     static class CustomSpellingSession extends SpellCheckerService.Session {
+        SpellChecker spellChecker;
+
         @Override
         public void onCreate() {
+
+        }
+        public void setContext(Context context) {
+            spellChecker = new SpellChecker(context, true);
         }
 
         public SuggestionsInfo onGetSuggestions(TextInfo textInfo, int suggestionsLimit) {
             String word = textInfo.getText();
+            // System.out.println(SpellChecker.getCommon(word));
+            // System.out.println(SpellChecker.getCompletions(word));
+            // System.out.println(SpellChecker.getSuggestions(word));
+
             String[] suggestions = new String[]{};
             SuggestionsInfo suggestionsInfo = new SuggestionsInfo(SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO, suggestions);
             return suggestionsInfo;
