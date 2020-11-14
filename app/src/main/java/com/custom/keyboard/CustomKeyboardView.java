@@ -249,19 +249,14 @@ public class CustomKeyboardView extends KeyboardView {
 
                 if (primaryCode > -501 || primaryCode < -508) continue;
 
-
                 if (key.icon == null) key.label = key.text;
                 String text = Util.orNull(key.label, "").toString();
                 int containingWidth = key.width;
                 Rect bounds = new Rect();
                 mPaint.getTextBounds(text, 0, text.length(), bounds);
                 int boundsWidth = bounds.width();
-
-                System.out.println(primaryCode+" "+containingWidth+" "+boundsWidth+" "+text);
-
+                // System.out.println(primaryCode+" "+containingWidth+" "+boundsWidth+" "+text);
                 if (boundsWidth > containingWidth - 50) key.label = Util.safeSubstring(key.text.toString(), 0, 10);
-
-                // System.out.println("text: "+key.text);
             }
 
             if (primaryCode == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);

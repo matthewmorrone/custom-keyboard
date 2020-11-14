@@ -10,8 +10,8 @@ import java.util.StringTokenizer;
 public class UnicodeRecentsManager extends ArrayList<Unicode> {
 
     private static final String PREFERENCE_NAME = "unicode";
-    private static final String PREF_RECENTS = "recent_unicode";
-    private static final String PREF_RECENTS_PAGE = "recent_page";
+    private static final String PREF_RECENTS = "unicode_recents";
+    private static final String PREF_RECENTS_PAGE = "unicode_recent_page";
 
     private static final Object LOCK = new Object();
     private static UnicodeRecentsManager sInstance;

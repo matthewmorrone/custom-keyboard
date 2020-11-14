@@ -10,8 +10,8 @@ import java.util.StringTokenizer;
 public class EmoticonRecentsManager extends ArrayList<Emoticon> {
 
     private static final String PREFERENCE_NAME = "emoticon";
-    private static final String PREF_RECENTS = "recent_emoticons";
-    private static final String PREF_PAGE = "recent_page";
+    private static final String PREF_RECENTS = "emoticon_recents";
+    private static final String PREF_PAGE = "emoticon_recent_page";
 
     private static final Object LOCK = new Object();
     private static EmoticonRecentsManager sInstance;

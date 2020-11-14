@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  tools:ignore="Deprecated">
     <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound"    android:title="Play Sound" />
         <SwitchPreference android:defaultValue="false" android:key="ipa"      android:title="Play IPA Sound" />
@@ -8,67 +11,79 @@
         <SwitchPreference android:defaultValue="false" android:key="preview"  android:title="Show Key Preview" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
-        <SwitchPreference android:defaultValue="false" android:key="pred"   android:title="Text Prediction" />
-        <SwitchPreference android:defaultValue="false" android:key="auto"   android:title="Autoreplace" />
-        <SwitchPreference android:defaultValue="false" android:key="pairs"  android:title="Insert Paired Characters" />
-        <SwitchPreference android:defaultValue="false" android:key="shift"  android:title="Toggle Selected Case" />
-        <SwitchPreference android:defaultValue="false" android:key="caps"   android:title="Autocapitalization" />
-        <SwitchPreference android:defaultValue="false" android:key="indent" android:title="Indent Helper" />
-        <SwitchPreference android:defaultValue="false" android:key="tabs"   android:title="Use Spaces" />
-        <EditTextPreference android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:dialogTitle="Indent Width" />
+        <SwitchPreference android:key="pred"   android:title="Text Prediction" />
+        <SwitchPreference android:key="auto"   android:title="Autoreplace" />
+        <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />
+        <SwitchPreference android:key="shift"  android:title="Toggle Selected Case" />
+        <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
+        <SwitchPreference android:key="indent" android:title="Indent Helper" />
+        <SwitchPreference android:key="tabs"   android:title="Use Spaces" />
+        <EditTextPreference
+            android:numeric="integer"
+            android:defaultValue="4"
+            android:digits="1234567890"
+            android:inputType="number"
+            android:key="indent_width"
+            android:title="Indent Width"
+            android:selectAllOnFocus="true"
+            />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
-        <com.custom.keyboard.SeekPreference android:key="height"       android:title="Key Height"   app:value="100" app:min="50" app:max="150"  />
+        <com.custom.keyboard.SeekPreference android:key="height" android:title="Key Height" app:value="100" app:max="150" app:min="50" />
         <com.custom.keyboard.SeekPreference android:key="transparency" android:title="Transparency" app:value="100" />
-        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="border_width"       android:title="Border Width"       android:dialogTitle="Border Width" />
-        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="padding_width"      android:title="Padding Width"      android:dialogTitle="Padding Width" />
-        <EditTextPreference android:defaultValue="0"  android:digits="1234567890" android:inputType="number" android:key="border_radius"      android:title="Border Radius"      android:dialogTitle="Border Radius" />
-        <EditTextPreference android:defaultValue="48" android:digits="1234567890" android:inputType="number" android:key="font_size"          android:title="Font Size"          android:dialogTitle="Font Size" />
-        <EditTextPreference android:defaultValue="32" android:digits="1234567890" android:inputType="number" android:key="hint_font_size"     android:title="Hint Font Size"     android:dialogTitle="Hint Font Size" />
-        <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="Emoticon Font Size" android:dialogTitle="Emoticon Font Size" />
-        <EditTextPreference android:defaultValue="24" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size"  android:title="Unicode Font Size"  android:dialogTitle="Unicode Font Size" />
+        <EditTextPreference android:defaultValue="0" android:dialogTitle="Border Width" android:digits="1234567890" android:inputType="number" android:key="border_width" android:title="Border Width" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="0" android:dialogTitle="Padding Width" android:digits="1234567890" android:inputType="number" android:key="padding_width" android:title="Padding Width" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="0" android:dialogTitle="Border Radius" android:digits="1234567890" android:inputType="number" android:key="border_radius" android:title="Border Radius" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="48" android:dialogTitle="Font Size" android:digits="1234567890" android:inputType="number" android:key="font_size" android:title="Font Size" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="32" android:dialogTitle="Hint Font Size" android:digits="1234567890" android:inputType="number" android:key="hint_font_size" android:title="Hint Font Size" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="24" android:dialogTitle="Emoticon Font Size" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="Emoticon Font Size" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="24" android:dialogTitle="Unicode Font Size" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size" android:title="Unicode Font Size" android:selectAllOnFocus="true" />
         <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Color Space Bar Distinctly" />
-        <ListPreference android:defaultValue="1" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" android:dialogTitle="Theme" />
+        <ListPreference android:defaultValue="1" android:dialogTitle="Theme" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.ColorPreference android:key="background_color" android:title="Background Color" />
         <com.custom.keyboard.ColorPreference android:key="foreground_color" android:title="Text Color" />
-        <com.custom.keyboard.ColorPreference android:key="border_color"     android:title="Border Color" />
+        <com.custom.keyboard.ColorPreference android:key="border_color" android:title="Border Color" />
         <Preference android:key="choose_image_background" android:title="Choose Image Background" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
-        <EditTextPreference android:key="emoticon_recents" android:title="Emoticon Recents" android:dialogTitle="Emoticon Recents" />
-        <EditTextPreference android:key="unicode_recents" android:title="Unicode Recents" android:dialogTitle="Unicode Recents" />
-        <EditTextPreference android:key="emoticon_favorites" android:title="Emoticon Favorites" android:dialogTitle="Emoticon Favorites" />
-        <EditTextPreference android:key="unicode_favorites" android:title="Unicode Favorites" android:dialogTitle="Unicode Favorites" />
-        <EditTextPreference android:key="custom_keys" android:title="Custom Keys" android:dialogTitle="Custom Keys" />
-        <EditTextPreference android:key="name" android:title="Name" android:dialogTitle="Name" />
-        <EditTextPreference android:key="email" android:title="Email" android:dialogTitle="Email" android:inputType="textPassword" />
-        <EditTextPreference android:key="password" android:title="Password" android:dialogTitle="Password" />
-        <EditTextPreference android:key="phone" android:title="Phone №" android:dialogTitle="Phone №" />
-        <EditTextPreference android:key="address" android:title="Address" android:dialogTitle="Address" />
-        <EditTextPreference android:key="k1" android:defaultValue="" android:title="Custom Key 1" android:dialogTitle="Custom Key 1" />
-        <EditTextPreference android:key="k2" android:defaultValue="" android:title="Custom Key 2" android:dialogTitle="Custom Key 2" />
-        <EditTextPreference android:key="k3" android:defaultValue="" android:title="Custom Key 3" android:dialogTitle="Custom Key 3" />
-        <EditTextPreference android:key="k4" android:defaultValue="" android:title="Custom Key 4" android:dialogTitle="Custom Key 4" />
-        <EditTextPreference android:key="k5" android:defaultValue="" android:title="Custom Key 5" android:dialogTitle="Custom Key 5" />
-        <EditTextPreference android:key="k6" android:defaultValue="" android:title="Custom Key 6" android:dialogTitle="Custom Key 6" />
-        <EditTextPreference android:key="k7" android:defaultValue="" android:title="Custom Key 7" android:dialogTitle="Custom Key 7" />
-        <EditTextPreference android:key="k8" android:defaultValue="" android:title="Custom Key 8" android:dialogTitle="Custom Key 8" />
+        <EditTextPreference android:key="emoticon_recents"   android:title="Emoticon Recents" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="unicode_recents"    android:title="Unicode Recents" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="emoticon_favorites" android:title="Emoticon Favorites" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="unicode_favorites"  android:title="Unicode Favorites" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="custom_keys"        android:title="Custom Keys" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="name"               android:title="Name" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="email"              android:title="Email" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="password"           android:title="Password" android:inputType="textPassword" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="phone"              android:title="Phone №" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="address"            android:title="Address" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k1"                 android:title="Custom Key 1" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k2"                 android:title="Custom Key 2" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k3"                 android:title="Custom Key 3" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k4"                 android:title="Custom Key 4" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k5"                 android:title="Custom Key 5" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k6"                 android:title="Custom Key 6" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k7"                 android:title="Custom Key 7" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="k8"                 android:title="Custom Key 8" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:defaultValue="false" android:key="hints" android:title="Hints" />
-        <SwitchPreference android:defaultValue="false" android:key="hint1" android:title="Hint 1" android:dependency="hints" />
-        <SwitchPreference android:defaultValue="false" android:key="hint2" android:title="Hint 2" android:dependency="hints" />
-        <SwitchPreference android:defaultValue="false" android:key="hint3" android:title="Hint 3" android:dependency="hints" />
-        <SwitchPreference android:defaultValue="false" android:key="hint4" android:title="Hint 4" android:dependency="hints" />
+        <SwitchPreference android:key="hints" android:title="Hints" />
+        <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" />
+        <SwitchPreference android:dependency="hints" android:key="hint2" android:title="Hint 2" />
+        <SwitchPreference android:dependency="hints" android:key="hint3" android:title="Hint 3" />
+        <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
-        <SwitchPreference android:key="debug" android:defaultValue="false" android:title="Debug" />
-        <Preference android:key="import_preferences" android:title="Import Preferences" />
-        <Preference android:key="export_preferences" android:title="Export Preferences" />
-        <EditTextPreference android:key="word_separators" android:title="Word Separators" android:dialogTitle="Word Separators" />
-        <Preference android:key="reset_clipboard_history" android:title="Reset Clipboard History" />
-        <Preference android:key="reset_emoticon_history" android:title="Reset Emoticon History" />
-        <Preference android:key="reset_unicode_history" android:title="Reset Unicode History" />
-        <Preference android:key="reset_all_preferences" android:title="Reset All Preferences" />
+        <!--android:summaryOff=""-->
+        <!--android:summaryOn=""-->
+        <!--android:defaultValue="false"-->
+        <SwitchPreference   android:key="debug"                   android:title="Debug" />
+        <Preference         android:key="import_preferences"      android:title="Import Preferences" />
+        <Preference         android:key="export_preferences"      android:title="Export Preferences" />
+        <EditTextPreference android:key="word_separators"         android:title="Word Separators" android:selectAllOnFocus="true" />
+        <Preference         android:key="reset_clipboard_history" android:title="Reset Clipboard History" />
+        <Preference         android:key="reset_emoticon_history"  android:title="Reset Emoticon History" />
+        <Preference         android:key="reset_unicode_history"   android:title="Reset Unicode History" />
+        <Preference         android:key="reset_all_preferences"   android:title="Reset All Preferences" />
+        <Preference         android:key="set_default_preferences"   android:title="Set Default Preferences" />
     </PreferenceScreen>
 </PreferenceScreen>

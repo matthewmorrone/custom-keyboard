@@ -24,6 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -36,7 +39,6 @@ public class PreferenceFragment
     SharedPreferences sharedPreferences;
 
     EditTextPreference wordSeparators;
-
     ListPreference theme;
     SeekPreference height;
     SeekPreference transparency;
@@ -81,10 +83,22 @@ public class PreferenceFragment
     Preference resetEmoticonHistory;
     Preference resetUnicodeHistory;
     Preference resetAllPreferences;
+    Preference setDefaultPreferences;
 
     String[] themes;
 
     Toast toast;
+
+    Preference[] preferenceArray;
+    ListPreference[] listPreferenceArray;
+    SeekPreference[] seekPreferenceArray;
+    ColorPreference[] colorPreferenceArray;
+    EditTextPreference[] editTextPreferenceArray;
+    ArrayList<Preference> preferences;
+    ArrayList<ListPreference> listPreferences;
+    ArrayList<SeekPreference> seekPreferences;
+    ArrayList<ColorPreference> colorPreferences;
+    ArrayList<EditTextPreference> editTextPreferences;
 
     private static final int CHOOSE_FILE_REQUEST_CODE = 8777;
     private static final int PICK_FILE_RESULT_CODE = 8778;
@@ -200,14 +214,11 @@ public class PreferenceFragment
         String dir = "shared_prefs";
         String path = new File(root, dir).getPath();
         String[] sharedPreferencesFileNames = new File(root, dir).list();
-
-        /*
         for (String fileName : sharedPreferencesFileNames) {
             String filePath = path+"/"+fileName;
             baseContext.getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().apply();
         }
         baseContext.deleteSharedPreferences("shared_prefs");
-        */
         setDefaultPreferences();
         toastIt("All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");
@@ -319,12 +330,14 @@ public class PreferenceFragment
     public void onCreate(Bundle s) {
         super.onCreate(s);
 
-        baseContext = getActivity().getBaseContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         themes = getResources().getStringArray(R.array.theme_names);
 
+        baseContext = getActivity().getBaseContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
+
         addPreferencesFromResource(R.xml.preferences);
-        PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+        // PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
+        setDefaultPreferences();
 
         String[] themes = getResources().getStringArray(R.array.theme_names);
 
@@ -352,9 +365,6 @@ public class PreferenceFragment
         emoticonFavorites = (EditTextPreference)findPreference("emoticon_favorites");
         unicodeFavorites = (EditTextPreference)findPreference("unicode_favorites");
         customKeys = (EditTextPreference)findPreference("custom_keys");
-        popupFirst = (EditTextPreference)findPreference("popup_first");
-        popupSecond = (EditTextPreference)findPreference("popup_second");
-        popupThird = (EditTextPreference)findPreference("popup_third");
         name = (EditTextPreference)findPreference("name");
         email = (EditTextPreference)findPreference("email");
         phone = (EditTextPreference)findPreference("phone");
@@ -367,6 +377,7 @@ public class PreferenceFragment
         resetEmoticonHistory = findPreference("reset_emoticon_history");
         resetUnicodeHistory = findPreference("reset_unicode_history");
         resetAllPreferences = findPreference("reset_all_preferences");
+        setDefaultPreferences = findPreference("set_default_preferences");
 
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -377,92 +388,49 @@ public class PreferenceFragment
         k7 = (EditTextPreference)findPreference("k7");
         k8 = (EditTextPreference)findPreference("k8");
 
-        // if (wordSeparators != null) wordSeparators.setText(sharedPreferences.getString("word_separators", ""));
-        if (wordSeparators != null) wordSeparators.setSummary(sharedPreferences.getString("word_separators", ""));
+        setupSharedPreferences();
+        updateSharedPreferences();
 
-        if (height != null) height.setValue(sharedPreferences.getInt("height", 100));
-        if (height != null) height.setSummary(""+sharedPreferences.getInt("height", 100));
-        if (transparency != null) transparency.setValue(sharedPreferences.getInt("transparency", 100));
-        if (transparency != null) transparency.setSummary(""+sharedPreferences.getInt("transparency", 100));
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
-        String themeString = Util.orNull(sharedPreferences.getString("theme", "1"), "1");
-        if (themeString != null && theme != null) theme.setValue(themeString);
-        if (themeString != null && theme != null) theme.setValueIndex(Integer.parseInt(themeString)-1);
-        if (themeString != null && theme != null) theme.setSummary(themes[Integer.parseInt(themeString)-1]);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        Intent intent = new Intent("updateKeyboard");
+        if (getContext() != null) getContext().sendBroadcast(intent);
 
-        // if (indentWidth != null) indentWidth.setText(sharedPreferences.getString("indent_width", ""));
-        if (indentWidth != null) indentWidth.setSummary(sharedPreferences.getString("indent_width", ""));
-        // if (borderWidth != null) borderWidth.setText(sharedPreferences.getString("border_width", ""));
-        if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("border_width", ""));
-        // if (paddingWidth != null) paddingWidth.setText(sharedPreferences.getString("padding_width", ""));
-        if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("padding_width", ""));
-        // if (borderRadius != null) borderRadius.setText(sharedPreferences.getString("border_radius", ""));
-        if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
-        // if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
-        if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
-        // if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "32"));
-        if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "32"));
-        // if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
-        if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
-        // if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
-        if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicode_font_size", "24"));
+        updateSharedPreferences();
+    }
 
-        if (background != null) background.setColor(sharedPreferences.getInt("background_color", 0xFF000000));
-        if (background != null) background.setSummary("#"+Integer.toHexString(sharedPreferences.getInt("background_color", 0xFF000000)).toUpperCase());
-        if (foreground != null) foreground.setColor(sharedPreferences.getInt("foreground_color", 0xFFFFFFFF));
-        if (foreground != null) foreground.setSummary("#"+Integer.toHexString(sharedPreferences.getInt("foreground_color", 0xFFFFFFFF)).toUpperCase());
-        if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("border_color", 0xFF000000));
-        if (borderColor != null) borderColor.setSummary("#"+Integer.toHexString(sharedPreferences.getInt("border_color", 0xFF000000)).toUpperCase());
+    public void setupSharedPreferences() {
 
-        // if (emoticonRecents != null) emoticonRecents.setText(sharedPreferences.getString("emoticon_recents", ""));
-        if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
-        // if (unicodeRecents != null) unicodeRecents.setText(sharedPreferences.getString("unicode_recents", ""));
-        if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
-        // if (emoticonFavorites != null) emoticonFavorites.setText(sharedPreferences.getString("emoticon_favorites", ""));
-        if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
-        // if (unicodeFavorites != null) unicodeFavorites.setText(sharedPreferences.getString("unicode_favorites", ""));
-        if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
-        // if (customKeys != null) customKeys.setText(sharedPreferences.getString("custom_keys", ""));
-        if (customKeys != null) customKeys.setSummary(sharedPreferences.getString("custom_keys", ""));
+        preferenceArray = new Preference[]{chooseImageBackground, exportPreferences, importPreferences, resetAllPreferences, resetClipboardHistory, resetEmoticonHistory, resetUnicodeHistory, setDefaultPreferences};
+        listPreferenceArray = new ListPreference[]{theme};
+        seekPreferenceArray = new SeekPreference[]{height, transparency};
+        colorPreferenceArray = new ColorPreference[]{background, borderColor, foreground};
+        editTextPreferenceArray = new EditTextPreference[]{address, borderRadius, borderWidth, customKeys, email, emoticonFavorites, emoticonFontSize, emoticonRecents, fontSize, hintFontSize, indentWidth, k1, k2, k3, k4, k5, k6, k7, k8, name, paddingWidth, password, phone, unicodeFavorites, unicodeFontSize, unicodeRecents, wordSeparators};
 
-        // if (popupFirst != null) popupFirst.setText(sharedPreferences.getString("popup_first", ""));
-        if (popupFirst != null) popupFirst.setSummary(sharedPreferences.getString("popup_first", ""));
-        // if (popupSecond != null) popupSecond.setText(sharedPreferences.getString("popup_second", ""));
-        if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
-        // if (popupThird != null) popupThird.setText(sharedPreferences.getString("popup_third", ""));
-        if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
-        // if (name != null) name.setText(sharedPreferences.getString("name", ""));
-        if (name != null) name.setSummary(sharedPreferences.getString("name", ""));
-        // if (email != null) email.setText(sharedPreferences.getString("email", ""));
-        if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
-        // if (phone != null) phone.setText(sharedPreferences.getString("phone", ""));
-        if (phone != null) phone.setSummary(sharedPreferences.getString("phone", ""));
-        // if (address != null) address.setText(sharedPreferences.getString("address", ""));
-        if (address != null) address.setSummary(sharedPreferences.getString("address", ""));
+        preferences = new ArrayList<>(Arrays.asList(preferenceArray));
+        listPreferences = new ArrayList<>(Arrays.asList(listPreferenceArray));
+        seekPreferences = new ArrayList<>(Arrays.asList(seekPreferenceArray));
+        colorPreferences = new ArrayList<>(Arrays.asList(colorPreferenceArray));
+        editTextPreferences = new ArrayList<>(Arrays.asList(editTextPreferenceArray));
 
-        String pwd = sharedPreferences.getString("password", "");
-        if (pwd != null) {
-            String redaction = new String(new char[pwd.length()]).replace("\0", "*");
-            // if (password != null) password.setText(pwd);
-            if (password != null) password.setSummary(redaction);
+        for(ListPreference listPreference : listPreferences) {
+            listPreference.setDialogTitle(listPreference.getTitle());
+            listPreference.setSummary(sharedPreferences.getString(listPreference.getKey(), ""));
+            listPreference.setNegativeButtonText("BACK");
+            listPreference.setPositiveButtonText("SAVE");
         }
 
-        // if (k1 != null) k1.setText(sharedPreferences.getString("k1", ""));
-        if (k1 != null) k1.setSummary(sharedPreferences.getString("k1", ""));
-        // if (k2 != null) k2.setText(sharedPreferences.getString("k2", ""));
-        if (k2 != null) k2.setSummary(sharedPreferences.getString("k2", ""));
-        // if (k3 != null) k3.setText(sharedPreferences.getString("k3", ""));
-        if (k3 != null) k3.setSummary(sharedPreferences.getString("k3", ""));
-        // if (k4 != null) k4.setText(sharedPreferences.getString("k4", ""));
-        if (k4 != null) k4.setSummary(sharedPreferences.getString("k4", ""));
-        // if (k5 != null) k5.setText(sharedPreferences.getString("k5", ""));
-        if (k5 != null) k5.setSummary(sharedPreferences.getString("k5", ""));
-        // if (k6 != null) k6.setText(sharedPreferences.getString("k6", ""));
-        if (k6 != null) k6.setSummary(sharedPreferences.getString("k6", ""));
-        // if (k7 != null) k7.setText(sharedPreferences.getString("k7", ""));
-        if (k7 != null) k7.setSummary(sharedPreferences.getString("k7", ""));
-        // if (k8 != null) k8.setText(sharedPreferences.getString("k8", ""));
-        if (k8 != null) k8.setSummary(sharedPreferences.getString("k8", ""));
+        for(EditTextPreference editTextPreference : editTextPreferences) {
+            editTextPreference.setDialogTitle(editTextPreference.getTitle());
+            // editTextPreference.setText(sharedPreferences.getString(editTextPreference.getKey(), ""));
+            editTextPreference.setSummary(sharedPreferences.getString(editTextPreference.getKey(), ""));
+
+            editTextPreference.setNegativeButtonText("BACK");
+            editTextPreference.setPositiveButtonText("SAVE");
+        }
 
         if (importPreferences != null) {
             importPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -514,6 +482,17 @@ public class PreferenceFragment
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     resetAllPreferences();
+                    updateSharedPreferences();
+                    return true;
+                }
+            });
+        }
+        if (setDefaultPreferences != null) {
+            setDefaultPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    setDefaultPreferences();
+                    updateSharedPreferences();
                     return true;
                 }
             });
@@ -527,43 +506,36 @@ public class PreferenceFragment
                 }
             });
         }
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        Intent intent = new Intent("updateKeyboard");
-        if (getContext() != null) getContext().sendBroadcast(intent);
+    public void updateSharedPreferences() {
 
-        // if (wordSeparators != null) wordSeparators.setText(sharedPreferences.getString("word_separators", ""));
+        if (wordSeparators != null) wordSeparators.setText(sharedPreferences.getString("word_separators", ""));
         if (wordSeparators != null) wordSeparators.setSummary(sharedPreferences.getString("word_separators", ""));
 
         if (height != null) height.setValue(sharedPreferences.getInt("height", 100));
-        if (height != null) height.setSummary(""+sharedPreferences.getInt("height", 100));
         if (transparency != null) transparency.setValue(sharedPreferences.getInt("transparency", 100));
-        if (transparency != null) transparency.setSummary(""+sharedPreferences.getInt("transparency", 100));
 
         String themeString = Util.orNull(sharedPreferences.getString("theme", "1"), "1");
         if (themeString != null && theme != null) theme.setValue(themeString);
         if (themeString != null && theme != null) theme.setValueIndex(Integer.parseInt(themeString)-1);
         if (themeString != null && theme != null) theme.setSummary(themes[Integer.parseInt(themeString)-1]);
 
-        // if (indentWidth != null) indentWidth.setText(sharedPreferences.getString("indent_width", ""));
-        if (indentWidth != null) indentWidth.setSummary(sharedPreferences.getString("indent_width", ""));
-        // if (borderWidth != null) borderWidth.setText(sharedPreferences.getString("border_width", ""));
-        if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("border_width", ""));
-        // if (paddingWidth != null) paddingWidth.setText(sharedPreferences.getString("padding_width", ""));
-        if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("padding_width", ""));
-        // if (borderRadius != null) borderRadius.setText(sharedPreferences.getString("border_radius", ""));
-        if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", ""));
-        // if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
+        if (indentWidth != null) indentWidth.setText(sharedPreferences.getString("indent_width", "0"));
+        if (indentWidth != null) indentWidth.setSummary(sharedPreferences.getString("indent_width", "0"));
+        if (borderWidth != null) borderWidth.setText(sharedPreferences.getString("border_width", "0"));
+        if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("border_width", "0"));
+        if (paddingWidth != null) paddingWidth.setText(sharedPreferences.getString("padding_width", "0"));
+        if (paddingWidth != null) paddingWidth.setSummary(sharedPreferences.getString("padding_width", "0"));
+        if (borderRadius != null) borderRadius.setText(sharedPreferences.getString("border_radius", "0"));
+        if (borderRadius != null) borderRadius.setSummary(sharedPreferences.getString("border_radius", "0"));
+        if (fontSize != null) fontSize.setText(sharedPreferences.getString("font_size", "48"));
         if (fontSize != null) fontSize.setSummary(sharedPreferences.getString("font_size", "48"));
-        // if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "32"));
+        if (hintFontSize != null) hintFontSize.setText(sharedPreferences.getString("hint_font_size", "32"));
         if (hintFontSize != null) hintFontSize.setSummary(sharedPreferences.getString("hint_font_size", "32"));
-        // if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
+        if (emoticonFontSize != null) emoticonFontSize.setText(sharedPreferences.getString("emoticon_font_size", "24"));
         if (emoticonFontSize != null) emoticonFontSize.setSummary(sharedPreferences.getString("emoticon_font_size", "24"));
-        // if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
+        if (unicodeFontSize != null) unicodeFontSize.setText(sharedPreferences.getString("unicode_font_size", "24"));
         if (unicodeFontSize != null) unicodeFontSize.setSummary(sharedPreferences.getString("unicode_font_size", "24"));
 
         if (background != null) background.setColor(sharedPreferences.getInt("background_color", 0xFF000000));
@@ -573,54 +545,50 @@ public class PreferenceFragment
         if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("border_color", 0xFF000000));
         if (borderColor != null) borderColor.setSummary("#"+Integer.toHexString(sharedPreferences.getInt("border_color", 0xFF000000)).toUpperCase());
 
-        // if (emoticonRecents != null) emoticonRecents.setText(sharedPreferences.getString("emoticon_recents", ""));
+        System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
+        System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
+        if (emoticonRecents != null) emoticonRecents.setText(sharedPreferences.getString("emoticon_recents", ""));
         if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
-        // if (unicodeRecents != null) unicodeRecents.setText(sharedPreferences.getString("unicode_recents", ""));
+        if (unicodeRecents != null) unicodeRecents.setText(sharedPreferences.getString("unicode_recents", ""));
         if (unicodeRecents != null) unicodeRecents.setSummary(sharedPreferences.getString("unicode_recents", ""));
-        // if (emoticonFavorites != null) emoticonFavorites.setText(sharedPreferences.getString("emoticon_favorites", ""));
+        if (emoticonFavorites != null) emoticonFavorites.setText(sharedPreferences.getString("emoticon_favorites", ""));
         if (emoticonFavorites != null) emoticonFavorites.setSummary(sharedPreferences.getString("emoticon_favorites", ""));
-        // if (unicodeFavorites != null) unicodeFavorites.setText(sharedPreferences.getString("unicode_favorites", ""));
+        if (unicodeFavorites != null) unicodeFavorites.setText(sharedPreferences.getString("unicode_favorites", ""));
         if (unicodeFavorites != null) unicodeFavorites.setSummary(sharedPreferences.getString("unicode_favorites", ""));
-        // if (customKeys != null) customKeys.setText(sharedPreferences.getString("custom_keys", ""));
+        if (customKeys != null) customKeys.setText(sharedPreferences.getString("custom_keys", ""));
         if (customKeys != null) customKeys.setSummary(sharedPreferences.getString("custom_keys", ""));
 
-        // if (popupFirst != null) popupFirst.setText(sharedPreferences.getString("popup_first", ""));
-        if (popupFirst != null) popupFirst.setSummary(sharedPreferences.getString("popup_first", ""));
-        // if (popupSecond != null) popupSecond.setText(sharedPreferences.getString("popup_second", ""));
-        if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
-        // if (popupThird != null) popupThird.setText(sharedPreferences.getString("popup_third", ""));
-        if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
-        // if (name != null) fullName.setText(sharedPreferences.getString("name", ""));
+        if (name != null) name.setText(sharedPreferences.getString("name", ""));
         if (name != null) name.setSummary(sharedPreferences.getString("name", ""));
-        // if (email != null) email.setText(sharedPreferences.getString("email", ""));
+        if (email != null) email.setText(sharedPreferences.getString("email", ""));
         if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
-        // if (phone != null) phone.setText(sharedPreferences.getString("phone", ""));
+        if (phone != null) phone.setText(sharedPreferences.getString("phone", ""));
         if (phone != null) phone.setSummary(sharedPreferences.getString("phone", ""));
-        // if (address != null) address.setText(sharedPreferences.getString("address", ""));
+        if (address != null) address.setText(sharedPreferences.getString("address", ""));
         if (address != null) address.setSummary(sharedPreferences.getString("address", ""));
 
         String pwd = sharedPreferences.getString("password", "");
         if (pwd != null) {
             String redaction = new String(new char[pwd.length()]).replace("\0", "*");
-            // if (password != null) password.setText(pwd);
+            if (password != null) password.setText(pwd);
             if (password != null) password.setSummary(redaction);
         }
 
-        // if (k1 != null) k1.setText(sharedPreferences.getString("k1", ""));
+        if (k1 != null) k1.setText(sharedPreferences.getString("k1", ""));
         if (k1 != null) k1.setSummary(sharedPreferences.getString("k1", ""));
-        // if (k2 != null) k2.setText(sharedPreferences.getString("k2", ""));
+        if (k2 != null) k2.setText(sharedPreferences.getString("k2", ""));
         if (k2 != null) k2.setSummary(sharedPreferences.getString("k2", ""));
-        // if (k3 != null) k3.setText(sharedPreferences.getString("k3", ""));
+        if (k3 != null) k3.setText(sharedPreferences.getString("k3", ""));
         if (k3 != null) k3.setSummary(sharedPreferences.getString("k3", ""));
-        // if (k4 != null) k4.setText(sharedPreferences.getString("k4", ""));
+        if (k4 != null) k4.setText(sharedPreferences.getString("k4", ""));
         if (k4 != null) k4.setSummary(sharedPreferences.getString("k4", ""));
-        // if (k5 != null) k5.setText(sharedPreferences.getString("k5", ""));
+        if (k5 != null) k5.setText(sharedPreferences.getString("k5", ""));
         if (k5 != null) k5.setSummary(sharedPreferences.getString("k5", ""));
-        // if (k6 != null) k6.setText(sharedPreferences.getString("k6", ""));
+        if (k6 != null) k6.setText(sharedPreferences.getString("k6", ""));
         if (k6 != null) k6.setSummary(sharedPreferences.getString("k6", ""));
-        // if (k7 != null) k7.setText(sharedPreferences.getString("k7", ""));
+        if (k7 != null) k7.setText(sharedPreferences.getString("k7", ""));
         if (k7 != null) k7.setSummary(sharedPreferences.getString("k7", ""));
-        // if (k8 != null) k8.setText(sharedPreferences.getString("k8", ""));
+        if (k8 != null) k8.setText(sharedPreferences.getString("k8", ""));
         if (k8 != null) k8.setSummary(sharedPreferences.getString("k8", ""));
     }
 }

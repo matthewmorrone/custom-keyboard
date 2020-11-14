@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
@@ -189,7 +188,12 @@ public class CustomInputMethodService extends InputMethodService
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
-            indentWidth = Integer.valueOf(sharedPreferences.getString("indent_width", "4"));
+            try {
+                indentWidth = Integer.valueOf(sharedPreferences.getString("indent_width", "4"));
+            }
+            catch(Exception e) {
+                indentWidth = 4;
+            }
             indentString = new String(new char[indentWidth]).replace("\0", " ");
         }
 
@@ -198,7 +202,13 @@ public class CustomInputMethodService extends InputMethodService
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         Color background = Color.valueOf(bg);
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        int fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "48"));
+        int fontSize;
+        try {
+            fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "48"));
+        }
+        catch(Exception e) {
+            fontSize = 48;
+        }
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
         // debug = sharedPreferences.getBoolean("debug", false);
@@ -279,14 +289,12 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onRelease(int primaryCode) {
-        if (debug) System.out.println("onRelease: "+primaryCode);
+        /*if (debug) */System.out.println("onRelease: "+primaryCode);
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
             InputConnection ic = getCurrentInputConnection();
             switch (primaryCode) {
                 case -2: handleTab(); break;
-                // case -5: deletePrevWord(); break;
-                // case -7: deleteNextWord(); break;
                 case -12: selectAll(); break;
                 case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
                 case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
@@ -1856,7 +1864,7 @@ public class CustomInputMethodService extends InputMethodService
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
-            case -27: showEmoticons(); break;
+            case -27: showEmoticonPopup(); break;
             case -28: clearAll(); break;
             case -29: goToStart(); break;
             case -30: goToEnd(); break;
@@ -2288,8 +2296,10 @@ public class CustomInputMethodService extends InputMethodService
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
-    public void showEmoticons() {
+    public void showEmoticonPopup() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.emoticon_listview, null);
             setCandidatesViewShown(false); // setCandidatesViewShown(popupWindow != null);
@@ -2344,7 +2354,6 @@ public class CustomInputMethodService extends InputMethodService
                 public void onEmoticonLongClicked(Emoticon emoticon) {
                     playClick();
                     int tab = emoticonPopup.getCurrentTab();
-                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String emoticonFavorites = new String(sharedPreferences.getString("emoticon_favorites", ""));
                     if (tab == 0) {
                         emoticonPopup.removeRecentEmoticon(getBaseContext(), emoticon);
@@ -2432,6 +2441,8 @@ public class CustomInputMethodService extends InputMethodService
                     playClick();
                     toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
+                    System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
+                    System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeLongClickedListener(new UnicodeGridView.OnUnicodeLongClickedListener() {
@@ -2464,6 +2475,8 @@ public class CustomInputMethodService extends InputMethodService
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
                         toastIt(unicode.getUnicode()+" removed from favorites");
                     }
+                    System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
+                    System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {
