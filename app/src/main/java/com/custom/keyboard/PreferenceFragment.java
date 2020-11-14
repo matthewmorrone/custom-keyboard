@@ -431,8 +431,8 @@ public class PreferenceFragment
         if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
         // if (popupThird != null) popupThird.setText(sharedPreferences.getString("popup_third", ""));
         if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
-        // if (name != null) name.setText(sharedPreferences.getString("title", ""));
-        if (name != null) name.setSummary(sharedPreferences.getString("title", ""));
+        // if (name != null) name.setText(sharedPreferences.getString("name", ""));
+        if (name != null) name.setSummary(sharedPreferences.getString("name", ""));
         // if (email != null) email.setText(sharedPreferences.getString("email", ""));
         if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
         // if (phone != null) phone.setText(sharedPreferences.getString("phone", ""));
@@ -590,8 +590,8 @@ public class PreferenceFragment
         if (popupSecond != null) popupSecond.setSummary(sharedPreferences.getString("popup_second", ""));
         // if (popupThird != null) popupThird.setText(sharedPreferences.getString("popup_third", ""));
         if (popupThird != null) popupThird.setSummary(sharedPreferences.getString("popup_third", ""));
-        // if (name != null) name.setText(sharedPreferences.getString("title", ""));
-        if (name != null) name.setSummary(sharedPreferences.getString("title", ""));
+        // if (name != null) fullName.setText(sharedPreferences.getString("name", ""));
+        if (name != null) name.setSummary(sharedPreferences.getString("name", ""));
         // if (email != null) email.setText(sharedPreferences.getString("email", ""));
         if (email != null) email.setSummary(sharedPreferences.getString("email", ""));
         // if (phone != null) phone.setText(sharedPreferences.getString("phone", ""));

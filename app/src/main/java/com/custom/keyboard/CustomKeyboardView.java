@@ -259,7 +259,7 @@ public class CustomKeyboardView extends KeyboardView {
 
                 System.out.println(primaryCode+" "+containingWidth+" "+boundsWidth+" "+text);
 
-                if (boundsWidth > containingWidth - 40) key.label = Util.safeSubstring(key.text.toString(), 0, 15);
+                if (boundsWidth > containingWidth - 50) key.label = Util.safeSubstring(key.text.toString(), 0, 10);
 
                 // System.out.println("text: "+key.text);
             }
