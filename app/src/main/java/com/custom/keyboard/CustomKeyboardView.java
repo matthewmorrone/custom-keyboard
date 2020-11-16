@@ -267,14 +267,14 @@ public class CustomKeyboardView extends KeyboardView {
                 if (Variables.isShift()) selectKey(key, borderRadius);
                 if (getKeyboard().isShifted()) drawable(key, R.drawable.ic_shift_lock);
             }
-            if (primaryCode ==  -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -11) {if (Variables.isSelecting()) {selectKey(key, borderRadius);}}
 
-            if (primaryCode ==  -94) {if (Variables.isBold()) {selectKey(key, borderRadius);}}
-            if (primaryCode ==  -95) {if (Variables.isItalic()) {selectKey(key, borderRadius);}}
-            if (primaryCode ==  -96) {if (Variables.isEmphasized()) {selectKey(key, borderRadius);}}
-            if (primaryCode ==  -97) {if (Variables.isUnderlined()) {selectKey(key, borderRadius);}}
-            if (primaryCode ==  -98) {if (Variables.isUnderscored()) {selectKey(key, borderRadius);}}
-            if (primaryCode ==  -99) {if (Variables.isStrikethrough()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -94) {if (Variables.isBold()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -95) {if (Variables.isItalic()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -96) {if (Variables.isEmphasized()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -97) {if (Variables.isUnderlined()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -98) {if (Variables.isUnderscored()) {selectKey(key, borderRadius);}}
+            if (primaryCode == -99) {if (Variables.isStrikethrough()) {selectKey(key, borderRadius);}}
             if (primaryCode == -145) {if (Variables.isBoldSerif()) {selectKey(key, borderRadius);}}
             if (primaryCode == -146) {if (Variables.isItalicSerif()) {selectKey(key, borderRadius);}}
             if (primaryCode == -147) {if (Variables.isBoldItalicSerif()) {selectKey(key, borderRadius);}}
