@@ -17,7 +17,7 @@
         <SwitchPreference android:key="shift"  android:title="Toggle Selected Case" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
         <SwitchPreference android:key="indent" android:title="Indent Helper" />
-        <SwitchPreference android:key="tabs"   android:title="Use Spaces" />
+        <SwitchPreference android:key="tabs"   android:title="Use Spaces" android:defaultValue="true" />
         <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
@@ -58,8 +58,8 @@
         <EditTextPreference android:key="k8"                 android:title="Custom Key 8" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:key="hints" android:title="Hints" />
-        <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" />
+        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true" />
+        <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" android:defaultValue="true" />
         <SwitchPreference android:dependency="hints" android:key="hint2" android:title="Hint 2" />
         <SwitchPreference android:dependency="hints" android:key="hint3" android:title="Hint 3" />
         <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
@@ -67,8 +67,7 @@
     <PreferenceScreen android:title="Advanced">
         <!--android:summaryOff=""-->
         <!--android:summaryOn=""-->
-        <!--android:defaultValue="false"-->
-        <SwitchPreference   android:key="debug"                   android:title="Debug" />
+        <SwitchPreference   android:key="debug"                   android:title="Debug" android:defaultValue="true" />
         <Preference         android:key="import_preferences"      android:title="Import Preferences" />
         <Preference         android:key="export_preferences"      android:title="Export Preferences" />
         <EditTextPreference android:key="word_separators"         android:title="Word Separators" android:selectAllOnFocus="true" />

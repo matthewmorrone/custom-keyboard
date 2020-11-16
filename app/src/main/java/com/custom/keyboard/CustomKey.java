@@ -2,27 +2,15 @@ package com.custom.keyboard;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 
 import static android.inputmethodservice.Keyboard.KEYCODE_CANCEL;
 
 public class CustomKey extends Keyboard.Key {
 
-    Drawable defaultIcon;
-    Drawable defaultIconPreview;
-    int defaultWidth;
-    int defaultHeight;
-
     public CustomKey(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
         super(res, parent, x, y, parser);
-        defaultIcon = this.icon;
-        defaultIconPreview = this.iconPreview;
-        defaultWidth = this.width;
-        defaultHeight = this.height;
     }
-
-
 
     @Override
     public boolean isInside(int x, int y) {

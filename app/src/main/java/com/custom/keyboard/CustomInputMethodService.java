@@ -232,9 +232,6 @@ public class CustomInputMethodService extends InputMethodService
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
         // kv.setBackgroundResource(Themes.randomBackground());
-
-        sharedPreferences.edit().putInt("width", currentKeyboard.getWidth()).apply();
-        sharedPreferences.edit().putInt("height", currentKeyboard.getHeight()).apply();
     }
 
     public void setKeyboard(int id, String title) {

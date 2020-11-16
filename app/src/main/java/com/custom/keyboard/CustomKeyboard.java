@@ -71,22 +71,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         return key;
     }
 
-    void setKeyVisibility(CustomKey key, boolean visible) {
-        if (visible) {
-            key.width = key.defaultWidth;
-            key.height = key.defaultHeight;
-            key.icon = key.defaultIcon;
-            key.iconPreview = key.defaultIconPreview;
-        }
-        else {
-            key.width = 0;
-            key.height = 0;
-            key.icon = null;
-            key.iconPreview = null;
-        }
-
-    }
-
     void hideKey(CustomKey key) {
         key.width = 0;
         key.icon = null;

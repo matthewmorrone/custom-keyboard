@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -419,12 +420,17 @@ public class PreferenceFragment
 
         for(EditTextPreference editTextPreference : editTextPreferences) {
             editTextPreference.setDialogTitle(editTextPreference.getTitle());
-            // editTextPreference.setText(sharedPreferences.getString(editTextPreference.getKey(), ""));
             editTextPreference.setSummary(sharedPreferences.getString(editTextPreference.getKey(), ""));
-
             editTextPreference.setNegativeButtonText("BACK");
             editTextPreference.setPositiveButtonText("SAVE");
         }
+
+        // wordSeparators.setDefaultValue(
+        //     // Objects.equals(sharedPreferences.getString("word_separators", ""), "")
+        //     // ?
+        //     getResources().getString(R.string.word_separators)
+        //     // : sharedPreferences.getString("word_separators", "")
+        // );
 
         if (importPreferences != null) {
             importPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
