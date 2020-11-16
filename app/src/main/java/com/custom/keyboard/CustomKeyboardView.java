@@ -69,37 +69,37 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
-    int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299,
-                           -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
-
-    @Override
-    protected boolean onLongPress(Key key) {
-        if (Util.contains(longPressKeys, key.codes[0])) {
-            return false;
-        }
-        if (key.popupCharacters != null) {
-            key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
-        }
-        if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
-            getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
-            return true;
-        }
-        if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
-            return true;
-        }
-        if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
-            if (sharedPreferences.getBoolean("single_hint", true)) {
-                getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
-                return true;
-            }
-        }
-        /*
-        if (key.popupCharacters.length() > 8) {
-            key.popupResId = R.layout.popup_template;
-        }
-        */
-        return super.onLongPress(key);
-    }
+    // int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299,
+    //                        -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
+    //
+    // @Override
+    // protected boolean onLongPress(Key key) {
+    //     if (Util.contains(longPressKeys, key.codes[0])) {
+    //         return false;
+    //     }
+    //     if (key.popupCharacters != null) {
+    //         key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
+    //     }
+    //     if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
+    //         getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
+    //         return true;
+    //     }
+    //     if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
+    //         return true;
+    //     }
+    //     if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
+    //         if (sharedPreferences.getBoolean("single_hint", true)) {
+    //             getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
+    //             return true;
+    //         }
+    //     }
+    //     /*
+    //     if (key.popupCharacters.length() > 8) {
+    //         key.popupResId = R.layout.popup_template;
+    //     }
+    //     */
+    //     return super.onLongPress(key);
+    // }
 
     public void selectKey(Key key, int corner) {
         canvas.save();

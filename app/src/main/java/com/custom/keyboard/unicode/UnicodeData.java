@@ -42,7 +42,6 @@ public class UnicodeData {
     }
     public static Unicode[] getRange(int min, int max) {
         Unicode[] data = new Unicode[max-min];
-        System.out.println(min+" "+max+" "+(max-min));
         for(int i = min; i < max; i++) {
             // System.out.println(i);
             data[i-min] = Unicode.fromCodePoint(i);

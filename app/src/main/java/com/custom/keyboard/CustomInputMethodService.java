@@ -15,6 +15,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -34,6 +35,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
+import android.view.inputmethod.InlineSuggestionsRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.SentenceSuggestionsInfo;
@@ -48,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -80,11 +83,6 @@ public class CustomInputMethodService extends InputMethodService
     SharedPreferences sharedPreferences;
     Toast toast;
 
-    // private int mLastDisplayWidth;
-    // private boolean mCapsLock;
-    // private long mLastShiftTime;
-    // private long mMetaState;
-
     private String mWordSeparators;
 
     long shiftPressed = 0;
@@ -99,7 +97,7 @@ public class CustomInputMethodService extends InputMethodService
     private CandidateView mCandidateView;
     private InputMethodManager mInputMethodManager;
     private CustomKeyboard currentKeyboard;
-    private CustomKeyboard standardKeyboard;
+    // private CustomKeyboard standardKeyboard;
 
     private boolean mPredictionOn;
     private int indentWidth;
@@ -115,6 +113,7 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
+        if (debug) System.out.println("onCreate");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         toast = new Toast(getBaseContext());
@@ -123,41 +122,19 @@ public class CustomInputMethodService extends InputMethodService
 
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
-
-        /*
-        PackageManager pm = getPackageManager();
-        Intent spell = new Intent(SpellCheckerService.SERVICE_INTERFACE);
-        ResolveInfo info = pm.resolveService(spell, 0);
-
-        sendDataToErrorOutput("spell: "+spell);
-        sendDataToErrorOutput("info: "+info);
-
-        if (info == null) {
-            sendDataToErrorOutput("no spell checker found");
-        }
-        else {
-            sendDataToErrorOutput("found spell checker " + info.serviceInfo.name + " in package " + info.serviceInfo.packageName);
-        }
-        */
     }
 
     @Override
     public void onInitializeInterface() {
-        /*
-        if (standardKeyboard != null) {
-            int displayWidth = getMaxWidth();
-            if (displayWidth == mLastDisplayWidth) return;
-            mLastDisplayWidth = displayWidth;
-        }
-        */
-        standardKeyboard = new CustomKeyboard(this, R.layout.primary);
+        if (debug) System.out.println("onInitializeInterface");
     }
 
     @Override
     public View onCreateInputView() {
+        if (debug) System.out.println("onCreateInputView");
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         kv.setOnKeyboardActionListener(this);
-        kv.setKeyboard(standardKeyboard);
+        kv.setKeyboard(new CustomKeyboard(this, R.layout.primary));
         return kv;
     }
 
@@ -175,6 +152,7 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
+        if (debug) System.out.println("onStartInputView: "+" "+info+" "+restarting);
         ViewGroup originalParent = (ViewGroup)kv.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 0, 0, 0);
@@ -185,6 +163,7 @@ public class CustomInputMethodService extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        if (debug) System.out.println("onStartInput"+" "+attribute+" "+restarting);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
@@ -211,15 +190,24 @@ public class CustomInputMethodService extends InputMethodService
         }
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
-        // debug = sharedPreferences.getBoolean("debug", false);
+        // debug = sharedPreferences.getBoolean("debug", debug);
 
         mWordSeparators = sharedPreferences.getString("word_separators", getResources().getString(R.string.word_separators));
 
         updateCandidates();
 
-        // if (!restarting) mMetaState = 0;
-
         kv = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+
+        try {
+            setKeyboard(
+                sharedPreferences.getInt("current_layout", 0),
+                sharedPreferences.getString("current_layout_title", "")
+            );
+        }
+        catch(Exception e) {
+            setKeyboard(R.layout.primary, "Primary");
+        }
+
         setInputType();
         capsOnFirst();
 
@@ -244,30 +232,48 @@ public class CustomInputMethodService extends InputMethodService
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
         // kv.setBackgroundResource(Themes.randomBackground());
-        // System.out.println(Arrays.toString(currentKeyboard.getDimensions()));
 
-        /*
-        kv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                System.out.println("onTouch"+" "+v+" "+event);
-                return false;
-            }
-        });
-        */
+        sharedPreferences.edit().putInt("width", currentKeyboard.getWidth()).apply();
+        sharedPreferences.edit().putInt("height", currentKeyboard.getHeight()).apply();
     }
 
-
-    @Override
-    public boolean onKeyUp(int primaryCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyUp: "+primaryCode);
-        return super.onKeyUp(primaryCode, event);
+    public void setKeyboard(int id, String title) {
+        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
+        currentKeyboard.setRowNumber(getStandardRowNumber());
+        currentKeyboard.title = title;
+        kv.setKeyboard(currentKeyboard);
+        sharedPreferences.edit().putInt("current_layout", id).apply();
+        sharedPreferences.edit().putString("current_layout_title", title).apply();
+        redraw();
     }
 
-    @Override
-    public boolean onKeyDown(int primaryCode, KeyEvent event) {
-        if (debug) System.out.println("onKeyDown: "+primaryCode);
-        return super.onKeyDown(primaryCode, event);
+    private void setInputType() {
+        int id = currentKeyboard.xmlLayoutResId;
+        String title = currentKeyboard.title;
+
+        EditorInfo attribute = getCurrentInputEditorInfo();
+        int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
+
+        switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
+            case InputType.TYPE_CLASS_NUMBER:
+            case InputType.TYPE_CLASS_DATETIME:
+            case InputType.TYPE_CLASS_PHONE:
+                setKeyboard(R.layout.numeric, "Numeric");
+            break;
+            case InputType.TYPE_CLASS_TEXT:
+                if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
+                    || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
+                    || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                    || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
+                    setKeyboard(R.layout.domain, "Domain");
+                }
+                else setKeyboard(id, title);
+            break;
+            default:
+                setKeyboard(id, title);
+            break;
+        }
+        if (kv != null) kv.setKeyboard(currentKeyboard);
     }
 
     long time = 0;
@@ -281,6 +287,7 @@ public class CustomInputMethodService extends InputMethodService
         prevBuffer = getPrevWord();
         nextBuffer = getNextWord();
         time = System.nanoTime() - time;
+
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vib", false)) {
             Vibrator v = (Vibrator)getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
             if (v != null) v.vibrate(40);
@@ -289,12 +296,13 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onRelease(int primaryCode) {
-        /*if (debug) */System.out.println("onRelease: "+primaryCode);
+        if (debug) System.out.println("onRelease: "+primaryCode);
         time = (System.nanoTime() - time) / 1000000;
         if (time > 300) {
             InputConnection ic = getCurrentInputConnection();
             switch (primaryCode) {
                 case -2: handleTab(); break;
+                // showInputMethodPicker()
                 case -12: selectAll(); break;
                 case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
                 case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
@@ -302,7 +310,6 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
     }
-
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
@@ -387,16 +394,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     @Override
-    public void onWindowShown() {
-        super.onWindowShown();
-    }
-
-    @Override
-    public void onWindowHidden() {
-        super.onWindowHidden();
-    }
-
-    @Override
     public void swipeLeft() {
         selectPrevWord();
     }
@@ -426,7 +423,6 @@ public class CustomInputMethodService extends InputMethodService
 
         Variables.setSelectingOff();
 
-        currentKeyboard = standardKeyboard;
         if (kv != null) {
             kv.closing();
         }
@@ -557,7 +553,7 @@ public class CustomInputMethodService extends InputMethodService
 
     public void deletePrevWord() {
         String prevWord = prevBuffer;
-        System.out.println(prevWord+" "+prevWord.length());
+        if (debug) System.out.println(prevWord+" "+prevWord.length());
         int times = prevWord.length();
         while (times --> 1) {
             handleBackspace();
@@ -565,7 +561,7 @@ public class CustomInputMethodService extends InputMethodService
     }
     public void deleteNextWord() {
         String nextWord = nextBuffer; // getNextWord();
-        System.out.println(nextWord+" "+nextWord.length());
+        if (debug) System.out.println(nextWord+" "+nextWord.length());
         int times = nextWord.length();
         while (times --> 1) {
             handleDelete();
@@ -701,7 +697,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void updateShiftKeyState(EditorInfo attr) {
-        if (attr != null && kv != null && standardKeyboard == kv.getKeyboard()) {
+        if (attr != null && kv != null && R.layout.primary == kv.getId()/*.getKeyboard()*/) {
             int caps = 0;
             EditorInfo ei = getCurrentInputEditorInfo();
             if (ei != null && ei.inputType != InputType.TYPE_NULL) {
@@ -1075,49 +1071,6 @@ public class CustomInputMethodService extends InputMethodService
         return mPaint;
     }
 
-    private void setInputType() {
-
-        EditorInfo attribute = getCurrentInputEditorInfo();
-        int webInputType = attribute.inputType & InputType.TYPE_MASK_VARIATION;
-
-        switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
-            case InputType.TYPE_CLASS_NUMBER:
-            case InputType.TYPE_CLASS_DATETIME:
-            case InputType.TYPE_CLASS_PHONE:
-                setKeyboard(R.layout.numeric, "Numeric");
-            break;
-            case InputType.TYPE_CLASS_TEXT:
-                if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
-                    setKeyboard(R.layout.domain, "Domain");
-                }
-                else {
-                    setKeyboard(R.layout.primary, "Primary");
-                }
-                break;
-            default:
-                setKeyboard(R.layout.primary, "Primary");
-            break;
-        }
-        if (kv != null) {
-            kv.setKeyboard(currentKeyboard);
-        }
-    }
-
-/*
-    private void checkToggleCapsLock() {
-        long now = System.currentTimeMillis();
-        if (mLastShiftTime + 300 > now) {
-            mCapsLock = !mCapsLock;
-            mLastShiftTime = 0;
-        }
-        else {
-            mLastShiftTime = now;
-        }
-    }
-*/
 
     private void setCapsOn(boolean on) {
         if (Variables.isShift()) kv.getKeyboard().setShifted(true);
@@ -1187,7 +1140,6 @@ public class CustomInputMethodService extends InputMethodService
     // SHIFT - 59, SPACE - 62, ENTER - 66, BACKSPACE - 67
     // MENU BUTTON - 82
 
-/*
     private void sendRawKey(int keyCode) {
         if (keyCode == '\n') {
             sendKey(KeyEvent.KEYCODE_ENTER);
@@ -1201,7 +1153,6 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
     }
-*/
 
     public Keyboard.Key getKey(int primaryCode) {
         if (currentKeyboard == null) return null;
@@ -1280,14 +1231,6 @@ public class CustomInputMethodService extends InputMethodService
         ExtractedText extracted = ic.getExtractedText(new ExtractedTextRequest(), 0);
         if (extracted == null) return -1;
         return extracted.selectionEnd - extracted.selectionStart;
-    }
-
-    public void setKeyboard(int id, String title) {
-        currentKeyboard = new CustomKeyboard(getBaseContext(), id);
-        currentKeyboard.setRowNumber(getStandardRowNumber());
-        currentKeyboard.title = title;
-        kv.setKeyboard(currentKeyboard);
-        redraw();
     }
 
     private void handleDelete() {
@@ -2441,8 +2384,8 @@ public class CustomInputMethodService extends InputMethodService
                     playClick();
                     toastIt(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
-                    System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
-                    System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
+                    if (debug) System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
+                    if (debug) System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeLongClickedListener(new UnicodeGridView.OnUnicodeLongClickedListener() {
@@ -2475,8 +2418,8 @@ public class CustomInputMethodService extends InputMethodService
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
                         toastIt(unicode.getUnicode()+" removed from favorites");
                     }
-                    System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
-                    System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
+                    if (debug) System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
+                    if (debug) System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {
@@ -2515,10 +2458,8 @@ public class CustomInputMethodService extends InputMethodService
         return ((double)PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("height", 100)) / 100;
     }
 
-
-
     public void showMacroDialog(int primaryCode) {
-        System.out.println("showMacroDialog");
+        // System.out.println("showMacroDialog");
 
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
@@ -2584,4 +2525,87 @@ public class CustomInputMethodService extends InputMethodService
         }, 100);
         */
     }
+
+/*
+    @Nullable
+    @Override
+    public InlineSuggestionsRequest onCreateInlineSuggestionsRequest(@NonNull Bundle uiExtras) {
+        if (debug) System.out.println("onCreateInlineSuggestionsRequest: "+uiExtras);
+        return super.onCreateInlineSuggestionsRequest(uiExtras);
+    }
+
+    @Override
+    public AbstractInputMethodSessionImpl onCreateInputMethodSessionInterface() {
+        if (debug) System.out.println("onCreateInputMethodSessionInterface");
+        return super.onCreateInputMethodSessionInterface();
+    }
+
+    @Override
+    public void onFinishInputView(boolean finishingInput) {
+        if (debug) System.out.println("onFinishInputView: "+finishingInput);
+        super.onFinishInputView(finishingInput);
+    }
+
+    @Override
+    public void onStartCandidatesView(EditorInfo info, boolean restarting) {
+        if (debug) System.out.println("onStartCandidatesView: "+info+" "+restarting);
+        super.onStartCandidatesView(info, restarting);
+    }
+
+    @Override
+    public boolean onShowInputRequested(int flags, boolean configChange) {
+        if (debug) System.out.println("onShowInputRequested: "+flags+" "+configChange);
+        return super.onShowInputRequested(flags, configChange);
+    }
+
+    @Override
+    public void onViewClicked(boolean focusChanged) {
+        if (debug) System.out.println("onViewClicked: "+focusChanged);
+        super.onViewClicked(focusChanged);
+    }
+
+    @Override
+    public void onExtractingInputChanged(EditorInfo ei) {
+        if (debug) System.out.println("onExtractingInputChanged: "+ei);
+        super.onExtractingInputChanged(ei);
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (debug) System.out.println("onKey: "+keyCode+" "+event);
+        return false;
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int count, KeyEvent event) {
+        if (debug) System.out.println("onKeyMultiple: "+keyCode+" "+count+" "+event);
+        return super.onKeyMultiple(keyCode, count, event);
+    }
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyLongPress"+" "+keyCode+" "+event);
+        return super.onKeyLongPress(keyCode, event);
+    }
+    @Override
+    public boolean onKeyUp(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyUp: "+primaryCode+" "+event);
+        return super.onKeyUp(primaryCode, event);
+    }
+    @Override
+    public boolean onKeyDown(int primaryCode, KeyEvent event) {
+        if (debug) System.out.println("onKeyDown: "+primaryCode+" "+event);
+        return super.onKeyDown(primaryCode, event);
+    }
+
+    @Override
+    public void onWindowShown() {
+        if (debug) System.out.println("onWindowShown");
+        super.onWindowShown();
+    }
+    @Override
+    public void onWindowHidden() {
+        if (debug) System.out.println("onWindowHidden");
+        super.onWindowHidden();
+    }
+    */
 }

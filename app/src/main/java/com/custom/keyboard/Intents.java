@@ -83,20 +83,20 @@ public class Intents {
     }
 
     public static void showMap(Context context, Uri geoLocation) {
-        System.out.println("showMap");
+        // System.out.println("showMap");
         Intent intent = new Intent(Intent.ACTION_VIEW).setData(geoLocation);
         startIntent(context, intent);
     }
 
     public static void showLocationFromAddress(Context context, String address) {
         // Util.toastIt(context, address);
-        System.out.println("showLocationFromAddress");
+        // System.out.println("showLocationFromAddress");
         Uri location = Uri.parse("geo:0,0?q=" + Util.encodeUrl(address));
         showMap(context, location);
     }
 
     public static void showLocationFromAddress(Context context, String address, int zoom) {
-        System.out.println("showLocationFromAddress zoom");
+        // System.out.println("showLocationFromAddress zoom");
         address = Util.encodeUrl(address);
         Uri location = Uri.parse("geo:0,0?q=" + address + "?z=" + zoom);
         showMap(context, location);

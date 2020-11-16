@@ -176,9 +176,6 @@ public class PreferenceFragment
         File targetFile = new File(targetPathString);
         String targetFileName = targetFile.getName();
 
-        System.out.println(sourcePathString);
-        System.out.println(targetPathString);
-
         long fileId = downloadManager.addCompletedDownload(sourceFileName, sourceFileName, true, "text/plain", targetFile.getAbsolutePath(), sourceContents.length(), true);
         toastIt("saved to "+targetFile.getPath());
 
@@ -233,12 +230,9 @@ public class PreferenceFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        System.out.println("onActivityResult");
-
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 
-            System.out.println(data);
+            // System.out.println(data);
 
             Uri pickedImage = data.getData();
             // Let's read picked image path using content resolver
@@ -545,8 +539,6 @@ public class PreferenceFragment
         if (borderColor != null) borderColor.setColor(sharedPreferences.getInt("border_color", 0xFF000000));
         if (borderColor != null) borderColor.setSummary("#"+Integer.toHexString(sharedPreferences.getInt("border_color", 0xFF000000)).toUpperCase());
 
-        System.out.println("recents: "+sharedPreferences.getString("unicode_recents", ""));
-        System.out.println("favorites: "+sharedPreferences.getString("unicode_favorites", ""));
         if (emoticonRecents != null) emoticonRecents.setText(sharedPreferences.getString("emoticon_recents", ""));
         if (emoticonRecents != null) emoticonRecents.setSummary(sharedPreferences.getString("emoticon_recents", ""));
         if (unicodeRecents != null) unicodeRecents.setText(sharedPreferences.getString("unicode_recents", ""));

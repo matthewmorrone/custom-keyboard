@@ -18,15 +18,7 @@
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
         <SwitchPreference android:key="indent" android:title="Indent Helper" />
         <SwitchPreference android:key="tabs"   android:title="Use Spaces" />
-        <EditTextPreference
-            android:numeric="integer"
-            android:defaultValue="4"
-            android:digits="1234567890"
-            android:inputType="number"
-            android:key="indent_width"
-            android:title="Indent Width"
-            android:selectAllOnFocus="true"
-            />
+        <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <com.custom.keyboard.SeekPreference android:key="height" android:title="Key Height" app:value="100" app:max="150" app:min="50" />
@@ -84,6 +76,6 @@
         <Preference         android:key="reset_emoticon_history"  android:title="Reset Emoticon History" />
         <Preference         android:key="reset_unicode_history"   android:title="Reset Unicode History" />
         <Preference         android:key="reset_all_preferences"   android:title="Reset All Preferences" />
-        <Preference         android:key="set_default_preferences"   android:title="Set Default Preferences" />
+        <Preference         android:key="set_default_preferences" android:title="Set Default Preferences" />
     </PreferenceScreen>
 </PreferenceScreen>

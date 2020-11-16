@@ -44,7 +44,6 @@ public class UnicodeTextView extends TextView {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.unicode);
             // mUnicodeSize = (int)a.getDimension(R.styleable.unicode_unicodeTextSize, getTextSize());
             mUnicodeSize = (int)textSize;
-            System.out.println(mUnicodeSize);
             mTextStart = a.getInteger(R.styleable.unicode_unicodeTextStart, 0);
             mTextLength = a.getInteger(R.styleable.unicode_unicodeTextLength, -1);
             a.recycle();

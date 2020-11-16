@@ -2,15 +2,26 @@ package com.custom.keyboard;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 
 import static android.inputmethodservice.Keyboard.KEYCODE_CANCEL;
 
 public class CustomKey extends Keyboard.Key {
 
+    Drawable defaultIcon;
+    Drawable defaultIconPreview;
+    int defaultWidth;
+    int defaultHeight;
+
     public CustomKey(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
         super(res, parent, x, y, parser);
+        defaultIcon = this.icon;
+        defaultIconPreview = this.iconPreview;
+        defaultWidth = this.width;
+        defaultHeight = this.height;
     }
+
 
 
     @Override
@@ -47,8 +58,7 @@ public class CustomKey extends Keyboard.Key {
         android.R.attr.state_single
     };
 
-    private final static int[] KEY_STATE_NORMAL = {
-    };
+    private final static int[] KEY_STATE_NORMAL = {};
 
     private final static int[] KEY_STATE_PRESSED = {
         android.R.attr.state_pressed
@@ -59,34 +69,20 @@ public class CustomKey extends Keyboard.Key {
         int[] states = KEY_STATE_NORMAL;
 
         if (on) {
-            if (pressed) {
-                states = KEY_STATE_PRESSED_ON;
-            }
-            else {
-                states = KEY_STATE_NORMAL_ON;
-            }
+            if (pressed) states = KEY_STATE_PRESSED_ON;
+            else states = KEY_STATE_NORMAL_ON;
         }
         else {
             if (sticky) {
-                if (pressed) {
-                    states = KEY_STATE_PRESSED_OFF;
-                }
-                else {
-                    states = KEY_STATE_NORMAL_OFF;
-                }
+                if (pressed) states = KEY_STATE_PRESSED_OFF;
+                else states = KEY_STATE_NORMAL_OFF;
             }
-            else if(modifier){
-                if (pressed) {
-                    states = KEY_STATE_FUNCTION_PRESSED;
-                }
-                else {
-                    states = KEY_STATE_FUNCTION;
-                }
+            else if (modifier) {
+                if (pressed) states = KEY_STATE_FUNCTION_PRESSED;
+                else states = KEY_STATE_FUNCTION;
             }
             else {
-                if (pressed) {
-                    states = KEY_STATE_PRESSED;
-                }
+                if (pressed) states = KEY_STATE_PRESSED;
             }
         }
         return states;
