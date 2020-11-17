@@ -290,10 +290,12 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         switch (primaryCode) {
             case -2: handleTab(); break;
-            // showInputMethodPicker()
+            case -5: deletePrevWord(); break;
+            case -6: deleteNextWord(); break;
             case -12: selectAll(); break;
             case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
             case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+            case -23: showInputMethodPicker(); break;
             case -200: clipboardToBuffer(getSelectedText(ic)); break;
         }
     }
