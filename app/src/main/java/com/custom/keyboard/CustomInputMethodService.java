@@ -35,7 +35,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
-import android.view.inputmethod.InlineSuggestionsRequest;
+// import android.view.inputmethod.InlineSuggestionsRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.SentenceSuggestionsInfo;
@@ -1328,6 +1328,14 @@ public class CustomInputMethodService extends InputMethodService
 */
     }
     public void handleTab() {
+if (sharedPreferences.getBoolean("tabs", true)) {
+        commitText("	");
+}
+else {
+        commitText("    ");
+}
+
+if (true) return;
         InputConnection ic = getCurrentInputConnection();
         // @TODO: use variable for spaces
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("indent", false)) {

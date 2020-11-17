@@ -17,7 +17,7 @@
         <SwitchPreference android:key="shift"  android:title="Toggle Selected Case" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
         <SwitchPreference android:key="indent" android:title="Indent Helper" />
-        <SwitchPreference android:key="tabs"   android:title="Use Spaces" android:defaultValue="true" />
+        <SwitchPreference android:key="tabs"   android:title="Use Tabs" />
         <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
