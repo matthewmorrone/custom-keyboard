@@ -291,7 +291,7 @@ public class CustomInputMethodService extends InputMethodService
         switch (primaryCode) {
             case -2: handleTab(); break;
             case -5: deletePrevWord(); break;
-            case -6: deleteNextWord(); break;
+            case -7: deleteNextWord(); break;
             case -12: selectAll(); break;
             case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
             case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
@@ -590,7 +590,7 @@ public class CustomInputMethodService extends InputMethodService
         String prevWord = prevBuffer;
         if (debug) System.out.println(prevWord+" "+prevWord.length());
         int times = prevWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             handleBackspace();
         }
     }
@@ -598,7 +598,7 @@ public class CustomInputMethodService extends InputMethodService
         String nextWord = nextBuffer; // getNextWord();
         if (debug) System.out.println(nextWord+" "+nextWord.length());
         int times = nextWord.length();
-        while (times --> 1) {
+        while (times --> 0) {
             handleDelete();
         }
     }
