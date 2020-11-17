@@ -4,11 +4,15 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto"
                   tools:ignore="Deprecated">
     <PreferenceScreen android:title="Behavior">
-        <SwitchPreference android:defaultValue="false" android:key="sound"    android:title="Play Sound" />
-        <SwitchPreference android:defaultValue="false" android:key="ipa"      android:title="Play IPA Sound" />
-        <SwitchPreference android:defaultValue="false" android:key="ipa_desc" android:title="Show IPA Description" />
-        <SwitchPreference android:defaultValue="false" android:key="vib"      android:title="Key Press Vibration" />
-        <SwitchPreference android:defaultValue="false" android:key="preview"  android:title="Show Key Preview" />
+        <SwitchPreference android:defaultValue="false" android:key="sound"        android:title="Play Sound" />
+        <SwitchPreference android:defaultValue="false" android:key="vib"          android:title="Key Press Vibration" />
+        <com.custom.keyboard.SeekPreference android:key="vib_duration"            android:title="Vibration Duration"  app:value="40"  app:max="100"  app:min="10"  app:step="10"  />
+        <SwitchPreference android:defaultValue="false" android:key="ipa"          android:title="Play IPA Sound" />
+        <SwitchPreference android:defaultValue="false" android:key="ipa_desc"     android:title="Show IPA Description" />
+        <SwitchPreference android:defaultValue="false" android:key="include_self" android:title="Include Main Key in Popup" />
+        <SwitchPreference android:defaultValue="false" android:key="preview"      android:title="Show Key Preview" />
+        <SwitchPreference android:defaultValue="false" android:key="single_hint"  android:title="Disable Long Press Popup" />
+        <com.custom.keyboard.SeekPreference android:key="long_press_duration"     android:title="Long Press Duration" app:value="500" app:max="3000" app:min="100" app:step="100" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
         <SwitchPreference android:key="pred"   android:title="Text Prediction" />

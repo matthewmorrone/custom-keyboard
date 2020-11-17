@@ -43,7 +43,6 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
         }
     }
 
-    // String namespace = "http://schemas.android.com/apk/res/android";
     String namespace = "http://schemas.android.com/apk/res-auto";
 
     public SeekPreference(Context context) {
@@ -54,7 +53,6 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
         this(context, attrs, 0);
     }
 
-
     public SeekPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setLayoutResource(R.layout.seek_dialog);
@@ -64,7 +62,7 @@ public class SeekPreference extends Preference implements OnSeekBarChangeListene
         setMin(Integer.parseInt(Util.orNull(attrs.getAttributeValue(namespace, "min"), "0")));
         setMax(Integer.parseInt(Util.orNull(attrs.getAttributeValue(namespace, "max"), "100")));
         setStep(Integer.parseInt(Util.orNull(attrs.getAttributeValue(namespace, "step"), "5")));
-        setValue(Integer.parseInt(Util.orNull(attrs.getAttributeValue(namespace, "defaultValue"), "100")));
+        setValue(Integer.parseInt(Util.orNull(attrs.getAttributeValue(namespace, "value"), "100")));
     }
 
     @Override

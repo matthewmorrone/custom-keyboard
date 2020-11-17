@@ -1,5 +1,6 @@
 package com.custom.keyboard;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -12,7 +13,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressLint("DrawAllocation")
 public class CustomKeyboardView extends KeyboardView {
     Paint mPaint = new Paint();
     Canvas canvas;
@@ -44,11 +45,11 @@ public class CustomKeyboardView extends KeyboardView {
         hintFontSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("hint_font_size", "32"), "32"));
         theme = Integer.parseInt(Util.orNull(sharedPreferences.getString("theme", "1"), "1"));
         selected = Color.parseColor("#80FFFFFF");
-        borderColor = sharedPreferences.getInt("border_color", Color.WHITE);
-        background = sharedPreferences.getInt("background_color", Color.BLACK);
-        foreground = sharedPreferences.getInt("foreground_color", Color.WHITE);
+        borderColor = sharedPreferences.getInt("border_color",     Color.WHITE);
+        background  = sharedPreferences.getInt("background_color", Color.BLACK);
+        foreground  = sharedPreferences.getInt("foreground_color", Color.WHITE);
 
-        borderWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_width", "0"), "0"));
+        borderWidth  = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_width",  "0"), "0"));
         paddingWidth = Integer.parseInt(Util.orNull(sharedPreferences.getString("padding_width", "0"), "0"));
         borderRadius = Integer.parseInt(Util.orNull(sharedPreferences.getString("border_radius", "0"), "0"));
 
@@ -69,19 +70,14 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
-    int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299,
-                           -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
+    int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299, -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
 
     @Override
     protected boolean onLongPress(Key key) {
-        if (Util.contains(longPressKeys, key.codes[0])) {
-            return false;
-        }
         if (key.popupCharacters != null) {
             key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
         }
-        if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
-            getOnKeyboardActionListener().onKey(CustomKeyboard.KEYCODE_OPTIONS, null);
+        if (Util.contains(longPressKeys, key.codes[0])) {
             return true;
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
@@ -93,11 +89,7 @@ public class CustomKeyboardView extends KeyboardView {
                 return true;
             }
         }
-        /*
-        if (key.popupCharacters.length() > 8) {
-            key.popupResId = R.layout.popup_template;
-        }
-        */
+        // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
         return super.onLongPress(key);
     }
 
@@ -105,12 +97,8 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.save();
         mPaint.setColor(selected);
         canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
-        if (corner > 0) {
-            canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
-        }
-        else {
-            canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
-        }
+        if (corner > 0) canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
+        else canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
         canvas.restore();
     }
 
@@ -213,6 +201,17 @@ public class CustomKeyboardView extends KeyboardView {
                 }
                 canvas.drawRoundRect(key.x+paddingWidth, key.y+paddingWidth, key.x+key.width-paddingWidth, key.y+key.height-paddingWidth, borderRadius, borderRadius, mPaint);
                 canvas.restore();
+            }
+
+            if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("IPA")) {
+                if (sharedPreferences.getBoolean("include_self", false) && key.popupCharacters != null) {
+                    StringBuilder sb = new StringBuilder((String)key.popupCharacters);
+                    if (sb.indexOf(String.valueOf((char)key.codes[0])) > -1) {
+                        sb.deleteCharAt(sb.indexOf(String.valueOf((char)key.codes[0])));
+                    }
+                    sb.insert(0, (char)key.codes[0]);
+                    key.popupCharacters = sb.toString();
+                }
             }
 
             if (primaryCode == -73)   key.label = Util.timemoji();
