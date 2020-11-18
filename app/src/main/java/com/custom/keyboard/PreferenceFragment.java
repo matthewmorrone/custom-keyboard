@@ -223,7 +223,10 @@ public class PreferenceFragment
     }
 
     public void setDefaultPreferences() {
-        sharedPreferences.edit().clear().apply();
+        setDefaultPreferences(false);
+    }
+    public void setDefaultPreferences(boolean reset) {
+        if (reset) sharedPreferences.edit().clear().apply();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
     }
@@ -232,8 +235,6 @@ public class PreferenceFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-
-            // System.out.println(data);
 
             Uri pickedImage = data.getData();
             // Let's read picked image path using content resolver
@@ -260,11 +261,14 @@ public class PreferenceFragment
             Uri content_describer = data.getData();
             BufferedReader reader = null;
             try {
-                InputStream in = baseContext.getContentResolver().openInputStream(content_describer);
+                InputStream in = null;
+                if (content_describer != null) {
+                    in = baseContext.getContentResolver().openInputStream(content_describer);
+                }
                 reader = new BufferedReader(new InputStreamReader(in));
                 String line;
                 StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
                 Document xml = Util.toXmlDocument(builder.toString());
@@ -276,28 +280,21 @@ public class PreferenceFragment
                     String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
                     String nodeTextContent = n.getTextContent().trim();
 
-                    String nodeAttrName = (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null)
-                                          ? n.getAttributes().getNamedItem("name").getNodeValue() : "[]";
+                    String nodeAttrName = (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null) ? n.getAttributes().getNamedItem("name").getNodeValue() : "[]";
 
-                    String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null)
-                                           ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
+                    String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null) ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
 
-                    switch(n.getNodeName()) {
-                        case "int":
+                    switch (n.getNodeName()) {
+                        case "int": {
                             editor.putInt(nodeAttrName, Integer.parseInt(nodeAttrValue));
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
-                            break;
-                        case "string":
+                        }
+                        case "string": {
                             editor.putString(nodeAttrName, nodeAttrValue);
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeTextContent);
-                            break;
-                        case "boolean":
+                        }
+                        case "boolean": {
                             editor.putBoolean(nodeAttrName, Boolean.parseBoolean(nodeAttrValue));
-                            // System.out.println(nodeName+":"+nodeAttrName+" = "+nodeAttrValue);
-                            break;
-                        case "#text":
-
-                            break;
+                        }
+                        case "#text":{}
                     }
                     editor.apply();
 

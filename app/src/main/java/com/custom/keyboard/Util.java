@@ -1,12 +1,10 @@
 package com.custom.keyboard;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
@@ -22,9 +20,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -68,6 +63,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 public class Util {
+
 
     public static String safeSubstring(String text, int beginIndex, int endIndex) {
         return text.substring(beginIndex, Math.min(endIndex, text.length()));
@@ -456,27 +452,18 @@ public class Util {
     // case
     public static boolean isLowerCase(String text) {
         for (int i = 0; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
+            if (Character.isLetter(text.charAt(i)) && !Character.isLowerCase(text.charAt(i))) {
                 return false;
             }
         }
         return true;
     }
-    public static boolean isTitleCase(String text) {
-        if (text == null || text.length() < 1) return false;
-        if (!Character.isUpperCase(text.charAt(0))) {
-            return false;
-        }
-        for (int i = 1; i < text.length(); i++) {
-            if (!Character.isLowerCase(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+    public static boolean isMixedCase(String text) {
+        return !Util.isLowerCase(text) && !Util.isUpperCase(text);
     }
     public static boolean isUpperCase(String text) {
         for (int i = 0; i < text.length(); i++) {
-            if (!Character.isUpperCase(text.charAt(i))) {
+            if (Character.isLetter(text.charAt(i)) && !Character.isUpperCase(text.charAt(i))) {
                 return false;
             }
         }
@@ -620,22 +607,29 @@ public class Util {
     }
 
     // @TODO: removeDuplicateChars or uniqueChars, pick one and ensure consistency
+    /*
+    public static String removeDuplicateChars(String input) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            if (!result.toString().contains(String.valueOf(input.charAt(i)))) {
+                result.append(input.charAt(i));
+            }
+        }
+        return result.toString();
+    }
     public static String removeDuplicateChars(String text) {
         char[] str = text.toCharArray();
         int n = str.length;
         int index = 0, i, j;
         for (i = 0; i < n; i++) {
             for (j = 0; j < i; j++) {
-                if (str[i] == str[j]) {
-                    break;
-                }
+                if (str[i] == str[j]) break;
             }
-            if (j == i) {
-                str[index++] = str[i];
-            }
+            if (j == i) str[index++] = str[i];
         }
         return String.valueOf(Arrays.copyOf(str, index));
     }
+    */
     public static String uniqueChars(String text) {
         String[] lines = getChars(text);
         ArrayList<String> result = new ArrayList<>();

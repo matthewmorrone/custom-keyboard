@@ -55,6 +55,7 @@ public class CustomKeyboardView extends KeyboardView {
 
         this.setClipToOutline(true);
         this.setFitsSystemWindows(true);
+
         // this.textBounds
     }
 
@@ -76,6 +77,7 @@ public class CustomKeyboardView extends KeyboardView {
     protected boolean onLongPress(Key key) {
         if (key.popupCharacters != null) {
             key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
+            key.popupCharacters = Util.uniqueChars(key.popupCharacters.toString());
         }
         if (Util.contains(longPressKeys, key.codes[0])) {
             return true;
@@ -83,7 +85,7 @@ public class CustomKeyboardView extends KeyboardView {
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
             return true;
         }
-        if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
+        if (key.popupCharacters != null && key.popupCharacters.length() > 1) {
             if (sharedPreferences.getBoolean("single_hint", true)) {
                 getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
                 return true;
