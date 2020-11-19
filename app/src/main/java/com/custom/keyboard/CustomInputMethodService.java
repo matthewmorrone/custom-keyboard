@@ -1471,7 +1471,7 @@ public class CustomInputMethodService extends InputMethodService
                                     -5, -7, -8, -9, -10, -11, 32, 37, 43, 45, 46, 48, 49, 50, 51,
                                     52, 53, 54, 55, 56, 57, 61, 94, 215, 247};
     int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94, 61};
-    private void handleCalc(int primaryCode) {
+    private void handleCalculator(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String sanitized = "", scriptResult = "", parserResult = "";
         switch(primaryCode) {
@@ -1760,24 +1760,23 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-
         if (debug) System.out.println("onKey: "+primaryCode);
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
 
         if (primaryCode > 0
-            && mCurrentKeyboard.title != null
-            && mCurrentKeyboard.title.equals("IPA")
-            && mSharedPreferences.getBoolean("ipa_desc", false)
-            && Sounds.getIPA(primaryCode) != -1) {
+         && mCurrentKeyboard.title != null
+         && mCurrentKeyboard.title.equals("IPA")
+         && mSharedPreferences.getBoolean("ipa_desc", false)
+         && Sounds.getIPA(primaryCode) != -1) {
             toastIt("/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
         }
 
         if (primaryCode > 0
-            && mCurrentKeyboard.title != null
-            && mCurrentKeyboard.title.equals("IPA")
-            && mSharedPreferences.getBoolean("ipa", false)
-            && Sounds.getIPA(primaryCode) != -1) {
+         && mCurrentKeyboard.title != null
+         && mCurrentKeyboard.title.equals("IPA")
+         && mSharedPreferences.getBoolean("ipa", false)
+         && Sounds.getIPA(primaryCode) != -1) {
             Sounds.playIPA(getBaseContext(), primaryCode);
         }
         else {
@@ -1785,13 +1784,13 @@ public class CustomInputMethodService extends InputMethodService
         }
 
         if (mCurrentKeyboard.title != null && mCurrentKeyboard.title.equals("Unicode")
-            && !Util.contains(hexPasses, primaryCode)) {
+         && !Util.contains(hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
             return;
         }
         if (mCurrentKeyboard.title != null && mCurrentKeyboard.title.equals("Calculator")
-            && !Util.contains(calcPasses, primaryCode)) {
-            handleCalc(primaryCode);
+         && !Util.contains(calcPasses, primaryCode)) {
+            handleCalculator(primaryCode);
             return;
         }
 
@@ -1925,7 +1924,10 @@ public class CustomInputMethodService extends InputMethodService
                 String text = getSelectedText(ic);
                 toastIt("Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
             break;
-            case -93: toastIt(Util.unidata(getSelectedText(ic))); break;
+            case -93: 
+String unidata = Util.unidata(getSelectedText(ic));
+if (!unidata.isEmpty()) toastIt(unidata);
+            break;
             case -94:
                 if (Variables.isBold()) performReplace(FontVariants.unbolden(getSelectedText(ic)));
                 else performReplace(FontVariants.bolden(getSelectedText(ic)));
@@ -2010,7 +2012,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
             break;
             case -142: setKeyboard(R.layout.function, "Function"); break;
-            case -143: setKeyboard(R.layout.calc, "Calc"); break;
+            case -143: setKeyboard(R.layout.calculator, "Calculator"); break;
             case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;

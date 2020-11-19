@@ -85,12 +85,14 @@ public class CustomKeyboardView extends KeyboardView {
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
             return true;
         }
-        if (key.popupCharacters != null && key.popupCharacters.length() > 1) {
-            if (sharedPreferences.getBoolean("single_hint", true)) {
+        if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
+            // if (sharedPreferences.getBoolean("single_hint", true)) {
                 getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
                 return true;
-            }
+            // }
         }
+
+
         // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
         return super.onLongPress(key);
     }
