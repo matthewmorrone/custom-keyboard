@@ -2,9 +2,15 @@ package com.custom.keyboard;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class PreferenceActivity extends Activity {
     @Override
@@ -12,8 +18,17 @@ public class PreferenceActivity extends Activity {
         super.onCreate(h);
         setContentView(R.layout.pref);
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
-        permissions();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("RequestPermissions"));
     }
+
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Util.orNull(intent.getAction(), "").equals("RequestPermissions")) {
+                permissions();
+            }
+        }
+    };
 
     public void permissions() {
         ActivityCompat.requestPermissions(PreferenceActivity.this, new String[]{

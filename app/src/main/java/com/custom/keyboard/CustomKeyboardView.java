@@ -79,6 +79,9 @@ public class CustomKeyboardView extends KeyboardView {
             key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
             key.popupCharacters = Util.uniqueChars(key.popupCharacters.toString());
         }
+        if (key.codes == null) {
+            return true;
+        }
         if (Util.contains(longPressKeys, key.codes[0])) {
             return true;
         }
@@ -86,14 +89,18 @@ public class CustomKeyboardView extends KeyboardView {
             return true;
         }
         if (key.popupCharacters != null && key.popupCharacters.length() == 1) {
-            // if (sharedPreferences.getBoolean("single_hint", true)) {
+            getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
+            return true;
+        }
+        if (key.popupCharacters != null && key.popupCharacters.length() > 1) {
+            if (sharedPreferences.getBoolean("single_hint", true)) {
                 getOnKeyboardActionListener().onKey(key.popupCharacters.charAt(0), null);
                 return true;
-            // }
+            }
         }
 
 
-        // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
+            // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
         return super.onLongPress(key);
     }
 

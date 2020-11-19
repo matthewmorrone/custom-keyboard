@@ -16,6 +16,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -26,7 +28,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -161,7 +165,15 @@ public class PreferenceFragment
         startActivityForResult(chooseFile, PICK_FILE_RESULT_CODE);
     }
 
+    private void triggerPermissionsRequest() {
+        Intent intent = new Intent("RequestPermissions");
+        intent.putExtra("data", "");
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
+    }
+
     public void exportPreferences() {
+
+        triggerPermissionsRequest();
 
         DownloadManager downloadManager = (DownloadManager)baseContext.getSystemService(DOWNLOAD_SERVICE);
 
