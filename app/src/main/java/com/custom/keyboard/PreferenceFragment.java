@@ -110,25 +110,6 @@ public class PreferenceFragment
     private static final int PICK_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    public void toastIt(String ...args) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
-        // if (!sharedPreferences.getBoolean("debug", false)) return;
-        String text;
-        if (args.length > 1) {
-            StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
-            text = result.toString().trim();
-        }
-        else {
-            text = args[0];
-        }
-        if (toast != null) toast.cancel();
-        toast = Toast.makeText(baseContext, text, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
     public void chooseImageBackground() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -139,21 +120,21 @@ public class PreferenceFragment
     public void resetClipboardHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().remove("clipboard_history").apply();
-        toastIt("Clipboard History Reset");
+        ToastIt.text(baseContext, "Clipboard History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
     public void resetEmoticonHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_emoticons", "").apply();
-        toastIt("Emoticon History Reset");
+        ToastIt.text(baseContext, "Emoticon History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
     public void resetUnicodeHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_unicode", "").apply();
-        toastIt("Unicode History Reset");
+        ToastIt.text(baseContext, "Unicode History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
@@ -190,7 +171,7 @@ public class PreferenceFragment
         String targetFileName = targetFile.getName();
 
         long fileId = downloadManager.addCompletedDownload(sourceFileName, sourceFileName, true, "text/plain", targetFile.getAbsolutePath(), sourceContents.length(), true);
-        toastIt("saved to "+targetFile.getPath());
+        ToastIt.text(baseContext, "saved to "+targetFile.getPath());
 
         /*
         // System.out.println(downloadManager.getUriForDownloadedFile(fileId).getPath());
@@ -230,7 +211,7 @@ public class PreferenceFragment
         }
         baseContext.deleteSharedPreferences("shared_prefs");
         setDefaultPreferences();
-        toastIt("All Preferences Reset!");
+        ToastIt.text(baseContext, "All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
@@ -311,11 +292,11 @@ public class PreferenceFragment
                     editor.apply();
 
                 }
-                toastIt("Preferences Imported!");
+                ToastIt.text(baseContext, "Preferences Imported!");
             }
             catch (IOException e) {
                 e.printStackTrace();
-                toastIt("Preferences not imported");
+                ToastIt.text(baseContext, "Preferences not imported");
             }
             finally {
                 if (reader != null) {
@@ -340,7 +321,6 @@ public class PreferenceFragment
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
 
         addPreferencesFromResource(R.xml.preferences);
-        // PreferenceManager.setDefaultValues(baseContext, R.xml.preferences, true);
         setDefaultPreferences();
 
         String[] themes = getResources().getStringArray(R.array.theme_names);
@@ -362,7 +342,7 @@ public class PreferenceFragment
         background = (ColorPreference)findPreference("background_color");
         foreground = (ColorPreference)findPreference("foreground_color");
         borderColor = (ColorPreference)findPreference("border_color");
-        chooseImageBackground = (Preference)findPreference("choose_image_background");
+        chooseImageBackground = findPreference("choose_image_background");
 
         emoticonRecents = (EditTextPreference)findPreference("emoticon_recents");
         unicodeRecents = (EditTextPreference)findPreference("unicode_recents");
@@ -436,8 +416,7 @@ public class PreferenceFragment
 
         // wordSeparators.setDefaultValue(
         //     // Objects.equals(sharedPreferences.getString("word_separators", ""), "")
-        //     // ?
-        //     getResources().getString(R.string.word_separators)
+        //     // ? getResources().getString(R.string.word_separators)
         //     // : sharedPreferences.getString("word_separators", "")
         // );
 

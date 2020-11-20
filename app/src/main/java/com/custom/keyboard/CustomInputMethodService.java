@@ -73,10 +73,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
-// import android.view.inputmethod.InlineSuggestionsRequest;
-
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
                SpellCheckerSession.SpellCheckerSessionListener {
@@ -111,94 +107,6 @@ public class CustomInputMethodService extends InputMethodService
     private SpellChecker mSpellChecker;
     private SpellCheckerSession mScs;
 
-    Toast mToast;
-
-    public void toastText(String... args) {
-        String text;
-        if (args.length > 1) {
-            StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
-            text = result.toString().trim();
-        }
-        else {
-            text = args[0];
-        }
-        toastText(text);
-    }
-    public void toastText(String text) {
-        if (!sharedPreferences.getBoolean("debug", false)) return;
-        if (mToast != null) mToast.cancel();
-        Spanned spanned = Html.fromHtml("<font color='#000000'><b>" + text + "</b></font>");
-        mToast = Toast.makeText(getBaseContext(), spanned, Toast.LENGTH_LONG);
-        // mToast.getView().setBackgroundColor(Color.parseColor("#00000000"));
-        mToast.getView().setAlpha(.8f);
-        mToast.show();
-    }
-
-    public void toastInfo(String... args) {
-        String text;
-        if (args.length > 1) {
-            StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
-            text = result.toString().trim();
-        }
-        else {
-            text = args[0];
-        }
-        toastInfo(text);
-    }
-    public void toastInfo(String text) {
-        if (!sharedPreferences.getBoolean("debug", false)) return;
-        if (mToast != null) mToast.cancel();
-
-        Spanned spanned = Html.fromHtml("<font color='#ffffff'><b>" + text + "</b></font>");
-        mToast = Toast.makeText(getBaseContext(), spanned, Toast.LENGTH_LONG);
-
-        View toastRoot = getLayoutInflater().inflate(R.layout.toast_info, null);
-        TextView toastTextView = (TextView)toastRoot.findViewById(R.id.content);
-        toastTextView.setText(spanned);
-        mToast.setView(toastRoot);
-
-        mToast.setGravity(Gravity.CENTER, 0, 0);
-        mToast.show();
-    }
-
-    public void toastError(Exception e) {
-        toastError(e.toString());
-    }
-    public void toastError(String... args) {
-        String text;
-        if (args.length > 1) {
-            StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
-            text = result.toString().trim();
-        }
-        else {
-            text = args[0];
-        }
-        toastError(text);
-    }
-    public void toastError(String text) {
-        if (!sharedPreferences.getBoolean("debug", false)) return;
-        if (mToast != null) mToast.cancel();
-
-        Spanned spanned = Html.fromHtml("<font color='red'><b>" + text + "</b></font>");
-        mToast = Toast.makeText(getBaseContext(), spanned, Toast.LENGTH_LONG);
-
-        View toastRoot = getLayoutInflater().inflate(R.layout.toast_error, null);
-        TextView toastTextView = (TextView)toastRoot.findViewById(R.id.content);
-        toastTextView.setText(spanned);
-        mToast.setView(toastRoot);
-
-        mToast.show();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -212,12 +120,12 @@ public class CustomInputMethodService extends InputMethodService
 
         longPressTimer = new Timer();
 
-        sharedPreferences = refreshPreferences(); // this?
+        sharedPreferences = getPreferences(); // this?
 
-        mToast = new Toast(this);
+        new ToastIt(sharedPreferences, getLayoutInflater());
     }
 
-    public SharedPreferences refreshPreferences() {
+    public SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); // this?
     }
 
@@ -1047,7 +955,7 @@ public class CustomInputMethodService extends InputMethodService
         if (word.trim().isEmpty()) return;
         UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
         mSpellChecker.addToTrie(word);
-        toastText(word+" added to dictionary");
+        ToastIt.text(getBaseContext(), word+" added to dictionary");
     }
     public void pickDefaultCandidate() {
         pickSuggestionManually(0);
@@ -1454,11 +1362,11 @@ public class CustomInputMethodService extends InputMethodService
         else {
             if (sharedPreferences.getBoolean("tabs", true)) {
                 commitText("	");
-                toastText("tab");
+                ToastIt.text(getBaseContext(), "tab");
             }
             else {
                 commitText("    ");
-                toastText("4 spaces");
+                ToastIt.text(getBaseContext(), "4 spaces");
             }
         }
         if (isSelecting()) ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
@@ -1655,7 +1563,7 @@ public class CustomInputMethodService extends InputMethodService
 
     public void handleShift() {
         InputConnection ic = getCurrentInputConnection();
-        sharedPreferences = refreshPreferences();
+        sharedPreferences = getPreferences();
 
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0 &&
             sharedPreferences.getBoolean("toggle_shift", false)) {
@@ -1831,7 +1739,7 @@ public class CustomInputMethodService extends InputMethodService
          && mCurrentKeyboard.title.equals("IPA")
          && sharedPreferences.getBoolean("ipa_desc", false)
          && Sounds.getIPA(primaryCode) != -1) {
-            toastInfo("/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
+            ToastIt.info(getBaseContext(), "/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
         }
 
         if (primaryCode > 0
@@ -1955,13 +1863,13 @@ public class CustomInputMethodService extends InputMethodService
                 ere = Util.countChars(getSelectedText(ic));
                 performReplace(Util.uniqueChars(getSelectedText(ic)));
                 aft = Util.countChars(getSelectedText(ic));
-                toastText(ere + " → " + aft);
+                ToastIt.text(getBaseContext(), ere + " → " + aft);
             break;
             case -72:
                 ere = Util.countLines(getSelectedText(ic));
                 performReplace(Util.uniqueLines(getSelectedText(ic)));
                 aft = Util.countLines(getSelectedText(ic));
-                toastText(ere + " → " + aft);
+                ToastIt.text(getBaseContext(), ere + " → " + aft);
             break;
             case -73: commitText(Util.timemoji()); break;
             case -74: ic.performContextMenuAction(16908338); break; // undo
@@ -1984,11 +1892,11 @@ public class CustomInputMethodService extends InputMethodService
             case -91: ic.performContextMenuAction(16908317); break; // candidatesArea
             case -92:
                 String text = getSelectedText(ic);
-                toastInfo("Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
+                ToastIt.info(getBaseContext(), "Chars: " + Util.countChars(text) + "\nWords: " + Util.countWords(text) + "\nLines: " + Util.countLines(text));
             break;
             case -93: 
                 String unidata = Util.unidata(getSelectedText(ic));
-                if (!unidata.isEmpty()) toastInfo(unidata);
+                if (!unidata.isEmpty()) ToastIt.info(getBaseContext(), unidata);
             break;
             case -94:
                 if (Variables.isBold()) performReplace(FontVariants.unbolden(getSelectedText(ic)));
@@ -2376,7 +2284,7 @@ public class CustomInputMethodService extends InputMethodService
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    toastInfo(emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon()));
+                    ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" "+Util.unidata(emoticon.getEmoticon()));
                     commitText(emoticon.getEmoticon());
                 }
             });
@@ -2388,7 +2296,7 @@ public class CustomInputMethodService extends InputMethodService
                     String emoticonFavorites = new String(sharedPreferences.getString("emoticon_favorites", ""));
                     if (tab == 0) {
                         emoticonPopup.removeRecentEmoticon(getBaseContext(), emoticon);
-                        toastInfo(emoticon.getEmoticon()+" removed from emoticon recents");
+                        ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" removed from emoticon recents");
                     }
                     else if (tab == 10) {
                         StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
@@ -2397,7 +2305,7 @@ public class CustomInputMethodService extends InputMethodService
                         }
                         emoticonFavorites = sb.toString();
                         sharedPreferences.edit().putString("emoticon_favorites", emoticonFavorites).apply();
-                        toastInfo(emoticon.getEmoticon()+" removed from emoticon favorites");
+                        ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" removed from emoticon favorites");
                     }
                     else {
                         StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
@@ -2407,7 +2315,7 @@ public class CustomInputMethodService extends InputMethodService
                         sb.append(emoticon.getEmoticon());
                         emoticonFavorites = new String(sb.toString());
                         sharedPreferences.edit().putString("emoticon_favorites", new String(emoticonFavorites)).apply();
-                        toastInfo(emoticon.getEmoticon()+" added to emoticon favorites");
+                        ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" added to emoticon favorites");
                     }
                 }
             });
@@ -2470,7 +2378,7 @@ public class CustomInputMethodService extends InputMethodService
                         return;
                     }
                     playClick();
-                    toastText(unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
+                    ToastIt.text(getBaseContext(), unicode.getUnicode()+" "+Util.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
                     if (debug) System.out.println("recents: "+ sharedPreferences.getString("unicode_recents", ""));
                     if (debug) System.out.println("favorites: "+ sharedPreferences.getString("unicode_favorites", ""));
@@ -2491,11 +2399,11 @@ public class CustomInputMethodService extends InputMethodService
                         sb.append(unicode.getUnicode());
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        toastText(unicode.getUnicode()+" added to unicode favorites");
+                        ToastIt.text(getBaseContext(), unicode.getUnicode()+" added to unicode favorites");
                     }
                     if (tab == 1) {
                         unicodePopup.removeRecentUnicode(getBaseContext(), unicode);
-                        toastText(unicode.getUnicode()+" removed from unicode recents");
+                        ToastIt.text(getBaseContext(), unicode.getUnicode()+" removed from unicode recents");
                     }
                     if (tab == 2) {
                         StringBuilder sb = new StringBuilder(unicodeFavorites);
@@ -2504,7 +2412,7 @@ public class CustomInputMethodService extends InputMethodService
                         }
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        toastText(unicode.getUnicode()+" removed from favorites");
+                        ToastIt.text(getBaseContext(), unicode.getUnicode()+" removed from favorites");
                     }
                     if (debug) System.out.println("recents: "+ sharedPreferences.getString("unicode_recents", ""));
                     if (debug) System.out.println("favorites: "+ sharedPreferences.getString("unicode_favorites", ""));
@@ -2551,7 +2459,7 @@ public class CustomInputMethodService extends InputMethodService
 
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Intents.startIntent(getBaseContext(), intent);
             return;
         }

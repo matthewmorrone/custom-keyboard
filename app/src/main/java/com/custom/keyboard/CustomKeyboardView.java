@@ -99,8 +99,7 @@ public class CustomKeyboardView extends KeyboardView {
             }
         }
 
-
-            // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
+        // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
         return super.onLongPress(key);
     }
 

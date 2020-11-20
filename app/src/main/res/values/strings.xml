@@ -2,13 +2,8 @@
 <resources>
     <string name="app_name">Custom Keyboard</string>
     <string name="version" translatable="false">Version 0.0.0</string>
-<!--     <string name="sound">Sound on Key Press</string> -->
-<!--     <string name="vib">Vibrate on key press</string> -->
-<!--     <string name="borders">Key borders</string> -->
-<!--     <string name="pred">Enable Suggestions</string> -->
-<!--     <string name="auto">Enable Autoreplace</string> -->
-<!--     <string name="caps">Enable Autocapitalization</string> -->
-<!--     <string name="toggle_case">Toggle Selection Case</string> -->
+    <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="subtype_generic">%s</string>
     <string-array name="theme_keys">
         <item name="1">1</item>
         <item name="2">2</item>
@@ -78,6 +73,13 @@
     <string name="emoticons_default_category">Emoticons Default Category</string>
     <string name="emoticons_favorites_category">Emoticons Favorites Category</string>
     <string name="close_keyboard">Close Keyboard</string>
+<!--     <string name="sound">Sound on Key Press</string> -->
+<!--     <string name="vib">Vibrate on key press</string> -->
+<!--     <string name="borders">Key borders</string> -->
+<!--     <string name="pred">Enable Suggestions</string> -->
+<!--     <string name="auto">Enable Autoreplace</string> -->
+<!--     <string name="caps">Enable Autocapitalization</string> -->
+<!--     <string name="toggle_case">Toggle Selection Case</string> -->
 <!--     <string name="ipa_sounds">Play IPA Sounds</string> -->
 <!--     <string name="ipa_desc">Show IPA Info</string> -->
 <!--     <string name="pairs">Insert Pairs</string> -->
@@ -107,7 +109,6 @@
 <!--     <string name="unicode_recents">Unicode Recents</string> -->
 <!--     <string name="emoticon_favorites">Emoticon Favorites</string> -->
 <!--     <string name="unicode_favorites">Unicode Favorites</string> -->
-    <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
 <!--     <string name="spacebar">Spacebar</string> -->
 <!--     <string name="key_height">Key Height</string> -->
 <!--     <string name="key_transparency">Keyboard Transparency</string> -->
@@ -119,5 +120,4 @@
 <!--     <string name="import_preferences">Import Settings File</string> -->
 <!--     <string name="export_preferences">Export Settings File</string> -->
 <!--     <string name="choose_image_background">Choose Image Background</string> -->
-    <string name="subtype_generic">%s</string>
 </resources>

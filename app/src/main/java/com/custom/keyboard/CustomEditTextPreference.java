@@ -7,15 +7,15 @@ import android.widget.TextView;
 
 import android.preference.EditTextPreference;
 
-public class MultiLineTitleEditTextPreference extends EditTextPreference {
-    public MultiLineTitleEditTextPreference(Context context, AttributeSet attrs, int defStyle) {
+public class CustomEditTextPreference extends EditTextPreference {
+    public CustomEditTextPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-    public MultiLineTitleEditTextPreference(Context context, AttributeSet attrs) {
+    public CustomEditTextPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MultiLineTitleEditTextPreference(Context context) {
+    public CustomEditTextPreference(Context context) {
         super(context);
     }
 

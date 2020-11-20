@@ -1,0 +1,304 @@
+Index: app/src/main/java/com/custom/keyboard/MultiLineTitleEditTextPreference.java
+===================================================================
+--- app/src/main/java/com/custom/keyboard/MultiLineTitleEditTextPreference.java	(revision e39bd55b48c77bbd8fdc170a4e7ead102d569d8a)
++++ app/src/main/java/com/custom/keyboard/CustomEditTextPreference.java	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -1,24 +1,32 @@
+ package com.custom.keyboard;
+ 
++import android.app.AlertDialog;
+ import android.content.Context;
++import android.preference.EditTextPreference;
+ import android.util.AttributeSet;
+ import android.view.View;
+ import android.widget.TextView;
+ 
+-import android.preference.EditTextPreference;
++public class CustomEditTextPreference extends EditTextPreference {
+ 
+-public class MultiLineTitleEditTextPreference extends EditTextPreference {
+-    public MultiLineTitleEditTextPreference(Context context, AttributeSet attrs, int defStyle) {
++    public CustomEditTextPreference(Context context, AttributeSet attrs, int defStyle) {
+         super(context, attrs, defStyle);
+     }
+-    public MultiLineTitleEditTextPreference(Context context, AttributeSet attrs) {
++
++    public CustomEditTextPreference(Context context, AttributeSet attrs) {
+         super(context, attrs);
+     }
+ 
+-    public MultiLineTitleEditTextPreference(Context context) {
++    public CustomEditTextPreference(Context context) {
+         super(context);
+     }
+ 
++    @Override
++    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
++        builder.getContext().setTheme(R.style.PreferenceThemeDialog);
++        super.onPrepareDialogBuilder(builder);
++    }
++
+     @Override
+     protected void onBindView(View view) {
+         super.onBindView(view);
+Index: app/src/main/java/com/custom/keyboard/CustomKeyboardView.java
+===================================================================
+--- app/src/main/java/com/custom/keyboard/CustomKeyboardView.java	(revision e39bd55b48c77bbd8fdc170a4e7ead102d569d8a)
++++ app/src/main/java/com/custom/keyboard/CustomKeyboardView.java	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -98,9 +98,8 @@
+                 return true;
+             }
+         }
+-
+-
+-            // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
++        
++        // if (key.popupCharacters.length() > 8) key.popupResId = R.layout.popup_template;
+         return super.onLongPress(key);
+     }
+ 
+Index: app/src/main/java/com/custom/keyboard/NumberPickerPreference.java
+===================================================================
+--- app/src/main/java/com/custom/keyboard/NumberPickerPreference.java	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
++++ app/src/main/java/com/custom/keyboard/NumberPickerPreference.java	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -0,0 +1,23 @@
++package com.custom.keyboard;
++
++import android.content.Context;
++import android.preference.DialogPreference;
++import android.util.AttributeSet;
++import android.widget.NumberPicker;
++
++public class NumberPickerPreference extends DialogPreference {
++    public NumberPickerPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++
++        setDialogLayoutResource(R.layout.number_picker_dialog);
++        setPositiveButtonText(android.R.string.ok);
++        setNegativeButtonText(android.R.string.cancel);
++
++        setDefaultValue(100);
++
++        // NumberPickerPreference numberPickerPreference = (NumberPickerPreference)findPreferenceInHierarchy("number_picker");
++        // numberPickerPreference.setDefaultValue(100);
++
++        setDialogIcon(null);
++    }
++}
+Index: app/src/main/res/layout/number_picker_dialog.xml
+===================================================================
+--- app/src/main/res/layout/number_picker_dialog.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
++++ app/src/main/res/layout/number_picker_dialog.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:layout_gravity="center"
++    android:gravity="center_horizontal">
++    <NumberPicker
++        android:id="@+id/number_picker"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"/>
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/custom_dialog.xml
+===================================================================
+--- app/src/main/res/values/custom_dialog.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
++++ app/src/main/res/values/custom_dialog.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources xmlns:android="http://schemas.android.com/apk/res/android">
++    <style name="custom_dialog" parent="@android:style/Theme.Dialog">
++        <item name="android:textColor">#00FF00</item>
++        <item name="android:typeface">monospace</item>
++        <item name="android:textSize">10sp</item>
++    </style>
++</resources>
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision e39bd55b48c77bbd8fdc170a4e7ead102d569d8a)
++++ app/src/main/res/values/strings.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -2,13 +2,16 @@
+ <resources>
+     <string name="app_name">Custom Keyboard</string>
+     <string name="version" translatable="false">Version 0.0.0</string>
+-<!--     <string name="sound">Sound on Key Press</string> -->
+-<!--     <string name="vib">Vibrate on key press</string> -->
+-<!--     <string name="borders">Key borders</string> -->
+-<!--     <string name="pred">Enable Suggestions</string> -->
+-<!--     <string name="auto">Enable Autoreplace</string> -->
+-<!--     <string name="caps">Enable Autocapitalization</string> -->
+-<!--     <string name="toggle_case">Toggle Selection Case</string> -->
++    <string-array name="planets_array">
++        <item>Mercury</item>
++        <item>Venus</item>
++        <item>Earth</item>
++        <item>Mars</item>
++        <item>Jupiter</item>
++        <item>Saturn</item>
++        <item>Uranus</item>
++        <item>Neptune</item>
++    </string-array>
+     <string-array name="theme_keys">
+         <item name="1">1</item>
+         <item name="2">2</item>
+@@ -57,6 +60,8 @@
+         <item name="21">Material, Lite text</item>
+         <item name="22">Material, Dark text</item>
+     </string-array>
++    <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
++    <string name="subtype_generic">%s</string>
+     <string name="enable">Enable</string>
+     <string name="select">Select</string>
+     <string name="settings">Settings</string>
+@@ -78,6 +83,13 @@
+     <string name="emoticons_default_category">Emoticons Default Category</string>
+     <string name="emoticons_favorites_category">Emoticons Favorites Category</string>
+     <string name="close_keyboard">Close Keyboard</string>
++<!--     <string name="sound">Sound on Key Press</string> -->
++<!--     <string name="vib">Vibrate on key press</string> -->
++<!--     <string name="borders">Key borders</string> -->
++<!--     <string name="pred">Enable Suggestions</string> -->
++<!--     <string name="auto">Enable Autoreplace</string> -->
++<!--     <string name="caps">Enable Autocapitalization</string> -->
++<!--     <string name="toggle_case">Toggle Selection Case</string> -->
+ <!--     <string name="ipa_sounds">Play IPA Sounds</string> -->
+ <!--     <string name="ipa_desc">Show IPA Info</string> -->
+ <!--     <string name="pairs">Insert Pairs</string> -->
+@@ -107,7 +119,6 @@
+ <!--     <string name="unicode_recents">Unicode Recents</string> -->
+ <!--     <string name="emoticon_favorites">Emoticon Favorites</string> -->
+ <!--     <string name="unicode_favorites">Unicode Favorites</string> -->
+-    <string name="word_separators" translatable="false">\u0020.,;:!?()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+ <!--     <string name="spacebar">Spacebar</string> -->
+ <!--     <string name="key_height">Key Height</string> -->
+ <!--     <string name="key_transparency">Keyboard Transparency</string> -->
+@@ -119,5 +130,4 @@
+ <!--     <string name="import_preferences">Import Settings File</string> -->
+ <!--     <string name="export_preferences">Export Settings File</string> -->
+ <!--     <string name="choose_image_background">Choose Image Background</string> -->
+-    <string name="subtype_generic">%s</string>
+ </resources>
+Index: app/src/main/res/values/styles.xml
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
++++ app/src/main/res/values/styles.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <style name="PreferenceThemeDialog">
++        <item name="android:textColor">@color/white</item>
++    </style>
++</resources>
+\ No newline at end of file
+Index: app/src/main/res/xml/preferences.xml
+===================================================================
+--- app/src/main/res/xml/preferences.xml	(revision e39bd55b48c77bbd8fdc170a4e7ead102d569d8a)
++++ app/src/main/res/xml/preferences.xml	(revision 87b8d4acd71104642d4fc072c5b29100170ee5ab)
+@@ -8,7 +8,7 @@
+         <SwitchPreference android:defaultValue="false" android:key="vib"          android:title="Key Press Vibration" />
+         <com.custom.keyboard.SeekPreference android:key="vib_duration"            android:title="Vibration Duration"  app:value="40"  app:max="100"  app:min="10"  app:step="10"  />
+         <SwitchPreference android:defaultValue="false" android:key="ipa"          android:title="Play IPA Sound" />
+-        <SwitchPreference android:defaultValue="false" android:key="ipa_desc"     android:title="Show IPA Description" />
++        <!--<SwitchPreference android:defaultValue="false" android:key="ipa_desc"     android:title="Show IPA Description" />-->
+         <SwitchPreference android:defaultValue="false" android:key="include_self" android:title="Include Main Key in Popup" />
+         <SwitchPreference android:defaultValue="false" android:key="preview"      android:title="Show Key Preview" />
+         <SwitchPreference android:defaultValue="true"  android:key="single_hint"  android:title="Disable Long Press Popup" />
+@@ -18,11 +18,20 @@
+         <SwitchPreference android:key="pred"   android:title="Text Prediction" />
+         <SwitchPreference android:key="auto"   android:title="Autoreplace" />
+         <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />
+-        <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" />
+-        <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" />
++        <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" android:summary="Change case of highlighted text on shift" />
++        <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
+         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
+-        <SwitchPreference android:key="indent" android:title="Indent Helper" />
+-        <SwitchPreference android:key="tabs"   android:title="Use Tabs" />
++        <SwitchPreference android:key="indent" android:title="Indent Helper"
++                          android:summaryOff=""
++                          android:summaryOn=""
++        />
++        <!--
++        @TODO: adjust how many spaces based on indent_width
++        -->
++        <SwitchPreference android:key="tabs"   android:title="Use Tabs"
++                          android:summaryOff="Use 4 Spaces"
++                          android:summaryOn="Use Tab Character"
++        />
+         <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
+     </PreferenceScreen>
+     <PreferenceScreen android:title="Appearance">
+@@ -35,7 +44,10 @@
+         <EditTextPreference android:defaultValue="32" android:dialogTitle="Hint Font Size" android:digits="1234567890" android:inputType="number" android:key="hint_font_size" android:title="Hint Font Size" android:selectAllOnFocus="true" />
+         <EditTextPreference android:defaultValue="24" android:dialogTitle="Emoticon Font Size" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="Emoticon Font Size" android:selectAllOnFocus="true" />
+         <EditTextPreference android:defaultValue="24" android:dialogTitle="Unicode Font Size" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size" android:title="Unicode Font Size" android:selectAllOnFocus="true" />
+-        <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Color Space Bar Distinctly" />
++        <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Space Bar Appearance"
++                          android:summaryOff="Make space bar look distinct"
++                          android:summaryOn="Make space bar look indistinct"
++            />
+         <ListPreference android:defaultValue="1" android:dialogTitle="Theme" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" />
+         <com.custom.keyboard.ColorPreference android:key="background_color" android:title="Background Color" />
+         <com.custom.keyboard.ColorPreference android:key="foreground_color" android:title="Text Color" />
+@@ -63,16 +75,35 @@
+         <EditTextPreference android:key="k8"                 android:title="Custom Key 8" android:selectAllOnFocus="true" />
+     </PreferenceScreen>
+     <PreferenceScreen android:title="Hints">
+-        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true" />
++        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true"
++                          android:summaryOff="Enable Hints"
++                          android:summaryOn="Disable Hints"
++        />
+         <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" android:defaultValue="true" />
+         <SwitchPreference android:dependency="hints" android:key="hint2" android:title="Hint 2" />
+         <SwitchPreference android:dependency="hints" android:key="hint3" android:title="Hint 3" />
+         <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
+     </PreferenceScreen>
+     <PreferenceScreen android:title="Advanced">
+-        <!--android:summaryOff=""-->
+-        <!--android:summaryOn=""-->
+-        <SwitchPreference   android:key="debug"                   android:title="Debug" android:defaultValue="true" />
++        <Preference android:key="show_dialog" android:title="Show Dialog" />
++        <com.custom.keyboard.NumberPickerPreference android:key="number_picker" android:title="Number Picker" />
++        <EditTextPreference
++            android:selectAllOnFocus="true"
++            android:singleLine="false"
++            android:title="XML Editor"
++            android:key="xml_editor" />
++        <SwitchPreference   android:key="toast"                   android:title="Toast" android:defaultValue="true"
++                            android:summaryOff="Enable Toasts"
++                            android:summaryOn="Disable Toasts"
++        />
++        <SwitchPreference   android:key="info"                    android:title="Info"  android:defaultValue="true"
++                            android:summaryOff="Enable Info Toasts"
++                            android:summaryOn="Disable Info Toasts"
++        />
++        <SwitchPreference   android:key="error"                   android:title="Error" android:defaultValue="true"
++                            android:summaryOff="Enable Error Toasts"
++                            android:summaryOn="Disable Error Toasts"
++        />
+         <Preference         android:key="import_preferences"      android:title="Import Preferences" />
+         <Preference         android:key="export_preferences"      android:title="Export Preferences" />
+         <EditTextPreference android:key="word_separators"         android:title="Word Separators" android:selectAllOnFocus="true" />
+@@ -82,17 +113,4 @@
+         <Preference         android:key="reset_all_preferences"   android:title="Reset All Preferences" />
+         <Preference         android:key="set_default_preferences" android:title="Set Default Preferences" />
+     </PreferenceScreen>
+-    <PreferenceScreen android:title="XML">
+-        <!--<MultiSelectListPreference />-->
+-        <com.custom.keyboard.MultiLineTitleEditTextPreference
+-
+-            />
+-        <Preference
+-            android:selectAllOnFocus="true"
+-            android:singleLine="false"
+-            android:title="Version "
+-            android:key="edit_text_preference_1"
+-            android:summary="1.0"
+-            android:enabled="true" />
+-    </PreferenceScreen>
+ </PreferenceScreen>
+\ No newline at end of file
