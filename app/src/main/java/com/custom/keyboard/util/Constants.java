@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 public class Constants {
     public static String[] answers = new String[]{

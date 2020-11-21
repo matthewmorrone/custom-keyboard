@@ -2,7 +2,7 @@ package com.custom.keyboard.emoticon;
 
 import android.graphics.Paint;
 
-// import com.custom.keyboard.Util;
+// import com.custom.keyboard.util.Util;
 
 import java.io.Serializable;
 

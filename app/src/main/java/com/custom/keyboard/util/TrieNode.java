@@ -1,14 +1,14 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import java.util.HashMap;
 
-class TrieNode implements Comparable<TrieNode> {
-    char c;
-    String word;
-    TrieNode parent;
-    HashMap<Character,TrieNode> children = new HashMap<>();
-    boolean isLeaf;
-    long value;
+public class TrieNode implements Comparable<TrieNode> {
+    public char c;
+    public String word;
+    public TrieNode parent;
+    public HashMap<Character,TrieNode> children = new HashMap<>();
+    public boolean isLeaf;
+    public long value;
 
     public TrieNode() {}
     public TrieNode(char c) {

@@ -1,6 +1,5 @@
 package com.custom.keyboard;
 
-import android.app.Service;
 import android.content.Context;
 import android.service.textservice.SpellCheckerService;
 import android.view.textservice.SentenceSuggestionsInfo;

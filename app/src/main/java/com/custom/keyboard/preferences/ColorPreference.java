@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.preferences;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -17,11 +17,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
+import com.custom.keyboard.R;
+
 public class ColorPreference extends DialogPreference {
 
     public int color;
-    protected int defcolor;
-    protected String attribute;
+    public int defcolor;
+    public String attribute;
     public View colorView;
 
     public int getColor() {
@@ -54,7 +56,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     @Override
-    protected void onBindView(View view) {
+    public void onBindView(View view) {
         super.onBindView(view);
         colorView = view;
         // Set our custom views inside the layout
@@ -63,7 +65,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     @Override
-    protected boolean callChangeListener(Object newValue) {
+    public boolean callChangeListener(Object newValue) {
         // System.out.println(newValue);
 
         // setup the view
@@ -81,7 +83,7 @@ public class ColorPreference extends DialogPreference {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    public void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         // Data has changed, notify so UI can be refreshed!
         builder.setTitle("Choose a color");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

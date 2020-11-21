@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -14,7 +14,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.preference.Preference;
+import com.custom.keyboard.PreferenceActivity;
 
 import java.util.List;
 
@@ -59,8 +59,8 @@ public class Intents {
     }
 
     public static void dialPhone(Context context, String phoneNumber) {
-        if (!Util.isValidPhoneNumber(phoneNumber)) {
-            Util.toastIt(context, phoneNumber+" is not a valid phone number.");
+        if (!StringUtils.isValidPhoneNumber(phoneNumber)) {
+            ToastIt.text(context, phoneNumber+" is not a valid phone number.");
             return;
         }
         Intent intent = new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phoneNumber));
@@ -68,20 +68,20 @@ public class Intents {
     }
 
     public static void openWebpage(Context context, String url) {
-        if (!Util.isValidUrl(url)) url = "https://"+url;
-        if (!Util.isValidUrl(url)) {
-            Util.toastIt(context, url+" is not a valid URL.");
+        if (!StringUtils.isValidUrl(url)) url = "https://"+url;
+        if (!StringUtils.isValidUrl(url)) {
+            ToastIt.text(context, url+" is not a valid URL.");
             return;
         }
         Uri webpage = Uri.parse(url);
-        Util.toastIt(context, "Opening "+url+" in browser…");
+        ToastIt.text(context, "Opening "+url+" in browser…");
         Intent intent = new Intent(Intent.ACTION_VIEW).setData(webpage);
         startIntent(context, intent);
     }
 
     public static void searchWeb(Context context, String query) {
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, query);
-        Util.toastIt(context, "Searching for: "+query);
+        ToastIt.text(context, "Searching for: "+query);
         startIntent(context, intent);
     }
 
@@ -94,13 +94,13 @@ public class Intents {
     public static void showLocationFromAddress(Context context, String address) {
         // Util.toastIt(context, address);
         // System.out.println("showLocationFromAddress");
-        Uri location = Uri.parse("geo:0,0?q=" + Util.encodeUrl(address));
+        Uri location = Uri.parse("geo:0,0?q=" + StringUtils.encodeUrl(address));
         showMap(context, location);
     }
 
     public static void showLocationFromAddress(Context context, String address, int zoom) {
         // System.out.println("showLocationFromAddress zoom");
-        address = Util.encodeUrl(address);
+        address = StringUtils.encodeUrl(address);
         Uri location = Uri.parse("geo:0,0?q=" + address + "?z=" + zoom);
         showMap(context, location);
     }

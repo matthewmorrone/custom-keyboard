@@ -16,6 +16,13 @@ import android.graphics.Paint;
 import android.inputmethodservice.Keyboard.Key;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+
+import com.custom.keyboard.util.StringUtils;
+import com.custom.keyboard.util.TimeUtils;
+import com.custom.keyboard.util.Util;
+import com.custom.keyboard.util.Variables;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +62,6 @@ public class CustomKeyboardView extends KeyboardView {
 
         this.setClipToOutline(true);
         this.setFitsSystemWindows(true);
-
-        // this.textBounds
     }
 
     public CustomKeyboard getCustomKeyboard() {
@@ -66,7 +71,7 @@ public class CustomKeyboardView extends KeyboardView {
     public ArrayList<String> getClipboardHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String clipboardHistory = Util.orNull(sharedPreferences.getString("clipboard_history", ""), "");
-        ArrayList<String> clipboardHistoryArray = new ArrayList<String>(Util.deserialize(clipboardHistory));
+        ArrayList<String> clipboardHistoryArray = new ArrayList<String>(StringUtils.deserialize(clipboardHistory));
         Collections.reverse(clipboardHistoryArray);
         return clipboardHistoryArray;
     }
@@ -77,12 +82,12 @@ public class CustomKeyboardView extends KeyboardView {
     protected boolean onLongPress(Key key) {
         if (key.popupCharacters != null) {
             key.popupCharacters = key.popupCharacters.toString().replace("◌", "");
-            key.popupCharacters = Util.uniqueChars(key.popupCharacters.toString());
+            key.popupCharacters = StringUtils.uniqueChars(key.popupCharacters.toString());
         }
         if (key.codes == null) {
             return true;
         }
-        if (Util.contains(longPressKeys, key.codes[0])) {
+        if (StringUtils.contains(longPressKeys, key.codes[0])) {
             return true;
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
@@ -110,6 +115,12 @@ public class CustomKeyboardView extends KeyboardView {
         if (corner > 0) canvas.drawRoundRect(key.x, key.y, key.x+key.width, key.y+key.height, corner, corner, mPaint);
         else canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
         canvas.restore();
+    }
+
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        System.out.println("onCreateInputConnection: "+outAttrs);
+        return super.onCreateInputConnection(outAttrs);
     }
 
     public void drawable(Key key) {
@@ -224,7 +235,7 @@ public class CustomKeyboardView extends KeyboardView {
                 }
             }
 
-            if (primaryCode == -73)   key.label = Util.timemoji();
+            if (primaryCode == -73)   key.label = TimeUtils.timemoji();
             if (getCustomKeyboard().title != null && getCustomKeyboard().title.equals("Clipboard")) {
                 if (primaryCode == -301 && clipboardHistoryList.size() >  0) key.label = clipboardHistoryList.get( 0);
                 if (primaryCode == -302 && clipboardHistoryList.size() >  1) key.label = clipboardHistoryList.get( 1);
@@ -268,7 +279,7 @@ public class CustomKeyboardView extends KeyboardView {
                 mPaint.getTextBounds(text, 0, text.length(), bounds);
                 int boundsWidth = bounds.width();
                 // System.out.println(primaryCode+" "+containingWidth+" "+boundsWidth+" "+text);
-                if (boundsWidth > containingWidth - 50) key.label = Util.safeSubstring(key.text.toString(), 0, 10);
+                if (boundsWidth > containingWidth - 50) key.label = StringUtils.safeSubstring(key.text.toString(), 0, 10);
             }
 
             if (primaryCode == 32 && sharedPreferences.getBoolean("space", false)) selectKey(key, borderRadius);

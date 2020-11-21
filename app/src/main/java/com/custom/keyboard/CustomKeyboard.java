@@ -8,6 +8,10 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.view.inputmethod.EditorInfo;
 
+import com.custom.keyboard.util.CustomKey;
+import com.custom.keyboard.util.StringUtils;
+import com.custom.keyboard.util.Util;
+
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
 
     static final int KEYCODE_OPTIONS = -100;
@@ -37,7 +41,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
     public CustomKeyboard(Context context, int xmlLayoutResId, String title, String label, int order) {
         super(context, xmlLayoutResId);
         this.xmlLayoutResId = xmlLayoutResId;
-        this.title = !Util.containsLowerCase(title) ? title : Util.toTitleCase(title);
+        this.title = !StringUtils.containsLowerCase(title) ? title : StringUtils.toTitleCase(title);
         this.order = order;
         if (this.order < 0) {
             this.order = 1024 + this.order;

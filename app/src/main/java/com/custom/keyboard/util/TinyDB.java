@@ -19,7 +19,7 @@
  *  and unicode 2017 that are used for separating the items in a list.
  */
 
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import java.io.File;
 import java.io.FileOutputStream;

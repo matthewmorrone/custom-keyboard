@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;

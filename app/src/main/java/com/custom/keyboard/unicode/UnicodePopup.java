@@ -18,16 +18,14 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.Util;
+import com.custom.keyboard.util.Util;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeClickedListener;
 import com.custom.keyboard.unicode.UnicodeGridView.OnUnicodeLongClickedListener;
 

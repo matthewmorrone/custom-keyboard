@@ -1,60 +1,31 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.Normalizer;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
@@ -62,108 +33,11 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class Util {
+import static com.custom.keyboard.util.RandomUtils.generateRandomInt;
 
+public class StringUtils {
+    // info
 
-    public static String safeSubstring(String text, int beginIndex, int endIndex) {
-        return text.substring(beginIndex, Math.min(endIndex, text.length()));
-    }
-
-    public static void show2Darray(String [][] arr) {
-        for (String[] ar : arr) {
-            if (ar == null) continue;
-            for (String a: ar) {
-                System.out.print(" " + a);
-            }
-            System.out.println();
-        }
-    }
-
-
-    public static int choose(int[] array) {
-        int rnd = new Random().nextInt(array.length);
-        return array[rnd];
-    }
-
-
-    public static void toastIt(Context context, String input) {
-        Toast.makeText(context, input, Toast.LENGTH_LONG).show();
-    }
-    static void print(@NonNull Object... a) {
-        for (Object i : a) System.out.print(i + " ");
-        System.out.println();
-    }
-
-    public static Document toXmlDocument(String str) {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
-        Document document = null;
-        try {
-            docBuilder = docBuilderFactory.newDocumentBuilder();
-            document = docBuilder.parse(new InputSource(new StringReader(str)));
-        }
-        catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
-        return document;
-    }
-    public static void copyFile(File src, File dst) throws IOException {
-        // Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
-        try (FileChannel in = new FileInputStream(src).getChannel();
-             FileChannel out = new FileOutputStream(dst).getChannel()) {
-            in.transferTo(0, in.size(), out);
-        }
-        catch (Exception ignored) {}
-    }
-
-    public String getPath(Context context, Uri uri) {
-        String path = null;
-        String[] projection = {
-            MediaStore.Files.FileColumns.DATA};
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-
-        if (cursor == null) {
-            path = uri.getPath();
-        }
-        else {
-            cursor.moveToFirst();
-            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
-            path = cursor.getString(column_index);
-            cursor.close();
-        }
-        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
-    }
-
-    static String readFile(String path) {
-        return readFile(path, StandardCharsets.US_ASCII);
-    }
-
-    static String readFile(String path, Charset encoding) {
-        try {
-            byte[] encoded = Files.readAllBytes(Paths.get(path));
-            return new String(encoded, encoding);
-        }
-        catch(IOException ignored) {}
-        return "";
-    }
-
-    // general
-    public static void noop() {}
-
-    public static <T> boolean notNull(T value) {
-        return (value != null);
-    }
-    public static <T> T orNull(T value, T defaultValue) {
-        return Optional.ofNullable(value).orElse(defaultValue);
-    }
-    public static String[][] to2Darray(String source, String outerdelim, String innerdelim) {
-        String[][] result = new String[source.replaceAll("[^" + outerdelim + "]", "").length() + 1][];
-        int count = 0;
-        for (String line : source.split ("[" + outerdelim + "]")) {
-            result [count++] = line.split(innerdelim);
-        }
-        return result;
-    }
 
     public static String serialize(List<String> dataList) {
         StringBuilder xmlBuilder = new StringBuilder("<root>");
@@ -186,6 +60,7 @@ public class Util {
         catch (SAXException | ParserConfigurationException | IOException | XPathExpressionException ignored) {}
         return dataList;
     }
+
 
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(String.valueOf(primaryCode));
@@ -246,7 +121,7 @@ public class Util {
     public static String convertFromNumberToUnicode(String number) {
         try {
             // Util.largeIntToChar(primaryCode)
-            return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.leftPad(number, 4, "0")));
+            return String.valueOf((char)(int)Integer.decode("0x" + org.apache.commons.lang3.StringUtils.leftPad(number, 4, "0")));
         }
         catch (Exception e) {
             return number;
@@ -316,7 +191,7 @@ public class Util {
         return (m.find() && m.group().equals(s));
     }
 /*
-    static String mWordSeparators = "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;";
+    public static String mWordSeparators = "\\u0009.,;:!?\\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;";
     public static String getWordSeparators() {
         return mWordSeparators;
     }
@@ -335,7 +210,8 @@ public class Util {
         return delimiters.contains(text);
     }
 */
-    // info
+
+
     public static HashMap<Character, Integer> getCharacterFrequencies(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
         for (int i = 0; i < s.length(); i++) {
@@ -356,6 +232,10 @@ public class Util {
         return map;
     }
 
+    public static String safeSubstring(String text, int beginIndex, int endIndex) {
+        return text.substring(beginIndex, Math.min(endIndex, text.length()));
+    }
+
     public static String unidata(String text) {
         if (text.length() < 1) return "";
         // StringBuilder result = new StringBuilder();
@@ -365,7 +245,7 @@ public class Util {
         // return result.toString();
 
         if (Character.isHighSurrogate(text.charAt(0))
-        ||  Character.isLowSurrogate(text.charAt(0))) {
+            ||  Character.isLowSurrogate(text.charAt(0))) {
             return unidata(text.codePointAt(0));
         }
         return unidata(text.charAt(0));
@@ -459,7 +339,7 @@ public class Util {
         return true;
     }
     public static boolean isMixedCase(String text) {
-        return !Util.isLowerCase(text) && !Util.isUpperCase(text);
+        return !isLowerCase(text) && !isUpperCase(text);
     }
     public static boolean isUpperCase(String text) {
         for (int i = 0; i < text.length(); i++) {
@@ -496,7 +376,7 @@ public class Util {
         for (char c : input.toCharArray()) {
             if (Character.isSpaceChar(c)) {
                 nextTitleCase = true;
-            } 
+            }
             else if (nextTitleCase) {
                 c = Character.toTitleCase(c);
                 nextTitleCase = false;
@@ -517,7 +397,7 @@ public class Util {
 
         for (int i = 0; i < array.length; i += 1) {
             // if (array[i] == ' ') i++;
-            
+
             if (i % 2 == seed) array[i] = Character.toLowerCase(array[i]);
             if (i % 2 != seed) array[i] = Character.toUpperCase(array[i]);
         }
@@ -551,21 +431,21 @@ public class Util {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String sortWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[0]), " ");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
     }
     public static String sortLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String reverseChars(String text) {
         return new StringBuilder(text).reverse().toString();
@@ -575,35 +455,35 @@ public class Util {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.reverse(result);
-        return StringUtils.join(result.toArray(new String[0]), " ");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
     }
     public static String reverseLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.reverse(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String shuffleChars(String text) {
         String[] lines = getChars(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "");
     }
     public static String shuffleWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return StringUtils.join(result.toArray(new String[0]), " ");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
     }
     public static String shuffleLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
     // @TODO: removeDuplicateChars or uniqueChars, pick one and ensure consistency
@@ -635,21 +515,21 @@ public class Util {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return StringUtils.join(unique.toArray(new String[0]), "");
+        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), "");
     }
     public static String uniqueWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return StringUtils.join(unique.toArray(new String[0]), " ");
+        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), " ");
     }
     public static String uniqueLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return StringUtils.join(unique.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), "\n");
     }
     public static String doubleChars(String text) {
         return text.replaceAll("(.)", "$1$1");
@@ -661,7 +541,7 @@ public class Util {
             result.add(line);
             result.add(line);
         }
-        return StringUtils.join(result.toArray(new String[0]), " ");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
     }
     public static String doubleLines(String text) {
         String[] lines = getLines(text);
@@ -670,7 +550,7 @@ public class Util {
             result.add(line);
             result.add(line);
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
 
 
@@ -715,7 +595,7 @@ public class Util {
         for (String line : lines) {
             result.add(line.replaceAll("^", indentation));
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String decreaseIndentation(String text, String indentation) {
         String[] lines = getLines(text);
@@ -723,7 +603,7 @@ public class Util {
         for (String line : lines) {
             result.add(line.replaceAll("^"+indentation, ""));
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String padLeft(String text, int length) {
         return padLeft(text, length, " ");
@@ -816,14 +696,14 @@ public class Util {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.rotate(result, -1);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String rotateLinesForward(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.rotate(result, 1);
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String addLineNumbers(String text) {
         String[] lines = getLines(text);
@@ -832,7 +712,7 @@ public class Util {
         for (String line : lines) {
             result.add(++index + " " + line);
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String removeLineNumbers(String text) {
         String[] lines = getLines(text);
@@ -840,7 +720,7 @@ public class Util {
         for (String line : lines) {
             result.add(line.replaceAll("^\\d+\\s*", ""));
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String toggleJavaComment(String text) {
         int lineCount = countLines(text);
@@ -902,7 +782,7 @@ public class Util {
                 result.add(line);
             }
         }
-        return StringUtils.join(result.toArray(new String[0]), "\n");
+        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
     }
     public static String camelToSnake(String text) {
         return text.replaceAll("([A-Z])", "_$1").toLowerCase();
@@ -1047,148 +927,6 @@ public class Util {
         return sb.toString();
     }
 
-    // random stuff
-    public static int generateRandomInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
-    }
-    public static String pickALetter() {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        return String.valueOf(letters.charAt(generateRandomInt(1, 26) - 1));
-    }
-    public static String pickALetter(boolean shift) {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        if (shift) letters = letters.toUpperCase();
-        return String.valueOf(letters.charAt(generateRandomInt(1, 26) - 1));
-    }
-    public static String rollADie() {
-        return String.valueOf("⚀⚁⚂⚃⚄⚅".charAt(generateRandomInt(1, 6) - 1));
-    }
-    public static String flipACoin() {
-        return String.valueOf("ⒽⓉ".charAt(generateRandomInt(1, 2) - 1));
-    }
-    public static String castALot() {
-        return String.valueOf("⚊⚋".charAt(generateRandomInt(1, 2) - 1));
-    }
-    public static String pickACard() {
-        String cards = "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂼🂽🂾🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃌🃍🃎🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃜🃝🃞"; //  🃟🃏🂠
-        return Util.largeIntToChar(cards.codePointAt(generateRandomInt(1, cards.codePointCount(0, cards.length())) - 1));
-    }
-    public static String shake8Ball() {
-        return "" + Constants.answers[generateRandomInt(1, 20) - 1];
-    }
-
-    // time-related stuff
-    public static long nowAsLong() {
-        return Instant.now().getEpochSecond();
-    }
-    public static int nowAsInt() {
-        // new Date().getTime() / 1000;
-        return (int) (System.currentTimeMillis() / 1000L);
-    }
-    public static Date stringToDate(String date, String format) throws Exception {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
-        return simpleDateFormat.parse(date);
-    }
-    public static String getDateString(String dateFormat) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-        return sdf.format(cal.getTime());
-    }
-    public static String getTimeString(String timeFormat) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.US);
-        return sdf.format(cal.getTime());
-    }
-    public static String timemoji() {
-        String clocks = "🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛🕧";
-
-        Calendar rightNow = Calendar.getInstance();
-        rightNow.getTime();
-        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
-        if (hours == 0) hours = 12;
-        if (hours > 12) hours -= 12;
-        int minutes = rightNow.get(Calendar.MINUTE);
-
-        // 0 thru 29, 30 thru 59
-        int which = (((hours - 1) * 2) + (minutes / 30)) * 2;
-
-        return largeIntToChar(clocks.codePointAt(which));
-    }
-
-    // color
-    public static Color invertColor(Color color) {
-        color.red((int)(255-color.red()));
-        color.blue((int)(255-color.blue()));
-        color.green((int)(255-color.green()));
-        return color;
-    }
-    public static int invertColor(int color) {
-        return (0x00FFFFFF - (color | 0xFF000000)) | (color & 0xFF000000);
-    }
-
-    public static String toColor(int r, int g, int b) {
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
-        return "#" + rs + gs + bs;
-    }
-    public static String toColor(int a, int r, int g, int b) {
-        String as = StringUtils.leftPad(Integer.toHexString(a), 2, "0").toUpperCase();
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
-        return "#" + as + rs + gs + bs;
-    }
-    public static Color stringToColor(String value) {
-        if (value == null) {
-            return Color.valueOf(Color.BLACK);
-        }
-        try {
-            // get color by hex or octal value
-            return Color.valueOf(Color.parseColor(value));
-        }
-        catch (NumberFormatException nfe) {
-            // if we can't decode lets try to get it by name
-            try {
-                // try to get a color by name using reflection
-                final Field f = Color.class.getField(value);
-                return (Color)f.get(null);
-            }
-            catch (Exception ce) {
-                // if we can't get any color return black
-                return Color.valueOf(Color.BLACK);
-            }
-        }
-    }
-    public static String colorToString(Color color) {
-        return String.format("#%08X", color.toArgb());
-    }
-    public static int[] fromColor(String color) {
-        color = color.toUpperCase();
-        String as, rs, gs, bs;
-        int ai, ri, gi, bi;
-        if (color.length() == 6) {
-            as = "FF";
-            rs = color.substring(0, 2);
-            gs = color.substring(2, 4);
-            bs = color.substring(4, 6);
-        }
-        else if (color.length() == 8) {
-            as = color.substring(0, 2);
-            rs = color.substring(2, 4);
-            bs = color.substring(4, 6);
-            gs = color.substring(6, 8);
-        }
-        else {
-            return null;
-        }
-        ai = Integer.decode("0x" + as);
-        ri = Integer.decode("0x" + rs);
-        gi = Integer.decode("0x" + gs);
-        bi = Integer.decode("0x" + bs);
-        return new int[]{ai, ri, gi, bi};
-    }
-
     // encoding
     public static String escapeHtml(String s) {
         StringBuilder out = new StringBuilder(Math.max(16, s.length()));
@@ -1227,124 +965,4 @@ public class Util {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
 
-    public static String unbolden(String text) {
-        if (text.length() < 1) return text;
-        // char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(FontVariants.getUnbold((ch)))));
-            i += Character.charCount(ch);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String bolden(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int ch : chars) {
-            result.add(new String(Character.toChars(FontVariants.getBold((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-
-    public static String unitalicize(String text) {
-        if (text.length() < 1) return text;
-        // char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(FontVariants.getUnitalic((ch)))));
-            i += Character.charCount(ch);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String italicize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(FontVariants.getItalic((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-
-    public static String unemphasize(String text) {
-        if (text.length() < 1) return text;
-        // char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < text.length();) {
-            int ch = text.codePointAt(i);
-            result.add(new String(Character.toChars(FontVariants.getUnemphasized((ch)))));
-            i += Character.charCount(ch);
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-    public static String emphasize(String text) {
-        if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
-        ArrayList<String> result = new ArrayList<>();
-        for (char ch : chars) {
-            result.add(new String(Character.toChars(FontVariants.getEmphasized((int)ch))));
-        }
-        return StringUtils.join(result.toArray(new String[0]), "");
-    }
-
-    public static String unstrikethrough(String text) {
-        return text.replaceAll("̶", "");
-    }
-
-    public static String strikethrough(String text) {
-        if (text.contains("̶")) {
-            return text.replaceAll("̶", "");
-        }
-        return text.replaceAll("(.)", "$1̶");
-    }
-
-    public static String getClassName() {
-        Class<?> enclosingClass = Util.class.getEnclosingClass();
-        String className;
-        if (enclosingClass != null) {
-            className = enclosingClass.getName();
-        }
-        else {
-            className = Util.class.getName();
-        }
-        try {
-            className = className.split("\\.")[0];
-        }
-        catch (Exception ignored) {}
-        return className;
-    }
-    public static int getLineNumber() {
-        return ___8drrd3148796d_Xaf();
-    }
-    public static int ___8drrd3148796d_Xaf() {
-        boolean thisOne = false;
-        int thisOneCountDown = 1;
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        for (StackTraceElement element : elements) {
-            String methodName = element.getMethodName();
-            int lineNum = element.getLineNumber();
-            if (thisOne && (thisOneCountDown == 0)) {
-                return lineNum;
-            }
-            else if (thisOne) {
-                thisOneCountDown--;
-            }
-            if (methodName.equals("___8drrd3148796d_Xaf")) {
-                thisOne = true;
-            }
-        }
-        return -1;
-    }
-    public static String methodName() {
-        return Thread.currentThread().getStackTrace()[1].getMethodName();
-    }
-    public String getMethodName() {
-        return new Throwable().getStackTrace()[1].getMethodName();
-    }
-    public String getMethodName(int depth) {
-        return new Throwable().getStackTrace()[depth].getMethodName();
-    }
 }

@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.custom.keyboard.R;
+
 public class PopupWindow extends android.widget.PopupWindow {
     Context ctx;
     TextView btnDismiss;

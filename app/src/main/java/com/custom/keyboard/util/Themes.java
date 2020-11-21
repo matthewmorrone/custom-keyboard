@@ -1,8 +1,11 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 // import android.graphics.Color;
 
-class Themes {
+import com.custom.keyboard.R;
+import com.custom.keyboard.util.Util;
+
+public class Themes {
 
     /*
     int bg = sharedPreferences.getInt(background_color, 0xFF000000);
@@ -87,7 +90,7 @@ class Themes {
 
 
     public static int randomBackground() {
-        return Util.choose(new int[] {
+        return RandomUtils.choose(new int[] {
             R.drawable.background_1,
             R.drawable.background_2,
             R.drawable.background_3,
@@ -125,7 +128,7 @@ class Themes {
 
     // String sPositiveColorBg = "#000000"
     // String sPositiveColorFg = "#ffffff"
-    static float[] sPositiveColorArray = {
+    public static float[] sPositiveColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,   0, // red
         +0.0f, +1.0f, +0.0f, +0.0f,   0, // green
         +0.0f, +0.0f, +1.0f, +0.0f,   0, // blue
@@ -133,7 +136,7 @@ class Themes {
     };
     // String sNegativeColorBg = "#ffffff"
     // String sNegativeColorFg = "#000000"
-    static float[] sNegativeColorArray = {
+    public static float[] sNegativeColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 255, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 255, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 255, // blue
@@ -141,13 +144,13 @@ class Themes {
     };
 
     // #2980b9
-    static float[] sBlueWhiteColorArray = {
+    public static float[] sBlueWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,  41, // red
         +0.0f, +1.0f, +0.0f, +0.0f, 128, // green
         +0.0f, +0.0f, +1.0f, +0.0f, 185, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sBlueBlackColorArray = {
+    public static float[] sBlueBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f,  41, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 128, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 185, // blue
@@ -155,13 +158,13 @@ class Themes {
     };
 
     // #80b929
-    static float[] sGreenWhiteColorArray = {
+    public static float[] sGreenWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 128, // red
         +0.0f, +1.0f, +0.0f, +0.0f, 185, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  41, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sGreenBlackColorArray = {
+    public static float[] sGreenBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 128, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 185, // green
         +0.0f, +0.0f, -1.0f, +0.0f,  41, // blue
@@ -169,13 +172,13 @@ class Themes {
     };
 
     // #c0392b
-    static float[] sRedWhiteColorArray = {
+    public static float[] sRedWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 192, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  57, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  43, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sRedBlackColorArray = {
+    public static float[] sRedBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 192, // red
         +0.0f, -1.0f, +0.0f, +0.0f,  57, // green
         +0.0f, +0.0f, -1.0f, +0.0f,  43, // blue
@@ -183,13 +186,13 @@ class Themes {
     };
 
     // #2bb1c0
-    static float[] sCyanWhiteColorArray = {
+    public static float[] sCyanWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,  43, // red
         +0.0f, +1.0f, +0.0f, +0.0f, 177, // green
         +0.0f, +0.0f, +1.0f, +0.0f, 192, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sCyanBlackColorArray = {
+    public static float[] sCyanBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f,  43, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 177, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 192, // blue
@@ -197,13 +200,13 @@ class Themes {
     };
 
     // #b92980
-    static float[] sMagentaWhiteColorArray = {
+    public static float[] sMagentaWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 185, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  41, // green
         +0.0f, +0.0f, +1.0f, +0.0f, 128, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sMagentaBlackColorArray = {
+    public static float[] sMagentaBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 185, // red
         +0.0f, -1.0f, +0.0f, +0.0f,  41, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 128, // blue
@@ -211,13 +214,13 @@ class Themes {
     };
 
     // #b9ab29
-    static float[] sYellowWhiteColorArray = {
+    public static float[] sYellowWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 185, // red
         +0.0f, +1.0f, +0.0f, +0.0f, 171, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  41, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sYellowBlackColorArray = {
+    public static float[] sYellowBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 185, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 171, // green
         +0.0f, +0.0f, -1.0f, +0.0f,  41, // blue
@@ -225,13 +228,13 @@ class Themes {
     };
 
     // #982abd
-    static float[] sPurpleWhiteColorArray = {
+    public static float[] sPurpleWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,  99, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  41, // green
         +0.0f, +0.0f, +1.0f, +0.0f, 185, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sPurpleBlackColorArray = {
+    public static float[] sPurpleBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f,  99, // red
         +0.0f, -1.0f, +0.0f, +0.0f,  41, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 185, // blue
@@ -239,13 +242,13 @@ class Themes {
     };
 
     // #e63eb9
-    static float[] sPinkWhiteColorArray = {
+    public static float[] sPinkWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 230, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  62, // green
         +0.0f, +0.0f, +1.0f, +0.0f, 185, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sPinkBlackColorArray = {
+    public static float[] sPinkBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 230, // red
         +0.0f, -1.0f, +0.0f, +0.0f,  62, // green
         +0.0f, +0.0f, -1.0f, +0.0f, 185, // blue
@@ -253,13 +256,13 @@ class Themes {
     };
 
     // #e67e22
-    static float[] sOrangeWhiteColorArray = {
+    public static float[] sOrangeWhiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f, 230, // red
         +0.0f, +1.0f, +0.0f, +0.0f, 126, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  34, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sOrangeBlackColorArray = {
+    public static float[] sOrangeBlackColorArray = {
         -1.0f, +0.0f, +0.0f, +0.0f, 230, // red
         +0.0f, -1.0f, +0.0f, +0.0f, 126, // green
         +0.0f, +0.0f, -1.0f, +0.0f,  34, // blue
@@ -267,13 +270,13 @@ class Themes {
     };
 
     // #37474f
-    static float[] sMaterialLiteColorArray = {
+    public static float[] sMaterialLiteColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,  55, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  71, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  79, // blue
         +0.0f, +0.0f, +0.0f, +1.0f,   1  // alpha
     };
-    static float[] sMaterialDarkColorArray = {
+    public static float[] sMaterialDarkColorArray = {
         +1.0f, +0.0f, +0.0f, +0.0f,  55, // red
         +0.0f, +1.0f, +0.0f, +0.0f,  71, // green
         +0.0f, +0.0f, +1.0f, +0.0f,  79, // blue

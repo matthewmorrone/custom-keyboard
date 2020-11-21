@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.custom.keyboard.R;
+import com.custom.keyboard.util.Calculator;
+import com.custom.keyboard.util.Util;
 
 public class SeekPreference extends Preference implements OnSeekBarChangeListener {
     private SeekBar mSeekBar;

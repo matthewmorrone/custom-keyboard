@@ -1,7 +1,9 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+
+import com.custom.keyboard.R;
 
 public class Sounds {
     public static void playIPA(Context context, int primaryCode) {

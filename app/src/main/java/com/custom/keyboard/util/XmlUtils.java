@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 
-public final class XmlUtil {
-    private XmlUtil() {
+public final class XmlUtils {
+    private XmlUtils() {
     }
 
     public static List<Node> asList(NodeList n) {

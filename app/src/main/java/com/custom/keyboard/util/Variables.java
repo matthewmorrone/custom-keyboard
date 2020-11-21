@@ -1,13 +1,13 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 public class Variables {
 
-    static int cursorStart = -1;
+    public static int cursorStart = -1;
 
-    private static boolean IS_CTRL = false;
-    private static boolean IS_ALT = false;
-    private static boolean IS_SHIFT = false;
-    private static boolean IS_SELECTING = false;
+    public static boolean IS_CTRL = false;
+    public static boolean IS_ALT = false;
+    public static boolean IS_SHIFT = false;
+    public static boolean IS_SELECTING = false;
 
     public static boolean isAlt() { return IS_ALT; }
     public static void setAltOn() { IS_ALT = true; }
@@ -24,83 +24,83 @@ public class Variables {
     public static void setShiftOff() { IS_SHIFT = false; }
 
     public static boolean isSelecting() { return IS_SELECTING; }
-    static void setSelectingOn(int selectionStart) {
+    public static void setSelectingOn(int selectionStart) {
         IS_SELECTING  = true;
         cursorStart = selectionStart;
     }
-    static void setSelectingOff() {
+    public static void setSelectingOff() {
         IS_SELECTING = false;
         cursorStart = -1;
     }
 
-    static void toggleSelecting() {
+    public static void toggleSelecting() {
         IS_SELECTING = !IS_SELECTING;
     }
-    static void toggleSelecting(int selectionStart) {
+    public static void toggleSelecting(int selectionStart) {
         IS_SELECTING = !IS_SELECTING;
         if (IS_SELECTING) { cursorStart = selectionStart; }
         else { cursorStart = -1; }
     }
 
-    static boolean temp;
+    public static boolean temp;
 
-    private static boolean IS_BOLD = false;
-    static boolean isBold() { return IS_BOLD; }
-    static void setBoldOn() { IS_BOLD = true;}
-    static void setBoldOff() { IS_BOLD = false;}
-    static void toggleBold() { temp = IS_BOLD; setAllOff(); IS_BOLD = !temp;}
+    public static boolean IS_BOLD = false;
+    public static boolean isBold() { return IS_BOLD; }
+    public static void setBoldOn() { IS_BOLD = true;}
+    public static void setBoldOff() { IS_BOLD = false;}
+    public static void toggleBold() { temp = IS_BOLD; setAllOff(); IS_BOLD = !temp;}
 
-    private static boolean IS_ITALIC = false;
-    static boolean isItalic() { return IS_ITALIC; }
-    static void setItalicOn() {IS_ITALIC = true;}
-    static void setItalicOff() {IS_ITALIC = false;}
-    static void toggleItalic() {temp = IS_ITALIC; setAllOff(); IS_ITALIC = !temp;}
+    public static boolean IS_ITALIC = false;
+    public static boolean isItalic() { return IS_ITALIC; }
+    public static void setItalicOn() {IS_ITALIC = true;}
+    public static void setItalicOff() {IS_ITALIC = false;}
+    public static void toggleItalic() {temp = IS_ITALIC; setAllOff(); IS_ITALIC = !temp;}
 
-    private static boolean IS_EMPHASIZED = false;
-    static boolean isEmphasized() { return IS_EMPHASIZED; }
-    static void setEmphasizedOn() {IS_EMPHASIZED = true;}
-    static void setEmphasizedOff() {IS_EMPHASIZED = false;}
-    static void toggleEmphasized() {temp = IS_EMPHASIZED; setAllOff(); IS_EMPHASIZED = !temp;}
+    public static boolean IS_EMPHASIZED = false;
+    public static boolean isEmphasized() { return IS_EMPHASIZED; }
+    public static void setEmphasizedOn() {IS_EMPHASIZED = true;}
+    public static void setEmphasizedOff() {IS_EMPHASIZED = false;}
+    public static void toggleEmphasized() {temp = IS_EMPHASIZED; setAllOff(); IS_EMPHASIZED = !temp;}
 
-    private static boolean IS_STRIKETHROUGH = false;
-    static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
-    static void setStrikethroughOn()  {IS_STRIKETHROUGH = true;}
-    static void setStrikethroughOff() {IS_STRIKETHROUGH = false;}
-    static void toggleStrikethrough() { IS_STRIKETHROUGH = !IS_STRIKETHROUGH; }
+    public static boolean IS_STRIKETHROUGH = false;
+    public static boolean isStrikethrough() {return IS_STRIKETHROUGH;}
+    public static void setStrikethroughOn()  {IS_STRIKETHROUGH = true;}
+    public static void setStrikethroughOff() {IS_STRIKETHROUGH = false;}
+    public static void toggleStrikethrough() { IS_STRIKETHROUGH = !IS_STRIKETHROUGH; }
 
-    private static boolean IS_UNDERLINED = false;
-    static boolean isUnderlined() {return IS_UNDERLINED;}
-    static void setUnderlinedOn()  {IS_UNDERLINED = true;}
-    static void setUnderlinedOff() {IS_UNDERLINED = false;}
-    static void toggleUnderlined() { IS_UNDERLINED = !IS_UNDERLINED; }
+    public static boolean IS_UNDERLINED = false;
+    public static boolean isUnderlined() {return IS_UNDERLINED;}
+    public static void setUnderlinedOn()  {IS_UNDERLINED = true;}
+    public static void setUnderlinedOff() {IS_UNDERLINED = false;}
+    public static void toggleUnderlined() { IS_UNDERLINED = !IS_UNDERLINED; }
 
-    private static boolean IS_UNDERSCORED = false;
-    static boolean isUnderscored() {return IS_UNDERSCORED;}
-    static void setUnderscoredOn()  {IS_UNDERSCORED = true;}
-    static void setUnderscoredOff() {IS_UNDERSCORED = false;}
-    static void toggleUnderscored() { IS_UNDERSCORED = !IS_UNDERSCORED; }
+    public static boolean IS_UNDERSCORED = false;
+    public static boolean isUnderscored() {return IS_UNDERSCORED;}
+    public static void setUnderscoredOn()  {IS_UNDERSCORED = true;}
+    public static void setUnderscoredOff() {IS_UNDERSCORED = false;}
+    public static void toggleUnderscored() { IS_UNDERSCORED = !IS_UNDERSCORED; }
 
-    private static boolean IS_BOLD_SERIF = false;
-    private static boolean IS_ITALIC_SERIF = false;
-    private static boolean IS_BOLD_ITALIC_SERIF = false;
-    private static boolean IS_SANS = false;
-    private static boolean IS_BOLD_SANS = false;
-    private static boolean IS_ITALIC_SANS = false;
-    private static boolean IS_BOLD_ITALIC_SANS = false;
-    private static boolean IS_SCRIPT = false;
-    private static boolean IS_SCRIPT_BOLD = false;
-    private static boolean IS_FRAKTUR = false;
-    private static boolean IS_FRAKTUR_BOLD = false;
-    private static boolean IS_MONOSPACE = false;
-    private static boolean IS_DOUBLESTRUCK = false;
-    private static boolean IS_CAPS = false;
-    private static boolean IS_PARENTHESES = false;
-    private static boolean IS_ENCIRCLED = false;
-    private static boolean IS_SMALL_CAPS = false;
-    private static boolean IS_ENSQUARED = false;
-    private static boolean IS_CIRCULAR_STAMP_LETTERS = false;
-    private static boolean IS_REFLECTED = false;
-    private static boolean IS_RECTANGULAR_STAMP_LETTERS = false;
+    public static boolean IS_BOLD_SERIF = false;
+    public static boolean IS_ITALIC_SERIF = false;
+    public static boolean IS_BOLD_ITALIC_SERIF = false;
+    public static boolean IS_SANS = false;
+    public static boolean IS_BOLD_SANS = false;
+    public static boolean IS_ITALIC_SANS = false;
+    public static boolean IS_BOLD_ITALIC_SANS = false;
+    public static boolean IS_SCRIPT = false;
+    public static boolean IS_SCRIPT_BOLD = false;
+    public static boolean IS_FRAKTUR = false;
+    public static boolean IS_FRAKTUR_BOLD = false;
+    public static boolean IS_MONOSPACE = false;
+    public static boolean IS_DOUBLESTRUCK = false;
+    public static boolean IS_CAPS = false;
+    public static boolean IS_PARENTHESES = false;
+    public static boolean IS_ENCIRCLED = false;
+    public static boolean IS_SMALL_CAPS = false;
+    public static boolean IS_ENSQUARED = false;
+    public static boolean IS_CIRCULAR_STAMP_LETTERS = false;
+    public static boolean IS_REFLECTED = false;
+    public static boolean IS_RECTANGULAR_STAMP_LETTERS = false;
 
     public static boolean isBoldSerif() {return IS_BOLD_SERIF;}
     public static boolean isItalicSerif() {return IS_ITALIC_SERIF;}
@@ -150,7 +150,7 @@ public class Variables {
 
 
 
-    static void setAllOff() {
+    public static void setAllOff() {
         setBoldOff();
         setItalicOff();
         setEmphasizedOff();

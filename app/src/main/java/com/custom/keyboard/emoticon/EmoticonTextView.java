@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.Util;
+import com.custom.keyboard.util.Util;
 
 @SuppressLint("AppCompatCustomView")
 public class EmoticonTextView extends TextView {

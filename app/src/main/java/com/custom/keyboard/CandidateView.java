@@ -13,6 +13,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 
+import com.custom.keyboard.util.Util;
+
 import java.util.ArrayList;
 
 public class CandidateView extends View {

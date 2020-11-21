@@ -26,7 +26,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.Util;
+import com.custom.keyboard.util.Util;
 import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonClickedListener;
 import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonLongClickedListener;
 import com.custom.keyboard.emoticon.categories.EmoticonCategories;

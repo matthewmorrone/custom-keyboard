@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,11 +8,11 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Trie {
-    private TrieNode root;
-    ArrayList<String> words;
-    ArrayList<TrieNode> termini;
-    TrieNode prefixRoot;
-    String curPrefix;
+    public TrieNode root;
+    public ArrayList<String> words;
+    public ArrayList<TrieNode> termini;
+    public TrieNode prefixRoot;
+    public String curPrefix;
 
     public Trie() {
         root = new TrieNode();
@@ -97,11 +97,11 @@ public class Trie {
         return t;
     }
 
-    ArrayList<String> getWords() {
+    public ArrayList<String> getWords() {
         return words;
     }
 
-    void wordsFinderTraversal(TrieNode node, int offset) {
+    public void wordsFinderTraversal(TrieNode node, int offset) {
 
         if (node.isLeaf) {
             termini.add(node);

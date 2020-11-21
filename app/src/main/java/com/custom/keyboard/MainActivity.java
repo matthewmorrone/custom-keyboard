@@ -1,6 +1,5 @@
 package com.custom.keyboard;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,11 +18,15 @@ import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.custom.keyboard.util.KeyboardUtils;
+import com.custom.keyboard.util.Util;
+
 public class MainActivity extends Activity {
 
     EditText editText;
     TextView errorOutput;
     LinearLayout errorLayout;
+    public boolean keyboardVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,19 @@ public class MainActivity extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        editText = findViewById(R.id.editText);
+        editText = findViewById(R.id.edit_text);
         errorOutput = findViewById(R.id.errorOutput);
         errorLayout = findViewById(R.id.errorLayout);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
+
+        KeyboardUtils.addKeyboardToggleListener(this, new KeyboardUtils.SoftKeyboardToggleListener() {
+            @Override
+            public void onToggleSoftKeyboard(boolean isVisible) {
+                keyboardVisible = isVisible;
+                System.out.println("keyboard visible: "+keyboardVisible);
+            }
+        });
     }
 
     @Override

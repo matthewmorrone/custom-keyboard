@@ -1,186 +1,126 @@
-package com.custom.keyboard;
-
-import org.apache.commons.lang3.StringUtils;
+package com.custom.keyboard.util;
 
 import java.util.ArrayList;
 
-public class FontVariants {
-
-
-    static boolean isBold(int primaryCode) {
-        if      (primaryCode >= 120276 && primaryCode <= 120301) {
-            return true;
-        }
-        else if (primaryCode >= 120302 && primaryCode <= 120327) {
-            return true;
-        }
-        return false;
-    }
-
-    static int getUnbold(int primaryCode) {
-        if (Util.isDigit(primaryCode)) {
-            primaryCode -= 120764;
-        }
-        else if      (primaryCode >= 120276 && primaryCode <= 120301) {
-            primaryCode -= 120211;
-        }
-        else if (primaryCode >= 120302 && primaryCode <= 120327) {
-            primaryCode -= 120205;
-        }
-        return primaryCode;
-    }
-    static int getBold(int primaryCode) {
-        if (Util.isDigit(primaryCode)) {
-            primaryCode += 120764;
-        }
-        else if (primaryCode >= 65 && primaryCode <= 90) {
-            primaryCode += 120211;
-        }
-        else if (primaryCode >= 97 && primaryCode <= 122) {
-            primaryCode += 120205;
-        }
-        return primaryCode;
-    }
-
-    static boolean isItalic(int primaryCode) {
-        if      (primaryCode >= 120328 && primaryCode <= 120353) {
-            return true;
-        }
-        else if (primaryCode >= 120354 && primaryCode <= 120379) {
-            return true;
-        }
-        return false;
-    }
-    static int getUnitalic(int primaryCode) {
-        if      (primaryCode >= 120328 && primaryCode <= 120353) {
-            primaryCode -= 120263;
-        }
-        else if (primaryCode >= 120354 && primaryCode <= 120379) {
-            primaryCode -= 120257;
-        }
-        return primaryCode;
-    }
-    static int getItalic(int primaryCode) {
-        if      (primaryCode >= 65 && primaryCode <= 90) {
-            primaryCode += 120263;
-        }
-        else if (primaryCode >= 97 && primaryCode <= 122) {
-            primaryCode += 120257;
-        }
-        return primaryCode;
-    }
-
-
-    static boolean isEmphasized(int primaryCode) {
-        if      (primaryCode >= 120380 && primaryCode <= 120405) {
-            return true;
-        }
-        else if (primaryCode >= 120406 && primaryCode <= 120431) {
-            return true;
-        }
-        return false;
-    }
-    static int getUnemphasized(int primaryCode) {
-        if      (primaryCode >= 120380 && primaryCode <= 120405) {
-            primaryCode -= 120315;
-        }
-        else if (primaryCode >= 120406 && primaryCode <= 120431) {
-            primaryCode -= 120309;
-        }
-        return primaryCode;
-    }
-
-    static int getEmphasized(int primaryCode) {
-        if      (primaryCode >= 65 && primaryCode <= 90) {
-            primaryCode += 120315;
-        }
-        else if (primaryCode >= 97 && primaryCode <= 122) {
-            primaryCode += 120309;
-        }
-        return primaryCode;
-    }
-
-
-
-
+public class TextUtils {
     public static String unbolden(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
-        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
             result.add(new String(Character.toChars(getUnbold((ch)))));
             i += Character.charCount(ch);
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
     public static String bolden(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int ch : chars) {
-            result.add(new String(Character.toChars(getBold((int)ch))));
+            result.add(new String(Character.toChars(getBold(ch))));
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
 
     public static String unitalicize(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
-        char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
             result.add(new String(Character.toChars(getUnitalic((ch)))));
             i += Character.charCount(ch);
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
     public static String italicize(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
             result.add(new String(Character.toChars(getItalic((int)ch))));
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
 
     public static String unemphasize(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
-        // char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < text.length();) {
             int ch = text.codePointAt(i);
             result.add(new String(Character.toChars(getUnemphasized((ch)))));
             i += Character.charCount(ch);
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
     public static String emphasize(String text) {
-        // Util.largeIntToChar(primaryCode)
         if (text.length() < 1) return text;
         char[] chars = text.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         for (char ch : chars) {
             result.add(new String(Character.toChars(getEmphasized((int)ch))));
         }
-        return StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
 
     public static String unstrikethrough(String text) {
         return text.replaceAll("̶", "");
     }
-
     public static String strikethrough(String text) {
-        if (text.contains("̶")) {
-            return text.replaceAll("̶", "");
-        }
+        if (text.contains("̶")) return text.replaceAll("̶", "");
         return text.replaceAll("(.)", "$1̶");
+    }
+
+    public static boolean isBold(int primaryCode) {
+        if      (primaryCode >= 120276 && primaryCode <= 120301) return true;
+        else if (primaryCode >= 120302 && primaryCode <= 120327) return true;
+        return false;
+    }
+
+    public static int getUnbold(int primaryCode) {
+        if      (StringUtils.isDigit(primaryCode))               primaryCode -= 120764;
+        else if (primaryCode >= 120276 && primaryCode <= 120301) primaryCode -= 120211;
+        else if (primaryCode >= 120302 && primaryCode <= 120327) primaryCode -= 120205;
+        return primaryCode;
+    }
+    public static int getBold(int primaryCode) {
+        if      (StringUtils.isDigit(primaryCode))        primaryCode += 120764;
+        else if (primaryCode >= 65 && primaryCode <= 90)  primaryCode += 120211;
+        else if (primaryCode >= 97 && primaryCode <= 122) primaryCode += 120205;
+        return primaryCode;
+    }
+
+    public static boolean isItalic(int primaryCode) {
+        if      (primaryCode >= 120328 && primaryCode <= 120353) return true;
+        else if (primaryCode >= 120354 && primaryCode <= 120379) return true;
+        return false;
+    }
+    public static int getUnitalic(int primaryCode) {
+        if      (primaryCode >= 120328 && primaryCode <= 120353) primaryCode -= 120263;
+        else if (primaryCode >= 120354 && primaryCode <= 120379) primaryCode -= 120257;
+        return primaryCode;
+    }
+    public static int getItalic(int primaryCode) {
+        if      (primaryCode >= 65 && primaryCode <=  90) primaryCode += 120263;
+        else if (primaryCode >= 97 && primaryCode <= 122) primaryCode += 120257;
+        return primaryCode;
+    }
+
+    public static boolean isEmphasized(int primaryCode) {
+        if      (primaryCode >= 120380 && primaryCode <= 120405) return true;
+        else if (primaryCode >= 120406 && primaryCode <= 120431) return true;
+        return false;
+    }
+    public static int getUnemphasized(int primaryCode) {
+        if      (primaryCode >= 120380 && primaryCode <= 120405) primaryCode -= 120315;
+        else if (primaryCode >= 120406 && primaryCode <= 120431) primaryCode -= 120309;
+        return primaryCode;
+    }
+
+    public static int getEmphasized(int primaryCode) {
+        if      (primaryCode >= 65 && primaryCode <=  90) primaryCode += 120315;
+        else if (primaryCode >= 97 && primaryCode <= 122) primaryCode += 120309;
+        return primaryCode;
     }
 
     public static String ununderline(String text) {
@@ -188,9 +128,7 @@ public class FontVariants {
     }
 
     public static String underline(String text) {
-        if (text.contains("̲")) {
-            return text.replaceAll("̲", "");
-        }
+        if (text.contains("̲")) return text.replaceAll("̲", "");
         return text.replaceAll("(.)", "$1̲");
     }
 
@@ -199,18 +137,15 @@ public class FontVariants {
     }
 
     public static String underscore(String text) {
-        if (text.contains("꯭")) {
-            return text.replaceAll("꯭", "");
-        }
+        if (text.contains("꯭")) return text.replaceAll("꯭", "");
         if (text.length() < 4) return text.replaceAll("(.)", "$1꯭");
         String first = text.substring(0, text.length() - 1);
-        String secnd = text.substring(text.length() - 1, text.length());
+        String secnd = text.substring(text.length() - 1);
         first = first.replaceAll("(.)", "$1꯭");
         return first + secnd;
     }
 
     public static int toBoldSerif(int primaryCode, boolean shift) {
-
         switch(primaryCode) {
             case  400: return 120492; // 𝚬
             case  406: return 120496; // 𝚰
@@ -271,8 +206,7 @@ public class FontVariants {
             case 8706: return 120539; // 𝛛
             case 8711: return 120513; // 𝛁
         }
-
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120782 - 48);}
+        if (primaryCode >= 48 && primaryCode <= 57) return primaryCode + (120782 - 48);
         if (shift) primaryCode += (119808 - 65);
         else primaryCode += (119808 - 71);
         return primaryCode;
@@ -411,7 +345,7 @@ public class FontVariants {
     }
 
     public static int toSans(int primaryCode, boolean shift) {
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120802 - 48);}
+        if (primaryCode >= 48 && primaryCode <= 57) return primaryCode + (120802 - 48);
         if (shift) primaryCode += (120224 - 65);
         else primaryCode += (120224 - 71);
         return primaryCode;
@@ -479,7 +413,7 @@ public class FontVariants {
             case 8711: return 120687; // 𝝯
         }
 
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120812 - 48);}
+        if (primaryCode >= 48 && primaryCode <= 57) return primaryCode + (120812 - 48);
         if (shift) primaryCode += (120276 - 65);
         else primaryCode += (120276 - 71);
         return primaryCode;
@@ -584,14 +518,14 @@ public class FontVariants {
     }
 
     public static int toMonospace(int primaryCode, boolean shift) {
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120822 - 48);}
+        if (primaryCode >= 48 && primaryCode <= 57) return primaryCode + (120822 - 48);
         if (shift) primaryCode += (120432 - 65);
         else primaryCode += (120432 - 71);
         return primaryCode;
     }
 
     public static int toDoublestruck(int primaryCode, boolean shift) {
-        if (primaryCode >= 48 && primaryCode <= 57) {return primaryCode + (120792 - 48);}
+        if (primaryCode >= 48 && primaryCode <= 57) return primaryCode + (120792 - 48);
         if (shift) primaryCode += (120120 - 65);
         else primaryCode += (120120 - 71);
         return primaryCode;
@@ -1076,4 +1010,5 @@ public class FontVariants {
             default:     return primaryCode;
         }
     }
+
 }

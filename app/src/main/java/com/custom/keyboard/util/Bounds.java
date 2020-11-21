@@ -1,6 +1,6 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
-class Bounds {
+public class Bounds {
     public int minX;
     public int minY;
     public int maxX;

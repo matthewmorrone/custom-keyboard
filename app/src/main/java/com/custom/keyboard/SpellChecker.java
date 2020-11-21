@@ -2,6 +2,9 @@ package com.custom.keyboard;
 
 import android.content.Context;
 
+import com.custom.keyboard.util.Trie;
+import com.custom.keyboard.util.TrieNode;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

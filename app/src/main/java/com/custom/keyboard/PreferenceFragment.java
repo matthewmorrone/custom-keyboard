@@ -18,6 +18,14 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.custom.keyboard.preferences.ColorPreference;
+import com.custom.keyboard.util.FileUtils;
+import com.custom.keyboard.util.ImageSaver;
+import com.custom.keyboard.preferences.SeekPreference;
+import com.custom.keyboard.util.ToastIt;
+import com.custom.keyboard.util.Util;
+import com.custom.keyboard.util.XmlUtils;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -28,10 +36,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -90,6 +94,11 @@ public class PreferenceFragment
     Preference resetAllPreferences;
     Preference setDefaultPreferences;
 
+     Preference showSingleDialog;
+     Preference showMultipleDialog;
+     // NumberPickerPreference numberPicker;
+     EditTextPreference xmlEditor;
+
     String[] themes;
 
     Toast toast;
@@ -146,6 +155,18 @@ public class PreferenceFragment
         startActivityForResult(chooseFile, PICK_FILE_RESULT_CODE);
     }
 
+    private void triggerSingleDialog() {
+        Intent intent = new Intent("ShowDialog");
+        intent.putExtra("single", "");
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
+    }
+
+    private void triggerMultipleDialog() {
+        Intent intent = new Intent("ShowDialog");
+        intent.putExtra("multiple", "");
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
+    }
+
     private void triggerPermissionsRequest() {
         Intent intent = new Intent("RequestPermissions");
         intent.putExtra("data", "");
@@ -164,7 +185,7 @@ public class PreferenceFragment
         String sourcePathString = baseContext.getFilesDir().getParentFile().getPath() + "/" + sharedPreferencesDir + "/" + settingsFileName;
         File sourceFile = new File(sourcePathString);
         String sourceFileName = sourceFile.getName();
-        String sourceContents = Util.readFile(sourcePathString);
+        String sourceContents = FileUtils.readFile(sourcePathString);
 
         String targetPathString = baseContext.getExternalFilesDir(null)./*getParentFile().*/getPath() + "/" + settingsFileName;
         File targetFile = new File(targetPathString);
@@ -191,7 +212,7 @@ public class PreferenceFragment
             e.printStackTrace();
         }
         try {
-            Util.copyFile(sourceFile, targetFile);
+            FileUtils.copyFile(sourceFile, targetFile);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -267,7 +288,7 @@ public class PreferenceFragment
                 Document xml = Util.toXmlDocument(builder.toString());
                 Node map = xml.getElementsByTagName("map").item(0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                for(Node n : XmlUtil.asList(map.getChildNodes())) {
+                for(Node n : XmlUtils.asList(map.getChildNodes())) {
 
                     String nodeName = n.getNodeName();
                     String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
@@ -362,6 +383,10 @@ public class PreferenceFragment
         resetUnicodeHistory = findPreference("reset_unicode_history");
         resetAllPreferences = findPreference("reset_all_preferences");
         setDefaultPreferences = findPreference("set_default_preferences");
+
+        showSingleDialog = findPreference("show_single_dialog");
+        showMultipleDialog = findPreference("show_multiple_dialog");
+        xmlEditor = (EditTextPreference)findPreference("xml_editor");
 
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -490,6 +515,24 @@ public class PreferenceFragment
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     chooseImageBackground();
+                    return true;
+                }
+            });
+        }
+        if (showSingleDialog != null) {
+            showSingleDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    triggerSingleDialog();
+                    return true;
+                }
+            });
+        }
+        if (showMultipleDialog != null) {
+            showMultipleDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    triggerMultipleDialog();
                     return true;
                 }
             });

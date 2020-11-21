@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.preferences;
 
 import android.content.Context;
 import android.preference.EditTextPreference;
