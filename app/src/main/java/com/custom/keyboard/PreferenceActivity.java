@@ -6,29 +6,36 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 
 import com.custom.keyboard.dialog.MultiSelectionDialog;
 import com.custom.keyboard.dialog.MultiSelectionListener;
 import com.custom.keyboard.dialog.SingleSelectionDialog;
 import com.custom.keyboard.dialog.SingleSelectionListener;
+import com.custom.keyboard.util.StringUtils;
 import com.custom.keyboard.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PreferenceActivity extends Activity {
 
-    ArrayList<String> choices = new ArrayList<String>(Arrays.asList("White", "Black", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow"));
-    ArrayList<String> topRow = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+    SharedPreferences sharedPreferences;
+
+    ArrayList<String> colors = new ArrayList<>(Arrays.asList("White", "Black", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow"));
+    ArrayList<String> topRowKeys = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
 
     @Override
     public void onCreate(Bundle h) {
         super.onCreate(h);
         setContentView(R.layout.pref);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("RequestPermissions"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("ShowDialog"));
@@ -41,63 +48,42 @@ public class PreferenceActivity extends Activity {
                 permissions();
             }
             if (Util.orNull(intent.getAction(), "").equals("ShowDialog")) {
-                if (intent.hasExtra("single")) {
-                    showSingleDialog();
-                }
-                if (intent.hasExtra("multiple")) {
-                    showMultipleDialog();
-                }
-                if (intent.hasExtra("topRow")) {
-                    showMultipleDialog();
-                }
+                if (intent.hasExtra("single"))     showSingleDialog();
+                if (intent.hasExtra("multiple"))   showMultipleDialog();
+                if (intent.hasExtra("topRowKeys")) showTopRowKeysDialog();
             }
         }
     };
 
-    public void showDialog(boolean multiple, String title, ArrayList<String> entries, boolean search) {
-        if (!multiple) {
-            SingleSelectionDialog singleSelectionDialog = new SingleSelectionDialog.Builder(this, "")
-                .setTitle(title)
-                .setContent(entries)
-                .enableSearch(search, "")
-                .setListener(new SingleSelectionListener() {
-                    @Override
-                    public void onSingleDialogItemSelected(String s, int position, String tag) {
-                        System.out.println("onDialogItemSelected"+" "+s+" "+position+" "+tag);
-                    }
-                    @Override
-                    public void onSingleDialogError(String error, String tag) {
-                        System.out.println("onDialogError"+" "+error+" "+tag);
-                    }
-                })
-                .build();
-            singleSelectionDialog.show();
-        }
-        else {
-            MultiSelectionDialog multiSelectionDialog = new MultiSelectionDialog.Builder(this, "")
-                .setTitle(title)
-                .setContent(entries)
-                // .enableSearch(search)
-                .setListener(new MultiSelectionListener() {
-                    @Override
-                    public void onMultiDialogItemsSelected(String s, String tag, ArrayList<String> selectedItemList) {
-                        System.out.println("onMultiDialogItemsSelected"+" "+s+" "+tag+" "+selectedItemList);
-                    }
-                    @Override
-                    public void onMultiDialogError(String error, String tag) {
-                        System.out.println("onMultiDialogError"+" "+error+" "+tag);
-                    }
-                })
-                .build();
-            multiSelectionDialog.show();
-        }
+    public void showTopRowKeysDialog() {
+        MultiSelectionDialog topRowKeysDialog = new MultiSelectionDialog.Builder(this, "Top Row Keys")
+            .setTitle("Top Row Keys")
+            .setContent(topRowKeys)
+            .setColor(getResources().getColor(R.color.colorPrimaryDark))
+            .setTextColor(getResources().getColor(R.color.colorAccent))
+            .setListener(new MultiSelectionListener() {
+                @Override
+                public void onMultiDialogItemsSelected(String s, String tag, ArrayList<String> selectedItemList) {
+                    sharedPreferences.edit().putString("top_row_keys", StringUtils.serialize(selectedItemList)).apply();
+                    // System.out.println("onMultiDialogItemsSelected"+" "+s+" "+tag+" "+selectedItemList);
+                    System.out.println(sharedPreferences.getString("top_row_keys", ""));
+                }
+                @Override
+                public void onMultiDialogError(String error, String tag) {
+                }
+            })
+            .build();
+        List<String> selectedFields = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
+        topRowKeysDialog.setSelectedFields(selectedFields);
+        topRowKeysDialog.show();
     }
+
 
     public void showSingleDialog() {
 
         SingleSelectionDialog singleSelectionDialog = new SingleSelectionDialog.Builder(this, "")
             .setTitle("Select Number")
-            .setContent(choices)
+            .setContent(colors)
             .setColor(getResources().getColor(R.color.colorPrimaryDark))
             .setSelectedField("Green")
             .enableSearch(true, "Search")
@@ -120,7 +106,7 @@ public class PreferenceActivity extends Activity {
 
         MultiSelectionDialog multiSelectionDialog = new MultiSelectionDialog.Builder(this, "")
             .setTitle("Select Numbers")
-            .setContent(choices)
+            .setContent(colors)
             .setColor(getResources().getColor(R.color.colorPrimaryDark))
             .setTextColor(getResources().getColor(R.color.colorAccent))
             .setListener(new MultiSelectionListener() {
@@ -134,7 +120,6 @@ public class PreferenceActivity extends Activity {
                 }
             })
             .build();
-        multiSelectionDialog.setSelectedFields("Blue,Green");
         multiSelectionDialog.show();
     }
 

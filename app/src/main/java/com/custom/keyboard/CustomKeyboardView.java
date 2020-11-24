@@ -25,6 +25,7 @@ import com.custom.keyboard.util.Util;
 import com.custom.keyboard.util.Variables;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,6 +77,7 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
+    ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
     int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299, -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
 
     @Override
@@ -159,6 +161,12 @@ public class CustomKeyboardView extends KeyboardView {
         canvas.restore();
     }
 
+    public void hideKey(Key key) {
+        key.width = 0;
+        key.label = "";
+        key.icon = null;
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -168,6 +176,8 @@ public class CustomKeyboardView extends KeyboardView {
 
         mContext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
+        // System.out.println(topRowKeys);
 
         this.canvas = canvas;
 
@@ -182,6 +192,13 @@ public class CustomKeyboardView extends KeyboardView {
 
         for (Key key : keys) {
             int primaryCode = key.codes[0];
+            String primaryCodeString = String.valueOf(primaryCode);
+            if (topRowKeysDefault.contains(primaryCodeString)
+            &&  !topRowKeys.contains(primaryCodeString)) {
+                System.out.println(key.codes[0]);
+                hideKey(key);
+                continue;
+            }
 /*
             mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
@@ -213,6 +230,7 @@ public class CustomKeyboardView extends KeyboardView {
                 key.repeatable = true;
             }
 */
+
             if (borderRadius > 0 || borderWidth > 0 || paddingWidth > 0) {
                 canvas.save();
                 mPaint.setColor(selected);

@@ -2,8 +2,6 @@ package com.custom.keyboard.util;
 
 import android.graphics.Color;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.lang.reflect.Field;
 
 public class ColorUtils {
@@ -20,16 +18,16 @@ public class ColorUtils {
     }
 
     public static String toColor(int r, int g, int b) {
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
+        String rs = StringUtils.padLeft(Integer.toHexString(r), 2, "0").toUpperCase();
+        String gs = StringUtils.padLeft(Integer.toHexString(g), 2, "0").toUpperCase();
+        String bs = StringUtils.padLeft(Integer.toHexString(b), 2, "0").toUpperCase();
         return "#" + rs + gs + bs;
     }
     public static String toColor(int a, int r, int g, int b) {
-        String as = StringUtils.leftPad(Integer.toHexString(a), 2, "0").toUpperCase();
-        String rs = StringUtils.leftPad(Integer.toHexString(r), 2, "0").toUpperCase();
-        String gs = StringUtils.leftPad(Integer.toHexString(g), 2, "0").toUpperCase();
-        String bs = StringUtils.leftPad(Integer.toHexString(b), 2, "0").toUpperCase();
+        String as = StringUtils.padLeft(Integer.toHexString(a), 2, "0").toUpperCase();
+        String rs = StringUtils.padLeft(Integer.toHexString(r), 2, "0").toUpperCase();
+        String gs = StringUtils.padLeft(Integer.toHexString(g), 2, "0").toUpperCase();
+        String bs = StringUtils.padLeft(Integer.toHexString(b), 2, "0").toUpperCase();
         return "#" + as + rs + gs + bs;
     }
     public static Color stringToColor(String value) {

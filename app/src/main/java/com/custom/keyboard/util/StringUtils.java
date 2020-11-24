@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.webkit.URLUtil;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -121,7 +120,7 @@ public class StringUtils {
     public static String convertFromNumberToUnicode(String number) {
         try {
             // Util.largeIntToChar(primaryCode)
-            return String.valueOf((char)(int)Integer.decode("0x" + org.apache.commons.lang3.StringUtils.leftPad(number, 4, "0")));
+            return String.valueOf((char)(int)Integer.decode("0x" + StringUtils.padLeft(number, 4, "0")));
         }
         catch (Exception e) {
             return number;
@@ -431,21 +430,21 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
     public static String sortWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
+        return String.join(" ", result.toArray(new String[0]));
     }
     public static String sortLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.sort(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String reverseChars(String text) {
         return new StringBuilder(text).reverse().toString();
@@ -455,35 +454,35 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.reverse(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
+        return String.join(" ", result.toArray(new String[0]));
     }
     public static String reverseLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.reverse(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String shuffleChars(String text) {
         String[] lines = getChars(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "");
+        return String.join("", result.toArray(new String[0]));
     }
     public static String shuffleWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
+        return String.join(" ", result.toArray(new String[0]));
     }
     public static String shuffleLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.shuffle(result);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
 
     // @TODO: removeDuplicateChars or uniqueChars, pick one and ensure consistency
@@ -515,21 +514,21 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), "");
+        return String.join("", unique.toArray(new String[0]));
     }
     public static String uniqueWords(String text) {
         String[] lines = getWords(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), " ");
+        return String.join(" ", unique.toArray(new String[0]));
     }
     public static String uniqueLines(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Set<String> unique = new LinkedHashSet<>(result);
-        return org.apache.commons.lang3.StringUtils.join(unique.toArray(new String[0]), "\n");
+        return String.join("\n", unique.toArray(new String[0]));
     }
     public static String doubleChars(String text) {
         return text.replaceAll("(.)", "$1$1");
@@ -541,7 +540,7 @@ public class StringUtils {
             result.add(line);
             result.add(line);
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), " ");
+        return String.join(" ", result.toArray(new String[0]));
     }
     public static String doubleLines(String text) {
         String[] lines = getLines(text);
@@ -550,7 +549,7 @@ public class StringUtils {
             result.add(line);
             result.add(line);
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
 
 
@@ -595,7 +594,7 @@ public class StringUtils {
         for (String line : lines) {
             result.add(line.replaceAll("^", indentation));
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String decreaseIndentation(String text, String indentation) {
         String[] lines = getLines(text);
@@ -603,7 +602,7 @@ public class StringUtils {
         for (String line : lines) {
             result.add(line.replaceAll("^"+indentation, ""));
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String padLeft(String text, int length) {
         return padLeft(text, length, " ");
@@ -696,14 +695,14 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.rotate(result, -1);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String rotateLinesForward(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         Collections.addAll(result, lines);
         Collections.rotate(result, 1);
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String addLineNumbers(String text) {
         String[] lines = getLines(text);
@@ -712,7 +711,7 @@ public class StringUtils {
         for (String line : lines) {
             result.add(++index + " " + line);
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String removeLineNumbers(String text) {
         String[] lines = getLines(text);
@@ -720,7 +719,7 @@ public class StringUtils {
         for (String line : lines) {
             result.add(line.replaceAll("^\\d+\\s*", ""));
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String toggleJavaComment(String text) {
         int lineCount = countLines(text);
@@ -782,7 +781,7 @@ public class StringUtils {
                 result.add(line);
             }
         }
-        return org.apache.commons.lang3.StringUtils.join(result.toArray(new String[0]), "\n");
+        return String.join("\n", result.toArray(new String[0]));
     }
     public static String camelToSnake(String text) {
         return text.replaceAll("([A-Z])", "_$1").toLowerCase();
@@ -943,9 +942,11 @@ public class StringUtils {
         }
         return out.toString();
     }
+    /*
     public static String unescapeHtml(String encodedHtml) {
         return StringEscapeUtils.unescapeHtml4(encodedHtml).trim();
     }
+    */
     public static String encodeUrl(String decodedString) {
         return Base64.getUrlEncoder().encodeToString(decodedString.getBytes());
     }

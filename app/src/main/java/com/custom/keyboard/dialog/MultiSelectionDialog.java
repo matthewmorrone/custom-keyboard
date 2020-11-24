@@ -18,17 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.custom.keyboard.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MultiSelectionDialog extends AppCompatActivity {
 
     Dialog dialog;
     private Context context;
-    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> list;
     private ArrayList<MultiSelection> multiList = new ArrayList<>();
     private ArrayList<MultiSelection> temp_data_list = new ArrayList<>();
-    private String headerTitle = "Select";
+    private List<String> selectedFields;
+    private String headerTitle;
     MultiSelectionAdapter dialogAdapter;
-    private String currentField = "", currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
+    private String currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
     private int headerColor, textColor;
     MultiSelectionListener multiSelectionListener;
 
@@ -54,15 +56,22 @@ public class MultiSelectionDialog extends AppCompatActivity {
         headerTitle = builder.headerTitle;
         tag = builder.tag;
         hintText = builder.hintText;
-        currentField = builder.currentField;
+        selectedFields = builder.selectedFields;
         headerColor = builder.headerColor;
         textColor = builder.textColor;
         multiSelectionListener = builder.multiSelectionListener;
         Log.d("TAG--", headerTitle);
     }
 
-    public void setSelectedFields(String selectedField) {
-        currentField = selectedField;
+    public void setSelectedFields(List<String> selectedFields) {
+        System.out.println(selectedFields);
+        if (multiList != null && multiList.size() > 0) {
+            for (int i = 0; i < multiList.size(); i++) {
+                if (selectedFields.contains(multiList.get(i).getTitle())) {
+                    multiList.get(i).setCheck(true);
+                }
+            }
+        }
     }
 
     public void show() {
@@ -126,11 +135,11 @@ public class MultiSelectionDialog extends AppCompatActivity {
 
             if (list != null && list.size() > 0) {
                 dialogAdapter = new MultiSelectionAdapter(
+                    context,
                     multiSelectionListener,
                     multiList,
-                    currentField,
+                    selectedFields,
                     tag,
-                    context,
                     headerColor,
                     textColor
                 );
@@ -157,8 +166,9 @@ public class MultiSelectionDialog extends AppCompatActivity {
         Dialog dialog;
         private Context context;
         private ArrayList<String> list = new ArrayList<>();
+        private List<String> selectedFields = new ArrayList<>();
         private String headerTitle = "Select";
-        private String currentField = "", tag = "", hintText = "Search here";
+        private String tag, hintText = "Search here";
         private int headerColor, textColor;
         MultiSelectionListener multiSelectionListener;
 
@@ -193,8 +203,8 @@ public class MultiSelectionDialog extends AppCompatActivity {
             return this;
         }
 
-        public Builder setSelectedField(String selectedField) {
-            currentField = selectedField;
+        public Builder setSelectedField(List<String> selectedFields) {
+            this.selectedFields = selectedFields;
             return this;
         }
 

@@ -15,6 +15,7 @@
         <com.custom.keyboard.preferences.SeekPreference android:key="long_press_duration" android:title="Long Press Duration" app:value="500" app:max="3000" app:min="100" app:step="100" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
+        <Preference android:key="top_row_keys" android:title="Choose Top Row Keys" />
         <SwitchPreference android:key="pred"   android:title="Text Prediction" />
         <SwitchPreference android:key="auto"   android:title="Autoreplace" />
         <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />

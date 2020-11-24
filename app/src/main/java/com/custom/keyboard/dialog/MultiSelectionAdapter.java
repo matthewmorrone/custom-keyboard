@@ -16,13 +16,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAdapter.MulitpleSelectionHolder> {
-    private final List<MultiSelection> dataList;
-    private List<MultiSelection> currentField;
-    private String selectedItems = "";
-    private final int color;
-    private final int textColor;
-    private final MultiSelectionListener multiSelectionListener;
-    private String tag = "";
+    private Context context;
+    private List<MultiSelection> dataList;
+    private List<String> selectedFields;
+    private int color, textColor;
+    private MultiSelectionListener multiSelectionListener;
+    private String tag;
 
     public static class MulitpleSelectionHolder extends RecyclerView.ViewHolder {
 
@@ -37,19 +36,19 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
     }
 
     public MultiSelectionAdapter(
+        Context context,
         MultiSelectionListener listener,
         List<MultiSelection> dataList,
-        String title,
+        List<String> selectedFields,
         String tag,
-        Context context,
         int color,
         int textColor
     ) {
+        this.context = context;
         this.multiSelectionListener = listener;
         this.dataList = dataList;
-        this.selectedItems = title; // checkExist(selectedItems);
+        this.selectedFields = selectedFields; // checkExist(selectedItems);
         this.tag = tag;
-        // this.context = context;
         this.color = color;
         this.textColor = textColor;
     }
@@ -99,6 +98,8 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
         return dataList.size();
     }
 
+
+    /*
     public boolean checkExist(String dataString) {
         if (dataList != null && dataList.size() > 0) {
             for (int i = 0; i < dataList.size(); i++) {
@@ -119,4 +120,6 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
         }
         return false;
     }
+    */
+
 }

@@ -94,10 +94,10 @@ public class PreferenceFragment
     Preference resetAllPreferences;
     Preference setDefaultPreferences;
 
-     Preference showSingleDialog;
-     Preference showMultipleDialog;
-     // NumberPickerPreference numberPicker;
-     EditTextPreference xmlEditor;
+    Preference topRowKeysDialog;
+    Preference showSingleDialog;
+    Preference showMultipleDialog;
+    EditTextPreference xmlEditor;
 
     String[] themes;
 
@@ -155,6 +155,12 @@ public class PreferenceFragment
         startActivityForResult(chooseFile, PICK_FILE_RESULT_CODE);
     }
 
+    private void topRowKeysDialog() {
+        System.out.println("topRowKeysDialog");
+        Intent intent = new Intent("ShowDialog");
+        intent.putExtra("topRowKeys", "");
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
+    }
     private void triggerSingleDialog() {
         Intent intent = new Intent("ShowDialog");
         intent.putExtra("single", "");
@@ -384,6 +390,7 @@ public class PreferenceFragment
         resetAllPreferences = findPreference("reset_all_preferences");
         setDefaultPreferences = findPreference("set_default_preferences");
 
+        topRowKeysDialog = findPreference("top_row_keys");
         showSingleDialog = findPreference("show_single_dialog");
         showMultipleDialog = findPreference("show_multiple_dialog");
         xmlEditor = (EditTextPreference)findPreference("xml_editor");
@@ -515,6 +522,17 @@ public class PreferenceFragment
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     chooseImageBackground();
+                    return true;
+                }
+            });
+        }
+        System.out.println(topRowKeysDialog);
+        if (topRowKeysDialog != null) {
+            topRowKeysDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    System.out.println(preference);
+                    topRowKeysDialog();
                     return true;
                 }
             });
