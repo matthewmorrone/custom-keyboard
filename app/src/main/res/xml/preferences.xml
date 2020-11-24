@@ -16,6 +16,7 @@
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
         <Preference android:key="top_row_keys" android:title="Choose Top Row Keys" />
+        <Preference android:key="custom_key" android:title="Choose Custom Key" />
         <SwitchPreference android:key="pred"   android:title="Text Prediction" />
         <SwitchPreference android:key="auto"   android:title="Autoreplace" />
         <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />

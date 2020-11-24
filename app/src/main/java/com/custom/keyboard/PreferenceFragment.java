@@ -95,6 +95,7 @@ public class PreferenceFragment
     Preference setDefaultPreferences;
 
     Preference topRowKeysDialog;
+    Preference customKeyDialog;
     Preference showSingleDialog;
     Preference showMultipleDialog;
     EditTextPreference xmlEditor;
@@ -156,9 +157,13 @@ public class PreferenceFragment
     }
 
     private void topRowKeysDialog() {
-        System.out.println("topRowKeysDialog");
         Intent intent = new Intent("ShowDialog");
         intent.putExtra("topRowKeys", "");
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
+    }
+    private void customKeyDialog() {
+        Intent intent = new Intent("ShowDialog");
+        intent.putExtra("customKey", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
     }
     private void triggerSingleDialog() {
@@ -166,7 +171,6 @@ public class PreferenceFragment
         intent.putExtra("single", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
     }
-
     private void triggerMultipleDialog() {
         Intent intent = new Intent("ShowDialog");
         intent.putExtra("multiple", "");
@@ -391,6 +395,7 @@ public class PreferenceFragment
         setDefaultPreferences = findPreference("set_default_preferences");
 
         topRowKeysDialog = findPreference("top_row_keys");
+        customKeyDialog = findPreference("custom_key");
         showSingleDialog = findPreference("show_single_dialog");
         showMultipleDialog = findPreference("show_multiple_dialog");
         xmlEditor = (EditTextPreference)findPreference("xml_editor");
@@ -526,7 +531,6 @@ public class PreferenceFragment
                 }
             });
         }
-        System.out.println(topRowKeysDialog);
         if (topRowKeysDialog != null) {
             topRowKeysDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -537,6 +541,17 @@ public class PreferenceFragment
                 }
             });
         }
+        if (customKeyDialog != null) {
+            customKeyDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    System.out.println(preference);
+                    customKeyDialog();
+                    return true;
+                }
+            });
+        }
+
         if (showSingleDialog != null) {
             showSingleDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

@@ -162,6 +162,7 @@ public class CustomKeyboardView extends KeyboardView {
     }
 
     public void hideKey(Key key) {
+        System.out.println("hiding "+key.codes[0]);
         key.width = 0;
         key.label = "";
         key.icon = null;
@@ -177,7 +178,6 @@ public class CustomKeyboardView extends KeyboardView {
         mContext = getContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
-        // System.out.println(topRowKeys);
 
         this.canvas = canvas;
 
@@ -191,15 +191,19 @@ public class CustomKeyboardView extends KeyboardView {
         ArrayList<String> clipboardHistoryList = getClipboardHistory();
 
         for (Key key : keys) {
+            if (this.getWidth() == 0) continue;
             int primaryCode = key.codes[0];
+
+            /*
             String primaryCodeString = String.valueOf(primaryCode);
-            if (topRowKeysDefault.contains(primaryCodeString)
-            &&  !topRowKeys.contains(primaryCodeString)) {
-                System.out.println(key.codes[0]);
-                hideKey(key);
-                continue;
+            if (topRowKeysDefault.contains(primaryCodeString)) {
+                if (!topRowKeys.contains(primaryCodeString)) {
+                    hideKey(key);
+                    continue;
+                }
             }
-/*
+            */
+            /*
             mPaint.setColor(borderColor);
             canvas.drawRect(key.x, key.y, key.x+key.width, key.y+key.height, mPaint);
             mPaint.setColor(background);
@@ -215,8 +219,8 @@ public class CustomKeyboardView extends KeyboardView {
             else if (key.icon != null) {
                 drawable(key);
             }
-*/
-/*
+            */
+            /*
             canvas.save();
             canvas.clipRect(key.x, key.y, key.x+key.width, key.y+key.height);
             // canvas.clipOutRect(key.x+(border*4)+corner, key.y+(border*4)+corner, key.x+key.width-(border*4)-corner, key.y+key.height-(border*4)-corner);
@@ -224,12 +228,12 @@ public class CustomKeyboardView extends KeyboardView {
             canvas.drawRoundRect(key.x+(border*2), key.y+(border*2), key.x+key.width-(border*2), key.y+key.height-(border*2), corner, corner, mPaint);
             // canvas.drawRoundRect(key.x+(border*4), key.y+(border*4), key.x+key.width-(border*4), key.y+key.height-(border*4), corner, corner, mPaint);
             canvas.restore();
-*/
-/*
+            */
+            /*
             if (Util.contains(repeatable, primaryCode)) {
                 key.repeatable = true;
             }
-*/
+            */
 
             if (borderRadius > 0 || borderWidth > 0 || paddingWidth > 0) {
                 canvas.save();

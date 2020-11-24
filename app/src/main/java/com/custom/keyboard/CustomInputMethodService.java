@@ -71,6 +71,7 @@ import com.custom.keyboard.util.Variables;
 
 import org.mariuszgromada.math.mxparser.Expression;
 
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -81,6 +82,7 @@ import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener,
@@ -149,6 +151,7 @@ public class CustomInputMethodService extends InputMethodService
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mCustomKeyboardView.setOnKeyboardActionListener(this);
         mCustomKeyboardView.setKeyboard(new CustomKeyboard(this, R.layout.primary));
+        redraw();
         return mCustomKeyboardView;
     }
 
@@ -187,6 +190,8 @@ public class CustomInputMethodService extends InputMethodService
                 return false;
             }
         });
+        redraw();
+
     }
 
 
@@ -263,6 +268,43 @@ public class CustomInputMethodService extends InputMethodService
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
         // mCustomKeyboardView.setBackgroundResource(Themes.randomBackground());
+
+        adjustRow(mCurrentKeyboard, 0);
+        setCustomKey();
+
+        redraw();
+    }
+
+    public void setCustomKey() {
+        Keyboard.Key customKey = getKey(-22);
+        if (customKey == null) customKey = getKey(-27);
+        String customKeyChoice = sharedPreferences.getString("custom_key", "");
+        System.out.println("setCustomKey: "+customKeyChoice);
+        if (customKey != null && !customKeyChoice.isEmpty()) {
+            customKey.codes = new int[]{Integer.parseInt(customKeyChoice)};
+            switch(customKeyChoice) {
+                case "-22":  customKey.icon = getResources().getDrawable(R.drawable.ic_settings); break;
+                case "-23":  customKey.icon = getResources().getDrawable(R.drawable.ic_voice); break;
+                case "-25":  customKey.icon = getResources().getDrawable(R.drawable.ic_input_method); break;
+                case "-26":  customKey.icon = getResources().getDrawable(R.drawable.ic_android_settings); break;
+                case "-27":  customKey.icon = getResources().getDrawable(R.drawable.ic_emoticon); break;
+                case "-103": customKey.icon = getResources().getDrawable(R.drawable.ic_macro); break;
+                case "-133": customKey.icon = getResources().getDrawable(R.drawable.ic_com); break;
+                case "-134": customKey.icon = getResources().getDrawable(R.drawable.ic_keypad); break;
+                case "-135": customKey.icon = getResources().getDrawable(R.drawable.ic_nav); break;
+                case "-136": customKey.icon = getResources().getDrawable(R.drawable.ic_font); break;
+                case "-137": customKey.icon = getResources().getDrawable(R.drawable.ic_schwa); break;
+                case "-138": customKey.icon = getResources().getDrawable(R.drawable.ic_punctuation); break;
+                case "-139": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode); break;
+                case "-140": customKey.icon = getResources().getDrawable(R.drawable.ic_accent); break;
+                case "-142": customKey.icon = getResources().getDrawable(R.drawable.ic_function); break;
+                case "-143": customKey.icon = getResources().getDrawable(R.drawable.ic_calc); break;
+                case "-144": customKey.icon = getResources().getDrawable(R.drawable.ic_clipboard); break;
+                case "-174": customKey.icon = getResources().getDrawable(R.drawable.ic_coding); break;
+                case "-175": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode); break;
+                default:     customKey.icon = getResources().getDrawable(R.drawable.ic_settings); break;
+            }
+        }
     }
 
     public void setKeyboard(int id, String title) {
@@ -272,6 +314,8 @@ public class CustomInputMethodService extends InputMethodService
         mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
         sharedPreferences.edit().putInt("current_layout", id).apply();
         sharedPreferences.edit().putString("current_layout_title", title).apply();
+        adjustRow(mCurrentKeyboard, 0);
+        setCustomKey();
         redraw();
     }
 
@@ -537,11 +581,46 @@ public class CustomInputMethodService extends InputMethodService
             if (key.x < minX) minX = key.x;
             if (key.y < minY) minY = key.y;
 
-            if (key.x + key.width > maxX) maxX = key.x;
-            if (key.y + key.height > maxY) maxY = key.y;
+            if (key.x + key.width > maxX) maxX = key.x + key.width;
+            if (key.y + key.height > maxY) maxY = key.y + key.height;
         }
         return new Bounds(minX, minY, maxX, maxY);
     }
+
+    public void adjustRow(CustomKeyboard currentKeyboard, int row) {
+        ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+        // System.out.println("("+topRowKeysDefault.size()+") "+topRowKeysDefault);
+        List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
+        // System.out.println("("+topRowKeys.size()+") "+topRowKeys);
+
+
+        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, row);
+        // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
+        // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
+        // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
+
+        Bounds bounds = getBounds(layoutRow);
+        int currentX = 0;
+        for(Keyboard.Key key : layoutRow) {
+            if (topRowKeysDefault.contains(String.valueOf(key.codes[0]))) {
+                if (!topRowKeys.contains(String.valueOf(key.codes[0]))) {
+                    key.width = 0;
+                    key.icon = null;
+                    key.label = "";
+                    continue;
+                }
+                // System.out.print(key.codes[0]+" "+key.width+" "+key.x); //+" "+bounds.dX+" "+topRowKeysDefault.size());
+                // System.out.println(" -> "+bounds.dX/topRowKeys.size()+" "+currentX);
+
+                key.width = bounds.dX/topRowKeys.size();
+                key.x = currentX;
+
+                currentX += bounds.dX/topRowKeys.size();
+            }
+        }
+        redraw();
+    }
+
 
     // @TODO: autoadjustment of key width by number of keys in row
     public void adjustKeys(CustomKeyboard currentKeyboard) {
@@ -553,6 +632,17 @@ public class CustomInputMethodService extends InputMethodService
             }
         }
         redraw();
+    }
+
+    public List<Keyboard.Key> getKeyboardRow(CustomKeyboard keyboard, int row) {
+        Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
+        for (Keyboard.Key key : keyboard.getKeys()) {
+            if (!layoutRows.containsKey(key.y)) {
+                layoutRows.put(key.y, new ArrayList<Keyboard.Key>());
+            }
+            layoutRows.get(key.y).add(key);
+        }
+        return layoutRows.get(row);
     }
 
     public Map<Integer,List<Keyboard.Key>> getKeyboardRows(CustomKeyboard keyboard) {

@@ -29,7 +29,8 @@ public class PreferenceActivity extends Activity {
     SharedPreferences sharedPreferences;
 
     ArrayList<String> colors = new ArrayList<>(Arrays.asList("White", "Black", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow"));
-    ArrayList<String> topRowKeys = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+    ArrayList<String> topRowKeyChoices = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+    ArrayList<String> customKeyChoices = new ArrayList<>(Arrays.asList("-22", "-23", "-25", "-26", "-27", "-84", "-103", "-133", "-134", "-135", "-136", "-137", "-138", "-139", "-140", "-142", "-143", "-144", "-174", "-175"));
 
     @Override
     public void onCreate(Bundle h) {
@@ -51,14 +52,37 @@ public class PreferenceActivity extends Activity {
                 if (intent.hasExtra("single"))     showSingleDialog();
                 if (intent.hasExtra("multiple"))   showMultipleDialog();
                 if (intent.hasExtra("topRowKeys")) showTopRowKeysDialog();
+                if (intent.hasExtra("customKey"))  customKeyDialog();
             }
         }
     };
 
+    public void customKeyDialog() {
+        SingleSelectionDialog customKeyDialog = new SingleSelectionDialog.Builder(this, "Custom Key")
+            .setTitle("Custom Key")
+            .setContent(customKeyChoices)
+            .setColor(getResources().getColor(R.color.colorPrimaryDark))
+            .setTextColor(getResources().getColor(R.color.colorAccent))
+            .setListener(new SingleSelectionListener() {
+                @Override
+                public void onSingleDialogItemSelected(String s, int position, String tag) {
+                    sharedPreferences.edit().putString("custom_key", s).apply();
+                    // System.out.println(sharedPreferences.getString("custom_key", ""));
+                }
+                @Override
+                public void onSingleDialogError(String error, String tag) {
+                }
+            })
+            .build();
+        String selectedField = Util.notNull(sharedPreferences.getString("custom_key", ""));
+        customKeyDialog.setSelectedField(selectedField);
+        customKeyDialog.show();
+    }
+
     public void showTopRowKeysDialog() {
         MultiSelectionDialog topRowKeysDialog = new MultiSelectionDialog.Builder(this, "Top Row Keys")
             .setTitle("Top Row Keys")
-            .setContent(topRowKeys)
+            .setContent(topRowKeyChoices)
             .setColor(getResources().getColor(R.color.colorPrimaryDark))
             .setTextColor(getResources().getColor(R.color.colorAccent))
             .setListener(new MultiSelectionListener() {
@@ -77,7 +101,6 @@ public class PreferenceActivity extends Activity {
         topRowKeysDialog.setSelectedFields(selectedFields);
         topRowKeysDialog.show();
     }
-
 
     public void showSingleDialog() {
 
