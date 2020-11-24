@@ -276,8 +276,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void setCustomKey() {
-        Keyboard.Key customKey = getKey(-22);
-        if (customKey == null) customKey = getKey(-27);
+        Keyboard.Key customKey = getKey(-27);
+        // if (customKey == null) customKey = getKey(-22);
         String customKeyChoice = sharedPreferences.getString("custom_key", "");
         System.out.println("setCustomKey: "+customKeyChoice);
         if (customKey != null && !customKeyChoice.isEmpty()) {
@@ -301,7 +301,7 @@ public class CustomInputMethodService extends InputMethodService
                 case "-143": customKey.icon = getResources().getDrawable(R.drawable.ic_calc); break;
                 case "-144": customKey.icon = getResources().getDrawable(R.drawable.ic_clipboard); break;
                 case "-174": customKey.icon = getResources().getDrawable(R.drawable.ic_coding); break;
-                case "-175": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode); break;
+                case "-175": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode_grid); break;
                 default:     customKey.icon = getResources().getDrawable(R.drawable.ic_settings); break;
             }
         }
