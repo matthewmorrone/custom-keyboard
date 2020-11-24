@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MulitpleSelectionAdapter extends RecyclerView.Adapter<MulitpleSelectionAdapter.MulitpleSelectionHolder> {
+public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAdapter.MulitpleSelectionHolder> {
     private final List<MultiSelection> dataList;
     private List<MultiSelection> currentField;
     private String selectedItems = "";
@@ -36,14 +36,22 @@ public class MulitpleSelectionAdapter extends RecyclerView.Adapter<MulitpleSelec
         }
     }
 
-    public MulitpleSelectionAdapter(MultiSelectionListener listener, List<MultiSelection> contentList, String title, String dialogTAG, Context context, int checkBoxColor, int textcolor) {
-        this.dataList = contentList;
-        this.color = checkBoxColor;
-        this.selectedItems = title;
-        this.textColor = textcolor;
-        checkExist(selectedItems);
-        multiSelectionListener = listener;
-        this.tag = dialogTAG;
+    public MultiSelectionAdapter(
+        MultiSelectionListener listener,
+        List<MultiSelection> dataList,
+        String title,
+        String tag,
+        Context context,
+        int color,
+        int textColor
+    ) {
+        this.multiSelectionListener = listener;
+        this.dataList = dataList;
+        this.selectedItems = title; // checkExist(selectedItems);
+        this.tag = tag;
+        // this.context = context;
+        this.color = color;
+        this.textColor = textColor;
     }
 
     @Override
@@ -111,5 +119,4 @@ public class MulitpleSelectionAdapter extends RecyclerView.Adapter<MulitpleSelec
         }
         return false;
     }
-
 }

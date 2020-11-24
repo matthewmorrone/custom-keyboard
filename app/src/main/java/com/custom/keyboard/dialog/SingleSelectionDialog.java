@@ -26,7 +26,6 @@ import com.custom.keyboard.R;
 import java.util.ArrayList;
 
 
-
 public class SingleSelectionDialog extends AppCompatActivity {
 
     Dialog dialog;
@@ -36,7 +35,7 @@ public class SingleSelectionDialog extends AppCompatActivity {
     private String headerTitle = "Select";
     private Boolean isSearchEnabled = false;
     SingleSelectionAdapter dialogAdapter;
-    private String currentField = "", currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
+    private String currentField, currentValue, currentPosition, tag, hintText;
     private int headerColor, textColor;
     SingleSelectionListener singleSelectionListener;
 
@@ -59,6 +58,8 @@ public class SingleSelectionDialog extends AppCompatActivity {
         headerColor = builder.headerColor;
         textColor = builder.textColor;
         singleSelectionListener = builder.singleSelectionListener;
+        currentValue = "";
+        currentPosition = "";
         Log.d("TAG--", headerTitle);
     }
 
@@ -79,7 +80,8 @@ public class SingleSelectionDialog extends AppCompatActivity {
 
             if (isSearchEnabled) {
                 etSearch.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else {
                 etSearch.setVisibility(View.GONE);
             }
             if (headerColor != 0) {
@@ -87,7 +89,8 @@ public class SingleSelectionDialog extends AppCompatActivity {
                     header.setBackgroundColor(headerColor);
                     ColorStateList colorStateList = ColorStateList.valueOf(headerColor);
                     ViewCompat.setBackgroundTintList(etSearch, colorStateList);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -102,53 +105,47 @@ public class SingleSelectionDialog extends AppCompatActivity {
                 }
             });
 
-            recyclerView.addOnItemTouchListener(
-                    new RecyclerItemClickListener(context, recyclerView,
-                            new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    dialog.dismiss();
-                                    currentValue = temp_data_list.get(position);
-                                    currentField = getCurrentField(list.get(position));
-                                    currentPosition = getCurrentPosition(currentValue);
-                                    if (singleSelectionListener != null) {
-                                        singleSelectionListener.onDialogItemSelected(currentValue, Integer.parseInt(currentPosition), tag);
-                                    }
-                                }
+            recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    dialog.dismiss();
+                    currentValue = temp_data_list.get(position);
+                    currentField = getCurrentField(list.get(position));
+                    currentPosition = getCurrentPosition(currentValue);
+                    if (singleSelectionListener != null) {
+                        singleSelectionListener.onSingleDialogItemSelected(currentValue, Integer.parseInt(currentPosition), tag);
+                    }
+                }
 
-                                @Override
-                                public void onItemLongClick(View view, int position) {
-                                    dialog.dismiss();
-                                }
-
-                            })
-            );
+                @Override
+                public void onItemLongClick(View view, int position) {
+                    dialog.dismiss();
+                }
+            }));
 
             etSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                     if (etSearch.getText().toString().equals("")) {
                         if (list != null && list.size() > 0) {
                             dialogAdapter = new SingleSelectionAdapter(singleSelectionListener, list, context, tag, currentField, headerColor, textColor);
                             dialogAdapter.notifyDataSetChanged();
                             recyclerView.setAdapter(dialogAdapter);
-                        } else {
+                        }
+                        else {
                             if (singleSelectionListener != null) {
-
-                                singleSelectionListener.onDialogError("List is empty or null", tag);
+                                singleSelectionListener.onSingleDialogError("List is empty or null", tag);
                             }
                         }
-
-
-                    } else {
+                    }
+                    else {
                         getSearch(etSearch.getText().toString(), recyclerView);
                     }
-
                 }
 
                 @Override
@@ -161,14 +158,14 @@ public class SingleSelectionDialog extends AppCompatActivity {
                 dialogAdapter = new SingleSelectionAdapter(singleSelectionListener, list, context, tag, currentField, headerColor, textColor);
                 recyclerView.setAdapter(dialogAdapter);
                 dialog.show();
-            } else {
+            }
+            else {
                 Toast.makeText(context, "List is empty", Toast.LENGTH_SHORT).show();
             }
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void getSearch(String search, RecyclerView recyclerView) {
@@ -177,15 +174,12 @@ public class SingleSelectionDialog extends AppCompatActivity {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).toLowerCase().contains(search.toLowerCase())) {
                     temp_list.add(list.get(i));
-
                 }
             }
-        } else {
+        }
+        else {
             if (singleSelectionListener != null) {
-
-
-                singleSelectionListener.onDialogError("List is empty or null", tag);
-
+                singleSelectionListener.onSingleDialogError("List is empty or null", tag);
             }
         }
 
@@ -195,13 +189,10 @@ public class SingleSelectionDialog extends AppCompatActivity {
 
         dialogAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(dialogAdapter);
-
-
     }
 
     public String getCurrentField(String field) {
         if (list != null && list.size() > 0) {
-
             for (int i = 0; i < list.size(); i++) {
                 if (field.equals(list.get(i))) {
                     return list.get(i);
@@ -217,7 +208,6 @@ public class SingleSelectionDialog extends AppCompatActivity {
 
     public String getCurrentPosition(String field) {
         if (list != null && list.size() > 0) {
-
             for (int i = 0; i < list.size(); i++) {
                 if (field.equals(list.get(i))) {
                     return String.valueOf(i);
@@ -233,9 +223,8 @@ public class SingleSelectionDialog extends AppCompatActivity {
         //optional
         private Context context;
         private ArrayList<String> list = new ArrayList<>();
-        private String headerTitle = "Select";
         private Boolean isSearchEnabled = false;
-        private String currentField = "", currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
+        private String headerTitle = "Select", currentField = "", currentValue = "", currentPosition = "", tag, hintText = "Search here";
         private int headerColor, textColor;
         SingleSelectionListener singleSelectionListener;
 
@@ -252,7 +241,8 @@ public class SingleSelectionDialog extends AppCompatActivity {
         public Builder setTitle(String value) {
             if (value != null && !value.equals("")) {
                 this.headerTitle = value;
-            } else {
+            }
+            else {
                 this.headerTitle = "Select";
             }
             return this;
@@ -279,7 +269,6 @@ public class SingleSelectionDialog extends AppCompatActivity {
             return this;
         }
 
-
         public Builder setSelectedField(String selectedField) {
             currentField = selectedField;
             return this;
@@ -289,6 +278,4 @@ public class SingleSelectionDialog extends AppCompatActivity {
             return new SingleSelectionDialog(this);
         }
     }
-
-
 }

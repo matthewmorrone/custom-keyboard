@@ -2,7 +2,6 @@ package com.custom.keyboard.dialog;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingleSelectionAdapter extends RecyclerView.Adapter<SingleSelectionAdapter.SingleSelectionHolder> {
-    private List<String> dataList = new ArrayList<>();
+    private List<String> dataList;
     private Context context;
     private String currentField;
     private int color, textColor;
     private SingleSelectionListener singleSelectionListener;
-    private String tag = "";
+    private String tag;
 
-    public class SingleSelectionHolder extends RecyclerView.ViewHolder {
+    public static class SingleSelectionHolder extends RecyclerView.ViewHolder {
 
         public RadioButton radioButton;
         public View line;
@@ -35,14 +34,22 @@ public class SingleSelectionAdapter extends RecyclerView.Adapter<SingleSelection
         }
     }
 
-    public SingleSelectionAdapter(SingleSelectionListener listener, ArrayList<String> contentList, Context mContext, String tag, String currentField, int radioColor, int textcolor) {
-        this.context = mContext;
-        this.dataList = contentList;
-        this.currentField = currentField;
-        this.color = radioColor;
+    public SingleSelectionAdapter(
+        SingleSelectionListener listener,
+        ArrayList<String> dataList,
+        Context context,
+        String tag,
+        String currentField,
+        int color,
+        int textColor
+    ) {
         this.singleSelectionListener = listener;
+        this.dataList = dataList;
+        this.context = context;
         this.tag = tag;
-        this.textColor = textcolor;
+        this.currentField = currentField;
+        this.color = color;
+        this.textColor = textColor;
     }
 
     @Override
@@ -54,14 +61,12 @@ public class SingleSelectionAdapter extends RecyclerView.Adapter<SingleSelection
     public void onBindViewHolder(SingleSelectionHolder holder, int position) {
         if (color != 0) {
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    holder.radioButton.setButtonTintList(ColorStateList.valueOf(color));
-                }
+                holder.radioButton.setButtonTintList(ColorStateList.valueOf(color));
                 holder.line.setBackgroundColor(color);
             }
             catch (Exception e) {
                 if (singleSelectionListener != null) {
-                    singleSelectionListener.onDialogError(e.toString(), tag);
+                    singleSelectionListener.onSingleDialogError(e.toString(), tag);
                 }
             }
         }
@@ -71,7 +76,7 @@ public class SingleSelectionAdapter extends RecyclerView.Adapter<SingleSelection
             }
             catch (Exception e) {
                 if (singleSelectionListener != null) {
-                    singleSelectionListener.onDialogError(e.toString(), tag);
+                    singleSelectionListener.onSingleDialogError(e.toString(), tag);
                 }
             }
         }

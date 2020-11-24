@@ -6,15 +6,13 @@
     <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound"        android:title="Play Sound" />
         <SwitchPreference android:defaultValue="false" android:key="vib"          android:title="Key Press Vibration" />
-        <com.custom.keyboard.preferences.SeekPreference
-            android:key="vib_duration" android:title="Vibration Duration" app:value="40" app:max="100" app:min="10" app:step="10"  />
+        <com.custom.keyboard.preferences.SeekPreference android:key="vib_duration" android:title="Vibration Duration" app:value="40" app:max="100" app:min="10" app:step="10"  />
         <SwitchPreference android:defaultValue="false" android:key="ipa"          android:title="Play IPA Sound" />
         <!-- <SwitchPreference android:defaultValue="false" android:key="ipa_desc"     android:title="Show IPA Description" /> -->
         <SwitchPreference android:defaultValue="false" android:key="include_self" android:title="Include Main Key in Popup" />
         <SwitchPreference android:defaultValue="false" android:key="preview"      android:title="Show Key Preview" />
         <SwitchPreference android:defaultValue="true"  android:key="single_hint"  android:title="Disable Long Press Popup" />
-        <com.custom.keyboard.preferences.SeekPreference
-            android:key="long_press_duration" android:title="Long Press Duration" app:value="500" app:max="3000" app:min="100" app:step="100" />
+        <com.custom.keyboard.preferences.SeekPreference android:key="long_press_duration" android:title="Long Press Duration" app:value="500" app:max="3000" app:min="100" app:step="100" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
         <SwitchPreference android:key="pred"   android:title="Text Prediction" />
@@ -51,13 +49,11 @@
         <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Space Bar Appearance"
                           android:summaryOff="Make space bar look distinct"
                           android:summaryOn="Make space bar look indistinct"
-            />        <ListPreference android:defaultValue="1" android:dialogTitle="Theme" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" />
-        <com.custom.keyboard.preferences.ColorPreference
-            android:key="background_color" android:title="Background Color" />
-        <com.custom.keyboard.preferences.ColorPreference
-            android:key="foreground_color" android:title="Text Color" />
-        <com.custom.keyboard.preferences.ColorPreference
-            android:key="border_color" android:title="Border Color" />
+            />
+        <ListPreference android:defaultValue="1" android:dialogTitle="Theme" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" />
+        <com.custom.keyboard.preferences.ColorPreference android:key="background_color" android:title="Background Color" />
+        <com.custom.keyboard.preferences.ColorPreference android:key="foreground_color" android:title="Text Color" />
+        <com.custom.keyboard.preferences.ColorPreference android:key="border_color" android:title="Border Color" />
         <Preference android:key="choose_image_background" android:title="Choose Image Background" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">

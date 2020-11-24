@@ -60,7 +60,7 @@ import com.custom.keyboard.util.Bounds;
 import com.custom.keyboard.util.Calculator;
 import com.custom.keyboard.util.CustomInputConnection;
 import com.custom.keyboard.util.TextUtils;
-import com.custom.keyboard.util.Intents;
+import com.custom.keyboard.util.IntentUtils;
 import com.custom.keyboard.util.Sounds;
 import com.custom.keyboard.util.StringUtils;
 import com.custom.keyboard.util.Themes;
@@ -1830,7 +1830,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
             break;
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
-            case -22: Intents.showSettings(getBaseContext()); break;
+            case -22: IntentUtils.showSettings(getBaseContext()); break;
             case -23: showVoiceInput(); break;
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
@@ -1963,24 +1963,24 @@ public class CustomInputMethodService extends InputMethodService
             case -101: setKeyboard(R.layout.primary, "Primary"); break;
             case -102: setKeyboard(R.layout.menu, "Menu"); break;
             case -103: setKeyboard(R.layout.macros, "Macros"); break;
-            case -104: Intents.showActivity(getBaseContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -105: Intents.showActivity(getBaseContext(), Settings.ACTION_LOCALE_SETTINGS); break;
-            case -106: Intents.showActivity(getBaseContext(), Settings.ACTION_SETTINGS); break;
-            case -107: Intents.showActivity(getBaseContext(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -108: Intents.showActivity(getBaseContext(), Settings.ACTION_WIFI_SETTINGS); break;
-            case -109: Intents.showActivity(getBaseContext(), Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -110: Intents.showActivity(getBaseContext(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -111: Intents.showActivity(getBaseContext(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -112: Intents.showActivity(getBaseContext(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
-            case -113: Intents.showActivity(getBaseContext(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
-            case -114: Intents.showActivity(getBaseContext(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
-            case -115: Intents.showActivity(getBaseContext(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
-            case -116: Intents.showActivity(getBaseContext(), Settings.ACTION_SOUND_SETTINGS);   break;
-            case -117: Intents.showActivity(getBaseContext(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
-            case -118: Intents.showActivity(getBaseContext(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -119: Intents.showActivity(getBaseContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -120: Intents.showActivity(getBaseContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
-            case -121: Intents.showClipboard(getBaseContext()); break;
+            case -104: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -105: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_LOCALE_SETTINGS); break;
+            case -106: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_SETTINGS); break;
+            case -107: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -108: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_WIFI_SETTINGS); break;
+            case -109: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -110: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -111: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -112: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
+            case -113: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
+            case -114: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
+            case -115: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
+            case -116: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_SOUND_SETTINGS);   break;
+            case -117: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
+            case -118: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -119: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -120: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -121: IntentUtils.showClipboard(getBaseContext()); break;
             case -122: break;
             case -123: break;
             case -124: break;
@@ -2052,10 +2052,10 @@ public class CustomInputMethodService extends InputMethodService
             case -175: showUnicodePopup(); break;
             case -176: moveLeftOneWord(); break;
             case -177: moveRightOneWord(); break;
-            case -178: Intents.dialPhone(getBaseContext(), getSelectedText(ic)); break;
-            case -179: Intents.openWebpage(getBaseContext(), getSelectedText(ic)); break;
-            case -180: Intents.searchWeb(getBaseContext(), getSelectedText(ic)); break;
-            case -181: Intents.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
+            case -178: IntentUtils.dialPhone(getBaseContext(), getSelectedText(ic)); break;
+            case -179: IntentUtils.openWebpage(getBaseContext(), getSelectedText(ic)); break;
+            case -180: IntentUtils.searchWeb(getBaseContext(), getSelectedText(ic)); break;
+            case -181: IntentUtils.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
             case -182: break;
             case -183: break;
             case -184: break;
@@ -2486,7 +2486,7 @@ public class CustomInputMethodService extends InputMethodService
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Intents.startIntent(getBaseContext(), intent);
+            IntentUtils.startIntent(getBaseContext(), intent);
             return;
         }
 

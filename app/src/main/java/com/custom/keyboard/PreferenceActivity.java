@@ -18,10 +18,12 @@ import com.custom.keyboard.dialog.SingleSelectionListener;
 import com.custom.keyboard.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PreferenceActivity extends Activity {
 
-    ArrayList<String> choices = new ArrayList<>();
+    ArrayList<String> choices = new ArrayList<String>(Arrays.asList("White", "Black", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow"));
+    ArrayList<String> topRow = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
 
     @Override
     public void onCreate(Bundle h) {
@@ -30,15 +32,6 @@ public class PreferenceActivity extends Activity {
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("RequestPermissions"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("ShowDialog"));
-
-        choices.add("White");
-        choices.add("Black");
-        choices.add("Red");
-        choices.add("Green");
-        choices.add("Blue");
-        choices.add("Cyan");
-        choices.add("Magenta");
-        choices.add("Yellow");
     }
 
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -54,13 +47,55 @@ public class PreferenceActivity extends Activity {
                 if (intent.hasExtra("multiple")) {
                     showMultipleDialog();
                 }
+                if (intent.hasExtra("topRow")) {
+                    showMultipleDialog();
+                }
             }
         }
     };
 
+    public void showDialog(boolean multiple, String title, ArrayList<String> entries, boolean search) {
+        if (!multiple) {
+            SingleSelectionDialog singleSelectionDialog = new SingleSelectionDialog.Builder(this, "")
+                .setTitle(title)
+                .setContent(entries)
+                .enableSearch(search, "")
+                .setListener(new SingleSelectionListener() {
+                    @Override
+                    public void onSingleDialogItemSelected(String s, int position, String tag) {
+                        System.out.println("onDialogItemSelected"+" "+s+" "+position+" "+tag);
+                    }
+                    @Override
+                    public void onSingleDialogError(String error, String tag) {
+                        System.out.println("onDialogError"+" "+error+" "+tag);
+                    }
+                })
+                .build();
+            singleSelectionDialog.show();
+        }
+        else {
+            MultiSelectionDialog multiSelectionDialog = new MultiSelectionDialog.Builder(this, "")
+                .setTitle(title)
+                .setContent(entries)
+                // .enableSearch(search)
+                .setListener(new MultiSelectionListener() {
+                    @Override
+                    public void onMultiDialogItemsSelected(String s, String tag, ArrayList<String> selectedItemList) {
+                        System.out.println("onMultiDialogItemsSelected"+" "+s+" "+tag+" "+selectedItemList);
+                    }
+                    @Override
+                    public void onMultiDialogError(String error, String tag) {
+                        System.out.println("onMultiDialogError"+" "+error+" "+tag);
+                    }
+                })
+                .build();
+            multiSelectionDialog.show();
+        }
+    }
+
     public void showSingleDialog() {
 
-        SingleSelectionDialog singleSelectionDialog = new SingleSelectionDialog.Builder(this, "TEST")
+        SingleSelectionDialog singleSelectionDialog = new SingleSelectionDialog.Builder(this, "")
             .setTitle("Select Number")
             .setContent(choices)
             .setColor(getResources().getColor(R.color.colorPrimaryDark))
@@ -69,11 +104,11 @@ public class PreferenceActivity extends Activity {
             .setTextColor(getResources().getColor(R.color.black))
             .setListener(new SingleSelectionListener() {
                 @Override
-                public void onDialogItemSelected(String s, int position, String tag) {
+                public void onSingleDialogItemSelected(String s, int position, String tag) {
                     System.out.println("onDialogItemSelected"+" "+s+" "+position+" "+tag);
                 }
                 @Override
-                public void onDialogError(String error, String tag) {
+                public void onSingleDialogError(String error, String tag) {
                     System.out.println("onDialogError"+" "+error+" "+tag);
                 }
             })
@@ -83,7 +118,7 @@ public class PreferenceActivity extends Activity {
 
     public void showMultipleDialog() {
 
-        MultiSelectionDialog multiSelectionDialog = new MultiSelectionDialog.Builder(this, "TEST")
+        MultiSelectionDialog multiSelectionDialog = new MultiSelectionDialog.Builder(this, "")
             .setTitle("Select Numbers")
             .setContent(choices)
             .setColor(getResources().getColor(R.color.colorPrimaryDark))

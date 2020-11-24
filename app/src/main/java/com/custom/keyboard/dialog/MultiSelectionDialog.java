@@ -27,7 +27,7 @@ public class MultiSelectionDialog extends AppCompatActivity {
     private ArrayList<MultiSelection> multiList = new ArrayList<>();
     private ArrayList<MultiSelection> temp_data_list = new ArrayList<>();
     private String headerTitle = "Select";
-    MulitpleSelectionAdapter dialogAdapter;
+    MultiSelectionAdapter dialogAdapter;
     private String currentField = "", currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
     private int headerColor, textColor;
     MultiSelectionListener multiSelectionListener;
@@ -125,7 +125,15 @@ public class MultiSelectionDialog extends AppCompatActivity {
             });
 
             if (list != null && list.size() > 0) {
-                dialogAdapter = new MulitpleSelectionAdapter(multiSelectionListener, multiList, currentField, tag, context, headerColor, textColor);
+                dialogAdapter = new MultiSelectionAdapter(
+                    multiSelectionListener,
+                    multiList,
+                    currentField,
+                    tag,
+                    context,
+                    headerColor,
+                    textColor
+                );
                 recyclerView.setAdapter(dialogAdapter);
                 dialog.show();
             }

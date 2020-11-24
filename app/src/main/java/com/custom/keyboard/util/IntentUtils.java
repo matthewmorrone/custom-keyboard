@@ -20,7 +20,7 @@ import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class Intents {
+public class IntentUtils {
 
     public static boolean isIntentAvailable(Context ctx, Intent intent) {
         final PackageManager mgr = ctx.getPackageManager();
