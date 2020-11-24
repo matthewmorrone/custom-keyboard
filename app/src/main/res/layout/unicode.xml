@@ -25,7 +25,7 @@
         <Key android:codes="50" android:keyLabel="2" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
         <Key android:codes="51" android:keyLabel="3" android:popupCharacters="" android:popupKeyboard="@layout/popup_template" />
 <!--         <Key android:codes="-93" android:keyIcon="@drawable/ic_info" /> -->
-        <Key android:codes="-175" android:keyIcon="@drawable/ic_unicode_grid" android:keyWidth="20%p" android:horizontalGap="5%p" />
+        <Key android:codes="-175" android:keyIcon="@drawable/ic_unicode" android:keyWidth="20%p" android:horizontalGap="5%p" />
     </Row>
     <Row>
         <Key android:codes="-126" android:keyLabel="\\b→"  />
