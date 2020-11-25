@@ -47,7 +47,7 @@ dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'io.apisense:rhino-android:1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:4.4.2'
-    implementation 'com.github.ashishbhandari:AndroidTabbedDialog:v1.1'
+//    implementation 'com.github.ashishbhandari:AndroidTabbedDialog:v1.1'
 }

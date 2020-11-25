@@ -47,7 +47,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+// import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.emoticon.Emoticon;
@@ -2275,6 +2275,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void displayFindMenu() {
+
+        /*
         final InputConnection ic = getCurrentInputConnection();
         final CustomInputConnection cic = new CustomInputConnection(ic, false);
         // if (getSelectionLength() == 0) selectAll();
@@ -2350,6 +2352,8 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
         }
+
+         */
     }
 
     public void showEmoticonPopup() {
