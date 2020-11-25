@@ -2,9 +2,9 @@ package com.custom.keyboard.util;
 
 import java.util.Stack;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+// import javax.script.ScriptEngine;
+// import javax.script.ScriptEngineManager;
+// import javax.script.ScriptException;
 
 public class Calculator {
     public static String sanitize(String text) {
@@ -88,6 +88,7 @@ public class Calculator {
     public static String evalScript(String text) {
         // text = sanitize(text);
 
+        /*
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("js");
         Object result = null;
@@ -103,6 +104,8 @@ public class Calculator {
             int resultInt = (int)Double.parseDouble(text);
             return String.valueOf(resultInt);
         }
+        return text;
+        */
         return text;
     }
 
