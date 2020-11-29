@@ -328,10 +328,10 @@ public class CustomInputMethodService extends InputMethodService
         switch (getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
-            case InputType.TYPE_CLASS_PHONE: {
+            case InputType.TYPE_CLASS_PHONE:
                 setKeyboard(R.layout.numeric, "Numeric");
-            }
-            case InputType.TYPE_CLASS_TEXT: {
+            break;
+            case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
@@ -339,10 +339,10 @@ public class CustomInputMethodService extends InputMethodService
                     setKeyboard(R.layout.domain, "Domain");
                 }
                 else setKeyboard(id, title);
-            }
-            default: {
+            break;
+            default:
                 setKeyboard(id, title);
-            }
+            break;
         }
         if (mCustomKeyboardView != null) mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
     }
@@ -355,14 +355,14 @@ public class CustomInputMethodService extends InputMethodService
     public void onKeyLongPress(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         switch (primaryCode) {
-            case -2: {handleTab();}
-            case -5: {deletePrevWord();}
-            case -7: {deleteNextWord();}
-            case -12: {selectAll();}
-            case -15: {if (isSelecting()) selectPrevWord(); else moveLeftOneWord();}
-            case -16: {if (isSelecting()) selectNextWord(); else moveRightOneWord();}
-            case -23: {showInputMethodPicker();}
-            case -200: {clipboardToBuffer(getSelectedText(ic));}
+            case -2: handleTab(); break;
+            case -5: deletePrevWord(); break;
+            case -7: deleteNextWord(); break;
+            case -12: selectAll(); break;
+            case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
+            case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+            case -23: showInputMethodPicker(); break;
+            case -200: clipboardToBuffer(getSelectedText(ic)); break;
         }
     }
 
@@ -588,7 +588,8 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void adjustRow(CustomKeyboard currentKeyboard, int row) {
-        ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+        // ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+        ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16",   "-8",   "-9",  "-10",  "-11",  "-12",  "-23" /*,  "-70",  "-34", "-175", "-127", "-143", "-103", "-93",  "-135", "-137", "-136", "-144", "-142", "-22"*/));
         // System.out.println("("+topRowKeysDefault.size()+") "+topRowKeysDefault);
         List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
         // System.out.println("("+topRowKeys.size()+") "+topRowKeys);
@@ -1561,15 +1562,15 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         String sanitized = "", scriptResult = "", parserResult = "";
         switch(primaryCode) {
-            case -200: {commitText(calcBuffer);}
-            case -209: {calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop();}
-            case -205: {clipboardToBuffer(getSelectedText(ic)); calcBufferHistory.push(calcBuffer);}
-            case -201: {calcBuffer = "";}
-            case -5: {
+            case -200: commitText(calcBuffer); break;
+            case -209: calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop(); break;
+            case -205: clipboardToBuffer(getSelectedText(ic)); calcBufferHistory.push(calcBuffer); break;
+            case -201: calcBuffer = ""; break;
+            case -5: 
                 if (calcBuffer.length() > 0) calcBuffer = calcBuffer.substring(0, calcBuffer.length() - 1);
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -204: {
+            break;
+            case -204:
                 try {
                     sanitized = Calculator.sanitize(calcBuffer);
                     double result = Calculator.evalParser(sanitized);
@@ -1581,8 +1582,8 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 calcBuffer = parserResult;
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -206: {
+            break;
+            case -206:
                 sanitized = Calculator.sanitize(calcBuffer);
                 try {
                     scriptResult = Calculator.evalScript(sanitized);
@@ -1592,24 +1593,24 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 calcBuffer = scriptResult;
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -207: {
+            break;
+            case -207:
                 Expression e = new Expression(Calculator.sanitize(calcBuffer));
                 double result = e.calculate();
                 if (Calculator.checkInteger(result)) calcBuffer = String.valueOf((int)result);
                 else calcBuffer = String.valueOf(result);
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -2: {
+            break;
+            case -2:
                 calcBuffer += " ";
                 calcBufferHistory.push(calcBuffer);
-            }
-            default: {
+            break;
+            default:
                 if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
                 calcBuffer += (char)primaryCode;
                 if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
                 calcBufferHistory.push(calcBuffer);
-            }
+            break;
         }
         // calcBufferHistory.push(calcBuffer);
         if (debug) System.out.println(calcBufferHistory);
@@ -1725,41 +1726,41 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
         switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_GO: {
+            case EditorInfo.IME_ACTION_GO:
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
-            }
-            case EditorInfo.IME_ACTION_SEARCH: {
+            break;
+            case EditorInfo.IME_ACTION_SEARCH:
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            }
+            break;
             case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NEXT:
             case EditorInfo.IME_ACTION_SEND:
-            default: {
+            default:
                 commitText("\n", 1);
                 if (sharedPreferences.getBoolean("indent", false)) {
                     commitText(StringUtils.getIndentation(getPrevLine()), 0);
                 }
-            }
+            break;
         }
     }
 
     private void handleAction() {
         switch (getCurrentInputEditorInfo().imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE: {
+            case EditorInfo.IME_ACTION_DONE:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);
-            }
-            case EditorInfo.IME_ACTION_GO: {
+            break;
+            case EditorInfo.IME_ACTION_GO:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-            }
-            case EditorInfo.IME_ACTION_NEXT: {
+            break;
+            case EditorInfo.IME_ACTION_NEXT:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);
-            }
-            case EditorInfo.IME_ACTION_SEARCH: {
+            break;
+            case EditorInfo.IME_ACTION_SEARCH:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            }
-            case EditorInfo.IME_ACTION_SEND: {
+            break;
+            case EditorInfo.IME_ACTION_SEND:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
-            }
+            break;
         }
     }
 
@@ -1835,12 +1836,12 @@ public class CustomInputMethodService extends InputMethodService
         if (!sharedPreferences.getBoolean("sound", false)) return;
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         switch (primaryCode) {
-            case 32: {am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);}
+            case 32: am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR); break;
             case -4:
-            case 10: {am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);}
+            case 10: am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN); break;
             case -5:
-            case -7: {am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);}
-            default: {am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);}
+            case -7: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
+            default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD); break;
         }
     }
 

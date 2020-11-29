@@ -77,7 +77,8 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
-    ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
+    ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16",   "-8",   "-9",  "-10",  "-11",  "-12",  "-23",  "-70",  "-34", "-175", "-127", "-143", "-103", "-93",  "-135", "-137", "-136", "-144", "-142", "-22"));
+    // ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
     int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299, -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
 
     @Override

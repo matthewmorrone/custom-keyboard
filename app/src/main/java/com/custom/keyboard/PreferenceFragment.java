@@ -96,8 +96,6 @@ public class PreferenceFragment
 
     Preference topRowKeysDialog;
     Preference customKeyDialog;
-    Preference showSingleDialog;
-    Preference showMultipleDialog;
     EditTextPreference xmlEditor;
 
     String[] themes;
@@ -157,6 +155,7 @@ public class PreferenceFragment
     }
 
     private void topRowKeysDialog() {
+        // ToastIt.text(baseContext, sharedPreferences.getString("top_row_keys", ""));
         Intent intent = new Intent("ShowDialog");
         intent.putExtra("topRowKeys", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
@@ -277,10 +276,8 @@ public class PreferenceFragment
                 .setFileName("background.jpg")
                 .setDirectoryName("background")
                 .save(bitmap);
-
             cursor.close();
         }
-
         if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
             Uri content_describer = data.getData();
             BufferedReader reader = null;
@@ -298,7 +295,7 @@ public class PreferenceFragment
                 Document xml = Util.toXmlDocument(builder.toString());
                 Node map = xml.getElementsByTagName("map").item(0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                for(Node n : XmlUtils.asList(map.getChildNodes())) {
+                for (Node n : XmlUtils.asList(map.getChildNodes())) {
 
                     String nodeName = n.getNodeName();
                     String nodeValue = n.getNodeValue() == null ? "\"\"" : n.getNodeValue();
@@ -309,19 +306,18 @@ public class PreferenceFragment
                     String nodeAttrValue = (n.getAttributes() != null && n.getAttributes().getNamedItem("value") != null) ? n.getAttributes().getNamedItem("value").getNodeValue() : "[]";
 
                     switch (n.getNodeName()) {
-                        case "int": {
+                        case "int":
                             editor.putInt(nodeAttrName, Integer.parseInt(nodeAttrValue));
-                        }
-                        case "string": {
+                        break;
+                        case "string":
                             editor.putString(nodeAttrName, nodeAttrValue);
-                        }
-                        case "boolean": {
+                        break;
+                        case "boolean": 
                             editor.putBoolean(nodeAttrName, Boolean.parseBoolean(nodeAttrValue));
-                        }
-                        case "#text":{}
+                        break;
+                        case "#text": break;
                     }
                     editor.apply();
-
                 }
                 ToastIt.text(baseContext, "Preferences Imported!");
             }
@@ -396,8 +392,6 @@ public class PreferenceFragment
 
         topRowKeysDialog = findPreference("top_row_keys");
         customKeyDialog = findPreference("custom_key");
-        showSingleDialog = findPreference("show_single_dialog");
-        showMultipleDialog = findPreference("show_multiple_dialog");
         xmlEditor = (EditTextPreference)findPreference("xml_editor");
 
         k1 = (EditTextPreference)findPreference("k1");
@@ -547,25 +541,6 @@ public class PreferenceFragment
                 public boolean onPreferenceClick(Preference preference) {
                     System.out.println(preference);
                     customKeyDialog();
-                    return true;
-                }
-            });
-        }
-
-        if (showSingleDialog != null) {
-            showSingleDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    triggerSingleDialog();
-                    return true;
-                }
-            });
-        }
-        if (showMultipleDialog != null) {
-            showMultipleDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    triggerMultipleDialog();
                     return true;
                 }
             });

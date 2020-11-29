@@ -34,7 +34,6 @@ public class MultiSelectionDialog extends AppCompatActivity {
     private int headerColor, textColor;
     MultiSelectionListener multiSelectionListener;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +59,9 @@ public class MultiSelectionDialog extends AppCompatActivity {
         headerColor = builder.headerColor;
         textColor = builder.textColor;
         multiSelectionListener = builder.multiSelectionListener;
-        Log.d("TAG--", headerTitle);
     }
 
     public void setSelectedFields(List<String> selectedFields) {
-        System.out.println(selectedFields);
         if (multiList != null && multiList.size() > 0) {
             for (int i = 0; i < multiList.size(); i++) {
                 if (selectedFields.contains(multiList.get(i).getTitle())) {
