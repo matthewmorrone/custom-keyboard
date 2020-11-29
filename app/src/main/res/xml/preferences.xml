@@ -24,24 +24,14 @@
         <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" android:summary="Change case of highlighted text on shift" />
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
-        <SwitchPreference android:key="indent" android:title="Indent Helper"
-                          android:summaryOff=""
-                          android:summaryOn=""
-            />
-        <!--
-        @TODO: adjust how many spaces based on indent_width
-        -->
-        <SwitchPreference android:key="tabs"   android:title="Use Tabs"
-                          android:summaryOff="Use 4 Spaces"
-                          android:summaryOn="Use Tab Character"
-            />
+        <SwitchPreference android:key="indent" android:title="Indent Helper" android:summaryOff="" android:summaryOn="" />
+        <!-- @TODO: adjust how many spaces based on indent_width -->
+        <SwitchPreference android:key="tabs"   android:title="Use Tabs" android:summaryOff="Use 4 Spaces" android:summaryOn="Use Tab Character" />
         <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
-        <com.custom.keyboard.preferences.SeekPreference
-            android:key="height" android:title="Key Height" app:value="100" app:max="150" app:min="50" />
-        <com.custom.keyboard.preferences.SeekPreference
-            android:key="transparency" android:title="Transparency" app:value="100" />
+        <com.custom.keyboard.preferences.SeekPreference android:key="height" android:title="Key Height" app:value="100" app:max="150" app:min="50" />
+        <com.custom.keyboard.preferences.SeekPreference android:key="transparency" android:title="Transparency" app:value="100" />
         <EditTextPreference android:defaultValue="0" android:dialogTitle="Border Width" android:digits="1234567890" android:inputType="number" android:key="border_width" android:title="Border Width" android:selectAllOnFocus="true" />
         <EditTextPreference android:defaultValue="0" android:dialogTitle="Padding Width" android:digits="1234567890" android:inputType="number" android:key="padding_width" android:title="Padding Width" android:selectAllOnFocus="true" />
         <EditTextPreference android:defaultValue="0" android:dialogTitle="Border Radius" android:digits="1234567890" android:inputType="number" android:key="border_radius" android:title="Border Radius" android:selectAllOnFocus="true" />
@@ -49,10 +39,7 @@
         <EditTextPreference android:defaultValue="32" android:dialogTitle="Hint Font Size" android:digits="1234567890" android:inputType="number" android:key="hint_font_size" android:title="Hint Font Size" android:selectAllOnFocus="true" />
         <EditTextPreference android:defaultValue="24" android:dialogTitle="Emoticon Font Size" android:digits="1234567890" android:inputType="number" android:key="emoticon_font_size" android:title="Emoticon Font Size" android:selectAllOnFocus="true" />
         <EditTextPreference android:defaultValue="24" android:dialogTitle="Unicode Font Size" android:digits="1234567890" android:inputType="number" android:key="unicode_font_size" android:title="Unicode Font Size" android:selectAllOnFocus="true" />
-        <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Space Bar Appearance"
-                          android:summaryOff="Make space bar look distinct"
-                          android:summaryOn="Make space bar look indistinct"
-            />
+        <SwitchPreference android:defaultValue="false" android:key="spacebar" android:title="Space Bar Appearance" android:summaryOff="Make space bar look distinct" android:summaryOn="Make space bar look indistinct" />
         <ListPreference android:defaultValue="1" android:dialogTitle="Theme" android:entries="@array/theme_names" android:entryValues="@array/theme_keys" android:key="theme" android:title="Theme" />
         <com.custom.keyboard.preferences.ColorPreference android:key="background_color" android:title="Background Color" />
         <com.custom.keyboard.preferences.ColorPreference android:key="foreground_color" android:title="Text Color" />
@@ -80,37 +67,19 @@
         <EditTextPreference android:key="k8"                 android:title="Custom Key 8" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true"
-                          android:summaryOff="Enable Hints"
-                          android:summaryOn="Disable Hints"
-            />
+        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true" android:summaryOff="Enable Hints" android:summaryOn="Disable Hints" />
         <SwitchPreference android:dependency="hints" android:key="hint1" android:title="Hint 1" android:defaultValue="true" />
         <SwitchPreference android:dependency="hints" android:key="hint2" android:title="Hint 2" />
         <SwitchPreference android:dependency="hints" android:key="hint3" android:title="Hint 3" />
         <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
-        <!--android:summaryOff=""-->
-        <!--android:summaryOn=""-->
         <Preference android:key="show_single_dialog" android:title="Show Single Dialog" />
         <Preference android:key="show_multiple_dialog" android:title="Show Multiple Dialog" />
-        <com.custom.keyboard.preferences.CustomEditTextPreference
-            android:selectAllOnFocus="true"
-            android:singleLine="false"
-            android:title="XML Editor"
-            android:key="xml_editor" />
-        <SwitchPreference   android:key="toast"                   android:title="Toast" android:defaultValue="true"
-                            android:summaryOff="Enable Toasts"
-                            android:summaryOn="Disable Toasts"
-        />
-        <SwitchPreference   android:key="info"                    android:title="Info"  android:defaultValue="true"
-                            android:summaryOff="Enable Info Toasts"
-                            android:summaryOn="Disable Info Toasts"
-        />
-        <SwitchPreference   android:key="error"                   android:title="Error" android:defaultValue="true"
-                            android:summaryOff="Enable Error Toasts"
-                            android:summaryOn="Disable Error Toasts"
-        />
+        <com.custom.keyboard.preferences.CustomEditTextPreference android:selectAllOnFocus="true" android:singleLine="false" android:title="XML Editor" android:key="xml_editor" />
+        <SwitchPreference   android:key="toast"                   android:title="Toast" android:defaultValue="true" android:summaryOff="Enable Toasts" android:summaryOn="Disable Toasts" />
+        <SwitchPreference   android:key="info"                    android:title="Info"  android:defaultValue="true" android:summaryOff="Enable Info Toasts" android:summaryOn="Disable Info Toasts" />
+        <SwitchPreference   android:key="error"                   android:title="Error" android:defaultValue="true" android:summaryOff="Enable Error Toasts" android:summaryOn="Disable Error Toasts" />
         <SwitchPreference   android:key="debug"                   android:title="Debug" android:defaultValue="true" />
         <Preference         android:key="import_preferences"      android:title="Import Preferences" />
         <Preference         android:key="export_preferences"      android:title="Export Preferences" />

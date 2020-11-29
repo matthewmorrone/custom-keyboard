@@ -82,15 +82,15 @@
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
+            android:layout_height="50dp"
+            android:lines="1"
+            android:hint="@string/test"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="@string/test"
             android:breakStrategy="high_quality"
-            android:lines="3"
-            android:text="" />
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
