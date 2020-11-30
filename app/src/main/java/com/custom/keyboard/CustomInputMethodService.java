@@ -225,12 +225,15 @@ public class CustomInputMethodService extends InputMethodService
 
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
+/*
         try {
             setKeyboard(sharedPreferences.getInt("current_layout", 0), sharedPreferences.getString("current_layout_title", ""));
         }
         catch(Exception e) {
             setKeyboard(R.layout.primary, "Primary");
         }
+*/
+        setKeyboard(R.layout.primary, "Primary");
 
         if (sharedPreferences.getBoolean("subtypes", false)) setInputType();
         capsOnFirst();
@@ -258,6 +261,7 @@ public class CustomInputMethodService extends InputMethodService
 
         adjustTopRow(mCurrentKeyboard);
         setCustomKey(-27);
+// toggleDelete(mCurrentKeyboard);
 
         redraw();
     }
@@ -401,7 +405,6 @@ public class CustomInputMethodService extends InputMethodService
         if (debug) System.out.println("onRelease: "+primaryCode);
         longPressTimer.cancel();
     }
-
 
     @Override
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
@@ -575,6 +578,42 @@ public class CustomInputMethodService extends InputMethodService
             if (key.y + key.height > maxY) maxY = key.y + key.height;
         }
         return new Bounds(minX, minY, maxX, maxY);
+    }
+
+    public void toggleDelete(CustomKeyboard currentKeyboard) {
+        // List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
+
+        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, 1);
+        // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
+        // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
+        // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
+
+        Bounds bounds = getBounds(layoutRow);
+
+ToastIt.text(getBaseContext(), layoutRow+" "+bounds);
+if (true) return;
+        int currentX = 0;
+        for(Keyboard.Key key : layoutRow) {
+if (key.codes[0] == -7) {
+key.width = 0;
+key.icon = null;
+key.label = "";
+}
+/*
+            if (Constants.topRowKeyDefault.contains(String.valueOf(key.codes[0]))) {
+                if (!topRowKeys.contains(String.valueOf(key.codes[0]))) {
+                    key.width = 0;
+                    key.icon = null;
+                    key.label = "";
+                    continue;
+                }
+                key.width = bounds.dX/topRowKeys.size();
+                key.x = currentX;
+                currentX += bounds.dX/topRowKeys.size();
+            }
+*/
+        }
+        redraw();
     }
 
     public void adjustTopRow(CustomKeyboard currentKeyboard) {
