@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.custom.keyboard.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,8 +175,17 @@ public class MultiSelectionDialog extends AppCompatActivity {
             this.tag = tag;
         }
 
-        public Builder setContent(ArrayList<String> contentProvide) {
-            this.list = contentProvide;
+        public Builder setContent(int[] provider) {
+            ArrayList<String> list = new ArrayList<>();
+            for(int i : provider) {
+                list.add(String.valueOf(i));
+            }
+            this.list = list;
+            return this;
+        }
+
+        public Builder setContent(ArrayList<String> provider) {
+            this.list = provider;
             return this;
         }
 

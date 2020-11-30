@@ -59,7 +59,19 @@ public class StringUtils {
         catch (SAXException | ParserConfigurationException | IOException | XPathExpressionException ignored) {}
         return dataList;
     }
-
+    public static List<Integer> deserializeInts(String xml) {
+        final List<Integer> dataList = new ArrayList<>();
+        try {
+            final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xml.getBytes()));
+            final XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile("//data/text()");
+            final NodeList nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                dataList.add(Integer.parseInt(nodeList.item(i).getNodeValue()));
+            }
+        }
+        catch (SAXException | ParserConfigurationException | IOException | XPathExpressionException ignored) {}
+        return dataList;
+    }
 
     public static boolean contains(String haystack, int primaryCode) {
         return haystack.contains(String.valueOf(primaryCode));

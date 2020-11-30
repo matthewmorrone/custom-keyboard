@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
@@ -14,7 +15,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -72,7 +72,6 @@ import com.custom.keyboard.util.Variables;
 
 import org.mariuszgromada.math.mxparser.Expression;
 
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -83,7 +82,6 @@ import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class CustomInputMethodService extends InputMethodService
     implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
@@ -235,7 +233,8 @@ public class CustomInputMethodService extends InputMethodService
 */
         setKeyboard(R.layout.primary, "Primary");
 
-        if (sharedPreferences.getBoolean("subtypes", false)) setInputType();
+        // if (sharedPreferences.getBoolean("subtypes", false))
+        setInputType();
         capsOnFirst();
 
         mPaint.setTextSize(fontSize);
@@ -259,11 +258,67 @@ public class CustomInputMethodService extends InputMethodService
 
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        adjustTopRow(mCurrentKeyboard);
+        // adjustTopRow(mCurrentKeyboard);
         setCustomKey(-27);
-// toggleDelete(mCurrentKeyboard);
+        // toggleDelete(mCurrentKeyboard);
+        setInputType();
+        setImeOptions(getKey(10), getCurrentInputEditorInfo().imeOptions & EditorInfo.IME_MASK_ACTION);
 
         redraw();
+    }
+
+    private void setInputType() {
+        int id = mCurrentKeyboard.xmlLayoutResId;
+        String title = mCurrentKeyboard.title;
+
+        int webInputType = getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_VARIATION;
+
+        switch (getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_CLASS) {
+            case InputType.TYPE_CLASS_NUMBER:
+            case InputType.TYPE_CLASS_DATETIME:
+            case InputType.TYPE_CLASS_PHONE:
+                setKeyboard(R.layout.numeric, "Numeric");
+            break;
+            case InputType.TYPE_CLASS_TEXT:
+                if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
+                    setKeyboard(R.layout.domain, "Domain");
+                }
+                else setKeyboard(id, title);
+            break;
+            default:
+                setKeyboard(id, title);
+            break;
+        }
+        if (mCustomKeyboardView != null) mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
+    }
+
+    public void setImeOptions(Keyboard.Key mEnterKey, int options) {
+        if (mEnterKey == null) return;
+        switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
+            case EditorInfo.IME_ACTION_GO:
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = getResources().getDrawable(R.drawable.ic_go, null);
+            break;
+            case EditorInfo.IME_ACTION_NEXT:
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = getResources().getDrawable(R.drawable.ic_next, null);
+            break;
+            case EditorInfo.IME_ACTION_SEARCH:
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = getResources().getDrawable(R.drawable.ic_find, null);
+            break;
+            case EditorInfo.IME_ACTION_SEND:
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = getResources().getDrawable(R.drawable.ic_send, null);
+            break;
+            default:
+                mEnterKey.iconPreview = null;
+                mEnterKey.icon = getResources().getDrawable(R.drawable.ic_enter, null);
+            break;
+        }
     }
 
     public void setBackground() {
@@ -311,34 +366,6 @@ public class CustomInputMethodService extends InputMethodService
         adjustTopRow(mCurrentKeyboard);
         setCustomKey(-27);
         redraw();
-    }
-
-    private void setInputType() {
-        int id = mCurrentKeyboard.xmlLayoutResId;
-        String title = mCurrentKeyboard.title;
-
-        int webInputType = getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_VARIATION;
-
-        switch (getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_CLASS) {
-            case InputType.TYPE_CLASS_NUMBER:
-            case InputType.TYPE_CLASS_DATETIME:
-            case InputType.TYPE_CLASS_PHONE:
-                setKeyboard(R.layout.numeric, "Numeric");
-            break;
-            case InputType.TYPE_CLASS_TEXT:
-                if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
-                    setKeyboard(R.layout.domain, "Domain");
-                }
-                else setKeyboard(id, title);
-            break;
-            default:
-                setKeyboard(id, title);
-            break;
-        }
-        if (mCustomKeyboardView != null) mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
     }
 
     private Timer longPressTimer = null;
@@ -581,25 +608,30 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void toggleDelete(CustomKeyboard currentKeyboard) {
-        // List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
 
-        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, 1);
-        // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
-        // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
-        // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
-
+        Map<Integer, List<Keyboard.Key>> layoutRows = getKeyboardRows(currentKeyboard);
+        List<Keyboard.Key> layoutRow = layoutRows.get(4);
         Bounds bounds = getBounds(layoutRow);
 
-ToastIt.text(getBaseContext(), layoutRow+" "+bounds);
-if (true) return;
+        System.out.println(layoutRow);
+        System.out.println(bounds);
+
+
         int currentX = 0;
+        int keyWidth = layoutRow.get(1).width;
         for(Keyboard.Key key : layoutRow) {
-if (key.codes[0] == -7) {
-key.width = 0;
-key.icon = null;
-key.label = "";
-}
-/*
+            if (key.codes[0] == -7) {
+                key.width = 0;
+                key.icon = null;
+                key.label = "";
+            }
+            else if (key.codes[0] == -1) {
+                key.width = keyWidth*2;
+            }
+            else {
+                key.x += keyWidth;
+            }
+            /*
             if (Constants.topRowKeyDefault.contains(String.valueOf(key.codes[0]))) {
                 if (!topRowKeys.contains(String.valueOf(key.codes[0]))) {
                     key.width = 0;
@@ -611,15 +643,16 @@ key.label = "";
                 key.x = currentX;
                 currentX += bounds.dX/topRowKeys.size();
             }
-*/
+            */
+
         }
         redraw();
     }
 
     public void adjustTopRow(CustomKeyboard currentKeyboard) {
-        List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
+        List<Integer> topRowKeys = StringUtils.deserializeInts(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
 
-        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, 0);
+        List<Keyboard.Key> layoutRow = getKeyboardRowsByHeight(currentKeyboard).get(0);
         // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
         // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
         // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
@@ -627,8 +660,9 @@ key.label = "";
         Bounds bounds = getBounds(layoutRow);
         int currentX = 0;
         for(Keyboard.Key key : layoutRow) {
-            if (Constants.topRowKeyDefault.contains(String.valueOf(key.codes[0]))) {
-                if (!topRowKeys.contains(String.valueOf(key.codes[0]))) {
+
+            if (StringUtils.contains(Constants.topRowKeyDefault, key.codes[0])) {
+                if (!topRowKeys.contains(key.codes[0])) {
                     key.width = 0;
                     key.icon = null;
                     key.label = "";
@@ -645,7 +679,7 @@ key.label = "";
     // @TODO: autoadjustment of key width by number of keys in row
     public void adjustKeys(CustomKeyboard currentKeyboard) {
         Bounds bounds = getBounds(currentKeyboard.getKeys());
-        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRows(currentKeyboard);
+        Map<Integer,List<Keyboard.Key>> layoutRows = getKeyboardRowsByHeight(currentKeyboard);
         for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
             for(Keyboard.Key key : entry.getValue()) {
                 key.width = bounds.dX / entry.getValue().size();
@@ -654,18 +688,20 @@ key.label = "";
         redraw();
     }
 
-    public List<Keyboard.Key> getKeyboardRow(CustomKeyboard keyboard, int row) {
-        Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
-        for (Keyboard.Key key : keyboard.getKeys()) {
-            if (!layoutRows.containsKey(key.y)) {
-                layoutRows.put(key.y, new ArrayList<Keyboard.Key>());
-            }
-            layoutRows.get(key.y).add(key);
+    public Map<Integer,List<Keyboard.Key>> getKeyboardRows(CustomKeyboard keyboard) {
+        Map<Integer, List<Keyboard.Key>> layoutRows = getKeyboardRowsByHeight(keyboard);
+        Map<Integer, List<Keyboard.Key>> layoutRowsNew = getKeyboardRowsByHeight(keyboard);
+        layoutRowsNew.clear();
+        int i = 0;
+        for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
+            // List<Keyboard.Key> obj = layoutRows.remove(entry.getValue());
+            layoutRowsNew.put(i, entry.getValue());
+            i++;
         }
-        return layoutRows.get(row);
+        return layoutRowsNew;
     }
 
-    public Map<Integer,List<Keyboard.Key>> getKeyboardRows(CustomKeyboard keyboard) {
+    public Map<Integer,List<Keyboard.Key>> getKeyboardRowsByHeight(CustomKeyboard keyboard) {
         Map<Integer,List<Keyboard.Key>> layoutRows = new TreeMap<>();
         for (Keyboard.Key key : keyboard.getKeys()) {
             if (!layoutRows.containsKey(key.y)) {
@@ -872,7 +908,6 @@ key.label = "";
         mCustomKeyboardView.invalidateAllKeys();
         mCustomKeyboardView.draw(new Canvas());
     }
-
 
     private void updateShiftKeyState(EditorInfo attr) {
         if (attr != null && mCustomKeyboardView != null && R.layout.primary == mCustomKeyboardView.getId()) {
@@ -1572,11 +1607,7 @@ key.label = "";
     }
     static String calcBuffer = "";
     Stack<String> calcBufferHistory = new Stack<String>();
-    int[] calcPasses = new int[] {-101, -22, -12, 10,};
-    int[] calcCaptures = new int[] {-200, -201, -202, -203, -204, -205, -206, -207, -208, -209,
-                                    -5, -7, -8, -9, -10, -11, 32, 37, 43, 45, 46, 48, 49, 50, 51,
-                                    52, 53, 54, 55, 56, 57, 61, 94, 215, 247};
-    int[] calcOperators = new int[] {43, 45, 215, 37, 247, 94, 61};
+
     private void handleCalculator(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String sanitized = "", scriptResult = "", parserResult = "";
@@ -1625,9 +1656,9 @@ key.label = "";
                 calcBufferHistory.push(calcBuffer);
             break;
             default:
-                if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
+                if (StringUtils.contains(Constants.calcOperators, primaryCode)) calcBuffer += " ";
                 calcBuffer += (char)primaryCode;
-                if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
+                if (StringUtils.contains(Constants.calcOperators, primaryCode)) calcBuffer += " ";
                 calcBufferHistory.push(calcBuffer);
             break;
         }
@@ -1638,15 +1669,6 @@ key.label = "";
     }
 
     static String hexBuffer = "";
-    int[] hexPasses = new int[] {
-        -175, -101, -23, -22, -20, -21, -13, -14, -15, -16, -12, -11, -10, -9, -7, -5, -8, 10, -2,
-        -126, -127, -128, -129, -130, -131
-    };
-    int[] hexCaptures = new int[] {
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
-        97, 98, 99, 100, 101, 102,
-        -201, -202, -203, -204, -205, -206
-    };
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String paddedHexBuffer = StringUtils.padLeft(hexBuffer, 4, "0");
@@ -1687,7 +1709,7 @@ key.label = "";
             return;
         }
 
-        if (StringUtils.contains(hexCaptures, primaryCode)) {
+        if (StringUtils.contains(Constants.hexCaptures, primaryCode)) {
             if (hexBuffer.length() > 3) hexBuffer = "";
             hexBuffer += (char)primaryCode;
         }
@@ -1741,7 +1763,8 @@ key.label = "";
         redraw();
     }
     public void handleEnter() {
-        // handleAction();
+        handleAction();
+        if (true) return;
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
         switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
@@ -1890,12 +1913,12 @@ key.label = "";
         }
 
         if (mCurrentKeyboard.title != null && mCurrentKeyboard.title.equals("Unicode")
-         && !StringUtils.contains(hexPasses, primaryCode)) {
+         && !StringUtils.contains(Constants.hexPasses, primaryCode)) {
             handleUnicode(primaryCode);
             return;
         }
         if (mCurrentKeyboard.title != null && mCurrentKeyboard.title.equals("Calculator")
-         && !StringUtils.contains(calcPasses, primaryCode)) {
+         && !StringUtils.contains(Constants.calcPasses, primaryCode)) {
             handleCalculator(primaryCode);
             return;
         }
@@ -1913,7 +1936,10 @@ key.label = "";
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 10: handleEnter(); break;
+            case 10:
+                handleEnter();
+
+            break;
             case -1: handleShift(); break;
             case -2: handleSpace(); break;
             case -3: break;

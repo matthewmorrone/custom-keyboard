@@ -23,7 +23,7 @@
         <Key android:codes="-34"  android:keyIcon="@drawable/ic_duplicate_lines" android:keyWidth="10%p" />
         <Key android:codes="-139" android:keyIcon="@drawable/ic_unicode" />
         <Key android:codes="-175" android:keyIcon="@drawable/ic_unicode_grid" />
-        <Key android:codes="-127" android:keyIcon="@drawable/ic_emoticon" />
+        <Key android:codes="-27"  android:keyIcon="@drawable/ic_emoticon" />
     </Row>
     <Row android:keyWidth="20%p">
         <Key android:codes="-134" android:keyIcon="@drawable/ic_keypad" />

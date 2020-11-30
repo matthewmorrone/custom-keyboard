@@ -29,18 +29,20 @@ public class MainActivity extends Activity {
     EditText editText;
     TextView errorOutput;
     LinearLayout errorLayout;
+    LinearLayout inputLayout;
     public boolean keyboardVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_activity);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         editText = findViewById(R.id.edit_text);
-        errorOutput = findViewById(R.id.errorOutput);
-        errorLayout = findViewById(R.id.errorLayout);
+        errorOutput = findViewById(R.id.error_output);
+        errorLayout = findViewById(R.id.error_layout);
+        inputLayout = findViewById(R.id.text_inputs);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("FindReplace"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("DebugHelper"));
 
@@ -48,7 +50,7 @@ public class MainActivity extends Activity {
             @Override
             public void onToggleSoftKeyboard(boolean isVisible) {
                 keyboardVisible = isVisible;
-                System.out.println("keyboard visible: "+keyboardVisible);
+                // System.out.println("keyboard visible: "+keyboardVisible);
             }
         });
     }
@@ -126,6 +128,15 @@ public class MainActivity extends Activity {
         }
         else {
             errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void toggleExtras(View view) {
+        if (inputLayout.getVisibility() == View.VISIBLE) {
+            inputLayout.setVisibility(View.GONE);
+        }
+        else {
+            inputLayout.setVisibility(View.VISIBLE);
         }
     }
 }

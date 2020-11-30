@@ -172,6 +172,7 @@ public class CustomKeyboardView extends KeyboardView {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         mPaint.setTextAlign(Paint.Align.CENTER);
 
         List<Key> keys = getKeyboard().getKeys();
