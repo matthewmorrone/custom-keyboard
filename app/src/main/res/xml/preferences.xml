@@ -21,6 +21,7 @@
         <SwitchPreference android:key="pred"   android:title="Text Prediction" />
         <SwitchPreference android:key="auto"   android:title="Autoreplace" />
         <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />
+        <SwitchPreference android:key="subtypes"  android:title="Change Initial Layout to Suit Input Subtype" />
         <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" android:summary="Change case of highlighted text on shift" />
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
@@ -74,8 +75,6 @@
         <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
-        <Preference android:key="show_single_dialog" android:title="Show Single Dialog" />
-        <Preference android:key="show_multiple_dialog" android:title="Show Multiple Dialog" />
         <com.custom.keyboard.preferences.CustomEditTextPreference android:selectAllOnFocus="true" android:singleLine="false" android:title="XML Editor" android:key="xml_editor" />
         <SwitchPreference   android:key="toast"                   android:title="Toast" android:defaultValue="true" android:summaryOff="Enable Toasts" android:summaryOn="Disable Toasts" />
         <SwitchPreference   android:key="info"                    android:title="Info"  android:defaultValue="true" android:summaryOff="Enable Info Toasts" android:summaryOn="Disable Info Toasts" />

@@ -8,13 +8,32 @@
         <Key android:codes="-13" android:keyIcon="@drawable/ic_arrow_up" />
         <Key android:codes="-14" android:keyIcon="@drawable/ic_arrow_down" />
         <Key android:codes="-15" android:keyIcon="@drawable/ic_arrow_left" />
+
         <Key android:codes="-16" android:keyIcon="@drawable/ic_arrow_right" />
         <Key android:codes="-8"  android:keyIcon="@drawable/ic_cut" />
         <Key android:codes="-9"  android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-10" android:keyIcon="@drawable/ic_paste" />
         <Key android:codes="-11" android:keyIcon="@drawable/ic_select" />
-        <Key android:codes="-12" android:keyIcon="@drawable/ic_select_all" />
-        <Key android:codes="-23" android:keyIcon="@drawable/ic_voice" />
+        
+        <Key android:codes="-12"  android:keyIcon="@drawable/ic_select_all" />
+        <Key android:codes="-23"  android:keyIcon="@drawable/ic_voice" />
+<!--
+        <Key android:codes="-70"  android:keyIcon="@drawable/ic_join_lines" />
+        <Key android:codes="-34"  android:keyIcon="@drawable/ic_duplicate_lines" />
+        <Key android:codes="-175" android:keyIcon="@drawable/ic_unicode_grid" />
+
+        <Key android:codes="-127" android:keyIcon="@drawable/ic_emoticon" />
+        <Key android:codes="-143" android:keyIcon="@drawable/ic_calc" />
+        <Key android:codes="-103" android:keyIcon="@drawable/ic_macro" />
+        <Key android:codes="-93"  android:keyIcon="@drawable/ic_info" />
+        <Key android:codes="-135" android:keyIcon="@drawable/ic_nav" />
+
+        <Key android:codes="-137" android:keyIcon="@drawable/ic_schwa" />
+        <Key android:codes="-136" android:keyIcon="@drawable/ic_font" />
+        <Key android:codes="-144" android:keyIcon="@drawable/ic_clipboard" />
+        <Key android:codes="-142" android:keyIcon="@drawable/ic_function" />
+        <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings" />
+-->
     </Row>
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:popupCharacters="!" android:popupKeyboard="@layout/popup_template" />

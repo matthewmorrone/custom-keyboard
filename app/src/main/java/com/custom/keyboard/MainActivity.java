@@ -19,7 +19,10 @@ import android.widget.TextView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.util.KeyboardUtils;
+import com.custom.keyboard.util.ToastIt;
 import com.custom.keyboard.util.Util;
+
+import java.util.Objects;
 
 public class MainActivity extends Activity {
 
@@ -63,6 +66,7 @@ public class MainActivity extends Activity {
                 // @TODO: implement ability to limit to selected text
                 String oldText = Util.orNull(intent.getStringExtra("oldText"), "");
                 String newText = Util.orNull(intent.getStringExtra("newText"), "");
+                ToastIt.text(context, newText);
                 editText.setText(newText);
             }
             if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
@@ -70,7 +74,7 @@ public class MainActivity extends Activity {
                     errorOutput.setText("");
                 }
                 if (intent.hasExtra("data")) {
-                    if (intent.getStringExtra("data").trim().isEmpty()) {
+                    if (Objects.requireNonNull(intent.getStringExtra("data")).trim().isEmpty()) {
                         return;
                     }
                     errorLayout.setVisibility(View.VISIBLE);

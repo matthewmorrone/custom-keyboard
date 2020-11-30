@@ -294,7 +294,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
                 mEmoticonTabs[i].setSelected(true);
                 mEmoticonTabLastSelectedIndex = i;
                 mRecentsManager.setRecentPage(i);
-                break;
+            break;
         }
     }
 

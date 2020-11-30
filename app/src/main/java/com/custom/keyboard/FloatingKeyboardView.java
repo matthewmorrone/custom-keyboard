@@ -250,8 +250,7 @@ public class FloatingKeyboardView extends KeyboardView {
                         performClick = false;
                     }
                     else performClick = true;
-                    break;
-
+                break;
                 case MotionEvent.ACTION_UP:
                     if (handleTouched) {
                         // reset handle color

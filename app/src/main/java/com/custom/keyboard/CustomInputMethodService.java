@@ -14,6 +14,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -47,6 +48,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.emoticon.Emoticon;
@@ -84,8 +86,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class CustomInputMethodService extends InputMethodService
-    implements KeyboardView.OnKeyboardActionListener,
-               SpellCheckerSession.SpellCheckerSessionListener {
+    implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
     boolean debug = false;
 
@@ -168,7 +169,6 @@ public class CustomInputMethodService extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        if (debug) System.out.println("onStartInputView: "+info+" "+restarting);
         ViewGroup originalParent = (ViewGroup)mCustomKeyboardView.getParent();
         if (originalParent != null) {
             originalParent.setPadding(0, 0, 0, 0);
@@ -190,7 +190,6 @@ public class CustomInputMethodService extends InputMethodService
             }
         });
         redraw();
-
     }
 
 
@@ -215,13 +214,7 @@ public class CustomInputMethodService extends InputMethodService
         int bg = (int)Long.parseLong(Themes.extractBackgroundColor(mDefaultFilter), 16);
         Color background = Color.valueOf(bg);
         float transparency = sharedPreferences.getInt("transparency", 100) / 100f;
-        int fontSize;
-        try {
-            fontSize = Integer.parseInt(sharedPreferences.getString("font_size", "48"));
-        }
-        catch(Exception e) {
-            fontSize = 48;
-        }
+        int fontSize = Integer.parseInt(Util.orNull(sharedPreferences.getString("font_size", "48"), "48"));
         boolean mPreviewOn = sharedPreferences.getBoolean("preview", false);
         mPredictionOn = sharedPreferences.getBoolean("pred", false);
         // debug = sharedPreferences.getBoolean("debug", debug);
@@ -233,16 +226,13 @@ public class CustomInputMethodService extends InputMethodService
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 
         try {
-            setKeyboard(
-                sharedPreferences.getInt("current_layout", 0),
-                sharedPreferences.getString("current_layout_title", "")
-            );
+            setKeyboard(sharedPreferences.getInt("current_layout", 0), sharedPreferences.getString("current_layout_title", ""));
         }
         catch(Exception e) {
             setKeyboard(R.layout.primary, "Primary");
         }
 
-        setInputType();
+        if (sharedPreferences.getBoolean("subtypes", false)) setInputType();
         capsOnFirst();
 
         mPaint.setTextSize(fontSize);
@@ -266,19 +256,20 @@ public class CustomInputMethodService extends InputMethodService
 
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        // mCustomKeyboardView.setBackgroundResource(Themes.randomBackground());
-
-        adjustRow(mCurrentKeyboard, 0);
-        setCustomKey();
+        adjustTopRow(mCurrentKeyboard);
+        setCustomKey(-27);
 
         redraw();
     }
 
-    public void setCustomKey() {
-        Keyboard.Key customKey = getKey(-27);
-        // if (customKey == null) customKey = getKey(-22);
+    public void setBackground() {
+        mCustomKeyboardView.setBackgroundResource(Themes.randomBackground());
+    }
+
+    public void setCustomKey(int primaryCode) {
+        Keyboard.Key customKey = getKey(primaryCode);
         String customKeyChoice = sharedPreferences.getString("custom_key", "");
-        System.out.println("setCustomKey: "+customKeyChoice);
+
         if (customKey != null && !customKeyChoice.isEmpty()) {
             customKey.codes = new int[]{Integer.parseInt(customKeyChoice)};
             switch(customKeyChoice) {
@@ -301,7 +292,7 @@ public class CustomInputMethodService extends InputMethodService
                 case "-144": customKey.icon = getResources().getDrawable(R.drawable.ic_clipboard); break;
                 case "-174": customKey.icon = getResources().getDrawable(R.drawable.ic_coding); break;
                 case "-175": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode_grid); break;
-                default:     customKey.icon = getResources().getDrawable(R.drawable.ic_settings); break;
+                default:     customKey.icon = getResources().getDrawable(R.drawable.ic_emoticon); break;
             }
         }
     }
@@ -313,8 +304,8 @@ public class CustomInputMethodService extends InputMethodService
         mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
         sharedPreferences.edit().putInt("current_layout", id).apply();
         sharedPreferences.edit().putString("current_layout_title", title).apply();
-        adjustRow(mCurrentKeyboard, 0);
-        setCustomKey();
+        adjustTopRow(mCurrentKeyboard);
+        setCustomKey(-27);
         redraw();
     }
 
@@ -327,10 +318,10 @@ public class CustomInputMethodService extends InputMethodService
         switch (getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
-            case InputType.TYPE_CLASS_PHONE: {
+            case InputType.TYPE_CLASS_PHONE:
                 setKeyboard(R.layout.numeric, "Numeric");
-            }
-            case InputType.TYPE_CLASS_TEXT: {
+            break;
+            case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
@@ -338,10 +329,10 @@ public class CustomInputMethodService extends InputMethodService
                     setKeyboard(R.layout.domain, "Domain");
                 }
                 else setKeyboard(id, title);
-            }
-            default: {
+            break;
+            default:
                 setKeyboard(id, title);
-            }
+            break;
         }
         if (mCustomKeyboardView != null) mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
     }
@@ -354,14 +345,14 @@ public class CustomInputMethodService extends InputMethodService
     public void onKeyLongPress(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         switch (primaryCode) {
-            case -2: {handleTab();}
-            case -5: {deletePrevWord();}
-            case -7: {deleteNextWord();}
-            case -12: {selectAll();}
-            case -15: {if (isSelecting()) selectPrevWord(); else moveLeftOneWord();}
-            case -16: {if (isSelecting()) selectNextWord(); else moveRightOneWord();}
-            case -23: {showInputMethodPicker();}
-            case -200: {clipboardToBuffer(getSelectedText(ic));}
+            case -2: handleTab(); break;
+            case -5: deletePrevWord(); break;
+            case -7: deleteNextWord(); break;
+            case -12: selectAll(); break;
+            case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
+            case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
+            case -23: showInputMethodPicker(); break;
+            case -200: clipboardToBuffer(getSelectedText(ic)); break;
         }
     }
 
@@ -586,14 +577,10 @@ public class CustomInputMethodService extends InputMethodService
         return new Bounds(minX, minY, maxX, maxY);
     }
 
-    public void adjustRow(CustomKeyboard currentKeyboard, int row) {
-        ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
-        // System.out.println("("+topRowKeysDefault.size()+") "+topRowKeysDefault);
+    public void adjustTopRow(CustomKeyboard currentKeyboard) {
         List<String> topRowKeys = StringUtils.deserialize(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
-        // System.out.println("("+topRowKeys.size()+") "+topRowKeys);
 
-
-        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, row);
+        List<Keyboard.Key> layoutRow = getKeyboardRow(currentKeyboard, 0);
         // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
         // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
         // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
@@ -601,25 +588,20 @@ public class CustomInputMethodService extends InputMethodService
         Bounds bounds = getBounds(layoutRow);
         int currentX = 0;
         for(Keyboard.Key key : layoutRow) {
-            if (topRowKeysDefault.contains(String.valueOf(key.codes[0]))) {
+            if (Constants.topRowKeyDefault.contains(String.valueOf(key.codes[0]))) {
                 if (!topRowKeys.contains(String.valueOf(key.codes[0]))) {
                     key.width = 0;
                     key.icon = null;
                     key.label = "";
                     continue;
                 }
-                // System.out.print(key.codes[0]+" "+key.width+" "+key.x); //+" "+bounds.dX+" "+topRowKeysDefault.size());
-                // System.out.println(" -> "+bounds.dX/topRowKeys.size()+" "+currentX);
-
                 key.width = bounds.dX/topRowKeys.size();
                 key.x = currentX;
-
                 currentX += bounds.dX/topRowKeys.size();
             }
         }
         redraw();
     }
-
 
     // @TODO: autoadjustment of key width by number of keys in row
     public void adjustKeys(CustomKeyboard currentKeyboard) {
@@ -1026,8 +1008,8 @@ public class CustomInputMethodService extends InputMethodService
         sendDataToErrorOutput(input);
         if(!input.isEmpty()) {
             try {
-                mScs.getSuggestions(new TextInfo(input), 5);
-                // mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+                // mScs.getSuggestions(new TextInfo(input), 5);
+                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
             }
             catch(Exception e) {
                 sendDataToErrorOutput(e.toString());
@@ -1560,15 +1542,15 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         String sanitized = "", scriptResult = "", parserResult = "";
         switch(primaryCode) {
-            case -200: {commitText(calcBuffer);}
-            case -209: {calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop();}
-            case -205: {clipboardToBuffer(getSelectedText(ic)); calcBufferHistory.push(calcBuffer);}
-            case -201: {calcBuffer = "";}
-            case -5: {
+            case -200: commitText(calcBuffer); break;
+            case -209: calcBuffer = calcBufferHistory.isEmpty() ? "" : calcBufferHistory.pop(); break;
+            case -205: clipboardToBuffer(getSelectedText(ic)); calcBufferHistory.push(calcBuffer); break;
+            case -201: calcBuffer = ""; break;
+            case -5: 
                 if (calcBuffer.length() > 0) calcBuffer = calcBuffer.substring(0, calcBuffer.length() - 1);
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -204: {
+            break;
+            case -204:
                 try {
                     sanitized = Calculator.sanitize(calcBuffer);
                     double result = Calculator.evalParser(sanitized);
@@ -1580,8 +1562,8 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 calcBuffer = parserResult;
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -206: {
+            break;
+            case -206:
                 sanitized = Calculator.sanitize(calcBuffer);
                 try {
                     scriptResult = Calculator.evalScript(sanitized);
@@ -1591,24 +1573,24 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 calcBuffer = scriptResult;
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -207: {
+            break;
+            case -207:
                 Expression e = new Expression(Calculator.sanitize(calcBuffer));
                 double result = e.calculate();
                 if (Calculator.checkInteger(result)) calcBuffer = String.valueOf((int)result);
                 else calcBuffer = String.valueOf(result);
                 calcBufferHistory.push(calcBuffer);
-            }
-            case -2: {
+            break;
+            case -2:
                 calcBuffer += " ";
                 calcBufferHistory.push(calcBuffer);
-            }
-            default: {
+            break;
+            default:
                 if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
                 calcBuffer += (char)primaryCode;
                 if (StringUtils.contains(calcOperators, primaryCode)) calcBuffer += " ";
                 calcBufferHistory.push(calcBuffer);
-            }
+            break;
         }
         // calcBufferHistory.push(calcBuffer);
         if (debug) System.out.println(calcBufferHistory);
@@ -1724,41 +1706,41 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
         switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_GO: {
+            case EditorInfo.IME_ACTION_GO:
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
-            }
-            case EditorInfo.IME_ACTION_SEARCH: {
+            break;
+            case EditorInfo.IME_ACTION_SEARCH:
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            }
+            break;
             case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NEXT:
             case EditorInfo.IME_ACTION_SEND:
-            default: {
+            default:
                 commitText("\n", 1);
                 if (sharedPreferences.getBoolean("indent", false)) {
                     commitText(StringUtils.getIndentation(getPrevLine()), 0);
                 }
-            }
+            break;
         }
     }
 
     private void handleAction() {
         switch (getCurrentInputEditorInfo().imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE: {
+            case EditorInfo.IME_ACTION_DONE:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);
-            }
-            case EditorInfo.IME_ACTION_GO: {
+            break;
+            case EditorInfo.IME_ACTION_GO:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-            }
-            case EditorInfo.IME_ACTION_NEXT: {
+            break;
+            case EditorInfo.IME_ACTION_NEXT:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);
-            }
-            case EditorInfo.IME_ACTION_SEARCH: {
+            break;
+            case EditorInfo.IME_ACTION_SEARCH:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            }
-            case EditorInfo.IME_ACTION_SEND: {
+            break;
+            case EditorInfo.IME_ACTION_SEND:
                 getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
-            }
+            break;
         }
     }
 
@@ -1834,12 +1816,12 @@ public class CustomInputMethodService extends InputMethodService
         if (!sharedPreferences.getBoolean("sound", false)) return;
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         switch (primaryCode) {
-            case 32: {am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);}
+            case 32: am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR); break;
             case -4:
-            case 10: {am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);}
+            case 10: am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN); break;
             case -5:
-            case -7: {am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);}
-            default: {am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);}
+            case -7: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
+            default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD); break;
         }
     }
 
@@ -2275,7 +2257,7 @@ public class CustomInputMethodService extends InputMethodService
 
     public void displayFindMenu() {
 
-        /*
+
         final InputConnection ic = getCurrentInputConnection();
         final CustomInputConnection cic = new CustomInputConnection(ic, false);
         // if (getSelectionLength() == 0) selectAll();
@@ -2289,11 +2271,11 @@ public class CustomInputMethodService extends InputMethodService
             val = (String)ic.getSelectedText(0);
         }
 
+        setKeyboard(R.layout.primary, "Primary");
+
         LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (li != null) {
-
             View wordbar = li.inflate(R.layout.wordbar, null);
-
 
             ConstraintLayout ll = (ConstraintLayout)wordbar.findViewById(R.id.wordsLayout);
             final EditText findEditText = (EditText)wordbar.findViewById(R.id.find);
@@ -2303,11 +2285,6 @@ public class CustomInputMethodService extends InputMethodService
 
             popupWindow = new PopupWindow(wordbar, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
             popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.black));
-            // popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            // popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-            // popupWindow.setFocusable(true);
-            // popupWindow.setTouchable(true);
-            // popupWindow.setOutsideTouchable(false);
 
             popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
@@ -2316,7 +2293,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
             // popupWindow.showAsDropDown(kv);
-            popupWindow.showAtLocation(mCustomKeyboardView.getRootView(), Gravity.TOP, 0, -getKey(32).height);
+            popupWindow.showAtLocation(mCustomKeyboardView.getRootView(), Gravity.TOP, 0, 0); // Util.orNull(-getKey(32).height, 0)
 
             final String finalVal = val;
             go.setOnClickListener(new View.OnClickListener() {
@@ -2351,8 +2328,6 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
         }
-
-         */
     }
 
     public void showEmoticonPopup() {
