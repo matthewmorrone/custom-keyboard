@@ -13,7 +13,9 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.provider.MediaStore;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -51,6 +53,7 @@ public class PreferenceFragment
     ListPreference theme;
     SeekPreference height;
     SeekPreference transparency;
+    SwitchPreference tabs;
     EditTextPreference indentWidth;
     EditTextPreference borderWidth;
     EditTextPreference paddingWidth;
@@ -69,9 +72,6 @@ public class PreferenceFragment
     EditTextPreference emoticonFavorites;
     EditTextPreference unicodeFavorites;
     EditTextPreference customKeys;
-    EditTextPreference popupFirst;
-    EditTextPreference popupSecond;
-    EditTextPreference popupThird;
     EditTextPreference name;
     EditTextPreference email;
     EditTextPreference phone;
@@ -350,6 +350,7 @@ public class PreferenceFragment
         transparency = (SeekPreference)findPreference("transparency");
         theme = (ListPreference)findPreference("theme");
 
+        tabs = (SwitchPreference)findPreference("tabs");
         indentWidth = (EditTextPreference)findPreference("indent_width");
         borderWidth = (EditTextPreference)findPreference("border_width");
         paddingWidth = (EditTextPreference)findPreference("padding_width");
@@ -565,6 +566,9 @@ public class PreferenceFragment
 
         if (indentWidth != null) indentWidth.setText(sharedPreferences.getString("indent_width", "0"));
         if (indentWidth != null) indentWidth.setSummary(sharedPreferences.getString("indent_width", "0"));
+
+        if (tabs != null) tabs.setSummaryOff("Use "+sharedPreferences.getString("indent_width", "0")+" Spaces");
+
         if (borderWidth != null) borderWidth.setText(sharedPreferences.getString("border_width", "0"));
         if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("border_width", "0"));
         if (paddingWidth != null) paddingWidth.setText(sharedPreferences.getString("padding_width", "0"));

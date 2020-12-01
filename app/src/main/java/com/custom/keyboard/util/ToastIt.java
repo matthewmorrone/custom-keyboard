@@ -31,21 +31,17 @@ public class ToastIt {
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
+            for(String n : args) result.append(n).append(" ");
             text = result.toString().trim();
         }
-        else {
-            text = args[0];
-        }
+        else text = args[0];
         text(context, text);
     }
     public static void text(Context context, String text) {
         if (sharedPreferences == null) setSharedPreferences(context);
         if (!sharedPreferences.getBoolean("toast_text", false)) return;
         if (mToast != null) mToast.cancel();
-        Spanned spanned = Html.fromHtml("<font color='#000000'><b>" + text + "</b></font>");
+        Spanned spanned = Html.fromHtml("<font color='#000000'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
         // mToast.getView().setBackgroundColor(Color.parseColor("#00000000"));
         mToast.getView().setAlpha(.8f);
@@ -56,9 +52,7 @@ public class ToastIt {
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
-            for (String n: args) {
-                result.append(n).append(" ");
-            }
+            for (String n: args) result.append(n).append(" ");
             text = result.toString().trim();
         }
         else text = args[0];
@@ -69,11 +63,11 @@ public class ToastIt {
         if (!sharedPreferences.getBoolean("toast_info", false)) return;
         if (mToast != null) mToast.cancel();
 
-        Spanned spanned = Html.fromHtml("<font color='white'><b>" + text + "</b></font>");
+        Spanned spanned = Html.fromHtml("<font color='white'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
         View toastRoot = layoutInflater.inflate(R.layout.toast_info, null);
-        TextView toastTextView = (TextView)toastRoot.findViewById(R.id.content);
+        TextView toastTextView = toastRoot.findViewById(R.id.content);
         toastTextView.setText(spanned);
         mToast.setView(toastRoot);
 
@@ -88,9 +82,7 @@ public class ToastIt {
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
+            for(String n: args) result.append(n).append(" ");
             text = result.toString().trim();
         }
         else text = args[0];
@@ -101,7 +93,7 @@ public class ToastIt {
         if (!sharedPreferences.getBoolean("toast_error", false)) return;
         if (mToast != null) mToast.cancel();
 
-        Spanned spanned = Html.fromHtml("<font color='red'><i>" + text + "</i></font>");
+        Spanned spanned = Html.fromHtml("<font color='red'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);
@@ -112,7 +104,6 @@ public class ToastIt {
         mToast.show();
     }
 
-
     public static void debug(Context context, Exception e) {
         debug(context, e.toString());
     }
@@ -120,9 +111,7 @@ public class ToastIt {
         String text;
         if (args.length > 1) {
             StringBuilder result = new StringBuilder();
-            for(String n: args) {
-                result.append(n).append(" ");
-            }
+            for(String n: args) result.append(n).append(" ");
             text = result.toString().trim();
         }
         else text = args[0];
@@ -133,7 +122,7 @@ public class ToastIt {
         if (!sharedPreferences.getBoolean("toast_debug", false)) return;
         if (mToast != null) mToast.cancel();
 
-        Spanned spanned = Html.fromHtml("<font color='yellow'> " + text + " </font>");
+        Spanned spanned = Html.fromHtml("<font color='yellow'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);

@@ -18,10 +18,11 @@
         <Preference android:key="custom_key" android:title="Choose Custom Key" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
-        <SwitchPreference android:key="pred"   android:title="Text Prediction" />
-        <SwitchPreference android:key="auto"   android:title="Autoreplace" />
-        <SwitchPreference android:key="pairs"  android:title="Insert Paired Characters" />
-        <SwitchPreference android:key="subtypes"  android:title="Change Initial Layout to Suit Input Subtype" />
+        <SwitchPreference android:key="pred"     android:title="Text Prediction" />
+        <SwitchPreference android:key="auto"     android:title="Autoreplace" />
+        <SwitchPreference android:key="pairs"    android:title="Insert Paired Characters" />
+        <SwitchPreference android:key="subtypes" android:title="Input Subtypes" />
+        <SwitchPreference android:key="afterspace" android:title="Insert Space After Committing Text" android:defaultValue="true"/>
         <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" android:summary="Change case of highlighted text on shift" />
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
@@ -82,7 +83,8 @@
         <SwitchPreference   android:key="toast_debug"             android:title="Debug Toasts" android:defaultValue="true" />
         <Preference         android:key="import_preferences"      android:title="Import Preferences" />
         <Preference         android:key="export_preferences"      android:title="Export Preferences" />
-        <EditTextPreference android:widgetLayout="@layout/text_editor_inline" android:key="word_separators" android:title="Word Separators" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="word_separators"         android:title="Word Separators" android:selectAllOnFocus="true" />
+        <!--android:widgetLayout="@layout/text_editor_inline" -->
         <Preference         android:key="reset_clipboard_history" android:title="Reset Clipboard History" />
         <Preference         android:key="reset_emoticon_history"  android:title="Reset Emoticon History" />
         <Preference         android:key="reset_unicode_history"   android:title="Reset Unicode History" />

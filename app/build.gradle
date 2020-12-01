@@ -11,9 +11,13 @@ android {
         applicationId "com.custom.keyboard"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 112
+        versionCode 1
         versionName "0.0.0"
+        archivesBaseName = "custom-keyboard"
+        // archivesBaseName = "${applicationId}-v${versionName}(${versionCode})"
+        // setProperty("archivesBaseName", "${applicationId}-v${versionName}(${versionCode})")
     }
+
     buildTypes {
         release {
             minifyEnabled true

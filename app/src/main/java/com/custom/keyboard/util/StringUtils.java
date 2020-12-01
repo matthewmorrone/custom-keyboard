@@ -978,4 +978,7 @@ public class StringUtils {
         return new String(Base64.getMimeDecoder().decode(encodedString));
     }
 
+    public static String repeat(String s, int n) {
+        return new String(new char[n]).replace("\0", s);
+    }
 }

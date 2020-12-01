@@ -104,6 +104,11 @@
                 <!-- android:imeOptions="actionSearch" -->
                 <!-- android:imeOptions="actionSend" -->
                 <EditText android:hint="text"                android:inputType="text"                style="@style/editText_style" />
+                <EditText android:imeOptions="actionDone"    android:hint="text|actionDone"          android:inputType="text"                style="@style/editText_style" />
+                <EditText android:imeOptions="actionGo"      android:hint="text|actionGo"            android:inputType="text"                style="@style/editText_style" />
+                <EditText android:imeOptions="actionNext"    android:hint="text|actionNext"          android:inputType="text"                style="@style/editText_style" />
+                <EditText android:imeOptions="actionSearch"  android:hint="text|actionSearch"        android:inputType="text"                style="@style/editText_style" />
+                <EditText android:imeOptions="actionSend"    android:hint="text|actionSend"          android:inputType="text"                style="@style/editText_style" />
                 <EditText android:hint="textUri"             android:inputType="textUri"             style="@style/editText_style" />
                 <EditText android:hint="text|0123456789"     android:inputType="text"                style="@style/editText_style" android:digits="0123456789" />
                 <EditText android:hint="number|0123456789"   android:inputType="number"              style="@style/editText_style" android:digits="0123456789" />
