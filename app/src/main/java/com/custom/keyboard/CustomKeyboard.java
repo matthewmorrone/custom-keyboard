@@ -75,38 +75,6 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
         return key;
     }
 
-    void hideKey(CustomKey key) {
-        key.width = 0;
-        key.icon = null;
-        key.iconPreview = null;
-    }
-
-    void setImeOptions(Key mEnterKey, int options) {
-        if (mEnterKey == null) return;
-        switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
-            case EditorInfo.IME_ACTION_GO:
-                mEnterKey.iconPreview = null;
-                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_go, null);
-            break;
-            case EditorInfo.IME_ACTION_NEXT:
-                mEnterKey.iconPreview = null;
-                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_next, null);
-            break;
-            case EditorInfo.IME_ACTION_SEARCH:
-                mEnterKey.iconPreview = null;
-                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_find, null);
-            break;
-            case EditorInfo.IME_ACTION_SEND:
-                mEnterKey.iconPreview = null;
-                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_send, null);
-            break;
-            default:
-                mEnterKey.iconPreview = null;
-                mEnterKey.icon = Resources.getSystem().getDrawable(R.drawable.ic_enter, null);
-            break;
-        }
-    }
-
     public void setRowNumber(short number) {
         rowNumber = number;
     }

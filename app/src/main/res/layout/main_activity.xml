@@ -83,6 +83,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:id="@+id/toggle_extras"
+                android:onClick="toggleExtras"
+                android:text="   More...   "
+                android:textSize="17sp" />
             <LinearLayout
                 android:id="@+id/text_inputs"
                 android:visibility="gone"
@@ -114,14 +122,6 @@
                 <EditText android:hint="numberDecimal"       android:inputType="numberDecimal"       style="@style/editText_style" />
                 <EditText android:hint="numberSigned"        android:inputType="numberSigned"        style="@style/editText_style" />
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:id="@+id/toggle_extras"
-                android:onClick="toggleExtras"
-                android:text="   More...   "
-                android:textSize="17sp" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"

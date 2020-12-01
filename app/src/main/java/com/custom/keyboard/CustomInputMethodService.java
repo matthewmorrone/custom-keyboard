@@ -281,7 +281,7 @@ public class CustomInputMethodService extends InputMethodService
             break;
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
-                 || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
+              // || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                  || webInputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                  || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) {
                     setKeyboard(R.layout.domain, "Domain");
@@ -1763,45 +1763,34 @@ public class CustomInputMethodService extends InputMethodService
         redraw();
     }
     public void handleEnter() {
-        handleAction();
-        if (true) return;
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
         switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
+            case EditorInfo.IME_ACTION_DONE:
+ToastIt.text(getBaseContext(), "done");
+                ic.performEditorAction(EditorInfo.IME_ACTION_DONE);
+            break;
             case EditorInfo.IME_ACTION_GO:
+ToastIt.text(getBaseContext(), "go");
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
             break;
             case EditorInfo.IME_ACTION_SEARCH:
+ToastIt.text(getBaseContext(), "search");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
             break;
-            case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NEXT:
+ToastIt.text(getBaseContext(), "next");
+                ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
+            break;
             case EditorInfo.IME_ACTION_SEND:
+ToastIt.text(getBaseContext(), "send");
+                ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
+            break;
             default:
                 commitText("\n", 1);
                 if (sharedPreferences.getBoolean("indent", false)) {
                     commitText(StringUtils.getIndentation(getPrevLine()), 0);
                 }
-            break;
-        }
-    }
-
-    private void handleAction() {
-        switch (getCurrentInputEditorInfo().imeOptions & EditorInfo.IME_MASK_ACTION) {
-            case EditorInfo.IME_ACTION_DONE:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_DONE);
-            break;
-            case EditorInfo.IME_ACTION_GO:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
-            break;
-            case EditorInfo.IME_ACTION_NEXT:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_NEXT);
-            break;
-            case EditorInfo.IME_ACTION_SEARCH:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEARCH);
-            break;
-            case EditorInfo.IME_ACTION_SEND:
-                getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_SEND);
             break;
         }
     }
