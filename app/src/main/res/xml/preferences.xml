@@ -75,14 +75,14 @@
         <SwitchPreference android:dependency="hints" android:key="hint4" android:title="Hint 4" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
-        <com.custom.keyboard.preferences.CustomEditTextPreference android:selectAllOnFocus="true" android:singleLine="false" android:title="XML Editor" android:key="xml_editor" />
-        <SwitchPreference   android:key="toast"                   android:title="Toast" android:defaultValue="true" android:summaryOff="Enable Toasts" android:summaryOn="Disable Toasts" />
-        <SwitchPreference   android:key="info"                    android:title="Info"  android:defaultValue="true" android:summaryOff="Enable Info Toasts" android:summaryOn="Disable Info Toasts" />
-        <SwitchPreference   android:key="error"                   android:title="Error" android:defaultValue="true" android:summaryOff="Enable Error Toasts" android:summaryOn="Disable Error Toasts" />
-        <SwitchPreference   android:key="debug"                   android:title="Debug" android:defaultValue="true" />
+        <!--<Preference         android:key="show_text_editor"        android:title="Text Editor" />-->
+        <SwitchPreference   android:key="toast_text"              android:title="Text Toasts"  android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_info"              android:title="Info Toasts"  android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_error"             android:title="Error Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_debug"             android:title="Debug Toasts" android:defaultValue="true" />
         <Preference         android:key="import_preferences"      android:title="Import Preferences" />
         <Preference         android:key="export_preferences"      android:title="Export Preferences" />
-        <EditTextPreference android:key="word_separators"         android:title="Word Separators" android:selectAllOnFocus="true" />
+        <EditTextPreference android:widgetLayout="@layout/text_editor_inline" android:key="word_separators" android:title="Word Separators" android:selectAllOnFocus="true" />
         <Preference         android:key="reset_clipboard_history" android:title="Reset Clipboard History" />
         <Preference         android:key="reset_emoticon_history"  android:title="Reset Emoticon History" />
         <Preference         android:key="reset_unicode_history"   android:title="Reset Unicode History" />

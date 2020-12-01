@@ -8,6 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -18,6 +23,7 @@ import com.custom.keyboard.dialog.MultiSelectionListener;
 import com.custom.keyboard.dialog.SingleSelectionDialog;
 import com.custom.keyboard.dialog.SingleSelectionListener;
 import com.custom.keyboard.util.StringUtils;
+import com.custom.keyboard.util.ToastIt;
 import com.custom.keyboard.util.Util;
 
 import java.util.ArrayList;
@@ -44,11 +50,27 @@ public class PreferenceActivity extends Activity {
                 permissions();
             }
             if (Util.orNull(intent.getAction(), "").equals("ShowDialog")) {
-                if (intent.hasExtra("topRowKeys")) showTopRowKeysDialog();
-                if (intent.hasExtra("customKey"))  customKeyDialog();
+                if (intent.hasExtra("topRowKeys"))     showTopRowKeysDialog();
+                if (intent.hasExtra("customKey"))      customKeyDialog();
+                if (intent.hasExtra("showTextEditor")) showTextEditor();
             }
         }
     };
+
+    private PopupWindow popupWindow = null;
+
+    public void showTextEditor() {
+        ToastIt.debug(this, "show text editor");
+
+        LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (li != null) {
+            View textEditor = li.inflate(R.layout.text_editor, null);
+            final ViewGroup viewGroup = (ViewGroup)((ViewGroup)this.findViewById(android.R.id.content)).getChildAt(0);
+
+            popupWindow = new PopupWindow(textEditor, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT, true);
+            popupWindow.showAtLocation(viewGroup, Gravity.CENTER, 0, 0); // Util.orNull(-getKey(32).height, 0)
+        }
+    }
 
     public void showTopRowKeysDialog() {
         MultiSelectionDialog topRowKeysDialog = new MultiSelectionDialog.Builder(this, "Top Row Keys")

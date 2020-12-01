@@ -94,9 +94,9 @@ public class PreferenceFragment
     Preference resetAllPreferences;
     Preference setDefaultPreferences;
 
+    Preference showTextEditor;
     Preference topRowKeysDialog;
     Preference customKeyDialog;
-    EditTextPreference xmlEditor;
 
     String[] themes;
 
@@ -155,7 +155,6 @@ public class PreferenceFragment
     }
 
     private void topRowKeysDialog() {
-        // ToastIt.text(baseContext, sharedPreferences.getString("top_row_keys", ""));
         Intent intent = new Intent("ShowDialog");
         intent.putExtra("topRowKeys", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
@@ -165,17 +164,11 @@ public class PreferenceFragment
         intent.putExtra("customKey", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
     }
-    private void triggerSingleDialog() {
+    private void showTextEditor() {
         Intent intent = new Intent("ShowDialog");
-        intent.putExtra("single", "");
+        intent.putExtra("showTextEditor", "");
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
     }
-    private void triggerMultipleDialog() {
-        Intent intent = new Intent("ShowDialog");
-        intent.putExtra("multiple", "");
-        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent);
-    }
-
     private void triggerPermissionsRequest() {
         Intent intent = new Intent("RequestPermissions");
         intent.putExtra("data", "");
@@ -390,9 +383,9 @@ public class PreferenceFragment
         resetAllPreferences = findPreference("reset_all_preferences");
         setDefaultPreferences = findPreference("set_default_preferences");
 
+        showTextEditor = findPreference("show_text_editor");
         topRowKeysDialog = findPreference("top_row_keys");
         customKeyDialog = findPreference("custom_key");
-        xmlEditor = (EditTextPreference)findPreference("xml_editor");
 
         k1 = (EditTextPreference)findPreference("k1");
         k2 = (EditTextPreference)findPreference("k2");
@@ -541,6 +534,16 @@ public class PreferenceFragment
                 public boolean onPreferenceClick(Preference preference) {
                     System.out.println(preference);
                     customKeyDialog();
+                    return true;
+                }
+            });
+        }
+        if (showTextEditor != null) {
+            showTextEditor.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    System.out.println(preference);
+                    showTextEditor();
                     return true;
                 }
             });
