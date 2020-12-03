@@ -12,7 +12,7 @@ public class Trie {
     public ArrayList<String> words;
     public ArrayList<TrieNode> termini;
     public TrieNode prefixRoot;
-    public String curPrefix;
+    public String currentPrefix;
 
     public Trie() {
         root = new TrieNode();
@@ -27,62 +27,60 @@ public class Trie {
     public void insert(String word, long value) {
         HashMap<Character,TrieNode> children = root.children;
 
-        TrieNode crntparent;
-
-        crntparent = root;
+        TrieNode currentParent = root;
 
         int i;
         char c;
         for (i = 0; i < word.length(); i++) {
             c = word.charAt(i);
 
-            TrieNode t;
+            TrieNode trieNode;
 
             if (children.containsKey(c)) {
-                t = children.get(c);
+                trieNode = children.get(c);
             }
-            else if (crntparent == null) {
+            else if (currentParent == null) {
                 continue;
             }
             else {
-                t = new TrieNode(c);
-                t.word = crntparent.word != null ? crntparent.word+c : ""+c;
-                t.parent = crntparent;
-                children.put(c, t);
+                trieNode = new TrieNode(c);
+                trieNode.word = currentParent.word != null ? currentParent.word+c : ""+c;
+                trieNode.parent = currentParent;
+                children.put(c, trieNode);
             }
 
-            if (t != null) {
-                children = t.children;
+            if (trieNode != null) {
+                children = trieNode.children;
             }
-            crntparent = t;
+            currentParent = trieNode;
 
-            if (i == word.length()-1 && t != null) {
-                t.isLeaf = true;
-                t.value = value;
+            if (i == word.length()-1 && trieNode != null) {
+                trieNode.isLeaf = true;
+                trieNode.value = value;
             }
         }
     }
 
     public boolean search(String word) {
-        TrieNode t = searchNode(word);
-        return (t != null && t.isLeaf);
+        TrieNode trieNode = searchNode(word);
+        return trieNode != null && trieNode.isLeaf;
     }
 
     public boolean startsWith(String prefix) {
         return searchNode(prefix) != null;
     }
 
-    public TrieNode searchNode(String str) {
+    public TrieNode searchNode(String word) {
         Map<Character,TrieNode> children = root.children;
-        TrieNode t = null;
+        TrieNode trieNode = null;
         int i;
         char c;
-        for(i = 0; i < str.length(); i++) {
-            c = str.charAt(i);
+        for(i = 0; i < word.length(); i++) {
+            c = word.charAt(i);
             if (children.containsKey(c)) {
-                t = children.get(c);
-                if (t != null) {
-                    children = t.children;
+                trieNode = children.get(c);
+                if (trieNode != null) {
+                    children = trieNode.children;
                 }
             }
             else {
@@ -90,37 +88,34 @@ public class Trie {
             }
         }
 
-        prefixRoot = t;
-        curPrefix = str;
+        prefixRoot = trieNode;
+        currentPrefix = word;
         words.clear();
         termini.clear();
-        return t;
+        return trieNode;
     }
 
     public ArrayList<String> getWords() {
         return words;
     }
 
-    public void wordsFinderTraversal(TrieNode node, int offset) {
-
+    public void findWords(TrieNode node, int offset) {
         if (node.isLeaf) {
             termini.add(node);
             words.add(node.word);
         }
 
-        Set<Character> kset = node.children.keySet();
-        Iterator<Character> itr = kset.iterator();
-        ArrayList<Character> aloc = new ArrayList<>();
+        Set<Character> keySet = node.children.keySet();
+        Iterator<Character> iterator = keySet.iterator();
+        ArrayList<Character> chars = new ArrayList<>();
 
-        while(itr.hasNext()) {
-            Character ch = (Character)itr.next();
-            aloc.add(ch);
+        while(iterator.hasNext()) {
+            chars.add(iterator.next());
         }
 
-        // here you can play with the order of the children
         int i;
-        for(i = 0; i < aloc.size(); i++) {
-            wordsFinderTraversal(Objects.requireNonNull(node.children.get(aloc.get(i))), offset + 2);
+        for(i = 0; i < chars.size(); i++) {
+            findWords(Objects.requireNonNull(node.children.get(chars.get(i))), offset + 2);
         }
     }
 }

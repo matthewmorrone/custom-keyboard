@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
                   xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  tools:ignore="Deprecated">
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen android:title="Behavior">
         <SwitchPreference android:defaultValue="false" android:key="sound"        android:title="Play Sound" />
         <SwitchPreference android:defaultValue="false" android:key="vib"          android:title="Key Press Vibration" />
@@ -12,10 +11,6 @@
         <SwitchPreference android:defaultValue="false" android:key="preview"      android:title="Show Key Preview" />
         <SwitchPreference android:defaultValue="true"  android:key="single_hint"  android:title="Disable Long Press Popup" />
         <com.custom.keyboard.preferences.SeekPreference android:key="long_press_duration" android:title="Long Press Duration" app:value="500" app:max="3000" app:min="100" app:step="100" />
-    </PreferenceScreen>
-    <PreferenceScreen android:title="Customization">
-        <Preference android:key="top_row_keys" android:title="Choose Top Row Keys" />
-        <Preference android:key="custom_key" android:title="Choose Custom Key" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Editing">
         <SwitchPreference android:key="pred"     android:title="Text Prediction" />
@@ -27,9 +22,16 @@
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
         <SwitchPreference android:key="indent" android:title="Indent Helper" android:summaryOff="" android:summaryOn="" />
-        <!-- @TODO: adjust how many spaces based on indent_width -->
         <SwitchPreference android:key="tabs"   android:title="Use Tabs" android:summaryOff="Use 4 Spaces" android:summaryOn="Use Tab Character" />
-        <EditTextPreference android:numeric="integer" android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
+        <EditTextPreference android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Customization">
+        <Preference android:key="top_row_keys" android:title="Choose Top Row Keys" />
+        <Preference android:key="custom_key" android:title="Choose Custom Key" />
+        <EditTextPreference android:key="emoticon_recents"   android:title="Emoticon Recents" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="unicode_recents"    android:title="Unicode Recents" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="emoticon_favorites" android:title="Emoticon Favorites" android:selectAllOnFocus="true" />
+        <EditTextPreference android:key="unicode_favorites"  android:title="Unicode Favorites" android:selectAllOnFocus="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Appearance">
         <com.custom.keyboard.preferences.SeekPreference android:key="height" android:title="Key Height" app:value="100" app:max="150" app:min="50" />
@@ -49,10 +51,6 @@
         <Preference android:key="choose_image_background" android:title="Choose Image Background" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Custom Keys">
-        <EditTextPreference android:key="emoticon_recents"   android:title="Emoticon Recents" android:selectAllOnFocus="true" />
-        <EditTextPreference android:key="unicode_recents"    android:title="Unicode Recents" android:selectAllOnFocus="true" />
-        <EditTextPreference android:key="emoticon_favorites" android:title="Emoticon Favorites" android:selectAllOnFocus="true" />
-        <EditTextPreference android:key="unicode_favorites"  android:title="Unicode Favorites" android:selectAllOnFocus="true" />
         <EditTextPreference android:key="custom_keys"        android:title="Custom Keys" android:selectAllOnFocus="true" />
         <EditTextPreference android:key="name"               android:title="Name" android:selectAllOnFocus="true" />
         <EditTextPreference android:key="email"              android:title="Email" android:selectAllOnFocus="true" />

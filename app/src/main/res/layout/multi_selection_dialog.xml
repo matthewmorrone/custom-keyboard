@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <CheckBox
+        android:id="@+id/checkbox_master"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="2dp"
+        android:text="Select All/None"
+        android:textSize="20sp" />
     <LinearLayout
         android:id="@+id/linear_multi_dialog"
         android:layout_width="match_parent"
@@ -19,7 +29,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="20sp" />
         <ImageView
             android:id="@+id/img_done_multi_dialog"
@@ -30,21 +40,14 @@
             android:padding="12dp"
             android:src="@drawable/ic_check_circle_white" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_multi_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear_multi_dialog"
-        android:layout_marginTop="0dp" />
     <LinearLayout
         android:id="@+id/linear_btn_multi_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recycler_multi_dialog"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginBottom="0dp">
+        android:weightSum="2">
         <TextView
             android:id="@+id/tv_negative_multi_dialog"
             android:layout_width="wrap_content"
@@ -68,4 +71,14 @@
             android:textStyle="bold"
             tools:text="OK" />
     </LinearLayout>
-</RelativeLayout>
+    <ScrollView
+        android:id="@+id/scroller_multi_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_multi_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp" />
+    </ScrollView>
+</LinearLayout>

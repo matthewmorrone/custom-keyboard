@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-// import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,14 +38,14 @@ public class SpellChecker {
         }
     };
 
-    static Comparator<TrieNode> comparator = new Comparator<TrieNode>() {
+    static Comparator<TrieNode> byValue = new Comparator<TrieNode>() {
         @Override
         public int compare(TrieNode t1, TrieNode t2) {
             return (int)(t2.value - t1.value);
         }
     };
 
-    static Comparator<Entry> prioritizer = new Comparator<Entry>() {
+    static Comparator<Entry> byPriority = new Comparator<Entry>() {
         @Override
         public int compare(Entry e1, Entry e2) {
             if (e1.getScore() == e2.getScore()) {
@@ -89,10 +88,10 @@ public class SpellChecker {
 
     public static ArrayList<String> getCompletions(String word, int limit) {
         TrieNode tn = trie.searchNode(word);
-        trie.wordsFinderTraversal(tn, 0);
+        trie.findWords(tn, 0);
         ArrayList<TrieNode> result = trie.termini;
 
-        result.sort(comparator);
+        result.sort(byValue);
         if (result.size() > limit) {
             result = new ArrayList<>(result.subList(0, limit));
         }
@@ -101,7 +100,6 @@ public class SpellChecker {
             strings.add(trieNode.getWord());
         }
         strings.remove(word);
-        // strings.sort(byLength);
         return strings;
     }
 
@@ -132,7 +130,7 @@ public class SpellChecker {
             return result;
         }
 
-        PriorityQueue<Entry> topN = new PriorityQueue<>(limit, prioritizer);
+        PriorityQueue<Entry> topN = new PriorityQueue<>(limit, byPriority);
 
         int score;
         for (String line : list) {
@@ -147,7 +145,7 @@ public class SpellChecker {
         }
         return result;
     }
-    
+
     public static int damerauLevenshtein(CharSequence source, CharSequence target) {
         if (source == null || target == null) {
             throw new IllegalArgumentException("Parameter must not be null");

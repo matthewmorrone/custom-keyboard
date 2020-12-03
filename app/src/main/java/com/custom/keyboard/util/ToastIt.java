@@ -41,7 +41,7 @@ public class ToastIt {
         if (sharedPreferences == null) setSharedPreferences(context);
         if (!sharedPreferences.getBoolean("toast_text", false)) return;
         if (mToast != null) mToast.cancel();
-        Spanned spanned = Html.fromHtml("<font color='#000000'>&nbsp;" + text + "&nbsp;</font>");
+        Spanned spanned = Html.fromHtml("<font color='white'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
         // mToast.getView().setBackgroundColor(Color.parseColor("#00000000"));
         mToast.getView().setAlpha(.8f);
@@ -63,7 +63,7 @@ public class ToastIt {
         if (!sharedPreferences.getBoolean("toast_info", false)) return;
         if (mToast != null) mToast.cancel();
 
-        Spanned spanned = Html.fromHtml("<font color='white'>&nbsp;" + text + "&nbsp;</font>");
+        Spanned spanned = Html.fromHtml("<font color='yellow'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
         View toastRoot = layoutInflater.inflate(R.layout.toast_info, null);
@@ -122,7 +122,7 @@ public class ToastIt {
         if (!sharedPreferences.getBoolean("toast_debug", false)) return;
         if (mToast != null) mToast.cancel();
 
-        Spanned spanned = Html.fromHtml("<font color='yellow'>&nbsp;" + text + "&nbsp;</font>");
+        Spanned spanned = Html.fromHtml("<font color='gray'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);
@@ -132,5 +132,4 @@ public class ToastIt {
 
         mToast.show();
     }
-
 }

@@ -13,7 +13,6 @@ public class KeyboardManager {
 
     public interface OnKeyboardListener {
         void onKeyboardVisible();
-
         void onKeyboardHidden();
     }
 

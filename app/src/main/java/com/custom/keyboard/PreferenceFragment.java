@@ -15,15 +15,14 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.provider.MediaStore;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.preferences.ColorPreference;
+import com.custom.keyboard.preferences.SeekPreference;
 import com.custom.keyboard.util.FileUtils;
 import com.custom.keyboard.util.ImageSaver;
-import com.custom.keyboard.preferences.SeekPreference;
 import com.custom.keyboard.util.ToastIt;
 import com.custom.keyboard.util.Util;
 import com.custom.keyboard.util.XmlUtils;
@@ -131,21 +130,18 @@ public class PreferenceFragment
         ToastIt.text(baseContext, "Clipboard History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
-
     public void resetEmoticonHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_emoticons", "").apply();
         ToastIt.text(baseContext, "Emoticon History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
-
     public void resetUnicodeHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_unicode", "").apply();
         ToastIt.text(baseContext, "Unicode History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
-
     public void importPreferences() {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.setType("*/*"); // "text/xml"
@@ -533,7 +529,6 @@ public class PreferenceFragment
             customKeyDialog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    System.out.println(preference);
                     customKeyDialog();
                     return true;
                 }
@@ -543,7 +538,6 @@ public class PreferenceFragment
             showTextEditor.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    System.out.println(preference);
                     showTextEditor();
                     return true;
                 }
@@ -566,9 +560,7 @@ public class PreferenceFragment
 
         if (indentWidth != null) indentWidth.setText(sharedPreferences.getString("indent_width", "0"));
         if (indentWidth != null) indentWidth.setSummary(sharedPreferences.getString("indent_width", "0"));
-
         if (tabs != null) tabs.setSummaryOff("Use "+sharedPreferences.getString("indent_width", "0")+" Spaces");
-
         if (borderWidth != null) borderWidth.setText(sharedPreferences.getString("border_width", "0"));
         if (borderWidth != null) borderWidth.setSummary(sharedPreferences.getString("border_width", "0"));
         if (paddingWidth != null) paddingWidth.setText(sharedPreferences.getString("padding_width", "0"));

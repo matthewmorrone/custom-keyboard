@@ -3,9 +3,4 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <me.testica.codeeditor.Editor
-        android:id="@+id/editor"
-        app:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

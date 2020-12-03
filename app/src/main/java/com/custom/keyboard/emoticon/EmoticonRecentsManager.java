@@ -9,17 +9,13 @@ import java.util.StringTokenizer;
 
 public class EmoticonRecentsManager extends ArrayList<Emoticon> {
 
-    private static final String PREFERENCE_NAME = "emoticon";
-    private static final String PREF_RECENTS = "emoticon_recents";
-    private static final String PREF_PAGE = "emoticon_recent_page";
-
     private static final Object LOCK = new Object();
     private static EmoticonRecentsManager sInstance;
 
-    private Context mContext;
+    private Context context;
 
     private EmoticonRecentsManager(Context context) {
-        mContext = context.getApplicationContext();
+        this.context = context;
         loadRecents();
     }
 
@@ -35,26 +31,21 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
     }
 
     public int getRecentPage() {
-        return getSharedPreferences().getInt(PREF_PAGE, 0);
+        return getSharedPreferences().getInt("emoticon_recent_page", 0);
     }
 
     public void setRecentPage(int page) {
-        getSharedPreferences().edit().putInt(PREF_PAGE, page).apply();
+        getSharedPreferences().edit().putInt("emoticon_recent_page", page).apply();
     }
 
     public void push(Emoticon object) {
-        // FIXME totally inefficient way of adding the emoticon to the adapter
-        // TODO this should be probably replaced by a deque
-        if (contains(object)) {
-            super.remove(object);
-        }
+        if (contains(object)) super.remove(object);
         add(0, object);
     }
 
     @Override
     public boolean add(Emoticon object) {
-        boolean ret = super.add(object);
-        return ret;
+        return super.add(object);
     }
 
     @Override
@@ -64,41 +55,39 @@ public class EmoticonRecentsManager extends ArrayList<Emoticon> {
 
     @Override
     public boolean remove(Object object) {
-        boolean ret = super.remove(object);
-        return ret;
+        return super.remove(object);
     }
 
     private SharedPreferences getSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        return sharedPreferences;
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     private void loadRecents() {
         SharedPreferences sharedPreferences = getSharedPreferences();
-        String str = sharedPreferences.getString(PREF_RECENTS, "");
-        StringTokenizer tokenizer = new StringTokenizer(str, "~");
+        String string = sharedPreferences.getString("emoticon_recents", "");
+
+        System.out.println("loadRecents: "+string);
+
+        StringTokenizer tokenizer = new StringTokenizer(string, "~");
         while (tokenizer.hasMoreTokens()) {
-            try {
-                add(new Emoticon(tokenizer.nextToken()));
-            }
-            catch (NumberFormatException e) {
-                // ignored
-            }
+            add(new Emoticon(tokenizer.nextToken()));
         }
     }
 
     public void saveRecents() {
-        StringBuilder str = new StringBuilder();
+        StringBuilder string = new StringBuilder();
         int c = size();
         for (int i = 0; i < c; i++) {
             Emoticon e = get(i);
-            str.append(e.getEmoticon());
+            string.append(e.getEmoticon());
             if (i < (c - 1)) {
-                str.append('~');
+                string.append('~');
             }
         }
-        SharedPreferences prefs = getSharedPreferences();
-        prefs.edit().putString(PREF_RECENTS, str.toString()).apply();
-    }
 
+        System.out.println("saveRecents: "+string);
+
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        sharedPreferences.edit().putString("emoticon_recents", string.toString()).apply();
+    }
 }

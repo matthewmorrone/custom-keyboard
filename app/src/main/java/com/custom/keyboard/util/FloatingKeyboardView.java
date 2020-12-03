@@ -1,4 +1,4 @@
-package com.custom.keyboard;
+package com.custom.keyboard.util;
 
 /**
  * Copyright 2017 George Argyrakis

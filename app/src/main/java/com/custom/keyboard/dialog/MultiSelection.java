@@ -1,8 +1,11 @@
 package com.custom.keyboard.dialog;
 
+import androidx.annotation.NonNull;
+
 public class MultiSelection {
     private Boolean check = false;
-    private String title;
+    private String label;
+    private String value;
 
     public MultiSelection() {
 
@@ -16,11 +19,25 @@ public class MultiSelection {
         this.check = check;
     }
 
-    public String getTitle() {
-        return title;
+    public String getLabel() {
+        return label;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getValue()+" "+getCheck();
     }
 }

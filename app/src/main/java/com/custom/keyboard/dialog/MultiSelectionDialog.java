@@ -3,9 +3,9 @@ package com.custom.keyboard.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.custom.keyboard.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class MultiSelectionDialog extends AppCompatActivity {
     private List<String> selectedFields;
     private String headerTitle;
     MultiSelectionAdapter dialogAdapter;
-    private String currentValue = "", currentPosition = "", tag = "", hintText = "Search here";
+    private String currentValue = "", currentPosition = "", tag, hintText;
     private int headerColor, textColor;
     MultiSelectionListener multiSelectionListener;
 
@@ -48,7 +47,7 @@ public class MultiSelectionDialog extends AppCompatActivity {
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 MultiSelection multiSelection = new MultiSelection();
-                multiSelection.setTitle(list.get(i));
+                multiSelection.setValue(list.get(i));
                 multiList.add(multiSelection);
                 temp_data_list.add(multiSelection);
             }
@@ -65,7 +64,7 @@ public class MultiSelectionDialog extends AppCompatActivity {
     public void setSelectedFields(List<String> selectedFields) {
         if (multiList != null && multiList.size() > 0) {
             for (int i = 0; i < multiList.size(); i++) {
-                if (selectedFields.contains(multiList.get(i).getTitle())) {
+                if (selectedFields.contains(multiList.get(i).getValue())) {
                     multiList.get(i).setCheck(true);
                 }
             }
@@ -79,6 +78,8 @@ public class MultiSelectionDialog extends AppCompatActivity {
             dialog.setContentView(convertView);
             TextView tvTitle = convertView.findViewById(R.id.tv_title_multi_dialog);
             ImageView imgDone = convertView.findViewById(R.id.img_done_multi_dialog);
+            CheckBox masterCheckBox = convertView.findViewById(R.id.checkbox_master);
+
             final RecyclerView recyclerView = convertView.findViewById(R.id.recycler_multi_dialog);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             recyclerView.setLayoutManager(layoutManager);
@@ -93,6 +94,17 @@ public class MultiSelectionDialog extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
+            masterCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(int i = 0; i < recyclerView.getChildCount(); i++) {
+                        CheckBox checkBox = recyclerView.getChildAt(i).findViewById(R.id.checkbox_dialog);
+                        checkBox.setChecked(masterCheckBox.isChecked());
+                        multiList.get(i).setCheck(masterCheckBox.isChecked());
+                    }
+                }
+            });
 
             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
@@ -113,8 +125,8 @@ public class MultiSelectionDialog extends AppCompatActivity {
                     if (multiList != null && multiList.size() > 0) {
                         for (int i = 0; i < multiList.size(); i++) {
                             if (multiList.get(i).getCheck()) {
-                                temp_string_list.add(multiList.get(i).getTitle());
-                                getAssetsValue.append(multiList.get(i).getTitle()).append(",");
+                                temp_string_list.add(multiList.get(i).getValue());
+                                getAssetsValue.append(multiList.get(i).getValue()).append(",");
                                 assetValue = getAssetsValue.substring(0, getAssetsValue.length() - 1);
                             }
                         }
@@ -175,12 +187,12 @@ public class MultiSelectionDialog extends AppCompatActivity {
             this.tag = tag;
         }
 
-        public Builder setContent(int[] provider) {
-            ArrayList<String> list = new ArrayList<>();
-            for(int i : provider) {
-                list.add(String.valueOf(i));
+        public Builder setContent(int[] list) {
+            ArrayList<String> result = new ArrayList<>();
+            for(int i : list) {
+                result.add(String.valueOf(i));
             }
-            this.list = list;
+            this.list = result;
             return this;
         }
 
@@ -219,5 +231,4 @@ public class MultiSelectionDialog extends AppCompatActivity {
             return new MultiSelectionDialog(this);
         }
     }
-
 }

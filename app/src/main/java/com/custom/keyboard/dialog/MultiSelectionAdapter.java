@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.custom.keyboard.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAdapter.MulitpleSelectionHolder> {
@@ -60,7 +58,7 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
     }
 
     public void onBindViewHolder(final MulitpleSelectionHolder holder, final int position) {
-        holder.checkBox.setText(dataList.get(position).getTitle());
+        holder.checkBox.setText(dataList.get(position).getValue());
         if (color != 0) {
             try {
                 holder.checkBox.setButtonTintList(ColorStateList.valueOf(color));
@@ -98,7 +96,6 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
         return dataList.size();
     }
 
-
     /*
     public boolean checkExist(String dataString) {
         if (dataList != null && dataList.size() > 0) {
@@ -121,5 +118,4 @@ public class MultiSelectionAdapter extends RecyclerView.Adapter<MultiSelectionAd
         return false;
     }
     */
-
 }

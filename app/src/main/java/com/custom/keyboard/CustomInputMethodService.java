@@ -78,6 +78,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -257,7 +258,7 @@ public class CustomInputMethodService extends InputMethodService
 
         if (mPredictionOn) setCandidatesViewShown(isKeyboardVisible());
 
-        // adjustTopRow(mCurrentKeyboard);
+        adjustTopRow(mCurrentKeyboard);
         setCustomKey(-27);
         // toggleDelete(mCurrentKeyboard);
         setInputType();
@@ -661,16 +662,11 @@ public class CustomInputMethodService extends InputMethodService
 
     public void adjustTopRow(CustomKeyboard currentKeyboard) {
         List<Integer> topRowKeys = StringUtils.deserializeInts(Util.notNull(sharedPreferences.getString("top_row_keys", "")));
-
         List<Keyboard.Key> layoutRow = getKeyboardRowsByHeight(currentKeyboard).get(0);
-        // System.out.println(layoutRow.stream().map(s -> s.codes[0]).collect(Collectors.toList()));
-        // System.out.println(layoutRow.stream().map(s -> s.x).collect(Collectors.toList()));
-        // System.out.println(layoutRow.stream().map(s -> s.width).collect(Collectors.toList()));
 
         Bounds bounds = getBounds(layoutRow);
         int currentX = 0;
         for(Keyboard.Key key : layoutRow) {
-
             if (StringUtils.contains(Constants.topRowKeyDefault, key.codes[0])) {
                 if (!topRowKeys.contains(key.codes[0])) {
                     key.width = 0;
@@ -704,7 +700,6 @@ public class CustomInputMethodService extends InputMethodService
         layoutRowsNew.clear();
         int i = 0;
         for (Map.Entry<Integer, List<Keyboard.Key>> entry : layoutRows.entrySet()) {
-            // List<Keyboard.Key> obj = layoutRows.remove(entry.getValue());
             layoutRowsNew.put(i, entry.getValue());
             i++;
         }
@@ -2334,8 +2329,6 @@ ToastIt.text(getBaseContext(), "send");
                 }
             });
         }
-
-
     }
 
     public void displayFindMenu() {
@@ -2414,6 +2407,7 @@ ToastIt.text(getBaseContext(), "send");
     }
 
     public void showEmoticonPopup() {
+
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
         if (layoutInflater != null) {
@@ -2471,26 +2465,39 @@ ToastIt.text(getBaseContext(), "send");
                     playClick();
                     int tab = emoticonPopup.getCurrentTab();
                     String emoticonFavorites = new String(sharedPreferences.getString("emoticon_favorites", ""));
+                    StringTokenizer tokenizer = new StringTokenizer(emoticonFavorites, "~");
+
                     if (tab == 0) {
                         emoticonPopup.removeRecentEmoticon(getBaseContext(), emoticon);
                         ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" removed from emoticon recents");
                     }
                     else if (tab == 10) {
-                        StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
-                        if (emoticonFavorites.indexOf(emoticon.getEmoticon()) > -1) {
-                            sb.deleteCharAt(emoticonFavorites.indexOf(emoticon.getEmoticon()));
+
+                        StringBuilder sb = new StringBuilder();
+                        while (tokenizer.hasMoreTokens()) {
+                            String token = tokenizer.nextToken();
+                            if (token.equals(emoticon.getEmoticon())) continue;
+                            sb.append(token+"~");
                         }
                         emoticonFavorites = sb.toString();
+                        emoticonFavorites.replace("/~+/", "~");
+                        emoticonFavorites.replace("/~$/", "");
+
                         sharedPreferences.edit().putString("emoticon_favorites", emoticonFavorites).apply();
                         ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" removed from emoticon favorites");
                     }
                     else {
-                        StringBuilder sb = new StringBuilder(new String(emoticonFavorites));
-                        if (emoticonFavorites.indexOf(emoticon.getEmoticon()) > -1) {
-                            sb.deleteCharAt(emoticonFavorites.indexOf(emoticon.getEmoticon()));
+                        StringBuilder sb = new StringBuilder();
+                        while (tokenizer.hasMoreTokens()) {
+                            String token = tokenizer.nextToken();
+                            if (token.equals(emoticon.getEmoticon())) continue;
+                            sb.append(token+"~");
                         }
                         sb.append(emoticon.getEmoticon());
-                        emoticonFavorites = new String(sb.toString());
+                        emoticonFavorites = sb.toString();
+                        emoticonFavorites.replace("/~+/", "~");
+                        emoticonFavorites.replace("/~$/", "");
+
                         sharedPreferences.edit().putString("emoticon_favorites", new String(emoticonFavorites)).apply();
                         ToastIt.info(getBaseContext(), emoticon.getEmoticon()+" added to emoticon favorites");
                     }
@@ -2526,7 +2533,6 @@ ToastIt.text(getBaseContext(), "send");
                 public void onKeyboardOpen(int keyboardHeight) {
                     playClick();
                 }
-
                 @Override
                 public void onKeyboardClose() {
                     closeUnicode();
@@ -2557,8 +2563,6 @@ ToastIt.text(getBaseContext(), "send");
                     playClick();
                     ToastIt.text(getBaseContext(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
-                    if (debug) System.out.println("recents: "+ sharedPreferences.getString("unicode_recents", ""));
-                    if (debug) System.out.println("favorites: "+ sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeLongClickedListener(new UnicodeGridView.OnUnicodeLongClickedListener() {
@@ -2566,7 +2570,6 @@ ToastIt.text(getBaseContext(), "send");
                 public void onUnicodeLongClicked(Unicode unicode) {
                     playClick();
                     int tab = unicodePopup.getCurrentTab();
-
                     String unicodeFavorites = sharedPreferences.getString("unicode_favorites", "");
                     if (tab == 0) {
                         StringBuilder sb = new StringBuilder(unicodeFavorites);
@@ -2591,8 +2594,6 @@ ToastIt.text(getBaseContext(), "send");
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
                         ToastIt.text(getBaseContext(), unicode.getUnicode()+" removed from favorites");
                     }
-                    if (debug) System.out.println("recents: "+ sharedPreferences.getString("unicode_recents", ""));
-                    if (debug) System.out.println("favorites: "+ sharedPreferences.getString("unicode_favorites", ""));
                 }
             });
             unicodePopup.setOnUnicodeBackspaceClickedListener(new UnicodePopup.OnUnicodeBackspaceClickedListener() {

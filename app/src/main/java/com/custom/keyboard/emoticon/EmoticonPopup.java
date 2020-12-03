@@ -1,12 +1,9 @@
-
-
 package com.custom.keyboard.emoticon;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -26,10 +23,10 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.custom.keyboard.R;
-import com.custom.keyboard.util.Util;
 import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonClickedListener;
 import com.custom.keyboard.emoticon.EmoticonGridView.OnEmoticonLongClickedListener;
 import com.custom.keyboard.emoticon.categories.EmoticonCategories;
+import com.custom.keyboard.util.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -153,15 +150,10 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
     }
 
     private int getUsableScreenHeight() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
-            windowManager.getDefaultDisplay().getMetrics(metrics);
-            return metrics.heightPixels;
-        }
-        else {
-            return rootView.getRootView().getHeight();
-        }
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
     }
 
     public void setSize(int width, int height) {
@@ -273,9 +265,7 @@ public class EmoticonPopup extends PopupWindow implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int i) {
-        if (mEmoticonTabLastSelectedIndex == i) {
-            return;
-        }
+        if (mEmoticonTabLastSelectedIndex == i) return;
         switch (i) {
             case 0:
             case 1:

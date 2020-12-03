@@ -29,7 +29,6 @@
 + find/replace dialog
 + if there are too many entries in a keys popup, it doesn't render properly
 + manual implementation of clipboard history
-+ redo keyboard layout without deprecated api
 + wider selection of emoji
 + reimplement emoji
 + implement min, max, step, original value in seekbarpreference
