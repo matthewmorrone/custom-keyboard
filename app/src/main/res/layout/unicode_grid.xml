@@ -7,6 +7,7 @@
           android:cacheColorHint="@android:color/transparent"
           android:columnWidth="40dip"
           android:numColumns="16"
+          android:scrollbars="none"
           />
 
     <!--android:foreground="@android:color/white"-->

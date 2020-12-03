@@ -43,11 +43,11 @@ import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.emoticon.Emoticon;
@@ -59,10 +59,10 @@ import com.custom.keyboard.unicode.UnicodePopup;
 import com.custom.keyboard.util.Bounds;
 import com.custom.keyboard.util.Calculator;
 import com.custom.keyboard.util.CustomInputConnection;
-import com.custom.keyboard.util.TextUtils;
 import com.custom.keyboard.util.IntentUtils;
 import com.custom.keyboard.util.Sounds;
 import com.custom.keyboard.util.StringUtils;
+import com.custom.keyboard.util.TextUtils;
 import com.custom.keyboard.util.Themes;
 import com.custom.keyboard.util.TimeUtils;
 import com.custom.keyboard.util.ToastIt;
@@ -2353,7 +2353,7 @@ ToastIt.text(getBaseContext(), "send");
         if (li != null) {
             View wordbar = li.inflate(R.layout.wordbar, null);
 
-            ConstraintLayout ll = (ConstraintLayout)wordbar.findViewById(R.id.wordsLayout);
+            LinearLayout ll = (LinearLayout)wordbar.findViewById(R.id.wordsLayout);
             final EditText findEditText = (EditText)wordbar.findViewById(R.id.find);
             final EditText replEditText = (EditText)wordbar.findViewById(R.id.repl);
             final TextView go = (TextView)wordbar.findViewById(R.id.go);

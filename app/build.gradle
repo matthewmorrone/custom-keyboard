@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 dependencies {
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:4.4.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 }
 android {
     buildFeatures.dataBinding = true

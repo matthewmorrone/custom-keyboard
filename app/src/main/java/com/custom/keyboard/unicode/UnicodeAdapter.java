@@ -1,7 +1,6 @@
 package com.custom.keyboard.unicode;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,7 +52,7 @@ class UnicodeAdapter extends ArrayAdapter<Unicode> {
                 holder.icon.setWidth(parent.getWidth());
                 holder.icon.setGravity(Gravity.LEFT);
                 holder.icon.setTextSize(20);
-                holder.icon.setEllipsize(TextUtils.TruncateAt.END);
+                // holder.icon.setEllipsize(TextUtils.TruncateAt.END);
                 holder.icon.setSingleLine();
             }
             else {
