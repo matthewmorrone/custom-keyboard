@@ -1791,25 +1791,25 @@ public class CustomInputMethodService extends InputMethodService
     public void handleEnter() {
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
-        switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
+        switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) { /*
             case EditorInfo.IME_ACTION_DONE:
-ToastIt.text(getBaseContext(), "done");
+                ToastIt.text(getBaseContext(), "done");
                 ic.performEditorAction(EditorInfo.IME_ACTION_DONE);
-            break;
+            break; */
             case EditorInfo.IME_ACTION_GO:
-ToastIt.text(getBaseContext(), "go");
+                ToastIt.text(getBaseContext(), "go");
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
             break;
             case EditorInfo.IME_ACTION_SEARCH:
-ToastIt.text(getBaseContext(), "search");
+                ToastIt.text(getBaseContext(), "search");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
             break;
             case EditorInfo.IME_ACTION_NEXT:
-ToastIt.text(getBaseContext(), "next");
+                ToastIt.text(getBaseContext(), "next");
                 ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
             break;
             case EditorInfo.IME_ACTION_SEND:
-ToastIt.text(getBaseContext(), "send");
+                ToastIt.text(getBaseContext(), "send");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
             break;
             default:
