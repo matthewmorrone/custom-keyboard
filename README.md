@@ -10,7 +10,7 @@
 + fix border radius
 + fix theme
 + theme tutorial
-+ fix emoticon/unicode recents/f̶a̶v̶o̶r̶i̶t̶e̶s̶
++ fix emoticon/unicode recents/favorites
 + custom layout
 + name summary
 + add more math functions to calculator
@@ -118,6 +118,47 @@
 + layout of popup
 + make popup keys repeatable
 + release on popup for choice
++ save recents/favorites across installs
++ access recents/favorites in settings
++ if recents not empty, start on recents page
++ use separator tildes for favorites
++ correct enter button per input type
++ if prev character is a space, insertion of punctuation will attach it to the end of the word and insert another space
++ autoconvert number bases
++ popup for examining characters
++ scratch textedit popup
++ clear history button on clipboard page
++ ellipsize keys on clipboard history
++ unicode letters press on square not letter
++ implement custom shortcuts
++ popup outside click
++ popup multirow
++ fix tld button
++ get suggestions for next word 
++ search tab in emoji and unicode
++ find/replace closes when typing
++ send find/replace result back to edittext
++ implement custom layout
++ look up tutorial for glide typing
++ look up tutorial to choose background photo
++ automated button pressing in monkeyrunner
++ autofill service
++ implement find/replace 
++ single char in popup
++ title case toggle, preference
++ fix calculator buffer
++ clipboard page doesn't update
++ export and import settings
++ button to clear clipboard history
++ fill out coding layout
++ selection indication in unicode
++ long press in unicode and emoji
++ change text color
++ separate setting for border color
++ tab for favorite emoji
++ multiselect for which buttons appear in top and bottom rows
++ select all/none for multiselect
++ remove extra space after punctuation
 
 ##### Settings #####
 + system settings enable keyboard

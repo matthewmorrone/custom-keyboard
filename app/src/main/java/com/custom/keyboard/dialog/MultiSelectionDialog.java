@@ -78,7 +78,7 @@ public class MultiSelectionDialog extends AppCompatActivity {
             dialog.setContentView(convertView);
             TextView tvTitle = convertView.findViewById(R.id.tv_title_multi_dialog);
             ImageView imgDone = convertView.findViewById(R.id.img_done_multi_dialog);
-            CheckBox masterCheckBox = convertView.findViewById(R.id.checkbox_master);
+            final CheckBox masterCheckBox = convertView.findViewById(R.id.checkbox_master);
 
             final RecyclerView recyclerView = convertView.findViewById(R.id.recycler_multi_dialog);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
