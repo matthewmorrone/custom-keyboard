@@ -8,7 +8,6 @@
               android:divider="#ffffff"
               android:gravity="center"
               android:orientation="horizontal">
-
     <TextView
         android:id="@+id/close"
         android:layout_width="32dp"

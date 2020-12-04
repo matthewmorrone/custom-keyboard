@@ -50,7 +50,6 @@ public class MainActivity extends Activity {
             @Override
             public void onToggleSoftKeyboard(boolean isVisible) {
                 keyboardVisible = isVisible;
-                // System.out.println("keyboard visible: "+keyboardVisible);
             }
         });
     }
@@ -64,14 +63,14 @@ public class MainActivity extends Activity {
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Util.orNull(intent.getAction(), "").equals("FindReplace")) {
+            if (Util.notNull(intent.getAction()).equals("FindReplace")) {
                 // @TODO: implement ability to limit to selected text
                 String oldText = Util.orNull(intent.getStringExtra("oldText"), "");
                 String newText = Util.orNull(intent.getStringExtra("newText"), "");
                 ToastIt.text(context, newText);
                 editText.setText(newText);
             }
-            if (Util.orNull(intent.getAction(), "").equals("DebugHelper")) {
+            if (Util.notNull(intent.getAction()).equals("DebugHelper")) {
                 if (intent.hasExtra("clear")) {
                     errorOutput.setText("");
                 }

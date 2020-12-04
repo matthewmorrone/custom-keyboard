@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custom.keyboard.R;
+
+import java.util.Objects;
 
 public class ToastIt {
     static Toast mToast;
@@ -44,7 +47,9 @@ public class ToastIt {
         Spanned spanned = Html.fromHtml("<font color='white'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
         // mToast.getView().setBackgroundColor(Color.parseColor("#00000000"));
-        mToast.getView().setAlpha(.8f);
+
+        Objects.requireNonNull(mToast.getView()).setAlpha(.8f);
+
         mToast.show();
     }
 
@@ -69,6 +74,7 @@ public class ToastIt {
         View toastRoot = layoutInflater.inflate(R.layout.toast_info, null);
         TextView toastTextView = toastRoot.findViewById(R.id.content);
         toastTextView.setText(spanned);
+        toastTextView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         mToast.setView(toastRoot);
 
         mToast.setGravity(Gravity.CENTER, 0, 0);
@@ -99,6 +105,7 @@ public class ToastIt {
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);
         TextView toastTextView = toastRoot.findViewById(R.id.content);
         toastTextView.setText(spanned);
+        toastTextView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         mToast.setView(toastRoot);
 
         mToast.show();
@@ -128,6 +135,7 @@ public class ToastIt {
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);
         TextView toastTextView = toastRoot.findViewById(R.id.content);
         toastTextView.setText(spanned);
+        toastTextView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         mToast.setView(toastRoot);
 
         mToast.show();
