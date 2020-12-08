@@ -2229,9 +2229,9 @@ public class CustomInputMethodService extends InputMethodService
             case -179: IntentUtils.openWebpage(getBaseContext(), getSelectedText(ic)); break;
             case -180: IntentUtils.searchWeb(getBaseContext(), getSelectedText(ic)); break;
             case -181: IntentUtils.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
+            case -182: IntentUtils.searchWikipedia(getBaseContext(), getSelectedText(ic)); break;
 
             /*
-            case -182: break;
             case -183: break;
             case -184: break;
             case -185: break;

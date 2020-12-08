@@ -59,7 +59,7 @@ public class IntentUtils {
     }
 
     public static void dialPhone(Context context, String phoneNumber) {
-if (phoneNumber.isEmpty()) return;
+        if (phoneNumber.isEmpty()) return;
         if (!StringUtils.isValidPhoneNumber(phoneNumber)) {
             ToastIt.text(context, phoneNumber+" is not a valid phone number.");
             return;
@@ -68,8 +68,24 @@ if (phoneNumber.isEmpty()) return;
         startIntent(context, intent);
     }
 
+    public static void searchWikipedia(Context context, String query) {
+        if (query.isEmpty()) return;
+        String url = "https://en.wikipedia.org/wiki/"+query;
+        if (!StringUtils.isValidUrl(url)) {
+            ToastIt.text(context, url+" is not a valid URL.");
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        intent.setPackage("org.wikipedia");
+        startIntent(context, intent);
+        ToastIt.text(context, "Searching "+query+" in wikipedia…");
+
+    }
+
     public static void openWebpage(Context context, String url) {
-if (url.isEmpty()) return;
+        if (url.isEmpty()) return;
         if (!StringUtils.isValidUrl(url)) url = "https://"+url;
         if (!StringUtils.isValidUrl(url)) {
             ToastIt.text(context, url+" is not a valid URL.");
@@ -82,7 +98,7 @@ if (url.isEmpty()) return;
     }
 
     public static void searchWeb(Context context, String query) {
-if (query.isEmpty()) return;
+        if (query.isEmpty()) return;
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, query);
         ToastIt.text(context, "Searching for: "+query);
         startIntent(context, intent);
@@ -95,7 +111,7 @@ if (query.isEmpty()) return;
     }
 
     public static void showLocationFromAddress(Context context, String address) {
-if (address.isEmpty()) return;
+        if (address.isEmpty()) return;
         // Util.toastIt(context, address);
         // System.out.println("showLocationFromAddress");
         Uri location = Uri.parse("geo:0,0?q=" + StringUtils.encodeUrl(address));
@@ -103,7 +119,7 @@ if (address.isEmpty()) return;
     }
 
     public static void showLocationFromAddress(Context context, String address, int zoom) {
-if (address.isEmpty()) return;
+        if (address.isEmpty()) return;
         // System.out.println("showLocationFromAddress zoom");
         address = StringUtils.encodeUrl(address);
         Uri location = Uri.parse("geo:0,0?q=" + address + "?z=" + zoom);
@@ -154,15 +170,15 @@ if (address.isEmpty()) return;
 
     public static void createAlarm(Context context, String message) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-.putExtra(AlarmClock.EXTRA_MESSAGE, message);
+            .putExtra(AlarmClock.EXTRA_MESSAGE, message);
         startIntent(context, intent);
     }
 
     public static void createAlarm(Context context, String message, int hour, int minutes) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-.putExtra(AlarmClock.EXTRA_MESSAGE, message)
-.putExtra(AlarmClock.EXTRA_HOUR, hour)
-.putExtra(AlarmClock.EXTRA_MINUTES, minutes);
+            .putExtra(AlarmClock.EXTRA_MESSAGE, message)
+            .putExtra(AlarmClock.EXTRA_HOUR, hour)
+            .putExtra(AlarmClock.EXTRA_MINUTES, minutes);
         startIntent(context, intent);
     }
 
@@ -173,33 +189,32 @@ if (address.isEmpty()) return;
 
     public static void startTimer(Context context, int seconds) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-.putExtra(AlarmClock.EXTRA_LENGTH, seconds);
-        // .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            .putExtra(AlarmClock.EXTRA_LENGTH, seconds);
         startIntent(context, intent);
     }
 
     public static void startTimer(Context context) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-.putExtra(AlarmClock.EXTRA_MESSAGE, "Timer")
-.putExtra(AlarmClock.EXTRA_LENGTH, 60)
-.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer")
+            .putExtra(AlarmClock.EXTRA_LENGTH, 60)
+            .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
         startIntent(context, intent);
     }
 
     public static void addCalendarEvent(Context context, String title) {
         Intent intent = new Intent(Intent.ACTION_INSERT)
-.setData(CalendarContract.Events.CONTENT_URI)
-.putExtra(CalendarContract.Events.TITLE, title);
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.Events.TITLE, title);
         startIntent(context, intent);
     }
 
     public static void addCalendarEvent(Context context, String title, String location, long begin, long end) {
         Intent intent = new Intent(Intent.ACTION_INSERT)
-.setData(CalendarContract.Events.CONTENT_URI)
-.putExtra(CalendarContract.Events.TITLE, title)
-.putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.Events.TITLE, title)
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
         startIntent(context, intent);
 
     /*
@@ -217,21 +232,21 @@ if (address.isEmpty()) return;
 
     public static void insertContactByName(Context context, String name) {
         Intent intent = new Intent(Intent.ACTION_INSERT)
-.setType(ContactsContract.Contacts.CONTENT_TYPE)
-.putExtra(ContactsContract.Intents.Insert.NAME, name);
+            .setType(ContactsContract.Contacts.CONTENT_TYPE)
+            .putExtra(ContactsContract.Intents.Insert.NAME, name);
         startIntent(context, intent);
     }
 
     public static void insertContactByEmail(Context context, String email) {
         Intent intent = new Intent(Intent.ACTION_INSERT)
-.setType(ContactsContract.Contacts.CONTENT_TYPE)
-.putExtra(ContactsContract.Intents.Insert.EMAIL, email);
+            .setType(ContactsContract.Contacts.CONTENT_TYPE)
+            .putExtra(ContactsContract.Intents.Insert.EMAIL, email);
         startIntent(context, intent);
     }
 
     public static void composeEmail(Context context, String address) {
         Intent intent = new Intent(Intent.ACTION_SEND)
-.setData(Uri.parse("mailto:")) // only email apps should handle this
+            .setData(Uri.parse("mailto:")) // only email apps should handle this
             .putExtra(Intent.EXTRA_EMAIL, new String[] {
                 address
             }); // .setType("*/*");
@@ -259,10 +274,10 @@ if (address.isEmpty()) return;
 
     public static void composeEmail(Context context, String[] addresses, String subject, Uri attachment) {
         Intent intent = new Intent(Intent.ACTION_SEND)
-.setData(Uri.parse("mailto:"))
-.putExtra(Intent.EXTRA_EMAIL, addresses)
-.putExtra(Intent.EXTRA_SUBJECT, subject)
-.putExtra(Intent.EXTRA_STREAM, attachment);
+            .setData(Uri.parse("mailto:"))
+            .putExtra(Intent.EXTRA_EMAIL, addresses)
+            .putExtra(Intent.EXTRA_SUBJECT, subject)
+            .putExtra(Intent.EXTRA_STREAM, attachment);
         startIntent(context, intent);
     }
 }
