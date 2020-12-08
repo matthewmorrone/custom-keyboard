@@ -61,12 +61,12 @@ import java.util.StringTokenizer;
 
 public class Keyboard {
 
-    static final String TAG = "Keyboard";
+    public static final String TAG = "Keyboard";
 
     // Keyboard XML Tags
-    private static final String TAG_KEYBOARD = "Keyboard";
-    private static final String TAG_ROW = "Row";
-    private static final String TAG_KEY = "Key";
+    public static final String TAG_KEYBOARD = "Keyboard";
+    public static final String TAG_ROW = "Row";
+    public static final String TAG_KEY = "Key";
 
     public static final int EDGE_LEFT = 0x01;
     public static final int EDGE_RIGHT = 0x02;
@@ -83,22 +83,22 @@ public class Keyboard {
     /**
      * Keyboard label
      **/
-    private CharSequence mLabel;
+    public CharSequence mLabel;
 
     /**
      * Horizontal gap default for all rows
      */
-    private int mDefaultHorizontalGap;
+    public int mDefaultHorizontalGap;
 
     /**
      * Default key width
      */
-    private int mDefaultWidth;
+    public int mDefaultWidth;
 
     /**
      * Default key height
      */
-    private int mDefaultHeight;
+    public int mDefaultHeight;
 
     /**
      * Default gap between rows
@@ -108,79 +108,79 @@ public class Keyboard {
     /**
      * Is the keyboard in the shifted state
      */
-    private boolean mShifted;
+    public boolean mShifted;
 
     /**
      * Key instance for the shift key, if present
      */
-    private Keyboard.Key[] mShiftKeys = {null, null};
+    public Keyboard.Key[] mShiftKeys = {null, null};
 
     /**
      * Key index for the shift key, if present
      */
-    private int[] mShiftKeyIndices = {-1, -1};
+    public int[] mShiftKeyIndices = {-1, -1};
 
     /**
      * Current key width, while loading the keyboard
      */
-    private int mKeyWidth;
+    public int mKeyWidth;
 
     /**
      * Current key height, while loading the keyboard
      */
-    private int mKeyHeight;
+    public int mKeyHeight;
 
     /**
      * Total height of the keyboard, including the padding and keys
      */
-    private int mTotalHeight;
+    public int mTotalHeight;
 
     /**
      * Total width of the keyboard, including left side gaps and keys, but not any gaps on the
      * right side.
      */
-    private int mTotalWidth;
+    public int mTotalWidth;
 
     /**
      * List of keys in this keyboard
      */
-    private List<Keyboard.Key> mKeys;
+    public List<Keyboard.Key> mKeys;
 
     /**
      * List of modifier keys such as Shift & Alt, if any
      */
-    private List<Keyboard.Key> mModifierKeys;
+    public List<Keyboard.Key> mModifierKeys;
 
     /**
      * Width of the screen available to fit the keyboard
      */
-    private int mDisplayWidth;
+    public int mDisplayWidth;
 
     /**
      * Height of the screen
      */
-    private int mDisplayHeight;
+    public int mDisplayHeight;
 
     /**
      * Keyboard mode, or zero, if none.
      */
-    private int mKeyboardMode;
+    public int mKeyboardMode;
 
     // Variables for pre-computing nearest keys.
 
-    private static final int GRID_WIDTH = 10;
-    private static final int GRID_HEIGHT = 5;
-    private static final int GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
-    private int mCellWidth;
-    private int mCellHeight;
-    private int[][] mGridNeighbors;
-    private int mProximityThreshold;
+    public static final int GRID_WIDTH = 10;
+    public static final int GRID_HEIGHT = 5;
+    public static final int GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
+    public int mCellWidth;
+    public int mCellHeight;
+    public int[][] mGridNeighbors;
+    public int mProximityThreshold;
     /**
      * Number of key widths from current touch point to search for nearest keys.
      */
-    private static float SEARCH_DISTANCE = 1.8f;
+    public static float SEARCH_DISTANCE = 1.8f;
 
-    private ArrayList<Keyboard.Row> rows = new ArrayList<Keyboard.Row>();
+    public ArrayList<Keyboard.Row> rows = new ArrayList<Keyboard.Row>();
 
     /**
      * Container for keys in the keyboard. All keys in a row are at the same Y-coordinate.
@@ -212,7 +212,7 @@ public class Keyboard {
          */
         public int verticalGap;
 
-        ArrayList<Keyboard.Key> mKeys = new ArrayList<Keyboard.Key>();
+        public ArrayList<Keyboard.Key> mKeys = new ArrayList<Keyboard.Key>();
 
         /**
          * Edge flags for this row of keys. Possible values that can be assigned are
@@ -225,7 +225,7 @@ public class Keyboard {
          */
         public int mode;
 
-        private Keyboard parent;
+        public Keyboard parent;
 
         public Row(Keyboard parent) {
             this.parent = parent;
@@ -338,7 +338,7 @@ public class Keyboard {
         /**
          * The keyboard that this key belongs to
          */
-        private Keyboard keyboard;
+        public Keyboard keyboard;
         /**
          * If this key pops up a mini keyboard, this is the resource id for the XML layout for that
          * keyboard.
@@ -350,26 +350,26 @@ public class Keyboard {
         public boolean repeatable;
 
 
-        private final static int[] KEY_STATE_NORMAL_ON = {
+        public final static int[] KEY_STATE_NORMAL_ON = {
             android.R.attr.state_checkable, android.R.attr.state_checked
         };
 
-        private final static int[] KEY_STATE_PRESSED_ON = {
+        public final static int[] KEY_STATE_PRESSED_ON = {
             android.R.attr.state_pressed, android.R.attr.state_checkable, android.R.attr.state_checked
         };
 
-        private final static int[] KEY_STATE_NORMAL_OFF = {
+        public final static int[] KEY_STATE_NORMAL_OFF = {
             android.R.attr.state_checkable
         };
 
-        private final static int[] KEY_STATE_PRESSED_OFF = {
+        public final static int[] KEY_STATE_PRESSED_OFF = {
             android.R.attr.state_pressed, android.R.attr.state_checkable
         };
 
-        private final static int[] KEY_STATE_NORMAL = {
+        public final static int[] KEY_STATE_NORMAL = {
         };
 
-        private final static int[] KEY_STATE_PRESSED = {
+        public final static int[] KEY_STATE_PRESSED = {
             android.R.attr.state_pressed
         };
 
@@ -477,7 +477,7 @@ public class Keyboard {
             }
         }
 
-        int[] parseCSV(String value) {
+        public int[] parseCSV(String value) {
             int count = 0;
             int lastIndex = 0;
             if (value.length() > 0) {
@@ -682,7 +682,7 @@ public class Keyboard {
         rows.add(row);
     }
 
-    final void resize(int newWidth, int newHeight) {
+    public final void resize(int newWidth, int newHeight) {
         int numRows = rows.size();
         for (int rowIndex = 0; rowIndex < numRows; ++rowIndex) {
             Keyboard.Row row = rows.get(rowIndex);
@@ -721,35 +721,35 @@ public class Keyboard {
         return mModifierKeys;
     }
 
-    protected int getHorizontalGap() {
+    public int getHorizontalGap() {
         return mDefaultHorizontalGap;
     }
 
-    protected void setHorizontalGap(int gap) {
+    public void setHorizontalGap(int gap) {
         mDefaultHorizontalGap = gap;
     }
 
-    protected int getVerticalGap() {
+    public int getVerticalGap() {
         return mDefaultVerticalGap;
     }
 
-    protected void setVerticalGap(int gap) {
+    public void setVerticalGap(int gap) {
         mDefaultVerticalGap = gap;
     }
 
-    protected int getKeyHeight() {
+    public int getKeyHeight() {
         return mDefaultHeight;
     }
 
-    protected void setKeyHeight(int height) {
+    public void setKeyHeight(int height) {
         mDefaultHeight = height;
     }
 
-    protected int getKeyWidth() {
+    public int getKeyWidth() {
         return mDefaultWidth;
     }
 
-    protected void setKeyWidth(int width) {
+    public void setKeyWidth(int width) {
         mDefaultWidth = width;
     }
 
@@ -794,7 +794,7 @@ public class Keyboard {
         return mShiftKeyIndices[0];
     }
 
-    private void computeNearestNeighbors() {
+    public void computeNearestNeighbors() {
         // Round-up so we don't have any pixels outside the grid
         mCellWidth = (getMinWidth() + GRID_WIDTH - 1) / GRID_WIDTH;
         mCellHeight = (getHeight() + GRID_HEIGHT - 1) / GRID_HEIGHT;
@@ -839,15 +839,15 @@ public class Keyboard {
         return new int[0];
     }
 
-    protected Keyboard.Row createRowFromXml(Resources res, XmlResourceParser parser) {
+    public Keyboard.Row createRowFromXml(Resources res, XmlResourceParser parser) {
         return new Keyboard.Row(res, this, parser);
     }
 
-    protected Keyboard.Key createKeyFromXml(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
+    public Keyboard.Key createKeyFromXml(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
         return new Keyboard.Key(res, parent, x, y, parser);
     }
 
-    private void loadKeyboard(Context context, XmlResourceParser parser) {
+    public void loadKeyboard(Context context, XmlResourceParser parser) {
         boolean inKey = false;
         boolean inRow = false;
         boolean leftMostKey = false;
@@ -926,7 +926,7 @@ public class Keyboard {
         mTotalHeight = y - mDefaultVerticalGap;
     }
 
-    private void skipToEndOfRow(XmlResourceParser parser) throws XmlPullParserException, IOException {
+    public void skipToEndOfRow(XmlResourceParser parser) throws XmlPullParserException, IOException {
         int event;
         while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
             if (event == XmlResourceParser.END_TAG && parser.getName().equals(TAG_ROW)) {
@@ -935,7 +935,7 @@ public class Keyboard {
         }
     }
 
-    private void parseKeyboardAttributes(Resources res, XmlResourceParser parser) {
+    public void parseKeyboardAttributes(Resources res, XmlResourceParser parser) {
         TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser), R.styleable.Keyboard);
 
         mDefaultWidth = getDimensionOrFraction(a, R.styleable.Keyboard_keyWidth, mDisplayWidth, mDisplayWidth / 10);
@@ -947,7 +947,7 @@ public class Keyboard {
         a.recycle();
     }
 
-    static int getDimensionOrFraction(TypedArray a, int index, int base, int defValue) {
+    public static int getDimensionOrFraction(TypedArray a, int index, int base, int defValue) {
         TypedValue value = a.peekValue(index);
         if (value == null) {
             return defValue;

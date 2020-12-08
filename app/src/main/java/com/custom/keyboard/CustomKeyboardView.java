@@ -77,10 +77,6 @@ public class CustomKeyboardView extends KeyboardView {
         return clipboardHistoryArray;
     }
 
-    ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16",   "-8",   "-9",  "-10",  "-11",  "-12",  "-23",  "-70",  "-34", "-175", "-127", "-143", "-103", "-93",  "-135", "-137", "-136", "-144", "-142", "-22"));
-    // ArrayList<String> topRowKeysDefault = new ArrayList<>(Arrays.asList("-20", "-21", "-13", "-14", "-15", "-16", "-8", "-9", "-10", "-11", "-12", "-23"));
-    int[] longPressKeys = {-2, -5, -7, -12, -15, -16, -200, -299, -501, -502, -503, -504, -505, -506, -507, -508, -509, -510, -511, -512, -513};
-
     @Override
     protected boolean onLongPress(Key key) {
         if (key.popupCharacters != null) {
@@ -90,7 +86,7 @@ public class CustomKeyboardView extends KeyboardView {
         if (key.codes == null) {
             return true;
         }
-        if (StringUtils.contains(longPressKeys, key.codes[0])) {
+        if (StringUtils.contains(Constants.longPressKeys, key.codes[0])) {
             return true;
         }
         if (key.popupCharacters == null || key.popupCharacters.length() == 0) {
@@ -361,29 +357,34 @@ public class CustomKeyboardView extends KeyboardView {
                     mPaint.setColor(foreground);
                     canvas.drawText(((getKeyboard().isShifted())
                         ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                        : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+key.width/2, key.y+36, mPaint);
+                        : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), 
+                        key.x+key.width/2, key.y+30, mPaint);
                 }
                 else {
                     mPaint.setColor(foreground);
                     if (key.popupCharacters.length() > 0 && sharedPreferences.getBoolean("hint1", false)) {
                         canvas.drawText(((getKeyboard().isShifted())
                             ? String.valueOf(key.popupCharacters.charAt(0)).toUpperCase()
-                            : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), key.x+20, key.y+30, mPaint);
+                            : String.valueOf(key.popupCharacters.charAt(0)).toLowerCase()), 
+                            key.x+20, key.y+30, mPaint);
                     }
                     if (key.popupCharacters.length() > 1 && sharedPreferences.getBoolean("hint2", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                             ? String.valueOf(key.popupCharacters.charAt(1)).toUpperCase()
-                            : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), key.x+(key.width-20), key.y+30, mPaint);
+                            : String.valueOf(key.popupCharacters.charAt(1)).toLowerCase()), 
+                            key.x+(key.width-20), key.y+30, mPaint);
                     }
                     if (key.popupCharacters.length() > 2 && sharedPreferences.getBoolean("hint3", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                             ? String.valueOf(key.popupCharacters.charAt(2)).toUpperCase()
-                            : String.valueOf(key.popupCharacters.charAt(2)).toLowerCase()), key.x+20, key.y+key.height-15, mPaint);
+                            : String.valueOf(key.popupCharacters.charAt(2)).toLowerCase()), 
+                            key.x+20, key.y+key.height-15, mPaint);
                     }
                     if (key.popupCharacters.length() > 3 && sharedPreferences.getBoolean("hint4", false)) {
                         canvas.drawText((getKeyboard().isShifted()
                             ? String.valueOf(key.popupCharacters.charAt(3)).toUpperCase()
-                            : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), key.x+(key.width-20), key.y+key.height-15, mPaint);
+                            : String.valueOf(key.popupCharacters.charAt(3)).toLowerCase()), 
+                            key.x+(key.width-20), key.y+key.height-15, mPaint);
                     }
                 }
                 canvas.restore();

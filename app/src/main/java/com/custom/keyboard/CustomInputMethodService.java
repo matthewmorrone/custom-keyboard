@@ -227,7 +227,6 @@ public class CustomInputMethodService extends InputMethodService
         updateCandidates();
 
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-
 /*
         try {
             setKeyboard(sharedPreferences.getInt("current_layout", 0), sharedPreferences.getString("current_layout_title", ""));
@@ -303,6 +302,7 @@ public class CustomInputMethodService extends InputMethodService
     public void setImeOptions(Keyboard.Key mEnterKey, int options) {
         if (mEnterKey == null) return;
         switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
+/*
             case EditorInfo.IME_ACTION_GO:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_go, null);
@@ -311,6 +311,7 @@ public class CustomInputMethodService extends InputMethodService
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_next, null);
             break;
+*/
             case EditorInfo.IME_ACTION_SEARCH:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_find, null);
@@ -381,9 +382,11 @@ public class CustomInputMethodService extends InputMethodService
     public void onKeyLongPress(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         switch (primaryCode) {
+            case 32: handleAction();
             case -2: handleTab(); break;
             case -5: deletePrevWord(); break;
             case -7: deleteNextWord(); break;
+            case -11: toggleSelection(); break;
             case -12: selectAll(); break;
             case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
             case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
@@ -750,11 +753,17 @@ public class CustomInputMethodService extends InputMethodService
         commitText(ins, cursorLocation + (ins != null ? ins.length() : 1));
         ic.endBatchEdit();
     }
-
+    public void toggleSelection() {
+        Variables.toggleSelecting(getSelectionStart());
+    }
     public String getCurrentWord() {
-        // @TODO: if at word boundary, should return the word it's actually touching:
-        // "one| two" should return one, "one |two" should return two
         return getPrevWord()+getNextWord();
+    }
+    public void selectCurrentWord() {
+        int start = getSelectionStart() - getPrevWord().length();
+        int end   = getSelectionStart() + getNextWord().length();
+        InputConnection ic = getCurrentInputConnection();
+        ic.setSelection(start, end);
     }
     public String getPrevWord() {
         InputConnection ic = getCurrentInputConnection();
@@ -1788,28 +1797,31 @@ public class CustomInputMethodService extends InputMethodService
         }
         redraw();
     }
-    public void handleEnter() {
+
+    public void handleAction() {
         InputConnection ic = getCurrentInputConnection();
         EditorInfo editorInfo = getCurrentInputEditorInfo();
-        switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) { /*
+        switch (editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) {
+/*
             case EditorInfo.IME_ACTION_DONE:
-                ToastIt.text(getBaseContext(), "done");
+                ToastIt.debug(getBaseContext(), "done");
                 ic.performEditorAction(EditorInfo.IME_ACTION_DONE);
-            break; */
+            break;
+*/
             case EditorInfo.IME_ACTION_GO:
-                ToastIt.text(getBaseContext(), "go");
+                ToastIt.debug(getBaseContext(), "go");
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
             break;
             case EditorInfo.IME_ACTION_SEARCH:
-                ToastIt.text(getBaseContext(), "search");
+                ToastIt.debug(getBaseContext(), "search");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
             break;
             case EditorInfo.IME_ACTION_NEXT:
-                ToastIt.text(getBaseContext(), "next");
+                ToastIt.debug(getBaseContext(), "next");
                 ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
             break;
             case EditorInfo.IME_ACTION_SEND:
-                ToastIt.text(getBaseContext(), "send");
+                ToastIt.debug(getBaseContext(), "send");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
             break;
             default:
@@ -1819,6 +1831,17 @@ public class CustomInputMethodService extends InputMethodService
                 }
             break;
         }
+    }
+
+    public void handleEnter() {
+        handleAction();
+/*
+        EditorInfo editorInfo = getCurrentInputEditorInfo();
+        commitText("\n", 1);
+        if (sharedPreferences.getBoolean("indent", false)) {
+            commitText(StringUtils.getIndentation(getPrevLine()), 0);
+        }
+*/
     }
 
     String clipboardHistory = new String();
@@ -1953,7 +1976,6 @@ public class CustomInputMethodService extends InputMethodService
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
             case 10:
                 handleEnter();
-
             break;
             case -1: handleShift(); break;
             case -2: handleSpace(); break;
@@ -1965,7 +1987,7 @@ public class CustomInputMethodService extends InputMethodService
             case -8: handleCut(); break;
             case -9: handleCopy(); break;
             case -10: handlePaste(); break;
-            case -11: Variables.toggleSelecting(getSelectionStart()); break;
+            case -11: selectCurrentWord(); break;
             case -12: selectLine(); break;
             case -13: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
             case -14: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
@@ -2207,6 +2229,8 @@ public class CustomInputMethodService extends InputMethodService
             case -179: IntentUtils.openWebpage(getBaseContext(), getSelectedText(ic)); break;
             case -180: IntentUtils.searchWeb(getBaseContext(), getSelectedText(ic)); break;
             case -181: IntentUtils.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
+
+            /*
             case -182: break;
             case -183: break;
             case -184: break;
@@ -2225,8 +2249,6 @@ public class CustomInputMethodService extends InputMethodService
             case -197: break;
             case -198: break;
             case -199: break;
-
-            /*
             case -200: break;
             case -201: break;
             case -202: break;
@@ -2238,7 +2260,6 @@ public class CustomInputMethodService extends InputMethodService
             case -208: break;
             case -209: break;
             */
-
 
             case -299:
                 // popupKeyboard(getKey(-299));
