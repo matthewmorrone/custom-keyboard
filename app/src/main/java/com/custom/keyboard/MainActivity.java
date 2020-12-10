@@ -50,6 +50,9 @@ public class MainActivity extends Activity {
             @Override
             public void onToggleSoftKeyboard(boolean isVisible) {
                 keyboardVisible = isVisible;
+                Intent intent = new Intent("KeyboardVisibility");
+                intent.putExtra("isVisible", isVisible);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }
         });
     }

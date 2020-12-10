@@ -84,7 +84,18 @@ public class IntentUtils {
 
     }
 
+    public static void searchGoogle(Context context, String query) {
+        if (query.isEmpty()) return;
+        Uri uri = Uri.parse("http://www.google.com");
+        // Intent intent = new Intent();
+        Intent intent  = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setAction(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, query);
+        context.startActivity(intent);
+    }
+
     public static void openWebpage(Context context, String url) {
+
         if (url.isEmpty()) return;
         if (!StringUtils.isValidUrl(url)) url = "https://"+url;
         if (!StringUtils.isValidUrl(url)) {

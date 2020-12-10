@@ -1,9 +1,11 @@
 package com.custom.keyboard;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,7 +53,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.emoticon.Emoticon;
@@ -78,9 +79,11 @@ import org.mariuszgromada.math.mxparser.Expression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.Timer;
@@ -120,6 +123,13 @@ public class CustomInputMethodService extends InputMethodService
     private SpellChecker mSpellChecker;
     private SpellCheckerSession mScs;
 
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            System.out.println("onReceive: "+context+" "+intent);
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -134,6 +144,8 @@ public class CustomInputMethodService extends InputMethodService
         longPressTimer = new Timer();
 
         sharedPreferences = getPreferences(); // this?
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("KeyboardVisibility"));
 
         new ToastIt(sharedPreferences, getLayoutInflater());
     }
@@ -1024,7 +1036,7 @@ public class CustomInputMethodService extends InputMethodService
                 if (i < n-1) sb.append(",");
             }
         }
-        sendDataToErrorOutput(sb.toString());
+        // sendDataToErrorOutput(sb.toString());
         displaySuggestions(sb.toString());
     }
 
@@ -1044,13 +1056,11 @@ public class CustomInputMethodService extends InputMethodService
                 }
             }
         }
-        sendDataToErrorOutput(sb.toString());
+        // sendDataToErrorOutput(sb.toString());
         displaySuggestions(sb.toString());
     }
 
     private void displaySuggestions(final String suggestions) {
-
-
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
                 String[] wordInfos = suggestions.toString().split("\n");
@@ -1061,25 +1071,31 @@ public class CustomInputMethodService extends InputMethodService
                 prevWord = prevWord.toLowerCase();
                 ArrayList<String> results = new ArrayList<String>();
 
-                if (wordInfos.length < 1) {
-                    // boolean inTrie = SpellChecker.inTrie(prevWord);
-                    boolean isPrefix = SpellChecker.isPrefix(prevWord);
+                boolean useSystem = sharedPreferences.getBoolean("use_system_spellcheck", false);
+                boolean useCustom = sharedPreferences.getBoolean("use_custom_spellcheck", false);
+                System.out.println("useSystem: "+useSystem+", useCustom: "+useCustom);
+                // System.out.println("suggestions: "+suggestions);
 
-                    results.add(prevWord);
-
-                    ArrayList<String> common = SpellChecker.getCommon(prevWord);
-                    results.addAll(common);
-                    if (isPrefix) {
-                        results.addAll(SpellChecker.getCompletions(prevWord));
-                    }
-                }
-                else {
+                if (useSystem) {
                     results.add(prevWord);
                     for(String s : prevWordInfos.toString().split(",")) {
                         if (s.isEmpty() || s.trim().isEmpty()) continue;
-                        results.add(s);
+                        results.add(/*"#"+*/s);
                     }
                 }
+                if (useCustom) { /*wordInfos.length < 1 && */
+                    // boolean inTrie = SpellChecker.inTrie(prevWord);
+                    boolean isPrefix = SpellChecker.isPrefix(prevWord);
+
+                    // results.add(prevWord);
+
+                    ArrayList<String> common = SpellChecker.getCommon(prevWord);
+                    if (isPrefix) {
+                        common.addAll(SpellChecker.getCompletions(prevWord));
+                    }
+                    results.addAll(common);
+                }
+                if (results.size() < 1) return;
 
                 if (isUpperCase) {
                     for(int i = 0; i < results.size(); i++) {
@@ -1092,17 +1108,22 @@ public class CustomInputMethodService extends InputMethodService
                     }
                 }
 
+
+                Set<String> set = new LinkedHashSet<>(results);
+                results.clear();
+                results.addAll(set);
+
                 mCandidateView.setSuggestions(results, true, true);
             }
         });
     }
 
     private void fetchSuggestionsFor(String input) {
-        sendDataToErrorOutput(input);
+        // sendDataToErrorOutput(input);
         if(!input.isEmpty()) {
             try {
                 // mScs.getSuggestions(new TextInfo(input), 5);
-                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 5);
+                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 10);
             }
             catch(Exception e) {
                 sendDataToErrorOutput(e.toString());
@@ -2154,17 +2175,14 @@ public class CustomInputMethodService extends InputMethodService
             case -119: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
             case -120: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
             case -121: IntentUtils.showClipboard(getBaseContext()); break;
-            case -122: break;
-            case -123: break;
-            case -124: break;
-            case -125: break;
+
             case -126: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 2, 10)); break;
             case -127: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 2)); break;
             case -128: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 8, 10)); break;
             case -129: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 8)); break;
             case -130: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 16, 10)); break;
             case -131: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 16)); break;
-            case -132: break;
+
             case -133: setKeyboard(R.layout.domain, "Domain"); break;
             case -134: setKeyboard(R.layout.numeric, "Numeric"); break;
             case -135: setKeyboard(R.layout.navigation, "Navigation"); break;
@@ -2206,8 +2224,7 @@ public class CustomInputMethodService extends InputMethodService
             case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -168: break;
-            case -169: break;
+
             case -170:
                 if (!isSelecting()) selectLine();
                 performReplace(StringUtils.toggleHtmlComment(getSelectedText(ic)));
@@ -2232,6 +2249,16 @@ public class CustomInputMethodService extends InputMethodService
             case -182: IntentUtils.searchWikipedia(getBaseContext(), getSelectedText(ic)); break;
 
             /*
+            case -122: break;
+            case -123: break;
+            case -124: break;
+            case -125: break;
+
+            case -132: break;
+
+            case -168: break;
+            case -169: break;
+
             case -183: break;
             case -184: break;
             case -185: break;
@@ -2261,12 +2288,8 @@ public class CustomInputMethodService extends InputMethodService
             case -209: break;
             */
 
-            case -299:
-                // popupKeyboard(getKey(-299));
-                commitText(".com");
-            break;
+            case -299: commitText(".com"); /* popupKeyboard(getKey(-299)); */ break;
             case -300: clearClipboardHistory(); break;
-
             case -301: commitText(String.valueOf(Util.orNull(getKey(-301).label, ""))); break;
             case -302: commitText(String.valueOf(Util.orNull(getKey(-302).label, ""))); break;
             case -303: commitText(String.valueOf(Util.orNull(getKey(-303).label, ""))); break;
@@ -2356,20 +2379,6 @@ public class CustomInputMethodService extends InputMethodService
             });
         }
     }
-
-    /*
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            System.out.println("onReceive"+" "+context+" "+intent);
-            if (Util.orNull(intent.getAction(), "").equals("FindReplace")) {
-                String oldText = Util.orNull(intent.getStringExtra("oldText"), "");
-                String newText = Util.orNull(intent.getStringExtra("newText"), "");
-                ToastIt.text(context, oldText+" → "+newText);
-            }
-        }
-    };
-    */
 
     public void displayFindMenu() {
 

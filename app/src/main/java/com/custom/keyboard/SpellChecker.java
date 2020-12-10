@@ -97,7 +97,7 @@ public class SpellChecker {
         }
         ArrayList<String> strings = new ArrayList<>();
         for (TrieNode trieNode : result) {
-            strings.add(trieNode.getWord());
+            strings.add(/*"*"+*/trieNode.getWord());
         }
         strings.remove(word);
         return strings;
