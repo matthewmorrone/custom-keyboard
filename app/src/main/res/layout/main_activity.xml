@@ -79,6 +79,7 @@
             android:breakStrategy="high_quality"
             android:hint="@string/test"
             android:text=""
+            android:imeOptions="actionUnspecified"
             android:lines="1" />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -100,11 +101,13 @@
                 android:layout_below="@id/toggle_extras"
                 android:orientation="vertical">
                 <EditText android:hint="text"                android:inputType="text"                style="@style/editText_style" />
-                <EditText android:hint="text|actionDone"     android:inputType="text"        android:imeOptions="actionDone"            style="@style/editText_style" />
-                <EditText android:hint="text|actionGo"       android:inputType="text"        android:imeOptions="actionGo"              style="@style/editText_style" />
-                <EditText android:hint="text|actionNext"     android:inputType="text"        android:imeOptions="actionNext"            style="@style/editText_style" />
-                <EditText android:hint="text|actionSearch"   android:inputType="text"        android:imeOptions="actionSearch"          style="@style/editText_style" />
-                <EditText android:hint="text|actionSend"     android:inputType="text"        android:imeOptions="actionSend"            style="@style/editText_style" />
+                <EditText android:hint="text|actionNone"        android:inputType="text"        android:imeOptions="actionNone"            style="@style/editText_style" />
+                <EditText android:hint="text|actionUnspecified" android:inputType="text"        android:imeOptions="actionUnspecified"     style="@style/editText_style" />
+                <EditText android:hint="text|actionDone"        android:inputType="text"        android:imeOptions="actionDone"            style="@style/editText_style" />
+                <EditText android:hint="text|actionGo"          android:inputType="text"        android:imeOptions="actionGo"              style="@style/editText_style" />
+                <EditText android:hint="text|actionNext"        android:inputType="text"        android:imeOptions="actionNext"            style="@style/editText_style" />
+                <EditText android:hint="text|actionSearch"      android:inputType="text"        android:imeOptions="actionSearch"          style="@style/editText_style" />
+                <EditText android:hint="text|actionSend"        android:inputType="text"        android:imeOptions="actionSend"            style="@style/editText_style" />
                 <EditText android:hint="textUri"             android:inputType="textUri"             style="@style/editText_style" />
                 <EditText android:hint="text|0123456789"     android:inputType="text"                style="@style/editText_style" android:digits="0123456789" />
                 <EditText android:hint="number|0123456789"   android:inputType="number"              style="@style/editText_style" android:digits="0123456789" />
