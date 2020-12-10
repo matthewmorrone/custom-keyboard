@@ -99,7 +99,6 @@ public class MainActivity extends Activity {
                     }
                     errorOutput.setText(errorOutput.getText()+intent.getStringExtra("data"));
                 }
-
             }
         }
     };

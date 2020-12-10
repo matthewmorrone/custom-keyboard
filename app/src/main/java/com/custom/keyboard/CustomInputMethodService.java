@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
@@ -80,11 +81,9 @@ import org.mariuszgromada.math.mxparser.Expression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.Timer;
@@ -126,9 +125,7 @@ public class CustomInputMethodService extends InputMethodService
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            System.out.println("onReceive: "+context+" "+intent);
-        }
+        public void onReceive(Context context, Intent intent) {}
     };
 
     @Override
@@ -138,7 +135,6 @@ public class CustomInputMethodService extends InputMethodService
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         mSpellChecker = new SpellChecker(getApplicationContext(), true);
-
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
@@ -1205,11 +1201,29 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    public Cursor checkUserDictionary(String word) {
+        return getContentResolver().query(
+            UserDictionary.Words.CONTENT_URI,
+            new String[]{
+                UserDictionary.Words._ID,
+                UserDictionary.Words.WORD
+            },
+            UserDictionary.Words.WORD + " = ?",
+            new String[]{word},
+            null
+        );
+    }
+    public boolean inUserDictionary(String word) {
+        return checkUserDictionary(word).getCount() == 0;
+    }
+
     public void addToDictionary(String word) {
         if (word.trim().isEmpty()) return;
-        UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
-        mSpellChecker.addToTrie(word);
-        ToastIt.text(getBaseContext(), word+" added to dictionary");
+        if (!inUserDictionary(word)) {
+            UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
+            mSpellChecker.addToTrie(word);
+            ToastIt.text(getBaseContext(), word+" added to dictionary");
+        }
     }
     public void pickDefaultCandidate() {
         pickSuggestionManually(0);
