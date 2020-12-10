@@ -127,19 +127,19 @@ public class PreferenceFragment
     public void resetClipboardHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().remove("clipboard_history").apply();
-        ToastIt.text(baseContext, "Clipboard History Reset");
+        ToastIt.info(baseContext, "Clipboard History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
     public void resetEmoticonHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_emoticons", "").apply();
-        ToastIt.text(baseContext, "Emoticon History Reset");
+        ToastIt.info(baseContext, "Emoticon History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
     public void resetUnicodeHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext);
         sharedPreferences.edit().putString("recent_unicode", "").apply();
-        ToastIt.text(baseContext, "Unicode History Reset");
+        ToastIt.info(baseContext, "Unicode History Reset");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
     public void importPreferences() {
@@ -190,7 +190,7 @@ public class PreferenceFragment
         String targetFileName = targetFile.getName();
 
         long fileId = downloadManager.addCompletedDownload(sourceFileName, sourceFileName, true, "text/plain", targetFile.getAbsolutePath(), sourceContents.length(), true);
-        ToastIt.text(baseContext, "saved to "+targetFile.getPath());
+        ToastIt.info(baseContext, "saved to "+targetFile.getPath());
 
         /*
         // System.out.println(downloadManager.getUriForDownloadedFile(fileId).getPath());
@@ -230,7 +230,7 @@ public class PreferenceFragment
         }
         baseContext.deleteSharedPreferences("shared_prefs");
         setDefaultPreferences();
-        ToastIt.text(baseContext, "All Preferences Reset!");
+        ToastIt.info(baseContext, "All Preferences Reset!");
         onSharedPreferenceChanged(sharedPreferences, "");
     }
 
@@ -308,11 +308,11 @@ public class PreferenceFragment
                     }
                     editor.apply();
                 }
-                ToastIt.text(baseContext, "Preferences Imported!");
+                ToastIt.info(baseContext, "Preferences Imported!");
             }
             catch (IOException e) {
                 e.printStackTrace();
-                ToastIt.text(baseContext, "Preferences not imported");
+                ToastIt.info(baseContext, "Preferences not imported");
             }
             finally {
                 if (reader != null) {

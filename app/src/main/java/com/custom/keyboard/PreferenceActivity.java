@@ -23,7 +23,6 @@ import com.custom.keyboard.dialog.MultiSelectionListener;
 import com.custom.keyboard.dialog.SingleSelectionDialog;
 import com.custom.keyboard.dialog.SingleSelectionListener;
 import com.custom.keyboard.util.StringUtils;
-import com.custom.keyboard.util.ToastIt;
 import com.custom.keyboard.util.Util;
 
 import java.util.ArrayList;
@@ -60,8 +59,6 @@ public class PreferenceActivity extends Activity {
     private PopupWindow popupWindow = null;
 
     public void showTextEditor() {
-        ToastIt.debug(this, "show text editor");
-
         LayoutInflater li = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (li != null) {
             View textEditor = li.inflate(R.layout.text_editor, null);

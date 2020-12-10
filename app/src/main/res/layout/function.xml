@@ -52,17 +52,18 @@
         <Key android:codes="-72"  android:keyIcon="@drawable/ic_unique_lines" />
     </Row>
     <Row>
-        <Key android:codes="-178" android:keyIcon="@drawable/ic_phone" />
-        <Key android:codes="-179" android:keyIcon="@drawable/ic_webpage" />
-        <Key android:codes="-180" android:keyIcon="@drawable/ic_web_search" />
-        <Key android:codes="-181" android:keyIcon="@drawable/ic_map_search" />
-        <Key android:codes="-182" android:keyIcon="@drawable/ic_wikipedia" />
-        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:horizontalGap="30%" />
+        <Key android:codes="-177" android:keyIcon="@drawable/ic_phone" />
+        <Key android:codes="-178" android:keyIcon="@drawable/ic_webpage" />
+        <Key android:codes="-179" android:keyIcon="@drawable/ic_web_search" />
+        <Key android:codes="-180" android:keyIcon="@drawable/ic_map_search" />
+        <Key android:codes="-181" android:keyIcon="@drawable/ic_wikipedia" />
+        <Key android:codes="-182" android:keyIcon="@drawable/ic_share" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:horizontalGap="20%" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" />
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="12.5%p" />
-        <Key android:codes="-101" android:keyIcon="@drawable/ic_swap"            android:keyWidth="12.5%p" />
+        <Key android:codes="-128" android:keyIcon="@drawable/ic_swap"            android:keyWidth="12.5%p" />
         <Key android:codes="-2"   android:keyIcon="@drawable/ic_space"           android:keyWidth="50%p" />
         <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="25%p" />
     </Row>

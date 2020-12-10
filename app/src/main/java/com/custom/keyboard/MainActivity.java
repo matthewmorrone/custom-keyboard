@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
@@ -31,6 +33,12 @@ public class MainActivity extends Activity {
     LinearLayout errorLayout;
     LinearLayout inputLayout;
     public boolean keyboardVisible = false;
+
+    SharedPreferences sharedPreferences;
+
+    public SharedPreferences getPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); // this?
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +78,14 @@ public class MainActivity extends Activity {
                 // @TODO: implement ability to limit to selected text
                 String oldText = Util.orNull(intent.getStringExtra("oldText"), "");
                 String newText = Util.orNull(intent.getStringExtra("newText"), "");
-                ToastIt.text(context, newText);
+                ToastIt.debug(context, newText);
                 editText.setText(newText);
             }
             if (Util.notNull(intent.getAction()).equals("DebugHelper")) {
+                if (!getPreferences().getBoolean("output_to_detail_panel", false)) {
+                    ToastIt.error(context, intent.getStringExtra("data"));
+                    return;
+                }
                 if (intent.hasExtra("clear")) {
                     errorOutput.setText("");
                 }
@@ -87,6 +99,7 @@ public class MainActivity extends Activity {
                     }
                     errorOutput.setText(errorOutput.getText()+intent.getStringExtra("data"));
                 }
+
             }
         }
     };

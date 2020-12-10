@@ -355,7 +355,8 @@ public class CustomInputMethodService extends InputMethodService
                 case "-25":  customKey.icon = getResources().getDrawable(R.drawable.ic_input_method); break;
                 case "-26":  customKey.icon = getResources().getDrawable(R.drawable.ic_android_settings); break;
                 case "-27":  customKey.icon = getResources().getDrawable(R.drawable.ic_emoticon); break;
-                case "-103": customKey.icon = getResources().getDrawable(R.drawable.ic_macro); break;
+                case "-130": customKey.icon = getResources().getDrawable(R.drawable.ic_macro); break;
+                case "-132": customKey.icon = getResources().getDrawable(R.drawable.ic_coding); break;
                 case "-133": customKey.icon = getResources().getDrawable(R.drawable.ic_com); break;
                 case "-134": customKey.icon = getResources().getDrawable(R.drawable.ic_keypad); break;
                 case "-135": customKey.icon = getResources().getDrawable(R.drawable.ic_nav); break;
@@ -367,8 +368,7 @@ public class CustomInputMethodService extends InputMethodService
                 case "-142": customKey.icon = getResources().getDrawable(R.drawable.ic_function); break;
                 case "-143": customKey.icon = getResources().getDrawable(R.drawable.ic_calc); break;
                 case "-144": customKey.icon = getResources().getDrawable(R.drawable.ic_clipboard); break;
-                case "-174": customKey.icon = getResources().getDrawable(R.drawable.ic_coding); break;
-                case "-175": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode_grid); break;
+                case "-174": customKey.icon = getResources().getDrawable(R.drawable.ic_unicode_grid); break;
                 default:     customKey.icon = getResources().getDrawable(R.drawable.ic_emoticon); break;
             }
         }
@@ -1071,6 +1071,7 @@ public class CustomInputMethodService extends InputMethodService
                 prevWord = prevWord.toLowerCase();
                 ArrayList<String> results = new ArrayList<String>();
 
+                int suggestions = sharedPreferences.getInt("suggestions", 5);
                 boolean useSystem = sharedPreferences.getBoolean("use_system_spellcheck", false);
                 boolean useCustom = sharedPreferences.getBoolean("use_custom_spellcheck", false);
                 System.out.println("useSystem: "+useSystem+", useCustom: "+useCustom);
@@ -1091,7 +1092,7 @@ public class CustomInputMethodService extends InputMethodService
 
                     ArrayList<String> common = SpellChecker.getCommon(prevWord);
                     if (isPrefix) {
-                        common.addAll(SpellChecker.getCompletions(prevWord));
+                        common.addAll(SpellChecker.getCompletions(prevWord, suggestions));
                     }
                     results.addAll(common);
                 }
@@ -1120,10 +1121,13 @@ public class CustomInputMethodService extends InputMethodService
 
     private void fetchSuggestionsFor(String input) {
         // sendDataToErrorOutput(input);
+        int suggestions = sharedPreferences.getInt("suggestions", 5);
         if(!input.isEmpty()) {
             try {
                 // mScs.getSuggestions(new TextInfo(input), 5);
-                mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, 10);
+                if (mScs != null) {
+                    mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, suggestions);
+                }
             }
             catch(Exception e) {
                 sendDataToErrorOutput(e.toString());
@@ -1589,11 +1593,11 @@ public class CustomInputMethodService extends InputMethodService
         else {
             if (sharedPreferences.getBoolean("tabs", true)) {
                 commitText("	", false);
-                ToastIt.text(getBaseContext(), "tab");
+                ToastIt.debug(getBaseContext(), "tab");
             }
             else {
                 commitText(StringUtils.repeat(" ", indentWidth), false);
-                ToastIt.text(getBaseContext(), indentWidth+" spaces");
+                ToastIt.debug(getBaseContext(), indentWidth+" spaces");
             }
         }
         if (isSelecting()) ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
@@ -1728,7 +1732,7 @@ public class CustomInputMethodService extends InputMethodService
     private void handleUnicode(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
         String paddedHexBuffer = StringUtils.padLeft(hexBuffer, 4, "0");
-        if (primaryCode == -175) {
+        if (primaryCode == -174) {
             showUnicodePopup();
         }
         if (primaryCode == -201) {
@@ -1995,9 +1999,7 @@ public class CustomInputMethodService extends InputMethodService
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case 10:
-                handleEnter();
-            break;
+            case 10: handleEnter(); break;
             case -1: handleShift(); break;
             case -2: handleSpace(); break;
             case -3: break;
@@ -2008,8 +2010,11 @@ public class CustomInputMethodService extends InputMethodService
             case -8: handleCut(); break;
             case -9: handleCopy(); break;
             case -10: handlePaste(); break;
-            case -11: selectCurrentWord(); break;
-            case -12: selectLine(); break;
+            case -11: toggleSelection(); break;
+            case -12:
+                selectCurrentWord();
+                selectLine();
+            break;
             case -13: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
             case -14: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
             case -15: navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
@@ -2154,9 +2159,7 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(TextUtils.ununderline(getSelectedText(ic)));
                 performReplace(TextUtils.ununderscore(getSelectedText(ic)));
             break;
-            case -101: setKeyboard(R.layout.primary, "Primary"); break;
-            case -102: setKeyboard(R.layout.menu, "Menu"); break;
-            case -103: setKeyboard(R.layout.macros, "Macros"); break;
+
             case -104: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_SETTINGS); break;
@@ -2175,14 +2178,17 @@ public class CustomInputMethodService extends InputMethodService
             case -119: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
             case -120: IntentUtils.showActivity(getBaseContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
             case -121: IntentUtils.showClipboard(getBaseContext()); break;
-
-            case -126: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 2, 10)); break;
-            case -127: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 2)); break;
-            case -128: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 8, 10)); break;
-            case -129: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 8)); break;
-            case -130: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 16, 10)); break;
-            case -131: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 16)); break;
-
+            case -122: performReplace(StringUtils.convertNumberBase(getSelectedText(ic),  2, 10)); break;
+            case -123: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10,  2)); break;
+            case -124: performReplace(StringUtils.convertNumberBase(getSelectedText(ic),  8, 10)); break;
+            case -125: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10,  8)); break;
+            case -126: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 16, 10)); break;
+            case -127: performReplace(StringUtils.convertNumberBase(getSelectedText(ic), 10, 16)); break;
+            case -128: setKeyboard(R.layout.primary, "Primary"); break;
+            case -129: setKeyboard(R.layout.menu, "Menu"); break;
+            case -130: setKeyboard(R.layout.macros, "Macros"); break;
+            case -131: setKeyboard(R.layout.greek, "Greek"); break;
+            case -132: setKeyboard(R.layout.coding, "Coding"); break;
             case -133: setKeyboard(R.layout.domain, "Domain"); break;
             case -134: setKeyboard(R.layout.numeric, "Numeric"); break;
             case -135: setKeyboard(R.layout.navigation, "Navigation"); break;
@@ -2238,28 +2244,22 @@ public class CustomInputMethodService extends InputMethodService
                 performReplace(StringUtils.toggleLineComment(getSelectedText(ic)));
             break;
             case -173: displayFindMenu(); break;
-            case -174: setKeyboard(R.layout.coding, "Coding"); break;
-            case -175: showUnicodePopup(); break;
-            case -176: moveLeftOneWord(); break;
-            case -177: moveRightOneWord(); break;
-            case -178: IntentUtils.dialPhone(getBaseContext(), getSelectedText(ic)); break;
-            case -179: IntentUtils.openWebpage(getBaseContext(), getSelectedText(ic)); break;
-            case -180: IntentUtils.searchWeb(getBaseContext(), getSelectedText(ic)); break;
-            case -181: IntentUtils.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
-            case -182: IntentUtils.searchWikipedia(getBaseContext(), getSelectedText(ic)); break;
+            case -174: showUnicodePopup(); break;
+            case -175: moveLeftOneWord(); break;
+            case -176: moveRightOneWord(); break;
+            case -177: IntentUtils.dialPhone(getBaseContext(), getSelectedText(ic)); break;
+            case -178: IntentUtils.openWebpage(getBaseContext(), getSelectedText(ic)); break;
+            case -179: IntentUtils.searchWeb(getBaseContext(), getSelectedText(ic)); break;
+            case -180: IntentUtils.showLocationFromAddress(getBaseContext(), getSelectedText(ic)); break;
+            case -181: IntentUtils.searchWikipedia(getBaseContext(), getSelectedText(ic)); break;
+            case -182: IntentUtils.shareText(getBaseContext(), getSelectedText(ic)); break;
 
             /*
-            case -122: break;
-            case -123: break;
-            case -124: break;
-            case -125: break;
 
-            case -132: break;
 
             case -168: break;
             case -169: break;
 
-            case -183: break;
             case -184: break;
             case -185: break;
             case -186: break;

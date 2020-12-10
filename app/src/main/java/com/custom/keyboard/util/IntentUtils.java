@@ -11,11 +11,13 @@ import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
+import android.text.Html;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.custom.keyboard.PreferenceActivity;
 
+import java.io.File;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -56,6 +58,47 @@ public class IntentUtils {
     public static void showActivity(Context context, String id) {
         Intent intent = new Intent(id).setFlags(FLAG_ACTIVITY_NEW_TASK);
         startIntent(context, intent);
+    }
+
+    public static void shareText(Context context, String text) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        startIntent(context, Intent.createChooser(intent, "Share text using…"));
+    }
+    public static void shareHtml(Context context, String html) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(html));
+        startIntent(context, Intent.createChooser(intent, "Share text using…"));
+    }
+    public static void shareLink(Context context, String link) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.putExtra(Intent.EXTRA_TEXT, link);
+        startIntent(context, Intent.createChooser(intent, "Share link using…"));
+    }
+    public static void shareImage(Context context, String imagePath/*, String extension*/) {
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*"); // intent.setType("image/"+extension);
+        final File photoFile = new File(context.getFilesDir(), imagePath/*+"."+extension*/);
+        // Uri uri = Uri.fromFile(context.getFileStreamPath(imagePath));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+        startIntent(context, Intent.createChooser(intent, "Share image using…"));
+    }
+    public static void shareMultiple(Context context, String text, String imageUri) {
+        Uri pictureUri = Uri.parse(imageUri);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        intent.setType("image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startIntent(context, Intent.createChooser(intent, "Share images using…"));
     }
 
     public static void dialPhone(Context context, String phoneNumber) {

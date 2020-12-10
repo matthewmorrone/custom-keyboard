@@ -6,16 +6,14 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
-import android.view.inputmethod.EditorInfo;
 
 import com.custom.keyboard.util.CustomKey;
 import com.custom.keyboard.util.StringUtils;
-import com.custom.keyboard.util.Util;
 
 public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboard> {
 
     static final int KEYCODE_OPTIONS = -100;
-    static final int KEYCODE_LAYOUT_SWITCH = -101;
+    static final int KEYCODE_LAYOUT_SWITCH = -128;
 
     SharedPreferences sharedPreferences;
     public int xmlLayoutResId = R.layout.primary;
@@ -60,7 +58,7 @@ public class CustomKeyboard extends Keyboard implements Comparable<CustomKeyboar
 
     @Override
     public int compareTo(CustomKeyboard kb) {
-        if (this.order == 0) return -1024;
+        if (this.order == 0) return -1294;
         if (sharedPreferences.getBoolean("custom_order", false)) {
             if (this.order != kb.order) {
                 return this.order - kb.order;
