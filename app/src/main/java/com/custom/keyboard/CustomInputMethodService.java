@@ -61,6 +61,7 @@ import com.custom.keyboard.emoticon.EmoticonPopup;
 import com.custom.keyboard.unicode.Unicode;
 import com.custom.keyboard.unicode.UnicodeGridView;
 import com.custom.keyboard.unicode.UnicodePopup;
+import com.custom.keyboard.util.ArrayUtils;
 import com.custom.keyboard.util.Bounds;
 import com.custom.keyboard.util.Calculator;
 import com.custom.keyboard.util.CustomInputConnection;
@@ -1060,11 +1061,49 @@ public class CustomInputMethodService extends InputMethodService
         displaySuggestions(sb.toString());
     }
 
+    private void displayCustomSuggestions() {
+        String prevWord = getPrevWord();
+        boolean isTitleCase = StringUtils.isMixedCase(prevWord);
+        boolean isUpperCase = StringUtils.isUpperCase(prevWord) && prevWord.length() > 1;
+        int suggestions = sharedPreferences.getInt("suggestions", 5);
+
+        prevWord = prevWord.toLowerCase();
+        ArrayList<String> results = new ArrayList<String>();
+
+        // boolean inTrie = SpellChecker.inTrie(prevWord);
+        boolean isPrefix = SpellChecker.isPrefix(prevWord);
+
+        // results.add(prevWord);
+
+        ArrayList<String> common = SpellChecker.getCommon(prevWord);
+        if (isPrefix) {
+            common.addAll(SpellChecker.getCompletions(prevWord, suggestions));
+        }
+        results.addAll(common);
+
+        if (results.size() < 1) return;
+
+        if (isUpperCase) {
+            for(int i = 0; i < results.size(); i++) {
+                results.set(i, StringUtils.toUpperCase(results.get(i)));
+            }
+        }
+        else if (isTitleCase) {
+            for(int i = 0; i < results.size(); i++) {
+                results.set(i, StringUtils.toTitleCase(results.get(i)));
+            }
+        }
+
+        results = ArrayUtils.unique(results);
+
+        mCandidateView.setSuggestions(results, true, true);
+    }
+
     private void displaySuggestions(final String suggestions) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
-                String[] wordInfos = suggestions.toString().split("\n");
                 String prevWord = getPrevWord();
+                String[] wordInfos = suggestions.toString().split("\n");
                 String prevWordInfos = wordInfos[wordInfos.length-1];
                 boolean isTitleCase = StringUtils.isMixedCase(prevWord);
                 boolean isUpperCase = StringUtils.isUpperCase(prevWord) && prevWord.length() > 1;
@@ -1074,7 +1113,7 @@ public class CustomInputMethodService extends InputMethodService
                 int suggestions = sharedPreferences.getInt("suggestions", 5);
                 boolean useSystem = sharedPreferences.getBoolean("use_system_spellcheck", false);
                 boolean useCustom = sharedPreferences.getBoolean("use_custom_spellcheck", false);
-                System.out.println("useSystem: "+useSystem+", useCustom: "+useCustom);
+                // System.out.println("useSystem: "+useSystem+", useCustom: "+useCustom);
                 // System.out.println("suggestions: "+suggestions);
 
                 if (useSystem) {
@@ -1109,10 +1148,7 @@ public class CustomInputMethodService extends InputMethodService
                     }
                 }
 
-
-                Set<String> set = new LinkedHashSet<>(results);
-                results.clear();
-                results.addAll(set);
+                results = ArrayUtils.unique(results);
 
                 mCandidateView.setSuggestions(results, true, true);
             }
@@ -1127,6 +1163,9 @@ public class CustomInputMethodService extends InputMethodService
                 // mScs.getSuggestions(new TextInfo(input), 5);
                 if (mScs != null) {
                     mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(input)}, suggestions);
+                }
+                else {
+                    displayCustomSuggestions();
                 }
             }
             catch(Exception e) {
