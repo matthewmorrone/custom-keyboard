@@ -58,7 +58,9 @@
         <Key android:codes="-180" android:keyIcon="@drawable/ic_map_search" />
         <Key android:codes="-181" android:keyIcon="@drawable/ic_wikipedia" />
         <Key android:codes="-182" android:keyIcon="@drawable/ic_share" />
-        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" android:horizontalGap="20%" />
+        <Key android:codes="-168" android:keyIcon="@drawable/ic_hashing" />
+        <Key android:codes="-169" android:keyIcon="@drawable/ic_sha256" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" />
     </Row>
     <Row>

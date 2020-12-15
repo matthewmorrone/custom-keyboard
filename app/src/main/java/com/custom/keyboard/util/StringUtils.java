@@ -13,6 +13,8 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -36,6 +38,30 @@ import static com.custom.keyboard.util.RandomUtils.generateRandomInt;
 
 public class StringUtils {
     // info
+
+
+    public static String hash(String input) {
+        return String.valueOf(input.hashCode());
+    }
+    public static String sha256(String input) {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        if (messageDigest != null) {
+            messageDigest.update(input.getBytes());
+        }
+        String stringHash = null;
+        if (messageDigest != null) {
+            stringHash = new String(messageDigest.digest());
+        }
+        return stringHash;
+    }
+
+
 
 
     public static String serialize(List<String> dataList) {

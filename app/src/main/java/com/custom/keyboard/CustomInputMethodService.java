@@ -2286,7 +2286,8 @@ public class CustomInputMethodService extends InputMethodService
             case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
-
+            case -168: performReplace(StringUtils.hash(getSelectedText(ic))); break;
+            case -169: performReplace(StringUtils.sha256(getSelectedText(ic))); break;
             case -170:
                 if (!isSelecting()) selectLine();
                 performReplace(StringUtils.toggleHtmlComment(getSelectedText(ic)));
@@ -2311,10 +2312,6 @@ public class CustomInputMethodService extends InputMethodService
             case -182: IntentUtils.shareText(getBaseContext(), getSelectedText(ic)); break;
 
             /*
-
-
-            case -168: break;
-            case -169: break;
 
             case -184: break;
             case -185: break;
