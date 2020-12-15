@@ -211,6 +211,9 @@ public class CustomInputMethodService extends InputMethodService
         super.onStartInput(editorInfo, restarting);
         if (debug) System.out.println("onStartInput: "+editorInfo+" "+restarting);
 
+        // ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
         if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
             try {
                 indentWidth = Integer.valueOf(sharedPreferences.getString("indent_width", "4"));
@@ -2433,10 +2436,13 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    private Runnable delay = null;
+    private int timer = 500;
+
     public void displayFindMenu() {
 
-        final InputConnection inputConnection = getCurrentInputConnection();
-        final CustomInputConnection customInputConnection = new CustomInputConnection(inputConnection, false);
+        InputConnection inputConnection = getCurrentInputConnection();
+
         // if (getSelectionLength() == 0) selectAll();
 
         String val = "";
@@ -2463,7 +2469,6 @@ public class CustomInputMethodService extends InputMethodService
             final TextView close = (TextView)wordbar.findViewById(R.id.close);
 
             popupWindow = new PopupWindow(wordbar, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.black));
 
             popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
@@ -2472,79 +2477,51 @@ public class CustomInputMethodService extends InputMethodService
                 }
             });
 
-            popupWindow.setFocusable(false);
-            popupWindow.setOutsideTouchable(false);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            // popupWindow.setFocusable(false);
+            // popupWindow.setOutsideTouchable(false);
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.black));
+            // popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             popupWindow.showAtLocation(mCustomKeyboardView.getRootView(), Gravity.TOP, 0, 0);
 
-            final String finalVal = val;
-            go.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    String subject = finalVal;
-                    String find = findEditText.getText().toString();
-                    String repl = replEditText.getText().toString();
-                    String result = subject.replace(find, repl);
-
-                    new WaitForResult(customInputConnection, mInputMethodManager).execute(result);
-
-                    /*
-                    HashMap<String, String> cursorData = new HashMap<>();
-                    cursorData.put("oldText", subject);
-                    cursorData.put("newText", result);
-                    sendMessageToActivity("FindReplace", cursorData);
-                    */
-                }
-            });
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (popupWindow.isShowing()) popupWindow.dismiss();
                 }
             });
+
+            final String finalVal = val;
+
+            go.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    String subject = finalVal;
+                    String find = findEditText.getText().toString();
+                    String repl = replEditText.getText().toString();
+                    String result = subject.replace(find, repl);
+                    if (delay == null) {
+                        delay = new Runnable() {
+                            @Override
+                            public void run() {
+                                System.out.println(result);
+                                inputConnection.commitText(result, 1);
+                                ToastIt.text(getBaseContext(), result);
+                                if (delay != null) {
+                                    if (inputConnection.getHandler() != null) inputConnection.getHandler().postDelayed(delay, timer);
+                                    if (timer > 100) {
+                                        timer -= 200;
+                                    }
+                                }
+                            }
+                        };
+                        if (inputConnection.getHandler() != null) inputConnection.getHandler().post(delay);
+                    }
+                    return false;
+                }
+            });
         }
     }
-
-    private class WaitForResult extends AsyncTask<String, Void, String> {
-
-        private InputConnection inputConnection;
-        private InputMethodManager inputMethodManager;
-
-        public WaitForResult(InputConnection inputConnection, InputMethodManager inputMethodManager) {
-            this.inputConnection = inputConnection;
-            this.inputMethodManager = inputMethodManager;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                Thread.sleep(500);
-            }
-            catch (InterruptedException e) {
-                Thread.interrupted();
-            }
-            return String.join("", strings);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            popupWindow.dismiss();
-            ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-            clipboard.setText(result);
-
-            inputMethodManager.showSoftInputFromInputMethod(getToken(), InputMethodManager.SHOW_IMPLICIT);
-            inputMethodManager.restartInput(mCustomKeyboardView);
-            mCustomKeyboardView.setActivated(true);
-
-            // ToastIt.debug(getBaseContext(), inputConnection.getSelectedText(0) +" "+(String)clipboard.getText());
-            // inputConnection.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, EditorInfo.IME_ACTION_SEND, 0, 0));
-            performReplace(result);
-
-            inputConnection.commitText(result, 1);
-        }
-    };
 
     public void showEmoticonPopup() {
         LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
