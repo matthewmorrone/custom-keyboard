@@ -39,7 +39,8 @@
         <Key android:codes="0"    android:keyOutputText="\@gmail"     android:keyLabel="\@gmail" />
         <Key android:codes="0"    android:keyOutputText=".com"        android:keyLabel=".com" />
     </Row>
-    <Row android:keyWidth="16%p">
+    <Row android:keyWidth="13.33%p">
+        <Key android:codes="-183" android:keyLabel="[Ꮤ]" />
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-73"  android:keyLabel="🕐" />
