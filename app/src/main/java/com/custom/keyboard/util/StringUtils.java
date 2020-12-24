@@ -40,14 +40,23 @@ public class StringUtils {
     // info
 
     public static String removeCitations(String text) {
-return text
-.replaceAll("\\[\\d+\\]", "")
-.replaceAll("\\[edit\\]", "")
-.replaceAll("\\[edit.+?\\]", "")
-.replaceAll("\\[Citation Needed\\]", "")
-// .replaceAll("\\n\\n+", "\\n\\n")
-// .replaceAll("^\\s*(https?://en\\.wikipedia\\.org/wiki/(.+?))\\n(.+)$", "$2\\n\\n$3\\n\\n$1")
-;
+
+        String r = "(https?://en\\.wikipedia\\.org/wiki/(.+?))\\s+(.+)";
+        Pattern p = Pattern.compile(r, Pattern.DOTALL | Pattern.MULTILINE);
+        Matcher m = p.matcher(text);
+
+        if (!m.matches()) return text;
+
+        String url, title, body;
+
+        url = m.group(1);
+        title = m.group(2);
+        body = m.group(3);
+
+        if (title != null) title = title.replaceAll("_", " ").replaceAll("#", ": ");
+        if (body != null) body = body.replaceAll("\\[\\d+]", "");
+
+        return title+"\n\n"+body+"\n\n"+url;
     }
     public static String hash(String input) {
         return String.valueOf(input.hashCode());
