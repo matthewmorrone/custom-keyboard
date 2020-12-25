@@ -45,7 +45,7 @@ public class StringUtils {
         Pattern p = Pattern.compile(r, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = p.matcher(text);
 
-        if (!m.matches()) return text;
+        if (!m.matches()) return text.replaceAll("\\[\\d+]", "");
 
         String url, title, body;
 
