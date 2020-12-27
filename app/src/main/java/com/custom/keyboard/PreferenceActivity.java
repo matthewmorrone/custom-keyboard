@@ -38,6 +38,7 @@ public class PreferenceActivity extends Activity {
         setContentView(R.layout.pref);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         getFragmentManager().beginTransaction().replace(R.id.main, new PreferenceFragment()).commit();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("Initialize"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("RequestPermissions"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("ShowDialog"));
     }
@@ -45,6 +46,9 @@ public class PreferenceActivity extends Activity {
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (Util.orNull(intent.getAction(), "").equals("Initialize")) {
+                initialize();
+            }
             if (Util.orNull(intent.getAction(), "").equals("RequestPermissions")) {
                 permissions();
             }
@@ -55,6 +59,10 @@ public class PreferenceActivity extends Activity {
             }
         }
     };
+
+    public void initialize() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+    }
 
     private PopupWindow popupWindow = null;
 

@@ -756,7 +756,7 @@ public class CustomInputMethodService extends InputMethodService
     public String getAllText() {
         InputConnection ic = getCurrentInputConnection();
         return Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString()
-             + Util.orNull(ic.getTextAfterCursor(MAX, 0),  "").toString();
+             + Util.orNull(ic.getTextAfterCursor( MAX, 0), "").toString();
     }
 
     public void sendCustomKey(String key) {
@@ -780,40 +780,30 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             sendDataToErrorOutput(e.toString());
         }
-        // selectionMode = 0;
     }
-    
-    // public int selectionMode = 0;
-    // public int cursorPlaceholder = -1;
 
     public void selectWord() {
         InputConnection ic = getCurrentInputConnection();
-        // if (cursorPlaceholder > -1) {
-            // ic.setSelection(cursorPlaceholder, cursorPlaceholder);
-            // cursorPlaceholder = -1;
-        // }
+
         int start = getSelectionStart() - getPrevWord().length();
         int end   = getSelectionEnd() + getNextWord().length();
 
+        if ((int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
+
         ic.setSelection(start, end);
-        // selectionMode = 2;
     }
     public void selectLine() {
-        // cursorPlaceholder = getSelectionStart();
         sendKey(KeyEvent.KEYCODE_MOVE_HOME);
         Variables.setSelectingOn(getSelectionStart());
         navigate(KeyEvent.KEYCODE_MOVE_END);
         Variables.setSelectingOff();
-        // selectionMode = 1;
     }
     public void selectAll() {
         InputConnection ic = getCurrentInputConnection();
         ic.setSelection(0, (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length());
-        // selectionMode = 0;
     }
     public void toggleSelection() {
         Variables.toggleSelecting(getSelectionStart());
-        // selectionMode = 0;
     }
     public String getCurrentWord() {
         return getPrevWord()+getNextWord();
@@ -1661,7 +1651,7 @@ public class CustomInputMethodService extends InputMethodService
             commitText(indentString.substring(0, spaceCount), 0, false);
         }
         else {
-            if (sharedPreferences.getBoolean("tabs", true)) {
+            if (sharedPreferences.getBoolean("tabs", false)) {
                 commitText("	", false);
                 ToastIt.debug(getContext(), "tab");
             }
@@ -1673,23 +1663,40 @@ public class CustomInputMethodService extends InputMethodService
         if (isSelecting()) ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
         mCandidateView.clear();
     }
+
+    Stack<String> pairStack = new Stack<>();
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         ic.beginBatchEdit();
-
         if (isInputViewShown() && mCustomKeyboardView.isShifted()) primaryCode = Character.toUpperCase(primaryCode);
-if (sharedPreferences.getBoolean("pairs", true)
- && ic.getTextAfterCursor(1, 0) != null
- && ic.getTextAfterCursor(1, 0).length() > 0
- && !Character.isLetter(ic.getTextAfterCursor(1, 0).charAt(0))
-) {
-            String code = String.valueOf((char)primaryCode);
+        String code = String.valueOf((char)primaryCode);
+
+        System.out.println(pairStack);
+        // System.out.println(primaryCode+" "+code+" "+code.equals(")"));
+
+        if (!pairStack.empty() && ((pairStack.peek().equals("(") && code.equals(")"))
+            || (pairStack.peek().equals("[") && code.equals("]"))
+            || (pairStack.peek().equals("{") && code.equals("}"))
+            || (pairStack.peek().equals("'") && code.equals("'"))
+            || (pairStack.peek().equals("\"") && code.equals("\""))
+        )) {
+            sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
+            pairStack.pop();
+            return;
+        }
+        else if (sharedPreferences.getBoolean("pairs", true)
+         && (Util.orNull(ic.getTextAfterCursor(1, 0), "").length() == 0
+         || !Character.isLetter(Util.orNull(ic.getTextAfterCursor(1, 0), "").charAt(0)))
+        ) {
             if (StringUtils.contains("({\"[", code)) {
                 if (code.equals("(")) commitText("()", false);
                 if (code.equals("[")) commitText("[]", false);
                 if (code.equals("{")) commitText("{}", false);
+                if (code.equals("'")) commitText("'", 1, false);
                 if (code.equals("\"")) commitText("\"\"", 1, false);
                 sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+                pairStack.push(code);
+                System.out.println(pairStack);
                 return;
             }
         }
@@ -1716,11 +1723,10 @@ if (sharedPreferences.getBoolean("pairs", true)
         if (Variables.isReflected()) primaryCode = TextUtils.toReflected(primaryCode);
         if (Variables.isCaps()) primaryCode = TextUtils.toCaps(primaryCode);
 
-        char code = (char)primaryCode; // Util.largeIntToChar(primaryCode)
-        if (sharedPreferences.getBoolean("caps", false) && Character.isLetter(code) && firstCaps || Character.isLetter(code) && Variables.isShift()) {
-            code = Character.toUpperCase(code);
+        if (sharedPreferences.getBoolean("caps", false) && Character.isLetter((char)primaryCode) && Variables.isShift() && firstCaps) {
+            primaryCode = Character.toUpperCase(primaryCode);
         }
-        commitText(String.valueOf(code), 1, false);
+        commitText(String.valueOf((char)primaryCode), 1, false);
 
         if (Variables.isUnderlined()) commitText("̲", 1, false);
         if (Variables.isUnderscored()) commitText("꯭", 1, false);

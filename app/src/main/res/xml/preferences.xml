@@ -22,13 +22,13 @@
         <SwitchPreference android:key="pred"     android:title="Text Prediction" />
         <com.custom.keyboard.preferences.SeekPreference android:key="suggestions" android:title="Number of Suggestions" app:value="5" app:max="31" app:min="1" />
         <SwitchPreference android:key="auto"     android:title="Autoreplace" />
-        <SwitchPreference android:key="pairs"    android:title="Insert Paired Characters" />
+        <SwitchPreference android:key="pairs"    android:title="Insert Paired Characters" android:defaultValue="true"/>
         <SwitchPreference android:key="subtypes" android:title="Input Subtypes" />
-        <SwitchPreference android:key="afterspace" android:title="Insert Space After Committing Text" android:defaultValue="true"/>
+        <SwitchPreference android:key="afterspace" android:title="Insert Space After Committing Text" android:defaultValue="true" />
         <SwitchPreference android:key="toggle_shift"  android:title="Toggle Selected Case" android:summary="Change case of highlighted text on shift" />
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
-        <SwitchPreference android:key="indent" android:title="Indent Helper" android:summaryOff="" android:summaryOn="" />
+        <SwitchPreference android:key="indent" android:title="Indent Helper" android:summaryOff="" android:summaryOn="" android:defaultValue="true" />
         <SwitchPreference android:key="tabs"   android:title="Use Tabs" android:summaryOff="Use 4 Spaces" android:summaryOn="Use Tab Character" />
         <EditTextPreference android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>

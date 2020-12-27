@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -63,7 +64,14 @@ public class MainActivity extends Activity {
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }
         });
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+
+        // select(this.findViewById(R.id.main));
+        // settings(this.findViewById(R.id.main));
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -114,9 +122,15 @@ public class MainActivity extends Activity {
 
     public void select(View v) {
         InputMethodManager imeManager = (InputMethodManager)getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-        if (imeManager != null) {
-            imeManager.showInputMethodPicker();
-        }
+        if (imeManager != null) imeManager.showInputMethodPicker();
+    }
+
+    public void openAppInfo() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        finish();
+        startActivity(intent);
     }
 
     private void launchHomeScreen() {
