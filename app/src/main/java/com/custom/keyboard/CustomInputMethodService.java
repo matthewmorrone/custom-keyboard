@@ -1667,18 +1667,21 @@ public class CustomInputMethodService extends InputMethodService
     Stack<String> pairStack = new Stack<>();
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
+        
+        ToastIt.debug(getContext(), ""+StringUtils.contains(getAllText(), 0));
+        // performReplace(getAllText().replace(" ", ""));
+        performReplace(getAllText().replaceAll("[^\\p{Print}]", ""));
+
+
         ic.beginBatchEdit();
         if (isInputViewShown() && mCustomKeyboardView.isShifted()) primaryCode = Character.toUpperCase(primaryCode);
         String code = String.valueOf((char)primaryCode);
 
-        System.out.println(pairStack);
-        // System.out.println(primaryCode+" "+code+" "+code.equals(")"));
-
         if (!pairStack.empty() && ((pairStack.peek().equals("(") && code.equals(")"))
-            || (pairStack.peek().equals("[") && code.equals("]"))
-            || (pairStack.peek().equals("{") && code.equals("}"))
-            || (pairStack.peek().equals("'") && code.equals("'"))
-            || (pairStack.peek().equals("\"") && code.equals("\""))
+         || (pairStack.peek().equals("[") && code.equals("]"))
+         || (pairStack.peek().equals("{") && code.equals("}"))
+         || (pairStack.peek().equals("'") && code.equals("'"))
+         || (pairStack.peek().equals("\"") && code.equals("\""))
         )) {
             sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
             pairStack.pop();
@@ -1745,6 +1748,7 @@ public class CustomInputMethodService extends InputMethodService
         calcBuffer = text;
         redraw();
     }
+    
     static String calcBuffer = "";
     Stack<String> calcBufferHistory = new Stack<String>();
 
@@ -1939,6 +1943,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void handleEnter() {
+        performReplace(getAllText().replace("[^\\p{Print}]", ""));
         handleAction();
 /*
         EditorInfo editorInfo = getCurrentInputEditorInfo();
@@ -2802,7 +2807,8 @@ else {
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
-            PixelFormat.OPAQUE);
+            PixelFormat.OPAQUE
+        );
 
         params.gravity = Gravity.TOP | Gravity.CENTER;
         // params.x = 0;
