@@ -2,7 +2,6 @@ package com.custom.keyboard;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,13 +12,11 @@ import android.graphics.Color;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.ColorDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -65,7 +62,6 @@ import com.custom.keyboard.unicode.UnicodePopup;
 import com.custom.keyboard.util.ArrayUtils;
 import com.custom.keyboard.util.Bounds;
 import com.custom.keyboard.util.Calculator;
-import com.custom.keyboard.util.CustomInputConnection;
 import com.custom.keyboard.util.IntentUtils;
 import com.custom.keyboard.util.Sounds;
 import com.custom.keyboard.util.StringUtils;
@@ -128,7 +124,7 @@ public class CustomInputMethodService extends InputMethodService
         public void onReceive(Context context, Intent intent) {}
     };
     
-    public Context getContext() {
+    public Context context() {
         return getBaseContext();
     }
 
@@ -138,7 +134,7 @@ public class CustomInputMethodService extends InputMethodService
         if (debug) System.out.println("onCreate");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
-        mSpellChecker = new SpellChecker(getContext(), true);
+        mSpellChecker = new SpellChecker(context(), true);
         final TextServicesManager tsm = (TextServicesManager)getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
@@ -152,7 +148,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public SharedPreferences getPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(getContext()); // this?
+        return PreferenceManager.getDefaultSharedPreferences(context()); // this?
     }
 
     @Override
@@ -379,7 +375,7 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void setKeyboard(int id, String title) {
-        mCurrentKeyboard = new CustomKeyboard(getContext(), id);
+        mCurrentKeyboard = new CustomKeyboard(context(), id);
         mCurrentKeyboard.setRowNumber(getStandardRowNumber());
         mCurrentKeyboard.title = title;
         mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
@@ -445,7 +441,7 @@ public class CustomInputMethodService extends InputMethodService
         }, sharedPreferences.getInt("long_press_duration", ViewConfiguration.getLongPressTimeout()));
 
         if (sharedPreferences.getBoolean("vib", false)) {
-            Vibrator v = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            Vibrator v = (Vibrator)context().getSystemService(Context.VIBRATOR_SERVICE);
             if (v != null) v.vibrate(sharedPreferences.getInt("vibration_duration", 40));
         }
     }
@@ -609,7 +605,7 @@ public class CustomInputMethodService extends InputMethodService
         ic.endBatchEdit();
     }
 
-    public void performReplace(String newText) {
+    public void replaceInSelection(String newText) {
         InputConnection ic = getCurrentInputConnection();
         ic.beginBatchEdit();
         if (ic.getSelectedText(0) != null && ic.getSelectedText(0).length() > 0) {
@@ -788,7 +784,8 @@ public class CustomInputMethodService extends InputMethodService
         int start = getSelectionStart() - getPrevWord().length();
         int end   = getSelectionEnd() + getNextWord().length();
 
-        if ((int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
+        if (getNextWord().length() > 0 && (int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
+        if (end == -1) end++;
 
         ic.setSelection(start, end);
     }
@@ -1051,7 +1048,7 @@ public class CustomInputMethodService extends InputMethodService
         for (Map.Entry<String,String> datum : data.entrySet()) {
             intent.putExtra(datum.getKey(), datum.getValue()); // data.getOrDefault("", "")
         }
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(context()).sendBroadcast(intent);
     }
 
     @Override
@@ -1256,7 +1253,7 @@ public class CustomInputMethodService extends InputMethodService
         if (!inUserDictionary(word)) {
             UserDictionary.Words.addWord(this, word, 1, null, Locale.getDefault());
             mSpellChecker.addToTrie(word);
-            ToastIt.text(getContext(), word+" added to dictionary");
+            ToastIt.text(context(), word+" added to dictionary");
         }
     }
     public void pickDefaultCandidate() {
@@ -1653,11 +1650,11 @@ public class CustomInputMethodService extends InputMethodService
         else {
             if (sharedPreferences.getBoolean("tabs", false)) {
                 commitText("	", false);
-                ToastIt.debug(getContext(), "tab");
+                ToastIt.debug(context(), "tab");
             }
             else {
                 commitText(StringUtils.repeat(" ", indentWidth), false);
-                ToastIt.debug(getContext(), indentWidth+" spaces");
+                ToastIt.debug(context(), indentWidth+" spaces");
             }
         }
         if (isSelecting()) ic.setSelection(getSelectionStart(), getSelectionEnd() + indentString.length()-1);
@@ -1667,12 +1664,6 @@ public class CustomInputMethodService extends InputMethodService
     Stack<String> pairStack = new Stack<>();
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
-        
-        ToastIt.debug(getContext(), ""+StringUtils.contains(getAllText(), 0));
-        // performReplace(getAllText().replace(" ", ""));
-        performReplace(getAllText().replaceAll("[^\\p{Print}]", ""));
-
-
         ic.beginBatchEdit();
         if (isInputViewShown() && mCustomKeyboardView.isShifted()) primaryCode = Character.toUpperCase(primaryCode);
         String code = String.valueOf((char)primaryCode);
@@ -1820,11 +1811,11 @@ public class CustomInputMethodService extends InputMethodService
             showUnicodePopup();
         }
         if (primaryCode == -201) {
-            performReplace(StringUtils.convertFromUnicodeToNumber(getSelectedText()));
+            replaceInSelection(StringUtils.convertFromUnicodeToNumber(getSelectedText()));
             return;
         }
         if (primaryCode == -202) {
-            performReplace(StringUtils.convertFromNumberToUnicode(getSelectedText()));
+            replaceInSelection(StringUtils.convertFromNumberToUnicode(getSelectedText()));
             return;
         }
         if (primaryCode == -203) {
@@ -1918,19 +1909,19 @@ public class CustomInputMethodService extends InputMethodService
             break;
 */
             case EditorInfo.IME_ACTION_GO:
-                ToastIt.debug(getContext(), "go");
+                ToastIt.debug(context(), "go");
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
             break;
             case EditorInfo.IME_ACTION_SEARCH:
-                ToastIt.debug(getContext(), "search");
+                ToastIt.debug(context(), "search");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
             break;
             case EditorInfo.IME_ACTION_NEXT:
-                ToastIt.debug(getContext(), "next");
+                ToastIt.debug(context(), "next");
                 ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
             break;
             case EditorInfo.IME_ACTION_SEND:
-                ToastIt.debug(getContext(), "send");
+                ToastIt.debug(context(), "send");
                 ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
             break;
             default:
@@ -1943,7 +1934,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void handleEnter() {
-        performReplace(getAllText().replace("[^\\p{Print}]", ""));
         handleAction();
 /*
         EditorInfo editorInfo = getCurrentInputEditorInfo();
@@ -2014,7 +2004,7 @@ public class CustomInputMethodService extends InputMethodService
             sendKey(KeyEvent.KEYCODE_MOVE_END);
         }
         else {
-            performReplace(StringUtils.linebreaksToSpaces(getSelectedText()));
+            replaceInSelection(StringUtils.linebreaksToSpaces(getSelectedText()));
         }
     }
 
@@ -2034,18 +2024,29 @@ public class CustomInputMethodService extends InputMethodService
         }
     }
 
+    public boolean containsNonPrintables(String text) {
+        return text.contains("�");
+    }
+    public String removeNonPrintables(String text) {
+        return text.replaceAll("�", "");
+    }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         if (debug) System.out.println("onKey: "+primaryCode);
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
 
+        if (containsNonPrintables(getAllText())) {
+            ToastIt.debug(context(), "null char detected");
+        }
+
         if (primaryCode > 0
          && mCurrentKeyboard.title != null
          && mCurrentKeyboard.title.equals("IPA")
          && sharedPreferences.getBoolean("ipa_desc", false)
          && Sounds.getIPA(primaryCode) != -1) {
-            ToastIt.info(getContext(), "/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
+            ToastIt.info(context(), "/"+String.valueOf((char)primaryCode)+"/", Sounds.getDescription(primaryCode));
         }
 
         if (primaryCode > 0
@@ -2053,7 +2054,7 @@ public class CustomInputMethodService extends InputMethodService
          && mCurrentKeyboard.title.equals("IPA")
          && sharedPreferences.getBoolean("ipa", false)
          && Sounds.getIPA(primaryCode) != -1) {
-            Sounds.playIPA(getContext(), primaryCode);
+            Sounds.playIPA(context(), primaryCode);
         }
         else {
             playClick(primaryCode);
@@ -2096,17 +2097,8 @@ public class CustomInputMethodService extends InputMethodService
             case -10: handlePaste(); break;
             case -11: toggleSelection(); break;
             case -12:
-if (getSelectionStart() == getSelectionEnd()) {
-    selectWord();
-}
-else {
-    selectLine();
-}
-/*
-                     if (selectionMode == 0) selectWord();
-                else if (selectionMode == 1) selectLine();
-                else if (selectionMode == 2) selectWord();
-*/
+                if (getSelectionStart() == getSelectionEnd()) selectWord();
+                else selectLine();
             break;
             case -13: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
             case -14: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
@@ -2122,7 +2114,7 @@ else {
                 }
             break;
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
-            case -22: IntentUtils.showSettings(getContext()); break;
+            case -22: IntentUtils.showSettings(context()); break;
             case -23: showVoiceInput(); break;
             case -24: handleClose(); break;
             case -25: showInputMethodPicker(); break;
@@ -2138,56 +2130,56 @@ else {
             case -35: commitText(TimeUtils.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(TimeUtils.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(TimeUtils.nowAsLong() + " " + TimeUtils.nowAsInt()); break;
-            case -38: performReplace(StringUtils.toUpperCase(getSelectedText())); break;
-            case -39: performReplace(StringUtils.toTitleCase(getSelectedText())); break;
-            case -40: performReplace(StringUtils.toLowerCase(getSelectedText())); break;
-            case -41: performReplace(StringUtils.toAlterCase(getSelectedText())); break;
-            case -42: performReplace(StringUtils.camelToSnake(getSelectedText())); break;
-            case -43: performReplace(StringUtils.snakeToCamel(getSelectedText())); break;
-            case -44: performReplace(StringUtils.sortChars(getSelectedText())); break;
-            case -45: performReplace(StringUtils.reverseChars(getSelectedText())); break;
-            case -46: performReplace(StringUtils.shuffleChars(getSelectedText())); break;
-            case -47: performReplace(StringUtils.doubleChars(getSelectedText())); break;
-            case -48: performReplace(StringUtils.sortLines(getSelectedText())); break;
-            case -49: performReplace(StringUtils.reverseLines(getSelectedText())); break;
-            case -50: performReplace(StringUtils.shuffleLines(getSelectedText())); break;
-            case -51: performReplace(StringUtils.doubleLines(getSelectedText())); break;
-            case -52: performReplace(StringUtils.dashesToSpaces(getSelectedText())); break;
-            case -53: performReplace(StringUtils.underscoresToSpaces(getSelectedText())); break;
-            case -54: performReplace(StringUtils.spacesToDashes(getSelectedText())); break;
-            case -55: performReplace(StringUtils.spacesToUnderscores(getSelectedText())); break;
-            case -56: performReplace(StringUtils.spacesToLinebreaks(getSelectedText())); break;
-            case -57: performReplace(StringUtils.linebreaksToSpaces(getSelectedText())); break;
-            case -58: performReplace(StringUtils.spacesToTabs(getSelectedText())); break;
-            case -59: performReplace(StringUtils.tabsToSpaces(getSelectedText())); break;
-            case -60: performReplace(StringUtils.splitWithLinebreaks(getSelectedText())); break;
-            case -61: performReplace(StringUtils.splitWithSpaces(getSelectedText())); break;
-            case -62: performReplace(StringUtils.removeSpaces(getSelectedText())); break;
-            case -63: performReplace(StringUtils.reduceSpaces(getSelectedText())); break;
+            case -38: replaceInSelection(StringUtils.toUpperCase(getSelectedText())); break;
+            case -39: replaceInSelection(StringUtils.toTitleCase(getSelectedText())); break;
+            case -40: replaceInSelection(StringUtils.toLowerCase(getSelectedText())); break;
+            case -41: replaceInSelection(StringUtils.toAlterCase(getSelectedText())); break;
+            case -42: replaceInSelection(StringUtils.camelToSnake(getSelectedText())); break;
+            case -43: replaceInSelection(StringUtils.snakeToCamel(getSelectedText())); break;
+            case -44: replaceInSelection(StringUtils.sortChars(getSelectedText())); break;
+            case -45: replaceInSelection(StringUtils.reverseChars(getSelectedText())); break;
+            case -46: replaceInSelection(StringUtils.shuffleChars(getSelectedText())); break;
+            case -47: replaceInSelection(StringUtils.doubleChars(getSelectedText())); break;
+            case -48: replaceInSelection(StringUtils.sortLines(getSelectedText())); break;
+            case -49: replaceInSelection(StringUtils.reverseLines(getSelectedText())); break;
+            case -50: replaceInSelection(StringUtils.shuffleLines(getSelectedText())); break;
+            case -51: replaceInSelection(StringUtils.doubleLines(getSelectedText())); break;
+            case -52: replaceInSelection(StringUtils.dashesToSpaces(getSelectedText())); break;
+            case -53: replaceInSelection(StringUtils.underscoresToSpaces(getSelectedText())); break;
+            case -54: replaceInSelection(StringUtils.spacesToDashes(getSelectedText())); break;
+            case -55: replaceInSelection(StringUtils.spacesToUnderscores(getSelectedText())); break;
+            case -56: replaceInSelection(StringUtils.spacesToLinebreaks(getSelectedText())); break;
+            case -57: replaceInSelection(StringUtils.linebreaksToSpaces(getSelectedText())); break;
+            case -58: replaceInSelection(StringUtils.spacesToTabs(getSelectedText())); break;
+            case -59: replaceInSelection(StringUtils.tabsToSpaces(getSelectedText())); break;
+            case -60: replaceInSelection(StringUtils.splitWithLinebreaks(getSelectedText())); break;
+            case -61: replaceInSelection(StringUtils.splitWithSpaces(getSelectedText())); break;
+            case -62: replaceInSelection(StringUtils.removeSpaces(getSelectedText())); break;
+            case -63: replaceInSelection(StringUtils.reduceSpaces(getSelectedText())); break;
             case -64:
                 if (!isSelecting()) selectLine();
-                performReplace(StringUtils.decreaseIndentation(getSelectedText(), indentString));
+                replaceInSelection(StringUtils.decreaseIndentation(getSelectedText(), indentString));
             break;
             case -65:
                 if (!isSelecting()) selectLine();
-                performReplace(StringUtils.increaseIndentation(getSelectedText(), indentString));
+                replaceInSelection(StringUtils.increaseIndentation(getSelectedText(), indentString));
             break;
-            case -66: performReplace(StringUtils.trimEndingWhitespace(getSelectedText())); break;
-            case -67: performReplace(StringUtils.trimTrailingWhitespace(getSelectedText())); break;
-            case -68: performReplace(StringUtils.normalize(getSelectedText())); break;
-            case -69: performReplace(StringUtils.slug(getSelectedText())); break;
+            case -66: replaceInSelection(StringUtils.trimEndingWhitespace(getSelectedText())); break;
+            case -67: replaceInSelection(StringUtils.trimTrailingWhitespace(getSelectedText())); break;
+            case -68: replaceInSelection(StringUtils.normalize(getSelectedText())); break;
+            case -69: replaceInSelection(StringUtils.slug(getSelectedText())); break;
             case -70: joinLines(); break;
             case -71:
                 ere = StringUtils.countChars(getSelectedText());
-                performReplace(StringUtils.uniqueChars(getSelectedText()));
+                replaceInSelection(StringUtils.uniqueChars(getSelectedText()));
                 aft = StringUtils.countChars(getSelectedText());
-                ToastIt.text(getContext(), ere + " → " + aft);
+                ToastIt.text(context(), ere + " → " + aft);
             break;
             case -72:
                 ere = StringUtils.countLines(getSelectedText());
-                performReplace(StringUtils.uniqueLines(getSelectedText()));
+                replaceInSelection(StringUtils.uniqueLines(getSelectedText()));
                 aft = StringUtils.countLines(getSelectedText());
-                ToastIt.text(getContext(), ere + " → " + aft);
+                ToastIt.text(context(), ere + " → " + aft);
             break;
             case -73: commitText(TimeUtils.timemoji()); break;
             case -74: ic.performContextMenuAction(16908338); break; // undo
@@ -2210,73 +2202,73 @@ else {
             case -91: ic.performContextMenuAction(16908317); break; // candidatesArea
             case -92:
                 String text = getSelectedText();
-                ToastIt.info(getContext(), "Chars: " + StringUtils.countChars(text) + "\nWords: " + StringUtils.countWords(text) + "\nLines: " + StringUtils.countLines(text));
+                ToastIt.info(context(), "Chars: " + StringUtils.countChars(text) + "\nWords: " + StringUtils.countWords(text) + "\nLines: " + StringUtils.countLines(text));
             break;
             case -93: 
                 String unidata = StringUtils.unidata(getSelectedText());
-                if (!unidata.isEmpty()) ToastIt.info(getContext(), unidata);
+                if (!unidata.isEmpty()) ToastIt.info(context(), unidata);
             break;
             case -94:
-                if (Variables.isBold()) performReplace(TextUtils.unbolden(getSelectedText()));
-                else performReplace(TextUtils.bolden(getSelectedText()));
+                if (Variables.isBold()) replaceInSelection(TextUtils.unbolden(getSelectedText()));
+                else replaceInSelection(TextUtils.bolden(getSelectedText()));
                 Variables.toggleBold();
             break;
             case -95:
-                if (Variables.isItalic()) performReplace(TextUtils.unitalicize(getSelectedText()));
-                else performReplace(TextUtils.italicize(getSelectedText()));
+                if (Variables.isItalic()) replaceInSelection(TextUtils.unitalicize(getSelectedText()));
+                else replaceInSelection(TextUtils.italicize(getSelectedText()));
                 Variables.toggleItalic();
             break;
             case -96:
-                if (Variables.isEmphasized()) performReplace(TextUtils.unemphasize(getSelectedText()));
-                else performReplace(TextUtils.emphasize(getSelectedText()));
+                if (Variables.isEmphasized()) replaceInSelection(TextUtils.unemphasize(getSelectedText()));
+                else replaceInSelection(TextUtils.emphasize(getSelectedText()));
                 Variables.toggleEmphasized();
             break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
-                else performReplace(TextUtils.underline(getSelectedText()));
+                else replaceInSelection(TextUtils.underline(getSelectedText()));
             break;
             case -98:
                 if (getSelectionLength() == 0) Variables.toggleUnderscored();
-                else performReplace(TextUtils.underscore(getSelectedText()));
+                else replaceInSelection(TextUtils.underscore(getSelectedText()));
             break;
             case -99:
                 if (getSelectionLength() == 0) Variables.toggleStrikethrough();
-                else performReplace(TextUtils.strikethrough(getSelectedText()));
+                else replaceInSelection(TextUtils.strikethrough(getSelectedText()));
             break;
             case -100:
                 Variables.setAllOff();
-                performReplace(TextUtils.unbolden(getSelectedText()));
-                performReplace(TextUtils.unitalicize(getSelectedText()));
-                performReplace(TextUtils.unemphasize(getSelectedText()));
-                performReplace(TextUtils.unstrikethrough(getSelectedText()));
-                performReplace(TextUtils.ununderline(getSelectedText()));
-                performReplace(TextUtils.ununderscore(getSelectedText()));
+                replaceInSelection(TextUtils.unbolden(getSelectedText()));
+                replaceInSelection(TextUtils.unitalicize(getSelectedText()));
+                replaceInSelection(TextUtils.unemphasize(getSelectedText()));
+                replaceInSelection(TextUtils.unstrikethrough(getSelectedText()));
+                replaceInSelection(TextUtils.ununderline(getSelectedText()));
+                replaceInSelection(TextUtils.ununderscore(getSelectedText()));
             break;
 
-            case -104: IntentUtils.showActivity(getContext(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -105: IntentUtils.showActivity(getContext(), Settings.ACTION_LOCALE_SETTINGS); break;
-            case -106: IntentUtils.showActivity(getContext(), Settings.ACTION_SETTINGS); break;
-            case -107: IntentUtils.showActivity(getContext(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -108: IntentUtils.showActivity(getContext(), Settings.ACTION_WIFI_SETTINGS); break;
-            case -109: IntentUtils.showActivity(getContext(), Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -110: IntentUtils.showActivity(getContext(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -111: IntentUtils.showActivity(getContext(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -112: IntentUtils.showActivity(getContext(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
-            case -113: IntentUtils.showActivity(getContext(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
-            case -114: IntentUtils.showActivity(getContext(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
-            case -115: IntentUtils.showActivity(getContext(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
-            case -116: IntentUtils.showActivity(getContext(), Settings.ACTION_SOUND_SETTINGS);   break;
-            case -117: IntentUtils.showActivity(getContext(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
-            case -118: IntentUtils.showActivity(getContext(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -119: IntentUtils.showActivity(getContext(), Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -120: IntentUtils.showActivity(getContext(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
-            case -121: IntentUtils.showClipboard(getContext()); break;
-            case -122: performReplace(StringUtils.convertNumberBase(getSelectedText(),  2, 10)); break;
-            case -123: performReplace(StringUtils.convertNumberBase(getSelectedText(), 10,  2)); break;
-            case -124: performReplace(StringUtils.convertNumberBase(getSelectedText(),  8, 10)); break;
-            case -125: performReplace(StringUtils.convertNumberBase(getSelectedText(), 10,  8)); break;
-            case -126: performReplace(StringUtils.convertNumberBase(getSelectedText(), 16, 10)); break;
-            case -127: performReplace(StringUtils.convertNumberBase(getSelectedText(), 10, 16)); break;
+            case -104: IntentUtils.showActivity(context(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -105: IntentUtils.showActivity(context(), Settings.ACTION_LOCALE_SETTINGS); break;
+            case -106: IntentUtils.showActivity(context(), Settings.ACTION_SETTINGS); break;
+            case -107: IntentUtils.showActivity(context(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -108: IntentUtils.showActivity(context(), Settings.ACTION_WIFI_SETTINGS); break;
+            case -109: IntentUtils.showActivity(context(), Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -110: IntentUtils.showActivity(context(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -111: IntentUtils.showActivity(context(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -112: IntentUtils.showActivity(context(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
+            case -113: IntentUtils.showActivity(context(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
+            case -114: IntentUtils.showActivity(context(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
+            case -115: IntentUtils.showActivity(context(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
+            case -116: IntentUtils.showActivity(context(), Settings.ACTION_SOUND_SETTINGS);   break;
+            case -117: IntentUtils.showActivity(context(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
+            case -118: IntentUtils.showActivity(context(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -119: IntentUtils.showActivity(context(), Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -120: IntentUtils.showActivity(context(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -121: IntentUtils.showClipboard(context()); break;
+            case -122: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  2, 10)); break;
+            case -123: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  2)); break;
+            case -124: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  8, 10)); break;
+            case -125: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  8)); break;
+            case -126: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 16, 10)); break;
+            case -127: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10, 16)); break;
             case -128: setKeyboard(R.layout.primary, "Primary"); break;
             case -129: setKeyboard(R.layout.menu, "Menu"); break;
             case -130: setKeyboard(R.layout.macros, "Macros"); break;
@@ -2318,46 +2310,51 @@ else {
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
-            case -163: performReplace(StringUtils.replaceNbsp(getSelectedText())); break;
+            case -163: replaceInSelection(StringUtils.replaceNbsp(getSelectedText())); break;
             case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -168: performReplace(StringUtils.hash(getSelectedText())); break;
-            case -169: performReplace(StringUtils.sha256(getSelectedText())); break;
+            case -168: replaceInSelection(StringUtils.hash(getSelectedText())); break;
+            case -169: replaceInSelection(StringUtils.sha256(getSelectedText())); break;
             case -170:
                 if (!isSelecting()) selectLine();
-                performReplace(StringUtils.toggleHtmlComment(getSelectedText()));
+                replaceInSelection(StringUtils.toggleHtmlComment(getSelectedText()));
             break;
             case -171:
                 if (!isSelecting()) selectLine();
-                performReplace(StringUtils.toggleJavaComment(getSelectedText()));
+                replaceInSelection(StringUtils.toggleJavaComment(getSelectedText()));
             break;
             case -172:
                 if (!isSelecting()) selectLine();
-                performReplace(StringUtils.toggleLineComment(getSelectedText()));
+                replaceInSelection(StringUtils.toggleLineComment(getSelectedText()));
             break;
             case -173: displayFindMenu(); break;
             case -174: showUnicodePopup(); break;
             case -175: moveLeftOneWord(); break;
             case -176: moveRightOneWord(); break;
-            case -177: IntentUtils.dialPhone(getContext(), getSelectedText()); break;
-            case -178: IntentUtils.openWebpage(getContext(), getSelectedText()); break;
-            case -179: IntentUtils.searchWeb(getContext(), getSelectedText()); break;
-            case -180: IntentUtils.showLocationFromAddress(getContext(), getSelectedText()); break;
-            case -181: IntentUtils.searchWikipedia(getContext(), getSelectedText()); break;
-            case -182: IntentUtils.shareText(getContext(), getSelectedText()); break;
+            case -177: IntentUtils.dialPhone(context(), getSelectedText()); break;
+            case -178: IntentUtils.openWebpage(context(), getSelectedText()); break;
+            case -179: IntentUtils.searchWeb(context(), getSelectedText()); break;
+            case -180: IntentUtils.showLocationFromAddress(context(), getSelectedText()); break;
+            case -181: IntentUtils.searchWikipedia(context(), getSelectedText()); break;
+            case -182: IntentUtils.shareText(context(), getSelectedText()); break;
             case -183: 
                 if (!isSelecting()) selectAll();
-                performReplace(StringUtils.removeCitations(getSelectedText()));
+                replaceInSelection(StringUtils.removeCitations(getSelectedText()));
             break;
+            case -184:
+                if (!isSelecting()) selectAll();
+                ToastIt.debug(context(), ""+containsNonPrintables(getSelectedText()));
+                replaceInSelection(removeNonPrintables(getSelectedText()));
+            break;
+
             /*
 
             case -101: break;
             case -102: break;
             case -103: break;
 
-            case -184: break;
             case -185: break;
             case -186: break;
             case -187: break;
@@ -2437,7 +2434,7 @@ else {
     }
 
     public void popupKeyboard(Keyboard.Key nextTo) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.tld, new FrameLayout(getContext()));
+        View view = LayoutInflater.from(context()).inflate(R.layout.tld, new FrameLayout(context()));
         // PopupWindow popup = new PopupWindow(getContext());
         final PopupWindow popup = new PopupWindow(
             // LayoutInflater.from(getContext()).inflate(R.layout.tld, new FrameLayout(getContext())),
@@ -2499,7 +2496,7 @@ else {
 
         setKeyboard(R.layout.primary, "Primary");
 
-        LayoutInflater li = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater li = (LayoutInflater)context().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (li != null) {
             View wordbar = li.inflate(R.layout.wordbar, null);
 
@@ -2547,7 +2544,7 @@ else {
                             public void run() {
                                 System.out.println(result);
                                 inputConnection.commitText(result, 1);
-                                ToastIt.text(getContext(), result);
+                                ToastIt.text(context(), result);
                                 if (delay != null) {
                                     if (inputConnection.getHandler() != null) inputConnection.getHandler().postDelayed(delay, timer);
                                     if (timer > 100) {
@@ -2565,7 +2562,7 @@ else {
     }
 
     public void showEmoticonPopup() {
-        LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)context().getSystemService(LAYOUT_INFLATER_SERVICE);
 
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.emoticon_listview, null);
@@ -2612,7 +2609,7 @@ else {
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    ToastIt.info(getContext(), "\t"+emoticon.getEmoticon()+"\t"+StringUtils.unidata(emoticon.getEmoticon()));
+                    ToastIt.info(context(), "\t"+emoticon.getEmoticon()+"\t"+StringUtils.unidata(emoticon.getEmoticon()));
                     commitText(emoticon.getEmoticon());
                 }
             });
@@ -2625,8 +2622,8 @@ else {
                     StringTokenizer tokenizer = new StringTokenizer(emoticonFavorites, "~");
 
                     if (tab == 0) {
-                        emoticonPopup.removeRecentEmoticon(getContext(), emoticon);
-                        ToastIt.info(getContext(), emoticon.getEmoticon()+" removed from emoticon recents");
+                        emoticonPopup.removeRecentEmoticon(context(), emoticon);
+                        ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon recents");
                     }
                     else if (tab == 10) {
 
@@ -2641,7 +2638,7 @@ else {
                         emoticonFavorites.replace("/~$/", "");
 
                         sharedPreferences.edit().putString("emoticon_favorites", emoticonFavorites).apply();
-                        ToastIt.info(getContext(), emoticon.getEmoticon()+" removed from emoticon favorites");
+                        ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon favorites");
                     }
                     else {
                         StringBuilder sb = new StringBuilder();
@@ -2656,7 +2653,7 @@ else {
                         emoticonFavorites.replace("/~$/", "");
 
                         sharedPreferences.edit().putString("emoticon_favorites", new String(emoticonFavorites)).apply();
-                        ToastIt.info(getContext(), emoticon.getEmoticon()+" added to emoticon favorites");
+                        ToastIt.info(context(), emoticon.getEmoticon()+" added to emoticon favorites");
                     }
                 }
             });
@@ -2671,7 +2668,7 @@ else {
     }
 
     public void showUnicodePopup() {
-        LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)context().getSystemService(LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
             View popupView = layoutInflater.inflate(R.layout.unicode_list_view, null);
 
@@ -2718,7 +2715,7 @@ else {
                         return;
                     }
                     playClick();
-                    ToastIt.text(getContext(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
+                    ToastIt.text(context(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
                 }
             });
@@ -2736,11 +2733,11 @@ else {
                         sb.append(unicode.getUnicode());
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.text(getContext(), unicode.getUnicode()+" added to unicode favorites");
+                        ToastIt.text(context(), unicode.getUnicode()+" added to unicode favorites");
                     }
                     if (tab == 1) {
-                        unicodePopup.removeRecentUnicode(getContext(), unicode);
-                        ToastIt.text(getContext(), unicode.getUnicode()+" removed from unicode recents");
+                        unicodePopup.removeRecentUnicode(context(), unicode);
+                        ToastIt.text(context(), unicode.getUnicode()+" removed from unicode recents");
                     }
                     if (tab == 2) {
                         StringBuilder sb = new StringBuilder(unicodeFavorites);
@@ -2749,7 +2746,7 @@ else {
                         }
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.text(getContext(), unicode.getUnicode()+" removed from favorites");
+                        ToastIt.text(context(), unicode.getUnicode()+" removed from favorites");
                     }
                 }
             });
@@ -2795,7 +2792,7 @@ else {
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            IntentUtils.startIntent(getContext(), intent);
+            IntentUtils.startIntent(context(), intent);
             return;
         }
 

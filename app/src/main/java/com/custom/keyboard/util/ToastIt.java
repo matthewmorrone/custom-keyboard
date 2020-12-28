@@ -132,6 +132,7 @@ public class ToastIt {
         Spanned spanned = Html.fromHtml("<font color='gray'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
 
+        mToast.setGravity(Gravity.CENTER, 0, 0);
         View toastRoot = layoutInflater.inflate(R.layout.toast_error, null);
         TextView toastTextView = toastRoot.findViewById(R.id.content);
         toastTextView.setText(spanned);
