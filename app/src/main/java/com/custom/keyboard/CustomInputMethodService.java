@@ -2037,9 +2037,15 @@ public class CustomInputMethodService extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         int ere, aft;
 
+        if (sharedPreferences.getBoolean("toast_debug", false)) {
+            ToastIt.debug(context(), ""+primaryCode);
+        }
+
+        /*
         if (containsNonPrintables(getAllText())) {
             ToastIt.debug(context(), "null char detected");
         }
+        */
 
         if (primaryCode > 0
          && mCurrentKeyboard.title != null
@@ -2158,13 +2164,13 @@ public class CustomInputMethodService extends InputMethodService
             case -63: replaceInSelection(StringUtils.reduceSpaces(getSelectedText())); break;
             case -64:
                 if (!isSelecting()) selectLine();
-                replaceInSelection(StringUtils.decreaseIndentation(getSelectedText(), indentString));
+                replaceInSelection(StringUtils.increaseIndentation(getSelectedText(), "    "));
             break;
             case -65:
                 if (!isSelecting()) selectLine();
-                replaceInSelection(StringUtils.increaseIndentation(getSelectedText(), indentString));
+                replaceInSelection(StringUtils.decreaseIndentation(getSelectedText(), "    "));
             break;
-            case -66: replaceInSelection(StringUtils.trimEndingWhitespace(getSelectedText())); break;
+            case -66: replaceInSelection(StringUtils.trimLeadingWhitespace(getSelectedText())); break;
             case -67: replaceInSelection(StringUtils.trimTrailingWhitespace(getSelectedText())); break;
             case -68: replaceInSelection(StringUtils.normalize(getSelectedText())); break;
             case -69: replaceInSelection(StringUtils.slug(getSelectedText())); break;
@@ -2348,7 +2354,13 @@ public class CustomInputMethodService extends InputMethodService
                 ToastIt.debug(context(), ""+containsNonPrintables(getSelectedText()));
                 replaceInSelection(removeNonPrintables(getSelectedText()));
             break;
-
+            case -185: setKeyboard(R.layout.utility, "Utility"); break;
+            case -186: replaceInSelection(StringUtils.addLineNumbers(getSelectedText())); break;
+            case -187: replaceInSelection(StringUtils.addBullets(getSelectedText())); break;
+            case -188:
+                replaceInSelection(StringUtils.removeLineNumbers(getSelectedText()));
+                replaceInSelection(StringUtils.removeBullets(getSelectedText()));
+            break;
             /*
 
             case -101: break;
@@ -2609,7 +2621,9 @@ public class CustomInputMethodService extends InputMethodService
                 @Override
                 public void onEmoticonClicked(Emoticon emoticon) {
                     playClick();
-                    ToastIt.info(context(), "\t"+emoticon.getEmoticon()+"\t"+StringUtils.unidata(emoticon.getEmoticon()));
+                    if (sharedPreferences.getBoolean("toast_emoji_info", false)) {
+                        ToastIt.info(context(), "\t"+emoticon.getEmoticon()+"\t"+StringUtils.unidata(emoticon.getEmoticon()));
+                    }
                     commitText(emoticon.getEmoticon());
                 }
             });
@@ -2623,7 +2637,9 @@ public class CustomInputMethodService extends InputMethodService
 
                     if (tab == 0) {
                         emoticonPopup.removeRecentEmoticon(context(), emoticon);
-                        ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon recents");
+                        if (sharedPreferences.getBoolean("toast_emoji_info", false)) {
+                            ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon recents");
+                        }
                     }
                     else if (tab == 10) {
 
@@ -2638,7 +2654,9 @@ public class CustomInputMethodService extends InputMethodService
                         emoticonFavorites.replace("/~$/", "");
 
                         sharedPreferences.edit().putString("emoticon_favorites", emoticonFavorites).apply();
-                        ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon favorites");
+                        if (sharedPreferences.getBoolean("toast_emoji_info", false)) {
+                            ToastIt.info(context(), emoticon.getEmoticon()+" removed from emoticon favorites");
+                        }
                     }
                     else {
                         StringBuilder sb = new StringBuilder();
@@ -2653,7 +2671,9 @@ public class CustomInputMethodService extends InputMethodService
                         emoticonFavorites.replace("/~$/", "");
 
                         sharedPreferences.edit().putString("emoticon_favorites", new String(emoticonFavorites)).apply();
-                        ToastIt.info(context(), emoticon.getEmoticon()+" added to emoticon favorites");
+                        if (sharedPreferences.getBoolean("toast_emoji_info", false)) {
+                            ToastIt.info(context(), emoticon.getEmoticon()+" added to emoticon favorites");
+                        }
                     }
                 }
             });
@@ -2715,7 +2735,9 @@ public class CustomInputMethodService extends InputMethodService
                         return;
                     }
                     playClick();
-                    ToastIt.info(context(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
+                    if (sharedPreferences.getBoolean("toast_unicode_info", false)) {
+                        ToastIt.info(context(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
+                    }
                     commitText(unicode.getUnicode());
                 }
             });
@@ -2733,11 +2755,15 @@ public class CustomInputMethodService extends InputMethodService
                         sb.append(unicode.getUnicode());
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.info(context(), unicode.getUnicode()+" added to unicode favorites");
+                        if (sharedPreferences.getBoolean("toast_unicode_info", false)) {
+                            ToastIt.info(context(), unicode.getUnicode() + " added to unicode favorites");
+                        }
                     }
                     if (tab == 1) {
                         unicodePopup.removeRecentUnicode(context(), unicode);
-                        ToastIt.info(context(), unicode.getUnicode()+" removed from unicode recents");
+                        if (sharedPreferences.getBoolean("toast_unicode_info", false)) {
+                            ToastIt.info(context(), unicode.getUnicode() + " removed from unicode recents");
+                        }
                     }
                     if (tab == 2) {
                         StringBuilder sb = new StringBuilder(unicodeFavorites);
@@ -2746,7 +2772,9 @@ public class CustomInputMethodService extends InputMethodService
                         }
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.info(context(), unicode.getUnicode()+" removed from favorites");
+                        if (sharedPreferences.getBoolean("toast_unicode_info", false)) {
+                            ToastIt.info(context(), unicode.getUnicode() + " removed from favorites");
+                        }
                     }
                 }
             });

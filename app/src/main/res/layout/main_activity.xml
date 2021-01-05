@@ -78,9 +78,10 @@
             android:layout_height="50dp"
             android:breakStrategy="high_quality"
             android:hint="@string/test"
-            android:text="s�ame"
+            android:text=""
             android:imeOptions="actionUnspecified"
             android:lines="1" />
+        <!-- s�ame -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

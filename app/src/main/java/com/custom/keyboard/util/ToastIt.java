@@ -42,7 +42,7 @@ public class ToastIt {
     }
     public static void text(Context context, String text) {
         if (sharedPreferences == null) setSharedPreferences(context);
-        if (!sharedPreferences.getBoolean("toast_text", false)) return;
+        // if (!sharedPreferences.getBoolean("toast_text", false)) return;
         if (mToast != null) mToast.cancel();
         Spanned spanned = Html.fromHtml("<font color='white'>&nbsp;" + text + "&nbsp;</font>");
         mToast = Toast.makeText(context, spanned, Toast.LENGTH_LONG);
@@ -65,7 +65,7 @@ public class ToastIt {
     }
     public static void info(Context context, String text) {
         if (sharedPreferences == null) setSharedPreferences(context);
-        if (!sharedPreferences.getBoolean("toast_info", false)) return;
+        // if (!sharedPreferences.getBoolean("toast_info", false)) return;
         if (mToast != null) mToast.cancel();
 
         Spanned spanned = Html.fromHtml("<font color='yellow'>&nbsp;" + text + "&nbsp;</font>");
@@ -96,7 +96,7 @@ public class ToastIt {
     }
     public static void error(Context context, String text) {
         if (sharedPreferences == null) setSharedPreferences(context);
-        if (!sharedPreferences.getBoolean("toast_error", false)) return;
+        // if (!sharedPreferences.getBoolean("toast_error", false)) return;
         if (mToast != null) mToast.cancel();
 
         Spanned spanned = Html.fromHtml("<font color='red'>&nbsp;" + text + "&nbsp;</font>");
@@ -126,7 +126,7 @@ public class ToastIt {
     }
     public static void debug(Context context, String text) {
         if (sharedPreferences == null) setSharedPreferences(context);
-        if (!sharedPreferences.getBoolean("toast_debug", false)) return;
+        // if (!sharedPreferences.getBoolean("toast_debug", false)) return;
         if (mToast != null) mToast.cancel();
 
         Spanned spanned = Html.fromHtml("<font color='gray'>&nbsp;" + text + "&nbsp;</font>");

@@ -8,7 +8,7 @@
         <Key android:codes="-23"  android:keyIcon="@drawable/ic_voice" />
         <Key android:codes="-12"  android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-8"   android:keyIcon="@drawable/ic_cut" />
-        <Key android:codes="-9"  android:keyIcon="@drawable/ic_copy" />
+        <Key android:codes="-9"   android:keyIcon="@drawable/ic_copy" />
         <Key android:codes="-10"  android:keyIcon="@drawable/ic_paste" />
         <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace"   android:isRepeatable="true" />
         <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"      android:isRepeatable="true" />

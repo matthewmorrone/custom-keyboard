@@ -81,10 +81,12 @@
         <SwitchPreference android:key="hint4" android:title="Hint 4" android:dependency="hints" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Toasts">
-        <SwitchPreference   android:key="toast_text"              android:title="Text Toasts"  android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_info"              android:title="Info Toasts"  android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_error"             android:title="Error Toasts" android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_debug"             android:title="Debug Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_text"         android:title="Text Toasts"  android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_emoji_info"   android:title="Emoji Info Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_unicode_info" android:title="Unicode Info Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_info"         android:title="Info Toasts"  android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_error"        android:title="Error Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_debug"        android:title="Debug Toasts" android:defaultValue="true" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
         <SwitchPreference   android:key="use_system_spellcheck"   android:title="Use System Spellcheck" />

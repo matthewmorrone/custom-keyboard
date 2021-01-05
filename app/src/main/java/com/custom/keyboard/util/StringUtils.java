@@ -623,13 +623,13 @@ public class StringUtils {
             .replaceAll("\u0010+$", "");
         return text;
     }
-    public static String trimEndingWhitespace(String text) {
-        return text.replaceAll("[ \t]+\n", "\n")
-            .replaceAll("[ \t]+$",  "");
+    public static String trimLeadingWhitespace(String text) {
+        return text.replaceAll("\n\\s*", "\n")
+            .replaceAll("^\\s*", "");
     }
     public static String trimTrailingWhitespace(String text) {
-        return text.replaceAll("([^ \t\r\n])[ \t]+\n", "\n")
-            .replaceAll("([^ \t\r\n])[ \t]+$",  "$1");
+        return text.replaceAll("\\s*\n", "\n")
+            .replaceAll("\\s*$", "");
     }
     public static String getIndentation(String line) {
         String regex = "^(\\s+).+$";
@@ -774,6 +774,23 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
             result.add(line.replaceAll("^\\d+\\s*", ""));
+        }
+        return String.join("\n", result.toArray(new String[0]));
+    }
+    public static String addBullets(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        int index = 0;
+        for (String line : lines) {
+            result.add("• " + line);
+        }
+        return String.join("\n", result.toArray(new String[0]));
+    }
+    public static String removeBullets(String text) {
+        String[] lines = getLines(text);
+        ArrayList<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(line.replaceAll("^•\\s*", ""));
         }
         return String.join("\n", result.toArray(new String[0]));
     }
