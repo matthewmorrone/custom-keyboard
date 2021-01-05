@@ -2025,10 +2025,10 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public boolean containsNonPrintables(String text) {
-        return text.contains("�");
+        return text.contains("");
     }
     public String removeNonPrintables(String text) {
-        return text.replaceAll("�", "");
+        return text.replaceAll("", "");
     }
 
     @Override
@@ -2715,7 +2715,7 @@ public class CustomInputMethodService extends InputMethodService
                         return;
                     }
                     playClick();
-                    ToastIt.text(context(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
+                    ToastIt.info(context(), unicode.getUnicode()+" "+StringUtils.unidata(unicode.getUnicode()));
                     commitText(unicode.getUnicode());
                 }
             });
@@ -2733,11 +2733,11 @@ public class CustomInputMethodService extends InputMethodService
                         sb.append(unicode.getUnicode());
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.text(context(), unicode.getUnicode()+" added to unicode favorites");
+                        ToastIt.info(context(), unicode.getUnicode()+" added to unicode favorites");
                     }
                     if (tab == 1) {
                         unicodePopup.removeRecentUnicode(context(), unicode);
-                        ToastIt.text(context(), unicode.getUnicode()+" removed from unicode recents");
+                        ToastIt.info(context(), unicode.getUnicode()+" removed from unicode recents");
                     }
                     if (tab == 2) {
                         StringBuilder sb = new StringBuilder(unicodeFavorites);
@@ -2746,7 +2746,7 @@ public class CustomInputMethodService extends InputMethodService
                         }
                         unicodeFavorites = sb.toString();
                         sharedPreferences.edit().putString("unicode_favorites", unicodeFavorites).apply();
-                        ToastIt.text(context(), unicode.getUnicode()+" removed from favorites");
+                        ToastIt.info(context(), unicode.getUnicode()+" removed from favorites");
                     }
                 }
             });
@@ -2755,6 +2755,13 @@ public class CustomInputMethodService extends InputMethodService
                 public void onUnicodeBackspaceClicked(View v) {
                     playClick(-7);
                     handleBackspace();
+                }
+            });
+            unicodePopup.setOnUnicodeDeleteClickedListener(new UnicodePopup.OnUnicodeDeleteClickedListener() {
+                @Override
+                public void onUnicodeDeleteClicked(View v) {
+                    playClick(-7);
+                    handleDelete();
                 }
             });
         }

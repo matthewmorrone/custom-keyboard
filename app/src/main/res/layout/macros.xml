@@ -23,6 +23,8 @@
         <Key android:codes="-504" android:keyLabel="@string/k4" />
     </Row>
     <Row android:keyWidth="25%p">
+        <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"  android:keyLabel="ツ" android:keyWidth="10%p" />
+        <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"         android:keyLabel="ಠ_ಠ" android:keyWidth="10%p" />
         <Key android:codes="-505" android:keyLabel="@string/k5" />
         <Key android:codes="-506" android:keyLabel="@string/k6" />
         <Key android:codes="-507" android:keyLabel="@string/k7" />
@@ -40,19 +42,18 @@
         <Key android:codes="0"    android:keyOutputText=".com"        android:keyLabel=".com" />
     </Row>
     <Row android:keyWidth="12.5%p">
-        <Key android:codes="-183" android:keyLabel="[Ꮤ]" />
+        <Key android:codes="-163" android:keyIcon="@drawable/ic_nbsp" />
         <Key android:codes="-184" android:keyLabel="\\0" />
+        <Key android:codes="-183" android:keyLabel="[Ꮤ]" />
         <Key android:codes="-35"  android:keyIcon="@drawable/ic_date" />
         <Key android:codes="-36"  android:keyIcon="@drawable/ic_time" />
         <Key android:codes="-73"  android:keyLabel="🕐" />
-        <Key android:codes="0"    android:keyOutputText="¯\\_(ツ)_/¯"  android:keyLabel="ツ" />
-        <Key android:codes="0"    android:keyOutputText="ಠ_ಠ"         android:keyLabel="ಠ_ಠ" />
-        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" android:keyWidth="10%p" />
-        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    android:keyWidth="10%p" />
+        <Key android:codes="-5"   android:keyIcon="@drawable/ic_backspace" />
+        <Key android:codes="-7"   android:keyIcon="@drawable/ic_delete"    />
     </Row>
     <Row>
         <Key android:codes="-22"  android:keyIcon="@drawable/ic_settings"        android:keyWidth="12.5%p" />
-        <Key android:codes="-128" android:keyIcon="@drawable/ic_swap"             android:keyWidth="12.5%p" />
+        <Key android:codes="-128" android:keyIcon="@drawable/ic_swap"            android:keyWidth="12.5%p" />
         <Key android:codes="-2"   android:keyIcon="@drawable/ic_space"           android:keyWidth="50%p" />
         <Key android:codes="10"   android:keyIcon="@drawable/ic_keyboard_return" android:keyWidth="25%p" />
     </Row>

@@ -52,6 +52,7 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
     OnUnicodeClickedListener onUnicodeClickedListener;
     OnUnicodeLongClickedListener onUnicodeLongClickedListener;
     OnUnicodeBackspaceClickedListener onUnicodeBackspaceClickedListener;
+    OnUnicodeDeleteClickedListener onUnicodeDeleteClickedListener;
     OnSoftKeyboardOpenCloseListener onSoftKeyboardOpenCloseListener;
     public View rootView;
     Context mContext;
@@ -94,6 +95,10 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
 
     public void setOnUnicodeBackspaceClickedListener(OnUnicodeBackspaceClickedListener listener) {
         this.onUnicodeBackspaceClickedListener = listener;
+    }
+    
+    public void setOnUnicodeDeleteClickedListener(OnUnicodeDeleteClickedListener listener) {
+        this.onUnicodeDeleteClickedListener = listener;
     }
 
     public void showAtBottom() {
@@ -266,6 +271,14 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
             public void onClick(View view) {
                 if (onUnicodeBackspaceClickedListener != null) {
                     onUnicodeBackspaceClickedListener.onUnicodeBackspaceClicked(view);
+                }
+            }
+        }));
+        view.findViewById(R.id.unicode_delete).setOnTouchListener(new RepeatListener(1000, 50, new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onUnicodeDeleteClickedListener != null) {
+                    onUnicodeDeleteClickedListener.onUnicodeDeleteClicked(view);
                 }
             }
         }));
@@ -466,6 +479,9 @@ public class UnicodePopup extends PopupWindow implements ViewPager.OnPageChangeL
 
     public interface OnUnicodeBackspaceClickedListener {
         void onUnicodeBackspaceClicked(View v);
+    }
+    public interface OnUnicodeDeleteClickedListener {
+        void onUnicodeDeleteClicked(View v);
     }
 
     public interface OnSoftKeyboardOpenCloseListener {

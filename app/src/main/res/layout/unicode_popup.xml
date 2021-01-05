@@ -76,6 +76,15 @@
             android:src="@drawable/ic_backspace"
             android:contentDescription=""
             />
+        <ImageButton
+            android:id="@+id/unicode_delete"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_delete"
+            android:contentDescription=""
+            />
     </LinearLayout>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/unicode_pager"

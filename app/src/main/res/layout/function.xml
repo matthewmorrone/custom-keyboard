@@ -21,14 +21,13 @@
         <Key android:codes="-75" android:keyIcon="@drawable/ic_redo" />
         <Key android:codes="-70" android:keyIcon="@drawable/ic_join_lines" />
         <Key android:codes="-34" android:keyIcon="@drawable/ic_duplicate_lines" />
-        <Key android:codes="-92"  android:keyLabel="#?" />
-        <Key android:codes="-93"  android:keyIcon="@drawable/ic_info" />
-        <Key android:codes="-61"  android:keyLabel="⌤" />
-        <Key android:codes="-62"  android:keyLabel="⌅" />
-        <Key android:codes="-163" android:keyIcon="@drawable/ic_nbsp" />
+        <Key android:codes="-92" android:keyLabel="#?" />
+        <Key android:codes="-93" android:keyIcon="@drawable/ic_info" />
+        <Key android:codes="-61" android:keyLabel="⌤" />
+        <Key android:codes="-62" android:keyLabel="⌅" />
+        <Key android:codes="-63" android:keyLabel="⌴$" />
     </Row>
-    <Row>
-        <Key android:codes="-63"  android:keyLabel="⌴$" />
+    <Row android:keyWidth="11.11%p">
         <Key android:codes="-52" android:keyLabel="- ⌴" />
         <Key android:codes="-53" android:keyLabel="_ ⌴" />
         <Key android:codes="-54" android:keyLabel="⌴ -" />
