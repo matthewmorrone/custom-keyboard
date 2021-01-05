@@ -765,7 +765,7 @@ public class StringUtils {
         ArrayList<String> result = new ArrayList<>();
         int index = 0;
         for (String line : lines) {
-            result.add(++index + " " + line);
+            result.add(++index + ". " + line);
         }
         return String.join("\n", result.toArray(new String[0]));
     }
@@ -773,7 +773,7 @@ public class StringUtils {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^\\d+\\s*", ""));
+            result.add(line.replaceAll("^\\d+\\.?\\s*", ""));
         }
         return String.join("\n", result.toArray(new String[0]));
     }
