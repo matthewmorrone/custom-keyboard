@@ -2066,12 +2066,6 @@ public class CustomInputMethodService extends InputMethodService
             ToastIt.debug(context(), ""+primaryCode);
         }
 
-        /*
-        if (containsNonPrintables(getAllText())) {
-            ToastIt.debug(context(), "null char detected");
-        }
-        */
-
         if (primaryCode > 0
          && mCurrentKeyboard.title != null
          && mCurrentKeyboard.title.equals("IPA")
@@ -2115,22 +2109,11 @@ public class CustomInputMethodService extends InputMethodService
             case 133: sendKey(KeyEvent.KEYCODE_F3); break;
             case 132: sendKey(KeyEvent.KEYCODE_F2); break;
             case 131: sendKey(KeyEvent.KEYCODE_F1); break;
-            case  10: handleEnter(); break;
             case  -1: handleShift(); break;
-            case  -2: handleSpace(); break;
             case  -3: break;
             case  -4: break;
-            case  -5: handleBackspace(); break;
-            case  -6: break;
-            case  -7: handleDelete(); break;
-            case  -8: handleCut(); break;
-            case  -9: handleCopy(); break;
-            case -10: handlePaste(); break;
-            case -11: toggleSelection(); break;
-            case -12:
-                if (getSelectionStart() == getSelectionEnd()) selectWord();
-                else selectLine();
-            break;
+            case -24: handleClose(); break;
+            case -28: clearAll(); break;
             case -13: navigate(KeyEvent.KEYCODE_DPAD_UP); break;
             case -14: navigate(KeyEvent.KEYCODE_DPAD_DOWN); break;
             case -15: navigate(KeyEvent.KEYCODE_DPAD_LEFT); break;
@@ -2138,29 +2121,43 @@ public class CustomInputMethodService extends InputMethodService
             case -17: navigate(KeyEvent.KEYCODE_DPAD_CENTER); break;
             case -18: navigate(KeyEvent.KEYCODE_PAGE_UP); break;
             case -19: navigate(KeyEvent.KEYCODE_PAGE_DOWN); break;
-            case -20:
-                navigate(KeyEvent.KEYCODE_MOVE_HOME);
-                if (String.valueOf(ic.getTextBeforeCursor(1, 0)).contains("\n")) {
-                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT, StringUtils.getIndentation(getNextLine()).length());
-                }
-            break;
             case -21: navigate(KeyEvent.KEYCODE_MOVE_END); break;
+            case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
+            case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
+            case -104: IntentUtils.showActivity(context(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
+            case -105: IntentUtils.showActivity(context(), Settings.ACTION_LOCALE_SETTINGS); break;
+            case -106: IntentUtils.showActivity(context(), Settings.ACTION_SETTINGS); break;
+            case -107: IntentUtils.showActivity(context(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
+            case -108: IntentUtils.showActivity(context(), Settings.ACTION_WIFI_SETTINGS); break;
+            case -109: IntentUtils.showActivity(context(), Settings.ACTION_WIRELESS_SETTINGS); break;
+            case -110: IntentUtils.showActivity(context(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
+            case -111: IntentUtils.showActivity(context(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
+            case -112: IntentUtils.showActivity(context(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
+            case -113: IntentUtils.showActivity(context(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
+            case -114: IntentUtils.showActivity(context(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
+            case -115: IntentUtils.showActivity(context(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
+            case -116: IntentUtils.showActivity(context(), Settings.ACTION_SOUND_SETTINGS);   break;
+            case -117: IntentUtils.showActivity(context(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
+            case -118: IntentUtils.showActivity(context(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
+            case -119: IntentUtils.showActivity(context(), Settings.ACTION_CAPTIONING_SETTINGS); break;
+            case -120: IntentUtils.showActivity(context(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
+            case -121: IntentUtils.showClipboard(context()); break;
             case -22: IntentUtils.showSettings(context()); break;
             case -23: showVoiceInput(); break;
-            case -24: handleClose(); break;
-            case -25: showInputMethodPicker(); break;
             case -26: sendKey(KeyEvent.KEYCODE_SETTINGS); break;
+            case -25: showInputMethodPicker(); break;
             case -27: showEmoticonPopup(); break;
-            case -28: clearAll(); break;
-            case -29: goToStart(); break;
-            case -30: goToEnd(); break;
-            case -31: selectNone(); break;
-            case -32: selectPrevWord(); break;
-            case -33: selectNextWord(); break;
+            case -173: displayFindMenu(); break;
+            case -174: showUnicodePopup(); break;
+            case -93: 
+                String unidata = StringUtils.unidata(getSelectedText());
+                if (!unidata.isEmpty()) ToastIt.info(context(), unidata);
+            break;
             case -35: commitText(TimeUtils.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(TimeUtils.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(TimeUtils.nowAsLong() + " " + TimeUtils.nowAsInt()); break;
-
             case -73: commitText(TimeUtils.timemoji()); break;
             case -74: ic.performContextMenuAction(16908338); break; // undo
             case -75: ic.performContextMenuAction(16908339); break; // redo
@@ -2180,13 +2177,37 @@ public class CustomInputMethodService extends InputMethodService
             case -89: ic.performContextMenuAction(16908327); break; // closeButton
             case -90: ic.performContextMenuAction(16908316); break; // extractArea
             case -91: ic.performContextMenuAction(16908317); break; // candidatesArea
-            case -92:
-                String text = getSelectedText();
-                ToastIt.info(context(), "Chars: " + StringUtils.countChars(text) + "\nWords: " + StringUtils.countWords(text) + "\nLines: " + StringUtils.countLines(text));
-            break;
-            case -93: 
-                String unidata = StringUtils.unidata(getSelectedText());
-                if (!unidata.isEmpty()) ToastIt.info(context(), unidata);
+            case -122: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  2, 10)); break;
+            case -123: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  2)); break;
+            case -124: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  8, 10)); break;
+            case -125: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  8)); break;
+            case -126: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 16, 10)); break;
+            case -127: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10, 16)); break;
+            case -168: replaceInSelection(StringUtils.hash(getSelectedText())); break;
+            case -169: replaceInSelection(StringUtils.sha256(getSelectedText())); break;
+            case -128: setKeyboard(R.layout.primary, "Primary"); break;
+            case -129: setKeyboard(R.layout.menu, "Menu"); break;
+            case -130: setKeyboard(R.layout.macros, "Macros"); break;
+            case -131: setKeyboard(R.layout.greek, "Greek"); break;
+            case -132: setKeyboard(R.layout.coding, "Coding"); break;
+            case -133: setKeyboard(R.layout.domain, "Domain"); break;
+            case -134: setKeyboard(R.layout.numeric, "Numeric"); break;
+            case -135: setKeyboard(R.layout.navigation, "Navigation"); break;
+            case -136: setKeyboard(R.layout.fonts, "Fonts"); break;
+            case -137: setKeyboard(R.layout.ipa, "IPA"); break;
+            case -138: setKeyboard(R.layout.symbol, "Symbol"); break;
+            case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
+            case -140: setKeyboard(R.layout.accents, "Accents"); break;
+            case -142: setKeyboard(R.layout.function, "Function"); break;
+            case -143: setKeyboard(R.layout.calculator, "Calculator"); break;
+            case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
+            case -185: setKeyboard(R.layout.utility, "Utility"); break;
+            case -141:
+                String customKeys = sharedPreferences.getString("custom_keys", "");
+                if (customKeys != "") {
+                    Keyboard customKeyboard = new Keyboard(this, R.layout.custom, customKeys, 10, 0);
+                    mCustomKeyboardView.setKeyboard(customKeyboard);
+                }
             break;
             case -94:
                 if (Variables.isBold()) replaceInSelection(TextUtils.unbolden(getSelectedText()));
@@ -2224,53 +2245,6 @@ public class CustomInputMethodService extends InputMethodService
                 replaceInSelection(TextUtils.ununderline(getSelectedText()));
                 replaceInSelection(TextUtils.ununderscore(getSelectedText()));
             break;
-            case -104: IntentUtils.showActivity(context(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
-            case -105: IntentUtils.showActivity(context(), Settings.ACTION_LOCALE_SETTINGS); break;
-            case -106: IntentUtils.showActivity(context(), Settings.ACTION_SETTINGS); break;
-            case -107: IntentUtils.showActivity(context(), Settings.ACTION_USER_DICTIONARY_SETTINGS); break;
-            case -108: IntentUtils.showActivity(context(), Settings.ACTION_WIFI_SETTINGS); break;
-            case -109: IntentUtils.showActivity(context(), Settings.ACTION_WIRELESS_SETTINGS); break;
-            case -110: IntentUtils.showActivity(context(), Settings.ACTION_VOICE_INPUT_SETTINGS); break;
-            case -111: IntentUtils.showActivity(context(), Settings.ACTION_USAGE_ACCESS_SETTINGS); break;
-            case -112: IntentUtils.showActivity(context(), Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE); break; // handleEsc();
-            case -113: IntentUtils.showActivity(context(), Settings.ACTION_HOME_SETTINGS); break; // handleCtrl();
-            case -114: IntentUtils.showActivity(context(), Settings.ACTION_INPUT_METHOD_SETTINGS); break; // handleAlt();
-            case -115: IntentUtils.showActivity(context(), Settings.ACTION_AIRPLANE_MODE_SETTINGS); break; // handleTab();
-            case -116: IntentUtils.showActivity(context(), Settings.ACTION_SOUND_SETTINGS);   break;
-            case -117: IntentUtils.showActivity(context(), Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);   break;
-            case -118: IntentUtils.showActivity(context(), Settings.ACTION_BLUETOOTH_SETTINGS); break;
-            case -119: IntentUtils.showActivity(context(), Settings.ACTION_CAPTIONING_SETTINGS); break;
-            case -120: IntentUtils.showActivity(context(), Settings.ACTION_DEVICE_INFO_SETTINGS); break;
-            case -121: IntentUtils.showClipboard(context()); break;
-            case -122: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  2, 10)); break;
-            case -123: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  2)); break;
-            case -124: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(),  8, 10)); break;
-            case -125: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10,  8)); break;
-            case -126: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 16, 10)); break;
-            case -127: replaceInSelection(StringUtils.convertNumberBase(getSelectedText(), 10, 16)); break;
-            case -128: setKeyboard(R.layout.primary, "Primary"); break;
-            case -129: setKeyboard(R.layout.menu, "Menu"); break;
-            case -130: setKeyboard(R.layout.macros, "Macros"); break;
-            case -131: setKeyboard(R.layout.greek, "Greek"); break;
-            case -132: setKeyboard(R.layout.coding, "Coding"); break;
-            case -133: setKeyboard(R.layout.domain, "Domain"); break;
-            case -134: setKeyboard(R.layout.numeric, "Numeric"); break;
-            case -135: setKeyboard(R.layout.navigation, "Navigation"); break;
-            case -136: setKeyboard(R.layout.fonts, "Fonts"); break;
-            case -137: setKeyboard(R.layout.ipa, "IPA"); break;
-            case -138: setKeyboard(R.layout.symbol, "Symbol"); break;
-            case -139: setKeyboard(R.layout.unicode, "Unicode"); break;
-            case -140: setKeyboard(R.layout.accents, "Accents"); break;
-            case -141:
-                String customKeys = sharedPreferences.getString("custom_keys", "");
-                if (customKeys != "") {
-                    Keyboard customKeyboard = new Keyboard(this, R.layout.custom, customKeys, 10, 0);
-                    mCustomKeyboardView.setKeyboard(customKeyboard);
-                }
-            break;
-            case -142: setKeyboard(R.layout.function, "Function"); break;
-            case -143: setKeyboard(R.layout.calculator, "Calculator"); break;
-            case -144: setKeyboard(R.layout.clipboard, "Clipboard"); break;
             case -145: Variables.toggleBoldSerif(); break;
             case -146: Variables.toggleItalicSerif(); break;
             case -147: Variables.toggleBoldItalicSerif(); break;
@@ -2289,28 +2263,47 @@ public class CustomInputMethodService extends InputMethodService
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
-            case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
-            case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
-            case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
-            case -168: replaceInSelection(StringUtils.hash(getSelectedText())); break;
-            case -169: replaceInSelection(StringUtils.sha256(getSelectedText())); break;
-            case -173: displayFindMenu(); break;
-            case -174: showUnicodePopup(); break;
-            case -175: moveLeftOneWord(); break;
-            case -176: moveRightOneWord(); break;
             case -177: IntentUtils.dialPhone(context(), getSelectedText()); break;
             case -178: IntentUtils.openWebpage(context(), getSelectedText()); break;
             case -179: IntentUtils.searchWeb(context(), getSelectedText()); break;
             case -180: IntentUtils.showLocationFromAddress(context(), getSelectedText()); break;
             case -181: IntentUtils.searchWikipedia(context(), getSelectedText()); break;
             case -182: IntentUtils.shareText(context(), getSelectedText()); break;
-            case -185: setKeyboard(R.layout.utility, "Utility"); break;
-          
-         
-        
-       
-      
+
+
+
+
+            case  -2: handleSpace(); break;
+            case  10: handleEnter(); break;
+
+            case  -5: handleBackspace(); break;
+            case  -6: break;
+            case  -7: handleDelete(); break;
+            case  -8: handleCut(); break;
+            case  -9: handleCopy(); break;
+            case -10: handlePaste(); break;
+            case -11: toggleSelection(); break;
+            case -12:
+                if (getSelectionStart() == getSelectionEnd()) selectWord();
+                else selectLine();
+            break;
+            case -175: moveLeftOneWord(); break;
+            case -176: moveRightOneWord(); break;
+            case -20:
+                navigate(KeyEvent.KEYCODE_MOVE_HOME);
+                if (String.valueOf(ic.getTextBeforeCursor(1, 0)).contains("\n")) {
+                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT, StringUtils.getIndentation(getNextLine()).length());
+                }
+            break;
+            case -29: goToStart(); break;
+            case -30: goToEnd(); break;
+            case -31: selectNone(); break;
+            case -32: selectPrevWord(); break;
+            case -33: selectNextWord(); break;
+            case -92:
+                String text = getSelectedText();
+                ToastIt.info(context(), "Chars: " + StringUtils.countChars(text) + "\nWords: " + StringUtils.countWords(text) + "\nLines: " + StringUtils.countLines(text));
+            break;
             case -71:
                 ere = StringUtils.countChars(getSelectedText());
                 replaceInSelection(StringUtils.uniqueChars(getSelectedText()));
@@ -2412,8 +2405,8 @@ public class CustomInputMethodService extends InputMethodService
             case -191: 
                 replaceInSelection(StringUtils.removeCommas(getSelectedText())); 
             break;
-            /*
 
+            /*
             case -192: break;
             case -193: break;
             case -194: break;
