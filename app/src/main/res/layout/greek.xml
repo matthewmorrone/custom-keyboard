@@ -7,10 +7,10 @@
     <Row android:keyWidth="9.09%p">
         <Key android:codes="-25"  android:keyIcon="@drawable/ic_double_pointer_left" />
         <Key android:codes="-26"  android:keyIcon="@drawable/ic_double_pointer_right" />
-        <Key android:codes="-108" android:keyIcon="@drawable/ic_arrow_left"  android:isRepeatable="true" />
-        <Key android:codes="-111" android:keyIcon="@drawable/ic_arrow_right" android:isRepeatable="true" />
-        <Key android:codes="-107" android:keyIcon="@drawable/ic_arrow_up"    android:isRepeatable="true" />
-        <Key android:codes="-109" android:keyIcon="@drawable/ic_arrow_down"  android:isRepeatable="true" />
+        <Key android:codes="-108" android:keyIcon="@drawable/ic_arrow_left"  />
+        <Key android:codes="-111" android:keyIcon="@drawable/ic_arrow_right" />
+        <Key android:codes="-107" android:keyIcon="@drawable/ic_arrow_up"    />
+        <Key android:codes="-109" android:keyIcon="@drawable/ic_arrow_down"  />
         <Key android:codes="-76"  android:keyIcon="@drawable/ic_select" />
         <Key android:codes="-93"  android:keyIcon="@drawable/ic_select_all" />
         <Key android:codes="-9"   android:keyIcon="@drawable/ic_cut" />

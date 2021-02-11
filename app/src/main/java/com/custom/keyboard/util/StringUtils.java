@@ -38,10 +38,14 @@ import static com.custom.keyboard.util.RandomUtils.generateRandomInt;
 
 public class StringUtils {
     // info
+    
+    public static String redact(String text) {
+        return text.replaceAll("[a-zA-Z0-9]", "█");
+    }
 
     public static String removeCitations(String text) {
 
-        String r = "(https?://en\\.wikipedia\\.org/wiki/(.+?))\\s+(.+)";
+        String r = "(https?://en\\.wikipedia\\.org/wiki/(.+?))[ \\t]+(.+)";
         Pattern p = Pattern.compile(r, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = p.matcher(text);
 
@@ -78,9 +82,6 @@ public class StringUtils {
         }
         return stringHash;
     }
-
-
-
 
     public static String serialize(List<String> dataList) {
         StringBuilder xmlBuilder = new StringBuilder("<root>");
@@ -429,7 +430,16 @@ public class StringUtils {
         boolean nextTitleCase = true;
 
         for (char c : input.toCharArray()) {
-            if (Character.isSpaceChar(c)) {
+            if (Character.isSpaceChar(c)
+            || c == '\n'
+            || c == '('
+            || c == '{'
+            || c == '['
+            || c == '"'
+            || c == '\''
+            || c == '-'
+            || c == '_'
+            ) {
                 nextTitleCase = true;
             }
             else if (nextTitleCase) {
@@ -541,6 +551,7 @@ public class StringUtils {
         return String.join("\n", result.toArray(new String[0]));
     }
 
+
     // @TODO: removeDuplicateChars or uniqueChars, pick one and ensure consistency
     /*
     public static String removeDuplicateChars(String input) {
@@ -608,8 +619,28 @@ public class StringUtils {
         return String.join("\n", result.toArray(new String[0]));
     }
 
-
-
+    public static boolean containsNonPrintables(String text) {
+        return text.contains("\\p{C}");
+    }
+    public static String removeNonPrintables(String text) {
+        return text.replaceAll("\\p{C}", "?");
+    }
+    // text.split("\r\n|\r|\n");
+    // space " " u0020, tab "\t" u0009, nbsp u00A0, \r 000D
+    // linebreak "\n" u000A, zwsp u200B, zwnbsp uFEFF, u0000
+    public static String removeCommas(String text) {
+        return text
+        .replaceAll(",", " ")
+        .replaceAll(" +", " ")
+        ;
+    }
+    public static String insertCommas(String text) {
+        return text
+        .replaceAll(" ", ", ")
+        .replaceAll(",+", ",")
+        .replaceAll(" +", " ")
+        ;
+    }
     // spacing stuff
     public static String trim(String text) {
         text = text.trim()
@@ -624,15 +655,15 @@ public class StringUtils {
         return text;
     }
     public static String trimLeadingWhitespace(String text) {
-        return text.replaceAll("\n\\s*", "\n")
-            .replaceAll("^\\s*", "");
+        return text.replaceAll("\n[ \\t]*", "\n")
+            .replaceAll("^[ \\t]*", "");
     }
     public static String trimTrailingWhitespace(String text) {
-        return text.replaceAll("\\s*\n", "\n")
-            .replaceAll("\\s*$", "");
+        return text.replaceAll("[ \\t]*\n", "\n")
+            .replaceAll("[ \\t]*$", "");
     }
     public static String getIndentation(String line) {
-        String regex = "^(\\s+).+$";
+        String regex = "^([ \\t]+).+$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
         if (m.find()) {
@@ -722,7 +753,7 @@ public class StringUtils {
         return text.replaceAll(" ", "\n");
     }
     public static String linebreaksToSpaces(String text) {
-        return text.replaceAll("\n", " ");
+        return text.replaceAll("\n+", " "); //.replaceAll(" +", " ");
     }
     public static String spacesToTabs(String text) {
         return text.replaceAll(" ", "\t");
@@ -773,7 +804,7 @@ public class StringUtils {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^\\d+\\.?\\s*", ""));
+            result.add(line.replaceAll("^\\d+\\.?[ \\t]*", ""));
         }
         return String.join("\n", result.toArray(new String[0]));
     }
@@ -790,7 +821,7 @@ public class StringUtils {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
         for (String line : lines) {
-            result.add(line.replaceAll("^•\\s*", ""));
+            result.add(line.replaceAll("^•[ \\t]*", ""));
         }
         return String.join("\n", result.toArray(new String[0]));
     }
@@ -798,7 +829,7 @@ public class StringUtils {
         int lineCount = countLines(text);
         String regex;
         if (lineCount < 2) {
-            regex = "^/\\*\\s*(.+)\\s*\\*/$";
+            regex = "^/\\*[ \\t]*(.+)[ \\t]*\\*/$";
         }
         else {
             regex = "^/\\*\n(.+)\n\\*/$";
@@ -819,7 +850,7 @@ public class StringUtils {
         int lineCount = countLines(text);
         String regex;
         if (lineCount < 2) {
-            regex = "^<!--\\s*(.+)\\s*-->$";
+            regex = "^<!--[ \\t]*(.+)[ \\t]*-->$";
         }
         else {
             regex = "^<!--\n(.+)\n-->$";
@@ -839,8 +870,8 @@ public class StringUtils {
     public static String toggleLineComment(String text) {
         String[] lines = getLines(text);
         ArrayList<String> result = new ArrayList<>();
-        String regexWith = "(^|\\n)(\\s*)// (.+?)(\\n|$)";
-        String regexSans = "(^|\\n)(\\s*)(.+?)(\\n|$)";
+        String regexWith = "(^|\\n)([ \\t]*)// (.+?)(\\n|$)";
+        String regexSans = "(^|\\n)([ \\t]*)(.+?)(\\n|$)";
         Pattern p = Pattern.compile(regexWith);
         Matcher m = p.matcher(lines[0]);
         boolean found = m.find();

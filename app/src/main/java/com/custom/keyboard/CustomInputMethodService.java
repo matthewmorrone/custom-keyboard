@@ -161,7 +161,14 @@ public class CustomInputMethodService extends InputMethodService
         if (debug) System.out.println("onCreateInputView");
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mCustomKeyboardView.setOnKeyboardActionListener(this);
-        mCustomKeyboardView.setKeyboard(new CustomKeyboard(this, R.layout.primary));
+        
+        int prevId = Util.orNull(sharedPreferences.getInt("current_layout", R.layout.primary), R.layout.primary);
+        String prevTitle = Util.orNull(sharedPreferences.getString("current_layout_title", "Primary"), "Primary");
+       
+        setKeyboard(prevId, prevTitle);
+
+        // setKeyboard(R.layout.primary, "Primary");
+        // mCustomKeyboardView.setKeyboard(new CustomKeyboard(this, R.layout.primary));
         redraw();
 
         return mCustomKeyboardView;
@@ -247,7 +254,12 @@ public class CustomInputMethodService extends InputMethodService
             setKeyboard(R.layout.primary, "Primary");
         }
 */
-        setKeyboard(R.layout.primary, "Primary");
+        int prevId = Util.orNull(sharedPreferences.getInt("current_layout", R.layout.primary), R.layout.primary);
+        String prevTitle = Util.orNull(sharedPreferences.getString("current_layout_title", "Primary"), "Primary");
+        
+        setKeyboard(prevId, prevTitle);
+
+        // setKeyboard(R.layout.primary, "Primary");
 
         // if (sharedPreferences.getBoolean("subtypes", false))
         setInputType();
@@ -284,17 +296,23 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     private void setInputType() {
-        int id = mCurrentKeyboard.xmlLayoutResId;
-        String title = mCurrentKeyboard.title;
+        // int id = mCurrentKeyboard.xmlLayoutResId;
+        // String title = mCurrentKeyboard.title;
 
+        int id = Util.orNull(sharedPreferences.getInt("current_layout", R.layout.primary), R.layout.primary);
+        String title = Util.orNull(sharedPreferences.getString("current_layout_title", "Primary"), "Primary");
+        
         int webInputType = getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_VARIATION;
 
+        /*
         switch (getCurrentInputEditorInfo().inputType & InputType.TYPE_MASK_CLASS) {
             case InputType.TYPE_CLASS_NUMBER:
             case InputType.TYPE_CLASS_DATETIME:
             case InputType.TYPE_CLASS_PHONE:
                 setKeyboard(R.layout.numeric, "Numeric");
             break;
+        */
+            /*
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
               // || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
@@ -304,10 +322,14 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 else setKeyboard(id, title);
             break;
+            */
+        /*
             default:
                 setKeyboard(id, title);
             break;
         }
+        */
+        setKeyboard(id, title);
         if (mCustomKeyboardView != null) mCustomKeyboardView.setKeyboard(mCurrentKeyboard);
     }
 
@@ -524,6 +546,8 @@ public class CustomInputMethodService extends InputMethodService
                 ic.finishComposingText();
             }
         }
+        
+        pairStack.clear();
     }
 
     @Override
@@ -784,11 +808,18 @@ public class CustomInputMethodService extends InputMethodService
         int start = getSelectionStart() - getPrevWord().length();
         int end   = getSelectionEnd() + getNextWord().length();
 
+        try {
         if (getNextWord().length() > 0 && (int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
         if (end == -1) end++;
+        if (String.valueOf(getNextWord().charAt(0)).equals(" ")) {
+            end++;
+        }
+        }
+        catch(Exception e) {}
 
         ic.setSelection(start, end);
     }
+    
     public void selectLine() {
         sendKey(KeyEvent.KEYCODE_MOVE_HOME);
         Variables.setSelectingOn(getSelectionStart());
@@ -814,7 +845,7 @@ public class CustomInputMethodService extends InputMethodService
     
     public String getPrevWord() {
         InputConnection ic = getCurrentInputConnection();
-        String[] words = Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString().split("\\b", -1); // mWordSeparators);
+        String[] words = Util.orNull(ic.getTextBeforeCursor(MAX, 0), "").toString().split("\\b", -1); // \\b mWordSeparators);
         if (words.length < 1) return "";
         String prevWord = words[words.length - 1];
         if (words.length > 1 && prevWord.equals("")) prevWord = words[words.length - 2];
@@ -822,7 +853,7 @@ public class CustomInputMethodService extends InputMethodService
     }
     public String getNextWord() {
         InputConnection ic = getCurrentInputConnection();
-        String[] words = Util.orNull(ic.getTextAfterCursor(MAX, 0), "").toString().split("\\b", -1); // mWordSeparators);
+        String[] words = Util.orNull(ic.getTextAfterCursor(MAX, 0), "").toString().split("\\b", -1); // \\b mWordSeparators);
         if (words.length < 1) return "";
         String nextWord = words[0];
         if (words.length > 1 && nextWord.equals("")) nextWord = words[1];
@@ -2005,6 +2036,7 @@ public class CustomInputMethodService extends InputMethodService
         }
         else {
             replaceInSelection(StringUtils.linebreaksToSpaces(getSelectedText()));
+            // replaceInSelection(StringUtils.reduceSpaces(getSelectedText()));
         }
     }
 
@@ -2022,13 +2054,6 @@ public class CustomInputMethodService extends InputMethodService
             case -7: am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE); break;
             default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD); break;
         }
-    }
-
-    public boolean containsNonPrintables(String text) {
-        return text.contains("");
-    }
-    public String removeNonPrintables(String text) {
-        return text.replaceAll("", "");
     }
 
     @Override
@@ -2132,61 +2157,10 @@ public class CustomInputMethodService extends InputMethodService
             case -31: selectNone(); break;
             case -32: selectPrevWord(); break;
             case -33: selectNextWord(); break;
-            case -34: commitText(getNextLine() + "\n" + getPrevLine(), 1); break;
             case -35: commitText(TimeUtils.getDateString(sharedPreferences.getString("date_format", "yyyy-MM-dd"))); break;
             case -36: commitText(TimeUtils.getTimeString(sharedPreferences.getString("time_format", "HH:mm:ss"))); break;
             case -37: commitText(TimeUtils.nowAsLong() + " " + TimeUtils.nowAsInt()); break;
-            case -38: replaceInSelection(StringUtils.toUpperCase(getSelectedText())); break;
-            case -39: replaceInSelection(StringUtils.toTitleCase(getSelectedText())); break;
-            case -40: replaceInSelection(StringUtils.toLowerCase(getSelectedText())); break;
-            case -41: replaceInSelection(StringUtils.toAlterCase(getSelectedText())); break;
-            case -42: replaceInSelection(StringUtils.camelToSnake(getSelectedText())); break;
-            case -43: replaceInSelection(StringUtils.snakeToCamel(getSelectedText())); break;
-            case -44: replaceInSelection(StringUtils.sortChars(getSelectedText())); break;
-            case -45: replaceInSelection(StringUtils.reverseChars(getSelectedText())); break;
-            case -46: replaceInSelection(StringUtils.shuffleChars(getSelectedText())); break;
-            case -47: replaceInSelection(StringUtils.doubleChars(getSelectedText())); break;
-            case -48: replaceInSelection(StringUtils.sortLines(getSelectedText())); break;
-            case -49: replaceInSelection(StringUtils.reverseLines(getSelectedText())); break;
-            case -50: replaceInSelection(StringUtils.shuffleLines(getSelectedText())); break;
-            case -51: replaceInSelection(StringUtils.doubleLines(getSelectedText())); break;
-            case -52: replaceInSelection(StringUtils.dashesToSpaces(getSelectedText())); break;
-            case -53: replaceInSelection(StringUtils.underscoresToSpaces(getSelectedText())); break;
-            case -54: replaceInSelection(StringUtils.spacesToDashes(getSelectedText())); break;
-            case -55: replaceInSelection(StringUtils.spacesToUnderscores(getSelectedText())); break;
-            case -56: replaceInSelection(StringUtils.spacesToLinebreaks(getSelectedText())); break;
-            case -57: replaceInSelection(StringUtils.linebreaksToSpaces(getSelectedText())); break;
-            case -58: replaceInSelection(StringUtils.spacesToTabs(getSelectedText())); break;
-            case -59: replaceInSelection(StringUtils.tabsToSpaces(getSelectedText())); break;
-            case -60: replaceInSelection(StringUtils.splitWithLinebreaks(getSelectedText())); break;
-            case -61: replaceInSelection(StringUtils.splitWithSpaces(getSelectedText())); break;
-            case -62: replaceInSelection(StringUtils.removeSpaces(getSelectedText())); break;
-            case -63: replaceInSelection(StringUtils.reduceSpaces(getSelectedText())); break;
-            case -64:
-                if (!isSelecting()) selectLine();
-                replaceInSelection(StringUtils.increaseIndentation(getSelectedText(), "    "));
-            break;
-            case -65:
-                if (!isSelecting()) selectLine();
-                replaceInSelection(StringUtils.decreaseIndentation(getSelectedText(), "    "));
-            break;
-            case -66: replaceInSelection(StringUtils.trimLeadingWhitespace(getSelectedText())); break;
-            case -67: replaceInSelection(StringUtils.trimTrailingWhitespace(getSelectedText())); break;
-            case -68: replaceInSelection(StringUtils.normalize(getSelectedText())); break;
-            case -69: replaceInSelection(StringUtils.slug(getSelectedText())); break;
-            case -70: joinLines(); break;
-            case -71:
-                ere = StringUtils.countChars(getSelectedText());
-                replaceInSelection(StringUtils.uniqueChars(getSelectedText()));
-                aft = StringUtils.countChars(getSelectedText());
-                ToastIt.text(context(), ere + " → " + aft);
-            break;
-            case -72:
-                ere = StringUtils.countLines(getSelectedText());
-                replaceInSelection(StringUtils.uniqueLines(getSelectedText()));
-                aft = StringUtils.countLines(getSelectedText());
-                ToastIt.text(context(), ere + " → " + aft);
-            break;
+
             case -73: commitText(TimeUtils.timemoji()); break;
             case -74: ic.performContextMenuAction(16908338); break; // undo
             case -75: ic.performContextMenuAction(16908339); break; // redo
@@ -2250,7 +2224,6 @@ public class CustomInputMethodService extends InputMethodService
                 replaceInSelection(TextUtils.ununderline(getSelectedText()));
                 replaceInSelection(TextUtils.ununderscore(getSelectedText()));
             break;
-
             case -104: IntentUtils.showActivity(context(), Settings.ACTION_HARD_KEYBOARD_SETTINGS); break;
             case -105: IntentUtils.showActivity(context(), Settings.ACTION_LOCALE_SETTINGS); break;
             case -106: IntentUtils.showActivity(context(), Settings.ACTION_SETTINGS); break;
@@ -2316,13 +2289,99 @@ public class CustomInputMethodService extends InputMethodService
             case -160: Variables.toggleEncircle(); break;
             case -161: Variables.toggleReflected(); break;
             case -162: Variables.toggleCaps(); break;
-            case -163: replaceInSelection(StringUtils.replaceNbsp(getSelectedText())); break;
             case -164: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -165: navigate(KeyEvent.KEYCODE_DPAD_UP,   KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -166: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT); break;
             case -167: navigate(KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT); break;
             case -168: replaceInSelection(StringUtils.hash(getSelectedText())); break;
             case -169: replaceInSelection(StringUtils.sha256(getSelectedText())); break;
+            case -173: displayFindMenu(); break;
+            case -174: showUnicodePopup(); break;
+            case -175: moveLeftOneWord(); break;
+            case -176: moveRightOneWord(); break;
+            case -177: IntentUtils.dialPhone(context(), getSelectedText()); break;
+            case -178: IntentUtils.openWebpage(context(), getSelectedText()); break;
+            case -179: IntentUtils.searchWeb(context(), getSelectedText()); break;
+            case -180: IntentUtils.showLocationFromAddress(context(), getSelectedText()); break;
+            case -181: IntentUtils.searchWikipedia(context(), getSelectedText()); break;
+            case -182: IntentUtils.shareText(context(), getSelectedText()); break;
+            case -185: setKeyboard(R.layout.utility, "Utility"); break;
+          
+         
+        
+       
+      
+            case -71:
+                ere = StringUtils.countChars(getSelectedText());
+                replaceInSelection(StringUtils.uniqueChars(getSelectedText()));
+                aft = StringUtils.countChars(getSelectedText());
+                ToastIt.text(context(), ere + " → " + aft);
+            break;
+            case -72:
+                ere = StringUtils.countLines(getSelectedText());
+                replaceInSelection(StringUtils.uniqueLines(getSelectedText()));
+                aft = StringUtils.countLines(getSelectedText());
+                ToastIt.text(context(), ere + " → " + aft);
+            break;
+            case -34: commitText(getNextLine() + "\n" + getPrevLine(), 1); break;
+            case -70: joinLines(); break;
+            case -38: replaceInSelection(StringUtils.toUpperCase(getSelectedText())); break;
+            case -39: replaceInSelection(StringUtils.toTitleCase(getSelectedText())); break;
+            case -40: replaceInSelection(StringUtils.toLowerCase(getSelectedText())); break;
+            case -41: replaceInSelection(StringUtils.toAlterCase(getSelectedText())); break;
+            case -42: replaceInSelection(StringUtils.camelToSnake(getSelectedText())); break;
+            case -43: replaceInSelection(StringUtils.snakeToCamel(getSelectedText())); break;
+            case -44: replaceInSelection(StringUtils.sortChars(getSelectedText())); break;
+            case -45: replaceInSelection(StringUtils.reverseChars(getSelectedText())); break;
+            case -46: replaceInSelection(StringUtils.shuffleChars(getSelectedText())); break;
+            case -47: replaceInSelection(StringUtils.doubleChars(getSelectedText())); break;
+            case -48: replaceInSelection(StringUtils.sortLines(getSelectedText())); break;
+            case -49: replaceInSelection(StringUtils.reverseLines(getSelectedText())); break;
+            case -50: replaceInSelection(StringUtils.shuffleLines(getSelectedText())); break;
+            case -51: replaceInSelection(StringUtils.doubleLines(getSelectedText())); break;
+            case -66: replaceInSelection(StringUtils.trimLeadingWhitespace(getSelectedText())); break;
+            case -67: replaceInSelection(StringUtils.trimTrailingWhitespace(getSelectedText())); break;
+            case -68: replaceInSelection(StringUtils.normalize(getSelectedText())); break;
+            case -69: replaceInSelection(StringUtils.slug(getSelectedText())); break;
+            case -186: replaceInSelection(StringUtils.addLineNumbers(getSelectedText())); break;
+            case -187: replaceInSelection(StringUtils.addBullets(getSelectedText())); break;
+            case -188:
+                replaceInSelection(StringUtils.removeLineNumbers(getSelectedText()));
+                replaceInSelection(StringUtils.removeBullets(getSelectedText()));
+            break;
+            case -101: 
+                if (getSelectionLength() == 0) commitText("/");
+                else replaceInSelection("/"+getSelectedText()+"/");       
+            break;
+            case -102: 
+                if (getSelectionLength() == 0) commitText("(");
+                else replaceInSelection("("+getSelectedText()+")");       
+            break;
+            case -103: 
+                if (getSelectionLength() == 0) commitText("[");
+                else replaceInSelection("["+getSelectedText()+"]");       
+            break;
+            case -52: replaceInSelection(StringUtils.dashesToSpaces(getSelectedText())); break;
+            case -53: replaceInSelection(StringUtils.underscoresToSpaces(getSelectedText())); break;
+            case -54: replaceInSelection(StringUtils.spacesToDashes(getSelectedText())); break;
+            case -55: replaceInSelection(StringUtils.spacesToUnderscores(getSelectedText())); break;
+            case -56: replaceInSelection(StringUtils.spacesToLinebreaks(getSelectedText())); break;
+            case -57: replaceInSelection(StringUtils.linebreaksToSpaces(getSelectedText())); break;
+            case -58: replaceInSelection(StringUtils.spacesToTabs(getSelectedText())); break;
+            case -59: replaceInSelection(StringUtils.tabsToSpaces(getSelectedText())); break;
+            case -60: replaceInSelection(StringUtils.splitWithLinebreaks(getSelectedText())); break;
+            case -61: replaceInSelection(StringUtils.splitWithSpaces(getSelectedText())); break;
+            case -62: replaceInSelection(StringUtils.removeSpaces(getSelectedText())); break;
+            case -63: replaceInSelection(StringUtils.reduceSpaces(getSelectedText())); break;
+            case -64:
+                if (!isSelecting()) selectLine();
+                replaceInSelection(StringUtils.increaseIndentation(getSelectedText(), "    "));
+            break;
+            case -65:
+                if (!isSelecting()) selectLine();
+                replaceInSelection(StringUtils.decreaseIndentation(getSelectedText(), "    "));
+            break;
+            case -163: replaceInSelection(StringUtils.replaceNbsp(getSelectedText())); break;
             case -170:
                 if (!isSelecting()) selectLine();
                 replaceInSelection(StringUtils.toggleHtmlComment(getSelectedText()));
@@ -2335,45 +2394,26 @@ public class CustomInputMethodService extends InputMethodService
                 if (!isSelecting()) selectLine();
                 replaceInSelection(StringUtils.toggleLineComment(getSelectedText()));
             break;
-            case -173: displayFindMenu(); break;
-            case -174: showUnicodePopup(); break;
-            case -175: moveLeftOneWord(); break;
-            case -176: moveRightOneWord(); break;
-            case -177: IntentUtils.dialPhone(context(), getSelectedText()); break;
-            case -178: IntentUtils.openWebpage(context(), getSelectedText()); break;
-            case -179: IntentUtils.searchWeb(context(), getSelectedText()); break;
-            case -180: IntentUtils.showLocationFromAddress(context(), getSelectedText()); break;
-            case -181: IntentUtils.searchWikipedia(context(), getSelectedText()); break;
-            case -182: IntentUtils.shareText(context(), getSelectedText()); break;
             case -183: 
                 if (!isSelecting()) selectAll();
                 replaceInSelection(StringUtils.removeCitations(getSelectedText()));
             break;
             case -184:
                 if (!isSelecting()) selectAll();
-                ToastIt.debug(context(), ""+containsNonPrintables(getSelectedText()));
-                replaceInSelection(removeNonPrintables(getSelectedText()));
+                ToastIt.debug(context(), ""+StringUtils.containsNonPrintables(getSelectedText()));
+                replaceInSelection(StringUtils.removeNonPrintables(getSelectedText()));
             break;
-            case -185: setKeyboard(R.layout.utility, "Utility"); break;
-            case -186: replaceInSelection(StringUtils.addLineNumbers(getSelectedText())); break;
-            case -187: replaceInSelection(StringUtils.addBullets(getSelectedText())); break;
-            case -188:
-                replaceInSelection(StringUtils.removeLineNumbers(getSelectedText()));
-                replaceInSelection(StringUtils.removeBullets(getSelectedText()));
+            case -189: 
+                replaceInSelection(StringUtils.redact(getSelectedText()));
+            break;
+            case -190: 
+                replaceInSelection(StringUtils.insertCommas(getSelectedText())); 
+            break;
+            case -191: 
+                replaceInSelection(StringUtils.removeCommas(getSelectedText())); 
             break;
             /*
 
-            case -101: break;
-            case -102: break;
-            case -103: break;
-
-            case -185: break;
-            case -186: break;
-            case -187: break;
-            case -188: break;
-            case -189: break;
-            case -190: break;
-            case -191: break;
             case -192: break;
             case -193: break;
             case -194: break;

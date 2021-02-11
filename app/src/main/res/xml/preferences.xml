@@ -74,7 +74,7 @@
         </PreferenceScreen>
     </PreferenceScreen>
     <PreferenceScreen android:title="Hints">
-        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true" android:summaryOff="Enable Hints" android:summaryOn="Disable Hints" />
+        <SwitchPreference android:key="hints" android:title="Hints" android:defaultValue="true" android:summaryOff="Hints Disabled" android:summaryOn="Hints Enabled" />
         <SwitchPreference android:key="hint1" android:title="Hint 1" android:dependency="hints" android:defaultValue="true" />
         <SwitchPreference android:key="hint2" android:title="Hint 2" android:dependency="hints" />
         <SwitchPreference android:key="hint3" android:title="Hint 3" android:dependency="hints" />
