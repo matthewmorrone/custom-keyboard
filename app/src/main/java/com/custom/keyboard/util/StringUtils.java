@@ -34,6 +34,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import android.view.KeyEvent;
+
 import static com.custom.keyboard.util.RandomUtils.generateRandomInt;
 
 public class StringUtils {

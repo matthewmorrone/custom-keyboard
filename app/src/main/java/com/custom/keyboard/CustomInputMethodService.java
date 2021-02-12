@@ -1334,16 +1334,16 @@ public class CustomInputMethodService extends InputMethodService
 
     private void sendKeyEvent(int keyCode, int metaState) {
         InputConnection ic = getCurrentInputConnection();
-        ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, getHardKeyCode(keyCode), 0, metaState));
-        ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   getHardKeyCode(keyCode), 0, metaState));
+        ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, StringUtils.getHardKeyCode(keyCode), 0, metaState));
+        ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_UP,   StringUtils.getHardKeyCode(keyCode), 0, metaState));
     }
 
     private void processKeyCombo(int keycode) {
         if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
+            if (Variables.isCtrl() && Variables.isAlt()) sendKeyEvent(StringUtils.getHardKeyCode(keycode), KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON);
             else {
-                if (Variables.isCtrl()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
-                if (Variables.isAlt())  sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
+                if (Variables.isCtrl()) sendKeyEvent(StringUtils.getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
+                if (Variables.isAlt())  sendKeyEvent(StringUtils.getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
             }
         }
     }
