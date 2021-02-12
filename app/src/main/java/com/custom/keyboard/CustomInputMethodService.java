@@ -1594,7 +1594,9 @@ public class CustomInputMethodService extends InputMethodService
             ic.deleteSurroundingText(indentWidth, 0);
         }
         else if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            if (Variables.isCtrl() && Variables.isAlt()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            }
             if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
             if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
         }
@@ -2268,7 +2270,11 @@ public class CustomInputMethodService extends InputMethodService
             case -33: selectNextWord(); break;
             case -92:
                 String text = getSelectedText();
-                ToastIt.info(context(), "Chars: " + StringUtils.countChars(text) + "\nWords: " + StringUtils.countWords(text) + "\nLines: " + StringUtils.countLines(text));
+                ToastIt.info(context(), 
+                    "Chars: " + StringUtils.countChars(text) + "\n"+
+                    "Words: " + StringUtils.countWords(text) + "\n"+
+                    "Lines: " + StringUtils.countLines(text)
+                );
             break;
             case -71:
                 ere = StringUtils.countChars(getSelectedText());
