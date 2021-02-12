@@ -501,6 +501,7 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             if (debug) sendDataToErrorOutput(e.toString());
         }
+        /*
         try {
             boolean isBold = TextUtils.isBold(prevChar) || TextUtils.isBold(nextChar);
             boolean isItalic = TextUtils.isItalic(prevChar) || TextUtils.isItalic(nextChar);
@@ -525,6 +526,7 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             if (debug) sendDataToErrorOutput(e.toString());
         }
+        */
         if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && sharedPreferences.getBoolean("caps", false)) {
             if (Variables.isShift()) {
@@ -760,7 +762,6 @@ public class CustomInputMethodService extends InputMethodService
     }
 
     public void clearAll() {
-        // sendKey(KeyEvent.KEYCODE_CLEAR);
         InputConnection ic = getCurrentInputConnection();
         ic = getCurrentInputConnection();
         ic.deleteSurroundingText(MAX, MAX);
@@ -809,13 +810,11 @@ public class CustomInputMethodService extends InputMethodService
         int end   = getSelectionEnd() + getNextWord().length();
 
         try {
-        if (getNextWord().length() > 0 && (int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
-        if (end == -1) end++;
-        if (String.valueOf(getNextWord().charAt(0)).equals(" ")) {
-            end++;
+            if (getNextWord().length() > 0 && (int)getNextWord().charAt(getNextWord().length()-1) == 10) end--;
+            if (end == -1) end++;
+            if (String.valueOf(getNextWord().charAt(0)).equals(" ")) end++;
         }
-        }
-        catch(Exception e) {}
+        catch(Exception ignored) {}
 
         ic.setSelection(start, end);
     }
@@ -866,7 +865,6 @@ public class CustomInputMethodService extends InputMethodService
         while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        // selectionMode = 1;
     }
     public void selectNextWord() {
         String nextWord = getNextWord();
@@ -875,7 +873,6 @@ public class CustomInputMethodService extends InputMethodService
         while (times --> 0) {
             navigate(KeyEvent.KEYCODE_DPAD_RIGHT);
         }
-        // selectionMode = 1;
     }
 
     public void moveLeftOneWord() {
@@ -913,7 +910,6 @@ public class CustomInputMethodService extends InputMethodService
     public void goToStart() {
         InputConnection ic = getCurrentInputConnection();
         ic.setSelection(0, 0);
-        // selectionMode = 0;
     }
 
     public void goToEnd() {
@@ -922,7 +918,6 @@ public class CustomInputMethodService extends InputMethodService
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length(),
             (ic.getExtractedText(new ExtractedTextRequest(), 0).text).length()
         );
-        // selectionMode = 0;
     }
 
     public String getPrevLine() {
@@ -1006,7 +1001,6 @@ public class CustomInputMethodService extends InputMethodService
         return extracted.selectionEnd - extracted.selectionStart;
     }
 
-
     public void redraw() {
         mCustomKeyboardView.invalidateAllKeys();
         mCustomKeyboardView.draw(new Canvas());
@@ -1077,7 +1071,7 @@ public class CustomInputMethodService extends InputMethodService
     private void sendMessageToActivity(String destination, HashMap<String, String> data) {
         Intent intent = new Intent(destination);
         for (Map.Entry<String,String> datum : data.entrySet()) {
-            intent.putExtra(datum.getKey(), datum.getValue()); // data.getOrDefault("", "")
+            intent.putExtra(datum.getKey(), datum.getValue());
         }
         LocalBroadcastManager.getInstance(context()).sendBroadcast(intent);
     }
@@ -1095,7 +1089,6 @@ public class CustomInputMethodService extends InputMethodService
                 if (i < n-1) sb.append(",");
             }
         }
-        // sendDataToErrorOutput(sb.toString());
         displaySuggestions(sb.toString());
     }
 
@@ -1115,7 +1108,6 @@ public class CustomInputMethodService extends InputMethodService
                 }
             }
         }
-        // sendDataToErrorOutput(sb.toString());
         displaySuggestions(sb.toString());
     }
 
@@ -1351,40 +1343,6 @@ public class CustomInputMethodService extends InputMethodService
                 if (Variables.isCtrl()) sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_CTRL_ON);
                 if (Variables.isAlt())  sendKeyEvent(getHardKeyCode(keycode), KeyEvent.META_ALT_ON);
             }
-        }
-    }
-
-    private int getHardKeyCode(int keycode) {
-        // PopupWindow p = new PopupWindow();
-        char code = (char)keycode;
-        switch (String.valueOf(code)) {
-            case "a": return KeyEvent.KEYCODE_A;
-            case "b": return KeyEvent.KEYCODE_B;
-            case "c": return KeyEvent.KEYCODE_C;
-            case "d": return KeyEvent.KEYCODE_D;
-            case "e": return KeyEvent.KEYCODE_E;
-            case "f": return KeyEvent.KEYCODE_F;
-            case "g": return KeyEvent.KEYCODE_G;
-            case "h": return KeyEvent.KEYCODE_H;
-            case "i": return KeyEvent.KEYCODE_I;
-            case "j": return KeyEvent.KEYCODE_J;
-            case "k": return KeyEvent.KEYCODE_K;
-            case "l": return KeyEvent.KEYCODE_L;
-            case "m": return KeyEvent.KEYCODE_M;
-            case "n": return KeyEvent.KEYCODE_N;
-            case "o": return KeyEvent.KEYCODE_O;
-            case "p": return KeyEvent.KEYCODE_P;
-            case "q": return KeyEvent.KEYCODE_Q;
-            case "r": return KeyEvent.KEYCODE_R;
-            case "s": return KeyEvent.KEYCODE_S;
-            case "t": return KeyEvent.KEYCODE_T;
-            case "u": return KeyEvent.KEYCODE_U;
-            case "v": return KeyEvent.KEYCODE_V;
-            case "w": return KeyEvent.KEYCODE_W;
-            case "x": return KeyEvent.KEYCODE_X;
-            case "y": return KeyEvent.KEYCODE_Y;
-            case "z": return KeyEvent.KEYCODE_Z;
-            default:  return keycode;
         }
     }
 
