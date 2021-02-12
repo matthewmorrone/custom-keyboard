@@ -1702,17 +1702,17 @@ public class CustomInputMethodService extends InputMethodService
         int secondaryCode = 0;
         if (Variables.isBold()) {
             secondaryCode = TextUtils.getBold(primaryCode);
-            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + Character.toChars(secondaryCode) + ")");
             primaryCode = secondaryCode;
         }
         if (Variables.isItalic()) {
             secondaryCode = TextUtils.getItalic(primaryCode);
-            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + Character.toChars(secondaryCode) + ")");
             primaryCode = secondaryCode;
         }
         if (Variables.isEmphasized()) {
             secondaryCode = TextUtils.getEmphasized(primaryCode);
-            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + Character.toChars(secondaryCode) + ")");
             primaryCode = secondaryCode;
         }
             
@@ -1738,7 +1738,7 @@ public class CustomInputMethodService extends InputMethodService
         if (sharedPreferences.getBoolean("caps", false) && Character.isLetter((char)primaryCode) && Variables.isShift() && firstCaps) {
             primaryCode = Character.toUpperCase(primaryCode);
         }
-        commitText(String.valueOf((char)primaryCode), 1, false);
+        commitText(String.valueOf(Character.toChars(primaryCode)), 1, false);
 
         if (Variables.isUnderlined()) commitText("̲", 1, false);
         if (Variables.isUnderscored()) commitText("꯭", 1, false);
