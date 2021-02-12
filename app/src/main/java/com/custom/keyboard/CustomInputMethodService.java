@@ -211,15 +211,12 @@ public class CustomInputMethodService extends InputMethodService
         redraw();
     }
 
-
-
     @Override
     public void onStartInput(EditorInfo editorInfo, boolean restarting) {
         super.onStartInput(editorInfo, restarting);
         if (debug) System.out.println("onStartInput: "+editorInfo+" "+restarting);
 
         // ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
-
 
         if (!sharedPreferences.getString("indent_width", "4").isEmpty()) {
             try {
@@ -246,14 +243,16 @@ public class CustomInputMethodService extends InputMethodService
         updateCandidates();
 
         mCustomKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-/*
+        
+        /*
         try {
             setKeyboard(sharedPreferences.getInt("current_layout", 0), sharedPreferences.getString("current_layout_title", ""));
         }
         catch(Exception e) {
             setKeyboard(R.layout.primary, "Primary");
         }
-*/
+        */
+        
         int prevId = Util.orNull(sharedPreferences.getInt("current_layout", R.layout.primary), R.layout.primary);
         String prevTitle = Util.orNull(sharedPreferences.getString("current_layout_title", "Primary"), "Primary");
         
@@ -312,7 +311,7 @@ public class CustomInputMethodService extends InputMethodService
                 setKeyboard(R.layout.numeric, "Numeric");
             break;
         */
-            /*
+        /*
             case InputType.TYPE_CLASS_TEXT:
                 if (webInputType == InputType.TYPE_TEXT_VARIATION_URI
               // || webInputType == InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
@@ -322,7 +321,7 @@ public class CustomInputMethodService extends InputMethodService
                 }
                 else setKeyboard(id, title);
             break;
-            */
+        */
         /*
             default:
                 setKeyboard(id, title);
@@ -336,7 +335,7 @@ public class CustomInputMethodService extends InputMethodService
     public void setImeOptions(Keyboard.Key mEnterKey, int options) {
         if (mEnterKey == null) return;
         switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
-/*
+            /*
             case EditorInfo.IME_ACTION_GO:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_go, null);
@@ -345,7 +344,7 @@ public class CustomInputMethodService extends InputMethodService
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_next, null);
             break;
-*/
+            */
             case EditorInfo.IME_ACTION_SEARCH:
                 mEnterKey.iconPreview = null;
                 mEnterKey.icon = getResources().getDrawable(R.drawable.ic_find, null);
@@ -368,7 +367,6 @@ public class CustomInputMethodService extends InputMethodService
     public void setCustomKey(int primaryCode) {
         Keyboard.Key customKey = getKey(primaryCode);
         String customKeyChoice = sharedPreferences.getString("custom_key", "");
-
         if (customKey != null && !customKeyChoice.isEmpty()) {
             customKey.codes = new int[]{Integer.parseInt(customKeyChoice)};
             switch(customKeyChoice) {
@@ -503,7 +501,6 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             if (debug) sendDataToErrorOutput(e.toString());
         }
-        /*
         try {
             boolean isBold = TextUtils.isBold(prevChar) || TextUtils.isBold(nextChar);
             boolean isItalic = TextUtils.isItalic(prevChar) || TextUtils.isItalic(nextChar);
@@ -528,7 +525,6 @@ public class CustomInputMethodService extends InputMethodService
         catch (Exception e) {
             if (debug) sendDataToErrorOutput(e.toString());
         }
-        */
         if ((getSelectionStart() == 0) // || ic.getTextBeforeCursor(1, 0) == "\n"
             && sharedPreferences.getBoolean("caps", false)) {
             if (Variables.isShift()) {
@@ -672,7 +668,6 @@ public class CustomInputMethodService extends InputMethodService
 
         System.out.println(layoutRow);
         System.out.println(bounds);
-
 
         int currentX = 0;
         int keyWidth = layoutRow.get(1).width;
@@ -1699,14 +1694,28 @@ public class CustomInputMethodService extends InputMethodService
                 if (code.equals("\"")) commitText("\"\"", 1, false);
                 sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                 pairStack.push(code);
-                System.out.println(pairStack);
+                // System.out.println(pairStack);
                 return;
             }
         }
 
-        if (Variables.isBold()) primaryCode = TextUtils.getBold(primaryCode);
-        if (Variables.isItalic()) primaryCode = TextUtils.getItalic(primaryCode);
-        if (Variables.isEmphasized()) primaryCode = TextUtils.getEmphasized(primaryCode);
+        int secondaryCode = 0;
+        if (Variables.isBold()) {
+            secondaryCode = TextUtils.getBold(primaryCode);
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            primaryCode = secondaryCode;
+        }
+        if (Variables.isItalic()) {
+            secondaryCode = TextUtils.getItalic(primaryCode);
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            primaryCode = secondaryCode;
+        }
+        if (Variables.isEmphasized()) {
+            secondaryCode = TextUtils.getEmphasized(primaryCode);
+            ToastIt.text(context(), primaryCode+" → "+secondaryCode + "(" + (char)secondaryCode + ")");
+            primaryCode = secondaryCode;
+        }
+            
         if (Variables.isBoldSerif()) primaryCode = TextUtils.toBoldSerif(primaryCode, mCustomKeyboardView.isShifted());
         if (Variables.isItalicSerif()) primaryCode = TextUtils.toItalicSerif(primaryCode, mCustomKeyboardView.isShifted());
         if (Variables.isBoldItalicSerif()) primaryCode = TextUtils.toBoldItalicSerif(primaryCode, mCustomKeyboardView.isShifted());
