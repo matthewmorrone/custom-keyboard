@@ -313,6 +313,40 @@ public class StringUtils {
             +"\t\t0x"+
             padLeft(convertNumberBase(String.valueOf(primaryCode), 10, 16), 4).trim();
     }
+    
+    public static int getHardKeyCode(int keycode) {
+        // PopupWindow p = new PopupWindow();
+        char code = (char)keycode;
+        switch (String.valueOf(code)) {
+            case "a": return KeyEvent.KEYCODE_A;
+            case "b": return KeyEvent.KEYCODE_B;
+            case "c": return KeyEvent.KEYCODE_C;
+            case "d": return KeyEvent.KEYCODE_D;
+            case "e": return KeyEvent.KEYCODE_E;
+            case "f": return KeyEvent.KEYCODE_F;
+            case "g": return KeyEvent.KEYCODE_G;
+            case "h": return KeyEvent.KEYCODE_H;
+            case "i": return KeyEvent.KEYCODE_I;
+            case "j": return KeyEvent.KEYCODE_J;
+            case "k": return KeyEvent.KEYCODE_K;
+            case "l": return KeyEvent.KEYCODE_L;
+            case "m": return KeyEvent.KEYCODE_M;
+            case "n": return KeyEvent.KEYCODE_N;
+            case "o": return KeyEvent.KEYCODE_O;
+            case "p": return KeyEvent.KEYCODE_P;
+            case "q": return KeyEvent.KEYCODE_Q;
+            case "r": return KeyEvent.KEYCODE_R;
+            case "s": return KeyEvent.KEYCODE_S;
+            case "t": return KeyEvent.KEYCODE_T;
+            case "u": return KeyEvent.KEYCODE_U;
+            case "v": return KeyEvent.KEYCODE_V;
+            case "w": return KeyEvent.KEYCODE_W;
+            case "x": return KeyEvent.KEYCODE_X;
+            case "y": return KeyEvent.KEYCODE_Y;
+            case "z": return KeyEvent.KEYCODE_Z;
+            default:  return keycode;
+        }
+    }
 
     public static String getCharType(byte ch) {
         switch (ch) {
