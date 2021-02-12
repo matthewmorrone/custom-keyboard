@@ -416,7 +416,8 @@ public class CustomInputMethodService extends InputMethodService
     public void onKeyLongPress(int primaryCode) {
         switch (primaryCode) {
             case 32: handleAction();
-            case -2: handleTab(); break;
+            case 10: handleTab(); break;
+            case -2: showVoiceInput(); break;
             case -5: deletePrevWord(); break;
             case -7: deleteNextWord(); break;
             case -11: toggleSelection(); break;
@@ -424,6 +425,7 @@ public class CustomInputMethodService extends InputMethodService
             case -15: if (isSelecting()) selectPrevWord(); else moveLeftOneWord(); break;
             case -16: if (isSelecting()) selectNextWord(); else moveRightOneWord(); break;
             case -23: showInputMethodPicker(); break;
+            case -129: showVoiceInput(); break;
             case -200: clipboardToBuffer(getSelectedText()); break;
         }
     }
@@ -2168,19 +2170,25 @@ public class CustomInputMethodService extends InputMethodService
                 }
             break;
             case -94:
-                if (Variables.isBold()) replaceInSelection(TextUtils.unbolden(getSelectedText()));
+            
+                if (getSelectionLength() == 0) Variables.toggleBold();
+                else if (Variables.isBold()) replaceInSelection(TextUtils.unbolden(getSelectedText()));
                 else replaceInSelection(TextUtils.bolden(getSelectedText()));
-                Variables.toggleBold();
+
             break;
             case -95:
-                if (Variables.isItalic()) replaceInSelection(TextUtils.unitalicize(getSelectedText()));
+            
+                if (getSelectionLength() == 0) Variables.toggleItalic();
+                else if (Variables.isItalic()) replaceInSelection(TextUtils.unitalicize(getSelectedText()));
                 else replaceInSelection(TextUtils.italicize(getSelectedText()));
-                Variables.toggleItalic();
+                
             break;
             case -96:
-                if (Variables.isEmphasized()) replaceInSelection(TextUtils.unemphasize(getSelectedText()));
-                else replaceInSelection(TextUtils.emphasize(getSelectedText()));
-                Variables.toggleEmphasized();
+            
+                if (getSelectionLength() == 0) Variables.toggleEmphasized();
+                else if (Variables.isEmphasized()) replaceInSelection(TextUtils.emphasize(getSelectedText()));
+                else replaceInSelection(TextUtils.unemphasize(getSelectedText()));
+
             break;
             case -97:
                 if (getSelectionLength() == 0) Variables.toggleUnderlined();
