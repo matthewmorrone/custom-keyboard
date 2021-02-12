@@ -1496,10 +1496,16 @@ public class CustomInputMethodService extends InputMethodService
 
     public void navigate(int primaryCode) {
         InputConnection ic = getCurrentInputConnection();
-        if      (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString) && sharedPreferences.getBoolean("indent", false)) {
+        if (!isSelecting() 
+            && primaryCode == KeyEvent.KEYCODE_DPAD_LEFT 
+            && String.valueOf(ic.getTextBeforeCursor(indentWidth, 0)).equals(indentString) 
+            && sharedPreferences.getBoolean("indent", false)) {
             sendKey(primaryCode, indentWidth);
         }
-        else if (!isSelecting() && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString) && sharedPreferences.getBoolean("indent", false)) {
+        else if (!isSelecting() 
+            && primaryCode == KeyEvent.KEYCODE_DPAD_RIGHT 
+            && String.valueOf(ic.getTextAfterCursor(indentWidth, 0)).equals(indentString) 
+            && sharedPreferences.getBoolean("indent", false)) {
             sendKey(primaryCode, indentWidth);
         }
         else {
@@ -1552,9 +1558,15 @@ public class CustomInputMethodService extends InputMethodService
             ic.deleteSurroundingText(0, indentWidth);
         }
         else if (Variables.isAnyOn()) {
-            if (Variables.isCtrl() && Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
-            if (Variables.isAlt()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON));
+            if (Variables.isCtrl() && Variables.isAlt()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
+            }
+            if (Variables.isAlt()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_ALT_ON));
+            }
+            if (Variables.isCtrl()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_FORWARD_DEL, 0, KeyEvent.META_CTRL_ON));
+            }
         }
         else if (length > 0) {
             commitText("", 1);
@@ -1597,8 +1609,12 @@ public class CustomInputMethodService extends InputMethodService
             if (Variables.isCtrl() && Variables.isAlt()) {
                 ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON | KeyEvent.META_ALT_ON));
             }
-            if (Variables.isAlt())  ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
-            if (Variables.isCtrl()) ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
+            if (Variables.isAlt()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_ALT_ON));
+            }
+            if (Variables.isCtrl()) {
+                ic.sendKeyEvent(new KeyEvent(100, 100, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0, KeyEvent.META_CTRL_ON));
+            }
         }
         else if (length == 0) {
             if (ic.getTextBeforeCursor(1, 0).length() > 0) {
