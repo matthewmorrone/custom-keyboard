@@ -22,9 +22,11 @@ import android.widget.TextView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.custom.keyboard.util.KeyboardUtils;
+import com.custom.keyboard.util.StringUtils;
 import com.custom.keyboard.util.ToastIt;
 import com.custom.keyboard.util.Util;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends Activity {
@@ -66,6 +68,10 @@ public class MainActivity extends Activity {
         });
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+
+        //ToastIt.debug(getBaseContext(), Util.notNull(getPreferences().getString("top_row_keys", "")));
+
+        //List<String> selectedFields = StringUtils.deserialize();
 
         // select(this.findViewById(R.id.main));
         // settings(this.findViewById(R.id.main));

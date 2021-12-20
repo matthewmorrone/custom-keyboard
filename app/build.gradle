@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 dependencies {
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:4.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 }
 android {
     buildFeatures.dataBinding = true
@@ -9,7 +10,7 @@ android {
         abortOnError false
     }
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.custom.keyboard"
         minSdkVersion 28

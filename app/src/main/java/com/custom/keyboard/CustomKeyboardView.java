@@ -72,7 +72,7 @@ public class CustomKeyboardView extends KeyboardView {
     public ArrayList<String> getClipboardHistory() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String clipboardHistory = Util.orNull(sharedPreferences.getString("clipboard_history", ""), "");
-        ArrayList<String> clipboardHistoryArray = new ArrayList<String>(StringUtils.deserialize(clipboardHistory));
+        ArrayList<String> clipboardHistoryArray = new ArrayList<>(StringUtils.deserialize(clipboardHistory));
         Collections.reverse(clipboardHistoryArray);
         return clipboardHistoryArray;
     }

@@ -86,6 +86,7 @@ public class PreferenceActivity extends Activity {
             .setListener(new MultiSelectionListener() {
                 @Override
                 public void onMultiDialogItemsSelected(String s, String tag, ArrayList<String> selectedItemList) {
+                    System.out.println(StringUtils.serialize(selectedItemList));
                     sharedPreferences.edit().putString("top_row_keys", StringUtils.serialize(selectedItemList)).apply();
                 }
                 @Override

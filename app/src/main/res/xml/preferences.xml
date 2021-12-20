@@ -29,7 +29,7 @@
         <SwitchPreference android:key="include_title_case"  android:title="Include Title Case" android:dependency="toggle_shift" />
         <SwitchPreference android:key="caps"   android:title="Autocapitalization" />
         <SwitchPreference android:key="indent" android:title="Indent Helper" android:summaryOff="" android:summaryOn="" android:defaultValue="true" />
-        <SwitchPreference android:key="tabs"   android:title="Use Tabs" android:summaryOff="Use 4 Spaces" android:summaryOn="Use Tab Character" />
+        <SwitchPreference android:key="tabs"   android:title="Use Tabs" android:summaryOff="Use 4 Spaces" android:summaryOn="Use Tab Character" android:defaultValue="true" />
         <EditTextPreference android:defaultValue="4" android:digits="1234567890" android:inputType="number" android:key="indent_width" android:title="Indent Width" android:selectAllOnFocus="true" />
     </PreferenceScreen>
         <PreferenceScreen android:title="Appearance">
@@ -81,12 +81,12 @@
         <SwitchPreference android:key="hint4" android:title="Hint 4" android:dependency="hints" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Toasts">
-        <SwitchPreference   android:key="toast_text"         android:title="Text Toasts"  android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_emoji_info"   android:title="Emoji Info Toasts" android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_unicode_info" android:title="Unicode Info Toasts" android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_info"         android:title="Info Toasts"  android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_error"        android:title="Error Toasts" android:defaultValue="true" />
-        <SwitchPreference   android:key="toast_debug"        android:title="Debug Toasts" android:defaultValue="true" />
+        <SwitchPreference   android:key="toast_text"         android:title="Text Toasts"  android:defaultValue="false" />
+        <SwitchPreference   android:key="toast_emoji_info"   android:title="Emoji Info Toasts" android:defaultValue="false" />
+        <SwitchPreference   android:key="toast_unicode_info" android:title="Unicode Info Toasts" android:defaultValue="false" />
+        <SwitchPreference   android:key="toast_info"         android:title="Info Toasts"  android:defaultValue="false" />
+        <SwitchPreference   android:key="toast_error"        android:title="Error Toasts" android:defaultValue="false" />
+        <SwitchPreference   android:key="toast_debug"        android:title="Debug Toasts" android:defaultValue="false" />
     </PreferenceScreen>
     <PreferenceScreen android:title="Advanced">
         <SwitchPreference   android:key="use_system_spellcheck"   android:title="Use System Spellcheck" />

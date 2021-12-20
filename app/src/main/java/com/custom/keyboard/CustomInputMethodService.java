@@ -1,5 +1,6 @@
 package com.custom.keyboard;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -414,7 +415,10 @@ public class CustomInputMethodService extends InputMethodService
     public void onKeyLongPress(int primaryCode) {
         switch (primaryCode) {
             case 32: handleAction();
-            case 10: handleTab(); break;
+            case 10:
+                //handleTab();
+                commitText("	", false);
+            break;
             case -2: showVoiceInput(); break;
             case -5: deletePrevWord(); break;
             case -7: deleteNextWord(); break;
@@ -1003,6 +1007,7 @@ public class CustomInputMethodService extends InputMethodService
         mCustomKeyboardView.draw(new Canvas());
     }
 
+    @SuppressLint("ResourceType")
     private void updateShiftKeyState(EditorInfo attr) {
         if (attr != null && mCustomKeyboardView != null && R.layout.primary == mCustomKeyboardView.getId()) {
             int caps = 0;
